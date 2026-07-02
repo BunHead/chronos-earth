@@ -191,7 +191,7 @@ export function placeDossierPanel(
           : ruler,
     related: nearby.map((e) => ({
       label: e.name,
-      sublabel: `${EVENT_KICKER[e.category]} · ${yearLabel(e.startYear)}`,
+      sublabel: `${EVENT_KICKER[e.category]}${e.id.startsWith('live-') ? ' · fetched live' : ''} · ${yearLabel(e.startYear)}`,
       onClick: () => onOpenEvent(e),
     })),
     fly: { lon, lat, altitude: 1_500_000 },

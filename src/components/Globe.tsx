@@ -9,6 +9,7 @@ import { PaleoController } from './paleo';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
+import { fetchNearbyHistory } from '../lib/liveFetch';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -161,6 +162,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onSeekRef.current = onSeek;
   const onDiveRef = useRef(onDive);
   onDiveRef.current = onDive;
+  /** Bumped per empty-ground click, so a stale live-fetch can't repaint a newer dossier. */
+  const dossierSeqRef = useRef(0);
   /** True after a dive fired; re-arms once the camera climbs back up. */
   const divedRef = useRef(false);
   const eventsRef = useRef(events);
@@ -467,13 +470,30 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           })
           .slice(0, 7);
         if (hit || nearby.length > 0) {
-          onSelectRef.current(
-            placeDossierPanel(lat, lon, year, hit?.name, nearby, (ev) => {
-              onSelectRef.current(eventToPanel(ev));
-              onSeekRef.current(yearToYearsBP(ev.startYear));
-              flyTo(ev.lon, ev.lat, 600_000);
-            }),
-          );
+          const openEvent = (ev: TimelineEvent) => {
+            onSelectRef.current(eventToPanel(ev));
+            onSeekRef.current(yearToYearsBP(ev.startYear));
+            flyTo(ev.lon, ev.lat, 600_000);
+          };
+          onSelectRef.current(placeDossierPanel(lat, lon, year, hit?.name, nearby, openEvent));
+
+          // Thin local dossier? Ask Wikidata live, right now — extra rows
+          // appear a moment later, marked "fetched live". A newer click
+          // invalidates the update; offline just means no extras.
+          if (nearby.length < 6) {
+            const seq = ++dossierSeqRef.current;
+            void fetchNearbyHistory(lat, lon).then((live) => {
+              if (dossierSeqRef.current !== seq || live.length === 0) return;
+              const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+              const have = new Set(nearby.map((e) => norm(e.name)));
+              const fresh = live.filter((e) => !have.has(norm(e.name)));
+              if (fresh.length === 0) return;
+              const merged = [...nearby, ...fresh]
+                .sort((a, b) => Math.abs(a.startYear - year) - Math.abs(b.startYear - year))
+                .slice(0, 9);
+              onSelectRef.current(placeDossierPanel(lat, lon, year, hit?.name, merged, openEvent));
+            });
+          }
         }
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
