@@ -1,0 +1,245 @@
+{
+  "_comment": "Chronos Earth — Ancient Sites & Precursor-Civilization layer. See public/data/README.md for the schema and a guide to adding your own. 'builtYear' is a signed calendar year (negative = BCE). Markers appear on the globe once the timeline reaches that date. Mainstream consensus is shown first; contested 'alternative' hypotheses (e.g. Graham Hancock) are clearly flagged and never presented as established fact.",
+  "sites": [
+    {
+      "id": "gobekli-tepe",
+      "name": "Göbekli Tepe",
+      "category": "monument",
+      "lat": 37.223,
+      "lon": 38.922,
+      "builtYear": -9500,
+      "builtYearLabel": "c. 9500 BCE",
+      "consensusSummary": "A monumental complex of T-shaped limestone pillars in southeastern Turkey, raised by Pre-Pottery Neolithic hunter-gatherers. It predates pottery, metal tools, writing and farming, overturning the old assumption that monument-building required settled agricultural societies.",
+      "significance": "The oldest known monumental religious architecture on Earth — built before agriculture, it forced archaeologists to rethink what pre-farming societies could achieve.",
+      "keyFacts": [
+        "Carved T-pillars up to ~5.5 m tall, weighing many tonnes",
+        "Built by hunter-gatherers, before pottery or the wheel",
+        "Deliberately buried in antiquity, which preserved it",
+        "Part of the wider 'Taş Tepeler' cluster of early Neolithic sites"
+      ],
+      "links": [
+        { "label": "Wikipedia: Göbekli Tepe", "url": "https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe" },
+        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/1572/" }
+      ],
+      "alternative": {
+        "proponent": "Graham Hancock",
+        "claim": "Hancock cites Göbekli Tepe as evidence that a sophisticated 'lost' culture existed during the last Ice Age and transmitted advanced knowledge to later hunter-gatherers.",
+        "note": "Mainstream archaeology attributes the site entirely to local Neolithic foragers and finds no evidence of an earlier advanced civilization. Treat as a contested popular hypothesis, not established fact.",
+        "links": [
+          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" }
+        ]
+      }
+    },
+    {
+      "id": "karahan-tepe",
+      "name": "Karahan Tepe",
+      "category": "monument",
+      "lat": 37.0876,
+      "lon": 39.2903,
+      "builtYear": -9400,
+      "builtYearLabel": "c. 9400 BCE",
+      "consensusSummary": "A close 'sister' site to Göbekli Tepe in the Taş Tepeler region, featuring carved pillars and chambers cut into bedrock, including a striking room lined with phallic stone pillars and a carved human head.",
+      "significance": "Confirms that Göbekli Tepe was not a one-off: an entire early-Neolithic monumental tradition existed in the region around 9500–9000 BCE.",
+      "keyFacts": [
+        "Pillars and rooms carved directly into bedrock",
+        "Excavations intensified from 2019 onward",
+        "Part of Turkey's 'Taş Tepeler' (Stone Hills) project"
+      ],
+      "links": [
+        { "label": "Wikipedia: Karahan Tepe", "url": "https://en.wikipedia.org/wiki/Karahan_Tepe" }
+      ]
+    },
+    {
+      "id": "catalhoyuk",
+      "name": "Çatalhöyük",
+      "category": "settlement",
+      "lat": 37.6664,
+      "lon": 32.8284,
+      "builtYear": -7100,
+      "builtYearLabel": "c. 7100 BCE",
+      "consensusSummary": "A very large Neolithic proto-city in central Anatolia, where mud-brick houses were packed so tightly that residents entered through holes in the roofs and walked across the rooftops. Home to thousands of people for over a millennium.",
+      "significance": "One of humanity's first large permanent settlements — a window into the transition from villages to urban life, with elaborate wall paintings and household shrines.",
+      "keyFacts": [
+        "Up to ~8,000 inhabitants at its peak",
+        "No streets — movement was across the rooftops",
+        "The dead were often buried beneath house floors",
+        "UNESCO World Heritage Site"
+      ],
+      "links": [
+        { "label": "Wikipedia: Çatalhöyük", "url": "https://en.wikipedia.org/wiki/%C3%87atalh%C3%B6y%C3%BCk" },
+        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/1405/" }
+      ]
+    },
+    {
+      "id": "nabta-playa",
+      "name": "Nabta Playa",
+      "category": "monument",
+      "lat": 22.5067,
+      "lon": 30.7281,
+      "builtYear": -7500,
+      "builtYearLabel": "c. 7500–5000 BCE",
+      "consensusSummary": "A prehistoric ceremonial site in the Nubian Desert of southern Egypt, including one of the world's earliest known astronomically aligned stone arrangements — a 'calendar circle' predating Stonehenge by millennia.",
+      "significance": "Shows sophisticated sky-watching and seasonal timekeeping among cattle-herding desert peoples long before the rise of dynastic Egypt.",
+      "keyFacts": [
+        "Stone circle aligned to the summer solstice and key stars",
+        "Built by semi-nomadic cattle herders",
+        "Stones later moved to the Nubian Museum in Aswan"
+      ],
+      "links": [
+        { "label": "Wikipedia: Nabta Playa", "url": "https://en.wikipedia.org/wiki/Nabta_Playa" }
+      ]
+    },
+    {
+      "id": "stonehenge",
+      "name": "Stonehenge",
+      "category": "monument",
+      "lat": 51.1789,
+      "lon": -1.8262,
+      "builtYear": -2500,
+      "builtYearLabel": "c. 3000–2000 BCE",
+      "consensusSummary": "An iconic prehistoric ring of standing stones on Salisbury Plain, England, built and rebuilt in stages over roughly a thousand years. Its giant sarsen stones are aligned with the solstices.",
+      "significance": "Europe's most famous megalithic monument and a masterpiece of Neolithic engineering, transport and astronomy.",
+      "keyFacts": [
+        "Sarsen stones weigh up to ~25 tonnes each",
+        "Smaller 'bluestones' were transported ~250 km from Wales",
+        "Aligned to sunrise at the summer solstice",
+        "UNESCO World Heritage Site"
+      ],
+      "links": [
+        { "label": "Wikipedia: Stonehenge", "url": "https://en.wikipedia.org/wiki/Stonehenge" },
+        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/373/" }
+      ]
+    },
+    {
+      "id": "giza-pyramids",
+      "name": "Giza Pyramids",
+      "category": "monument",
+      "lat": 29.9792,
+      "lon": 31.1342,
+      "builtYear": -2560,
+      "builtYearLabel": "c. 2600–2500 BCE",
+      "consensusSummary": "The pyramid complex on the Giza Plateau, built as royal tombs during Egypt's Fourth Dynasty. The Great Pyramid of Khufu was the tallest human-made structure on Earth for nearly 4,000 years.",
+      "significance": "The pinnacle of Old Kingdom Egyptian engineering and state organisation, and the only one of the Seven Wonders of the Ancient World still standing.",
+      "keyFacts": [
+        "Great Pyramid originally ~146 m tall, ~2.3 million blocks",
+        "Built by a paid, organised workforce (not slaves)",
+        "Aligned to the cardinal directions with great precision",
+        "UNESCO World Heritage Site"
+      ],
+      "links": [
+        { "label": "Wikipedia: Giza pyramid complex", "url": "https://en.wikipedia.org/wiki/Giza_pyramid_complex" }
+      ]
+    },
+    {
+      "id": "great-sphinx",
+      "name": "Great Sphinx of Giza",
+      "category": "monument",
+      "lat": 29.9753,
+      "lon": 31.1376,
+      "builtYear": -2500,
+      "builtYearLabel": "c. 2500 BCE (mainstream)",
+      "consensusSummary": "A colossal limestone statue of a reclining lion with a human head, carved from bedrock on the Giza Plateau. Mainstream Egyptology attributes it to the reign of pharaoh Khafre, around 2500 BCE.",
+      "significance": "The largest monolithic statue from the ancient world and an enduring symbol of ancient Egypt.",
+      "keyFacts": [
+        "~73 m long and ~20 m high, carved from a single rock outcrop",
+        "Attributed to the Fourth Dynasty (Khafre)",
+        "The nose was lost centuries ago; cause debated"
+      ],
+      "links": [
+        { "label": "Wikipedia: Great Sphinx of Giza", "url": "https://en.wikipedia.org/wiki/Great_Sphinx_of_Giza" }
+      ],
+      "alternative": {
+        "proponent": "Robert Schoch / Graham Hancock",
+        "claim": "The 'water erosion' hypothesis argues the Sphinx enclosure shows rainfall weathering, implying it was carved far earlier (perhaps 10,000+ BCE), which Hancock links to a lost precursor civilization.",
+        "note": "The great majority of geologists and Egyptologists reject this and support the ~2500 BCE date. Presented as a well-known but contested claim.",
+        "links": [
+          { "label": "Wikipedia: Sphinx water-erosion hypothesis", "url": "https://en.wikipedia.org/wiki/Sphinx_water_erosion_hypothesis" }
+        ]
+      }
+    },
+    {
+      "id": "pumapunku",
+      "name": "Pumapunku (Tiwanaku)",
+      "category": "monument",
+      "lat": -16.5617,
+      "lon": -68.6786,
+      "builtYear": 550,
+      "builtYearLabel": "c. 500–600 CE (mainstream)",
+      "consensusSummary": "Part of the Tiwanaku site near Lake Titicaca in Bolivia, famous for precisely cut andesite and sandstone blocks with crisp right angles and interlocking joints, made by a pre-Inca Andean civilization.",
+      "significance": "A showcase of advanced Andean stonemasonry and one of the highest major monuments in the ancient world, at ~3,850 m elevation.",
+      "keyFacts": [
+        "Stones cut with remarkable precision and interlocking joints",
+        "Built by the Tiwanaku culture, predating the Inca",
+        "Radiocarbon dates cluster around the 6th century CE"
+      ],
+      "links": [
+        { "label": "Wikipedia: Pumapunku", "url": "https://en.wikipedia.org/wiki/Pumapunku" },
+        { "label": "Wikipedia: Tiwanaku", "url": "https://en.wikipedia.org/wiki/Tiwanaku" }
+      ],
+      "alternative": {
+        "proponent": "Graham Hancock and others",
+        "claim": "Some alternative authors argue the precision stonework implies a much older, technologically advanced lost culture.",
+        "note": "Radiocarbon dating firmly places construction in the first millennium CE. The 'lost advanced civilization' reading is not supported by evidence.",
+        "links": [
+          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" }
+        ]
+      }
+    },
+    {
+      "id": "gunung-padang",
+      "name": "Gunung Padang",
+      "category": "monument",
+      "lat": -6.9947,
+      "lon": 107.056,
+      "builtYear": -800,
+      "builtYearLabel": "c. 1st millennium BCE (surface megaliths)",
+      "consensusSummary": "A megalithic site of columnar basalt arranged in terraces atop a hill in West Java, Indonesia. Mainstream archaeologists date the visible megalithic construction to roughly the first millennium BCE.",
+      "significance": "Indonesia's largest megalithic site — and a high-profile case study in how extraordinary dating claims get tested and challenged.",
+      "keyFacts": [
+        "Terraces built from natural basalt columns",
+        "The underlying hill is a natural volcanic formation",
+        "Featured prominently in Hancock's 'Ancient Apocalypse'"
+      ],
+      "links": [
+        { "label": "Wikipedia: Gunung Padang", "url": "https://en.wikipedia.org/wiki/Gunung_Padang" }
+      ],
+      "alternative": {
+        "proponent": "Danny Hilman Natawidjaja / Graham Hancock",
+        "claim": "A 2023 paper claimed buried 'construction' as old as ~25,000 years, which Hancock presented as evidence of a lost Ice Age civilization.",
+        "note": "That 2023 paper was RETRACTED by the journal in 2024 after experts argued the ancient layers are natural rock, not built structures. A clear example of why dating claims need scrutiny.",
+        "links": [
+          { "label": "Wikipedia: Gunung Padang (dating controversy)", "url": "https://en.wikipedia.org/wiki/Gunung_Padang#Dating_controversy" }
+        ]
+      }
+    },
+    {
+      "id": "younger-dryas-impact",
+      "name": "Younger Dryas Impact Hypothesis",
+      "category": "precursor-hypothesis",
+      "lat": 78.75,
+      "lon": -66.0,
+      "builtYear": -10900,
+      "builtYearLabel": "c. 10,900 BCE (event)",
+      "consensusSummary": "A proposed cosmic impact or airburst around 12,900 years ago, suggested as a trigger for the sudden 'Younger Dryas' cold snap and the extinction of many Ice Age animals. The marker is placed near Greenland's Hiawatha crater for illustration; the hypothesis concerns a global event.",
+      "significance": "This event is the cornerstone of Graham Hancock's argument: he proposes it destroyed an advanced Ice Age civilization whose survivors seeded later cultures.",
+      "keyFacts": [
+        "The Younger Dryas cooling itself is well documented",
+        "Whether a cosmic impact caused it remains scientifically debated",
+        "Marker location is illustrative, not a confirmed impact site"
+      ],
+      "links": [
+        { "label": "Wikipedia: Younger Dryas impact hypothesis", "url": "https://en.wikipedia.org/wiki/Younger_Dryas_impact_hypothesis" },
+        { "label": "Wikipedia: Younger Dryas", "url": "https://en.wikipedia.org/wiki/Younger_Dryas" }
+      ],
+      "alternative": {
+        "proponent": "Graham Hancock",
+        "claim": "Hancock argues a comet impact at this time wiped out a globe-spanning advanced civilization, with survivors passing knowledge to hunter-gatherers — explaining sites like Göbekli Tepe.",
+        "note": "The 'lost advanced civilization' claim is rejected by mainstream archaeology, and even the impact trigger for the Younger Dryas is contested among scientists. Included because the user asked to feature Hancock's research, clearly labelled as a hypothesis.",
+        "links": [
+          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" },
+          { "label": "Wikipedia: Ancient Apocalypse (series)", "url": "https://en.wikipedia.org/wiki/Ancient_Apocalypse" }
+        ]
+      }
+    }
+  ]
+}

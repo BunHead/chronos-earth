@@ -1,0 +1,221 @@
+{
+  "_comment": "Chronos Earth — phase-by-phase 2D battle animations. Coordinate space is 0..100 (x, left→right) by 0..70 (y, top→bottom). Each unit's 'pos' array gives its [x,y] in each phase, in order; the app animates between them. 'arrows' belong to a phase and show that phase's key movements. To add a battle: give it an id matching a battle in battles.json and set that battle's hasBattleView:true.",
+  "battleViews": {
+    "hastings": {
+      "title": "Battle of Hastings",
+      "subtitle": "14 October 1066 — Normans vs Anglo-Saxon England",
+      "flagship": true,
+      "sides": { "a": { "name": "Anglo-Saxons (Harold)", "color": "#d6a93a" }, "b": { "name": "Normans (William)", "color": "#c0392b" } },
+      "terrain": [
+        { "type": "ridge", "x": 50, "y": 22, "w": 60, "h": 6, "label": "Senlac Hill" },
+        { "type": "forest", "x": 12, "y": 12, "r": 7 }
+      ],
+      "phases": [
+        { "name": "Deployment", "narration": "Harold's Anglo-Saxons form a dense shield wall along the top of Senlac Hill. William's Normans deploy below: archers in front, infantry behind, cavalry in reserve." },
+        { "name": "The Norman assault", "narration": "Norman archers and infantry struggle uphill against the shield wall and are thrown back. On the left, a rumour spreads that William is dead.", "arrows": [ { "from": [40, 48], "to": [40, 30], "side": "b" }, { "from": [60, 48], "to": [60, 30], "side": "b" } ] },
+        { "name": "The feigned retreats", "narration": "The Normans fall back — and some Saxons break ranks to chase them downhill. William wheels his cavalry and cuts the pursuers down in the open, repeating the trick.", "arrows": [ { "from": [40, 30], "to": [40, 45], "side": "b" }, { "from": [38, 24], "to": [42, 42], "side": "a" } ] },
+        { "name": "Harold falls", "narration": "With the shield wall thinned, Norman cavalry and archers break through. Harold is killed — by legend, an arrow to the eye — and the Saxon line collapses.", "arrows": [ { "from": [50, 46], "to": [50, 24], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "harold", "side": "a", "label": "Harold & housecarls", "size": 1.2, "pos": [[50, 20], [50, 20], [50, 22], [50, 24]] },
+        { "id": "saxon-l", "side": "a", "label": "Fyrd (left)", "pos": [[33, 22], [33, 22], [40, 42], [42, 40]] },
+        { "id": "saxon-r", "side": "a", "label": "Fyrd (right)", "pos": [[67, 22], [67, 22], [66, 24], [66, 30]] },
+        { "id": "norm-arch", "side": "b", "label": "Archers", "pos": [[50, 52], [50, 36], [50, 46], [50, 30]] },
+        { "id": "norm-inf", "side": "b", "label": "Infantry", "size": 1.2, "pos": [[40, 58], [45, 32], [44, 46], [48, 26]] },
+        { "id": "norm-cav", "side": "b", "label": "Cavalry (William)", "shape": "cavalry", "size": 1.1, "pos": [[62, 60], [62, 50], [40, 44], [52, 28]] }
+      ]
+    },
+
+    "waterloo": {
+      "title": "Battle of Waterloo",
+      "subtitle": "18 June 1815 — Napoleon vs the Seventh Coalition",
+      "flagship": true,
+      "sides": { "a": { "name": "Anglo-Allied & Prussians", "color": "#cc3a3a" }, "b": { "name": "French (Napoleon)", "color": "#3a63cc" } },
+      "terrain": [
+        { "type": "ridge", "x": 50, "y": 24, "w": 70, "h": 5, "label": "Mont-Saint-Jean ridge" },
+        { "type": "town", "x": 30, "y": 38, "r": 3, "label": "Hougoumont" },
+        { "type": "town", "x": 52, "y": 36, "r": 3, "label": "La Haye Sainte" }
+      ],
+      "phases": [
+        { "name": "Deployment", "narration": "Wellington's army holds the ridge of Mont-Saint-Jean, anchored on the farms of Hougoumont and La Haye Sainte. Napoleon masses below. Rain has delayed the French start." },
+        { "name": "French assaults", "narration": "Napoleon attacks Hougoumont as a diversion, then sends d'Erlon's corps against the Allied left-centre. British infantry and a heavy cavalry charge throw them back.", "arrows": [ { "from": [30, 50], "to": [30, 41], "side": "b" }, { "from": [55, 52], "to": [55, 30], "side": "b" } ] },
+        { "name": "Cavalry & crisis", "narration": "Ney launches massed cavalry charges against the Allied squares without infantry support. La Haye Sainte finally falls — but Wellington's line, though battered, holds. Prussians appear in the east.", "arrows": [ { "from": [60, 52], "to": [60, 28], "side": "b" }, { "from": [95, 55], "to": [78, 40], "side": "a" } ] },
+        { "name": "The Guard recoils", "narration": "Napoleon throws in his elite Imperial Guard — and for the first time it is repulsed. As the Guard recoils and the Prussians press the flank, the French army dissolves.", "arrows": [ { "from": [50, 50], "to": [50, 30], "side": "b" }, { "from": [50, 26], "to": [50, 48], "side": "a" }, { "from": [85, 48], "to": [70, 38], "side": "a" } ] }
+      ],
+      "units": [
+        { "id": "well", "side": "a", "label": "Wellington's line", "size": 1.3, "pos": [[45, 22], [45, 22], [45, 24], [45, 24]] },
+        { "id": "all-left", "side": "a", "label": "Allied left", "pos": [[64, 22], [64, 24], [66, 24], [62, 30]] },
+        { "id": "prussia", "side": "a", "label": "Prussians (Blücher)", "size": 1.1, "pos": [[98, 58], [98, 58], [86, 46], [72, 38]] },
+        { "id": "fr-inf", "side": "b", "label": "d'Erlon's corps", "size": 1.2, "pos": [[55, 56], [55, 32], [55, 40], [55, 46]] },
+        { "id": "fr-cav", "side": "b", "label": "Ney's cavalry", "shape": "cavalry", "pos": [[62, 58], [62, 50], [60, 30], [60, 44]] },
+        { "id": "guard", "side": "b", "label": "Imperial Guard", "size": 1.1, "pos": [[44, 60], [44, 58], [44, 52], [46, 48]] }
+      ]
+    },
+
+    "cannae": {
+      "title": "Battle of Cannae",
+      "subtitle": "216 BCE — Hannibal's double envelopment",
+      "sides": { "a": { "name": "Rome", "color": "#c0392b" }, "b": { "name": "Carthage (Hannibal)", "color": "#2e8b8b" } },
+      "terrain": [ { "type": "river", "points": [[0, 8], [40, 12], [100, 9]], "label": "Aufidus River" } ],
+      "phases": [
+        { "name": "Deployment", "narration": "Rome packs a huge, deep infantry mass in the centre to smash straight through. Hannibal forms a thin centre that bulges forward, with veteran African infantry held back on the wings." },
+        { "name": "The Roman push", "narration": "The Romans drive into Hannibal's centre, which gives ground in a controlled retreat — the bulge inverts into a sagging crescent that draws the Romans in.", "arrows": [ { "from": [50, 40], "to": [50, 28], "side": "a" }, { "from": [50, 30], "to": [50, 40], "side": "b" } ] },
+        { "name": "Cavalry wins the flanks", "narration": "Hannibal's heavier cavalry routs the Roman horse on both wings, rides around the rear, and returns — sealing the trap.", "arrows": [ { "from": [12, 40], "to": [50, 52], "side": "b" }, { "from": [88, 40], "to": [50, 52], "side": "b" } ] },
+        { "name": "Encirclement", "narration": "The African wings swing inward and the cavalry closes the rear. The packed Roman army, unable to manoeuvre, is surrounded and destroyed — up to 50,000 killed in a day.", "arrows": [ { "from": [25, 24], "to": [40, 36], "side": "b" }, { "from": [75, 24], "to": [60, 36], "side": "b" }, { "from": [50, 54], "to": [50, 44], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "rome-inf", "side": "a", "label": "Roman infantry", "size": 1.6, "pos": [[50, 44], [50, 34], [50, 38], [50, 38]] },
+        { "id": "rome-cav-l", "side": "a", "label": "Roman cavalry", "shape": "cavalry", "pos": [[14, 38], [14, 40], [10, 50], [10, 52]] },
+        { "id": "rome-cav-r", "side": "a", "label": "Allied cavalry", "shape": "cavalry", "pos": [[86, 38], [86, 40], [90, 50], [90, 52]] },
+        { "id": "carth-c", "side": "b", "label": "Gauls & Iberians", "pos": [[50, 30], [50, 40], [50, 42], [50, 44]] },
+        { "id": "afr-l", "side": "b", "label": "African veterans", "pos": [[30, 26], [30, 28], [30, 30], [40, 36]] },
+        { "id": "afr-r", "side": "b", "label": "African veterans", "pos": [[70, 26], [70, 28], [70, 30], [60, 36]] },
+        { "id": "carth-cav", "side": "b", "label": "Heavy cavalry", "shape": "cavalry", "pos": [[12, 30], [12, 36], [50, 56], [50, 50]] }
+      ]
+    },
+
+    "gaugamela": {
+      "title": "Battle of Gaugamela",
+      "subtitle": "331 BCE — Alexander breaks Persia",
+      "sides": { "a": { "name": "Macedon (Alexander)", "color": "#2e6fb0" }, "b": { "name": "Persia (Darius III)", "color": "#b08a2e" } },
+      "terrain": [],
+      "phases": [
+        { "name": "Deployment", "narration": "Darius spreads a vast army across a flattened plain, with scythed chariots in front. Alexander, badly outnumbered, refuses his flanks and edges his whole line to the right." },
+        { "name": "The oblique march", "narration": "Alexander leads his line rightward, dragging the Persians with him and pulling their formation out of shape. The scythed chariots charge — and are funnelled into gaps and destroyed.", "arrows": [ { "from": [45, 45], "to": [62, 45], "side": "a" }, { "from": [40, 26], "to": [55, 40], "side": "b" } ] },
+        { "name": "The wedge charge", "narration": "A gap opens in the Persian line. Alexander wheels his Companion cavalry into a wedge and charges straight at Darius himself.", "arrows": [ { "from": [62, 44], "to": [48, 28], "side": "a" } ] },
+        { "name": "Darius flees", "narration": "With Alexander bearing down and his centre buckling, Darius turns and flees. The Persian army follows — and the Achaemenid Empire is doomed.", "arrows": [ { "from": [48, 26], "to": [20, 14], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "phalanx", "side": "a", "label": "Phalanx", "size": 1.3, "pos": [[42, 46], [50, 46], [52, 44], [54, 42]] },
+        { "id": "companions", "side": "a", "label": "Companion cavalry", "shape": "cavalry", "size": 1.1, "pos": [[55, 48], [64, 46], [50, 30], [44, 26]] },
+        { "id": "darius", "side": "b", "label": "Darius & guard", "size": 1.2, "pos": [[48, 24], [46, 26], [48, 28], [22, 14]] },
+        { "id": "pers-chariots", "side": "b", "label": "Scythed chariots", "pos": [[40, 36], [52, 40], [52, 42], [52, 42]] },
+        { "id": "pers-left", "side": "b", "label": "Persian cavalry", "shape": "cavalry", "pos": [[20, 26], [24, 30], [24, 32], [24, 34]] },
+        { "id": "pers-right", "side": "b", "label": "Persian cavalry", "shape": "cavalry", "pos": [[78, 26], [80, 30], [80, 30], [80, 30]] }
+      ]
+    },
+
+    "marathon": {
+      "title": "Battle of Marathon",
+      "subtitle": "490 BCE — Athens defeats Persia",
+      "sides": { "a": { "name": "Athens & Plataea", "color": "#2e6fb0" }, "b": { "name": "Persia", "color": "#b08a2e" } },
+      "terrain": [ { "type": "sea", "x": 92, "y": 35, "w": 16, "h": 70, "label": "Bay & ships" } ],
+      "phases": [
+        { "name": "Deployment", "narration": "The Greeks deliberately thin their centre and strengthen their wings to match the wider Persian line. The Persians place their best troops in the centre." },
+        { "name": "The charge", "narration": "To cross the deadly arrow-zone quickly, the Greeks advance at a run — a tactic that astonishes the Persians.", "arrows": [ { "from": [30, 20], "to": [55, 20], "side": "a" }, { "from": [30, 50], "to": [55, 50], "side": "a" } ] },
+        { "name": "Wings win", "narration": "The strong Greek wings rout the Persian flanks, while the thin Greek centre is pushed back as planned.", "arrows": [ { "from": [60, 20], "to": [72, 16], "side": "a" }, { "from": [60, 50], "to": [72, 54], "side": "a" } ] },
+        { "name": "Double envelopment", "narration": "Instead of chasing, the victorious wings turn inward and crush the Persian centre. The Persians flee to their ships.", "arrows": [ { "from": [70, 18], "to": [62, 34], "side": "a" }, { "from": [70, 52], "to": [62, 34], "side": "a" }, { "from": [66, 35], "to": [88, 35], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "gk-center", "side": "a", "label": "Greek centre", "pos": [[28, 35], [50, 35], [54, 35], [56, 35]] },
+        { "id": "gk-left", "side": "a", "label": "Greek wing", "size": 1.1, "pos": [[28, 20], [52, 20], [66, 18], [62, 30]] },
+        { "id": "gk-right", "side": "a", "label": "Greek wing", "size": 1.1, "pos": [[28, 50], [52, 50], [66, 52], [62, 40]] },
+        { "id": "pe-center", "side": "b", "label": "Persian centre", "size": 1.2, "pos": [[62, 35], [60, 35], [58, 35], [80, 35]] },
+        { "id": "pe-left", "side": "b", "label": "Persian wing", "pos": [[62, 20], [62, 20], [74, 16], [86, 22]] },
+        { "id": "pe-right", "side": "b", "label": "Persian wing", "pos": [[62, 50], [62, 50], [74, 54], [86, 48]] }
+      ]
+    },
+
+    "agincourt": {
+      "title": "Battle of Agincourt",
+      "subtitle": "25 October 1415 — the longbow triumphs",
+      "sides": { "a": { "name": "England (Henry V)", "color": "#2e6fb0" }, "b": { "name": "France", "color": "#c0392b" } },
+      "terrain": [ { "type": "forest", "x": 50, "y": 8, "w": 80, "h": 8, "label": "Woods" }, { "type": "forest", "x": 50, "y": 62, "w": 80, "h": 8, "label": "Woods" } ],
+      "phases": [
+        { "name": "Deployment", "narration": "Henry's small army is hemmed between two woods on a narrow, muddy field. Dismounted men-at-arms hold the centre; longbowmen on the wings plant sharpened stakes. The French knights mass opposite in huge numbers." },
+        { "name": "Henry advances", "narration": "Outnumbered and waiting, Henry advances to longbow range and unleashes an arrow storm, goading the French into attacking across the mud.", "arrows": [ { "from": [30, 35], "to": [45, 35], "side": "a" } ] },
+        { "name": "Into the mud", "narration": "The heavily armoured French knights struggle forward through deep mud, funnelled together by the woods and torn apart by arrows from the flanks.", "arrows": [ { "from": [70, 35], "to": [52, 35], "side": "b" }, { "from": [30, 22], "to": [52, 30], "side": "a" }, { "from": [30, 48], "to": [52, 40], "side": "a" } ] },
+        { "name": "French rout", "narration": "Exhausted and crushed together, the French are cut down or captured. A few thousand English have shattered the flower of French chivalry.", "arrows": [ { "from": [55, 35], "to": [80, 35], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "en-center", "side": "a", "label": "Men-at-arms", "pos": [[28, 35], [45, 35], [50, 35], [52, 35]] },
+        { "id": "en-bow-l", "side": "a", "label": "Longbowmen", "pos": [[26, 20], [40, 20], [46, 24], [46, 26]] },
+        { "id": "en-bow-r", "side": "a", "label": "Longbowmen", "pos": [[26, 50], [40, 50], [46, 46], [46, 44]] },
+        { "id": "fr-van", "side": "b", "label": "French vanguard", "size": 1.4, "pos": [[72, 35], [72, 35], [56, 35], [70, 35]] },
+        { "id": "fr-main", "side": "b", "label": "French main body", "size": 1.4, "pos": [[85, 35], [85, 35], [74, 35], [86, 35]] }
+      ]
+    },
+
+    "austerlitz": {
+      "title": "Battle of Austerlitz",
+      "subtitle": "2 December 1805 — Napoleon's masterpiece",
+      "sides": { "a": { "name": "Russia & Austria", "color": "#cc3a3a" }, "b": { "name": "France (Napoleon)", "color": "#3a63cc" } },
+      "terrain": [ { "type": "hill", "x": 50, "y": 35, "r": 9, "label": "Pratzen Heights" } ],
+      "phases": [
+        { "name": "The bait", "narration": "Napoleon deliberately leaves his right flank weak and cedes the commanding Pratzen Heights, tempting the Allies to attack there and march down off the high ground." },
+        { "name": "The Allies take the bait", "narration": "The Allies pour their main strength south to crush the French right, stripping their own centre off the Pratzen Heights.", "arrows": [ { "from": [40, 35], "to": [30, 55], "side": "a" } ] },
+        { "name": "Soult storms the centre", "narration": "Napoleon launches Soult's corps in a sudden assault up the now-undefended Pratzen, splitting the Allied army in two.", "arrows": [ { "from": [55, 50], "to": [50, 35], "side": "b" } ] },
+        { "name": "Collapse", "narration": "With the heights taken, the French roll up both halves of the Allied army. The southern wing is driven onto frozen ponds and shattered.", "arrows": [ { "from": [50, 35], "to": [30, 52], "side": "b" }, { "from": [50, 35], "to": [40, 18], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "all-center", "side": "a", "label": "Allied centre", "pos": [[42, 33], [38, 44], [32, 52], [26, 56]] },
+        { "id": "all-left", "side": "a", "label": "Allied left wing", "size": 1.2, "pos": [[34, 52], [30, 56], [28, 58], [22, 60]] },
+        { "id": "all-right", "side": "a", "label": "Allied right", "pos": [[40, 16], [40, 16], [42, 16], [50, 12]] },
+        { "id": "fr-right", "side": "b", "label": "Davout (weak right)", "pos": [[26, 56], [26, 56], [30, 54], [34, 52]] },
+        { "id": "fr-soult", "side": "b", "label": "Soult", "size": 1.3, "pos": [[58, 50], [58, 50], [50, 36], [45, 34]] },
+        { "id": "fr-left", "side": "b", "label": "Lannes", "pos": [[60, 18], [60, 18], [58, 18], [52, 16]] }
+      ]
+    },
+
+    "trafalgar": {
+      "title": "Battle of Trafalgar",
+      "subtitle": "21 October 1805 — Nelson breaks the line",
+      "sides": { "a": { "name": "Royal Navy (Nelson)", "color": "#2e6fb0" }, "b": { "name": "Franco-Spanish fleet", "color": "#c0392b" } },
+      "terrain": [ { "type": "sea", "x": 50, "y": 35, "w": 100, "h": 70 } ],
+      "phases": [
+        { "name": "The lines form", "narration": "The Franco-Spanish fleet sails in a long single line. Nelson forms his fleet into two columns aimed perpendicular at that line — a bold plan to cut it into pieces." },
+        { "name": "The columns close in", "narration": "Under fire, the two British columns drive straight at the enemy line, aiming to break through at two points.", "arrows": [ { "from": [20, 22], "to": [50, 30], "side": "a" }, { "from": [20, 50], "to": [50, 42], "side": "a" } ] },
+        { "name": "Breaking the line", "narration": "The columns punch through, raking the enemy ships bow-to-stern at close range and starting a series of brutal individual duels.", "arrows": [ { "from": [50, 30], "to": [62, 30], "side": "a" }, { "from": [50, 42], "to": [62, 42], "side": "a" } ] },
+        { "name": "Decisive victory", "narration": "The cut-apart enemy van cannot help the rear. The British capture or destroy much of the fleet. Nelson is mortally wounded, but Britain rules the seas.", "arrows": [ { "from": [70, 18], "to": [85, 14], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "fs-van", "side": "b", "label": "Enemy van", "shape": "ship", "pos": [[70, 18], [70, 18], [70, 22], [86, 14]] },
+        { "id": "fs-center", "side": "b", "label": "Enemy centre", "shape": "ship", "pos": [[64, 32], [64, 32], [66, 32], [70, 34]] },
+        { "id": "fs-rear", "side": "b", "label": "Enemy rear", "shape": "ship", "pos": [[60, 46], [60, 46], [62, 44], [66, 48]] },
+        { "id": "rn-weather", "side": "a", "label": "Nelson (Victory)", "shape": "ship", "size": 1.1, "pos": [[16, 22], [40, 28], [60, 31], [66, 31]] },
+        { "id": "rn-lee", "side": "a", "label": "Collingwood", "shape": "ship", "size": 1.1, "pos": [[16, 50], [40, 44], [58, 42], [64, 44]] }
+      ]
+    },
+
+    "gettysburg": {
+      "title": "Battle of Gettysburg",
+      "subtitle": "1–3 July 1863 — turning point of the Civil War",
+      "sides": { "a": { "name": "Union", "color": "#2e6fb0" }, "b": { "name": "Confederacy", "color": "#9a6a4a" } },
+      "terrain": [ { "type": "ridge", "x": 60, "y": 35, "w": 6, "h": 46, "label": "Cemetery Ridge" }, { "type": "town", "x": 50, "y": 16, "r": 3, "label": "Gettysburg" }, { "type": "hill", "x": 62, "y": 58, "r": 4, "label": "Little Round Top" } ],
+      "phases": [
+        { "name": "Day 1 — the armies collide", "narration": "The armies meet by chance at Gettysburg. Confederates push the outnumbered Union forces back through the town to the high ground south of it.", "arrows": [ { "from": [35, 16], "to": [50, 24], "side": "b" } ] },
+        { "name": "Day 2 — the flanks", "narration": "The Union holds a strong 'fishhook' line along the ridges. Confederate attacks hammer both flanks — the Wheatfield, and the desperate defence of Little Round Top.", "arrows": [ { "from": [40, 58], "to": [58, 58], "side": "b" }, { "from": [40, 26], "to": [56, 26], "side": "b" } ] },
+        { "name": "Day 3 — Pickett's Charge", "narration": "Lee gambles on a frontal assault: 12,500 men march across open ground toward the Union centre on Cemetery Ridge.", "arrows": [ { "from": [38, 40], "to": [56, 40], "side": "b" } ] },
+        { "name": "Repulse", "narration": "Artillery and rifle fire tear the charge apart at the 'High Water Mark'. The shattered Confederates fall back, and Lee retreats south — the Confederacy never recovers.", "arrows": [ { "from": [54, 40], "to": [36, 40], "side": "b" } ] }
+      ],
+      "units": [
+        { "id": "un-line", "side": "a", "label": "Union line", "size": 1.4, "pos": [[60, 32], [60, 32], [60, 38], [60, 38]] },
+        { "id": "un-lrt", "side": "a", "label": "Little Round Top", "pos": [[62, 58], [60, 58], [62, 58], [62, 58]] },
+        { "id": "cs-left", "side": "b", "label": "Confederate corps", "size": 1.2, "pos": [[44, 16], [44, 24], [44, 26], [44, 26]] },
+        { "id": "cs-pickett", "side": "b", "label": "Pickett's division", "size": 1.2, "pos": [[40, 44], [40, 44], [38, 40], [34, 40]] },
+        { "id": "cs-right", "side": "b", "label": "Confederate corps", "pos": [[44, 58], [44, 58], [54, 58], [44, 58]] }
+      ]
+    },
+
+    "d-day": {
+      "title": "D-Day — The Normandy Landings",
+      "subtitle": "6 June 1944 — the Western Front is opened",
+      "sides": { "a": { "name": "Allies", "color": "#2e8b57" }, "b": { "name": "Nazi Germany", "color": "#777777" } },
+      "terrain": [ { "type": "sea", "x": 50, "y": 12, "w": 100, "h": 24, "label": "English Channel" }, { "type": "road", "points": [[0, 40], [100, 40]], "label": "Coast" } ],
+      "phases": [
+        { "name": "Airborne & bombardment", "narration": "Overnight, paratroopers drop inland to seize bridges and causeways. At dawn, a vast fleet bombards the German 'Atlantic Wall' defences along five code-named beaches.", "arrows": [ { "from": [20, 18], "to": [25, 52], "side": "a" }, { "from": [80, 18], "to": [75, 52], "side": "a" } ] },
+        { "name": "The landings", "narration": "Landing craft hit five beaches — Utah, Omaha, Gold, Juno and Sword. At Omaha the troops are pinned down under murderous fire and take heavy casualties.", "arrows": [ { "from": [18, 22], "to": [18, 40], "side": "a" }, { "from": [34, 22], "to": [34, 40], "side": "a" }, { "from": [50, 22], "to": [50, 40], "side": "a" }, { "from": [66, 22], "to": [66, 40], "side": "a" }, { "from": [82, 22], "to": [82, 40], "side": "a" } ] },
+        { "name": "Off the beaches", "narration": "By nightfall the Allies have clawed their way off every beach and begin linking the beachheads together against fierce German resistance.", "arrows": [ { "from": [34, 42], "to": [34, 50], "side": "a" }, { "from": [66, 42], "to": [66, 50], "side": "a" } ] },
+        { "name": "The lodgement holds", "narration": "Despite the bloody cost, the foothold holds. Over the following days a million men and their supplies pour ashore — the liberation of Western Europe has begun.", "arrows": [ { "from": [25, 52], "to": [50, 56], "side": "a" }, { "from": [75, 52], "to": [50, 56], "side": "a" } ] }
+      ],
+      "units": [
+        { "id": "fleet", "side": "a", "label": "Invasion fleet", "shape": "ship", "size": 1.4, "pos": [[50, 14], [50, 18], [50, 16], [50, 14]] },
+        { "id": "utah", "side": "a", "label": "Utah / Omaha", "pos": [[26, 22], [26, 38], [30, 48], [40, 54]] },
+        { "id": "gold", "side": "a", "label": "Gold / Juno / Sword", "pos": [[70, 22], [70, 38], [66, 48], [60, 54]] },
+        { "id": "airborne", "side": "a", "label": "Airborne", "pos": [[20, 50], [22, 52], [28, 52], [40, 56]] },
+        { "id": "ger-w", "side": "b", "label": "German defences", "pos": [[30, 40], [30, 40], [26, 42], [22, 44]] },
+        { "id": "ger-e", "side": "b", "label": "German defences", "pos": [[70, 40], [70, 40], [74, 42], [78, 44]] }
+      ]
+    }
+  }
+}

@@ -1,0 +1,486 @@
+import { useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+interface Monument3DProps {
+  model: string;
+  title: string;
+  /** Site coordinates — used to pull real satellite imagery for the ground. */
+  lat?: number;
+  lon?: number;
+  onClose: () => void;
+}
+
+const STONE = '#8c857a';
+const SANDSTONE = '#c2b280';
+
+/* ------------------------------------------------------------------ *
+ * Stone look: a procedural mottled-rock texture shared by every stone
+ * material, so blocks read as weathered megaliths instead of plastic.
+ * ------------------------------------------------------------------ */
+let stoneTexture: THREE.CanvasTexture | null = null;
+function getStoneTexture(): THREE.CanvasTexture {
+  if (stoneTexture) return stoneTexture;
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const ctx = c.getContext('2d')!;
+  ctx.fillStyle = '#a09a90';
+  ctx.fillRect(0, 0, 128, 128);
+  // Large soft blotches (weathering) then fine speckle (grain).
+  for (let i = 0; i < 60; i++) {
+    const g = 120 + Math.random() * 60;
+    ctx.fillStyle = `rgba(${g},${g - 6},${g - 14},0.18)`;
+    ctx.beginPath();
+    ctx.arc(Math.random() * 128, Math.random() * 128, 6 + Math.random() * 18, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  for (let i = 0; i < 1400; i++) {
+    const g = 90 + Math.random() * 100;
+    ctx.fillStyle = `rgba(${g},${g},${g - 8},0.25)`;
+    ctx.fillRect(Math.random() * 128, Math.random() * 128, 1.4, 1.4);
+  }
+  // A few lichen patches.
+  for (let i = 0; i < 14; i++) {
+    ctx.fillStyle = `rgba(${130 + Math.random() * 40},${140 + Math.random() * 40},90,0.12)`;
+    ctx.beginPath();
+    ctx.arc(Math.random() * 128, Math.random() * 128, 3 + Math.random() * 7, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  stoneTexture = new THREE.CanvasTexture(c);
+  stoneTexture.wrapS = stoneTexture.wrapT = THREE.RepeatWrapping;
+  stoneTexture.colorSpace = THREE.SRGBColorSpace;
+  return stoneTexture;
+}
+
+const matCache = new Map<string, THREE.MeshStandardMaterial>();
+function stoneMat(color: string): THREE.MeshStandardMaterial {
+  let m = matCache.get(color);
+  if (!m) {
+    m = new THREE.MeshStandardMaterial({ color, roughness: 1, map: getStoneTexture() });
+    matCache.set(color, m);
+  }
+  return m;
+}
+
+function block(w: number, h: number, d: number, x: number, y: number, z: number, color: string, ry = 0): THREE.Mesh {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), stoneMat(color));
+  m.position.set(x, y, z);
+  m.rotation.y = ry;
+  return m;
+}
+
+/** Slight per-stone irregularity so nothing looks machine-cut. */
+function weather(mesh: THREE.Object3D, amount = 0.07) {
+  mesh.scale.multiplyScalar(1 - amount / 2 + Math.random() * amount);
+  mesh.rotation.y += (Math.random() - 0.5) * 0.06;
+  mesh.rotation.z += (Math.random() - 0.5) * 0.03;
+}
+
+/** A single T-shaped pillar (Göbekli Tepe style). */
+function tPillar(): THREE.Group {
+  const g = new THREE.Group();
+  g.add(block(0.5, 3, 0.7, 0, 1.5, 0, STONE));
+  g.add(block(0.5, 0.5, 1.7, 0, 3, 0, STONE));
+  return g;
+}
+
+/**
+ * Stonehenge wasn't built at once — it grew over ~1,500 years. We build it in
+ * additive phases so the timeline can show what stood when:
+ *   phase 1 (c. 3000 BCE) — the bank-and-ditch earthwork, Aubrey-hole ring and
+ *                           the outlying Heel Stone; no megaliths yet.
+ *   phase 2 (c. 2500 BCE) — the smaller bluestones raised inside the bank.
+ *   phase 3 (c. 2400 BCE) — the great sarsen circle with its lintel ring, the
+ *                           five-trilithon horseshoe and the central Altar Stone.
+ */
+function buildStonehenge(group: THREE.Group, phase = 3) {
+  const R = 6.5;
+  const N = 30;
+  const tangent = (a: number): [number, number] => [-Math.sin(a), Math.cos(a)];
+
+  // --- Phase 1: the encircling earthwork bank, Aubrey holes and Heel Stone. ---
+  const bank = new THREE.Mesh(
+    new THREE.TorusGeometry(10.5, 0.8, 10, 64),
+    new THREE.MeshStandardMaterial({ color: '#7c6a4d', roughness: 1, map: getStoneTexture() }),
+  );
+  bank.rotation.x = -Math.PI / 2;
+  bank.position.y = 0.45;
+  group.add(bank);
+  for (let i = 0; i < 56; i++) {
+    const a = (i / 56) * Math.PI * 2;
+    group.add(block(0.34, 0.16, 0.34, Math.cos(a) * 9.2, 0.08, Math.sin(a) * 9.2, '#d8d2c4'));
+  }
+  const heel = block(1.2, 3.2, 1.0, 0, 1.5, 13.5, '#90887b');
+  heel.rotation.z = 0.12;
+  heel.rotation.x = -0.08;
+  weather(heel, 0.1);
+  group.add(heel);
+
+  // --- Phase 2: the bluestone ring goes up inside the bank. ---
+  if (phase >= 2) {
+    for (let i = 0; i < 18; i++) {
+      const a = (i / 18) * Math.PI * 2 + 0.1;
+      if (Math.abs(a - Math.PI / 2) < 0.35) continue; // keep the NE entrance open
+      const b = block(0.45, 1.3 + Math.random() * 0.5, 0.6, Math.cos(a) * 4.7, 0.7, Math.sin(a) * 4.7, '#6e7480', -a);
+      weather(b, 0.12);
+      group.add(b);
+    }
+  }
+
+  // --- Phase 3: the great sarsen circle, lintel ring, trilithons and altar. ---
+  if (phase >= 3) {
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * Math.PI * 2;
+      const up = block(0.8, 2.9, 1.35, Math.cos(a) * R, 1.45, Math.sin(a) * R, STONE, -a);
+      weather(up);
+      group.add(up);
+      // Lintel bridging this upright to the next (continuous ring).
+      const am = ((i + 0.5) / N) * Math.PI * 2;
+      const lin = block(0.85, 0.48, 1.6, Math.cos(am) * R, 3.12, Math.sin(am) * R, '#948d82', -am);
+      weather(lin, 0.04);
+      group.add(lin);
+    }
+
+    // Trilithon horseshoe — opening faces +z (north-east); back one tallest.
+    const stations = [
+      { a: (130 * Math.PI) / 180, h: 3.6 },
+      { a: (200 * Math.PI) / 180, h: 4.1 },
+      { a: (270 * Math.PI) / 180, h: 4.7 },
+      { a: (340 * Math.PI) / 180, h: 4.1 },
+      { a: (50 * Math.PI) / 180, h: 3.6 },
+    ];
+    for (const { a, h } of stations) {
+      const r = 3.3;
+      const cx = Math.cos(a) * r;
+      const cz = Math.sin(a) * r;
+      const [tx, tz] = tangent(a);
+      for (const s of [-1, 1]) {
+        const up = block(1.0, h, 1.45, cx + tx * s * 1.0, h / 2, cz + tz * s * 1.0, STONE, -a);
+        weather(up, 0.05);
+        group.add(up);
+      }
+      const lin = block(1.05, 0.55, 3.4, cx, h + 0.28, cz, '#948d82', -a);
+      weather(lin, 0.03);
+      group.add(lin);
+    }
+
+    // Altar Stone (recumbent slab at the centre).
+    group.add(block(2.2, 0.45, 1.0, 0, 0.22, 0.6, '#7d7468', 0.3));
+  }
+}
+
+function buildModel(model: string, phase = 3): { group: THREE.Group; ground: string } {
+  const group = new THREE.Group();
+  let ground = '#4f5d38';
+
+  if (model === 'tpillars') {
+    for (const [r, n] of [[5, 8], [8.5, 12]] as const) {
+      for (let i = 0; i < n; i++) {
+        const a = (i / n) * Math.PI * 2;
+        const p = tPillar();
+        p.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
+        p.rotation.y = -a;
+        weather(p, 0.1);
+        group.add(p);
+      }
+    }
+    const c1 = tPillar(); c1.position.set(-1.2, 0, 0); group.add(c1);
+    const c2 = tPillar(); c2.position.set(1.2, 0, 0); group.add(c2);
+  } else if (model === 'stonehenge') {
+    buildStonehenge(group, phase);
+  } else if (model === 'pyramid') {
+    ground = '#c9b487';
+    const pyr = (w: number, h: number, x: number, z: number) => {
+      const m = new THREE.Mesh(
+        new THREE.ConeGeometry((w / 2) * Math.SQRT2, h, 4),
+        new THREE.MeshStandardMaterial({ color: SANDSTONE, roughness: 1, flatShading: true, map: getStoneTexture() }),
+      );
+      m.rotation.y = Math.PI / 4;
+      m.position.set(x, h / 2, z);
+      return m;
+    };
+    group.add(pyr(10, 7, 0, 0));
+    group.add(pyr(7, 5, -9, 4));
+    group.add(pyr(5, 3.6, -15, 7));
+  } else if (model === 'sphinx') {
+    ground = '#c9b487';
+    group.add(block(10, 1, 4, 0, 0.5, 0, SANDSTONE)); // base
+    group.add(block(9, 3, 3, 0, 2.2, 0, SANDSTONE)); // body
+    group.add(block(2.4, 3, 2.4, 4.4, 3.8, 0, SANDSTONE)); // head
+    group.add(block(2.8, 1.4, 2.8, 4.4, 5.6, 0, SANDSTONE)); // headdress
+  } else if (model === 'circle') {
+    ground = '#b7a06f';
+    const n = 11;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const s = block(0.7, 1.8, 0.5, Math.cos(a) * 3.2, 0.9, Math.sin(a) * 3.2, STONE, -a);
+      weather(s, 0.12);
+      group.add(s);
+    }
+  } else if (model === 'settlement') {
+    ground = '#7a6b4a';
+    for (let x = -5; x <= 5; x += 2.1) {
+      for (let z = -5; z <= 5; z += 2.1) {
+        const h = 1.6 + Math.random() * 1.4;
+        group.add(block(1.9, h, 1.9, x + (Math.random() - 0.5) * 0.3, h / 2, z, '#b58c5a'));
+      }
+    }
+  } else if (model === 'impact') {
+    ground = '#3a3a42';
+    const rim = new THREE.Mesh(
+      new THREE.TorusGeometry(7, 1.4, 12, 40),
+      new THREE.MeshStandardMaterial({ color: '#55524d', roughness: 1, map: getStoneTexture() }),
+    );
+    rim.rotation.x = -Math.PI / 2;
+    rim.position.y = 0.4;
+    group.add(rim);
+    const comet = new THREE.Mesh(
+      new THREE.SphereGeometry(1.1, 20, 20),
+      new THREE.MeshStandardMaterial({ color: '#ffd27a', emissive: '#ff9b3d', emissiveIntensity: 1.6 }),
+    );
+    comet.position.set(-9, 11, -6);
+    comet.userData.noShadow = true;
+    group.add(comet);
+    const trail = block(0.6, 0.6, 10, -12, 14, -9, '#ffba66');
+    trail.rotation.set(0.5, 0.4, 0.2);
+    trail.userData.noShadow = true;
+    group.add(trail);
+  } else {
+    group.add(block(12, 1.2, 12, 0, 0.6, 0, STONE));
+    group.add(block(9, 1.2, 9, 0, 1.8, 0, STONE));
+    group.add(block(6, 1.2, 6, 0, 3, 0, STONE));
+    for (let i = 0; i < 6; i++) {
+      group.add(block(1.6, 1, 2.4, (Math.random() - 0.5) * 5, 4, (Math.random() - 0.5) * 5, '#9a8f80'));
+    }
+  }
+
+  return { group, ground };
+}
+
+/* ------------------------------------------------------------------ *
+ * Real terrain: stitch a 3×3 patch of Esri World Imagery tiles centred
+ * on the site into one texture for the ground disc.
+ * ------------------------------------------------------------------ */
+function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void) {
+  const z = 16;
+  const n = 2 ** z;
+  const latR = (lat * Math.PI) / 180;
+  const xt = Math.floor(((lon + 180) / 360) * n);
+  const yt = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 768;
+  const ctx = canvas.getContext('2d')!;
+  let loaded = 0;
+  let failed = false;
+
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
+        loaded++;
+        if (loaded === 9 && !failed) {
+          const tex = new THREE.CanvasTexture(canvas);
+          tex.colorSpace = THREE.SRGBColorSpace;
+          tex.anisotropy = 4;
+          onReady(tex);
+        }
+      };
+      img.onerror = () => {
+        failed = true; // offline etc. — keep the flat-colour ground
+      };
+      img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${yt + dy}/${xt + dx}`;
+    }
+  }
+}
+
+/**
+ * Monument3D — a procedural 3D impression of an ancient site standing on real
+ * satellite terrain, under a slow day/night cycle. Drag to orbit.
+ */
+export default function Monument3D({ model, title, lat, lon, onClose }: Monument3DProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  // Stonehenge grew over ~1,500 years; this picks which construction phase to
+  // show (3 = complete). Only surfaced for the stonehenge model.
+  const [phase, setPhase] = useState(3);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const { group, ground } = buildModel(model, phase);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#10151f');
+    scene.fog = new THREE.Fog('#10151f', 40, 90);
+
+    const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 500);
+    camera.position.set(0, 9, 20);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.7;
+    controls.target.set(0, 2.5, 0);
+    controls.maxPolarAngle = Math.PI / 2.05;
+    controls.minDistance = 8;
+    controls.maxDistance = 60;
+
+    const hemi = new THREE.HemisphereLight(0xcfe3ff, 0x40402f, 1.0);
+    scene.add(hemi);
+    const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+    sun.position.set(20, 30, 15);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    // Shadow box covers the whole 40-radius ground disc, so dawn/dusk
+    // shadows can stretch right across it as the sun orbits.
+    sun.shadow.camera.left = -45;
+    sun.shadow.camera.right = 45;
+    sun.shadow.camera.top = 45;
+    sun.shadow.camera.bottom = -45;
+    sun.shadow.camera.near = 5;
+    sun.shadow.camera.far = 130;
+    sun.shadow.camera.updateProjectionMatrix();
+    sun.shadow.bias = -0.0002;
+    sun.shadow.normalBias = 0.4;
+    scene.add(sun);
+
+    const groundMat = new THREE.MeshStandardMaterial({ color: ground, roughness: 1 });
+    const groundMesh = new THREE.Mesh(new THREE.CircleGeometry(40, 48), groundMat);
+    groundMesh.rotation.x = -Math.PI / 2;
+    groundMesh.receiveShadow = true;
+    scene.add(groundMesh);
+    scene.add(group);
+    // Every stone casts and catches shadows; sky objects (the comet) opt out.
+    group.traverse((obj) => {
+      if (obj instanceof THREE.Mesh && !obj.userData.noShadow) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      }
+    });
+
+    // Drop in the real satellite ground once the tiles arrive.
+    let groundTex: THREE.CanvasTexture | null = null;
+    if (lat !== undefined && lon !== undefined) {
+      loadSatelliteGround(lat, lon, (tex) => {
+        groundTex = tex;
+        groundMat.map = tex;
+        groundMat.color.set('#d8d8d8');
+        groundMat.needsUpdate = true;
+      });
+    }
+
+    const resize = () => {
+      const w = container.clientWidth || 1;
+      const h = container.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(container);
+
+    if (import.meta.env.DEV) {
+      (window as unknown as { __mon3d?: object }).__mon3d = { renderer, scene, camera };
+    }
+
+    // --- Day/night cycle (~70 s per full day) ---
+    const DAY_SKY = new THREE.Color('#87add0');
+    const DUSK_SKY = new THREE.Color('#b86a3e');
+    const NIGHT_SKY = new THREE.Color('#070b16');
+    const skyColor = new THREE.Color();
+    const clock = new THREE.Clock();
+
+    let raf = 0;
+    const animate = () => {
+      const t = clock.getElapsedTime();
+      const ang = (t / 70) * Math.PI * 2 + Math.PI / 5; // start mid-morning
+      const s = Math.sin(ang);
+      sun.position.set(Math.cos(ang) * 32, s * 36, 14);
+      sun.intensity = Math.max(0, s) * 2.4;
+      sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
+      hemi.intensity = 0.3 + Math.max(0, s) * 1.0;
+
+      // Sky: night below horizon, warm band near it, blue when high.
+      if (s < -0.18) skyColor.copy(NIGHT_SKY);
+      else if (s < 0.22) {
+        const k = (s + 0.18) / 0.4;
+        skyColor.copy(NIGHT_SKY).lerp(DUSK_SKY, Math.min(1, k * 1.6));
+        if (k > 0.62) skyColor.lerp(DAY_SKY, (k - 0.62) / 0.38);
+      } else skyColor.copy(DAY_SKY);
+      (scene.background as THREE.Color).copy(skyColor);
+      scene.fog!.color.copy(skyColor);
+
+      controls.update();
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(animate);
+    };
+    animate();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('keydown', onKey);
+      ro.disconnect();
+      controls.dispose();
+      renderer.dispose();
+      groundTex?.dispose();
+      groundMat.dispose();
+      if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
+    };
+  }, [model, lat, lon, phase, onClose]);
+
+  return (
+    <div className="bv-overlay" role="dialog" aria-label={`${title} in 3D`}>
+      <div className="bv-window">
+        <header className="bv-header">
+          <div>
+            <h2>{title}</h2>
+            <p>A reconstruction on real satellite terrain — watch a day pass.</p>
+          </div>
+          <button className="info-close" onClick={onClose} aria-label="Close 3D view">
+            ×
+          </button>
+        </header>
+        {model === 'stonehenge' && (
+          <div className="bv-phase-bar" role="group" aria-label="Stonehenge construction phase">
+            {[
+              { p: 1, year: 'c. 3000 BCE', label: 'Earthwork' },
+              { p: 2, year: 'c. 2500 BCE', label: 'Bluestones' },
+              { p: 3, year: 'c. 2400 BCE', label: 'Sarsens' },
+            ].map((s) => (
+              <button
+                key={s.p}
+                className={`bv-phase${phase === s.p ? ' active' : ''}`}
+                onClick={() => setPhase(s.p)}
+              >
+                <strong>{s.year}</strong>
+                <span>{s.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="bv-stage bv-stage-3d">
+          <div className="battle3d" ref={containerRef} />
+          <div className="bv-3d-hint">Drag to orbit · scroll to zoom · a stylised reconstruction, not exact</div>
+        </div>
+      </div>
+    </div>
+  );
+}

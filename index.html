@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Chronos Earth — explore 250 million years of Earth and human history on an interactive 3D globe." />
+    <title>Chronos Earth</title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Static splash: shown instantly, replaced the moment the app mounts. -->
+      <style>
+        .boot-splash {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          background: radial-gradient(ellipse at 50% 40%, #14202e 0%, #090d13 70%);
+          color: #eaf3ff;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .boot-splash h1 {
+          margin: 0;
+          font-size: 34px;
+          letter-spacing: 2px;
+          font-weight: 600;
+        }
+        .boot-splash p {
+          margin: 0;
+          font-size: 13px;
+          color: #8ba3bf;
+        }
+        .boot-globe {
+          width: 54px;
+          height: 54px;
+          border-radius: 50%;
+          background: conic-gradient(from 0deg, #2c6aa0, #3f8e5a, #b98b46, #2c6aa0);
+          box-shadow: 0 0 30px rgba(74, 163, 255, 0.35), inset -8px -8px 16px rgba(0, 0, 0, 0.5);
+          animation: boot-spin 2.4s linear infinite;
+        }
+        @keyframes boot-spin {
+          to { transform: rotate(360deg); }
+        }
+      </style>
+      <div class="boot-splash">
+        <div class="boot-globe"></div>
+        <h1>Chronos Earth</h1>
+        <p>Winding back 250 million years…</p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

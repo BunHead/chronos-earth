@@ -1,0 +1,2818 @@
+{
+  "_comment": "Chronos Earth — curated battles dataset. See public/data/README.md for the schema. 'year' is a signed calendar year (negative = BCE). Casualty figures are rough historical estimates and vary by source. Add a battle by copying an entry. 'commanders' lists each side's leaders: side is 1 or 2 (matching belligerents), wiki is the English Wikipedia article title (used for the portrait + link; run scripts/fetch-portraits.mjs after adding). Set 'hasBattleView': true only if you also add phase data in battle-views.json.",
+  "battles": [
+    {
+      "id": "kadesh",
+      "name": "Battle of Kadesh",
+      "year": -1274,
+      "dateLabel": "1274 BCE",
+      "lat": 34.568,
+      "lon": 36.516,
+      "belligerents": {
+        "side1": "New Kingdom Egypt (Ramesses II)",
+        "side2": "Hittite Empire (Muwatalli II)"
+      },
+      "victor": "Indecisive",
+      "outcome": "Tactical draw; led to the earliest known surviving peace treaty.",
+      "significance": "The largest chariot battle ever fought and the first battle in history recorded in detail. It ended in the world's first known peace treaty.",
+      "casualties": "Thousands (uncertain)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Kadesh",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Kadesh"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ramesses II",
+          "side": 1,
+          "wiki": "Ramesses II"
+        },
+        {
+          "name": "Muwatalli II",
+          "side": 2,
+          "wiki": "Muwatalli II"
+        }
+      ]
+    },
+    {
+      "id": "marathon",
+      "name": "Battle of Marathon",
+      "year": -490,
+      "dateLabel": "490 BCE",
+      "lat": 38.115,
+      "lon": 23.978,
+      "belligerents": {
+        "side1": "Athens & Plataea",
+        "side2": "Achaemenid Persia (Darius I)"
+      },
+      "victor": "Greek victory",
+      "outcome": "Persian invasion repelled.",
+      "significance": "A heavily outnumbered Greek force defeated Persia, preserving Greek independence and inspiring the legend of the marathon run.",
+      "casualties": "~200 Greek; ~6,400 Persian (Herodotus)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Marathon",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Marathon"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Miltiades",
+          "side": 1,
+          "wiki": "Miltiades"
+        },
+        {
+          "name": "Datis",
+          "side": 2,
+          "wiki": "Datis"
+        }
+      ]
+    },
+    {
+      "id": "thermopylae",
+      "name": "Battle of Thermopylae",
+      "year": -480,
+      "dateLabel": "480 BCE",
+      "lat": 38.796,
+      "lon": 22.536,
+      "belligerents": {
+        "side1": "Greek city-states (Leonidas I)",
+        "side2": "Achaemenid Persia (Xerxes I)"
+      },
+      "victor": "Persian victory",
+      "outcome": "Greek rearguard annihilated after holding the pass for days.",
+      "significance": "The famous last stand of 300 Spartans and their allies became the enduring symbol of courage against overwhelming odds.",
+      "casualties": "~2,000 Greek; ~20,000 Persian (est.)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Thermopylae",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Thermopylae"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Leonidas I",
+          "side": 1,
+          "wiki": "Leonidas I"
+        },
+        {
+          "name": "Xerxes I",
+          "side": 2,
+          "wiki": "Xerxes I"
+        }
+      ]
+    },
+    {
+      "id": "salamis",
+      "name": "Battle of Salamis",
+      "year": -480,
+      "dateLabel": "480 BCE",
+      "lat": 37.96,
+      "lon": 23.57,
+      "belligerents": {
+        "side1": "Greek allied navy (Themistocles)",
+        "side2": "Persian navy (Xerxes I)"
+      },
+      "victor": "Greek victory",
+      "outcome": "Persian fleet crushed in the straits.",
+      "significance": "A decisive naval victory that broke Persia's invasion of Greece and shifted the balance of the Greco-Persian Wars.",
+      "casualties": "~40 Greek ships; ~200+ Persian ships",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Salamis",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Salamis"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Themistocles",
+          "side": 1,
+          "wiki": "Themistocles"
+        },
+        {
+          "name": "Xerxes I",
+          "side": 2,
+          "wiki": "Xerxes I"
+        }
+      ]
+    },
+    {
+      "id": "gaugamela",
+      "name": "Battle of Gaugamela",
+      "year": -331,
+      "dateLabel": "331 BCE",
+      "lat": 36.36,
+      "lon": 43.25,
+      "belligerents": {
+        "side1": "Macedon & Greek League (Alexander the Great)",
+        "side2": "Achaemenid Persia (Darius III)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Persian army shattered; Darius fled.",
+      "significance": "Alexander's decisive victory ended the Achaemenid Empire and opened the East to Hellenistic civilization.",
+      "casualties": "~1,000 Macedonian; tens of thousands Persian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Gaugamela",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Gaugamela"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Darius III",
+          "side": 2,
+          "wiki": "Darius III"
+        }
+      ]
+    },
+    {
+      "id": "cannae",
+      "name": "Battle of Cannae",
+      "year": -216,
+      "dateLabel": "216 BCE",
+      "lat": 41.306,
+      "lon": 16.132,
+      "belligerents": {
+        "side1": "Carthage (Hannibal)",
+        "side2": "Roman Republic"
+      },
+      "victor": "Carthaginian victory",
+      "outcome": "A Roman army of ~80,000 was encircled and destroyed.",
+      "significance": "Hannibal's double-envelopment is still taught as the perfect tactical battle, though Rome would ultimately win the war.",
+      "casualties": "~50,000+ Roman dead; ~6,000 Carthaginian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Cannae",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cannae"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Hannibal",
+          "side": 1,
+          "wiki": "Hannibal"
+        },
+        {
+          "name": "Gaius Terentius Varro",
+          "side": 2,
+          "wiki": "Gaius Terentius Varro"
+        },
+        {
+          "name": "Lucius Aemilius Paullus",
+          "side": 2,
+          "wiki": "Lucius Aemilius Paullus (consul 219 BC)"
+        }
+      ]
+    },
+    {
+      "id": "zama",
+      "name": "Battle of Zama",
+      "year": -202,
+      "dateLabel": "202 BCE",
+      "lat": 36.3,
+      "lon": 9.4,
+      "belligerents": {
+        "side1": "Roman Republic (Scipio Africanus)",
+        "side2": "Carthage (Hannibal)"
+      },
+      "victor": "Roman victory",
+      "outcome": "Hannibal defeated; Second Punic War ended.",
+      "significance": "Rome's victory ended Carthage as a great power and set Rome on the path to Mediterranean dominance.",
+      "casualties": "~1,500 Roman; ~20,000 Carthaginian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Zama",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Zama"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Scipio Africanus",
+          "side": 1,
+          "wiki": "Scipio Africanus"
+        },
+        {
+          "name": "Hannibal",
+          "side": 2,
+          "wiki": "Hannibal"
+        }
+      ]
+    },
+    {
+      "id": "pharsalus",
+      "name": "Battle of Pharsalus",
+      "year": -48,
+      "dateLabel": "48 BCE",
+      "lat": 39.29,
+      "lon": 22.43,
+      "belligerents": {
+        "side1": "Populares (Julius Caesar)",
+        "side2": "Optimates (Pompey)"
+      },
+      "victor": "Caesarian victory",
+      "outcome": "Pompey routed; he fled to Egypt and was killed.",
+      "significance": "Caesar's victory in Rome's civil war cleared his path to dictatorship and the end of the Republic.",
+      "casualties": "~1,200 Caesarian; ~6,000+ Pompeian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Pharsalus",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Pharsalus"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Julius Caesar",
+          "side": 1,
+          "wiki": "Julius Caesar"
+        },
+        {
+          "name": "Pompey",
+          "side": 2,
+          "wiki": "Pompey"
+        }
+      ]
+    },
+    {
+      "id": "actium",
+      "name": "Battle of Actium",
+      "year": -31,
+      "dateLabel": "31 BCE",
+      "lat": 38.93,
+      "lon": 20.74,
+      "belligerents": {
+        "side1": "Octavian (Agrippa)",
+        "side2": "Mark Antony & Cleopatra"
+      },
+      "victor": "Octavian victory",
+      "outcome": "Antony and Cleopatra's fleet defeated.",
+      "significance": "The naval victory made Octavian sole master of Rome, leading to the founding of the Roman Empire.",
+      "casualties": "~2,500 Antonian; thousands total",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Actium",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Actium"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Octavian",
+          "side": 1,
+          "wiki": "Augustus"
+        },
+        {
+          "name": "Marcus Agrippa",
+          "side": 1,
+          "wiki": "Marcus Vipsanius Agrippa"
+        },
+        {
+          "name": "Mark Antony",
+          "side": 2,
+          "wiki": "Mark Antony"
+        },
+        {
+          "name": "Cleopatra",
+          "side": 2,
+          "wiki": "Cleopatra"
+        }
+      ]
+    },
+    {
+      "id": "teutoburg",
+      "name": "Battle of the Teutoburg Forest",
+      "year": 9,
+      "dateLabel": "9 CE",
+      "lat": 52.41,
+      "lon": 8.13,
+      "belligerents": {
+        "side1": "Germanic alliance (Arminius)",
+        "side2": "Roman Empire (Varus)"
+      },
+      "victor": "Germanic victory",
+      "outcome": "Three Roman legions ambushed and destroyed.",
+      "significance": "The disaster halted Roman expansion east of the Rhine and shaped the boundary between Roman and Germanic Europe.",
+      "casualties": "~15,000–20,000 Roman dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Teutoburg Forest",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Teutoburg_Forest"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Arminius",
+          "side": 1,
+          "wiki": "Arminius"
+        },
+        {
+          "name": "Publius Quinctilius Varus",
+          "side": 2,
+          "wiki": "Publius Quinctilius Varus"
+        }
+      ]
+    },
+    {
+      "id": "red-cliffs",
+      "name": "Battle of Red Cliffs",
+      "year": 208,
+      "dateLabel": "208 CE",
+      "lat": 29.86,
+      "lon": 113.6,
+      "belligerents": {
+        "side1": "Sun Quan & Liu Bei alliance",
+        "side2": "Cao Cao"
+      },
+      "victor": "Allied southern victory",
+      "outcome": "Cao Cao's fleet burned; his southern advance stopped.",
+      "significance": "A pivotal battle of China's Three Kingdoms period that prevented unification under Cao Cao and is immortalised in legend.",
+      "casualties": "Heavy (uncertain)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Red Cliffs",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Red_Cliffs"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Zhou Yu",
+          "side": 1,
+          "wiki": "Zhou Yu"
+        },
+        {
+          "name": "Liu Bei",
+          "side": 1,
+          "wiki": "Liu Bei"
+        },
+        {
+          "name": "Cao Cao",
+          "side": 2,
+          "wiki": "Cao Cao"
+        }
+      ]
+    },
+    {
+      "id": "yarmouk",
+      "name": "Battle of the Yarmouk",
+      "year": 636,
+      "dateLabel": "636 CE",
+      "lat": 32.74,
+      "lon": 35.95,
+      "belligerents": {
+        "side1": "Rashidun Caliphate (Khalid ibn al-Walid)",
+        "side2": "Byzantine Empire"
+      },
+      "victor": "Muslim victory",
+      "outcome": "Byzantine army destroyed; Levant lost to the Caliphate.",
+      "significance": "One of history's most decisive battles, it ended Byzantine rule in Syria and fuelled the early Islamic conquests.",
+      "casualties": "Tens of thousands Byzantine",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Yarmuk",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Yarmuk"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Khalid ibn al-Walid",
+          "side": 1,
+          "wiki": "Khalid ibn al-Walid"
+        },
+        {
+          "name": "Vahan",
+          "side": 2,
+          "wiki": "Vahan (Byzantine commander)"
+        }
+      ]
+    },
+    {
+      "id": "tours",
+      "name": "Battle of Tours",
+      "year": 732,
+      "dateLabel": "732 CE",
+      "lat": 46.9,
+      "lon": 0.4,
+      "belligerents": {
+        "side1": "Frankish realm (Charles Martel)",
+        "side2": "Umayyad Caliphate"
+      },
+      "victor": "Frankish victory",
+      "outcome": "Umayyad advance into Western Europe halted.",
+      "significance": "Often cited as the battle that checked Muslim expansion into Western Europe and secured the rise of the Frankish kingdom.",
+      "casualties": "Uncertain; thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tours",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tours"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles Martel",
+          "side": 1,
+          "wiki": "Charles Martel"
+        },
+        {
+          "name": "Abd al-Rahman al-Ghafiqi",
+          "side": 2,
+          "wiki": "Abd al-Rahman al-Ghafiqi"
+        }
+      ]
+    },
+    {
+      "id": "hastings",
+      "name": "Battle of Hastings",
+      "year": 1066,
+      "dateLabel": "14 October 1066",
+      "lat": 50.911,
+      "lon": 0.487,
+      "belligerents": {
+        "side1": "Normans (William the Conqueror)",
+        "side2": "Anglo-Saxon England (Harold Godwinson)"
+      },
+      "victor": "Norman victory",
+      "outcome": "King Harold killed; England conquered.",
+      "significance": "The Norman conquest transformed England's language, law and aristocracy — one of the most consequential battles in British history.",
+      "casualties": "~2,000 Norman; ~4,000 English (est.)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Hastings",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Hastings"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "William the Conqueror",
+          "side": 1,
+          "wiki": "William the Conqueror"
+        },
+        {
+          "name": "Harold Godwinson",
+          "side": 2,
+          "wiki": "Harold Godwinson"
+        }
+      ]
+    },
+    {
+      "id": "manzikert",
+      "name": "Battle of Manzikert",
+      "year": 1071,
+      "dateLabel": "1071 CE",
+      "lat": 39.15,
+      "lon": 42.54,
+      "belligerents": {
+        "side1": "Seljuk Empire (Alp Arslan)",
+        "side2": "Byzantine Empire (Romanos IV)"
+      },
+      "victor": "Seljuk victory",
+      "outcome": "Byzantine emperor captured; Anatolia opened to the Turks.",
+      "significance": "A catastrophe for Byzantium that began the Turkification of Anatolia and helped spark the Crusades.",
+      "casualties": "Heavy Byzantine losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Manzikert",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Manzikert"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alp Arslan",
+          "side": 1,
+          "wiki": "Alp Arslan"
+        },
+        {
+          "name": "Romanos IV Diogenes",
+          "side": 2,
+          "wiki": "Romanos IV Diogenes"
+        }
+      ]
+    },
+    {
+      "id": "hattin",
+      "name": "Battle of Hattin",
+      "year": 1187,
+      "dateLabel": "1187 CE",
+      "lat": 32.8,
+      "lon": 35.45,
+      "belligerents": {
+        "side1": "Ayyubids (Saladin)",
+        "side2": "Kingdom of Jerusalem (Crusaders)"
+      },
+      "victor": "Ayyubid victory",
+      "outcome": "Crusader army destroyed; Jerusalem soon fell.",
+      "significance": "Saladin's victory broke the Crusader states and triggered the Third Crusade.",
+      "casualties": "Most of the ~20,000 Crusader army killed or captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Hattin",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Hattin"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Saladin",
+          "side": 1,
+          "wiki": "Saladin"
+        },
+        {
+          "name": "Guy of Lusignan",
+          "side": 2,
+          "wiki": "Guy of Lusignan"
+        }
+      ]
+    },
+    {
+      "id": "agincourt",
+      "name": "Battle of Agincourt",
+      "year": 1415,
+      "dateLabel": "25 October 1415",
+      "lat": 50.464,
+      "lon": 2.142,
+      "belligerents": {
+        "side1": "England (Henry V)",
+        "side2": "France"
+      },
+      "victor": "English victory",
+      "outcome": "French nobility slaughtered by English longbowmen in the mud.",
+      "significance": "A stunning underdog victory in the Hundred Years' War that showcased the power of the longbow over armoured knights.",
+      "casualties": "~400 English; ~6,000 French (est.)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Agincourt",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Agincourt"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Henry V",
+          "side": 1,
+          "wiki": "Henry V of England"
+        },
+        {
+          "name": "Charles d’Albret",
+          "side": 2,
+          "wiki": "Charles I d'Albret"
+        }
+      ]
+    },
+    {
+      "id": "constantinople-1453",
+      "name": "Fall of Constantinople",
+      "year": 1453,
+      "dateLabel": "29 May 1453",
+      "lat": 41.013,
+      "lon": 28.949,
+      "belligerents": {
+        "side1": "Ottoman Empire (Mehmed II)",
+        "side2": "Byzantine Empire (Constantine XI)"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "The city fell; the Byzantine Empire ended.",
+      "significance": "Gunpowder cannon breached the great walls, ending the Roman/Byzantine Empire after ~1,500 years and marking a turning point into the early modern era.",
+      "casualties": "Thousands; city sacked",
+      "links": [
+        {
+          "label": "Wikipedia: Fall of Constantinople",
+          "url": "https://en.wikipedia.org/wiki/Fall_of_Constantinople"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Mehmed II",
+          "side": 1,
+          "wiki": "Mehmed II"
+        },
+        {
+          "name": "Constantine XI Palaiologos",
+          "side": 2,
+          "wiki": "Constantine XI Palaiologos"
+        }
+      ]
+    },
+    {
+      "id": "bosworth",
+      "name": "Battle of Bosworth Field",
+      "year": 1485,
+      "dateLabel": "22 August 1485",
+      "lat": 52.59,
+      "lon": -1.41,
+      "belligerents": {
+        "side1": "Lancastrians (Henry Tudor)",
+        "side2": "Yorkists (Richard III)"
+      },
+      "victor": "Lancastrian victory",
+      "outcome": "Richard III killed; Henry VII crowned.",
+      "significance": "The last decisive battle of the Wars of the Roses, beginning the Tudor dynasty.",
+      "casualties": "~1,000–1,500",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bosworth Field",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bosworth_Field"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Henry Tudor",
+          "side": 1,
+          "wiki": "Henry VII of England"
+        },
+        {
+          "name": "Richard III",
+          "side": 2,
+          "wiki": "Richard III of England"
+        }
+      ]
+    },
+    {
+      "id": "lepanto",
+      "name": "Battle of Lepanto",
+      "year": 1571,
+      "dateLabel": "7 October 1571",
+      "lat": 38.18,
+      "lon": 21.32,
+      "belligerents": {
+        "side1": "Holy League",
+        "side2": "Ottoman Empire"
+      },
+      "victor": "Holy League victory",
+      "outcome": "Ottoman galley fleet destroyed.",
+      "significance": "The last great galley battle halted Ottoman naval dominance in the Mediterranean and boosted European morale.",
+      "casualties": "~7,500 League; ~20,000+ Ottoman",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Lepanto",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Lepanto"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "John of Austria",
+          "side": 1,
+          "wiki": "John of Austria"
+        },
+        {
+          "name": "Müezzinzade Ali Pasha",
+          "side": 2,
+          "wiki": "Müezzinzade Ali Pasha"
+        }
+      ]
+    },
+    {
+      "id": "vienna-1683",
+      "name": "Battle of Vienna",
+      "year": 1683,
+      "dateLabel": "12 September 1683",
+      "lat": 48.21,
+      "lon": 16.37,
+      "belligerents": {
+        "side1": "Holy Roman Empire & Poland (Jan III Sobieski)",
+        "side2": "Ottoman Empire"
+      },
+      "victor": "Christian alliance victory",
+      "outcome": "The Ottoman siege of Vienna was broken by a massive cavalry charge.",
+      "significance": "Marked the high-water mark of Ottoman expansion in Europe and the start of their long retreat.",
+      "casualties": "~4,500 allied; ~15,000 Ottoman",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Vienna",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Vienna"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Jan III Sobieski",
+          "side": 1,
+          "wiki": "John III Sobieski"
+        },
+        {
+          "name": "Kara Mustafa Pasha",
+          "side": 2,
+          "wiki": "Kara Mustafa Pasha"
+        }
+      ]
+    },
+    {
+      "id": "blenheim",
+      "name": "Battle of Blenheim",
+      "year": 1704,
+      "dateLabel": "13 August 1704",
+      "lat": 48.63,
+      "lon": 10.63,
+      "belligerents": {
+        "side1": "Grand Alliance (Marlborough & Eugene)",
+        "side2": "France & Bavaria"
+      },
+      "victor": "Allied victory",
+      "outcome": "A French army destroyed; Vienna saved.",
+      "significance": "A landmark victory in the War of the Spanish Succession that ended French dominance of Western Europe.",
+      "casualties": "~12,000 allied; ~30,000 Franco-Bavarian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Blenheim",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Blenheim"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Duke of Marlborough",
+          "side": 1,
+          "wiki": "John Churchill, 1st Duke of Marlborough"
+        },
+        {
+          "name": "Prince Eugene of Savoy",
+          "side": 1,
+          "wiki": "Prince Eugene of Savoy"
+        },
+        {
+          "name": "Marshal Tallard",
+          "side": 2,
+          "wiki": "Camille d'Hostun, duc de Tallard"
+        }
+      ]
+    },
+    {
+      "id": "poltava",
+      "name": "Battle of Poltava",
+      "year": 1709,
+      "dateLabel": "1709 CE",
+      "lat": 49.59,
+      "lon": 34.55,
+      "belligerents": {
+        "side1": "Russia (Peter the Great)",
+        "side2": "Swedish Empire (Charles XII)"
+      },
+      "victor": "Russian victory",
+      "outcome": "Swedish army crushed.",
+      "significance": "Ended Sweden's status as a great power and announced Russia's rise in the Great Northern War.",
+      "casualties": "~1,300 Russian; ~10,000 Swedish",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Poltava",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Poltava"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Peter the Great",
+          "side": 1,
+          "wiki": "Peter the Great"
+        },
+        {
+          "name": "Charles XII",
+          "side": 2,
+          "wiki": "Charles XII of Sweden"
+        }
+      ]
+    },
+    {
+      "id": "plassey",
+      "name": "Battle of Plassey",
+      "year": 1757,
+      "dateLabel": "23 June 1757",
+      "lat": 23.8,
+      "lon": 88.25,
+      "belligerents": {
+        "side1": "British East India Company (Robert Clive)",
+        "side2": "Nawab of Bengal & French allies"
+      },
+      "victor": "British victory",
+      "outcome": "Bengal fell under Company control.",
+      "significance": "A decisive (and largely bribery-won) victory that began British political dominance over India.",
+      "casualties": "~70 British; ~500 Bengali",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Plassey",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Plassey"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Robert Clive",
+          "side": 1,
+          "wiki": "Robert Clive"
+        },
+        {
+          "name": "Siraj ud-Daulah",
+          "side": 2,
+          "wiki": "Siraj ud-Daulah"
+        }
+      ]
+    },
+    {
+      "id": "saratoga",
+      "name": "Battles of Saratoga",
+      "year": 1777,
+      "dateLabel": "Sept–Oct 1777",
+      "lat": 43,
+      "lon": -73.64,
+      "belligerents": {
+        "side1": "United States (Gates & Arnold)",
+        "side2": "Great Britain (Burgoyne)"
+      },
+      "victor": "American victory",
+      "outcome": "A British army surrendered.",
+      "significance": "The turning point of the American Revolution — the victory brought France into the war on the American side.",
+      "casualties": "~500 American; ~1,000 British + ~6,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battles of Saratoga",
+          "url": "https://en.wikipedia.org/wiki/Battles_of_Saratoga"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Horatio Gates",
+          "side": 1,
+          "wiki": "Horatio Gates"
+        },
+        {
+          "name": "Benedict Arnold",
+          "side": 1,
+          "wiki": "Benedict Arnold"
+        },
+        {
+          "name": "John Burgoyne",
+          "side": 2,
+          "wiki": "John Burgoyne"
+        }
+      ]
+    },
+    {
+      "id": "yorktown",
+      "name": "Siege of Yorktown",
+      "year": 1781,
+      "dateLabel": "1781 CE",
+      "lat": 37.24,
+      "lon": -76.51,
+      "belligerents": {
+        "side1": "United States & France (Washington & Rochambeau)",
+        "side2": "Great Britain (Cornwallis)"
+      },
+      "victor": "Franco-American victory",
+      "outcome": "Cornwallis surrendered ~8,000 men.",
+      "significance": "The decisive siege that effectively ended the American Revolutionary War and secured U.S. independence.",
+      "casualties": "~400 allied; ~500 British + army captured",
+      "links": [
+        {
+          "label": "Wikipedia: Siege of Yorktown",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Yorktown"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "George Washington",
+          "side": 1,
+          "wiki": "George Washington"
+        },
+        {
+          "name": "Comte de Rochambeau",
+          "side": 1,
+          "wiki": "Jean-Baptiste Donatien de Vimeur, comte de Rochambeau"
+        },
+        {
+          "name": "Lord Cornwallis",
+          "side": 2,
+          "wiki": "Charles Cornwallis, 1st Marquess Cornwallis"
+        }
+      ]
+    },
+    {
+      "id": "valmy",
+      "name": "Battle of Valmy",
+      "year": 1792,
+      "dateLabel": "20 September 1792",
+      "lat": 49.08,
+      "lon": 4.77,
+      "belligerents": {
+        "side1": "French Republic",
+        "side2": "Prussia & allies"
+      },
+      "victor": "French victory",
+      "outcome": "Prussian advance on Paris halted by an artillery duel.",
+      "significance": "A morale-defining victory that saved the French Revolution; the Republic was declared the next day.",
+      "casualties": "~300 French; ~180 Prussian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Valmy",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Valmy"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles François Dumouriez",
+          "side": 1,
+          "wiki": "Charles François Dumouriez"
+        },
+        {
+          "name": "François Christophe Kellermann",
+          "side": 1,
+          "wiki": "François Christophe Kellermann"
+        },
+        {
+          "name": "Duke of Brunswick",
+          "side": 2,
+          "wiki": "Charles William Ferdinand, Duke of Brunswick"
+        }
+      ]
+    },
+    {
+      "id": "trafalgar",
+      "name": "Battle of Trafalgar",
+      "year": 1805,
+      "dateLabel": "21 October 1805",
+      "lat": 36.27,
+      "lon": -6.27,
+      "belligerents": {
+        "side1": "Royal Navy (Nelson)",
+        "side2": "Franco-Spanish fleet"
+      },
+      "victor": "British victory",
+      "outcome": "Franco-Spanish fleet destroyed; Nelson killed.",
+      "significance": "Confirmed British naval supremacy for over a century and ended Napoleon's hopes of invading Britain.",
+      "casualties": "~1,700 British; ~13,000+ Franco-Spanish",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Trafalgar",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Trafalgar"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Horatio Nelson",
+          "side": 1,
+          "wiki": "Horatio Nelson"
+        },
+        {
+          "name": "Pierre-Charles Villeneuve",
+          "side": 2,
+          "wiki": "Pierre-Charles Villeneuve"
+        }
+      ]
+    },
+    {
+      "id": "austerlitz",
+      "name": "Battle of Austerlitz",
+      "year": 1805,
+      "dateLabel": "2 December 1805",
+      "lat": 49.13,
+      "lon": 16.76,
+      "belligerents": {
+        "side1": "French Empire (Napoleon)",
+        "side2": "Russia & Austria"
+      },
+      "victor": "French victory",
+      "outcome": "The allied army was split and routed.",
+      "significance": "Napoleon's tactical masterpiece — the 'Battle of the Three Emperors' shattered the Third Coalition.",
+      "casualties": "~9,000 French; ~36,000 allied",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Austerlitz",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Austerlitz"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Napoleon",
+          "side": 1,
+          "wiki": "Napoleon"
+        },
+        {
+          "name": "Alexander I of Russia",
+          "side": 2,
+          "wiki": "Alexander I of Russia"
+        },
+        {
+          "name": "Mikhail Kutuzov",
+          "side": 2,
+          "wiki": "Mikhail Kutuzov"
+        }
+      ]
+    },
+    {
+      "id": "borodino",
+      "name": "Battle of Borodino",
+      "year": 1812,
+      "dateLabel": "7 September 1812",
+      "lat": 55.52,
+      "lon": 35.82,
+      "belligerents": {
+        "side1": "French Empire (Napoleon)",
+        "side2": "Russia (Kutuzov)"
+      },
+      "victor": "French tactical victory",
+      "outcome": "Russians withdrew; Moscow soon abandoned.",
+      "significance": "The bloodiest single day of the Napoleonic Wars; a Pyrrhic victory before the catastrophic French retreat from Russia.",
+      "casualties": "~30,000 French; ~45,000 Russian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Borodino",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Borodino"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Napoleon",
+          "side": 1,
+          "wiki": "Napoleon"
+        },
+        {
+          "name": "Mikhail Kutuzov",
+          "side": 2,
+          "wiki": "Mikhail Kutuzov"
+        }
+      ]
+    },
+    {
+      "id": "leipzig",
+      "name": "Battle of Leipzig",
+      "year": 1813,
+      "dateLabel": "16–19 October 1813",
+      "lat": 51.32,
+      "lon": 12.41,
+      "belligerents": {
+        "side1": "Sixth Coalition",
+        "side2": "French Empire (Napoleon)"
+      },
+      "victor": "Coalition victory",
+      "outcome": "Napoleon decisively defeated and driven out of Germany.",
+      "significance": "The 'Battle of Nations' was the largest battle in Europe before WWI and broke Napoleon's grip on the continent.",
+      "casualties": "~54,000 Coalition; ~73,000 French",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Leipzig",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Leipzig"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Prince Schwarzenberg",
+          "side": 1,
+          "wiki": "Karl Philipp, Prince of Schwarzenberg"
+        },
+        {
+          "name": "Gebhard von Blücher",
+          "side": 1,
+          "wiki": "Gebhard Leberecht von Blücher"
+        },
+        {
+          "name": "Napoleon",
+          "side": 2,
+          "wiki": "Napoleon"
+        }
+      ]
+    },
+    {
+      "id": "waterloo",
+      "name": "Battle of Waterloo",
+      "year": 1815,
+      "dateLabel": "18 June 1815",
+      "lat": 50.68,
+      "lon": 4.412,
+      "belligerents": {
+        "side1": "Seventh Coalition (Wellington & Blücher)",
+        "side2": "French Empire (Napoleon)"
+      },
+      "victor": "Coalition victory",
+      "outcome": "Napoleon's final defeat; he abdicated days later.",
+      "significance": "Ended the Napoleonic Wars and a quarter-century of conflict, ushering in a century of relative European peace.",
+      "casualties": "~24,000 Coalition; ~26,000 French",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Waterloo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Waterloo"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Duke of Wellington",
+          "side": 1,
+          "wiki": "Arthur Wellesley, 1st Duke of Wellington"
+        },
+        {
+          "name": "Gebhard von Blücher",
+          "side": 1,
+          "wiki": "Gebhard Leberecht von Blücher"
+        },
+        {
+          "name": "Napoleon",
+          "side": 2,
+          "wiki": "Napoleon"
+        }
+      ]
+    },
+    {
+      "id": "antietam",
+      "name": "Battle of Antietam",
+      "year": 1862,
+      "dateLabel": "17 September 1862",
+      "lat": 39.47,
+      "lon": -77.74,
+      "belligerents": {
+        "side1": "Union (McClellan)",
+        "side2": "Confederacy (Lee)"
+      },
+      "victor": "Union strategic victory",
+      "outcome": "Lee's invasion of the North turned back.",
+      "significance": "The bloodiest single day in American history; it gave Lincoln the moment to issue the Emancipation Proclamation.",
+      "casualties": "~22,700 total casualties",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Antietam",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Antietam"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "George B. McClellan",
+          "side": 1,
+          "wiki": "George B. McClellan"
+        },
+        {
+          "name": "Robert E. Lee",
+          "side": 2,
+          "wiki": "Robert E. Lee"
+        }
+      ]
+    },
+    {
+      "id": "gettysburg",
+      "name": "Battle of Gettysburg",
+      "year": 1863,
+      "dateLabel": "1–3 July 1863",
+      "lat": 39.81,
+      "lon": -77.23,
+      "belligerents": {
+        "side1": "Union (Meade)",
+        "side2": "Confederacy (Lee)"
+      },
+      "victor": "Union victory",
+      "outcome": "Lee's second invasion of the North decisively repelled.",
+      "significance": "The turning point of the American Civil War and its bloodiest battle, immortalised by Lincoln's Gettysburg Address.",
+      "casualties": "~23,000 Union; ~28,000 Confederate",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Gettysburg",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Gettysburg"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "George Meade",
+          "side": 1,
+          "wiki": "George Meade"
+        },
+        {
+          "name": "Robert E. Lee",
+          "side": 2,
+          "wiki": "Robert E. Lee"
+        }
+      ]
+    },
+    {
+      "id": "sedan",
+      "name": "Battle of Sedan",
+      "year": 1870,
+      "dateLabel": "1–2 September 1870",
+      "lat": 49.7,
+      "lon": 4.94,
+      "belligerents": {
+        "side1": "Prussia & German states",
+        "side2": "Second French Empire (Napoleon III)"
+      },
+      "victor": "Prussian victory",
+      "outcome": "Napoleon III captured with his army.",
+      "significance": "The decisive battle of the Franco-Prussian War; it toppled the French Empire and led to German unification.",
+      "casualties": "~9,000 German; ~17,000 French + ~100,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Sedan",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Sedan"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Helmuth von Moltke",
+          "side": 1,
+          "wiki": "Helmuth von Moltke the Elder"
+        },
+        {
+          "name": "Napoleon III",
+          "side": 2,
+          "wiki": "Napoleon III"
+        }
+      ]
+    },
+    {
+      "id": "tsushima",
+      "name": "Battle of Tsushima",
+      "year": 1905,
+      "dateLabel": "27–28 May 1905",
+      "lat": 34.6,
+      "lon": 129.5,
+      "belligerents": {
+        "side1": "Empire of Japan (Tōgō)",
+        "side2": "Russian Empire"
+      },
+      "victor": "Japanese victory",
+      "outcome": "The Russian Baltic Fleet annihilated.",
+      "significance": "A crushing naval victory that ended the Russo-Japanese War and announced Japan as a great power.",
+      "casualties": "~700 Japanese; ~5,000 Russian + fleet lost",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tsushima",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tsushima"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Tōgō Heihachirō",
+          "side": 1,
+          "wiki": "Tōgō Heihachirō"
+        },
+        {
+          "name": "Zinovy Rozhestvensky",
+          "side": 2,
+          "wiki": "Zinovy Rozhestvensky"
+        }
+      ]
+    },
+    {
+      "id": "gallipoli",
+      "name": "Gallipoli Campaign",
+      "year": 1915,
+      "dateLabel": "1915–1916",
+      "lat": 40.23,
+      "lon": 26.28,
+      "belligerents": {
+        "side1": "Allies (Britain, France, ANZAC)",
+        "side2": "Ottoman Empire & Germany"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "Allied landings failed; eventual withdrawal.",
+      "significance": "A costly Allied failure that became a defining national moment for Australia, New Zealand and Turkey.",
+      "casualties": "~250,000 Allied; ~250,000 Ottoman",
+      "links": [
+        {
+          "label": "Wikipedia: Gallipoli campaign",
+          "url": "https://en.wikipedia.org/wiki/Gallipoli_campaign"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ian Hamilton",
+          "side": 1,
+          "wiki": "Ian Hamilton (British Army officer)"
+        },
+        {
+          "name": "Mustafa Kemal Atatürk",
+          "side": 2,
+          "wiki": "Mustafa Kemal Atatürk"
+        },
+        {
+          "name": "Otto Liman von Sanders",
+          "side": 2,
+          "wiki": "Otto Liman von Sanders"
+        }
+      ]
+    },
+    {
+      "id": "verdun",
+      "name": "Battle of Verdun",
+      "year": 1916,
+      "dateLabel": "Feb–Dec 1916",
+      "lat": 49.21,
+      "lon": 5.42,
+      "belligerents": {
+        "side1": "France",
+        "side2": "German Empire"
+      },
+      "victor": "French defensive victory",
+      "outcome": "German offensive ground to a halt after months.",
+      "significance": "The longest battle of WWI and a symbol of the war's industrial-scale attrition ('They shall not pass').",
+      "casualties": "~700,000+ total casualties",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Verdun",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Verdun"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Philippe Pétain",
+          "side": 1,
+          "wiki": "Philippe Pétain"
+        },
+        {
+          "name": "Erich von Falkenhayn",
+          "side": 2,
+          "wiki": "Erich von Falkenhayn"
+        }
+      ]
+    },
+    {
+      "id": "somme",
+      "name": "Battle of the Somme",
+      "year": 1916,
+      "dateLabel": "Jul–Nov 1916",
+      "lat": 50,
+      "lon": 2.7,
+      "belligerents": {
+        "side1": "Britain & France",
+        "side2": "German Empire"
+      },
+      "victor": "Allied attritional gain",
+      "outcome": "Small territorial gains at staggering cost.",
+      "significance": "One of the bloodiest battles in history; its first day remains the deadliest in British Army history.",
+      "casualties": "~1,000,000+ total casualties",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Somme",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Somme"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Douglas Haig",
+          "side": 1,
+          "wiki": "Douglas Haig, 1st Earl Haig"
+        },
+        {
+          "name": "Erich von Falkenhayn",
+          "side": 2,
+          "wiki": "Erich von Falkenhayn"
+        }
+      ]
+    },
+    {
+      "id": "jutland",
+      "name": "Battle of Jutland",
+      "year": 1916,
+      "dateLabel": "31 May–1 June 1916",
+      "lat": 56.9,
+      "lon": 6,
+      "belligerents": {
+        "side1": "Royal Navy (Jellicoe)",
+        "side2": "German High Seas Fleet"
+      },
+      "victor": "Indecisive / British strategic",
+      "outcome": "Both fleets withdrew; British blockade held.",
+      "significance": "The largest naval battle of WWI; though tactically inconclusive, it kept the German fleet bottled up for the rest of the war.",
+      "casualties": "~6,800 British; ~3,000 German",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Jutland",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Jutland"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "John Jellicoe",
+          "side": 1,
+          "wiki": "John Jellicoe, 1st Earl Jellicoe"
+        },
+        {
+          "name": "Reinhard Scheer",
+          "side": 2,
+          "wiki": "Reinhard Scheer"
+        }
+      ]
+    },
+    {
+      "id": "britain-1940",
+      "name": "Battle of Britain",
+      "year": 1940,
+      "dateLabel": "Jul–Oct 1940",
+      "lat": 51.5,
+      "lon": 0.2,
+      "belligerents": {
+        "side1": "Royal Air Force",
+        "side2": "German Luftwaffe"
+      },
+      "victor": "British victory",
+      "outcome": "The planned German invasion of Britain was called off.",
+      "significance": "The first major campaign fought entirely in the air; the RAF's defence denied Germany the skies over Britain.",
+      "casualties": "~1,500 RAF aircrew; ~2,600 Luftwaffe",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Britain",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Britain"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hugh Dowding",
+          "side": 1,
+          "wiki": "Hugh Dowding, 1st Baron Dowding"
+        },
+        {
+          "name": "Hermann Göring",
+          "side": 2,
+          "wiki": "Hermann Göring"
+        }
+      ]
+    },
+    {
+      "id": "midway",
+      "name": "Battle of Midway",
+      "year": 1942,
+      "dateLabel": "4–7 June 1942",
+      "lat": 28.2,
+      "lon": -177.37,
+      "belligerents": {
+        "side1": "United States Navy",
+        "side2": "Imperial Japanese Navy"
+      },
+      "victor": "American victory",
+      "outcome": "Four Japanese aircraft carriers sunk.",
+      "significance": "The decisive turning point of the Pacific War, ending Japanese naval expansion six months after Pearl Harbor.",
+      "casualties": "~360 American; ~3,000 Japanese + 4 carriers",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Midway",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Midway"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Chester W. Nimitz",
+          "side": 1,
+          "wiki": "Chester W. Nimitz"
+        },
+        {
+          "name": "Raymond A. Spruance",
+          "side": 1,
+          "wiki": "Raymond A. Spruance"
+        },
+        {
+          "name": "Isoroku Yamamoto",
+          "side": 2,
+          "wiki": "Isoroku Yamamoto"
+        },
+        {
+          "name": "Chūichi Nagumo",
+          "side": 2,
+          "wiki": "Chūichi Nagumo"
+        }
+      ]
+    },
+    {
+      "id": "el-alamein",
+      "name": "Second Battle of El Alamein",
+      "year": 1942,
+      "dateLabel": "Oct–Nov 1942",
+      "lat": 30.9,
+      "lon": 28.95,
+      "belligerents": {
+        "side1": "Allies (Montgomery)",
+        "side2": "Axis (Rommel)"
+      },
+      "victor": "Allied victory",
+      "outcome": "Axis forces driven into retreat across North Africa.",
+      "significance": "A major turning point in the North African campaign — 'the end of the beginning' for the Allies.",
+      "casualties": "~13,500 Allied; ~30,000+ Axis",
+      "links": [
+        {
+          "label": "Wikipedia: Second Battle of El Alamein",
+          "url": "https://en.wikipedia.org/wiki/Second_Battle_of_El_Alamein"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bernard Montgomery",
+          "side": 1,
+          "wiki": "Bernard Montgomery, 1st Viscount Montgomery of Alamein"
+        },
+        {
+          "name": "Erwin Rommel",
+          "side": 2,
+          "wiki": "Erwin Rommel"
+        }
+      ]
+    },
+    {
+      "id": "stalingrad",
+      "name": "Battle of Stalingrad",
+      "year": 1942,
+      "dateLabel": "Aug 1942–Feb 1943",
+      "lat": 48.71,
+      "lon": 44.51,
+      "belligerents": {
+        "side1": "Soviet Union",
+        "side2": "Nazi Germany & Axis"
+      },
+      "victor": "Soviet victory",
+      "outcome": "An entire German army encircled and destroyed.",
+      "significance": "The bloodiest battle in history and the decisive turning point of WWII's Eastern Front.",
+      "casualties": "~1,100,000 Soviet; ~800,000 Axis (total)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Stalingrad",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Stalingrad"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Vasily Chuikov",
+          "side": 1,
+          "wiki": "Vasily Chuikov"
+        },
+        {
+          "name": "Georgy Zhukov",
+          "side": 1,
+          "wiki": "Georgy Zhukov"
+        },
+        {
+          "name": "Friedrich Paulus",
+          "side": 2,
+          "wiki": "Friedrich Paulus"
+        }
+      ]
+    },
+    {
+      "id": "kursk",
+      "name": "Battle of Kursk",
+      "year": 1943,
+      "dateLabel": "Jul–Aug 1943",
+      "lat": 51.3,
+      "lon": 36.1,
+      "belligerents": {
+        "side1": "Soviet Union",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Soviet victory",
+      "outcome": "The last major German offensive in the East failed.",
+      "significance": "The largest tank battle in history; after Kursk the strategic initiative on the Eastern Front passed permanently to the USSR.",
+      "casualties": "~200,000 Soviet; ~50,000+ German",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Kursk",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Kursk"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Georgy Zhukov",
+          "side": 1,
+          "wiki": "Georgy Zhukov"
+        },
+        {
+          "name": "Erich von Manstein",
+          "side": 2,
+          "wiki": "Erich von Manstein"
+        }
+      ]
+    },
+    {
+      "id": "d-day",
+      "name": "D-Day (Normandy Landings)",
+      "year": 1944,
+      "dateLabel": "6 June 1944",
+      "lat": 49.34,
+      "lon": -0.45,
+      "belligerents": {
+        "side1": "Allies (Eisenhower)",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Allied victory",
+      "outcome": "Allied armies established a foothold in occupied France.",
+      "significance": "The largest seaborne invasion in history opened the Western Front and began the liberation of Western Europe.",
+      "casualties": "~10,000 Allied casualties on the first day",
+      "links": [
+        {
+          "label": "Wikipedia: Normandy landings",
+          "url": "https://en.wikipedia.org/wiki/Normandy_landings"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Dwight D. Eisenhower",
+          "side": 1,
+          "wiki": "Dwight D. Eisenhower"
+        },
+        {
+          "name": "Bernard Montgomery",
+          "side": 1,
+          "wiki": "Bernard Montgomery, 1st Viscount Montgomery of Alamein"
+        },
+        {
+          "name": "Erwin Rommel",
+          "side": 2,
+          "wiki": "Erwin Rommel"
+        },
+        {
+          "name": "Gerd von Rundstedt",
+          "side": 2,
+          "wiki": "Gerd von Rundstedt"
+        }
+      ]
+    },
+    {
+      "id": "berlin-1945",
+      "name": "Battle of Berlin",
+      "year": 1945,
+      "dateLabel": "Apr–May 1945",
+      "lat": 52.52,
+      "lon": 13.4,
+      "belligerents": {
+        "side1": "Soviet Union",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Soviet victory",
+      "outcome": "Berlin captured; Hitler died; Germany surrendered.",
+      "significance": "The final major battle in Europe, ending the Third Reich and the Second World War on the continent.",
+      "casualties": "~80,000 Soviet; ~100,000+ German (total)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Berlin",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Berlin"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Georgy Zhukov",
+          "side": 1,
+          "wiki": "Georgy Zhukov"
+        },
+        {
+          "name": "Ivan Konev",
+          "side": 1,
+          "wiki": "Ivan Konev"
+        },
+        {
+          "name": "Helmuth Weidling",
+          "side": 2,
+          "wiki": "Helmuth Weidling"
+        }
+      ]
+    },
+    {
+      "id": "megiddo-1457bce",
+      "name": "Battle of Megiddo",
+      "year": -1457,
+      "dateLabel": "c. 1457 BCE",
+      "lat": 32.585,
+      "lon": 35.183,
+      "belligerents": {
+        "side1": "New Kingdom Egypt (Thutmose III)",
+        "side2": "Canaanite coalition"
+      },
+      "victor": "Egyptian victory",
+      "outcome": "Canaanite coalition besieged and defeated at Megiddo.",
+      "significance": "The earliest battle recorded with reliable detail, and the origin of the name 'Armageddon' (Har Megiddo).",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Megiddo (15th c. BC)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Megiddo_(15th_century_BC)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Thutmose III",
+          "side": 1,
+          "wiki": "Thutmose III"
+        },
+        {
+          "name": "King of Kadesh",
+          "side": 2,
+          "wiki": "Battle of Megiddo (15th century BC)",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
+      "id": "plataea",
+      "name": "Battle of Plataea",
+      "year": -479,
+      "dateLabel": "479 BCE",
+      "lat": 38.22,
+      "lon": 23.27,
+      "belligerents": {
+        "side1": "Greek alliance",
+        "side2": "Achaemenid Persia"
+      },
+      "victor": "Greek victory",
+      "outcome": "The Persian land army in Greece was destroyed.",
+      "significance": "The decisive land battle that ended the Persian invasion of Greece for good.",
+      "casualties": "Thousands Greek; tens of thousands Persian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Plataea",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Plataea"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Pausanias",
+          "side": 1,
+          "wiki": "Pausanias (general)"
+        },
+        {
+          "name": "Mardonius",
+          "side": 2,
+          "wiki": "Mardonius"
+        }
+      ]
+    },
+    {
+      "id": "issus",
+      "name": "Battle of Issus",
+      "year": -333,
+      "dateLabel": "333 BCE",
+      "lat": 36.85,
+      "lon": 36.18,
+      "belligerents": {
+        "side1": "Macedon (Alexander the Great)",
+        "side2": "Achaemenid Persia (Darius III)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Darius fled the field, abandoning his family.",
+      "significance": "Alexander's first direct victory over Darius, opening the Levant and Egypt to conquest.",
+      "casualties": "~7,000 Macedonian; heavy Persian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Issus",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Issus"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Darius III",
+          "side": 2,
+          "wiki": "Darius III"
+        }
+      ]
+    },
+    {
+      "id": "hydaspes",
+      "name": "Battle of the Hydaspes",
+      "year": -326,
+      "dateLabel": "326 BCE",
+      "lat": 32.5,
+      "lon": 73.6,
+      "belligerents": {
+        "side1": "Macedon (Alexander)",
+        "side2": "Paurava kingdom (Porus)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Porus defeated despite war elephants; Alexander's eastward limit.",
+      "significance": "Alexander's last great battle, at the edge of the known world, against war elephants in India.",
+      "casualties": "~1,000 Macedonian; ~12,000 Indian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Hydaspes",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Hydaspes"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Porus",
+          "side": 2,
+          "wiki": "Porus"
+        }
+      ]
+    },
+    {
+      "id": "alesia",
+      "name": "Siege of Alesia",
+      "year": -52,
+      "dateLabel": "52 BCE",
+      "lat": 47.54,
+      "lon": 4.5,
+      "belligerents": {
+        "side1": "Roman Republic (Julius Caesar)",
+        "side2": "Gallic confederation (Vercingetorix)"
+      },
+      "victor": "Roman victory",
+      "outcome": "Vercingetorix surrendered; Gaul was subdued.",
+      "significance": "Caesar's double-siege masterpiece completed the Roman conquest of Gaul.",
+      "casualties": "Heavy Gallic losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Alesia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Alesia"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Julius Caesar",
+          "side": 1,
+          "wiki": "Julius Caesar"
+        },
+        {
+          "name": "Vercingetorix",
+          "side": 2,
+          "wiki": "Vercingetorix"
+        }
+      ]
+    },
+    {
+      "id": "carrhae",
+      "name": "Battle of Carrhae",
+      "year": -53,
+      "dateLabel": "53 BCE",
+      "lat": 36.86,
+      "lon": 39.03,
+      "belligerents": {
+        "side1": "Parthian Empire",
+        "side2": "Roman Republic (Crassus)"
+      },
+      "victor": "Parthian victory",
+      "outcome": "A Roman army destroyed by horse archers; Crassus killed.",
+      "significance": "One of Rome's worst defeats, exposing the limits of the legion against mobile cavalry.",
+      "casualties": "~20,000 Roman dead, ~10,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Carrhae",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Carrhae"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Surena",
+          "side": 1,
+          "wiki": "Surena"
+        },
+        {
+          "name": "Marcus Licinius Crassus",
+          "side": 2,
+          "wiki": "Marcus Licinius Crassus"
+        }
+      ]
+    },
+    {
+      "id": "milvian-bridge",
+      "name": "Battle of the Milvian Bridge",
+      "year": 312,
+      "dateLabel": "312 CE",
+      "lat": 41.935,
+      "lon": 12.467,
+      "belligerents": {
+        "side1": "Constantine I",
+        "side2": "Maxentius"
+      },
+      "victor": "Constantine's victory",
+      "outcome": "Maxentius drowned in the Tiber; Constantine took Rome.",
+      "significance": "Led Constantine to embrace Christianity, changing the religious course of the Roman Empire and Europe.",
+      "casualties": "Thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Milvian Bridge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Milvian_Bridge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Constantine I",
+          "side": 1,
+          "wiki": "Constantine the Great"
+        },
+        {
+          "name": "Maxentius",
+          "side": 2,
+          "wiki": "Maxentius"
+        }
+      ]
+    },
+    {
+      "id": "adrianople-378",
+      "name": "Battle of Adrianople",
+      "year": 378,
+      "dateLabel": "378 CE",
+      "lat": 41.68,
+      "lon": 26.56,
+      "belligerents": {
+        "side1": "Goths",
+        "side2": "Eastern Roman Empire (Valens)"
+      },
+      "victor": "Gothic victory",
+      "outcome": "Emperor Valens killed and his army destroyed.",
+      "significance": "A catastrophic Roman defeat often seen as a milestone in the decline of the Western Roman Empire.",
+      "casualties": "~20,000 Roman dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Adrianople",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Adrianople"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Fritigern",
+          "side": 1,
+          "wiki": "Fritigern"
+        },
+        {
+          "name": "Valens",
+          "side": 2,
+          "wiki": "Valens"
+        }
+      ]
+    },
+    {
+      "id": "chalons",
+      "name": "Battle of the Catalaunian Plains",
+      "year": 451,
+      "dateLabel": "451 CE",
+      "lat": 48.95,
+      "lon": 4.36,
+      "belligerents": {
+        "side1": "Roman–Visigoth alliance (Aetius)",
+        "side2": "Huns (Attila)"
+      },
+      "victor": "Roman alliance victory",
+      "outcome": "Attila's westward advance was checked.",
+      "significance": "Halted Attila the Hun's invasion of Gaul, one of the last great victories of the Western Roman Empire.",
+      "casualties": "Very heavy on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Catalaunian Plains",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Catalaunian_Plains"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Flavius Aetius",
+          "side": 1,
+          "wiki": "Flavius Aetius"
+        },
+        {
+          "name": "Theodoric I",
+          "side": 1,
+          "wiki": "Theodoric I"
+        },
+        {
+          "name": "Attila",
+          "side": 2,
+          "wiki": "Attila"
+        }
+      ]
+    },
+    {
+      "id": "stamford-bridge",
+      "name": "Battle of Stamford Bridge",
+      "year": 1066,
+      "dateLabel": "25 September 1066",
+      "lat": 53.99,
+      "lon": -0.91,
+      "belligerents": {
+        "side1": "England (Harold Godwinson)",
+        "side2": "Norway (Harald Hardrada)"
+      },
+      "victor": "English victory",
+      "outcome": "The Norwegian invasion was crushed; Hardrada killed.",
+      "significance": "Ended the Viking Age in England — days before Harold marched south to meet William at Hastings.",
+      "casualties": "Heavy Norwegian losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Stamford Bridge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Stamford_Bridge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Harold Godwinson",
+          "side": 1,
+          "wiki": "Harold Godwinson"
+        },
+        {
+          "name": "Harald Hardrada",
+          "side": 2,
+          "wiki": "Harald Hardrada"
+        }
+      ]
+    },
+    {
+      "id": "bannockburn",
+      "name": "Battle of Bannockburn",
+      "year": 1314,
+      "dateLabel": "1314 CE",
+      "lat": 56.09,
+      "lon": -3.93,
+      "belligerents": {
+        "side1": "Scotland (Robert the Bruce)",
+        "side2": "England (Edward II)"
+      },
+      "victor": "Scottish victory",
+      "outcome": "A larger English army routed.",
+      "significance": "Secured Scottish independence for a generation and became a national symbol.",
+      "casualties": "Heavy English losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bannockburn",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bannockburn"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Robert the Bruce",
+          "side": 1,
+          "wiki": "Robert the Bruce"
+        },
+        {
+          "name": "Edward II",
+          "side": 2,
+          "wiki": "Edward II of England"
+        }
+      ]
+    },
+    {
+      "id": "crecy",
+      "name": "Battle of Crécy",
+      "year": 1346,
+      "dateLabel": "26 August 1346",
+      "lat": 50.25,
+      "lon": 1.9,
+      "belligerents": {
+        "side1": "England (Edward III)",
+        "side2": "France (Philip VI)"
+      },
+      "victor": "English victory",
+      "outcome": "French cavalry shattered by English longbows.",
+      "significance": "An early, decisive English victory of the Hundred Years' War that announced the dominance of the longbow.",
+      "casualties": "~300 English; ~12,000 French",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Crécy",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Edward III",
+          "side": 1,
+          "wiki": "Edward III of England"
+        },
+        {
+          "name": "Philip VI",
+          "side": 2,
+          "wiki": "Philip VI of France"
+        }
+      ]
+    },
+    {
+      "id": "grunwald",
+      "name": "Battle of Grunwald (Tannenberg)",
+      "year": 1410,
+      "dateLabel": "15 July 1410",
+      "lat": 53.49,
+      "lon": 20.12,
+      "belligerents": {
+        "side1": "Poland–Lithuania",
+        "side2": "Teutonic Knights"
+      },
+      "victor": "Polish–Lithuanian victory",
+      "outcome": "The Teutonic Order's army destroyed.",
+      "significance": "One of the largest battles of medieval Europe; it broke the power of the Teutonic Knights.",
+      "casualties": "~8,000 Teutonic dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Grunwald",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Grunwald"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Władysław II Jagiełło",
+          "side": 1,
+          "wiki": "Władysław II Jagiełło"
+        },
+        {
+          "name": "Vytautas",
+          "side": 1,
+          "wiki": "Vytautas the Great"
+        },
+        {
+          "name": "Ulrich von Jungingen",
+          "side": 2,
+          "wiki": "Ulrich von Jungingen"
+        }
+      ]
+    },
+    {
+      "id": "tenochtitlan",
+      "name": "Fall of Tenochtitlan",
+      "year": 1521,
+      "dateLabel": "1521 CE",
+      "lat": 19.435,
+      "lon": -99.14,
+      "belligerents": {
+        "side1": "Spanish & Tlaxcalan allies (Cortés)",
+        "side2": "Aztec Empire (Cuauhtémoc)"
+      },
+      "victor": "Spanish–Tlaxcalan victory",
+      "outcome": "The Aztec capital fell after a brutal siege.",
+      "significance": "Ended the Aztec Empire and began Spanish rule in Mexico — a turning point of the Columbian era.",
+      "casualties": "Tens of thousands (mostly Aztec, incl. disease)",
+      "links": [
+        {
+          "label": "Wikipedia: Fall of Tenochtitlan",
+          "url": "https://en.wikipedia.org/wiki/Fall_of_Tenochtitlan"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hernán Cortés",
+          "side": 1,
+          "wiki": "Hernán Cortés"
+        },
+        {
+          "name": "Cuauhtémoc",
+          "side": 2,
+          "wiki": "Cuauhtémoc"
+        }
+      ]
+    },
+    {
+      "id": "mohacs",
+      "name": "Battle of Mohács",
+      "year": 1526,
+      "dateLabel": "29 August 1526",
+      "lat": 45.98,
+      "lon": 18.65,
+      "belligerents": {
+        "side1": "Ottoman Empire (Suleiman)",
+        "side2": "Kingdom of Hungary"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "The Hungarian king and army destroyed.",
+      "significance": "Opened central Europe to Ottoman expansion and ended independent medieval Hungary.",
+      "casualties": "~14,000+ Hungarian dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Mohács",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Moh%C3%A1cs"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Suleiman the Magnificent",
+          "side": 1,
+          "wiki": "Suleiman the Magnificent"
+        },
+        {
+          "name": "Louis II of Hungary",
+          "side": 2,
+          "wiki": "Louis II of Hungary"
+        }
+      ]
+    },
+    {
+      "id": "panipat-1526",
+      "name": "First Battle of Panipat",
+      "year": 1526,
+      "dateLabel": "1526 CE",
+      "lat": 29.39,
+      "lon": 76.97,
+      "belligerents": {
+        "side1": "Mughals (Babur)",
+        "side2": "Delhi Sultanate (Ibrahim Lodi)"
+      },
+      "victor": "Mughal victory",
+      "outcome": "Lodi killed; Babur took Delhi.",
+      "significance": "Founded the Mughal Empire in India, partly through early use of gunpowder artillery.",
+      "casualties": "~15,000+ Lodi dead",
+      "links": [
+        {
+          "label": "Wikipedia: First Battle of Panipat",
+          "url": "https://en.wikipedia.org/wiki/First_Battle_of_Panipat"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Babur",
+          "side": 1,
+          "wiki": "Babur"
+        },
+        {
+          "name": "Ibrahim Lodi",
+          "side": 2,
+          "wiki": "Ibrahim Lodi"
+        }
+      ]
+    },
+    {
+      "id": "spanish-armada",
+      "name": "Defeat of the Spanish Armada",
+      "year": 1588,
+      "dateLabel": "1588 CE",
+      "lat": 50.7,
+      "lon": -0.8,
+      "belligerents": {
+        "side1": "England",
+        "side2": "Spain"
+      },
+      "victor": "English victory",
+      "outcome": "The Armada scattered and wrecked on the voyage home.",
+      "significance": "A pivotal moment that checked Spanish power and bolstered England as a naval nation.",
+      "casualties": "~15,000 Spanish (mostly storms/disease)",
+      "links": [
+        {
+          "label": "Wikipedia: Spanish Armada",
+          "url": "https://en.wikipedia.org/wiki/Spanish_Armada"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles Howard",
+          "side": 1,
+          "wiki": "Charles Howard, 1st Earl of Nottingham"
+        },
+        {
+          "name": "Francis Drake",
+          "side": 1,
+          "wiki": "Francis Drake"
+        },
+        {
+          "name": "Duke of Medina Sidonia",
+          "side": 2,
+          "wiki": "Alonso Pérez de Guzmán, 7th Duke of Medina Sidonia"
+        }
+      ]
+    },
+    {
+      "id": "naseby",
+      "name": "Battle of Naseby",
+      "year": 1645,
+      "dateLabel": "14 June 1645",
+      "lat": 52.4,
+      "lon": -0.99,
+      "belligerents": {
+        "side1": "Parliament (New Model Army)",
+        "side2": "Royalists (Charles I)"
+      },
+      "victor": "Parliamentary victory",
+      "outcome": "The main Royalist army destroyed.",
+      "significance": "The decisive battle of the English Civil War, sealing the defeat of Charles I.",
+      "casualties": "~1,000 dead; thousands captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Naseby",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Naseby"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Thomas Fairfax",
+          "side": 1,
+          "wiki": "Thomas Fairfax, 3rd Lord Fairfax of Cameron"
+        },
+        {
+          "name": "Oliver Cromwell",
+          "side": 1,
+          "wiki": "Oliver Cromwell"
+        },
+        {
+          "name": "Charles I",
+          "side": 2,
+          "wiki": "Charles I of England"
+        },
+        {
+          "name": "Prince Rupert",
+          "side": 2,
+          "wiki": "Prince Rupert of the Rhine"
+        }
+      ]
+    },
+    {
+      "id": "plains-of-abraham",
+      "name": "Battle of the Plains of Abraham",
+      "year": 1759,
+      "dateLabel": "13 September 1759",
+      "lat": 46.8,
+      "lon": -71.22,
+      "belligerents": {
+        "side1": "Great Britain (Wolfe)",
+        "side2": "France (Montcalm)"
+      },
+      "victor": "British victory",
+      "outcome": "Quebec fell; both commanders died.",
+      "significance": "Decided the fate of New France and set North America on a British path.",
+      "casualties": "~650 each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Plains of Abraham",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Plains_of_Abraham"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "James Wolfe",
+          "side": 1,
+          "wiki": "James Wolfe"
+        },
+        {
+          "name": "Marquis de Montcalm",
+          "side": 2,
+          "wiki": "Louis-Joseph de Montcalm"
+        }
+      ]
+    },
+    {
+      "id": "culloden",
+      "name": "Battle of Culloden",
+      "year": 1746,
+      "dateLabel": "16 April 1746",
+      "lat": 57.48,
+      "lon": -4.1,
+      "belligerents": {
+        "side1": "British government",
+        "side2": "Jacobites (Charles Edward Stuart)"
+      },
+      "victor": "Government victory",
+      "outcome": "The Jacobite rising crushed in under an hour.",
+      "significance": "The last pitched battle on British soil; it ended the Jacobite cause and the clan system.",
+      "casualties": "~50 government; ~1,500 Jacobite",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Culloden",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Culloden"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Duke of Cumberland",
+          "side": 1,
+          "wiki": "Prince William, Duke of Cumberland"
+        },
+        {
+          "name": "Charles Edward Stuart",
+          "side": 2,
+          "wiki": "Charles Edward Stuart"
+        }
+      ]
+    },
+    {
+      "id": "jena-auerstedt",
+      "name": "Battle of Jena–Auerstedt",
+      "year": 1806,
+      "dateLabel": "14 October 1806",
+      "lat": 50.93,
+      "lon": 11.58,
+      "belligerents": {
+        "side1": "French Empire (Napoleon)",
+        "side2": "Prussia"
+      },
+      "victor": "French victory",
+      "outcome": "The Prussian army shattered in a single day.",
+      "significance": "Demonstrated French military supremacy and brought Prussia to its knees.",
+      "casualties": "~7,000 French; ~25,000 Prussian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Jena–Auerstedt",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Jena%E2%80%93Auerstedt"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Napoleon",
+          "side": 1,
+          "wiki": "Napoleon"
+        },
+        {
+          "name": "Louis-Nicolas Davout",
+          "side": 1,
+          "wiki": "Louis-Nicolas Davout"
+        },
+        {
+          "name": "Duke of Brunswick",
+          "side": 2,
+          "wiki": "Charles William Ferdinand, Duke of Brunswick"
+        },
+        {
+          "name": "Prince Hohenlohe",
+          "side": 2,
+          "wiki": "Frederick Louis, Prince of Hohenlohe-Ingelfingen"
+        }
+      ]
+    },
+    {
+      "id": "balaclava",
+      "name": "Battle of Balaclava",
+      "year": 1854,
+      "dateLabel": "25 October 1854",
+      "lat": 44.5,
+      "lon": 33.6,
+      "belligerents": {
+        "side1": "Britain, France, Ottomans",
+        "side2": "Russia"
+      },
+      "victor": "Indecisive",
+      "outcome": "Famous for the doomed Charge of the Light Brigade.",
+      "significance": "A Crimean War battle remembered for a heroic but disastrous cavalry charge.",
+      "casualties": "~600 in the Light Brigade charge",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Balaclava",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Balaclava"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lord Raglan",
+          "side": 1,
+          "wiki": "FitzRoy Somerset, 1st Baron Raglan"
+        },
+        {
+          "name": "Alexander Menshikov",
+          "side": 2,
+          "wiki": "Alexander Sergeyevich Menshikov"
+        }
+      ]
+    },
+    {
+      "id": "koniggratz",
+      "name": "Battle of Königgrätz",
+      "year": 1866,
+      "dateLabel": "3 July 1866",
+      "lat": 50.29,
+      "lon": 15.75,
+      "belligerents": {
+        "side1": "Prussia",
+        "side2": "Austria & Saxony"
+      },
+      "victor": "Prussian victory",
+      "outcome": "Austria decisively beaten.",
+      "significance": "Settled the leadership of Germany in Prussia's favour, a key step toward German unification.",
+      "casualties": "~9,000 Prussian; ~44,000 Austrian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Königgrätz",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_K%C3%B6niggr%C3%A4tz"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Helmuth von Moltke",
+          "side": 1,
+          "wiki": "Helmuth von Moltke the Elder"
+        },
+        {
+          "name": "Ludwig von Benedek",
+          "side": 2,
+          "wiki": "Ludwig von Benedek"
+        }
+      ]
+    },
+    {
+      "id": "little-bighorn",
+      "name": "Battle of the Little Bighorn",
+      "year": 1876,
+      "dateLabel": "25 June 1876",
+      "lat": 45.57,
+      "lon": -107.43,
+      "belligerents": {
+        "side1": "Lakota, Cheyenne & Arapaho",
+        "side2": "United States (Custer)"
+      },
+      "victor": "Native American victory",
+      "outcome": "Custer and his command annihilated.",
+      "significance": "A famous Native American victory ('Custer's Last Stand') during the Great Sioux War.",
+      "casualties": "~270 U.S. dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Little Bighorn",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Little_Bighorn"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Sitting Bull",
+          "side": 1,
+          "wiki": "Sitting Bull"
+        },
+        {
+          "name": "Crazy Horse",
+          "side": 1,
+          "wiki": "Crazy Horse"
+        },
+        {
+          "name": "George Armstrong Custer",
+          "side": 2,
+          "wiki": "George Armstrong Custer"
+        }
+      ]
+    },
+    {
+      "id": "adwa",
+      "name": "Battle of Adwa",
+      "year": 1896,
+      "dateLabel": "1 March 1896",
+      "lat": 14.17,
+      "lon": 38.9,
+      "belligerents": {
+        "side1": "Ethiopian Empire (Menelik II)",
+        "side2": "Kingdom of Italy"
+      },
+      "victor": "Ethiopian victory",
+      "outcome": "The Italian invasion army defeated.",
+      "significance": "A landmark victory of an African state over a European colonial power, securing Ethiopian independence.",
+      "casualties": "~7,000 Italian; ~5,000 Ethiopian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Adwa",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Adwa"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Menelik II",
+          "side": 1,
+          "wiki": "Menelik II"
+        },
+        {
+          "name": "Oreste Baratieri",
+          "side": 2,
+          "wiki": "Oreste Baratieri"
+        }
+      ]
+    },
+    {
+      "id": "marne-1914",
+      "name": "First Battle of the Marne",
+      "year": 1914,
+      "dateLabel": "Sept 1914",
+      "lat": 48.96,
+      "lon": 3.4,
+      "belligerents": {
+        "side1": "France & Britain",
+        "side2": "German Empire"
+      },
+      "victor": "Allied victory",
+      "outcome": "The German advance on Paris was halted and reversed.",
+      "significance": "Ended Germany's hopes of a quick victory and began the long stalemate of trench warfare.",
+      "casualties": "~250,000 each side",
+      "links": [
+        {
+          "label": "Wikipedia: First Battle of the Marne",
+          "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Marne"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Joseph Joffre",
+          "side": 1,
+          "wiki": "Joseph Joffre"
+        },
+        {
+          "name": "Helmuth von Moltke the Younger",
+          "side": 2,
+          "wiki": "Helmuth von Moltke the Younger"
+        }
+      ]
+    },
+    {
+      "id": "pearl-harbor",
+      "name": "Attack on Pearl Harbor",
+      "year": 1941,
+      "dateLabel": "7 December 1941",
+      "lat": 21.36,
+      "lon": -157.97,
+      "belligerents": {
+        "side1": "Empire of Japan",
+        "side2": "United States"
+      },
+      "victor": "Japanese tactical victory",
+      "outcome": "The U.S. Pacific Fleet battleships crippled in a surprise attack.",
+      "significance": "Brought the United States into World War II.",
+      "casualties": "~2,400 American dead",
+      "links": [
+        {
+          "label": "Wikipedia: Attack on Pearl Harbor",
+          "url": "https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Isoroku Yamamoto",
+          "side": 1,
+          "wiki": "Isoroku Yamamoto"
+        },
+        {
+          "name": "Chūichi Nagumo",
+          "side": 1,
+          "wiki": "Chūichi Nagumo"
+        },
+        {
+          "name": "Husband E. Kimmel",
+          "side": 2,
+          "wiki": "Husband E. Kimmel"
+        }
+      ]
+    },
+    {
+      "id": "leyte-gulf",
+      "name": "Battle of Leyte Gulf",
+      "year": 1944,
+      "dateLabel": "Oct 1944",
+      "lat": 11,
+      "lon": 125.5,
+      "belligerents": {
+        "side1": "United States & Australia",
+        "side2": "Empire of Japan"
+      },
+      "victor": "Allied victory",
+      "outcome": "The Japanese navy was crippled as a fighting force.",
+      "significance": "Generally considered the largest naval battle in history; it sealed Japan's naval defeat.",
+      "casualties": "~3,000 Allied; ~12,000 Japanese",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Leyte Gulf",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Leyte_Gulf"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "William Halsey Jr.",
+          "side": 1,
+          "wiki": "William Halsey Jr."
+        },
+        {
+          "name": "Thomas C. Kinkaid",
+          "side": 1,
+          "wiki": "Thomas C. Kinkaid"
+        },
+        {
+          "name": "Takeo Kurita",
+          "side": 2,
+          "wiki": "Takeo Kurita"
+        }
+      ]
+    },
+    {
+      "id": "bulge",
+      "name": "Battle of the Bulge",
+      "year": 1944,
+      "dateLabel": "Dec 1944–Jan 1945",
+      "lat": 50.15,
+      "lon": 5.9,
+      "belligerents": {
+        "side1": "Allies (mainly U.S.)",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Allied victory",
+      "outcome": "Germany's last major western offensive failed.",
+      "significance": "The costliest single battle for U.S. forces in WWII; it exhausted Germany's reserves in the west.",
+      "casualties": "~90,000 U.S.; ~100,000 German",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Bulge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Dwight D. Eisenhower",
+          "side": 1,
+          "wiki": "Dwight D. Eisenhower"
+        },
+        {
+          "name": "George S. Patton",
+          "side": 1,
+          "wiki": "George S. Patton"
+        },
+        {
+          "name": "Gerd von Rundstedt",
+          "side": 2,
+          "wiki": "Gerd von Rundstedt"
+        },
+        {
+          "name": "Walter Model",
+          "side": 2,
+          "wiki": "Walter Model"
+        }
+      ]
+    },
+    {
+      "id": "inchon",
+      "name": "Battle of Inchon",
+      "year": 1950,
+      "dateLabel": "September 1950",
+      "lat": 37.48,
+      "lon": 126.63,
+      "belligerents": {
+        "side1": "United Nations (MacArthur)",
+        "side2": "North Korea"
+      },
+      "victor": "UN victory",
+      "outcome": "A daring amphibious landing turned the Korean War.",
+      "significance": "Reversed the course of the Korean War almost overnight by cutting off North Korean forces.",
+      "casualties": "~600 UN; thousands North Korean",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Inchon",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Inchon"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Douglas MacArthur",
+          "side": 1,
+          "wiki": "Douglas MacArthur"
+        },
+        {
+          "name": "Kim Il Sung",
+          "side": 2,
+          "wiki": "Kim Il Sung"
+        }
+      ]
+    },
+    {
+      "id": "dien-bien-phu",
+      "name": "Battle of Dien Bien Phu",
+      "year": 1954,
+      "dateLabel": "1954 CE",
+      "lat": 21.39,
+      "lon": 103.02,
+      "belligerents": {
+        "side1": "Viet Minh (Giáp)",
+        "side2": "France"
+      },
+      "victor": "Viet Minh victory",
+      "outcome": "The French garrison besieged and forced to surrender.",
+      "significance": "Ended French colonial rule in Indochina and led to the division of Vietnam.",
+      "casualties": "~2,200 French dead; ~8,000 Viet Minh",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Dien Bien Phu",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Dien_Bien_Phu"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Võ Nguyên Giáp",
+          "side": 1,
+          "wiki": "Võ Nguyên Giáp"
+        },
+        {
+          "name": "Christian de Castries",
+          "side": 2,
+          "wiki": "Christian de Castries"
+        }
+      ]
+    }
+  ]
+}

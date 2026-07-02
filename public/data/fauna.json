@@ -1,0 +1,1359 @@
+{
+  "_comment": "Chronos Earth — prehistoric life. Each animal appears on the globe while the timeline is inside its range. lon/lat are a famous MODERN fossil locality; 'track' (filled by scripts/fetch-fauna-paleo.mjs via the GPlates Web Service, MERDITH2021 model) gives that point's reconstructed position at sampled times so the icon rides the drifting continents. fromMa = older bound, toMa = younger bound, in millions of years before present. Add an animal, then re-run: node scripts/fetch-fauna-paleo.mjs",
+  "fauna": [
+    {
+      "id": "trex",
+      "name": "Tyrannosaurus rex",
+      "emoji": "🦖",
+      "lon": -106.9,
+      "lat": 47.6,
+      "fromMa": 68,
+      "toMa": 66,
+      "region": "Hell Creek, Montana (USA)",
+      "blurb": "The most famous predator of all time — a 12-metre, bone-crushing giant of the very last age of dinosaurs.",
+      "wiki": "Tyrannosaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -67.6,
+          "lat": 54.47
+        },
+        {
+          "ma": 68,
+          "lon": -66.67,
+          "lat": 54.9
+        }
+      ]
+    },
+    {
+      "id": "triceratops",
+      "name": "Triceratops",
+      "emoji": "🦕",
+      "lon": -104.5,
+      "lat": 46,
+      "fromMa": 68,
+      "toMa": 66,
+      "region": "Hell Creek, Montana (USA)",
+      "blurb": "Three-horned, lorry-sized plant-eater that shared its world (and its fights) with T. rex.",
+      "wiki": "Triceratops",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -66.16,
+          "lat": 52.35
+        },
+        {
+          "ma": 68,
+          "lon": -65.24,
+          "lat": 52.77
+        }
+      ]
+    },
+    {
+      "id": "velociraptor",
+      "name": "Velociraptor",
+      "emoji": "🦖",
+      "lon": 103.5,
+      "lat": 44.1,
+      "fromMa": 75,
+      "toMa": 71,
+      "region": "Gobi Desert, Mongolia",
+      "blurb": "A turkey-sized, feathered hunter — far smaller than the movies, but with a famous sickle claw.",
+      "wiki": "Velociraptor",
+      "track": [
+        {
+          "ma": 71,
+          "lon": 100.37,
+          "lat": 44.01
+        },
+        {
+          "ma": 75,
+          "lon": 101.64,
+          "lat": 44.68
+        }
+      ]
+    },
+    {
+      "id": "spinosaurus",
+      "name": "Spinosaurus",
+      "emoji": "🐊",
+      "lon": -4,
+      "lat": 31,
+      "fromMa": 99,
+      "toMa": 93,
+      "region": "Kem Kem, Morocco",
+      "blurb": "A sail-backed, river-hunting giant — possibly the longest predatory dinosaur ever.",
+      "wiki": "Spinosaurus",
+      "track": [
+        {
+          "ma": 93,
+          "lon": 5.58,
+          "lat": 21.13
+        },
+        {
+          "ma": 99,
+          "lon": 6.99,
+          "lat": 21.81
+        }
+      ]
+    },
+    {
+      "id": "brachiosaurus",
+      "name": "Brachiosaurus",
+      "emoji": "🦕",
+      "lon": -108.7,
+      "lat": 39.1,
+      "fromMa": 154,
+      "toMa": 150,
+      "region": "Morrison Formation, Colorado (USA)",
+      "blurb": "A giraffe-necked giant that browsed the treetops of Jurassic North America.",
+      "wiki": "Brachiosaurus",
+      "track": [
+        {
+          "ma": 150,
+          "lon": -36.71,
+          "lat": 36.74
+        },
+        {
+          "ma": 154,
+          "lon": -37.13,
+          "lat": 34.4
+        }
+      ]
+    },
+    {
+      "id": "stegosaurus",
+      "name": "Stegosaurus",
+      "emoji": "🦕",
+      "lon": -105.5,
+      "lat": 41,
+      "fromMa": 155,
+      "toMa": 145,
+      "region": "Morrison Formation, Wyoming (USA)",
+      "blurb": "Plate-backed plant-eater with a spiked tail — and a brain the size of a lime.",
+      "wiki": "Stegosaurus",
+      "track": [
+        {
+          "ma": 145,
+          "lon": -35.14,
+          "lat": 38.57
+        },
+        {
+          "ma": 150,
+          "lon": -32.9,
+          "lat": 37.34
+        },
+        {
+          "ma": 155,
+          "lon": -33.68,
+          "lat": 34.37
+        }
+      ]
+    },
+    {
+      "id": "allosaurus",
+      "name": "Allosaurus",
+      "emoji": "🦖",
+      "lon": -109.3,
+      "lat": 38.6,
+      "fromMa": 155,
+      "toMa": 145,
+      "region": "Cleveland-Lloyd quarry, Utah (USA)",
+      "blurb": "The top predator of the Jurassic — the 'lion' of the Morrison floodplains.",
+      "wiki": "Allosaurus",
+      "track": [
+        {
+          "ma": 145,
+          "lon": -39.78,
+          "lat": 37.58
+        },
+        {
+          "ma": 150,
+          "lon": -37.51,
+          "lat": 36.5
+        },
+        {
+          "ma": 155,
+          "lon": -38.05,
+          "lat": 33.32
+        }
+      ]
+    },
+    {
+      "id": "archaeopteryx",
+      "name": "Archaeopteryx",
+      "emoji": "🐦",
+      "lon": 11,
+      "lat": 48.9,
+      "fromMa": 151,
+      "toMa": 148,
+      "region": "Solnhofen, Germany",
+      "blurb": "The famous 'first bird' — a feathered dinosaur caught mid-way between raptor and bird.",
+      "wiki": "Archaeopteryx",
+      "track": [
+        {
+          "ma": 148,
+          "lon": 37.59,
+          "lat": 31.93
+        },
+        {
+          "ma": 150,
+          "lon": 37.75,
+          "lat": 31.07
+        },
+        {
+          "ma": 151,
+          "lon": 37.52,
+          "lat": 31.34
+        }
+      ]
+    },
+    {
+      "id": "plateosaurus",
+      "name": "Plateosaurus",
+      "emoji": "🦕",
+      "lon": 8.6,
+      "lat": 48.1,
+      "fromMa": 214,
+      "toMa": 204,
+      "region": "Trossingen, Germany",
+      "blurb": "One of the first big dinosaurs — a Triassic long-neck ancestor walking Pangea.",
+      "wiki": "Plateosaurus",
+      "track": [
+        {
+          "ma": 204,
+          "lon": 23.3,
+          "lat": 35.55
+        },
+        {
+          "ma": 210,
+          "lon": 22.32,
+          "lat": 34.37
+        },
+        {
+          "ma": 214,
+          "lon": 22.63,
+          "lat": 33.43
+        }
+      ]
+    },
+    {
+      "id": "coelophysis",
+      "name": "Coelophysis",
+      "emoji": "🦎",
+      "lon": -106.5,
+      "lat": 36.3,
+      "fromMa": 216,
+      "toMa": 196,
+      "region": "Ghost Ranch, New Mexico (USA)",
+      "blurb": "A slender early hunter from the dawn of the dinosaurs, found by the hundreds at Ghost Ranch.",
+      "wiki": "Coelophysis",
+      "track": [
+        {
+          "ma": 196,
+          "lon": -36.35,
+          "lat": 12.32
+        },
+        {
+          "ma": 200,
+          "lon": -36.09,
+          "lat": 11.06
+        },
+        {
+          "ma": 210,
+          "lon": -36.37,
+          "lat": 8.56
+        },
+        {
+          "ma": 216,
+          "lon": -36.1,
+          "lat": 8.36
+        }
+      ]
+    },
+    {
+      "id": "ichthyosaurus",
+      "name": "Ichthyosaurus",
+      "emoji": "🐬",
+      "lon": -2.9,
+      "lat": 50.7,
+      "fromMa": 200,
+      "toMa": 190,
+      "region": "Lyme Regis, England",
+      "blurb": "A dolphin-shaped sea reptile — Mary Anning's famous Jurassic Coast discovery.",
+      "wiki": "Ichthyosaurus",
+      "track": [
+        {
+          "ma": 190,
+          "lon": 16.27,
+          "lat": 35.2
+        },
+        {
+          "ma": 200,
+          "lon": 14.93,
+          "lat": 33.57
+        }
+      ]
+    },
+    {
+      "id": "mosasaurus",
+      "name": "Mosasaurus",
+      "emoji": "🦈",
+      "lon": 5.7,
+      "lat": 50.9,
+      "fromMa": 70,
+      "toMa": 66,
+      "region": "Maastricht, Netherlands",
+      "blurb": "A bus-sized sea lizard that ruled the late Cretaceous oceans.",
+      "wiki": "Mosasaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": 12.2,
+          "lat": 40.11
+        },
+        {
+          "ma": 70,
+          "lon": 13.3,
+          "lat": 40.24
+        }
+      ]
+    },
+    {
+      "id": "pteranodon",
+      "name": "Pteranodon",
+      "emoji": "🦅",
+      "lon": -100.9,
+      "lat": 38.9,
+      "fromMa": 86,
+      "toMa": 84,
+      "region": "Kansas chalk sea (USA)",
+      "blurb": "A 7-metre-wingspan flier that soared over the shallow sea covering central North America.",
+      "wiki": "Pteranodon",
+      "track": [
+        {
+          "ma": 84,
+          "lon": -60.23,
+          "lat": 43.45
+        },
+        {
+          "ma": 86,
+          "lon": -59.58,
+          "lat": 43.17
+        }
+      ]
+    },
+    {
+      "id": "megalodon",
+      "name": "Megalodon",
+      "emoji": "🦈",
+      "lon": -77,
+      "lat": 33.5,
+      "fromMa": 20,
+      "toMa": 3.6,
+      "region": "Carolina coast (USA)",
+      "blurb": "The biggest shark that ever lived — three times the length of a great white.",
+      "wiki": "Megalodon",
+      "track": [
+        {
+          "ma": 3.6,
+          "lon": -74.82,
+          "lat": 33.11
+        },
+        {
+          "ma": 10,
+          "lon": -71.04,
+          "lat": 32.16
+        },
+        {
+          "ma": 20,
+          "lon": -67.57,
+          "lat": 30.47
+        }
+      ]
+    },
+    {
+      "id": "titanoboa",
+      "name": "Titanoboa",
+      "emoji": "🐍",
+      "lon": -72.6,
+      "lat": 11.1,
+      "fromMa": 60,
+      "toMa": 58,
+      "region": "Cerrejón, Colombia",
+      "blurb": "A 13-metre snake from the steamy world just after the dinosaurs died out.",
+      "wiki": "Titanoboa",
+      "track": [
+        {
+          "ma": 58,
+          "lon": -54.21,
+          "lat": 4.48
+        },
+        {
+          "ma": 60,
+          "lon": -53.62,
+          "lat": 4.66
+        }
+      ]
+    },
+    {
+      "id": "basilosaurus",
+      "name": "Basilosaurus",
+      "emoji": "🐋",
+      "lon": 30,
+      "lat": 29.3,
+      "fromMa": 41,
+      "toMa": 34,
+      "region": "Wadi El Hitan, Egypt",
+      "blurb": "An early serpent-like whale — Egypt's 'Valley of the Whales' is full of them.",
+      "wiki": "Basilosaurus",
+      "track": [
+        {
+          "ma": 34,
+          "lon": 29.21,
+          "lat": 18.92
+        },
+        {
+          "ma": 40,
+          "lon": 29.75,
+          "lat": 15.58
+        },
+        {
+          "ma": 41,
+          "lon": 29.82,
+          "lat": 15.43
+        }
+      ]
+    },
+    {
+      "id": "paraceratherium",
+      "name": "Paraceratherium",
+      "emoji": "🦏",
+      "lon": 69,
+      "lat": 29,
+      "fromMa": 34,
+      "toMa": 23,
+      "region": "Dera Bugti, Pakistan",
+      "blurb": "The largest land mammal ever — a hornless rhino as tall as a double-decker bus.",
+      "wiki": "Paraceratherium",
+      "track": [
+        {
+          "ma": 23,
+          "lon": 65.5,
+          "lat": 20.43
+        },
+        {
+          "ma": 30,
+          "lon": 66.45,
+          "lat": 17.88
+        },
+        {
+          "ma": 34,
+          "lon": 66.59,
+          "lat": 15.03
+        }
+      ]
+    },
+    {
+      "id": "gastornis",
+      "name": "Gastornis",
+      "emoji": "🐤",
+      "lon": -108,
+      "lat": 42,
+      "fromMa": 56,
+      "toMa": 45,
+      "region": "Wyoming (USA)",
+      "blurb": "A two-metre flightless 'terror bird' that stalked the forests after the dinosaurs.",
+      "wiki": "Gastornis",
+      "track": [
+        {
+          "ma": 45,
+          "lon": -82.22,
+          "lat": 45.31
+        },
+        {
+          "ma": 50,
+          "lon": -79.78,
+          "lat": 46.05
+        },
+        {
+          "ma": 56,
+          "lon": -76.37,
+          "lat": 47.57
+        }
+      ]
+    },
+    {
+      "id": "smilodon",
+      "name": "Smilodon",
+      "emoji": "🐯",
+      "lon": -118.4,
+      "lat": 34.1,
+      "fromMa": 2.5,
+      "toMa": 0.01,
+      "region": "La Brea tar pits, Los Angeles (USA)",
+      "blurb": "The sabre-toothed cat — thousands sank into the La Brea tar pits.",
+      "wiki": "Smilodon",
+      "track": [
+        {
+          "ma": 0.01,
+          "lon": -118.4,
+          "lat": 34.1
+        },
+        {
+          "ma": 2.5,
+          "lon": -116.95,
+          "lat": 34.79
+        }
+      ]
+    },
+    {
+      "id": "mammoth",
+      "name": "Woolly mammoth",
+      "emoji": "🦣",
+      "lon": 140,
+      "lat": 68,
+      "fromMa": 0.4,
+      "toMa": 0.004,
+      "region": "Siberia, Russia",
+      "blurb": "Ice-age icon of the mammoth steppe — the last ones died out only 4,000 years ago.",
+      "wiki": "Woolly mammoth",
+      "track": [
+        {
+          "ma": 0.004,
+          "lon": 140,
+          "lat": 68
+        },
+        {
+          "ma": 0.4,
+          "lon": 140,
+          "lat": 68
+        }
+      ]
+    },
+    {
+      "id": "woolly-rhino",
+      "name": "Woolly rhinoceros",
+      "emoji": "🦏",
+      "lon": 105,
+      "lat": 62,
+      "fromMa": 0.35,
+      "toMa": 0.014,
+      "region": "Siberia, Russia",
+      "blurb": "A shaggy two-horned rhino of the ice-age steppe, painted on cave walls by early humans.",
+      "wiki": "Woolly rhinoceros",
+      "track": [
+        {
+          "ma": 0.014,
+          "lon": 105,
+          "lat": 62
+        },
+        {
+          "ma": 0.35,
+          "lon": 105,
+          "lat": 62
+        }
+      ]
+    },
+    {
+      "id": "megatherium",
+      "name": "Megatherium",
+      "emoji": "🦥",
+      "lon": -59,
+      "lat": -36.6,
+      "fromMa": 0.4,
+      "toMa": 0.012,
+      "region": "Pampas, Argentina",
+      "blurb": "A ground sloth the size of an elephant, standing tall to browse the treetops.",
+      "wiki": "Megatherium",
+      "track": [
+        {
+          "ma": 0.012,
+          "lon": -59,
+          "lat": -36.6
+        },
+        {
+          "ma": 0.4,
+          "lon": -59,
+          "lat": -36.6
+        }
+      ]
+    },
+    {
+      "id": "glyptodon",
+      "name": "Glyptodon",
+      "emoji": "🐢",
+      "lon": -58.4,
+      "lat": -34.9,
+      "fromMa": 0.8,
+      "toMa": 0.012,
+      "region": "Buenos Aires, Argentina",
+      "blurb": "A car-sized armadillo in a bony shell — early humans may have sheltered inside them.",
+      "wiki": "Glyptodon",
+      "track": [
+        {
+          "ma": 0.012,
+          "lon": -58.4,
+          "lat": -34.9
+        },
+        {
+          "ma": 0.8,
+          "lon": -58.35,
+          "lat": -35.12
+        }
+      ]
+    },
+    {
+      "id": "lystrosaurus",
+      "name": "Lystrosaurus",
+      "emoji": "🦎",
+      "lon": 24.5,
+      "lat": -31.5,
+      "fromMa": 250,
+      "toMa": 248,
+      "region": "Karoo Basin, South Africa",
+      "blurb": "The pig-sized survivor of the Great Dying — for a while, most land animals on Earth were Lystrosaurus.",
+      "wiki": "Lystrosaurus",
+      "track": [
+        {
+          "ma": 248,
+          "lon": -18.39,
+          "lat": -57.94
+        },
+        {
+          "ma": 250,
+          "lon": -19.76,
+          "lat": -57.75
+        }
+      ]
+    },
+    {
+      "id": "cynognathus",
+      "name": "Cynognathus",
+      "emoji": "🦎",
+      "lon": 25,
+      "lat": -32,
+      "fromMa": 247,
+      "toMa": 237,
+      "region": "Karoo Basin, South Africa",
+      "blurb": "A dog-jawed cynodont — one of the mammal-like reptiles on the long road to true mammals.",
+      "wiki": "Cynognathus",
+      "track": [
+        {
+          "ma": 237,
+          "lon": -10.24,
+          "lat": -58.95
+        },
+        {
+          "ma": 240,
+          "lon": -12.96,
+          "lat": -59.14
+        },
+        {
+          "ma": 247,
+          "lon": -18.04,
+          "lat": -58.66
+        }
+      ]
+    },
+    {
+      "id": "nothosaurus",
+      "name": "Nothosaurus",
+      "emoji": "🐊",
+      "lon": 9,
+      "lat": 49,
+      "fromMa": 245,
+      "toMa": 208,
+      "region": "Germany (Muschelkalk sea)",
+      "blurb": "A sleek, fish-snatching marine reptile that hunted the shallow Triassic seas.",
+      "wiki": "Nothosaurus",
+      "track": [
+        {
+          "ma": 208,
+          "lon": 22.13,
+          "lat": 35.6
+        },
+        {
+          "ma": 210,
+          "lon": 21.8,
+          "lat": 35.21
+        },
+        {
+          "ma": 220,
+          "lon": 22.58,
+          "lat": 32.85
+        },
+        {
+          "ma": 230,
+          "lon": 25.81,
+          "lat": 27.04
+        },
+        {
+          "ma": 240,
+          "lon": 28.17,
+          "lat": 23.03
+        },
+        {
+          "ma": 245,
+          "lon": 28.99,
+          "lat": 21.87
+        }
+      ]
+    },
+    {
+      "id": "herrerasaurus",
+      "name": "Herrerasaurus",
+      "emoji": "🦖",
+      "lon": -68,
+      "lat": -30,
+      "fromMa": 233,
+      "toMa": 228,
+      "region": "Ischigualasto, Argentina",
+      "blurb": "One of the very first dinosaurs — a lithe predator from the dawn of the age of dinosaurs.",
+      "wiki": "Herrerasaurus",
+      "track": [
+        {
+          "ma": 228,
+          "lon": -29.59,
+          "lat": -42.97
+        },
+        {
+          "ma": 230,
+          "lon": -30.96,
+          "lat": -42.82
+        },
+        {
+          "ma": 233,
+          "lon": -32.36,
+          "lat": -42.41
+        }
+      ]
+    },
+    {
+      "id": "postosuchus",
+      "name": "Postosuchus",
+      "emoji": "🐊",
+      "lon": -101,
+      "lat": 34,
+      "fromMa": 228,
+      "toMa": 202,
+      "region": "Texas, USA",
+      "blurb": "A crocodile-line apex predator that ruled the land before dinosaurs took over.",
+      "wiki": "Postosuchus",
+      "track": [
+        {
+          "ma": 202,
+          "lon": -31.86,
+          "lat": 7.8
+        },
+        {
+          "ma": 210,
+          "lon": -32.14,
+          "lat": 5.76
+        },
+        {
+          "ma": 220,
+          "lon": -31.83,
+          "lat": 5.23
+        },
+        {
+          "ma": 228,
+          "lon": -30.9,
+          "lat": 5.81
+        }
+      ]
+    },
+    {
+      "id": "shonisaurus",
+      "name": "Shonisaurus",
+      "emoji": "🐬",
+      "lon": -117.3,
+      "lat": 38.9,
+      "fromMa": 227,
+      "toMa": 217,
+      "region": "Nevada, USA",
+      "blurb": "A school-bus-sized ichthyosaur — one of the largest marine reptiles that ever lived.",
+      "wiki": "Shonisaurus",
+      "track": [
+        {
+          "ma": 217,
+          "lon": -43.99,
+          "lat": 12.7
+        },
+        {
+          "ma": 220,
+          "lon": -43.79,
+          "lat": 12.7
+        },
+        {
+          "ma": 227,
+          "lon": -42.28,
+          "lat": 14.26
+        }
+      ]
+    },
+    {
+      "id": "diplodocus",
+      "name": "Diplodocus",
+      "emoji": "🦕",
+      "lon": -108,
+      "lat": 41,
+      "fromMa": 154,
+      "toMa": 150,
+      "region": "Morrison Formation, USA",
+      "blurb": "A 26-metre, whip-tailed giant — one of the longest dinosaurs ever found.",
+      "wiki": "Diplodocus",
+      "track": [
+        {
+          "ma": 150,
+          "lon": -35.03,
+          "lat": 38.2
+        },
+        {
+          "ma": 154,
+          "lon": -35.57,
+          "lat": 35.9
+        }
+      ]
+    },
+    {
+      "id": "plesiosaurus",
+      "name": "Plesiosaurus",
+      "emoji": "🐊",
+      "lon": -2.9,
+      "lat": 50.7,
+      "fromMa": 199,
+      "toMa": 175,
+      "region": "Lyme Regis, England",
+      "blurb": "The original 'sea monster' — a barrel body, four paddles and a long swan-like neck.",
+      "wiki": "Plesiosaurus",
+      "track": [
+        {
+          "ma": 175,
+          "lon": 20.93,
+          "lat": 35.29
+        },
+        {
+          "ma": 180,
+          "lon": 19.11,
+          "lat": 35.7
+        },
+        {
+          "ma": 190,
+          "lon": 16.27,
+          "lat": 35.2
+        },
+        {
+          "ma": 199,
+          "lon": 15.06,
+          "lat": 33.73
+        }
+      ]
+    },
+    {
+      "id": "dilophosaurus",
+      "name": "Dilophosaurus",
+      "emoji": "🦖",
+      "lon": -111.5,
+      "lat": 36,
+      "fromMa": 193,
+      "toMa": 182,
+      "region": "Arizona, USA",
+      "blurb": "A double-crested early predator — far bigger, and far less frilly, than the film version.",
+      "wiki": "Dilophosaurus",
+      "track": [
+        {
+          "ma": 182,
+          "lon": -41,
+          "lat": 17.86
+        },
+        {
+          "ma": 190,
+          "lon": -40.92,
+          "lat": 14.52
+        },
+        {
+          "ma": 193,
+          "lon": -40.7,
+          "lat": 13.57
+        }
+      ]
+    },
+    {
+      "id": "megalosaurus",
+      "name": "Megalosaurus",
+      "emoji": "🦖",
+      "lon": -1.3,
+      "lat": 51.8,
+      "fromMa": 168,
+      "toMa": 164,
+      "region": "Oxfordshire, England",
+      "blurb": "The first dinosaur ever scientifically named, back in 1824.",
+      "wiki": "Megalosaurus",
+      "track": [
+        {
+          "ma": 164,
+          "lon": 24.18,
+          "lat": 35.78
+        },
+        {
+          "ma": 168,
+          "lon": 23.63,
+          "lat": 36.08
+        }
+      ]
+    },
+    {
+      "id": "ankylosaurus",
+      "name": "Ankylosaurus",
+      "emoji": "🦕",
+      "lon": -110,
+      "lat": 49,
+      "fromMa": 68,
+      "toMa": 66,
+      "region": "Hell Creek / Alberta",
+      "blurb": "A living tank — armoured head to tail, with a bony club that could shatter bone.",
+      "wiki": "Ankylosaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -69.9,
+          "lat": 56.6
+        },
+        {
+          "ma": 68,
+          "lon": -68.99,
+          "lat": 57.03
+        }
+      ]
+    },
+    {
+      "id": "iguanodon",
+      "name": "Iguanodon",
+      "emoji": "🦕",
+      "lon": 4.5,
+      "lat": 50.4,
+      "fromMa": 126,
+      "toMa": 122,
+      "region": "Bernissart, Belgium",
+      "blurb": "A thumb-spiked plant-eater; one of the first dinosaurs ever discovered.",
+      "wiki": "Iguanodon",
+      "track": [
+        {
+          "ma": 122,
+          "lon": 29.81,
+          "lat": 40.17
+        },
+        {
+          "ma": 126,
+          "lon": 30.16,
+          "lat": 39.08
+        }
+      ]
+    },
+    {
+      "id": "quetzalcoatlus",
+      "name": "Quetzalcoatlus",
+      "emoji": "🦅",
+      "lon": -103,
+      "lat": 29,
+      "fromMa": 68,
+      "toMa": 66,
+      "region": "Texas, USA",
+      "blurb": "A pterosaur the size of a small plane — as tall as a giraffe when standing.",
+      "wiki": "Quetzalcoatlus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -72.94,
+          "lat": 36
+        },
+        {
+          "ma": 68,
+          "lon": -72.14,
+          "lat": 36.43
+        }
+      ]
+    },
+    {
+      "id": "parasaurolophus",
+      "name": "Parasaurolophus",
+      "emoji": "🦕",
+      "lon": -112,
+      "lat": 50,
+      "fromMa": 76,
+      "toMa": 73,
+      "region": "Alberta, Canada",
+      "blurb": "A duck-billed dinosaur whose long hollow head-crest may have trumpeted like a horn.",
+      "wiki": "Parasaurolophus",
+      "track": [
+        {
+          "ma": 73,
+          "lon": -68.77,
+          "lat": 57.96
+        },
+        {
+          "ma": 76,
+          "lon": -67.92,
+          "lat": 57.43
+        }
+      ]
+    },
+    {
+      "id": "giganotosaurus",
+      "name": "Giganotosaurus",
+      "emoji": "🦖",
+      "lon": -70,
+      "lat": -38,
+      "fromMa": 99,
+      "toMa": 96,
+      "region": "Patagonia, Argentina",
+      "blurb": "A predator even longer than T. rex, prowling Cretaceous South America.",
+      "wiki": "Giganotosaurus",
+      "track": [
+        {
+          "ma": 96,
+          "lon": -38.23,
+          "lat": -39.82
+        },
+        {
+          "ma": 99,
+          "lon": -36.71,
+          "lat": -39.35
+        }
+      ]
+    },
+    {
+      "id": "therizinosaurus",
+      "name": "Therizinosaurus",
+      "emoji": "🦖",
+      "lon": 100,
+      "lat": 43,
+      "fromMa": 72,
+      "toMa": 68,
+      "region": "Gobi Desert, Mongolia",
+      "blurb": "A bizarre pot-bellied dinosaur with the longest claws of any animal — up to a metre.",
+      "wiki": "Therizinosaurus",
+      "track": [
+        {
+          "ma": 68,
+          "lon": 96.48,
+          "lat": 42.16
+        },
+        {
+          "ma": 70,
+          "lon": 97.08,
+          "lat": 42.13
+        },
+        {
+          "ma": 72,
+          "lon": 97.69,
+          "lat": 42.48
+        }
+      ]
+    },
+    {
+      "id": "argentinosaurus",
+      "name": "Argentinosaurus",
+      "emoji": "🦕",
+      "lon": -69,
+      "lat": -37,
+      "fromMa": 97,
+      "toMa": 93,
+      "region": "Neuquén, Argentina",
+      "blurb": "Possibly the heaviest land animal ever — a 70-tonne titanosaur.",
+      "wiki": "Argentinosaurus",
+      "track": [
+        {
+          "ma": 93,
+          "lon": -38.65,
+          "lat": -39.35
+        },
+        {
+          "ma": 97,
+          "lon": -36.65,
+          "lat": -38.7
+        }
+      ]
+    },
+    {
+      "id": "uintatherium",
+      "name": "Uintatherium",
+      "emoji": "🦏",
+      "lon": -109,
+      "lat": 41,
+      "fromMa": 46,
+      "toMa": 40,
+      "region": "Wyoming, USA",
+      "blurb": "A rhino-sized browser with six blunt horns and sabre-like tusks.",
+      "wiki": "Uintatherium",
+      "track": [
+        {
+          "ma": 40,
+          "lon": -85.77,
+          "lat": 44.3
+        },
+        {
+          "ma": 46,
+          "lon": -83.22,
+          "lat": 44.63
+        }
+      ]
+    },
+    {
+      "id": "andrewsarchus",
+      "name": "Andrewsarchus",
+      "emoji": "🐺",
+      "lon": 105,
+      "lat": 44,
+      "fromMa": 45,
+      "toMa": 36,
+      "region": "Inner Mongolia",
+      "blurb": "A giant hoofed carnivore with an enormous skull — perhaps the largest meat-eating land mammal.",
+      "wiki": "Andrewsarchus",
+      "track": [
+        {
+          "ma": 36,
+          "lon": 98.72,
+          "lat": 46.73
+        },
+        {
+          "ma": 40,
+          "lon": 97.9,
+          "lat": 46.3
+        },
+        {
+          "ma": 45,
+          "lon": 98.72,
+          "lat": 46.35
+        }
+      ]
+    },
+    {
+      "id": "eohippus",
+      "name": "Eohippus (dawn horse)",
+      "emoji": "🐴",
+      "lon": -108,
+      "lat": 42,
+      "fromMa": 56,
+      "toMa": 48,
+      "region": "Wyoming, USA",
+      "blurb": "The 'dawn horse' — a fox-sized forest dweller at the very start of the horse family.",
+      "wiki": "Eohippus",
+      "track": [
+        {
+          "ma": 48,
+          "lon": -80.9,
+          "lat": 45.48
+        },
+        {
+          "ma": 50,
+          "lon": -79.78,
+          "lat": 46.05
+        },
+        {
+          "ma": 56,
+          "lon": -76.37,
+          "lat": 47.57
+        }
+      ]
+    },
+    {
+      "id": "deinotherium",
+      "name": "Deinotherium",
+      "emoji": "🐘",
+      "lon": 35,
+      "lat": 0,
+      "fromMa": 20,
+      "toMa": 1,
+      "region": "East Africa",
+      "blurb": "A huge elephant relative with tusks that curved downward from its lower jaw.",
+      "wiki": "Deinotherium",
+      "track": [
+        {
+          "ma": 1,
+          "lon": 35,
+          "lat": -0.47
+        },
+        {
+          "ma": 10,
+          "lon": 35.1,
+          "lat": -4.7
+        },
+        {
+          "ma": 20,
+          "lon": 35.18,
+          "lat": -5.62
+        }
+      ]
+    },
+    {
+      "id": "gigantopithecus",
+      "name": "Gigantopithecus",
+      "emoji": "🦧",
+      "lon": 108,
+      "lat": 23,
+      "fromMa": 2,
+      "toMa": 0.3,
+      "region": "Southern China",
+      "blurb": "The largest ape that ever lived — a three-metre cousin of today’s orangutans.",
+      "wiki": "Gigantopithecus",
+      "track": [
+        {
+          "ma": 0.3,
+          "lon": 108,
+          "lat": 23
+        },
+        {
+          "ma": 2,
+          "lon": 107.7,
+          "lat": 23.36
+        }
+      ]
+    },
+    {
+      "id": "australopithecus",
+      "name": "Australopithecus",
+      "emoji": "🦧",
+      "lon": 40.6,
+      "lat": 11.1,
+      "fromMa": 3.9,
+      "toMa": 2.9,
+      "region": "Afar, Ethiopia",
+      "blurb": "Early upright-walking human ancestors — 'Lucy' was one of these.",
+      "wiki": "Australopithecus afarensis",
+      "track": [
+        {
+          "ma": 2.9,
+          "lon": 40.44,
+          "lat": 9.81
+        },
+        {
+          "ma": 3.9,
+          "lon": 40.39,
+          "lat": 9.37
+        }
+      ]
+    },
+    {
+      "id": "homo-erectus",
+      "name": "Homo erectus",
+      "emoji": "🚶",
+      "lon": 36,
+      "lat": 0,
+      "fromMa": 1.9,
+      "toMa": 0.11,
+      "region": "Africa & Asia",
+      "blurb": "The first human ancestor to stand fully upright, tame fire, and spread across the Old World.",
+      "wiki": "Homo erectus",
+      "track": [
+        {
+          "ma": 0.11,
+          "lon": 36,
+          "lat": 0
+        },
+        {
+          "ma": 1.9,
+          "lon": 36,
+          "lat": -0.88
+        }
+      ]
+    },
+    {
+      "id": "neanderthal",
+      "name": "Neanderthal",
+      "emoji": "🚶",
+      "lon": 7,
+      "lat": 51,
+      "fromMa": 0.4,
+      "toMa": 0.04,
+      "region": "Neander Valley, Germany",
+      "blurb": "Our close cousins — skilled toolmakers and hunters of Ice Age Europe.",
+      "wiki": "Neanderthal",
+      "track": [
+        {
+          "ma": 0.04,
+          "lon": 7,
+          "lat": 51
+        },
+        {
+          "ma": 0.4,
+          "lon": 7,
+          "lat": 51
+        }
+      ]
+    },
+    {
+      "id": "dire-wolf",
+      "name": "Dire wolf",
+      "emoji": "🐺",
+      "lon": -118.4,
+      "lat": 34.06,
+      "fromMa": 0.25,
+      "toMa": 0.0096,
+      "region": "La Brea, California",
+      "blurb": "A heavier, stronger relative of the grey wolf that hunted Ice Age megafauna.",
+      "wiki": "Dire wolf",
+      "track": [
+        {
+          "ma": 0.0096,
+          "lon": -118.4,
+          "lat": 34.06
+        },
+        {
+          "ma": 0.25,
+          "lon": -118.4,
+          "lat": 34.06
+        }
+      ]
+    },
+    {
+      "id": "irish-elk",
+      "name": "Irish elk",
+      "emoji": "🦌",
+      "lon": -8,
+      "lat": 53,
+      "fromMa": 0.4,
+      "toMa": 0.0077,
+      "region": "Ireland & Eurasia",
+      "blurb": "A giant deer with the largest antlers ever — up to 3.6 metres across.",
+      "wiki": "Irish elk",
+      "track": [
+        {
+          "ma": 0.0077,
+          "lon": -8,
+          "lat": 53
+        },
+        {
+          "ma": 0.4,
+          "lon": -8,
+          "lat": 53
+        }
+      ]
+    },
+    {
+      "id": "cave-bear",
+      "name": "Cave bear",
+      "emoji": "🐻",
+      "lon": 14,
+      "lat": 47,
+      "fromMa": 0.3,
+      "toMa": 0.024,
+      "region": "Europe",
+      "blurb": "A massive Ice Age bear that sheltered — and often died — in caves across Europe.",
+      "wiki": "Cave bear",
+      "track": [
+        {
+          "ma": 0.024,
+          "lon": 14,
+          "lat": 47
+        },
+        {
+          "ma": 0.3,
+          "lon": 14,
+          "lat": 47
+        }
+      ]
+    }
+  ]
+}

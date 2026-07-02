@@ -1,0 +1,111 @@
+{
+  "model": "MERDITH2021",
+  "stepMa": 10,
+  "maxMa": 250,
+  "frames": [
+    {
+      "timeMa": 0,
+      "file": "coastlines-0.geojson"
+    },
+    {
+      "timeMa": 10,
+      "file": "coastlines-10.geojson"
+    },
+    {
+      "timeMa": 20,
+      "file": "coastlines-20.geojson"
+    },
+    {
+      "timeMa": 30,
+      "file": "coastlines-30.geojson"
+    },
+    {
+      "timeMa": 40,
+      "file": "coastlines-40.geojson"
+    },
+    {
+      "timeMa": 50,
+      "file": "coastlines-50.geojson"
+    },
+    {
+      "timeMa": 60,
+      "file": "coastlines-60.geojson"
+    },
+    {
+      "timeMa": 70,
+      "file": "coastlines-70.geojson"
+    },
+    {
+      "timeMa": 80,
+      "file": "coastlines-80.geojson"
+    },
+    {
+      "timeMa": 90,
+      "file": "coastlines-90.geojson"
+    },
+    {
+      "timeMa": 100,
+      "file": "coastlines-100.geojson"
+    },
+    {
+      "timeMa": 110,
+      "file": "coastlines-110.geojson"
+    },
+    {
+      "timeMa": 120,
+      "file": "coastlines-120.geojson"
+    },
+    {
+      "timeMa": 130,
+      "file": "coastlines-130.geojson"
+    },
+    {
+      "timeMa": 140,
+      "file": "coastlines-140.geojson"
+    },
+    {
+      "timeMa": 150,
+      "file": "coastlines-150.geojson"
+    },
+    {
+      "timeMa": 160,
+      "file": "coastlines-160.geojson"
+    },
+    {
+      "timeMa": 170,
+      "file": "coastlines-170.geojson"
+    },
+    {
+      "timeMa": 180,
+      "file": "coastlines-180.geojson"
+    },
+    {
+      "timeMa": 190,
+      "file": "coastlines-190.geojson"
+    },
+    {
+      "timeMa": 200,
+      "file": "coastlines-200.geojson"
+    },
+    {
+      "timeMa": 210,
+      "file": "coastlines-210.geojson"
+    },
+    {
+      "timeMa": 220,
+      "file": "coastlines-220.geojson"
+    },
+    {
+      "timeMa": 230,
+      "file": "coastlines-230.geojson"
+    },
+    {
+      "timeMa": 240,
+      "file": "coastlines-240.geojson"
+    },
+    {
+      "timeMa": 250,
+      "file": "coastlines-250.geojson"
+    }
+  ]
+}

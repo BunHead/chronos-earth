@@ -1,0 +1,48 @@
+{
+  "_comment": "Chronos Earth — story tours. Each step moves the timeline (year = signed calendar year, negative = BCE; or ma = millions of years ago for deep time), flies the camera to lon/lat/altitude, and shows (or speaks) the text. battleId optionally opens that battle's panel. Add a tour by copying one.",
+  "tours": [
+    {
+      "id": "rome",
+      "emoji": "🏛️",
+      "title": "The Rise and Fall of Rome",
+      "description": "From a village on the Tiber to a continental empire — and the long fall.",
+      "steps": [
+        { "year": -753, "lon": 12.49, "lat": 41.89, "altitude": 1500000, "title": "A village on seven hills", "text": "Legend says Rome was founded in 753 BCE by Romulus, on seven hills beside the river Tiber. For centuries it was just one small town among many in Italy." },
+        { "year": -509, "lon": 12.49, "lat": 41.89, "altitude": 1200000, "title": "The Republic is born", "text": "In 509 BCE the Romans threw out their last king and invented a republic — power shared between elected consuls, a senate, and the people. Its motto: S P Q R, the Senate and People of Rome." },
+        { "year": -216, "lon": 16.13, "lat": 41.31, "altitude": 900000, "title": "Disaster at Cannae", "battleId": "cannae", "text": "Hannibal of Carthage crossed the Alps with elephants and, at Cannae in 216 BCE, destroyed a Roman army of eighty thousand in a single afternoon. Almost any other state would have surrendered. Rome refused — and slowly won the war instead." },
+        { "year": -52, "lon": 4.5, "lat": 47.54, "altitude": 1500000, "title": "Caesar conquers Gaul", "battleId": "alesia", "text": "Julius Caesar spent eight years conquering Gaul — modern France. At Alesia in 52 BCE he besieged the Gallic leader Vercingetorix, building two rings of walls — one to keep him in, one to keep his rescuers out. Victory made Caesar dangerously powerful." },
+        { "year": -31, "lon": 20.72, "lat": 38.91, "altitude": 900000, "title": "Actium: Republic becomes Empire", "battleId": "actium", "text": "After Caesar's murder, his heir Octavian fought Mark Antony and Cleopatra for everything. The naval battle of Actium in 31 BCE settled it. Octavian became Augustus, the first emperor — the Republic was over." },
+        { "year": 117, "lon": 18, "lat": 38, "altitude": 7000000, "title": "The empire at its greatest", "text": "In 117 CE, under the emperor Trajan, Rome ruled from Britain to the Persian Gulf — roads, aqueducts, cities and law across three continents. Watch the borders on the globe: this is as big as it ever got." },
+        { "year": 378, "lon": 26.5, "lat": 41.67, "altitude": 1500000, "title": "Warning at Adrianople", "battleId": "adrianople-378", "text": "In 378 CE, Gothic refugees-turned-rebels annihilated a Roman army and killed the emperor Valens at Adrianople. The legions were no longer invincible, and the frontiers were cracking." },
+        { "year": 476, "lon": 12.49, "lat": 41.89, "altitude": 4000000, "title": "The fall of the West", "text": "In 476 CE the last western emperor, a boy called Romulus Augustulus, was quietly deposed. The western empire dissolved into new kingdoms — but Roman law, language and roads shaped Europe forever. The eastern half, Byzantium, lived on for another thousand years." }
+      ]
+    },
+    {
+      "id": "napoleon",
+      "emoji": "🎖️",
+      "title": "Napoleon's Wars",
+      "description": "A young general seizes France, conquers Europe, and loses it all.",
+      "steps": [
+        { "year": 1799, "lon": 2.35, "lat": 48.86, "altitude": 1500000, "title": "From chaos, a general", "text": "France's revolution had descended into chaos and war with all of Europe. In 1799 a brilliant young general from Corsica, Napoleon Bonaparte, seized power in Paris. Within five years he crowned himself emperor." },
+        { "year": 1805, "lon": 16.76, "lat": 49.13, "altitude": 700000, "title": "Austerlitz — the masterpiece", "battleId": "austerlitz", "text": "At Austerlitz in 1805, Napoleon deliberately weakened his own right flank to lure the Russians and Austrians off the high ground — then smashed through their centre. It is still studied as the perfect battle." },
+        { "year": 1812, "lon": 35.82, "lat": 55.52, "altitude": 2500000, "title": "The fatal march on Moscow", "battleId": "borodino", "text": "In 1812 Napoleon marched six hundred thousand men into Russia. The Russians traded space for time, burned the land behind them, and fought him bloodily at Borodino. Napoleon took Moscow — and then winter took his army. Watch the front line on the globe sweep east and collapse back west." },
+        { "year": 1813, "lon": 12.37, "lat": 51.34, "altitude": 900000, "title": "The Battle of the Nations", "battleId": "leipzig", "text": "Europe rose against the weakened emperor. At Leipzig in 1813 — the biggest battle the world had yet seen, half a million men — Napoleon was beaten and driven back to France." },
+        { "year": 1815, "lon": 4.41, "lat": 50.68, "altitude": 600000, "title": "Waterloo", "battleId": "waterloo", "text": "Exiled, escaped, and emperor again for one hundred days, Napoleon met Wellington and Blücher near a Belgian village called Waterloo on the 18th of June 1815. By nightfall his last army was broken — and so was he." },
+        { "year": 1821, "lon": -5.72, "lat": -15.95, "altitude": 3000000, "title": "The rock in the Atlantic", "text": "The British shipped Napoleon to Saint Helena, a tiny island three thousand kilometres from anywhere. He died there in 1821, aged 51 — leaving behind a legal code, a redrawn Europe, and an argument historians are still having." }
+      ]
+    },
+    {
+      "id": "dinosaurs",
+      "emoji": "🦖",
+      "title": "The Age of Dinosaurs",
+      "description": "180 million years of giants — from Pangea to the asteroid.",
+      "steps": [
+        { "ma": 210, "lon": 15, "lat": 15, "altitude": 22000000, "title": "One world: Pangea", "text": "210 million years ago every continent was joined into one — Pangea. The first dinosaurs, like Coelophysis and Plateosaurus, were spreading across it. Look: you could walk from New Mexico to Germany." },
+        { "ma": 150, "lon": -36, "lat": 36, "altitude": 9000000, "title": "Jurassic giants", "text": "By 150 million years ago Pangea was tearing apart and the Atlantic was being born. On the Morrison floodplains, Brachiosaurus and Stegosaurus browsed while Allosaurus hunted — and in Europe, Archaeopteryx, the first bird, took wing." },
+        { "ma": 67, "lon": -67, "lat": 50, "altitude": 9000000, "title": "The last kings", "text": "67 million years ago the continents are starting to look familiar. In western North America, Tyrannosaurus rex hunts Triceratops, while bus-sized Mosasaurs rule the seas. The dinosaurs' world seems eternal." },
+        { "ma": 65.8, "lon": -89.5, "lat": 21.4, "altitude": 12000000, "title": "The day the sky fell", "text": "66 million years ago a ten-kilometre asteroid struck the sea at Chicxulub, in modern Mexico. Firestorms, darkness and a years-long winter followed. Three quarters of all species — and every dinosaur that couldn't fly — vanished. Notice the markers are gone." },
+        { "ma": 0.02, "lon": 100, "lat": 55, "altitude": 16000000, "title": "A colder, newer world", "text": "Twenty thousand years ago, in the grip of the ice age, giants walked again: woolly mammoths and woolly rhinos on the steppe, sabre-toothed cats in the tar pits, giant sloths on the pampas. And this time, humans were watching them — and painting them on cave walls." }
+      ]
+    }
+  ]
+}

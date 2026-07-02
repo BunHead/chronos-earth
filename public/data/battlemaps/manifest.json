@@ -1,0 +1,54 @@
+{
+  "maps": {
+    "hastings": {
+      "file": "hastings.png",
+      "credit": "\"Battle of Hastings, 1066.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Hastings,_1066.png"
+    },
+    "waterloo": {
+      "file": "waterloo.png",
+      "credit": "\"Battle of Waterloo map.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Waterloo_map.png"
+    },
+    "cannae": {
+      "file": "cannae.png",
+      "credit": "\"Battle cannae destruction.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_cannae_destruction.png"
+    },
+    "gaugamela": {
+      "file": "gaugamela.png",
+      "credit": "\"Battle of Gaugamela, 331 BC - Opening movements.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Gaugamela,_331_BC_-_Opening_movements.png"
+    },
+    "marathon": {
+      "file": "marathon.png",
+      "credit": "\"Battle of Marathon Greek Double Envelopment.png\" · GFDL · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Marathon_Greek_Double_Envelopment.png"
+    },
+    "agincourt": {
+      "file": "agincourt.png",
+      "credit": "\"AgincourtMap.svg\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:AgincourtMap.svg"
+    },
+    "austerlitz": {
+      "file": "austerlitz.png",
+      "credit": "\"Battle of Austerlitz - Situation at 0900, 2 December 1805.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Austerlitz_-_Situation_at_0900,_2_December_1805.png"
+    },
+    "trafalgar": {
+      "file": "trafalgar.png",
+      "credit": "\"Trafalgar 1200hr.svg\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Trafalgar_1200hr.svg"
+    },
+    "gettysburg": {
+      "file": "gettysburg.png",
+      "credit": "\"Gettysburg Battle Map Day3.png\" · CC BY 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Gettysburg_Battle_Map_Day3.png"
+    },
+    "d-day": {
+      "file": "d-day.png",
+      "credit": "\"Map of the D-Day landings.svg\" · CC BY 4.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Map_of_the_D-Day_landings.svg"
+    }
+  }
+}

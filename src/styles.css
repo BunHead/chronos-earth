@@ -1,0 +1,1675 @@
+/* ------------------------------------------------------------------ *
+ * Chronos Earth — global styles. Clean, modern, dark.
+ * ------------------------------------------------------------------ */
+
+:root {
+  --bg: #0a0e14;
+  --panel: rgba(18, 24, 34, 0.92);
+  --panel-solid: #121822;
+  --border: rgba(255, 255, 255, 0.10);
+  --text: #e6edf3;
+  --text-dim: #94a3b8;
+  --accent: #4aa3ff;
+  --accent-warm: #d98c5f;
+
+  --timeline-height: 176px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------ *
+ * App layout: globe fills the screen, timeline pinned to the bottom.
+ * ------------------------------------------------------------------ */
+
+.app {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.globe {
+  position: absolute;
+  inset: 0 0 var(--timeline-height) 0;
+}
+
+.globe .cesium-widget,
+.globe .cesium-widget canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* App title badge in the top-left corner. */
+.brand {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 8px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* War-front-line banner (appears while scrubbing through a war). */
+.campaign-banner {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 14;
+  padding: 8px 16px;
+  background: rgba(18, 24, 34, 0.92);
+  border: 1px solid rgba(255, 214, 64, 0.5);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffe08a;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Colour legend for the war & peace border line map (bottom-left). */
+.border-legend {
+  position: absolute;
+  left: 14px;
+  bottom: calc(var(--timeline-height) + 14px);
+  z-index: 14;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 8px 14px;
+  background: rgba(18, 24, 34, 0.88);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  font-size: 12px;
+  color: #dce6f2;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+/* The zoomed-in mural timeline is taller than the CSS variable — stay above it. */
+.app:has(.timeline.zoomed) .border-legend {
+  bottom: 334px;
+}
+.border-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bl-swatch {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+}
+.bl-peace {
+  background: #f2d34a;
+}
+.bl-soon {
+  background: #ffa02e;
+  box-shadow: 0 0 5px rgba(255, 160, 46, 0.7);
+}
+.bl-war {
+  background: #ff3226;
+  box-shadow: 0 0 6px rgba(255, 50, 38, 0.9);
+  animation: bl-pulse 1.6s ease-in-out infinite;
+}
+@keyframes bl-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Layers panel (top-right)
+ * ------------------------------------------------------------------ */
+
+.layers-panel {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 15;
+  width: 220px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.layers-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.layer-row input {
+  accent-color: var(--accent);
+}
+
+/* A nested sub-option (e.g. the border line-map style under "Political borders"). */
+.layer-row.sub {
+  padding-left: 16px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.layer-row.sub input:disabled {
+  opacity: 0.4;
+}
+
+.layer-row.disabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
+.layers-about {
+  margin-top: 10px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  padding: 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.layers-about:hover {
+  background: #1d2735;
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------------ *
+ * Search box (top centre)
+ * ------------------------------------------------------------------ */
+
+.search-box {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 16;
+  width: min(420px, 60vw);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+}
+
+.search-results {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 6px;
+  background: var(--panel-solid);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.search-results li button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.search-results li button:hover {
+  background: #1d2735;
+}
+
+.search-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #05101f;
+  background: var(--accent);
+  border-radius: 4px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+.search-label {
+  font-size: 14px;
+  flex: 1;
+}
+
+.search-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* About modal body (reuses the .bv-overlay backdrop). */
+.about-window {
+  width: min(640px, 94vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--panel-solid);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.about-body {
+  padding: 8px 22px 24px;
+}
+
+.about-body p {
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.about-body a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about-body a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------ *
+ * Info panel (slides in from the right)
+ * ------------------------------------------------------------------ */
+
+.info-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: var(--timeline-height);
+  width: 380px;
+  max-width: 92vw;
+  background: var(--panel-solid);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  z-index: 30;
+  overflow: hidden;
+}
+
+.info-panel.open {
+  transform: translateX(0);
+}
+
+.info-inner {
+  height: 100%;
+  overflow-y: auto;
+  padding: 22px 22px 40px;
+}
+
+.info-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.info-close:hover {
+  background: #1d2735;
+  color: var(--text);
+}
+
+.info-kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+}
+
+.info-title {
+  margin: 6px 0 2px;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.info-date {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.info-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.info-h3 {
+  margin: 18px 0 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+}
+
+.info-summary {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* Live Wikipedia photo + status lines for imported events. */
+.info-thumb {
+  display: block;
+  width: 100%;
+  max-height: 230px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 2px 0 12px;
+  border: 1px solid var(--border);
+  background: #1d2735;
+}
+
+.info-loading,
+.info-note {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0 0 6px;
+}
+
+.facts {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* On-the-fly place+time dossier: clickable "nearby in this era" rows. */
+.related-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.related-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.related-item:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.related-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.related-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.facts li {
+  margin-bottom: 5px;
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links li {
+  margin-bottom: 6px;
+}
+
+.links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* The clearly-flagged "contested hypothesis" block. */
+.alt-block {
+  margin-top: 22px;
+  padding: 14px 14px 16px;
+  border: 1px solid rgba(255, 170, 80, 0.4);
+  border-radius: 10px;
+  background: rgba(255, 150, 60, 0.08);
+}
+
+.alt-flag {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffb259;
+  margin-bottom: 6px;
+}
+
+.alt-note {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  margin: 8px 0 10px;
+}
+
+.alt-note b {
+  color: #ffb259;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2D battle view (animated battle map overlay)
+ * ------------------------------------------------------------------ */
+
+.bv-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 7, 12, 0.72);
+  backdrop-filter: blur(3px);
+  padding: 24px;
+}
+
+.bv-window {
+  width: min(980px, 96vw);
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-solid);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.bv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.bv-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.bv-header p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.bv-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bv-stage {
+  background: radial-gradient(circle at 50% 40%, #45562f, #2c361f);
+  padding: 10px;
+}
+
+.bv-phase-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px 12px 10px;
+}
+
+.bv-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text, #cdd6e2);
+  cursor: pointer;
+  line-height: 1.15;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.bv-phase strong {
+  font-size: 12px;
+}
+
+.bv-phase span {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.bv-phase:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.bv-phase.active {
+  background: #c2b280;
+  border-color: #c2b280;
+  color: #1a1408;
+}
+
+.bv-stage-3d {
+  position: relative;
+  padding: 0;
+  height: 56vh;
+}
+
+.battle3d {
+  width: 100%;
+  height: 100%;
+}
+
+.battle3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bv-3d-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.bv-3d-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: rgba(8, 12, 18, 0.6);
+  padding: 4px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.bv-svg {
+  width: 100%;
+  height: auto;
+  max-height: 56vh;
+  display: block;
+}
+
+.bv-unit-label {
+  font-size: 1.9px;
+  fill: #f3f6ef;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 0.35px;
+}
+
+.bv-terrain-label {
+  font-size: 2.1px;
+  fill: rgba(255, 255, 255, 0.7);
+  text-anchor: middle;
+  font-style: italic;
+}
+
+.bv-narration {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.bv-phase-label {
+  font-size: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+.bv-narration p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.bv-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.bv-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.bv-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bv-legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.bv-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.bv-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 20px 16px;
+}
+
+.bv-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #34465c;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bv-dot.active {
+  background: var(--accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Timeline bar
+ * ------------------------------------------------------------------ */
+
+.timeline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--timeline-height);
+  background: var(--panel-solid);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 18px 14px;
+  gap: 8px;
+  z-index: 20;
+}
+/* A soft vignette so the timeline reads like an aged wall mural. */
+.timeline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 44px rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.timeline-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timeline-readout {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.timeline-readout .time {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-readout .era {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.timeline-readout .era b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Transport controls (play / pause / step / speed) */
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  background: #1d2735;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.btn:hover {
+  background: #26354a;
+  border-color: var(--accent);
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #05101f;
+  border-color: var(--accent);
+  font-weight: 600;
+  min-width: 84px;
+}
+
+.btn.primary:hover {
+  background: #6cb6ff;
+}
+
+.speed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+.speed select {
+  background: #1d2735;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------------ *
+ * The scrubber track
+ * ------------------------------------------------------------------ */
+
+.track-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* The overview "minimap" is the full-height mural at classic zoom, and a slim
+   strip once you zoom into the linear detail rail beneath it. */
+.track.minimap { height: 62px; }
+.timeline.zoomed .track.minimap { height: 28px; }
+.track.detail { height: 58px; overflow: hidden; }
+
+/* The rails: one continuous band of era colours (gradient set inline by
+   Timeline.tsx) under a plaster-light "wall of time" texture. */
+.rail,
+.detail-rail {
+  position: absolute;
+  inset: 0;
+  background: #2a3445; /* fallback under the inline era gradient */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Mural texture: soft top light, deepening shade below, faint brush strokes. */
+.rail::before,
+.detail-rail::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.03) 38%, rgba(0, 0, 0, 0.16) 78%, rgba(0, 0, 0, 0.34)),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.045) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(245deg, rgba(0, 0, 0, 0.05) 0 3px, transparent 3px 9px);
+  pointer-events: none;
+}
+
+/* A faint reading line through the middle of the overview mural. */
+.rail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+
+/* Era names written onto the mural like frieze captions (overview only). */
+.era-label {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75), 0 0 12px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.timeline.zoomed .era-label { display: none; }
+
+/* The highlighted slice on the minimap that the detail rail is showing. */
+.zoom-window {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  background: rgba(120, 180, 255, 0.16);
+  border: 1.5px solid rgba(150, 195, 255, 0.95);
+  border-radius: 6px;
+  box-shadow: 0 0 9px rgba(120, 180, 255, 0.5);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Tick marks + labels on the linear detail rail. */
+.tick-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tick-label {
+  position: absolute;
+  bottom: 3px;
+  left: 4px;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+}
+
+/* Battle event pins sitting at the top of a rail. */
+.battle-pin {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.78;
+  transition: opacity 0.12s, transform 0.12s;
+}
+
+.battle-pin.detail-pin { top: 1px; font-size: 14px; }
+
+.battle-pin:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.35);
+  color: #ff9a9a;
+}
+
+/* On the slim zoomed minimap the pins would crowd the slice box; the detail
+   rail shows the relevant ones precisely, so hide the minimap copies there. */
+.timeline.zoomed .track.minimap .battle-pin { display: none; }
+
+/* A battle that is happening "now" flares red on the timeline, in step with
+   the red war borders on the globe. */
+.battle-pin.hot {
+  color: #ff2d2d;
+  text-shadow: 0 0 6px rgba(255, 45, 45, 0.9);
+  animation: pin-flare 1.1s ease-in-out infinite;
+  z-index: 5;
+}
+@keyframes pin-flare {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 45, 45, 0.8));
+  }
+  50% {
+    transform: translateX(-50%) scale(1.35);
+    filter: drop-shadow(0 0 8px rgba(255, 60, 40, 1));
+  }
+}
+
+/* The draggable playhead. */
+.playhead {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  transform: translateY(-50%);
+  background: var(--accent);
+  border: 2px solid #eaf3ff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(74, 163, 255, 0.25);
+  cursor: grab;
+  z-index: 5;
+}
+
+.playhead:active {
+  cursor: grabbing;
+}
+
+/* While playing, the playhead ignites — a breathing glow and a comet tail
+   trailing back over the years just travelled. */
+.playhead.playing {
+  animation: ph-breathe 1.4s ease-in-out infinite;
+}
+.playhead.playing::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 74px;
+  height: 10px;
+  transform: translateY(-50%);
+  background: linear-gradient(to left, rgba(120, 190, 255, 0.55), rgba(120, 190, 255, 0));
+  border-radius: 5px;
+  pointer-events: none;
+}
+@keyframes ph-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgba(74, 163, 255, 0.25),
+      0 0 10px rgba(120, 190, 255, 0.8);
+  }
+  50% {
+    box-shadow:
+      0 0 0 7px rgba(74, 163, 255, 0.16),
+      0 0 22px rgba(120, 190, 255, 1);
+  }
+}
+
+/* A thin vertical line through the rail under the playhead. */
+.playline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(74, 163, 255, 0.55);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Zoom controls in the transport row. */
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zoom-btn {
+  min-width: 32px;
+  padding: 6px 9px;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.zoom-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  border-color: var(--border);
+  background: #1d2735;
+}
+
+.zoom-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  min-width: 82px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ *
+ * The photo-circle "mural" — appears above the detail rail when zoomed in.
+ * ------------------------------------------------------------------ */
+/* Grow the timeline and split minimap (top) / ribbon (bottom) so the photo
+   circles can rise into the space between. */
+.timeline.zoomed {
+  height: 320px;
+}
+.timeline.zoomed .track-wrap {
+  justify-content: space-between;
+}
+.timeline.zoomed .track.detail {
+  overflow: visible;
+}
+
+/* A faint bar on the ribbon marking a span (a monument's construction, a reign). */
+.mural-span {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 14px;
+  border-radius: 7px;
+  z-index: 1;
+  /* A decorated ribbon: the item's colour glowing at the edges, airy in the
+     middle so the era paint shows through. */
+  background: linear-gradient(
+    90deg,
+    var(--span-color, #d4b483),
+    color-mix(in srgb, var(--span-color, #d4b483) 35%, transparent) 18%,
+    color-mix(in srgb, var(--span-color, #d4b483) 35%, transparent) 82%,
+    var(--span-color, #d4b483)
+  );
+  border: 1px solid color-mix(in srgb, var(--span-color, #d4b483) 70%, #ffffff 12%);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--span-color, #d4b483) 55%, transparent);
+  opacity: 0.85;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mural-span-tag {
+  font-size: 9px;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 6px;
+  pointer-events: none;
+}
+
+.mural-circle {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse; /* label on top, disc nearest the ribbon */
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 6;
+  width: 60px;
+}
+.mural-circle[data-row='0'] {
+  bottom: calc(100% + 16px);
+}
+.mural-circle[data-row='1'] {
+  bottom: calc(100% + 82px);
+}
+.mural-circle::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-50%);
+}
+
+.mc-disc {
+  width: var(--mc-size, 46px);
+  height: var(--mc-size, 46px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #f0c860;
+  background: #cdbfa6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.55);
+  transition: transform 0.12s;
+}
+/* Each circle pops onto the wall with a little bounce as it appears. */
+.mural-circle {
+  animation: mc-pop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+@keyframes mc-pop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.25);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+/* Hand-curated marquee events wear a gold ring and a soft halo. */
+.mural-circle.marquee .mc-disc {
+  border-color: #ffd700;
+  box-shadow:
+    0 0 0 2px rgba(255, 215, 0, 0.55),
+    0 0 12px rgba(255, 215, 0, 0.45),
+    0 2px 7px rgba(0, 0, 0, 0.55);
+}
+.mural-circle:hover .mc-disc {
+  transform: scale(1.14);
+}
+.mc-disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mc-ph {
+  font-size: 22px;
+  line-height: 1;
+}
+.mc-label {
+  font-size: 9px;
+  line-height: 1.1;
+  color: #e9eff7;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px #000, 0 0 4px #000;
+  max-width: 74px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Commander portraits (the "face-off")
+ * ------------------------------------------------------------------ */
+
+.cmdr-faceoff {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 14px 0 6px;
+  padding: 12px 10px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.cmdr-side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cmdr-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cmdr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 76px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.cmdr-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  background: #1d2735;
+  transition: transform 0.12s, border-color 0.12s;
+}
+
+.cmdr:hover .cmdr-img {
+  transform: scale(1.08);
+  border-color: var(--accent);
+}
+
+.cmdr-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
+.cmdr-name {
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.cmdr:hover .cmdr-name {
+  color: var(--text);
+}
+
+.cmdr-vs {
+  align-self: center;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--accent-warm);
+  border: 1px solid var(--accent-warm);
+  border-radius: 999px;
+  padding: 4px 8px;
+  opacity: 0.9;
+}
+
+.cmdr-side-name {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text-dim);
+  max-width: 180px;
+}
+
+/* Compact variant used in the battle-view header strip. */
+.cmdr-faceoff.sm {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.cmdr-faceoff.sm .cmdr {
+  width: 60px;
+}
+
+.cmdr-faceoff.sm .cmdr-img {
+  width: 40px;
+  height: 40px;
+}
+
+.cmdr-faceoff.sm .cmdr-initials {
+  font-size: 14px;
+}
+
+.cmdr-faceoff.sm .cmdr-name {
+  font-size: 10px;
+}
+
+.bv-commanders {
+  padding: 8px 16px 0;
+}
+
+/* Credit line for the historical map overlay. */
+.bv-map-credit {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.bv-map-credit a {
+  color: var(--text-dim);
+  text-decoration: underline;
+}
+
+.bv-map-credit a:hover {
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------------ *
+ * Story tours
+ * ------------------------------------------------------------------ */
+
+.tours-launcher {
+  position: absolute;
+  top: 96px;
+  left: 18px;
+  z-index: 25;
+}
+
+.tours-menu {
+  margin-top: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  width: 320px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tours-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  padding: 9px 10px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tours-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.tours-emoji {
+  font-size: 22px;
+}
+
+.tours-item small {
+  display: block;
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.tour-card {
+  position: absolute;
+  left: 18px;
+  bottom: calc(var(--timeline-height) + 18px);
+  width: 360px;
+  max-width: calc(100vw - 36px);
+  z-index: 25;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px 10px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.tour-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.tour-kicker {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+}
+
+.tour-card h3 {
+  margin: 8px 0 6px;
+  font-size: 18px;
+}
+
+.tour-card p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.tour-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.tour-nav {
+  display: flex;
+  gap: 8px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Small screens: stack the chrome, grow the touch targets.
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 760px) {
+  :root {
+    --timeline-height: 208px; /* room for the wrapped controls + two rails */
+  }
+
+  .brand {
+    padding: 6px 10px;
+  }
+
+  .brand h1 {
+    font-size: 15px;
+  }
+
+  .brand p {
+    display: none;
+  }
+
+  .search-box {
+    top: 12px;
+    left: auto;
+    right: 12px;
+    transform: none;
+    width: min(46vw, 230px);
+  }
+
+  /* Collapse the layers panel into a compact strip below the search. */
+  .layers-panel {
+    top: 60px;
+    right: 12px;
+    width: 180px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .layer-row {
+    font-size: 12px;
+    padding: 5px 0;
+  }
+
+  .tours-launcher {
+    top: 60px;
+    left: 12px;
+  }
+
+  .tours-menu {
+    width: min(86vw, 320px);
+  }
+
+  .tour-card {
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  .info-panel {
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  .timeline {
+    padding: 8px 10px 10px;
+    gap: 6px;
+  }
+
+  .timeline-top {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .timeline-readout {
+    min-width: 120px;
+  }
+
+  .timeline-readout .time {
+    font-size: 18px;
+  }
+
+  .btn {
+    padding: 10px 12px; /* finger-sized */
+  }
+
+  .battle-pin {
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+  }
+
+  .playhead {
+    width: 22px;
+    height: 22px;
+    margin-left: -11px;
+  }
+
+  .track.minimap { height: 50px; }
+  .timeline.zoomed .track.minimap { height: 24px; }
+  .track.detail { height: 54px; }
+
+  .era-label {
+    display: none; /* the mural colours + readout carry the story on phones */
+  }
+
+  .bv-window {
+    width: 96vw;
+  }
+
+  .cmdr-faceoff.sm .cmdr {
+    width: 48px;
+  }
+
+  .campaign-banner {
+    top: auto;
+    bottom: calc(var(--timeline-height) + 10px);
+    max-width: 92vw;
+    white-space: normal;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .border-legend {
+    left: 8px;
+    bottom: calc(var(--timeline-height) + 46px); /* clear of the mobile banner */
+    gap: 10px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}

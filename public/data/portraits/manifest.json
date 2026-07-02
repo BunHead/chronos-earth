@@ -1,0 +1,624 @@
+{
+  "portraits": {
+    "Ramesses II": {
+      "file": "ramesses-ii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ramesses_II"
+    },
+    "Muwatalli II": {
+      "file": "muwatalli-ii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Muwatalli_II"
+    },
+    "Miltiades": {
+      "file": "miltiades.jpg",
+      "page": "https://en.wikipedia.org/wiki/Miltiades"
+    },
+    "Leonidas I": {
+      "file": "leonidas-i.jpg",
+      "page": "https://en.wikipedia.org/wiki/Leonidas_I"
+    },
+    "Xerxes I": {
+      "file": "xerxes-i.jpg",
+      "page": "https://en.wikipedia.org/wiki/Xerxes_I"
+    },
+    "Themistocles": {
+      "file": "themistocles.png",
+      "page": "https://en.wikipedia.org/wiki/Themistocles"
+    },
+    "Alexander the Great": {
+      "file": "alexander-the-great.jpg",
+      "page": "https://en.wikipedia.org/wiki/Alexander_the_Great"
+    },
+    "Darius III": {
+      "file": "darius-iii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Darius_III"
+    },
+    "Datis": {
+      "file": "datis.jpg",
+      "page": "https://en.wikipedia.org/wiki/Datis"
+    },
+    "Hannibal": {
+      "file": "hannibal.jpg",
+      "page": "https://en.wikipedia.org/wiki/Hannibal"
+    },
+    "Julius Caesar": {
+      "file": "julius-caesar.jpg",
+      "page": "https://en.wikipedia.org/wiki/Julius_Caesar"
+    },
+    "Pompey": {
+      "file": "pompey.jpg",
+      "page": "https://en.wikipedia.org/wiki/Pompey"
+    },
+    "Augustus": {
+      "file": "augustus.jpg",
+      "page": "https://en.wikipedia.org/wiki/Augustus"
+    },
+    "Scipio Africanus": {
+      "file": "scipio-africanus.jpg",
+      "page": "https://en.wikipedia.org/wiki/Scipio_Africanus"
+    },
+    "Mark Antony": {
+      "file": "mark-antony.jpg",
+      "page": "https://en.wikipedia.org/wiki/Mark_Antony"
+    },
+    "Cleopatra": {
+      "file": "cleopatra.jpg",
+      "page": "https://en.wikipedia.org/wiki/Cleopatra"
+    },
+    "Arminius": {
+      "file": "arminius.jpg",
+      "page": "https://en.wikipedia.org/wiki/Arminius"
+    },
+    "Marcus Vipsanius Agrippa": {
+      "file": "marcus-vipsanius-agrippa.jpg",
+      "page": "https://en.wikipedia.org/wiki/Marcus_Vipsanius_Agrippa"
+    },
+    "Zhou Yu": {
+      "file": "zhou-yu.jpg",
+      "page": "https://en.wikipedia.org/wiki/Zhou_Yu"
+    },
+    "Liu Bei": {
+      "file": "liu-bei.jpg",
+      "page": "https://en.wikipedia.org/wiki/Liu_Bei"
+    },
+    "Cao Cao": {
+      "file": "cao-cao.jpg",
+      "page": "https://en.wikipedia.org/wiki/Cao_Cao"
+    },
+    "Khalid ibn al-Walid": {
+      "file": "khalid-ibn-al-walid.jpg",
+      "page": "https://en.wikipedia.org/wiki/Khalid_ibn_al-Walid"
+    },
+    "Charles Martel": {
+      "file": "charles-martel.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_Martel"
+    },
+    "Abd al-Rahman al-Ghafiqi": {
+      "file": "abd-al-rahman-al-ghafiqi.png",
+      "page": "https://en.wikipedia.org/wiki/Abd_al-Rahman_al-Ghafiqi"
+    },
+    "William the Conqueror": {
+      "file": "william-the-conqueror.jpg",
+      "page": "https://en.wikipedia.org/wiki/William_the_Conqueror"
+    },
+    "Harold Godwinson": {
+      "file": "harold-godwinson.jpg",
+      "page": "https://en.wikipedia.org/wiki/Harold_Godwinson"
+    },
+    "Alp Arslan": {
+      "file": "alp-arslan.png",
+      "page": "https://en.wikipedia.org/wiki/Alp_Arslan"
+    },
+    "Romanos IV Diogenes": {
+      "file": "romanos-iv-diogenes.png",
+      "page": "https://en.wikipedia.org/wiki/Romanos_IV_Diogenes"
+    },
+    "Saladin": {
+      "file": "saladin.jpg",
+      "page": "https://en.wikipedia.org/wiki/Saladin"
+    },
+    "Guy of Lusignan": {
+      "file": "guy-of-lusignan.png",
+      "page": "https://en.wikipedia.org/wiki/Guy_of_Lusignan"
+    },
+    "Henry V of England": {
+      "file": "henry-v-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Henry_V_of_England"
+    },
+    "Mehmed II": {
+      "file": "mehmed-ii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Mehmed_II"
+    },
+    "Constantine XI Palaiologos": {
+      "file": "constantine-xi-palaiologos.jpg",
+      "page": "https://en.wikipedia.org/wiki/Constantine_XI_Palaiologos"
+    },
+    "Henry VII of England": {
+      "file": "henry-vii-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Henry_VII_of_England"
+    },
+    "Richard III of England": {
+      "file": "richard-iii-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Richard_III_of_England"
+    },
+    "Camille d'Hostun, duc de Tallard": {
+      "file": "camille-dhostun-duc-de-tallard.png",
+      "page": "https://en.wikipedia.org/wiki/Camille_d'Hostun%2C_duc_de_Tallard"
+    },
+    "Peter the Great": {
+      "file": "peter-the-great.jpg",
+      "page": "https://en.wikipedia.org/wiki/Peter_the_Great"
+    },
+    "Robert Clive": {
+      "file": "robert-clive.jpg",
+      "page": "https://en.wikipedia.org/wiki/Robert_Clive"
+    },
+    "Benedict Arnold": {
+      "file": "benedict-arnold.jpg",
+      "page": "https://en.wikipedia.org/wiki/Benedict_Arnold"
+    },
+    "John Burgoyne": {
+      "file": "john-burgoyne.jpg",
+      "page": "https://en.wikipedia.org/wiki/John_Burgoyne"
+    },
+    "George Washington": {
+      "file": "george-washington.jpg",
+      "page": "https://en.wikipedia.org/wiki/George_Washington"
+    },
+    "Charles Cornwallis, 1st Marquess Cornwallis": {
+      "file": "charles-cornwallis-1st-marquess-cornwallis.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_Cornwallis%2C_1st_Marquess_Cornwallis"
+    },
+    "Jean-Baptiste Donatien de Vimeur, comte de Rochambeau": {
+      "file": "jean-baptiste-donatien-de-vimeur-comte-de-rochambeau.jpg",
+      "page": "https://en.wikipedia.org/wiki/Jean-Baptiste_Donatien_de_Vimeur%2C_comte_de_Rochambeau"
+    },
+    "François Christophe Kellermann": {
+      "file": "francois-christophe-kellermann.jpg",
+      "page": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Christophe_Kellermann"
+    },
+    "Horatio Nelson": {
+      "file": "horatio-nelson.jpg",
+      "page": "https://en.wikipedia.org/wiki/Horatio_Nelson"
+    },
+    "Pierre-Charles Villeneuve": {
+      "file": "pierre-charles-villeneuve.png",
+      "page": "https://en.wikipedia.org/wiki/Pierre-Charles_Villeneuve"
+    },
+    "Napoleon": {
+      "file": "napoleon.jpg",
+      "page": "https://en.wikipedia.org/wiki/Napoleon"
+    },
+    "Alexander I of Russia": {
+      "file": "alexander-i-of-russia.jpg",
+      "page": "https://en.wikipedia.org/wiki/Alexander_I_of_Russia"
+    },
+    "Mikhail Kutuzov": {
+      "file": "mikhail-kutuzov.jpg",
+      "page": "https://en.wikipedia.org/wiki/Mikhail_Kutuzov"
+    },
+    "Gebhard Leberecht von Blücher": {
+      "file": "gebhard-leberecht-von-blucher.jpg",
+      "page": "https://en.wikipedia.org/wiki/Gebhard_Leberecht_von_Bl%C3%BCcher"
+    },
+    "Arthur Wellesley, 1st Duke of Wellington": {
+      "file": "arthur-wellesley-1st-duke-of-wellington.jpg",
+      "page": "https://en.wikipedia.org/wiki/Arthur_Wellesley%2C_1st_Duke_of_Wellington"
+    },
+    "Karl Philipp, Prince of Schwarzenberg": {
+      "file": "karl-philipp-prince-of-schwarzenberg.jpg",
+      "page": "https://en.wikipedia.org/wiki/Karl_Philipp%2C_Prince_of_Schwarzenberg"
+    },
+    "Robert E. Lee": {
+      "file": "robert-e-lee.jpg",
+      "page": "https://en.wikipedia.org/wiki/Robert_E._Lee"
+    },
+    "Helmuth von Moltke the Elder": {
+      "file": "helmuth-von-moltke-the-elder.jpg",
+      "page": "https://en.wikipedia.org/wiki/Helmuth_von_Moltke_the_Elder"
+    },
+    "Napoleon III": {
+      "file": "napoleon-iii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Napoleon_III"
+    },
+    "Mustafa Kemal Atatürk": {
+      "file": "mustafa-kemal-ataturk.jpg",
+      "page": "https://en.wikipedia.org/wiki/Mustafa_Kemal_Atat%C3%BCrk"
+    },
+    "Otto Liman von Sanders": {
+      "file": "otto-liman-von-sanders.jpg",
+      "page": "https://en.wikipedia.org/wiki/Otto_Liman_von_Sanders"
+    },
+    "Philippe Pétain": {
+      "file": "philippe-petain.jpg",
+      "page": "https://en.wikipedia.org/wiki/Philippe_P%C3%A9tain"
+    },
+    "Douglas Haig, 1st Earl Haig": {
+      "file": "douglas-haig-1st-earl-haig.jpg",
+      "page": "https://en.wikipedia.org/wiki/Douglas_Haig%2C_1st_Earl_Haig"
+    },
+    "Hugh Dowding, 1st Baron Dowding": {
+      "file": "hugh-dowding-1st-baron-dowding.jpg",
+      "page": "https://en.wikipedia.org/wiki/Hugh_Dowding%2C_1st_Baron_Dowding"
+    },
+    "Chester W. Nimitz": {
+      "file": "chester-w-nimitz.jpg",
+      "page": "https://en.wikipedia.org/wiki/Chester_W._Nimitz"
+    },
+    "Isoroku Yamamoto": {
+      "file": "isoroku-yamamoto.jpg",
+      "page": "https://en.wikipedia.org/wiki/Isoroku_Yamamoto"
+    },
+    "Chūichi Nagumo": {
+      "file": "chuichi-nagumo.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ch%C5%ABichi_Nagumo"
+    },
+    "Bernard Montgomery, 1st Viscount Montgomery of Alamein": {
+      "file": "bernard-montgomery-1st-viscount-montgomery-of-alamein.jpg",
+      "page": "https://en.wikipedia.org/wiki/Bernard_Montgomery%2C_1st_Viscount_Montgomery_of_Alamein"
+    },
+    "Erwin Rommel": {
+      "file": "erwin-rommel.jpg",
+      "page": "https://en.wikipedia.org/wiki/Erwin_Rommel"
+    },
+    "Georgy Zhukov": {
+      "file": "georgy-zhukov.jpg",
+      "page": "https://en.wikipedia.org/wiki/Georgy_Zhukov"
+    },
+    "Vasily Chuikov": {
+      "file": "vasily-chuikov.jpg",
+      "page": "https://en.wikipedia.org/wiki/Vasily_Chuikov"
+    },
+    "Erich von Manstein": {
+      "file": "erich-von-manstein.jpg",
+      "page": "https://en.wikipedia.org/wiki/Erich_von_Manstein"
+    },
+    "Dwight D. Eisenhower": {
+      "file": "dwight-d-eisenhower.jpg",
+      "page": "https://en.wikipedia.org/wiki/Dwight_D._Eisenhower"
+    },
+    "Ivan Konev": {
+      "file": "ivan-konev.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ivan_Konev"
+    },
+    "Helmuth Weidling": {
+      "file": "helmuth-weidling.jpg",
+      "page": "https://en.wikipedia.org/wiki/Helmuth_Weidling"
+    },
+    "Pausanias (general)": {
+      "file": "pausanias-general.jpg",
+      "page": "https://en.wikipedia.org/wiki/Pausanias_(general)"
+    },
+    "Porus": {
+      "file": "porus.png",
+      "page": "https://en.wikipedia.org/wiki/Porus"
+    },
+    "Marcus Licinius Crassus": {
+      "file": "marcus-licinius-crassus.jpg",
+      "page": "https://en.wikipedia.org/wiki/Marcus_Licinius_Crassus"
+    },
+    "Constantine the Great": {
+      "file": "constantine-the-great.jpg",
+      "page": "https://en.wikipedia.org/wiki/Constantine_the_Great"
+    },
+    "Maxentius": {
+      "file": "maxentius.jpg",
+      "page": "https://en.wikipedia.org/wiki/Maxentius"
+    },
+    "Valens": {
+      "file": "valens.png",
+      "page": "https://en.wikipedia.org/wiki/Valens"
+    },
+    "Flavius Aetius": {
+      "file": "flavius-aetius.jpg",
+      "page": "https://en.wikipedia.org/wiki/Flavius_Aetius"
+    },
+    "Attila": {
+      "file": "attila.jpg",
+      "page": "https://en.wikipedia.org/wiki/Attila"
+    },
+    "Harald Hardrada": {
+      "file": "harald-hardrada.png",
+      "page": "https://en.wikipedia.org/wiki/Harald_Hardrada"
+    },
+    "Edward II of England": {
+      "file": "edward-ii-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Edward_II_of_England"
+    },
+    "Władysław II Jagiełło": {
+      "file": "w-adys-aw-ii-jagie-o.jpg",
+      "page": "https://en.wikipedia.org/wiki/W%C5%82adys%C5%82aw_II_Jagie%C5%82%C5%82o"
+    },
+    "Philip VI of France": {
+      "file": "philip-vi-of-france.jpg",
+      "page": "https://en.wikipedia.org/wiki/Philip_VI_of_France"
+    },
+    "Vytautas the Great": {
+      "file": "vytautas-the-great.jpg",
+      "page": "https://en.wikipedia.org/wiki/Vytautas_the_Great"
+    },
+    "Hernán Cortés": {
+      "file": "hernan-cortes.jpg",
+      "page": "https://en.wikipedia.org/wiki/Hern%C3%A1n_Cort%C3%A9s"
+    },
+    "Cuauhtémoc": {
+      "file": "cuauhtemoc.jpg",
+      "page": "https://en.wikipedia.org/wiki/Cuauht%C3%A9moc"
+    },
+    "Suleiman the Magnificent": {
+      "file": "suleiman-the-magnificent.jpg",
+      "page": "https://en.wikipedia.org/wiki/Suleiman_the_Magnificent"
+    },
+    "Louis II of Hungary": {
+      "file": "louis-ii-of-hungary.jpg",
+      "page": "https://en.wikipedia.org/wiki/Louis_II_of_Hungary"
+    },
+    "Babur": {
+      "file": "babur.jpg",
+      "page": "https://en.wikipedia.org/wiki/Babur"
+    },
+    "Charles Howard, 1st Earl of Nottingham": {
+      "file": "charles-howard-1st-earl-of-nottingham.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_Howard%2C_1st_Earl_of_Nottingham"
+    },
+    "Francis Drake": {
+      "file": "francis-drake.jpg",
+      "page": "https://en.wikipedia.org/wiki/Francis_Drake"
+    },
+    "Alonso Pérez de Guzmán, 7th Duke of Medina Sidonia": {
+      "file": "alonso-perez-de-guzman-7th-duke-of-medina-sidonia.jpg",
+      "page": "https://en.wikipedia.org/wiki/Alonso_P%C3%A9rez_de_Guzm%C3%A1n%2C_7th_Duke_of_Medina_Sidonia"
+    },
+    "Charles I of England": {
+      "file": "charles-i-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_I_of_England"
+    },
+    "Oliver Cromwell": {
+      "file": "oliver-cromwell.jpg",
+      "page": "https://en.wikipedia.org/wiki/Oliver_Cromwell"
+    },
+    "James Wolfe": {
+      "file": "james-wolfe.jpg",
+      "page": "https://en.wikipedia.org/wiki/James_Wolfe"
+    },
+    "Prince Rupert of the Rhine": {
+      "file": "prince-rupert-of-the-rhine.jpg",
+      "page": "https://en.wikipedia.org/wiki/Prince_Rupert_of_the_Rhine"
+    },
+    "Charles Edward Stuart": {
+      "file": "charles-edward-stuart.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_Edward_Stuart"
+    },
+    "Louis-Nicolas Davout": {
+      "file": "louis-nicolas-davout.jpg",
+      "page": "https://en.wikipedia.org/wiki/Louis-Nicolas_Davout"
+    },
+    "Prince William, Duke of Cumberland": {
+      "file": "prince-william-duke-of-cumberland.jpg",
+      "page": "https://en.wikipedia.org/wiki/Prince_William%2C_Duke_of_Cumberland"
+    },
+    "FitzRoy Somerset, 1st Baron Raglan": {
+      "file": "fitzroy-somerset-1st-baron-raglan.jpg",
+      "page": "https://en.wikipedia.org/wiki/FitzRoy_Somerset%2C_1st_Baron_Raglan"
+    },
+    "Alexander Sergeyevich Menshikov": {
+      "file": "alexander-sergeyevich-menshikov.jpg",
+      "page": "https://en.wikipedia.org/wiki/Alexander_Sergeyevich_Menshikov"
+    },
+    "Crazy Horse": {
+      "file": "crazy-horse.jpg",
+      "page": "https://en.wikipedia.org/wiki/Crazy_Horse"
+    },
+    "Sitting Bull": {
+      "file": "sitting-bull.jpg",
+      "page": "https://en.wikipedia.org/wiki/Sitting_Bull"
+    },
+    "Menelik II": {
+      "file": "menelik-ii.png",
+      "page": "https://en.wikipedia.org/wiki/Menelik_II"
+    },
+    "Joseph Joffre": {
+      "file": "joseph-joffre.jpg",
+      "page": "https://en.wikipedia.org/wiki/Joseph_Joffre"
+    },
+    "Helmuth von Moltke the Younger": {
+      "file": "helmuth-von-moltke-the-younger.jpg",
+      "page": "https://en.wikipedia.org/wiki/Helmuth_von_Moltke_the_Younger"
+    },
+    "Husband E. Kimmel": {
+      "file": "husband-e-kimmel.jpg",
+      "page": "https://en.wikipedia.org/wiki/Husband_E._Kimmel"
+    },
+    "Thomas C. Kinkaid": {
+      "file": "thomas-c-kinkaid.jpg",
+      "page": "https://en.wikipedia.org/wiki/Thomas_C._Kinkaid"
+    },
+    "George S. Patton": {
+      "file": "george-s-patton.jpg",
+      "page": "https://en.wikipedia.org/wiki/George_S._Patton"
+    },
+    "Douglas MacArthur": {
+      "file": "douglas-macarthur.jpg",
+      "page": "https://en.wikipedia.org/wiki/Douglas_MacArthur"
+    },
+    "Kim Il Sung": {
+      "file": "kim-il-sung.jpg",
+      "page": "https://en.wikipedia.org/wiki/Kim_Il_Sung"
+    },
+    "Walter Model": {
+      "file": "walter-model.jpg",
+      "page": "https://en.wikipedia.org/wiki/Walter_Model"
+    },
+    "Christian de Castries": {
+      "file": "christian-de-castries.jpg",
+      "page": "https://en.wikipedia.org/wiki/Christian_de_Castries"
+    },
+    "Lucius Aemilius Paullus (consul 219 BC)": {
+      "file": "lucius-aemilius-paullus-consul-219-bc.jpg",
+      "page": "https://en.wikipedia.org/wiki/Lucius_Aemilius_Paullus_(consul_219_BC)"
+    },
+    "Publius Quinctilius Varus": {
+      "file": "publius-quinctilius-varus.jpg",
+      "page": "https://en.wikipedia.org/wiki/Publius_Quinctilius_Varus"
+    },
+    "Charles I d'Albret": {
+      "file": "charles-i-dalbret.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_I_d'Albret"
+    },
+    "John of Austria": {
+      "file": "john-of-austria.jpg",
+      "page": "https://en.wikipedia.org/wiki/John_of_Austria"
+    },
+    "Müezzinzade Ali Pasha": {
+      "file": "muezzinzade-ali-pasha.jpg",
+      "page": "https://en.wikipedia.org/wiki/M%C3%BCezzinzade_Ali_Pasha"
+    },
+    "Kara Mustafa Pasha": {
+      "file": "kara-mustafa-pasha.jpg",
+      "page": "https://en.wikipedia.org/wiki/Kara_Mustafa_Pasha"
+    },
+    "Charles XII of Sweden": {
+      "file": "charles-xii-of-sweden.png",
+      "page": "https://en.wikipedia.org/wiki/Charles_XII_of_Sweden"
+    },
+    "Prince Eugene of Savoy": {
+      "file": "prince-eugene-of-savoy.png",
+      "page": "https://en.wikipedia.org/wiki/Prince_Eugene_of_Savoy"
+    },
+    "Charles François Dumouriez": {
+      "file": "charles-francois-dumouriez.jpg",
+      "page": "https://en.wikipedia.org/wiki/Charles_Fran%C3%A7ois_Dumouriez"
+    },
+    "Charles William Ferdinand, Duke of Brunswick": {
+      "file": "charles-william-ferdinand-duke-of-brunswick.png",
+      "page": "https://en.wikipedia.org/wiki/Charles_William_Ferdinand%2C_Duke_of_Brunswick"
+    },
+    "George Meade": {
+      "file": "george-meade.jpg",
+      "page": "https://en.wikipedia.org/wiki/George_Meade"
+    },
+    "Zinovy Rozhestvensky": {
+      "file": "zinovy-rozhestvensky.jpg",
+      "page": "https://en.wikipedia.org/wiki/Zinovy_Rozhestvensky"
+    },
+    "Erich von Falkenhayn": {
+      "file": "erich-von-falkenhayn.jpg",
+      "page": "https://en.wikipedia.org/wiki/Erich_von_Falkenhayn"
+    },
+    "Hermann Göring": {
+      "file": "hermann-goring.jpg",
+      "page": "https://en.wikipedia.org/wiki/Hermann_G%C3%B6ring"
+    },
+    "Reinhard Scheer": {
+      "file": "reinhard-scheer.jpg",
+      "page": "https://en.wikipedia.org/wiki/Reinhard_Scheer"
+    },
+    "Friedrich Paulus": {
+      "file": "friedrich-paulus.jpg",
+      "page": "https://en.wikipedia.org/wiki/Friedrich_Paulus"
+    },
+    "Thutmose III": {
+      "file": "thutmose-iii.jpg",
+      "page": "https://en.wikipedia.org/wiki/Thutmose_III"
+    },
+    "Theodoric I": {
+      "file": "theodoric-i.jpg",
+      "page": "https://en.wikipedia.org/wiki/Theodoric_I"
+    },
+    "Edward III of England": {
+      "file": "edward-iii-of-england.jpg",
+      "page": "https://en.wikipedia.org/wiki/Edward_III_of_England"
+    },
+    "Ibrahim Lodi": {
+      "file": "ibrahim-lodi.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ibrahim_Lodi"
+    },
+    "Louis-Joseph de Montcalm": {
+      "file": "louis-joseph-de-montcalm.jpg",
+      "page": "https://en.wikipedia.org/wiki/Louis-Joseph_de_Montcalm"
+    },
+    "Ludwig von Benedek": {
+      "file": "ludwig-von-benedek.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ludwig_von_Benedek"
+    },
+    "Oreste Baratieri": {
+      "file": "oreste-baratieri.jpg",
+      "page": "https://en.wikipedia.org/wiki/Oreste_Baratieri"
+    },
+    "Võ Nguyên Giáp": {
+      "file": "vo-nguyen-giap.jpg",
+      "page": "https://en.wikipedia.org/wiki/V%C3%B5_Nguy%C3%AAn_Gi%C3%A1p"
+    },
+    "John Churchill, 1st Duke of Marlborough": {
+      "file": "john-churchill-1st-duke-of-marlborough.jpg",
+      "page": "https://en.wikipedia.org/wiki/John_Churchill%2C_1st_Duke_of_Marlborough"
+    },
+    "John III Sobieski": {
+      "file": "john-iii-sobieski.jpg",
+      "page": "https://en.wikipedia.org/wiki/John_III_Sobieski"
+    },
+    "Siraj ud-Daulah": {
+      "file": "siraj-ud-daulah.jpg",
+      "page": "https://en.wikipedia.org/wiki/Siraj_ud-Daulah"
+    },
+    "George B. McClellan": {
+      "file": "george-b-mcclellan.jpg",
+      "page": "https://en.wikipedia.org/wiki/George_B._McClellan"
+    },
+    "Ian Hamilton (British Army officer)": {
+      "file": "ian-hamilton-british-army-officer.jpg",
+      "page": "https://en.wikipedia.org/wiki/Ian_Hamilton_(British_Army_officer)"
+    },
+    "Raymond A. Spruance": {
+      "file": "raymond-a-spruance.jpg",
+      "page": "https://en.wikipedia.org/wiki/Raymond_A._Spruance"
+    },
+    "Ulrich von Jungingen": {
+      "file": "ulrich-von-jungingen.png",
+      "page": "https://en.wikipedia.org/wiki/Ulrich_von_Jungingen"
+    },
+    "Thomas Fairfax, 3rd Lord Fairfax of Cameron": {
+      "file": "thomas-fairfax-3rd-lord-fairfax-of-cameron.jpg",
+      "page": "https://en.wikipedia.org/wiki/Thomas_Fairfax%2C_3rd_Lord_Fairfax_of_Cameron"
+    },
+    "George Armstrong Custer": {
+      "file": "george-armstrong-custer.jpg",
+      "page": "https://en.wikipedia.org/wiki/George_Armstrong_Custer"
+    },
+    "Takeo Kurita": {
+      "file": "takeo-kurita.jpg",
+      "page": "https://en.wikipedia.org/wiki/Takeo_Kurita"
+    },
+    "Horatio Gates": {
+      "file": "horatio-gates.jpg",
+      "page": "https://en.wikipedia.org/wiki/Horatio_Gates"
+    },
+    "Tōgō Heihachirō": {
+      "file": "togo-heihachiro.jpg",
+      "page": "https://en.wikipedia.org/wiki/T%C5%8Dg%C5%8D_Heihachir%C5%8D"
+    },
+    "Gerd von Rundstedt": {
+      "file": "gerd-von-rundstedt.jpg",
+      "page": "https://en.wikipedia.org/wiki/Gerd_von_Rundstedt"
+    },
+    "John Jellicoe, 1st Earl Jellicoe": {
+      "file": "john-jellicoe-1st-earl-jellicoe.jpg",
+      "page": "https://en.wikipedia.org/wiki/John_Jellicoe%2C_1st_Earl_Jellicoe"
+    },
+    "Robert the Bruce": {
+      "file": "robert-the-bruce.jpg",
+      "page": "https://en.wikipedia.org/wiki/Robert_the_Bruce"
+    },
+    "William Halsey Jr.": {
+      "file": "william-halsey-jr.jpg",
+      "page": "https://en.wikipedia.org/wiki/William_Halsey_Jr."
+    },
+    "Vercingetorix": {
+      "file": "vercingetorix.jpg",
+      "page": "https://en.wikipedia.org/wiki/Vercingetorix"
+    },
+    "Frederick Louis, Prince of Hohenlohe-Ingelfingen": {
+      "file": "frederick-louis-prince-of-hohenlohe-ingelfingen.jpg",
+      "page": "https://en.wikipedia.org/wiki/Frederick_Louis%2C_Prince_of_Hohenlohe-Ingelfingen"
+    }
+  }
+}

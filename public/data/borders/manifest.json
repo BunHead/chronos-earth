@@ -1,0 +1,136 @@
+{
+  "frames": [
+    {
+      "year": -10000,
+      "file": "borders_-10000.geojson"
+    },
+    {
+      "year": -5000,
+      "file": "borders_-5000.geojson"
+    },
+    {
+      "year": -3000,
+      "file": "borders_-3000.geojson"
+    },
+    {
+      "year": -2000,
+      "file": "borders_-2000.geojson"
+    },
+    {
+      "year": -1000,
+      "file": "borders_-1000.geojson"
+    },
+    {
+      "year": -500,
+      "file": "borders_-500.geojson"
+    },
+    {
+      "year": -323,
+      "file": "borders_-323.geojson"
+    },
+    {
+      "year": -200,
+      "file": "borders_-200.geojson"
+    },
+    {
+      "year": -1,
+      "file": "borders_-1.geojson"
+    },
+    {
+      "year": 200,
+      "file": "borders_200.geojson"
+    },
+    {
+      "year": 400,
+      "file": "borders_400.geojson"
+    },
+    {
+      "year": 500,
+      "file": "borders_500.geojson"
+    },
+    {
+      "year": 700,
+      "file": "borders_700.geojson"
+    },
+    {
+      "year": 1000,
+      "file": "borders_1000.geojson"
+    },
+    {
+      "year": 1200,
+      "file": "borders_1200.geojson"
+    },
+    {
+      "year": 1279,
+      "file": "borders_1279.geojson"
+    },
+    {
+      "year": 1400,
+      "file": "borders_1400.geojson"
+    },
+    {
+      "year": 1500,
+      "file": "borders_1500.geojson"
+    },
+    {
+      "year": 1600,
+      "file": "borders_1600.geojson"
+    },
+    {
+      "year": 1650,
+      "file": "borders_1650.geojson"
+    },
+    {
+      "year": 1715,
+      "file": "borders_1715.geojson"
+    },
+    {
+      "year": 1783,
+      "file": "borders_1783.geojson"
+    },
+    {
+      "year": 1800,
+      "file": "borders_1800.geojson"
+    },
+    {
+      "year": 1815,
+      "file": "borders_1815.geojson"
+    },
+    {
+      "year": 1880,
+      "file": "borders_1880.geojson"
+    },
+    {
+      "year": 1900,
+      "file": "borders_1900.geojson"
+    },
+    {
+      "year": 1914,
+      "file": "borders_1914.geojson"
+    },
+    {
+      "year": 1920,
+      "file": "borders_1920.geojson"
+    },
+    {
+      "year": 1938,
+      "file": "borders_1938.geojson"
+    },
+    {
+      "year": 1945,
+      "file": "borders_1945.geojson"
+    },
+    {
+      "year": 1960,
+      "file": "borders_1960.geojson"
+    },
+    {
+      "year": 1994,
+      "file": "borders_1994.geojson"
+    },
+    {
+      "year": 2010,
+      "file": "borders_2010.geojson"
+    }
+  ]
+}

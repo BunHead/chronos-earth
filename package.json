@@ -1,0 +1,31 @@
+{
+  "name": "chronos-earth",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Chronos Earth — an interactive 3D globe for exploring 250 million years of Earth and human history.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "refresh-data": "node scripts/refresh-data.mjs"
+  },
+  "dependencies": {
+    "cesium": "^1.123.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vite-plugin-cesium": "^1.2.23",
+    "vitest": "^2.1.1"
+  }
+}
