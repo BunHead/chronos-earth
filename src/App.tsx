@@ -260,6 +260,16 @@ export default function App() {
           setIsPlaying(false);
           setYearsBP(bp);
         }}
+        onDive={(t) => {
+          // The dive: zooming right down onto a marker opens its 3D scene.
+          if (t.kind === 'battle') {
+            if (battleViews[t.id]) setActiveBattleView(t.id);
+            return;
+          }
+          const site = sites.find((s) => s.id === t.id);
+          const m = site && siteToPanel(site).monument3d;
+          if (m) setActiveMonument(m);
+        }}
       />
 
       {campaignLabel && <div className="campaign-banner">⚑ {campaignLabel}</div>}

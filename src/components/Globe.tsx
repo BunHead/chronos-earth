@@ -108,13 +108,23 @@ interface GlobeProps {
   onCampaignLabel: (label: string | null) => void;
   /** Move the timeline to a clicked marker's date (globe → timeline sync). */
   onSeek: (yearsBP: number) => void;
+  /** The dive: keep zooming onto a 3D-capable marker and this fires once so
+   * the app can open its 3D scene. Re-arms when the camera climbs again. */
+  onDive: (target: { kind: 'battle' | 'site'; id: string }) => void;
 }
+
+/** Diving below this camera height (m) over a marker opens its 3D scene. */
+const DIVE_HEIGHT = 26_000;
+/** …and this is how far away (m) is re-armed. */
+const DIVE_REARM_HEIGHT = 90_000;
+/** How close (degrees, ~50 km) the camera must be over the marker. */
+const DIVE_RADIUS_DEG = 0.45;
 
 /** Deep time (continents drifting) begins at 4 million years before present. */
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek },
+  { currentYearsBP, sites, battles, showSites, showBorders, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -147,6 +157,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onSelectRef.current = onSelect;
   const onSeekRef = useRef(onSeek);
   onSeekRef.current = onSeek;
+  const onDiveRef = useRef(onDive);
+  onDiveRef.current = onDive;
+  /** True after a dive fired; re-arms once the camera climbs back up. */
+  const divedRef = useRef(false);
   const eventsRef = useRef(events);
   eventsRef.current = events;
   /** More markers reveal themselves as the camera descends. */
@@ -312,7 +326,36 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // event does not fire reliably in this build.
     const tierTimer = window.setInterval(() => {
       if (viewer.isDestroyed()) return;
-      setZoomTier(zoomTierFor(viewer.camera.positionCartographic.height));
+      const carto = viewer.camera.positionCartographic;
+      setZoomTier(zoomTierFor(carto.height));
+
+      // The dive: sink below the threshold right over a 3D-capable marker and
+      // its scene opens. One shot — climbing back up re-arms it.
+      if (carto.height > DIVE_REARM_HEIGHT) {
+        divedRef.current = false;
+      } else if (!divedRef.current && carto.height < DIVE_HEIGHT) {
+        const camLon = Cesium.Math.toDegrees(carto.longitude);
+        const camLat = Cesium.Math.toDegrees(carto.latitude);
+        const coslat = Math.max(0.2, Math.cos(carto.latitude));
+        let best: { kind: 'battle' | 'site'; id: string; d: number } | null = null;
+        const consider = (kind: 'battle' | 'site', id: string, lon: number, lat: number, shown: boolean) => {
+          if (!shown) return;
+          const d = Math.hypot((lon - camLon) * coslat, lat - camLat);
+          if (d <= DIVE_RADIUS_DEG && (!best || d < best.d)) best = { kind, id, d };
+        };
+        for (const [id, ent] of entitiesRef.current) {
+          const site = (ent as Cesium.Entity & { chronosSite?: AncientSite }).chronosSite;
+          if (site) consider('site', id, site.lon, site.lat, ent.show);
+        }
+        for (const [id, ent] of battleEntitiesRef.current) {
+          const battle = (ent as Cesium.Entity & { chronosBattle?: Battle }).chronosBattle;
+          if (battle) consider('battle', id, battle.lon, battle.lat, ent.show);
+        }
+        if (best) {
+          divedRef.current = true;
+          onDiveRef.current({ kind: (best as { kind: 'battle' | 'site' }).kind, id: (best as { id: string }).id });
+        }
+      }
       // Track the visible patch of Earth (rounded, so tiny drifts don't churn).
       const rect = viewer.camera.computeViewRectangle();
       if (rect) {

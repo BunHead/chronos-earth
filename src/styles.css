@@ -105,6 +105,19 @@ body {
   white-space: nowrap;
 }
 
+/* 3D scenes (battle & monument overlays) fade in — softens the dive. */
+.bv-overlay {
+  animation: dive-fade 0.55s ease;
+}
+@keyframes dive-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Painted-wall scenes behind the minimap — each age's picture, fading into
    its neighbours over the era colours. */
 .backdrop-scene {
