@@ -113,10 +113,12 @@ interface GlobeProps {
   onDive: (target: { kind: 'battle' | 'site'; id: string }) => void;
 }
 
-/** Diving below this camera height (m) over a marker opens its 3D scene. */
-const DIVE_HEIGHT = 26_000;
-/** …and this is how far away (m) is re-armed. */
-const DIVE_REARM_HEIGHT = 90_000;
+/** Diving below this camera height (m) over a marker opens its 3D scene.
+ * Generous: real scroll-wheel zooming decelerates near the ground, so a
+ * too-low threshold is never crossed in practice. */
+const DIVE_HEIGHT = 75_000;
+/** …and climbing above this (m) re-arms the dive. */
+const DIVE_REARM_HEIGHT = 250_000;
 /** How close (degrees, ~50 km) the camera must be over the marker. */
 const DIVE_RADIUS_DEG = 0.45;
 
@@ -324,6 +326,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // Descending reveals more history: watch the camera height and bucket it
     // into tiers that widen the event caps. Polled — Cesium's camera.changed
     // event does not fire reliably in this build.
+    // Tiny always-on probe so live deployments stay diagnosable (the full dev
+    // handles are stripped from production builds).
+    (window as unknown as { __chronosCam?: () => { height: number; lon: number; lat: number } }).__chronosCam =
+      () => {
+        const c = viewer.camera.positionCartographic;
+        return {
+          height: Math.round(c.height),
+          lon: +Cesium.Math.toDegrees(c.longitude).toFixed(3),
+          lat: +Cesium.Math.toDegrees(c.latitude).toFixed(3),
+        };
+      };
+
     const tierTimer = window.setInterval(() => {
       if (viewer.isDestroyed()) return;
       const carto = viewer.camera.positionCartographic;
