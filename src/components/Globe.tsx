@@ -66,7 +66,10 @@ function eventVisibleAt(ev: TimelineEvent, year: number): boolean {
     const until = ev.endYear !== undefined ? ev.endYear + 2 : from + 5 * age;
     return year >= from && year <= until;
   }
-  if (ev.category === 'person') return year >= from && year <= from + 85 * age;
+  // People show only while alive: birth → death when known, else a lifetime.
+  if (ev.category === 'person') {
+    return year >= from && year <= (ev.endYear ?? from + 85 * age);
+  }
   // Treaties & agreements: they take effect at signing and matter for
   // generations after — but never before.
   if (ev.category === 'event') return year >= from && year <= from + 120 * age;
@@ -148,14 +151,23 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   eventsRef.current = events;
   /** More markers reveal themselves as the camera descends. */
   const [zoomTier, setZoomTier] = useState(0);
+  /** What the camera can see (degrees), so zooming into a region fills THAT
+   * region with markers instead of spending the quota worldwide. */
+  const [viewRect, setViewRect] = useState<{ w: number; s: number; e: number; n: number } | null>(
+    null,
+  );
+  const viewRectKeyRef = useRef('');
   // Markers mid-pop (grow-in animation) and the timer driving them.
   const popAnimsRef = useRef<Map<Cesium.Entity, { t0: number; base: number }>>(new Map());
   const popTimerRef = useRef<number | null>(null);
 
-  /** Animate a marker's billboard from tiny to its full size with a bounce. */
-  const popIn = (entity: Cesium.Entity) => {
+  /** Animate a marker's billboard from tiny to its full size with a bounce.
+   * `delay` staggers a batch into a cascade instead of a simultaneous blink. */
+  const popIn = (entity: Cesium.Entity, delay = 0) => {
     const base = (entity as Cesium.Entity & { chronosScale?: number }).chronosScale ?? 0.4;
-    popAnimsRef.current.set(entity, { t0: performance.now(), base });
+    const bb0 = entity.billboard as unknown as { scale: number } | undefined;
+    if (bb0) bb0.scale = 0.01; // invisible until its turn in the cascade
+    popAnimsRef.current.set(entity, { t0: performance.now() + delay, base });
     if (popTimerRef.current !== null) return;
     popTimerRef.current = window.setInterval(() => {
       const now = performance.now();
@@ -166,6 +178,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           popAnimsRef.current.delete(ent);
           continue;
         }
+        if (t < 0) continue; // still waiting for its cascade slot
         if (t >= 1) {
           bb.scale = a.base;
           popAnimsRef.current.delete(ent);
@@ -180,14 +193,16 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }, 33);
   };
 
-  /** Show/hide a marker; a fresh appearance pops in instead of just blinking on. */
-  const setShownPop = (entity: Cesium.Entity, show: boolean) => {
+  /** Show/hide a marker; a fresh appearance pops in instead of just blinking on.
+   * Returns true when the marker newly appeared (so callers can stagger). */
+  const setShownPop = (entity: Cesium.Entity, show: boolean, delay = 0): boolean => {
     if (show && !entity.show) {
       entity.show = true;
-      popIn(entity);
-    } else if (!show && entity.show) {
-      entity.show = false;
+      popIn(entity, delay);
+      return true;
     }
+    if (!show && entity.show) entity.show = false;
+    return false;
   };
 
   const flyTo = (lon: number, lat: number, height: number) => {
@@ -296,8 +311,21 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // into tiers that widen the event caps. Polled — Cesium's camera.changed
     // event does not fire reliably in this build.
     const tierTimer = window.setInterval(() => {
-      if (!viewer.isDestroyed()) {
-        setZoomTier(zoomTierFor(viewer.camera.positionCartographic.height));
+      if (viewer.isDestroyed()) return;
+      setZoomTier(zoomTierFor(viewer.camera.positionCartographic.height));
+      // Track the visible patch of Earth (rounded, so tiny drifts don't churn).
+      const rect = viewer.camera.computeViewRectangle();
+      if (rect) {
+        const deg = (r: number) => Math.round(Cesium.Math.toDegrees(r) * 2) / 2;
+        const next = { w: deg(rect.west), s: deg(rect.south), e: deg(rect.east), n: deg(rect.north) };
+        const key = `${next.w}|${next.s}|${next.e}|${next.n}`;
+        if (key !== viewRectKeyRef.current) {
+          viewRectKeyRef.current = key;
+          setViewRect(next);
+        }
+      } else if (viewRectKeyRef.current !== 'space') {
+        viewRectKeyRef.current = 'space';
+        setViewRect(null); // whole globe (or space) in view
       }
     }, 500);
 
@@ -643,11 +671,25 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         }),
       );
     } else {
+      // When zoomed toward a region, the quota is spent on what's IN VIEW —
+      // zooming into Kent fills Kent, not the whole planet. (Tier 0 = orbit,
+      // where the whole world competes as before.)
+      const scopeToView = zoomTier >= 1 && viewRect !== null;
+      const inView = (ev: TimelineEvent): boolean => {
+        if (!scopeToView) return true;
+        const { w, s, e, n } = viewRect;
+        const mLat = Math.max(1, (n - s) * 0.1); // a little margin past the edges
+        if (ev.lat < s - mLat || ev.lat > n + mLat) return false;
+        const mLon = Math.max(1, (e >= w ? e - w : 360 - (w - e)) * 0.1);
+        return e >= w
+          ? ev.lon >= w - mLon && ev.lon <= e + mLon
+          : ev.lon >= w - mLon || ev.lon <= e + mLon; // view crosses the dateline
+      };
       const inWindow = events.filter((ev) => {
         if (!eventEntitiesRef.current.has(ev.id)) return false;
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         if (!enabledEventCats.has(ev.category)) return false; // category toggled off
-        return eventVisibleAt(ev, year);
+        return inView(ev) && eventVisibleAt(ev, year);
       });
       const byCat = new Map<string, TimelineEvent[]>();
       for (const ev of inWindow) {
@@ -665,8 +707,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }
     // Whatever the user just searched for / clicked always keeps its marker.
     if (focusEventId && eventEntitiesRef.current.has(focusEventId)) visibleIds.add(focusEventId);
-    for (const [id, entity] of eventEntitiesRef.current) setShownPop(entity, visibleIds.has(id));
-  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier]);
+    let appeared = 0;
+    for (const [id, entity] of eventEntitiesRef.current) {
+      if (setShownPop(entity, visibleIds.has(id), Math.min(appeared * 60, 900))) appeared++;
+    }
+  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect]);
 
   return <div className="globe" ref={containerRef} />;
 });

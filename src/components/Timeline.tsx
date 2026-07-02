@@ -107,9 +107,12 @@ function loadThumb(title: string): Promise<string | null> {
  * pencil-sketched Wikipedia photo once it loads. */
 function MuralCircle({
   item,
+  index,
   onSelect,
 }: {
   item: MuralSource & { anchor: number; row: number };
+  /** Position in this window's cast — staggers the pop-in into a cascade. */
+  index: number;
   onSelect: (c: PanelContent) => void;
 }) {
   const [thumb, setThumb] = useState<string | null | undefined>(() => {
@@ -131,7 +134,13 @@ function MuralCircle({
     <button
       className={marquee ? 'mural-circle marquee' : 'mural-circle'}
       data-row={item.row}
-      style={{ left: `${item.anchor * 100}%`, '--mc-size': `${40 + Math.round(22 * fame)}px` } as React.CSSProperties}
+      style={
+        {
+          left: `${item.anchor * 100}%`,
+          '--mc-size': `${40 + Math.round(22 * fame)}px`,
+          animationDelay: `${Math.min(index * 70, 900)}ms`,
+        } as React.CSSProperties
+      }
       title={item.title}
       onPointerDown={(e) => {
         e.stopPropagation();
@@ -574,8 +583,8 @@ export default function Timeline({
               })}
 
             {/* The photo-circle mural above the ribbon. */}
-            {muralItems.map((m) => (
-              <MuralCircle key={m.id} item={m} onSelect={onSelect} />
+            {muralItems.map((m, i) => (
+              <MuralCircle key={m.id} item={m} index={i} onSelect={onSelect} />
             ))}
 
             <div className="playline" style={{ left: `${clamp(detailPos, 0, 1) * 100}%` }} />
