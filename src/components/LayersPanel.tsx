@@ -1,8 +1,12 @@
+import { useState } from 'react';
+
 interface LayersPanelProps {
   showSites: boolean;
   onToggleSites: (value: boolean) => void;
   showBorders: boolean;
   onToggleBorders: (value: boolean) => void;
+  showFlags: boolean;
+  onToggleFlags: (value: boolean) => void;
   showBattles: boolean;
   onToggleBattles: (value: boolean) => void;
   showCampaigns: boolean;
@@ -35,6 +39,8 @@ export default function LayersPanel({
   onToggleSites,
   showBorders,
   onToggleBorders,
+  showFlags,
+  onToggleFlags,
   showBattles,
   onToggleBattles,
   showCampaigns,
@@ -51,12 +57,27 @@ export default function LayersPanel({
   onToggleFauna,
   onAbout,
 }: LayersPanelProps) {
+  // Collapsible, so the panel can fold away for a clean view of the planet.
+  const [open, setOpen] = useState(true);
   return (
-    <div className="layers-panel">
-      <div className="layers-title">Layers</div>
+    <div className={open ? 'layers-panel' : 'layers-panel collapsed'}>
+      <button className="layers-title" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        Layers <span className="layers-chevron">{open ? '▾' : '▸'}</span>
+      </button>
+      {open && (
+        <>
       <label className="layer-row">
         <input type="checkbox" checked={showBorders} onChange={(e) => onToggleBorders(e.target.checked)} />
         <span>Political borders</span>
+      </label>
+      <label className="layer-row sub">
+        <input
+          type="checkbox"
+          checked={showFlags}
+          disabled={!showBorders}
+          onChange={(e) => onToggleFlags(e.target.checked)}
+        />
+        <span>↳ ⚑ flags inside borders</span>
       </label>
       <label className="layer-row">
         <input type="checkbox" checked={showBattles} onChange={(e) => onToggleBattles(e.target.checked)} />
@@ -97,6 +118,8 @@ export default function LayersPanel({
       <button className="layers-about" onClick={onAbout}>
         ℹ About &amp; sources
       </button>
+        </>
+      )}
     </div>
   );
 }

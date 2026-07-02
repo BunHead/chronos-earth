@@ -62,7 +62,11 @@ function eventVisibleAt(ev: TimelineEvent, year: number): boolean {
   // 3000 BCE view still has something to show (×1 in modern times, up to ×30).
   const age = Math.min(30, Math.max(1, -ev.startYear / 300));
   const from = ev.startYear;
-  if (ev.category === 'battle') return year >= from && year <= from + 3 * age;
+  if (ev.category === 'battle') {
+    // Famous battles linger (Hastings stays findable); skirmishes pass quickly.
+    const linger = 3 + 9 * Math.min(1, (ev.notability ?? 0) / 350);
+    return year >= from && year <= from + linger * age;
+  }
   if (ev.category === 'disaster') {
     const until = ev.endYear !== undefined ? ev.endYear + 2 : from + 5 * age;
     return year >= from && year <= until;
@@ -94,6 +98,8 @@ interface GlobeProps {
   battles: Battle[];
   showSites: boolean;
   showBorders: boolean;
+  /** Paint real flag artwork inside borders. */
+  showFlags: boolean;
   showBattles: boolean;
   showCampaigns: boolean;
   showFauna: boolean;
@@ -127,7 +133,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive },
+  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -536,6 +542,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA);
     faunaRef.current?.update(ma, showFauna);
   }, [currentYearsBP, showBorders, showCampaigns, showFauna]);
+
+  // Flag artwork inside borders on/off.
+  useEffect(() => {
+    bordersRef.current?.setFlags(showFlags);
+  }, [showFlags]);
 
   // Feed the border engine every battle we know of (curated + imported), so
   // the line map can burn its borders red where fighting is current.

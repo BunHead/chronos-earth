@@ -57,6 +57,7 @@ export default function App() {
   const [fauna, setFauna] = useState<Fauna[]>([]);
   const [showSites, setShowSites] = useState(true);
   const [showBorders, setShowBorders] = useState(true);
+  const [showFlags, setShowFlags] = useState(true);
   const [showBattles, setShowBattles] = useState(true);
   const [showCampaigns, setShowCampaigns] = useState(true);
   const [showFauna, setShowFauna] = useState(true);
@@ -251,6 +252,7 @@ export default function App() {
         battles={battles}
         showSites={showSites}
         showBorders={showBorders}
+        showFlags={showFlags}
         showBattles={showBattles}
         showCampaigns={showCampaigns}
         showFauna={showFauna}
@@ -314,6 +316,8 @@ export default function App() {
         onToggleSites={setShowSites}
         showBorders={showBorders}
         onToggleBorders={setShowBorders}
+        showFlags={showFlags}
+        onToggleFlags={setShowFlags}
         showBattles={showBattles}
         onToggleBattles={setShowBattles}
         showCampaigns={showCampaigns}

@@ -231,6 +231,8 @@ export class BordersController {
   private ready = false;
   private activeYear: number | undefined;
   private pending: { year: number; visible: boolean; paleoActive: boolean } | undefined;
+  /** Paint real flag artwork inside borders (toggleable from the Layers panel). */
+  private flagsOn = true;
   /** Battles feeding the red "at war" borders (set by the globe). */
   private warPoints: WarPoint[] = [];
   /** Campaign front lines (loaded from campaigns.json) — also feed the red. */
@@ -311,7 +313,7 @@ export class BordersController {
     // this date (time-aware — St George before 1707, Union Jack after), else
     // a whisper of its own colour. The real Earth shows through underneath.
     for (const polity of polities) {
-      const flag = flagCanvasFor(polity.name, year);
+      const flag = this.flagsOn ? flagCanvasFor(polity.name, year) : null;
       for (const poly of polity.mp) {
         if (!trace(poly)) continue;
         if (flag) {
@@ -329,13 +331,26 @@ export class BordersController {
           }
           const bw = Math.max(1, maxX - minX);
           const bh = Math.max(1, maxY - minY);
-          const scale = Math.max(bw / flag.width, bh / flag.height);
-          const dw = flag.width * scale;
-          const dh = flag.height * scale;
           ctx.save();
           ctx.clip('evenodd');
           ctx.globalAlpha = TINT_ALPHA + 0.08;
-          ctx.drawImage(flag, minX + (bw - dw) / 2, minY + (bh - dh) / 2, dw, dh);
+          if (bw > 620 || bh > 340) {
+            // A giant realm (Russia, colonial empires) stretched to one flag
+            // would show a single band filling the whole view — tile it
+            // instead, so the flag stays recognisable everywhere.
+            const pattern = ctx.createPattern(flag, 'repeat');
+            if (pattern) {
+              const s = 460 / flag.width;
+              pattern.setTransform(new DOMMatrix().translate(minX, minY).scale(s));
+              ctx.fillStyle = pattern;
+              ctx.fill('evenodd');
+            }
+          } else {
+            const scale = Math.max(bw / flag.width, bh / flag.height);
+            const dw = flag.width * scale;
+            const dh = flag.height * scale;
+            ctx.drawImage(flag, minX + (bw - dw) / 2, minY + (bh - dh) / 2, dw, dh);
+          }
           ctx.restore();
         } else {
           ctx.fillStyle = colorForName(polity.name);
@@ -663,6 +678,25 @@ export class BordersController {
     const orangeLayer = this.cache.get(floor)?.orange?.layer;
     if (orangeLayer?.show) this.viewer.imageryLayers.raiseToTop(orangeLayer);
     if (this.redLayer?.show) this.viewer.imageryLayers.raiseToTop(this.redLayer);
+  }
+
+  /** Toggle the flag artwork inside borders. Re-rasterises the loaded
+   * snapshots (geometry is local — cheap, only on toggle). */
+  setFlags(on: boolean) {
+    if (on === this.flagsOn) return;
+    this.flagsOn = on;
+    if (!this.viewer.isDestroyed()) {
+      for (const frame of this.cache.values()) {
+        this.viewer.imageryLayers.remove(frame.layer, true);
+        if (frame.orange?.layer) this.viewer.imageryLayers.remove(frame.orange.layer, true);
+      }
+      if (this.redLayer) this.viewer.imageryLayers.remove(this.redLayer, true);
+    }
+    this.redLayer = undefined;
+    this.redKey = '';
+    this.cache.clear();
+    this.loading.clear();
+    if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
   }
 
   /** Battles (curated + imported) whose surroundings burn red while current. */

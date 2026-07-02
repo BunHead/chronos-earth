@@ -218,11 +218,33 @@ body {
 }
 
 .layers-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-dim);
   margin-bottom: 8px;
+}
+.layers-title:hover {
+  color: #eaf3ff;
+}
+.layers-chevron {
+  font-size: 11px;
+}
+/* Folded away: just the "Layers ▸" pill for a clean view of the planet. */
+.layers-panel.collapsed {
+  width: auto;
+}
+.layers-panel.collapsed .layers-title {
+  margin-bottom: 0;
+  gap: 8px;
 }
 
 .layer-row {

@@ -233,6 +233,48 @@ const greeceFlag: Draw = (ctx, w, h) => {
   fill(ctx, '#ffffff', (w * 0.37 - t) / 2, 0, t, h * (5 / 9));
 };
 
+/** Hoist-side triangle over bands (pan-Arab / Cuba / Philippines style). */
+const triangleFlag = (bands: Draw, tri: string): Draw => (ctx, w, h) => {
+  bands(ctx, w, h);
+  ctx.fillStyle = tri;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(w * 0.42, h / 2);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  ctx.fill();
+};
+
+/** A crescent (+ optional star) over whatever is already painted — the inner
+ * disc is ERASED (destination-out), so it works over any background. Pass a
+ * bg colour to paint a field first, or 'none' to draw on the existing art. */
+const crescentFlag = (bg: string, mark: string, star = true): Draw => (ctx, w, h) => {
+  if (bg !== 'none') fill(ctx, bg, 0, 0, w, h);
+  ctx.fillStyle = mark;
+  ctx.beginPath();
+  ctx.arc(w * 0.48, h * 0.5, h * 0.28, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.save();
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.beginPath();
+  ctx.arc(w * 0.54, h * 0.46, h * 0.23, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+  if (star) {
+    ctx.fillStyle = mark;
+    starPath(ctx, w * 0.64, h * 0.42, h * 0.09);
+    ctx.fill();
+  }
+};
+
+/** Field with one centred star. */
+const starFlag = (bg: string, star: string, r = 0.22, cx = 0.5, cy = 0.5): Draw => (ctx, w, h) => {
+  fill(ctx, bg, 0, 0, w, h);
+  ctx.fillStyle = star;
+  starPath(ctx, w * cx, h * cy, Math.min(w, h) * r);
+  ctx.fill();
+};
+
 const romanVexillum: Draw = (ctx, w, h) => {
   fill(ctx, '#8E1C1C', 0, 0, w, h);
   ctx.strokeStyle = '#D4AF37';
@@ -329,6 +371,151 @@ export const FLAGS: FlagSpec[] = [
     }
   } },
 
+  // Colonial-era polity names ("French West Africa", "British Raj", ...) so the
+  // whole imperial map wears its metropole's colours.
+  { match: 'british', key: 'union-jack', draw: unionJack },
+  { match: 'french', key: 'tricolore', from: 1789, draw: vBands('#0055A4', '#ffffff', '#EF4135') },
+  { match: 'belgian', key: 'belgium', draw: vBands('#1a1a1a', '#FDDA24', '#EF3340') },
+  { match: 'portuguese', key: 'portugal-royal', to: 1910, draw: hBands('#2E4B9B', '#ffffff') },
+  { match: 'portuguese', key: 'portugal', from: 1911, draw: vBands('#046A38', '#DA291C', '#DA291C') },
+  { match: 'spanish', key: 'burgundy-cross', to: 1784, draw: burgundyCross },
+  { match: 'spanish', key: 'spain', from: 1785, draw: hBands('#AA151B', '#F1BF00', '#AA151B') },
+  { match: 'italian', key: 'italy', from: 1861, draw: vBands('#008C45', '#ffffff', '#CD212A') },
+
+  // Africa.
+  { match: 'ethiopia', key: 'ethiopia', from: 1897, draw: hBands('#078930', '#FCDD09', '#DA121A') },
+  { match: 'abyssinia', key: 'ethiopia', from: 1897, draw: hBands('#078930', '#FCDD09', '#DA121A') },
+  { match: 'liberia', key: 'liberia', from: 1847, draw: (ctx, w, h) => {
+    for (let i = 0; i < 11; i++) fill(ctx, i % 2 === 0 ? '#B22234' : '#ffffff', 0, (h / 11) * i, w, h / 11 + 1);
+    fill(ctx, '#002868', 0, 0, w * 0.34, h * (5 / 11));
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w * 0.17, h * 0.22, h * 0.12);
+    ctx.fill();
+  } },
+  { match: 'morocco', key: 'morocco', from: 1915, draw: starFlag('#C1272D', '#006233') },
+  { match: 'algeria', key: 'algeria', from: 1962, draw: (ctx, w, h) => {
+    vBands('#006233', '#ffffff')(ctx, w, h);
+    crescentFlag('none', '#D21034')(ctx, w, h);
+  } },
+  { match: 'tunisia', key: 'tunisia', from: 1831, draw: (ctx, w, h) => {
+    fill(ctx, '#E70013', 0, 0, w, h);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    crescentFlag('none', '#E70013')(ctx, w, h);
+  } },
+  { match: 'libya', key: 'libya-green', from: 1977, to: 2010, draw: (ctx, w, h) => fill(ctx, '#239E46', 0, 0, w, h) },
+  { match: 'libya', key: 'libya', from: 2011, draw: hBands('#E70013', '#1a1a1a', '#239E46') },
+  { match: 'sudan', key: 'sudan', from: 1970, draw: triangleFlag(hBands('#D21034', '#ffffff', '#1a1a1a'), '#007229') },
+  { match: 'nigeria', key: 'nigeria', from: 1960, draw: vBands('#008751', '#ffffff', '#008751') },
+  { match: 'ghana', key: 'ghana', from: 1957, draw: (ctx, w, h) => {
+    hBands('#CE1126', '#FCD116', '#006B3F')(ctx, w, h);
+    ctx.fillStyle = '#1a1a1a';
+    starPath(ctx, w / 2, h / 2, h * 0.14);
+    ctx.fill();
+  } },
+  { match: 'kenya', key: 'kenya', from: 1963, draw: hBands('#1a1a1a', '#BB0000', '#006600') },
+  { match: 'tanzania', key: 'tanzania', from: 1964, draw: (ctx, w, h) => {
+    fill(ctx, '#1EB53A', 0, 0, w, h);
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = h * 0.32;
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    ctx.lineTo(w, 0);
+    ctx.stroke();
+    ctx.fillStyle = '#00A3DD';
+    ctx.beginPath();
+    ctx.moveTo(w, h * 0.35);
+    ctx.lineTo(w, h);
+    ctx.lineTo(w * 0.35, h);
+    ctx.closePath();
+    ctx.fill();
+  } },
+  { match: 'congo', key: 'dr-congo', from: 1960, draw: starFlag('#007FFF', '#F7D618', 0.2, 0.3, 0.3) },
+  { match: 'angola', key: 'angola', from: 1975, draw: (ctx, w, h) => {
+    hBands('#CC092F', '#1a1a1a')(ctx, w, h);
+    ctx.fillStyle = '#FFCB00';
+    starPath(ctx, w / 2, h / 2, h * 0.12);
+    ctx.fill();
+  } },
+  { match: 'mozambique', key: 'mozambique', from: 1975, draw: triangleFlag(hBands('#009639', '#1a1a1a', '#FFD100'), '#D21034') },
+  { match: 'zimbabwe', key: 'zimbabwe', from: 1980, draw: triangleFlag(hBands('#319208', '#FFD200', '#DE2010', '#1a1a1a', '#DE2010', '#FFD200', '#319208'), '#ffffff') },
+  { match: 'somalia', key: 'somalia', from: 1954, draw: starFlag('#4189DD', '#ffffff') },
+  { match: 'madagascar', key: 'madagascar', from: 1958, draw: (ctx, w, h) => {
+    fill(ctx, '#ffffff', 0, 0, w, h);
+    fill(ctx, '#FC3D32', w * 0.33, 0, w * 0.67, h / 2);
+    fill(ctx, '#007E3A', w * 0.33, h / 2, w * 0.67, h / 2);
+  } },
+  { match: 'south africa', key: 'south-africa', from: 1994, draw: triangleFlag(hBands('#DE3831', '#ffffff', '#007A4D'), '#1a1a1a') },
+  { match: 'egypt', key: 'egypt', from: 1953, draw: (ctx, w, h) => {
+    hBands('#CE1126', '#ffffff', '#1a1a1a')(ctx, w, h);
+    ctx.fillStyle = '#C09300';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.1, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+
+  // More of Asia & the Middle East.
+  { match: 'indonesia', key: 'indonesia', from: 1945, draw: hBands('#CE1126', '#ffffff') },
+  { match: 'malaysia', key: 'malaysia', from: 1963, draw: (ctx, w, h) => {
+    for (let i = 0; i < 14; i++) fill(ctx, i % 2 === 0 ? '#CC0001' : '#ffffff', 0, (h / 14) * i, w, h / 14 + 1);
+    fill(ctx, '#010066', 0, 0, w * 0.45, h / 2);
+    crescentFlag('none', '#FFCC00')(ctx, w * 0.7, h * 0.75);
+  } },
+  { match: 'philippines', key: 'philippines', from: 1946, draw: triangleFlag(hBands('#0038A8', '#CE1126'), '#ffffff') },
+  { match: 'thailand', key: 'thailand', from: 1917, draw: (ctx, w, h) => {
+    fill(ctx, '#A51931', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, h / 6, w, h / 6);
+    fill(ctx, '#2D2A4A', 0, h / 3, w, h / 3);
+    fill(ctx, '#ffffff', 0, h * (2 / 3), w, h / 6);
+  } },
+  { match: 'siam', key: 'siam', to: 1916, draw: discFlag('#A51931', '#ffffff', 0.22) },
+  { match: 'myanmar', key: 'myanmar', from: 2010, draw: (ctx, w, h) => {
+    hBands('#FECB00', '#34B233', '#EA2839')(ctx, w, h);
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w / 2, h / 2, h * 0.22);
+    ctx.fill();
+  } },
+  { match: 'pakistan', key: 'pakistan', from: 1947, draw: (ctx, w, h) => {
+    fill(ctx, '#ffffff', 0, 0, w, h);
+    fill(ctx, '#01411C', w * 0.25, 0, w * 0.75, h);
+    ctx.save();
+    ctx.translate(w * 0.14, 0);
+    crescentFlag('none', '#ffffff')(ctx, w, h);
+    ctx.restore();
+  } },
+  { match: 'iran', key: 'iran', from: 1979, draw: hBands('#239F40', '#ffffff', '#DA0000') },
+  { match: 'persia', key: 'persia', from: 1906, to: 1978, draw: hBands('#239F40', '#ffffff', '#DA0000') },
+  { match: 'iraq', key: 'iraq', from: 1963, draw: hBands('#CE1126', '#ffffff', '#1a1a1a') },
+  { match: 'syria', key: 'syria', from: 1946, draw: hBands('#CE1126', '#ffffff', '#1a1a1a') },
+  { match: 'jordan', key: 'jordan', from: 1928, draw: triangleFlag(hBands('#1a1a1a', '#ffffff', '#007A3D'), '#CE1126') },
+  { match: 'saudi', key: 'saudi', from: 1932, draw: (ctx, w, h) => {
+    fill(ctx, '#006C35', 0, 0, w, h);
+    fill(ctx, '#ffffff', w * 0.2, h * 0.62, w * 0.6, h * 0.06);
+  } },
+  { match: 'kazakhstan', key: 'kazakhstan', from: 1991, draw: discFlag('#00AFCA', '#FEC50C', 0.24) },
+  { match: 'mongolia', key: 'mongolia-modern', from: 1945, draw: (ctx, w, h) => {
+    vBands('#C4272F', '#015197', '#C4272F')(ctx, w, h);
+    ctx.fillStyle = '#F9CF02';
+    ctx.beginPath();
+    ctx.arc(w * 0.17, h * 0.5, h * 0.1, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'north korea', key: 'north-korea', from: 1948, draw: (ctx, w, h) => {
+    fill(ctx, '#024FA2', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, h * 0.18, w, h * 0.64);
+    fill(ctx, '#ED1C27', 0, h * 0.24, w, h * 0.52);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(w * 0.3, h * 0.5, h * 0.18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ED1C27';
+    starPath(ctx, w * 0.3, h * 0.5, h * 0.15);
+    ctx.fill();
+  } },
+  { match: 'korea, north', key: 'north-korea-alt', from: 1948, draw: starFlag('#024FA2', '#ED1C27', 0.2, 0.3, 0.5) },
+
   // The Americas & beyond.
   { match: 'united states', key: 'usa', draw: usaFlag },
   { match: 'canada', key: 'canada', from: 1965, draw: (ctx, w, h) => {
@@ -352,6 +539,56 @@ export const FLAGS: FlagSpec[] = [
       ctx.fill();
     }
   } },
+  { match: 'new zealand', key: 'new-zealand', from: 1902, draw: (ctx, w, h) => {
+    fill(ctx, '#00247D', 0, 0, w, h);
+    ctx.save();
+    ctx.scale(0.5, 0.5);
+    unionJack(ctx, w, h);
+    ctx.restore();
+    ctx.fillStyle = '#CC142B';
+    for (const [sx, sy] of [[0.75, 0.22], [0.85, 0.45], [0.68, 0.5], [0.77, 0.78]]) {
+      starPath(ctx, w * sx, h * sy, Math.min(w, h) * 0.05);
+      ctx.fill();
+    }
+  } },
+  { match: 'colombia', key: 'colombia', from: 1819, draw: (ctx, w, h) => {
+    fill(ctx, '#FCD116', 0, 0, w, h / 2);
+    fill(ctx, '#003893', 0, h / 2, w, h / 4);
+    fill(ctx, '#CE1126', 0, h * 0.75, w, h / 4);
+  } },
+  { match: 'venezuela', key: 'venezuela', from: 1830, draw: hBands('#FCD116', '#003893', '#CE1126') },
+  { match: 'ecuador', key: 'ecuador', from: 1830, draw: (ctx, w, h) => {
+    fill(ctx, '#FCD116', 0, 0, w, h / 2);
+    fill(ctx, '#003893', 0, h / 2, w, h / 4);
+    fill(ctx, '#CE1126', 0, h * 0.75, w, h / 4);
+  } },
+  { match: 'peru', key: 'peru', from: 1825, draw: vBands('#D91023', '#ffffff', '#D91023') },
+  { match: 'chile', key: 'chile', from: 1817, draw: (ctx, w, h) => {
+    fill(ctx, '#ffffff', 0, 0, w, h / 2);
+    fill(ctx, '#D52B1E', 0, h / 2, w, h / 2);
+    fill(ctx, '#0039A6', 0, 0, w * 0.33, h / 2);
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w * 0.165, h * 0.25, h * 0.12);
+    ctx.fill();
+  } },
+  { match: 'bolivia', key: 'bolivia', from: 1825, draw: hBands('#D52B1E', '#F9E300', '#007934') },
+  { match: 'uruguay', key: 'uruguay', from: 1828, draw: (ctx, w, h) => {
+    for (let i = 0; i < 9; i++) fill(ctx, i % 2 === 0 ? '#ffffff' : '#0038A8', 0, (h / 9) * i, w, h / 9 + 1);
+    fill(ctx, '#ffffff', 0, 0, w * 0.35, h * (5 / 9));
+    ctx.fillStyle = '#FCD116';
+    ctx.beginPath();
+    ctx.arc(w * 0.17, h * 0.27, h * 0.14, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'paraguay', key: 'paraguay', from: 1842, draw: hBands('#D52B1E', '#ffffff', '#0038A8') },
+  { match: 'cuba', key: 'cuba', from: 1902, draw: (ctx, w, h) => {
+    for (let i = 0; i < 5; i++) fill(ctx, i % 2 === 0 ? '#002A8F' : '#ffffff', 0, (h / 5) * i, w, h / 5 + 1);
+    triangleFlag((c) => void c, '#CF142B')(ctx, w, h);
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w * 0.15, h * 0.5, h * 0.13);
+    ctx.fill();
+  } },
+  { match: 'haiti', key: 'haiti', from: 1804, draw: hBands('#00209F', '#D21034') },
 ];
 
 /** The flag spec valid for this polity name at this year, or null. */
