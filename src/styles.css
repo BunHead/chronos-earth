@@ -137,7 +137,12 @@ body {
   z-index: 1;
 }
 .backdrop-scene.loaded {
-  opacity: 0.34;
+  opacity: 0.48;
+}
+/* When zoomed in, the minimap is a thin strip — keep its scenes subtle so the
+   detail rail below stays the star. */
+.timeline.zoomed .backdrop-scene.loaded {
+  opacity: 0.3;
 }
 
 /* Colour legend for the war & peace border line map (bottom-left). */

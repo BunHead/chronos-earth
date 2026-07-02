@@ -215,7 +215,11 @@ export default function App() {
         }
         setYearsBP(next);
       } else {
-        const nextPos = yearsBPToPos(yearsBPRef.current) + (dt / FULL_TRAVERSAL_SECONDS) * speed;
+        // Gentle brake near the present: the log scale would otherwise sprint
+        // through the last decades in a blink.
+        const pos = yearsBPToPos(yearsBPRef.current);
+        const brake = 1 - 0.78 * Math.min(1, Math.max(0, (pos - 0.88) / 0.12));
+        const nextPos = pos + (dt / FULL_TRAVERSAL_SECONDS) * speed * brake;
         if (nextPos >= 1) {
           setYearsBP(posToYearsBP(1));
           setIsPlaying(false);
