@@ -21,6 +21,7 @@
  */
 import * as Cesium from 'cesium';
 import { diffOwners, morphOpen } from '../lib/borderStatus';
+import { flagCanvasFor } from '../lib/flags';
 
 const TEX_W = 4096;
 const TEX_H = 2048;
@@ -296,7 +297,7 @@ export class BordersController {
     return best;
   }
 
-  private rasterise(polities: Polity[]): HTMLCanvasElement {
+  private rasterise(polities: Polity[], year: number): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     canvas.width = TEX_W;
     canvas.height = TEX_H;
@@ -304,15 +305,43 @@ export class BordersController {
     ctx.clearRect(0, 0, TEX_W, TEX_H); // transparent oceans -> Earth shows through
     ctx.lineJoin = 'round';
     const trace = makeTracer(ctx, TEX_W, TEX_H);
+    const project = projector(TEX_W, TEX_H);
 
-    // A whisper of each nation's own colour inside its border, so countries
-    // still read at a glance — the real Earth shows through underneath.
+    // Inside each border: the nation's REAL flag when history gave it one at
+    // this date (time-aware — St George before 1707, Union Jack after), else
+    // a whisper of its own colour. The real Earth shows through underneath.
     for (const polity of polities) {
-      ctx.fillStyle = colorForName(polity.name);
+      const flag = flagCanvasFor(polity.name, year);
       for (const poly of polity.mp) {
         if (!trace(poly)) continue;
-        ctx.globalAlpha = TINT_ALPHA;
-        ctx.fill('evenodd');
+        if (flag) {
+          // Cover-fit the flag over the polygon's box, clipped to its shape.
+          let minX = Infinity;
+          let minY = Infinity;
+          let maxX = -Infinity;
+          let maxY = -Infinity;
+          for (const p of poly[0]) {
+            const [x, y] = project(p[0], p[1]);
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+          const bw = Math.max(1, maxX - minX);
+          const bh = Math.max(1, maxY - minY);
+          const scale = Math.max(bw / flag.width, bh / flag.height);
+          const dw = flag.width * scale;
+          const dh = flag.height * scale;
+          ctx.save();
+          ctx.clip('evenodd');
+          ctx.globalAlpha = TINT_ALPHA + 0.08;
+          ctx.drawImage(flag, minX + (bw - dw) / 2, minY + (bh - dh) / 2, dw, dh);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = colorForName(polity.name);
+          ctx.globalAlpha = TINT_ALPHA;
+          ctx.fill('evenodd');
+        }
       }
     }
     ctx.globalAlpha = 1;
@@ -547,7 +576,7 @@ export class BordersController {
         if (mp.length) polities.push({ name: f.properties?.name ?? 'Unknown', mp });
       }
       if (this.viewer.isDestroyed()) return;
-      const canvas = this.rasterise(polities);
+      const canvas = this.rasterise(polities, year);
       const provider = await Cesium.SingleTileImageryProvider.fromUrl(canvas.toDataURL('image/png'), {
         rectangle: FULL_GLOBE,
       });
