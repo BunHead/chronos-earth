@@ -77,8 +77,86 @@ interface CampaignFront {
   keyframes: { year: number; front: number[][] }[];
 }
 
-/** Stable colour from a polity name (so the same country keeps its hue). */
+/** Famous powers wear their true flag/heraldic colour inside their borders.
+ * Ordered — more specific names first ("Holy Roman" before "Roman"). Matched
+ * as a lowercase substring of the polity name; everything else falls back to
+ * the stable hash colour. Historical polities mostly predate flags, so these
+ * are the colours history books paint them. */
+const FLAG_COLORS: Array<[string, string]> = [
+  ['holy roman', '#e6b800'], // imperial gold (black eagle on gold)
+  ['eastern roman', '#7d3c98'],
+  ['byzanti', '#7d3c98'], // imperial purple
+  ['roman', '#a61c1c'], // legion red
+  ['ottoman', '#e30a17'],
+  ['united states', '#3c5ba9'],
+  ['united kingdom', '#012169'],
+  ['great britain', '#012169'],
+  ['england', '#c8102e'],
+  ['scotland', '#005eb8'],
+  ['ireland', '#169b62'],
+  ['france', '#0055a4'],
+  ['frankish', '#2f5fb3'],
+  ['franks', '#2f5fb3'],
+  ['prussia', '#33383d'],
+  ['german', '#8a8d33'],
+  ['austria', '#ed2939'],
+  ['habsburg', '#ffd24d'],
+  ['soviet', '#cc0000'],
+  ['russia', '#0039a6'],
+  ['spain', '#aa151b'],
+  ['portugal', '#046a38'],
+  ['italy', '#008c45'],
+  ['netherlands', '#ff7f2a'],
+  ['dutch', '#ff7f2a'],
+  ['sweden', '#005cbf'],
+  ['norway', '#ba0c2f'],
+  ['denmark', '#c8102e'],
+  ['finland', '#2b5797'],
+  ['poland', '#dc4453'],
+  ['hungary', '#cd2a3e'],
+  ['qing', '#f5c518'], // Manchu imperial yellow
+  ['ming', '#d4423e'],
+  ['china', '#de2910'],
+  ['japan', '#bc002d'],
+  ['korea', '#cd2e3a'],
+  ['mongol', '#3d6bd6'], // the blue banner
+  ['macedon', '#0d5eaf'],
+  ['greece', '#0d5eaf'],
+  ['persia', '#239f40'],
+  ['iran', '#239f40'],
+  ['caliphate', '#0a7a3d'],
+  ['umayyad', '#e8e4d8'],
+  ['abbasid', '#3a3a3a'],
+  ['egypt', '#c09300'],
+  ['india', '#ff9933'],
+  ['mughal', '#2e7d5b'],
+  ['siam', '#a51931'],
+  ['thailand', '#a51931'],
+  ['vietnam', '#da251d'],
+  ['turkey', '#e30a17'],
+  ['ukraine', '#ffd500'],
+  ['switzerland', '#da291c'],
+  ['brazil', '#009c3b'],
+  ['mexico', '#006847'],
+  ['canada', '#d80621'],
+  ['australia', '#00247d'],
+  ['argentina', '#74acdf'],
+  ['inca', '#e8a33d'],
+  ['aztec', '#1d7a5f'],
+  ['saudi', '#006c35'],
+  ['south africa', '#007749'],
+  ['israel', '#0038b8'],
+  ['serbia', '#c6363c'],
+  ['bulgaria', '#00966e'],
+];
+
+/** Flag colour when the polity is famous enough to have one; else a stable
+ * colour from its name (so the same country keeps its hue). */
 function colorForName(name: string): string {
+  const lower = name.toLowerCase();
+  for (const [key, color] of FLAG_COLORS) {
+    if (lower.includes(key)) return color;
+  }
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) & 0xffffffff;
   const hue = Math.abs(hash) % 360;

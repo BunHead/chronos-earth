@@ -103,6 +103,49 @@ function loadThumb(title: string): Promise<string | null> {
   return p;
 }
 
+/** The painted wall behind the minimap: one scene per age — dinosaur through
+ * to rocket — each anchored at its true place in time and fading into its
+ * neighbours, like the school-corridor history mural that inspired the app. */
+const BACKDROP_SCENES: { wiki: string; bp: number }[] = [
+  { wiki: 'Tyrannosaurus', bp: 100_000_000 },
+  { wiki: 'Smilodon', bp: 2_500_000 },
+  { wiki: 'Woolly mammoth', bp: 50_000 },
+  { wiki: 'Great Pyramid of Giza', bp: 4_500 },
+  { wiki: 'Carcassonne', bp: 800 },
+  { wiki: 'Steam locomotive', bp: 180 },
+  { wiki: 'Apollo 11', bp: 55 },
+];
+
+function MuralBackdrop() {
+  const [thumbs, setThumbs] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let ok = true;
+    for (const s of BACKDROP_SCENES) {
+      void loadThumb(s.wiki).then((src) => {
+        if (ok && src) setThumbs((t) => ({ ...t, [s.wiki]: src }));
+      });
+    }
+    return () => {
+      ok = false;
+    };
+  }, []);
+  return (
+    <>
+      {BACKDROP_SCENES.map((s) => (
+        <div
+          key={s.wiki}
+          className={thumbs[s.wiki] ? 'backdrop-scene loaded' : 'backdrop-scene'}
+          style={{
+            left: `${yearsBPToPos(s.bp) * 100}%`,
+            backgroundImage: thumbs[s.wiki] ? `url(${thumbs[s.wiki]})` : undefined,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </>
+  );
+}
+
 /** One photo-circle on the mural: a placeholder icon that fades into a live,
  * pencil-sketched Wikipedia photo once it loads. */
 function MuralCircle({
@@ -480,6 +523,7 @@ export default function Timeline({
           onPointerCancel={onDragEnd}
         >
           <div className="rail" style={{ background: muralGradient }} />
+          <MuralBackdrop />
 
           {ERAS.map((e) => {
             const left = yearsBPToPos(e.startBP);

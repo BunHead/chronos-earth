@@ -105,6 +105,28 @@ body {
   white-space: nowrap;
 }
 
+/* Painted-wall scenes behind the minimap — each age's picture, fading into
+   its neighbours over the era colours. */
+.backdrop-scene {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 17%;
+  transform: translateX(-50%);
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
+  filter: saturate(0.75) contrast(0.95);
+  pointer-events: none;
+  z-index: 1;
+}
+.backdrop-scene.loaded {
+  opacity: 0.34;
+}
+
 /* Colour legend for the war & peace border line map (bottom-left). */
 .border-legend {
   position: absolute;
