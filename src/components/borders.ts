@@ -37,6 +37,10 @@ const TINT_ALPHA = 0.2;
 /** A battle keeps its stretch of border red for this long after its year
  * (matches the globe's battle-marker window and the timeline's pin flare). */
 const BATTLE_ACTIVE_YEARS = 3;
+/** The orange "about to move" glow stays dark until the change is this close,
+ * then brightens over the final decades — so it warns of an *imminent* shift
+ * rather than glowing for the whole (often centuries-long) snapshot span. */
+const ORANGE_WARN_YEARS = 80;
 /** How far from a battle or front line a border still counts as "at war". */
 const WAR_RADIUS_KM = 260;
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
@@ -652,10 +656,18 @@ export class BordersController {
     for (const [y, frame] of this.cache.entries()) {
       const o = frame.orange;
       if (!o?.layer) continue;
-      const on = y === floor && o.vsYear === ceil && ceil !== floor;
+      const relevant = y === floor && o.vsYear === ceil && ceil !== floor;
+      // Only warn in the final decades before the change: 0 while the change is
+      // still far off, ramping to full over the last ORANGE_WARN_YEARS years.
+      const lead = ceil - year; // years until this border changes hands
+      const warn = Cesium.Math.clamp(
+        (ORANGE_WARN_YEARS - lead) / ORANGE_WARN_YEARS,
+        0,
+        1,
+      );
+      const on = relevant && warn > 0;
       o.layer.show = on;
-      // The warning brightens as the change approaches (the next map is fading in).
-      if (on) o.layer.alpha = 0.35 + 0.65 * frac;
+      if (on) o.layer.alpha = 0.25 + 0.7 * warn;
     }
     {
       const war = this.warAt(year);
