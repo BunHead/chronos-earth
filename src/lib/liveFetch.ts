@@ -36,6 +36,12 @@ const TYPE_CATEGORY: Record<string, EventCategory> = {
   Q3947: 'monument', // house/hall
   Q574848: 'monument', // country house
   Q751876: 'monument', // château
+  Q12280: 'monument', // bridge
+  Q16560: 'monument', // palace
+  Q44539: 'monument', // temple
+  Q3918: 'monument', // university
+  Q820477: 'monument', // mine
+  Q55488: 'monument', // railway station
   Q4830453: 'invention', // business/company
   Q327333: 'invention', // factory... (agency fallback)
   Q7397: 'invention', // software
@@ -67,7 +73,7 @@ async function run(lat: number, lon: number): Promise<TimelineEvent[]> {
   const east = lon + BOX_DEG;
   const south = Math.max(-89, lat - BOX_DEG);
   const north = Math.min(89, lat + BOX_DEG);
-  const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type WHERE {
+  const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin WHERE {
   SERVICE wikibase:box {
     ?item wdt:P625 ?coord .
     bd:serviceParam wikibase:cornerSouthWest "Point(${west} ${south})"^^geo:wktLiteral .
@@ -77,6 +83,7 @@ async function run(lat: number, lon: number): Promise<TimelineEvent[]> {
   ?item wikibase:sitelinks ?sitelinks .
   FILTER(?sitelinks >= 8)
   OPTIONAL { ?item wdt:P31 ?type . }
+  BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q56061 } AS ?isAdmin)
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 ORDER BY DESC(?sitelinks)
@@ -96,9 +103,16 @@ LIMIT 40`;
     // One item can arrive as several rows (one per instance-of type); the
     // first row creates the entry, later rows may refine its category.
     const byId = new Map<string, TimelineEvent>();
+    // Wikidata flags provinces/districts/municipalities as administrative
+    // territorial entities (subclasses of Q56061). We drop those, but only
+    // when they resolve to the generic 'event' badge — a real city or
+    // monument that also carries an admin type (e.g. Paris is a "commune of
+    // France") keeps its proper category and survives.
+    const adminIds = new Set<string>();
     for (const b of json.results.bindings) {
       const qid = b.item?.value.split('/').pop();
       if (!qid) continue;
+      if (b.isAdmin?.value === 'true') adminIds.add(qid);
       const typeQ = b.type?.value.split('/').pop();
       const cat = typeQ ? TYPE_CATEGORY[typeQ] : undefined;
       const existing = byId.get(qid);
@@ -106,7 +120,6 @@ LIMIT 40`;
         if (cat && existing.category === 'event') existing.category = cat;
         continue;
       }
-      if (byId.size >= 14) continue;
       const label = b.itemLabel?.value ?? '';
       if (!label || /^Q\d+$/.test(label)) continue; // no English label — skip
       const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
@@ -127,7 +140,12 @@ LIMIT 40`;
         notability: +(b.sitelinks?.value ?? 0),
       });
     }
-    return [...byId.values()];
+    // Boring admin regions that never earned a real badge get pruned; the
+    // rest keep their sitelink-descending order, capped to a handful.
+    for (const id of adminIds) {
+      if (byId.get(id)?.category === 'event') byId.delete(id);
+    }
+    return [...byId.values()].slice(0, 14);
   } finally {
     window.clearTimeout(timer);
   }
