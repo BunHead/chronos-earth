@@ -454,6 +454,7 @@
           "url": "https://en.wikipedia.org/wiki/Battle_of_Tours"
         }
       ],
+      "hasBattleView": true,
       "commanders": [
         {
           "name": "Charles Martel",
@@ -1486,6 +1487,7 @@
           "url": "https://en.wikipedia.org/wiki/Battle_of_Midway"
         }
       ],
+      "hasBattleView": true,
       "commanders": [
         {
           "name": "Chester W. Nimitz",

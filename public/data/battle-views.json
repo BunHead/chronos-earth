@@ -3152,6 +3152,553 @@
           ]
         }
       ]
+    },
+    "tours": {
+      "title": "Battle of Tours",
+      "subtitle": "732 CE — Charles Martel halts the Umayyad advance",
+      "sides": {
+        "a": {
+          "name": "Franks (Charles Martel)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Umayyad Caliphate",
+          "color": "#2e8b57"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 20,
+          "w": 72,
+          "h": 6,
+          "label": "Wooded high ground"
+        },
+        {
+          "type": "forest",
+          "x": 16,
+          "y": 12,
+          "r": 6
+        },
+        {
+          "type": "forest",
+          "x": 84,
+          "y": 12,
+          "r": 6
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 62,
+          "r": 4,
+          "label": "Plundered camp"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment",
+          "narration": "Charles Martel forms his seasoned Frankish infantry into a dense square on wooded high ground and simply waits. Abd al-Rahman masses his cavalry-heavy Umayyad army below. For six days the two armies watch each other."
+        },
+        {
+          "name": "The cavalry charges",
+          "narration": "The Umayyad horsemen charge the Frankish square again and again. The Franks stand shoulder to shoulder — a chronicler wrote they held \"like a wall of ice\" — and every charge breaks against the shield line.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                48
+              ],
+              "to": [
+                40,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                48
+              ],
+              "to": [
+                60,
+                30
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "A raid on the camp",
+          "narration": "Frankish scouts slip round to threaten the Umayyad camp and its plunder. A rumour races through the ranks that the loot is being stolen — and part of the Umayyad cavalry peels away to save it, tearing a gap in the line.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                34
+              ],
+              "to": [
+                48,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                64,
+                36
+              ],
+              "to": [
+                66,
+                54
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Abd al-Rahman falls",
+          "narration": "Trying to steady his wavering horsemen, Abd al-Rahman is surrounded and cut down. Leaderless, the Umayyads slip away in the night. The Frankish square never broke — and Charles earns the name \"Martel\", the Hammer.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                28
+              ],
+              "to": [
+                48,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                62,
+                28
+              ],
+              "to": [
+                52,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                44
+              ],
+              "to": [
+                64,
+                60
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "martel",
+          "side": "a",
+          "label": "Charles Martel & the square",
+          "size": 1.3,
+          "pos": [
+            [
+              50,
+              24
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              50,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "frank-left",
+          "side": "a",
+          "label": "Frankish infantry",
+          "pos": [
+            [
+              34,
+              26
+            ],
+            [
+              34,
+              26
+            ],
+            [
+              34,
+              26
+            ],
+            [
+              36,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "frank-right",
+          "side": "a",
+          "label": "Frankish infantry",
+          "pos": [
+            [
+              66,
+              26
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              64,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "frank-scouts",
+          "side": "a",
+          "label": "Frankish scouts",
+          "size": 0.8,
+          "pos": [
+            [
+              18,
+              30
+            ],
+            [
+              18,
+              34
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              46,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "rahman",
+          "side": "b",
+          "label": "Abd al-Rahman",
+          "shape": "cavalry",
+          "size": 1.1,
+          "pos": [
+            [
+              50,
+              52
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              50,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "umayyad-cav-l",
+          "side": "b",
+          "label": "Umayyad cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              34,
+              50
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              38,
+              48
+            ],
+            [
+              42,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "umayyad-cav-r",
+          "side": "b",
+          "label": "Umayyad cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              66,
+              50
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              66,
+              58
+            ],
+            [
+              60,
+              44
+            ]
+          ]
+        }
+      ]
+    },
+    "midway": {
+      "title": "Battle of Midway",
+      "subtitle": "4–7 June 1942 — four carriers lost, the Pacific War turns",
+      "flagship": true,
+      "sides": {
+        "a": {
+          "name": "US Navy (Spruance / Nimitz)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Imperial Japanese Navy (Nagumo)",
+          "color": "#c0392b"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70
+        },
+        {
+          "type": "town",
+          "x": 16,
+          "y": 58,
+          "r": 4,
+          "label": "Midway Atoll"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The ambush is set",
+          "narration": "Warned by codebreakers, Admiral Spruance waits northeast of Midway with three carriers. Nagumo’s four-carrier Kidō Butai steams in from the west, unaware, and turns to soften up the atoll."
+        },
+        {
+          "name": "Strike on Midway",
+          "narration": "Japanese planes bomb Midway but fail to knock it out. Nagumo orders his reserve aircraft re-armed for a second land strike — just as a scout reports American carriers to the northeast. Bombs and torpedoes lie stacked on his decks.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                36
+              ],
+              "to": [
+                20,
+                54
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The torpedo squadrons",
+          "narration": "Caught mid-rearming, Nagumo hesitates. US torpedo bombers attack first, low and alone, and are almost annihilated — but they drag the defending Zeros down to the waves and leave the sky above the carriers empty.",
+          "arrows": [
+            {
+              "from": [
+                78,
+                20
+              ],
+              "to": [
+                48,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                82,
+                28
+              ],
+              "to": [
+                48,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Five minutes that changed the war",
+          "narration": "US dive bombers plunge in unopposed and set Akagi, Kaga and Sōryū ablaze in minutes. Hiryū’s planes cripple Yorktown before she too is lost. Japan loses four fleet carriers — and the initiative in the Pacific.",
+          "arrows": [
+            {
+              "from": [
+                72,
+                22
+              ],
+              "to": [
+                46,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                36
+              ],
+              "to": [
+                78,
+                34
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "us-tf16",
+          "side": "a",
+          "label": "Task Force 16 (Enterprise, Hornet)",
+          "shape": "ship",
+          "size": 1.3,
+          "pos": [
+            [
+              80,
+              16
+            ],
+            [
+              80,
+              18
+            ],
+            [
+              76,
+              20
+            ],
+            [
+              70,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "us-tf17",
+          "side": "a",
+          "label": "Task Force 17 (Yorktown)",
+          "shape": "ship",
+          "pos": [
+            [
+              88,
+              26
+            ],
+            [
+              86,
+              26
+            ],
+            [
+              82,
+              28
+            ],
+            [
+              80,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "jp-kido",
+          "side": "b",
+          "label": "Kidō Butai (Nagumo’s carriers)",
+          "shape": "ship",
+          "size": 1.4,
+          "pos": [
+            [
+              38,
+              34
+            ],
+            [
+              42,
+              34
+            ],
+            [
+              44,
+              32
+            ],
+            [
+              46,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "jp-screen",
+          "side": "b",
+          "label": "Screening force",
+          "shape": "ship",
+          "pos": [
+            [
+              30,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              38,
+              40
+            ],
+            [
+              42,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "jp-invasion",
+          "side": "b",
+          "label": "Midway invasion force",
+          "shape": "ship",
+          "pos": [
+            [
+              22,
+              54
+            ],
+            [
+              22,
+              52
+            ],
+            [
+              24,
+              50
+            ],
+            [
+              20,
+              56
+            ]
+          ]
+        }
+      ]
     }
   }
 }
