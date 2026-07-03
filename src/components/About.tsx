@@ -1,3 +1,5 @@
+import { startWindowDrag } from '../lib/windowDrag';
+
 interface AboutProps {
   onClose: () => void;
 }
@@ -12,7 +14,7 @@ export default function About({ onClose }: AboutProps) {
   return (
     <div className="bv-overlay" role="dialog" aria-label="About Chronos Earth" onClick={onClose}>
       <div className="about-window" onClick={(e) => e.stopPropagation()}>
-        <header className="bv-header">
+        <header className="bv-header" onPointerDown={startWindowDrag} title="Drag to move">
           <div>
             <h2>About Chronos Earth</h2>
             <p>An interactive tour through 250 million years of Earth and human history.</p>

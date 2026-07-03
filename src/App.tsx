@@ -103,6 +103,26 @@ export default function App() {
     lon: number;
   } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  // A newer build has been deployed since this tab loaded — offer a refresh.
+  const [newVersion, setNewVersion] = useState(false);
+
+  useEffect(() => {
+    let baseline: number | null = null;
+    const check = () =>
+      fetch(`${import.meta.env.BASE_URL}version.json`, { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((j: { build?: number } | null) => {
+          if (!j?.build) return;
+          if (baseline === null) baseline = j.build;
+          else if (j.build !== baseline) setNewVersion(true);
+        })
+        .catch(() => {
+          /* offline or dev — no toast */
+        });
+    void check();
+    const timer = window.setInterval(check, 10 * 60 * 1000);
+    return () => window.clearInterval(timer);
+  }, []);
   const [, setPortraitsReady] = useState(false);
   const [tours, setTours] = useState<Tour[]>([]);
   const [activeTour, setActiveTour] = useState<Tour | null>(null);
@@ -289,6 +309,12 @@ export default function App() {
       />
 
       {campaignLabel && <div className="campaign-banner">⚑ {campaignLabel}</div>}
+
+      {newVersion && (
+        <button className="version-toast" onClick={() => window.location.reload()}>
+          ✨ A new version has landed — tap to refresh
+        </button>
+      )}
 
       {showBorders && (
         <div className="border-legend">

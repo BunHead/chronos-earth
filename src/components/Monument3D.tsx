@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { startWindowDrag } from '../lib/windowDrag';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface Monument3DProps {
@@ -467,7 +468,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
   return (
     <div className="bv-overlay" role="dialog" aria-label={`${title} in 3D`}>
       <div className="bv-window">
-        <header className="bv-header">
+        <header className="bv-header" onPointerDown={startWindowDrag} title="Drag to move">
           <div>
             <h2>{title}</h2>
             <p>A reconstruction on real satellite terrain — watch a day pass.</p>

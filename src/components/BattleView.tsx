@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { startWindowDrag } from '../lib/windowDrag';
 import type {
   Battle,
   BattleMapInfo,
@@ -159,7 +160,7 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
   return (
     <div className="bv-overlay" role="dialog" aria-label={view.title}>
       <div className="bv-window">
-        <header className="bv-header">
+        <header className="bv-header" onPointerDown={startWindowDrag} title="Drag to move">
           <div>
             <h2>{view.title}</h2>
             {view.subtitle && <p>{view.subtitle}</p>}

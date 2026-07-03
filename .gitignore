@@ -17,3 +17,4 @@ Thumbs.db
 # Local environment files
 .env
 .env.local
+public/version.json
