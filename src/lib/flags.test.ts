@@ -43,6 +43,20 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('India', 1700)).toBeNull(); // tricolour is 1947+
   });
 
+  it('Mali flies its tricolour without stealing Somalia', () => {
+    expect(flagSpecFor('Mali', 1980)?.key).toBe('mali');
+    expect(flagSpecFor('Republic of Mali', 2000)?.key).toBe('mali');
+    // 'mali' is a substring of 'Somalia' — order must keep Somalia its own flag.
+    expect(flagSpecFor('Somalia', 1990)?.key).toBe('somalia');
+    // The modern flag is post-independence; the medieval Mali Empire gets none.
+    expect(flagSpecFor('Mali Empire', 1350)).toBeNull();
+  });
+
+  it('Nepal only flies from 1962', () => {
+    expect(flagSpecFor('Nepal', 2000)?.key).toBe('nepal');
+    expect(flagSpecFor('Kingdom of Nepal', 1900)).toBeNull();
+  });
+
   it('the US canton grows with the Union', () => {
     expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
     expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');

@@ -467,6 +467,35 @@ export const FLAGS: FlagSpec[] = [
     ctx.arc(w / 2, h / 2, h * 0.1, 0, Math.PI * 2);
     ctx.fill();
   } },
+  // 'mali' must sit AFTER 'somalia' above, else "Somalia" matches it first.
+  { match: 'mali', key: 'mali', from: 1960, draw: vBands('#14B53A', '#FCD116', '#CE1126') },
+  { match: 'senegal', key: 'senegal', from: 1960, draw: (ctx, w, h) => {
+    vBands('#00853F', '#FDEF42', '#E31B23')(ctx, w, h);
+    ctx.fillStyle = '#00853F';
+    starPath(ctx, w / 2, h / 2, h * 0.16);
+    ctx.fill();
+  } },
+  { match: 'cameroon', key: 'cameroon', from: 1975, draw: (ctx, w, h) => {
+    vBands('#007A5E', '#CE1126', '#FCD116')(ctx, w, h);
+    ctx.fillStyle = '#FCD116';
+    starPath(ctx, w / 2, h / 2, h * 0.14);
+    ctx.fill();
+  } },
+  { match: 'uganda', key: 'uganda', from: 1962, draw: (ctx, w, h) => {
+    hBands('#1a1a1a', '#FCDC04', '#D90000', '#1a1a1a', '#FCDC04', '#D90000')(ctx, w, h);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.16, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'zambia', key: 'zambia', from: 1964, draw: (ctx, w, h) => {
+    fill(ctx, '#198A00', 0, 0, w, h);
+    const bw = w * 0.08;
+    const x0 = w * 0.7;
+    fill(ctx, '#DE2010', x0, h * 0.4, bw, h * 0.6);
+    fill(ctx, '#1a1a1a', x0 + bw, h * 0.4, bw, h * 0.6);
+    fill(ctx, '#EF7D00', x0 + 2 * bw, h * 0.4, bw, h * 0.6);
+  } },
 
   // More of Asia & the Middle East.
   { match: 'indonesia', key: 'indonesia', from: 1945, draw: hBands('#CE1126', '#ffffff') },
@@ -527,6 +556,29 @@ export const FLAGS: FlagSpec[] = [
     ctx.fill();
   } },
   { match: 'korea, north', key: 'north-korea-alt', from: 1948, draw: starFlag('#024FA2', '#ED1C27', 0.2, 0.3, 0.5) },
+  { match: 'bangladesh', key: 'bangladesh', from: 1971, draw: (ctx, w, h) => {
+    fill(ctx, '#006A4E', 0, 0, w, h);
+    ctx.fillStyle = '#F42A41';
+    ctx.beginPath();
+    ctx.arc(w * 0.45, h * 0.5, h * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'sri lanka', key: 'sri-lanka', from: 1948, draw: (ctx, w, h) => {
+    fill(ctx, '#FFBE29', 0, 0, w, h); // gold border/field
+    fill(ctx, '#00534E', w * 0.06, h * 0.1, w * 0.12, h * 0.8); // green stripe
+    fill(ctx, '#EB7400', w * 0.18, h * 0.1, w * 0.12, h * 0.8); // orange stripe
+    fill(ctx, '#8D2029', w * 0.34, h * 0.1, w * 0.58, h * 0.8); // maroon lion panel
+  } },
+  { match: 'nepal', key: 'nepal', from: 1962, draw: (ctx, w, h) => {
+    fill(ctx, '#003893', 0, 0, w, h); // blue border
+    fill(ctx, '#DC143C', w * 0.08, h * 0.1, w * 0.84, h * 0.8); // crimson field
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w * 0.42, h * 0.64, h * 0.11); // sun, lower half
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(w * 0.42, h * 0.34, h * 0.09, 0, Math.PI * 2); // moon, upper half
+    ctx.fill();
+  } },
 
   // The Americas & beyond.
   // The Union's canton fills in as states join.
