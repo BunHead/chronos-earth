@@ -37,6 +37,7 @@ items. The night session marks progress here and never deletes your words.
    types e.g. Q10864048, Q13220204, Q15284, or FILTER NOT EXISTS on admin
    classes) so only real history surfaces. Extend TYPE_CATEGORY with a few
    more mappings (bridge, palace, temple, university, mine, railway station).
+   [DONE 2026-07-04 ea22ff8]
 9. Two more phased battle views following battle-views.json schema:
    Battle of Tours (732) and Battle of Midway (1942, ships + carriers).
 10. Flags: add a few more African/Asian entries missing from flags.ts
