@@ -14,6 +14,7 @@ items. The night session marks progress here and never deletes your words.
 ## Queue
 1. Orange "about to move" timing: glow should strengthen only in the final
    decades before a border changes, not from the moment a snapshot starts.
+   [DONE 2026-07-03 1eca41d]
 2. Country name labels on the border map (visible when zoomed to a region,
    subtle, over the flag tints).
 3. Region-scoped POI polish: when live-fetch markers exist, clear them once
