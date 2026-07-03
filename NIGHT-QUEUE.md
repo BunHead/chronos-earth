@@ -44,3 +44,4 @@ items. The night session marks progress here and never deletes your words.
 10. Flags: add a few more African/Asian entries missing from flags.ts
    (Mali, Senegal, Cameroon, Uganda, Zambia, Sri Lanka, Bangladesh, Nepal)
    with simple band/star geometry, plus tests for two of them.
+   [DONE 2026-07-04 ad0cd9b]
