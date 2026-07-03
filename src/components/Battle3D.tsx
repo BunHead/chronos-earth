@@ -293,6 +293,13 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
       posList: Array<[number, number]>;
       /** Ships ride the water surface instead of following the seabed. */
       floats: boolean;
+      side: BattleUnit['side'];
+      shape: BattleUnit['shape'];
+      /** Formation-local (x, z) of each figure, for the marching bob. */
+      base: Array<[number, number]>;
+      /** Per-figure gait offset so the formation doesn't bounce in unison. */
+      phases: Float32Array;
+      wasMoving: boolean;
     }
     const unitMeshes: UnitMesh[] = [];
     const ownedGeometries: THREE.BufferGeometry[] = [];
@@ -316,10 +323,16 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
       mesh.castShadow = true;
       mesh.receiveShadow = true;
 
+      const base: Array<[number, number]> = [];
+      const phases = new Float32Array(count);
       for (let i = 0; i < count; i++) {
         const col = i % cols;
         const row = Math.floor(i / cols);
-        dummy.position.set((col - cols / 2) * spacing, 0, (row - rows / 2) * spacing);
+        const bx = (col - cols / 2) * spacing;
+        const bz = (row - rows / 2) * spacing;
+        base.push([bx, bz]);
+        phases[i] = Math.random() * Math.PI * 2;
+        dummy.position.set(bx, 0, bz);
         dummy.updateMatrix();
         mesh.setMatrixAt(i, dummy.matrix);
       }
@@ -336,8 +349,113 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
         target: mesh.position.clone(),
         posList: unit.pos,
         floats,
+        side: unit.side,
+        shape,
+        base,
+        phases,
+        wasMoving: false,
       });
     }
+
+    // --- Life pass: dust of the march. A small recycled pool of soft sprites
+    // puffed up behind formations while they move. ---
+    const dustTex = (() => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 64;
+      const g = c.getContext('2d')!;
+      const grad = g.createRadialGradient(32, 32, 2, 32, 32, 30);
+      grad.addColorStop(0, 'rgba(255,255,255,0.85)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 64, 64);
+      const tex = new THREE.CanvasTexture(c);
+      return tex;
+    })();
+    interface Puff {
+      s: THREE.Sprite;
+      life: number;
+      max: number;
+      vx: number;
+      vy: number;
+      vz: number;
+    }
+    const puffs: Puff[] = [];
+    for (let i = 0; i < 64; i++) {
+      const m = new THREE.SpriteMaterial({
+        map: dustTex,
+        color: '#c6b489',
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+      });
+      const s = new THREE.Sprite(m);
+      s.visible = false;
+      scene.add(s);
+      puffs.push({ s, life: 0, max: 0, vx: 0, vy: 0, vz: 0 });
+    }
+    let puffCursor = 0;
+    const emitDust = (x: number, y: number, z: number, spread: number) => {
+      const p = puffs[puffCursor++ % puffs.length];
+      p.life = 0;
+      p.max = 0.9 + Math.random() * 0.6;
+      p.vx = (Math.random() - 0.5) * 0.6;
+      p.vy = 0.5 + Math.random() * 0.4;
+      p.vz = (Math.random() - 0.5) * 0.6;
+      p.s.position.set(x + (Math.random() - 0.5) * spread, y + 0.3, z + (Math.random() - 0.5) * spread);
+      p.s.scale.setScalar(1.4);
+      p.s.visible = true;
+    };
+
+    // --- Life pass: a waving banner follows each side's lead formation. ---
+    const bannerParts: Array<{
+      group: THREE.Group;
+      flagGeo: THREE.PlaneGeometry;
+      follow: UnitMesh | undefined;
+      phase: number;
+    }> = [];
+    const ownedBannerResources: Array<{ dispose: () => void }> = [];
+    (['a', 'b'] as const).forEach((sideKey, sideIdx) => {
+      const follow = unitMeshes.find((u) => u.side === sideKey && !u.floats);
+      if (!follow) return;
+      const sideInfo = view.sides[sideKey];
+      const c = document.createElement('canvas');
+      c.width = 128;
+      c.height = 80;
+      const g = c.getContext('2d')!;
+      g.fillStyle = sideInfo.color;
+      g.fillRect(0, 0, 128, 80);
+      g.strokeStyle = 'rgba(0,0,0,0.4)';
+      g.lineWidth = 8;
+      g.strokeRect(0, 0, 128, 80);
+      g.fillStyle = 'rgba(255,255,255,0.92)';
+      g.font = 'bold 46px "Segoe UI", sans-serif';
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      g.fillText(sideInfo.name.charAt(0).toUpperCase(), 64, 42);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      const flagGeo = new THREE.PlaneGeometry(2.1, 1.25, 12, 6);
+      flagGeo.translate(1.05, 0, 0); // hoist at the pole
+      const flagMat = new THREE.MeshStandardMaterial({
+        map: tex,
+        side: THREE.DoubleSide,
+        roughness: 0.9,
+      });
+      const flag = new THREE.Mesh(flagGeo, flagMat);
+      flag.position.set(0, 4.0, 0);
+      flag.castShadow = true;
+      const pole = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.06, 0.06, 4.8, 6),
+        new THREE.MeshStandardMaterial({ color: '#5a4632', roughness: 1 }),
+      );
+      pole.position.y = 2.4;
+      pole.castShadow = true;
+      const group = new THREE.Group();
+      group.add(pole, flag);
+      scene.add(group);
+      bannerParts.push({ group, flagGeo, follow, phase: sideIdx * 1.7 });
+      ownedBannerResources.push({ dispose: () => { tex.dispose(); flagGeo.dispose(); flagMat.dispose(); pole.geometry.dispose(); (pole.material as THREE.Material).dispose(); } });
+    });
 
     // --- Resize handling ---
     const resize = () => {
@@ -358,7 +476,11 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
     // --- Animation loop ---
     let raf = 0;
     let lastPhase = -1;
+    const clock = new THREE.Clock();
     const animate = () => {
+      const dt = Math.min(0.05, clock.getDelta());
+      const t = clock.elapsedTime;
+
       // When the phase changes, retarget every unit.
       if (phaseRef.current !== lastPhase) {
         lastPhase = phaseRef.current;
@@ -368,10 +490,79 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
         }
       }
       for (const u of unitMeshes) {
+        const dx = u.target.x - u.mesh.position.x;
+        const dz = u.target.z - u.mesh.position.z;
+        const moving = dx * dx + dz * dz > 0.05;
+
         u.mesh.position.lerp(u.target, 0.05);
         // Keep formations standing on the terrain (ships stay on the water).
         u.mesh.position.y = u.floats ? 0 : heightAt(u.mesh.position.x, u.mesh.position.z);
+
+        // Face the direction of travel (smoothly, shortest way round).
+        if (moving) {
+          const want = Math.atan2(dx, dz);
+          let delta = want - u.mesh.rotation.y;
+          delta = Math.atan2(Math.sin(delta), Math.cos(delta));
+          u.mesh.rotation.y += delta * 0.06;
+        }
+
+        // Marching bob for feet and hooves (ships glide, tanks rumble flat).
+        if ((moving || u.wasMoving) && !u.floats && u.shape !== 'vehicle') {
+          const gait = u.shape === 'cavalry' ? 11 : 7.5;
+          const lift = u.shape === 'cavalry' ? 0.11 : 0.07;
+          for (let i = 0; i < u.base.length; i++) {
+            const [bx, bz] = u.base[i];
+            const bob = moving ? Math.abs(Math.sin(t * gait + u.phases[i])) * lift : 0;
+            dummy.position.set(bx, bob, bz);
+            dummy.rotation.set(0, 0, 0);
+            dummy.updateMatrix();
+            u.mesh.setMatrixAt(i, dummy.matrix);
+          }
+          u.mesh.instanceMatrix.needsUpdate = true;
+        }
+
+        // Marching feet kick up dust behind the formation.
+        if (moving && !u.floats && Math.random() < (u.shape === 'cavalry' ? 0.5 : 0.3)) {
+          emitDust(u.mesh.position.x, u.mesh.position.y, u.mesh.position.z, u.base.length > 24 ? 5 : 3);
+        }
+        u.wasMoving = moving;
       }
+
+      // Drift, swell and fade the dust.
+      for (const p of puffs) {
+        if (!p.s.visible) continue;
+        p.life += dt;
+        if (p.life >= p.max) {
+          p.s.visible = false;
+          continue;
+        }
+        const k = p.life / p.max;
+        p.s.position.x += p.vx * dt;
+        p.s.position.y += p.vy * dt;
+        p.s.position.z += p.vz * dt;
+        (p.s.material as THREE.SpriteMaterial).opacity = 0.34 * (1 - k);
+        p.s.scale.setScalar(1.4 + k * 3.2);
+      }
+
+      // Banners follow their side's lead formation; cloth ripples in the wind.
+      for (const b of bannerParts) {
+        if (b.follow) {
+          b.group.position.set(
+            b.follow.mesh.position.x - 2.2,
+            b.follow.mesh.position.y,
+            b.follow.mesh.position.z - 2.2,
+          );
+        }
+        const pos = b.flagGeo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const sway = Math.sin(x * 2.4 + t * 4.2 + b.phase) * 0.14 * (x / 2.1);
+          pos.setZ(i, sway);
+        }
+        pos.needsUpdate = true;
+        b.flagGeo.computeVertexNormals();
+      }
+
       controls.update();
       renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
@@ -387,6 +578,9 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
       applyMapRef.current = () => {};
       for (const g of ownedGeometries) g.dispose();
       for (const u of unitMeshes) (u.mesh.material as THREE.Material).dispose();
+      for (const p of puffs) (p.s.material as THREE.Material).dispose();
+      dustTex.dispose();
+      for (const r of ownedBannerResources) r.dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
   }, [view, mapUrl]);
