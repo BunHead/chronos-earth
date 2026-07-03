@@ -85,6 +85,9 @@ export default function App() {
   // Which events the zoomed-in mural is showing, so the globe shows the same set
   // (null = not zoomed → globe uses its own "current era" window).
   const [muralEventIds, setMuralEventIds] = useState<string[] | null>(null);
+  // The patch of Earth the camera is looking at (null = orbit / whole globe);
+  // when set, the timeline tells that region's own story.
+  const [viewRegion, setViewRegion] = useState<{ w: number; s: number; e: number; n: number } | null>(null);
   // The imported event you just picked (search/click) — its globe marker stays
   // visible even when the declutter caps would have hidden it.
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
@@ -266,6 +269,7 @@ export default function App() {
           setIsPlaying(false);
           setYearsBP(bp);
         }}
+        onViewRegion={setViewRegion}
         onDive={(t) => {
           // The dive: zooming right down onto a marker opens its 3D scene.
           if (t.kind === 'battle') {
@@ -403,6 +407,7 @@ export default function App() {
         fauna={fauna}
         enabledEventCats={enabledEventCats}
         showFauna={showFauna}
+        region={viewRegion}
         onSelect={setPanel}
         zoomIdx={zoomIdx}
         onZoomChange={setZoomIdx}

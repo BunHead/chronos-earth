@@ -127,16 +127,28 @@ const unionJack: Draw = (ctx, w, h) => {
   fill(ctx, '#C8102E', w * 0.45, 0, w * 0.1, h);
 };
 
-const usaFlag: Draw = (ctx, w, h) => {
-  // 13 stripes + starred canton (stars as dots at this size).
+/** The US flag grows with the Union: pass the star layout of the era.
+ * rows = 0 draws the 13-star Betsy Ross ring instead. */
+const usaFlag = (rows: number, cols: number): Draw => (ctx, w, h) => {
   for (let i = 0; i < 13; i++) fill(ctx, i % 2 === 0 ? '#B22234' : '#ffffff', 0, (h / 13) * i, w, h / 13 + 1);
   fill(ctx, '#3C3B6E', 0, 0, w * 0.42, h * (7 / 13));
   ctx.fillStyle = '#ffffff';
-  for (let r = 0; r < 4; r++) {
-    for (let c = 0; c < 5; c++) {
-      ctx.beginPath();
-      ctx.arc(w * (0.05 + c * 0.08), h * (0.07 + r * 0.12), Math.min(w, h) * 0.02, 0, Math.PI * 2);
-      ctx.fill();
+  const dot = (x: number, y: number) => {
+    ctx.beginPath();
+    ctx.arc(x, y, Math.min(w, h) * 0.02, 0, Math.PI * 2);
+    ctx.fill();
+  };
+  if (rows === 0) {
+    // Betsy Ross: 13 stars in a ring.
+    for (let i = 0; i < 13; i++) {
+      const a = (i / 13) * Math.PI * 2 - Math.PI / 2;
+      dot(w * 0.21 + Math.cos(a) * w * 0.13, h * 0.27 + Math.sin(a) * h * 0.19);
+    }
+  } else {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        dot(w * (0.04 + (c * 0.36) / Math.max(1, cols - 1)), h * (0.06 + (r * 0.42) / Math.max(1, rows - 1)));
+      }
     }
   }
 };
@@ -517,7 +529,12 @@ export const FLAGS: FlagSpec[] = [
   { match: 'korea, north', key: 'north-korea-alt', from: 1948, draw: starFlag('#024FA2', '#ED1C27', 0.2, 0.3, 0.5) },
 
   // The Americas & beyond.
-  { match: 'united states', key: 'usa', draw: usaFlag },
+  // The Union's canton fills in as states join.
+  { match: 'united states', key: 'usa-13', to: 1794, draw: usaFlag(0, 0) },
+  { match: 'united states', key: 'usa-15', from: 1795, to: 1817, draw: usaFlag(3, 5) },
+  { match: 'united states', key: 'usa-26', from: 1818, to: 1911, draw: usaFlag(4, 7) },
+  { match: 'united states', key: 'usa-48', from: 1912, to: 1958, draw: usaFlag(6, 8) },
+  { match: 'united states', key: 'usa-50', from: 1959, draw: usaFlag(5, 10) },
   { match: 'canada', key: 'canada', from: 1965, draw: (ctx, w, h) => {
     vBands('#D80621', '#ffffff', '#D80621')(ctx, w, h);
     ctx.fillStyle = '#D80621';

@@ -118,6 +118,9 @@ interface GlobeProps {
   /** The dive: keep zooming onto a 3D-capable marker and this fires once so
    * the app can open its 3D scene. Re-arms when the camera climbs again. */
   onDive: (target: { kind: 'battle' | 'site' | 'event'; id: string }) => void;
+  /** Reports the patch of Earth in view once zoomed toward a region (null at
+   * orbit) — the timeline uses it to tell that region's own story. */
+  onViewRegion: (rect: { w: number; s: number; e: number; n: number } | null) => void;
 }
 
 /** Diving below this camera height (m) over a marker opens its 3D scene.
@@ -133,7 +136,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive },
+  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -170,6 +173,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onDiveRef.current = onDive;
   /** Bumped per empty-ground click, so a stale live-fetch can't repaint a newer dossier. */
   const dossierSeqRef = useRef(0);
+  const onViewRegionRef = useRef(onViewRegion);
+  onViewRegionRef.current = onViewRegion;
   /** True after a dive fired; re-arms once the camera climbs back up. */
   const divedRef = useRef(false);
   const eventsRef = useRef(events);
@@ -182,6 +187,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     null,
   );
   const viewRectKeyRef = useRef('');
+
+  // Tell the app what region we're looking at (null at orbit / whole globe).
+  useEffect(() => {
+    onViewRegionRef.current(zoomTier >= 1 ? viewRect : null);
+  }, [zoomTier, viewRect]);
   // Markers mid-pop (grow-in animation) and the timer driving them.
   const popAnimsRef = useRef<Map<Cesium.Entity, { t0: number; base: number }>>(new Map());
   const popTimerRef = useRef<number | null>(null);

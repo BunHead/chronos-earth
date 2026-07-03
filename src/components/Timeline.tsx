@@ -33,6 +33,10 @@ interface TimelineProps {
   enabledEventCats: Set<string>;
   /** Whether the prehistoric-life layer is on (filters fauna out of the mural). */
   showFauna: boolean;
+  /** The patch of Earth the globe camera is looking at (null = whole world).
+   * When set, the mural tells THAT region's story — zoom into Italy and the
+   * wall fills with Italy's own people and works. */
+  region: { w: number; s: number; e: number; n: number } | null;
   /** Open the info panel for a clicked mural circle. */
   onSelect: (content: PanelContent) => void;
   /** Current zoom level (index into ZOOM_SPANS); lifted to App for the play loop. */
@@ -281,6 +285,7 @@ export default function Timeline({
   fauna,
   enabledEventCats,
   showFauna,
+  region,
   onSelect,
   zoomIdx,
   onZoomChange,
@@ -365,10 +370,24 @@ export default function Timeline({
   );
 
   // --- The photo mural: events + creatures as datable sources. ---
+  // When the globe is zoomed into a region, the wall tells that region's own
+  // story (10% margin; handles views crossing the dateline).
+  const inRegion = useMemo(() => {
+    if (!region) return () => true;
+    const { w, s, e, n } = region;
+    const mLat = Math.max(1, (n - s) * 0.1);
+    const spanLon = e >= w ? e - w : 360 - (w - e);
+    const mLon = Math.max(1, spanLon * 0.1);
+    return (lat: number, lon: number) => {
+      if (lat < s - mLat || lat > n + mLat) return false;
+      return e >= w ? lon >= w - mLon && lon <= e + mLon : lon >= w - mLon || lon <= e + mLon;
+    };
+  }, [region]);
+
   const eventItems = useMemo<MuralSource[]>(
     () =>
       events
-        .filter((e) => enabledEventCats.has(e.category))
+        .filter((e) => enabledEventCats.has(e.category) && inRegion(e.lat, e.lon))
         .map((e) => ({
           id: 'e-' + e.id,
           title: e.name,
@@ -381,11 +400,11 @@ export default function Timeline({
           color: CAT_COLOR[e.category] ?? '#cccccc',
           toPanel: () => eventToPanel(e),
         })),
-    [events, enabledEventCats],
+    [events, enabledEventCats, inRegion],
   );
   const faunaItems = useMemo<MuralSource[]>(
     () =>
-      (showFauna ? fauna : []).map((f) => ({
+      (showFauna ? fauna : []).filter((f) => inRegion(f.lat, f.lon)).map((f) => ({
         id: 'f-' + f.id,
         title: f.name,
         olderBP: f.fromMa * 1_000_000,
@@ -397,7 +416,7 @@ export default function Timeline({
         color: FAUNA_COLOR,
         toPanel: () => faunaToPanel(f),
       })),
-    [fauna, showFauna],
+    [fauna, showFauna, inRegion],
   );
 
   // Pick the most-notable items that fit the window without overlapping, in two
@@ -559,7 +578,10 @@ export default function Timeline({
           >
             ＋
           </button>
-          <span className="zoom-label">{zoomLabel(span)}</span>
+          <span className="zoom-label">
+            {zoomLabel(span)}
+            {region && zoomedIn && <span className="region-chip" title="Showing this region's own story — zoom the globe out for the whole world">🔍 region</span>}
+          </span>
           <button
             className="btn zoom-btn"
             onClick={() => setZoom(zoomIdx + 1)}

@@ -43,6 +43,14 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('India', 1700)).toBeNull(); // tricolour is 1947+
   });
 
+  it('the US canton grows with the Union', () => {
+    expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
+    expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');
+    expect(flagSpecFor('United States', 1860)?.key).toBe('usa-26');
+    expect(flagSpecFor('United States', 1945)?.key).toBe('usa-48');
+    expect(flagSpecFor('United States of America', 2000)?.key).toBe('usa-50');
+  });
+
   it('every registry entry has a key, match and draw fn', () => {
     for (const spec of FLAGS) {
       expect(spec.key.length).toBeGreaterThan(0);

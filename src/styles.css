@@ -152,6 +152,37 @@ body {
   opacity: 0.3;
 }
 
+/* Little pill on the timeline when the mural is telling one region's story. */
+.region-chip {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(74, 163, 255, 0.18);
+  border: 1px solid rgba(74, 163, 255, 0.45);
+  font-size: 10px;
+  color: #bcd9ff;
+  white-space: nowrap;
+}
+
+/* Panels you can resize: grab the corner handle. The info panel is anchored
+   right, so widening it grows leftward over the globe. */
+.info-panel {
+  resize: horizontal;
+  overflow: auto;
+  min-width: 280px;
+  max-width: 70vw;
+}
+/* The battle/monument windows resize from the corner too — their 3D canvases
+   follow along (both watch their own size). */
+.bv-window {
+  resize: both;
+  overflow: auto;
+  min-width: 340px;
+  min-height: 280px;
+  max-width: 96vw;
+  max-height: 94vh;
+}
+
 /* Colour legend for the war & peace border line map (bottom-left). */
 .border-legend {
   position: absolute;
