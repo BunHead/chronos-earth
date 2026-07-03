@@ -338,11 +338,14 @@ body {
  * Layers panel (top-right)
  * ------------------------------------------------------------------ */
 
-.layers-panel {
+/* Wrapper owns position so the whole panel can be dragged anywhere. */
+.layers-panel-wrap {
   position: absolute;
   top: 16px;
   right: 16px;
   z-index: 15;
+}
+.layers-panel {
   width: 220px;
   padding: 12px 14px;
   background: var(--panel);
@@ -995,6 +998,32 @@ body {
   gap: 8px;
   z-index: 20;
 }
+/* Grab the timeline's top edge to grow or shrink it (globe reflows too). */
+.timeline-grip {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  cursor: ns-resize;
+  z-index: 25;
+}
+.timeline-grip::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(120, 170, 230, 0.4);
+  transition: background 0.15s;
+}
+.timeline-grip:hover::after {
+  background: rgba(120, 190, 255, 0.9);
+}
+
 /* A soft vignette so the timeline reads like an aged wall mural. */
 .timeline::after {
   content: '';
@@ -1356,7 +1385,7 @@ body {
 /* Grow the timeline and split minimap (top) / ribbon (bottom) so the photo
    circles can rise into the space between. */
 .timeline.zoomed {
-  height: 320px;
+  height: max(320px, var(--timeline-height));
 }
 .timeline.zoomed .track-wrap {
   justify-content: space-between;
@@ -1771,9 +1800,11 @@ body {
   }
 
   /* Collapse the layers panel into a compact strip below the search. */
-  .layers-panel {
+  .layers-panel-wrap {
     top: 60px;
     right: 12px;
+  }
+  .layers-panel {
     width: 180px;
     padding: 8px 10px;
     font-size: 12px;

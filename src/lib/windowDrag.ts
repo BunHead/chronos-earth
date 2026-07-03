@@ -6,17 +6,28 @@ import type { PointerEvent as ReactPointerEvent } from 'react';
  * (clicks on the header's buttons still work normally).
  */
 export function startWindowDrag(e: ReactPointerEvent) {
-  if ((e.target as HTMLElement).closest('button, select, input, a')) return;
-  const win = (e.currentTarget as HTMLElement).closest('.bv-window') as HTMLElement | null;
-  if (!win) return;
+  startDrag(e, '.bv-window');
+}
+
+/** Same grab-and-move, for any ancestor selector (e.g. the Layers panel).
+ * Returns a function reporting whether the pointer actually moved — callers
+ * with click behaviour on the same element can use it to swallow the click. */
+export function startDrag(e: ReactPointerEvent, selector: string): (() => boolean) | undefined {
+  if ((e.target as HTMLElement).closest('input, select, a')) return undefined;
+  const el = (e.currentTarget as HTMLElement).closest(selector) as HTMLElement | null;
+  if (!el) return undefined;
   e.preventDefault();
-  const m = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/.exec(win.style.transform);
+  const m = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/.exec(el.style.transform);
   const ox = m ? parseFloat(m[1]) : 0;
   const oy = m ? parseFloat(m[2]) : 0;
   const sx = e.clientX;
   const sy = e.clientY;
+  let moved = false;
   const move = (ev: PointerEvent) => {
-    win.style.transform = `translate(${ox + ev.clientX - sx}px, ${oy + ev.clientY - sy}px)`;
+    const dx = ev.clientX - sx;
+    const dy = ev.clientY - sy;
+    if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+    el.style.transform = `translate(${ox + dx}px, ${oy + dy}px)`;
   };
   const up = () => {
     window.removeEventListener('pointermove', move);
@@ -24,4 +35,5 @@ export function startWindowDrag(e: ReactPointerEvent) {
   };
   window.addEventListener('pointermove', move);
   window.addEventListener('pointerup', up);
+  return () => moved;
 }

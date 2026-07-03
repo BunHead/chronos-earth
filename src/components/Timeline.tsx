@@ -292,6 +292,28 @@ export default function Timeline({
   onVisibleEvents,
 }: TimelineProps) {
   const minimapRef = useRef<HTMLDivElement | null>(null);
+  /** Drag the timeline's top edge to grow/shrink it — the CSS variable drives
+   * the whole layout, so the globe reflows with it. */
+  const startHeightDrag = (e: React.PointerEvent) => {
+    e.preventDefault();
+    const root = document.documentElement;
+    const startH =
+      parseFloat(getComputedStyle(root).getPropertyValue('--timeline-height')) || 176;
+    const sy = e.clientY;
+    const move = (ev: PointerEvent) => {
+      const h = Math.min(
+        Math.max(140, startH + (sy - ev.clientY)),
+        Math.max(300, window.innerHeight * 0.6),
+      );
+      root.style.setProperty('--timeline-height', `${h}px`);
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
   const detailRef = useRef<HTMLDivElement | null>(null);
   // While a drag is active this holds the function that maps a clientX to time.
   const dragRef = useRef<((clientX: number) => void) | null>(null);
@@ -540,6 +562,7 @@ export default function Timeline({
 
   return (
     <div className={`timeline${zoomedIn ? ' zoomed' : ''}`}>
+      <div className="timeline-grip" title="Drag to resize the timeline" onPointerDown={startHeightDrag} />
       <div className="timeline-top">
         <div className="timeline-readout">
           <span className="time">{formatTime(yearsBP)}</span>

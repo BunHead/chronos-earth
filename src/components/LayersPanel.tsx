@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { startDrag } from '../lib/windowDrag';
 
 interface LayersPanelProps {
   showSites: boolean;
@@ -59,9 +60,25 @@ export default function LayersPanel({
 }: LayersPanelProps) {
   // Collapsible, so the panel can fold away for a clean view of the planet.
   const [open, setOpen] = useState(true);
+  // Draggable by its title bar — a real drag swallows the collapse-click.
+  const draggedRef = useRef<(() => boolean) | undefined>(undefined);
   return (
+    <div className="layers-panel-wrap">
     <div className={open ? 'layers-panel' : 'layers-panel collapsed'}>
-      <button className="layers-title" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+      <button
+        className="layers-title"
+        title="Click to fold · drag to move"
+        onPointerDown={(e) => {
+          draggedRef.current = startDrag(e, '.layers-panel-wrap');
+        }}
+        onClick={() => {
+          const wasDrag = draggedRef.current?.();
+          draggedRef.current = undefined;
+          if (wasDrag) return; // it was a drag, not a click
+          setOpen((o) => !o);
+        }}
+        aria-expanded={open}
+      >
         Layers <span className="layers-chevron">{open ? '▾' : '▸'}</span>
       </button>
       {open && (
@@ -120,6 +137,7 @@ export default function LayersPanel({
       </button>
         </>
       )}
+    </div>
     </div>
   );
 }
