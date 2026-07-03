@@ -231,6 +231,32 @@ body {
   font-style: italic;
 }
 
+/* Drag pill at the top of the info panel — move the whole panel anywhere. */
+.panel-move {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 14px;
+  cursor: move;
+  z-index: 3;
+}
+.panel-move::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(120, 170, 230, 0.4);
+  transition: background 0.15s;
+}
+.panel-move:hover::after {
+  background: rgba(120, 190, 255, 0.9);
+}
+
 /* Resizable panels. The info panel has a proper visible grab bar on its left
    edge (the CSS corner handle proved invisible against the timeline). */
 .panel-grip {

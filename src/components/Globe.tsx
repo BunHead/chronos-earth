@@ -196,6 +196,23 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   useEffect(() => {
     onViewRegionRef.current(zoomTier >= 1 ? viewRect : null);
   }, [zoomTier, viewRect]);
+
+  // Linger deep over ANY region and it quietly asks Wikidata for its own
+  // history — Derbyshire summons its silk mills, Greece its ancients. The
+  // per-area cache means each patch of Earth is only ever asked once.
+  useEffect(() => {
+    if (zoomTier < 3 || !viewRect) return;
+    const timer = window.setTimeout(() => {
+      const lat = (viewRect.s + viewRect.n) / 2;
+      const lon =
+        viewRect.e >= viewRect.w
+          ? (viewRect.w + viewRect.e) / 2
+          : ((((viewRect.w + viewRect.e + 360) / 2 + 180) % 360) - 180);
+      void fetchNearbyHistory(lat, lon).then((live) => spawnLiveMarkers(live, { lat, lon }));
+    }, 1500);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoomTier, viewRect]);
   // Markers mid-pop (grow-in animation) and the timer driving them.
   const popAnimsRef = useRef<Map<Cesium.Entity, { t0: number; base: number }>>(new Map());
   const popTimerRef = useRef<number | null>(null);
@@ -230,6 +247,54 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         popTimerRef.current = null;
       }
     }, 33);
+  };
+
+  /** Live-fetched finds become globe markers in the house style — category
+   * badge, fame-sized, cascading pop-in. Replaces the previous live batch. */
+  const spawnLiveMarkers = (live: TimelineEvent[], anchor: { lat: number; lon: number }) => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed() || live.length === 0) return;
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const have = new Set(eventsRef.current.map((e) => norm(e.name)));
+    const fresh = live.filter((ev) => !have.has(norm(ev.name)));
+    if (fresh.length === 0) return;
+    for (const old of liveEntitiesRef.current.values()) viewer.entities.remove(old);
+    liveEntitiesRef.current.clear();
+    liveAnchorRef.current = anchor;
+    let order = 0;
+    for (const ev of fresh) {
+      const scale = fameScale(ev.notability, 0.4);
+      const entity = viewer.entities.add({
+        position: Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat),
+        show: false,
+        billboard: {
+          image: eventIcon(ev.category),
+          scale,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+        },
+        label: {
+          text: ev.name,
+          font: '12px "Segoe UI", sans-serif',
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 3,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -28),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+        },
+      });
+      const tagged = entity as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
+      tagged.chronosEvent = ev;
+      tagged.chronosScale = scale;
+      setShownPop(entity, true, Math.min(order * 70, 900));
+      order++;
+      liveEntitiesRef.current.set(ev.id, entity);
+    }
   };
 
   /** Show/hide a marker; a fresh appearance pops in instead of just blinking on.
@@ -538,43 +603,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
               // The new finds land on the map too — same dress code as
               // everyone else: category badge, fame-sized, cascading pop-in.
-              for (const old of liveEntitiesRef.current.values()) viewer.entities.remove(old);
-              liveEntitiesRef.current.clear();
-              liveAnchorRef.current = { lat, lon };
-              let order = 0;
-              for (const ev of fresh) {
-                const scale = fameScale(ev.notability, 0.4);
-                const entity = viewer.entities.add({
-                  position: Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat),
-                  show: false,
-                  billboard: {
-                    image: eventIcon(ev.category),
-                    scale,
-                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                    disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
-                  },
-                  label: {
-                    text: ev.name,
-                    font: '12px "Segoe UI", sans-serif',
-                    fillColor: Cesium.Color.WHITE,
-                    outlineColor: Cesium.Color.BLACK,
-                    outlineWidth: 3,
-                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                    pixelOffset: new Cesium.Cartesian2(0, -28),
-                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
-                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                    disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
-                  },
-                });
-                const tagged = entity as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
-                tagged.chronosEvent = ev;
-                tagged.chronosScale = scale;
-                setShownPop(entity, true, Math.min(order * 70, 900));
-                order++;
-                liveEntitiesRef.current.set(ev.id, entity);
-              }
+              spawnLiveMarkers(live, { lat, lon });
             });
           }
         }

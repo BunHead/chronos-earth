@@ -41,6 +41,39 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
   // User-chosen panel width (px), via the left-edge grab bar. Null = CSS default.
   const [panelWidth, setPanelWidth] = useState<number | null>(null);
   const panelRef = useRef<HTMLElement | null>(null);
+
+  // Drag the panel anywhere by its top pill. The panel normally slides in via
+  // a CSS transform, so moving works by switching to explicit left/top — and
+  // everything resets when the panel closes, so the slide-in stays intact.
+  const startPanelMove = (e: React.PointerEvent) => {
+    const el = panelRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const rect = el.getBoundingClientRect();
+    el.style.top = `${rect.top}px`;
+    el.style.left = `${rect.left}px`;
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.height = `${rect.height}px`;
+    const sx = e.clientX;
+    const sy = e.clientY;
+    const move = (ev: PointerEvent) => {
+      el.style.left = `${rect.left + ev.clientX - sx}px`;
+      el.style.top = `${Math.max(0, rect.top + ev.clientY - sy)}px`;
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  useEffect(() => {
+    if (!content && panelRef.current) {
+      const s = panelRef.current.style;
+      s.top = s.left = s.right = s.bottom = s.height = '';
+    }
+  }, [content]);
   // Click the flag banner → fetch that flag's own story from Wikipedia.
   const [flagStory, setFlagStory] = useState<{
     status: 'closed' | 'loading' | 'done' | 'none';
@@ -96,6 +129,8 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
     >
       {content && (
         <div className="info-inner">
+          {/* Top pill — drag it to move the whole panel anywhere. */}
+          <div className="panel-move" title="Drag to move" onPointerDown={startPanelMove} />
           {/* Visible grab bar — drag the panel's left edge to resize it. */}
           <div
             className="panel-grip"
