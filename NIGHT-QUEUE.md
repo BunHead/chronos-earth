@@ -40,6 +40,7 @@ items. The night session marks progress here and never deletes your words.
    [DONE 2026-07-04 ea22ff8]
 9. Two more phased battle views following battle-views.json schema:
    Battle of Tours (732) and Battle of Midway (1942, ships + carriers).
+   [DONE 2026-07-04 27aace8]
 10. Flags: add a few more African/Asian entries missing from flags.ts
    (Mali, Senegal, Cameroon, Uganda, Zambia, Sri Lanka, Bangladesh, Nepal)
    with simple band/star geometry, plus tests for two of them.
