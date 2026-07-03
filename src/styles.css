@@ -139,6 +139,13 @@ body {
 .backdrop-scene.loaded {
   opacity: 0.48;
 }
+/* Detail-rail variant: wider scenes, kept soft under ticks and pins. */
+.backdrop-scene.detail {
+  width: 26%;
+}
+.backdrop-scene.detail.loaded {
+  opacity: 0.3;
+}
 /* When zoomed in, the minimap is a thin strip — keep its scenes subtle so the
    detail rail below stays the star. */
 .timeline.zoomed .backdrop-scene.loaded {

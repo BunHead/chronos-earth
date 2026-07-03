@@ -116,6 +116,76 @@ const BACKDROP_SCENES: { wiki: string; bp: number }[] = [
   { wiki: 'Apollo 11', bp: 55 },
 ];
 
+/** Extra scenes for the zoomed-in detail rail — denser through history, so
+ * whatever century you land on has era-true artwork behind the ribbon. */
+const DETAIL_SCENES: { wiki: string; bp: number }[] = [
+  ...BACKDROP_SCENES,
+  { wiki: 'Stegosaurus', bp: 150_000_000 },
+  { wiki: 'Megalodon', bp: 15_000_000 },
+  { wiki: 'Australopithecus', bp: 3_000_000 },
+  { wiki: 'Lascaux', bp: 19_000 },
+  { wiki: 'Göbekli Tepe', bp: 11_500 },
+  { wiki: 'Great Wall of China', bp: 2_246 },
+  { wiki: 'Terracotta Army', bp: 2_236 },
+  { wiki: 'Parthenon', bp: 2_464 },
+  { wiki: 'Colosseum', bp: 1_946 },
+  { wiki: 'Hagia Sophia', bp: 1_489 },
+  { wiki: 'Oseberg Ship', bp: 1_206 },
+  { wiki: 'Bayeux Tapestry', bp: 960 },
+  { wiki: 'Notre-Dame de Paris', bp: 863 },
+  { wiki: 'Machu Picchu', bp: 576 },
+  { wiki: 'Watt steam engine', bp: 250 },
+  { wiki: 'RMS Titanic', bp: 114 },
+  { wiki: 'Battle of the Somme', bp: 110 },
+  { wiki: 'Supermarine Spitfire', bp: 86 },
+];
+
+/** The zoomed detail rail's own painted wall: scenes whose moment falls
+ * inside the visible window, anchored to their true spot. */
+function DetailBackdrop({ win }: { win: { centerBP: number; span: number } }) {
+  const [thumbs, setThumbs] = useState<Record<string, string>>({});
+  // Declutter: at coarse zooms every scene of human history piles onto the
+  // young edge — keep at most 5, well spaced, nearest the middle first.
+  const candidates = DETAIL_SCENES
+    .map((s) => ({ s, pos: bpToWindowPos(s.bp, win) }))
+    .filter((v) => v.pos > -0.1 && v.pos < 1.1)
+    .sort((a, b) => Math.abs(a.pos - 0.5) - Math.abs(b.pos - 0.5));
+  const visible: typeof candidates = [];
+  for (const c of candidates) {
+    if (visible.length >= 5) break;
+    if (visible.some((v) => Math.abs(v.pos - c.pos) < 0.14)) continue;
+    visible.push(c);
+  }
+  const key = visible.map((v) => v.s.wiki).join('|');
+  useEffect(() => {
+    let ok = true;
+    for (const v of visible) {
+      void loadThumb(v.s.wiki).then((src) => {
+        if (ok && src) setThumbs((t) => (t[v.s.wiki] ? t : { ...t, [v.s.wiki]: src }));
+      });
+    }
+    return () => {
+      ok = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return (
+    <>
+      {visible.map(({ s, pos }) => (
+        <div
+          key={s.wiki}
+          className={thumbs[s.wiki] ? 'backdrop-scene detail loaded' : 'backdrop-scene detail'}
+          style={{
+            left: `${pos * 100}%`,
+            backgroundImage: thumbs[s.wiki] ? `url(${thumbs[s.wiki]})` : undefined,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </>
+  );
+}
+
 function MuralBackdrop() {
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
   useEffect(() => {
@@ -589,6 +659,7 @@ export default function Timeline({
             onPointerCancel={onDragEnd}
           >
             <div className="detail-rail" style={{ background: detailGradient }} />
+            <DetailBackdrop win={win} />
 
             {ticks.map((t) => {
               const p = bpToWindowPos(t.yearsBP, win);
