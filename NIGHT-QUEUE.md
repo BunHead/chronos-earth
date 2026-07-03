@@ -22,7 +22,7 @@ items. The night session marks progress here and never deletes your words.
    [DONE 2026-07-03 live session]
 4. More curated battle views: pick 2 famous battles that lack a phased 2D
    view (e.g. Agincourt, Thermopylae) and build battle-views.json entries
-   following the existing schema.
+   following the existing schema. [DONE 2026-07-03 live session - Thermopylae + Stalingrad (Agincourt already existed)]
 5. Timeline span ribbons: decorate long spans (empires, construction periods)
    with a subtle gradient and their little category icon.
    [DONE 2026-07-03 lunchtime shift - gradient + emoji tags]
