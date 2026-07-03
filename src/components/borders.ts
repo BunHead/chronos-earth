@@ -44,6 +44,13 @@ const ORANGE_WARN_YEARS = 80;
 /** How far from a battle or front line a border still counts as "at war". */
 const WAR_RADIUS_KM = 260;
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
+/** Country-name labels only fade in once the camera is within this far range
+ * (they are invisible on the whole-globe view, subtle when zoomed to a region). */
+const LABEL_FADE_NEAR = 350_000; // ~fully lit when this close (m)
+const LABEL_FADE_FAR = 3_000_000; // gone by here — a regional-zoom cutoff (m)
+/** A polity smaller than this (deg² of its largest polygon) gets no label, so
+ * micro-states and tiny slivers don't clutter the map. */
+const LABEL_MIN_AREA = 1.2;
 
 interface FrameEntry {
   year: number;
@@ -247,12 +254,19 @@ export class BordersController {
   private redKey = '';
   private redBuilding = false;
   private pulseTimer: number;
+  /** Subtle country-name labels, only for the current floor frame. They fade in
+   * by distance so they show only when the camera is zoomed to a region. */
+  private labels: Cesium.LabelCollection;
+  /** Which floor frame the labels currently belong to (rebuild only on change). */
+  private labelYear: number | undefined;
   /** Live build stats (pixel counts etc.) for dev-time verification. */
   readonly debug: Record<string, unknown> = {};
 
   constructor(viewer: Cesium.Viewer, baseUrl: string) {
     this.viewer = viewer;
     this.baseUrl = baseUrl;
+    this.labels = new Cesium.LabelCollection();
+    this.viewer.scene.primitives.add(this.labels);
     // Gentle heartbeat on the war borders — red stretches breathe.
     this.pulseTimer = window.setInterval(() => {
       if (this.redLayer?.show) {
@@ -625,9 +639,11 @@ export class BordersController {
         if (frame.orange?.layer) frame.orange.layer.show = false;
       }
       if (this.redLayer) this.redLayer.show = false;
+      this.labels.show = false;
       this.activeYear = undefined;
       return;
     }
+    this.labels.show = true;
 
     const floor = this.floorFrameYear(year);
     const floorIdx = this.frames.findIndex((f) => f.year === floor);
@@ -638,6 +654,7 @@ export class BordersController {
     this.activeYear = floor;
     void this.ensureFrame(floor);
     if (ceil !== floor) void this.ensureFrame(ceil);
+    this.syncLabels(floor);
 
     for (const [y, { layer }] of this.cache.entries()) {
       if (y === floor) {
@@ -718,6 +735,42 @@ export class BordersController {
     if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
   }
 
+  /** Rebuild the country-name labels for the current floor frame. Cheap — only
+   * runs when the floor snapshot actually changes. Labels fade in by distance,
+   * so on the whole-globe view they stay invisible and only appear on a
+   * regional zoom, subtle over the flag tints. */
+  private syncLabels(floorYear: number) {
+    if (this.labelYear === floorYear) return;
+    const frame = this.cache.get(floorYear);
+    if (!frame) return;
+    this.labelYear = floorYear;
+    this.labels.removeAll();
+    for (const polity of frame.polities) {
+      const at = polityLabelPoint(polity);
+      if (!at) continue;
+      this.labels.add({
+        position: Cesium.Cartesian3.fromDegrees(at.lon, at.lat),
+        text: polity.name,
+        font: '600 15px "Segoe UI", system-ui, sans-serif',
+        fillColor: Cesium.Color.fromCssColorString('#fdf6e3'),
+        outlineColor: Cesium.Color.fromCssColorString('#1a140a').withAlpha(0.85),
+        outlineWidth: 3,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        // Only visible on a regional zoom; faint far off, brighter up close.
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, LABEL_FADE_FAR),
+        translucencyByDistance: new Cesium.NearFarScalar(
+          LABEL_FADE_NEAR,
+          0.9,
+          LABEL_FADE_FAR,
+          0.0,
+        ),
+        scaleByDistance: new Cesium.NearFarScalar(LABEL_FADE_NEAR, 1.0, LABEL_FADE_FAR, 0.72),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY, // never hidden behind the globe
+      });
+    }
+    this.debug.labels = { floorYear, count: this.labels.length };
+  }
+
   /** Identify the polity at a lon/lat in the active snapshot, or null. */
   hitTest(lon: number, lat: number): { name: string; year: number } | null {
     if (this.activeYear === undefined) return null;
@@ -741,10 +794,61 @@ export class BordersController {
         if (frame.orange?.layer) this.viewer.imageryLayers.remove(frame.orange.layer, true);
       }
       if (this.redLayer) this.viewer.imageryLayers.remove(this.redLayer, true);
+      this.viewer.scene.primitives.remove(this.labels); // also destroys the collection
     }
     this.redLayer = undefined;
     this.cache.clear();
   }
+}
+
+/** Signed area (deg², sign encodes winding) of a lon/lat ring by the shoelace
+ * formula — used to pick a polity's largest polygon and weight its centroid. */
+function ringArea(ring: number[][]): number {
+  let a = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
+  }
+  return a / 2;
+}
+
+/** Area-weighted centroid of a lon/lat ring (falls back to the vertex mean for
+ * a degenerate near-zero-area ring). */
+function ringCentroid(ring: number[][]): { lon: number; lat: number } {
+  let cx = 0;
+  let cy = 0;
+  let a = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const cross = ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
+    a += cross;
+    cx += (ring[j][0] + ring[i][0]) * cross;
+    cy += (ring[j][1] + ring[i][1]) * cross;
+  }
+  if (Math.abs(a) < 1e-9) {
+    const n = ring.length || 1;
+    return {
+      lon: ring.reduce((s, p) => s + p[0], 0) / n,
+      lat: ring.reduce((s, p) => s + p[1], 0) / n,
+    };
+  }
+  return { lon: cx / (3 * a), lat: cy / (3 * a) };
+}
+
+/** Where to anchor a polity's name: the centroid of its largest polygon, or
+ * undefined when the polity is too small to bother labelling. */
+function polityLabelPoint(polity: Polity): { lon: number; lat: number } | undefined {
+  let best: number[][] | undefined;
+  let bestArea = 0;
+  for (const poly of polity.mp) {
+    const ring = poly[0];
+    if (!ring || ring.length < 3) continue;
+    const area = Math.abs(ringArea(ring));
+    if (area > bestArea) {
+      bestArea = area;
+      best = ring;
+    }
+  }
+  if (!best || bestArea < LABEL_MIN_AREA) return undefined;
+  return ringCentroid(best);
 }
 
 /** Standard ray-casting point-in-polygon test. */
