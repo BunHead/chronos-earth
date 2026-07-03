@@ -201,6 +201,7 @@ export function placeDossierPanel(
     kicker: `On the map · ${when}`,
     title: polityName ?? 'This place',
     date: fmtCoord(lat, lon),
+    ...(polityName ? { flag: { name: polityName, year } } : {}),
     summary:
       nearby.length > 0
         ? `${ruler} ${polityName ? `${polityName}'s` : 'Nearby'} history nearest to then:`

@@ -19,8 +19,15 @@ items. The night session marks progress here and never deletes your words.
    subtle, over the flag tints). [DONE 2026-07-03 136ada1]
 3. Region-scoped POI polish: when live-fetch markers exist, clear them once
    the camera leaves that region (they currently persist until the next ask).
+   [DONE 2026-07-03 live session]
 4. More curated battle views: pick 2 famous battles that lack a phased 2D
    view (e.g. Agincourt, Thermopylae) and build battle-views.json entries
    following the existing schema.
 5. Timeline span ribbons: decorate long spans (empires, construction periods)
    with a subtle gradient and their little category icon.
+   [DONE 2026-07-03 lunchtime shift - gradient + emoji tags]
+6. Flag banner in the dossier panel: click a country, its time-correct flag
+   shows at the top; click the flag for its story (live Wikipedia fetch).
+   [DONE 2026-07-03 live session]
+7. Panel resize grab-bar on the info panel left edge (the CSS corner handle
+   was invisible). [DONE 2026-07-03 live session]

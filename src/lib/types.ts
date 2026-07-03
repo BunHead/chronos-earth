@@ -256,6 +256,9 @@ export interface PanelContent {
   summary?: string;
   /** If present, InfoPanel live-fetches the Wikipedia summary + thumbnail for this title. */
   wikiTitle?: string;
+  /** The ruling polity's flag banner (drawn from the flag registry, time-aware).
+   * Click it in the panel to fetch that flag's own story. */
+  flag?: { name: string; year: number };
   sections?: PanelSection[];
   links?: ExternalLink[];
   alternative?: AlternativeView;

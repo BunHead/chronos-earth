@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ExternalLink, PanelContent } from '../lib/types';
+import { flagCanvasFor } from '../lib/flags';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
@@ -37,6 +38,32 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
     extract?: string;
     thumb?: string;
   }>({ status: 'idle' });
+  // User-chosen panel width (px), via the left-edge grab bar. Null = CSS default.
+  const [panelWidth, setPanelWidth] = useState<number | null>(null);
+  const panelRef = useRef<HTMLElement | null>(null);
+  // Click the flag banner → fetch that flag's own story from Wikipedia.
+  const [flagStory, setFlagStory] = useState<{
+    status: 'closed' | 'loading' | 'done' | 'none';
+    extract?: string;
+    thumb?: string;
+  }>({ status: 'closed' });
+  useEffect(() => {
+    setFlagStory({ status: 'closed' });
+  }, [content?.title, content?.flag?.name]);
+
+  const openFlagStory = (name: string) => {
+    if (flagStory.status !== 'closed') {
+      setFlagStory({ status: 'closed' }); // second click folds it away
+      return;
+    }
+    setFlagStory({ status: 'loading' });
+    // Try the modern country's flag article; strip common historical prefixes.
+    const base = name.replace(/^(kingdom|empire|republic|duchy|grand duchy|principality) of /i, '');
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent('Flag_of_' + base.replace(/ /g, '_'))}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((j) => setFlagStory({ status: 'done', extract: j.extract, thumb: j.thumbnail?.source }))
+      .catch(() => setFlagStory({ status: 'none' }));
+  };
 
   // For imported events, fetch the real Wikipedia summary + photo on open.
   useEffect(() => {
@@ -61,9 +88,34 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
   }, [content?.wikiTitle]);
 
   return (
-    <aside className={`info-panel ${content ? 'open' : ''}`} aria-hidden={!content}>
+    <aside
+      ref={panelRef}
+      className={`info-panel ${content ? 'open' : ''}`}
+      aria-hidden={!content}
+      style={panelWidth !== null ? { width: `${panelWidth}px` } : undefined}
+    >
       {content && (
         <div className="info-inner">
+          {/* Visible grab bar — drag the panel's left edge to resize it. */}
+          <div
+            className="panel-grip"
+            title="Drag to resize"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              const startX = e.clientX;
+              const startW = panelWidth ?? panelRef.current?.offsetWidth ?? 380;
+              const move = (ev: PointerEvent) => {
+                const cap = Math.max(320, window.innerWidth * 0.75);
+                setPanelWidth(Math.min(cap, Math.max(280, startW + (startX - ev.clientX))));
+              };
+              const up = () => {
+                window.removeEventListener('pointermove', move);
+                window.removeEventListener('pointerup', up);
+              };
+              window.addEventListener('pointermove', move);
+              window.addEventListener('pointerup', up);
+            }}
+          />
           <button className="info-close" onClick={onClose} aria-label="Close panel">
             ×
           </button>
@@ -71,6 +123,36 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
           <span className="info-kicker">{content.kicker}</span>
           <h2 className="info-title">{content.title}</h2>
           {content.date && <div className="info-date">{content.date}</div>}
+
+          {content.flag &&
+            (() => {
+              const fc = flagCanvasFor(content.flag.name, content.flag.year);
+              if (!fc) return null;
+              return (
+                <>
+                  <img
+                    className="info-flag"
+                    src={fc.toDataURL()}
+                    alt={`Flag of ${content.flag.name}`}
+                    title="Click for this flag's story"
+                    onClick={() => openFlagStory(content.flag!.name)}
+                  />
+                  {flagStory.status === 'loading' && <p className="flag-story dim">Fetching this flag's story…</p>}
+                  {flagStory.status === 'done' && (
+                    <div className="flag-story">
+                      {flagStory.thumb && <img src={flagStory.thumb} alt="" />}
+                      <p>{flagStory.extract}</p>
+                    </div>
+                  )}
+                  {flagStory.status === 'none' && (
+                    <p className="flag-story dim">
+                      No flag article survives for {content.flag.name} — this banner is our own colours
+                      for telling nations apart.
+                    </p>
+                  )}
+                </>
+              );
+            })()}
 
           <div className="info-actions">
             {content.battleId && (

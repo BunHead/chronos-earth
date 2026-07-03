@@ -173,8 +173,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onDiveRef.current = onDive;
   /** Bumped per empty-ground click, so a stale live-fetch can't repaint a newer dossier. */
   const dossierSeqRef = useRef(0);
-  /** Markers for live-fetched finds — replaced whenever a new area is asked. */
+  /** Markers for live-fetched finds — replaced whenever a new area is asked,
+   * cleared when the camera leaves that area (anchor below). */
   const liveEntitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
+  const liveAnchorRef = useRef<{ lat: number; lon: number } | null>(null);
   const onViewRegionRef = useRef(onViewRegion);
   onViewRegionRef.current = onViewRegion;
   /** True after a dive fired; re-arms once the camera climbs back up. */
@@ -364,6 +366,23 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const carto = viewer.camera.positionCartographic;
       setZoomTier(zoomTierFor(carto.height));
 
+      // Live-fetched markers pack up once the camera leaves their region
+      // (drifted far away, or pulled back to orbit).
+      const anchor = liveAnchorRef.current;
+      if (anchor && liveEntitiesRef.current.size > 0) {
+        const camLat = Cesium.Math.toDegrees(carto.latitude);
+        const camLon = Cesium.Math.toDegrees(carto.longitude);
+        const drift = Math.hypot(
+          (camLon - anchor.lon) * Math.max(0.2, Math.cos(carto.latitude)),
+          camLat - anchor.lat,
+        );
+        if (drift > 9 || carto.height > 9_000_000) {
+          for (const ent of liveEntitiesRef.current.values()) viewer.entities.remove(ent);
+          liveEntitiesRef.current.clear();
+          liveAnchorRef.current = null;
+        }
+      }
+
       // The dive: sink below the threshold right over a 3D-capable marker and
       // its scene opens. One shot — climbing back up re-arms it.
       if (carto.height > DIVE_REARM_HEIGHT) {
@@ -521,6 +540,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
               // everyone else: category badge, fame-sized, cascading pop-in.
               for (const old of liveEntitiesRef.current.values()) viewer.entities.remove(old);
               liveEntitiesRef.current.clear();
+              liveAnchorRef.current = { lat, lon };
               let order = 0;
               for (const ev of fresh) {
                 const scale = fameScale(ev.notability, 0.4);
