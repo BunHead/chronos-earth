@@ -173,6 +173,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onDiveRef.current = onDive;
   /** Bumped per empty-ground click, so a stale live-fetch can't repaint a newer dossier. */
   const dossierSeqRef = useRef(0);
+  /** Markers for live-fetched finds — replaced whenever a new area is asked. */
+  const liveEntitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
   const onViewRegionRef = useRef(onViewRegion);
   onViewRegionRef.current = onViewRegion;
   /** True after a dive fired; re-arms once the camera climbs back up. */
@@ -514,6 +516,45 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
                 .sort((a, b) => Math.abs(a.startYear - year) - Math.abs(b.startYear - year))
                 .slice(0, 9);
               onSelectRef.current(placeDossierPanel(lat, lon, year, hit?.name, merged, openEvent));
+
+              // The new finds land on the map too — same dress code as
+              // everyone else: category badge, fame-sized, cascading pop-in.
+              for (const old of liveEntitiesRef.current.values()) viewer.entities.remove(old);
+              liveEntitiesRef.current.clear();
+              let order = 0;
+              for (const ev of fresh) {
+                const scale = fameScale(ev.notability, 0.4);
+                const entity = viewer.entities.add({
+                  position: Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat),
+                  show: false,
+                  billboard: {
+                    image: eventIcon(ev.category),
+                    scale,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+                  },
+                  label: {
+                    text: ev.name,
+                    font: '12px "Segoe UI", sans-serif',
+                    fillColor: Cesium.Color.WHITE,
+                    outlineColor: Cesium.Color.BLACK,
+                    outlineWidth: 3,
+                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    pixelOffset: new Cesium.Cartesian2(0, -28),
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+                  },
+                });
+                const tagged = entity as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
+                tagged.chronosEvent = ev;
+                tagged.chronosScale = scale;
+                setShownPop(entity, true, Math.min(order * 70, 900));
+                order++;
+                liveEntitiesRef.current.set(ev.id, entity);
+              }
             });
           }
         }
@@ -545,6 +586,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       entitiesRef.current.clear();
       battleEntitiesRef.current.clear();
       eventEntitiesRef.current.clear();
+      liveEntitiesRef.current.clear();
     };
   }, []);
 
