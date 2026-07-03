@@ -31,3 +31,14 @@ items. The night session marks progress here and never deletes your words.
    [DONE 2026-07-03 live session]
 7. Panel resize grab-bar on the info panel left edge (the CSS corner handle
    was invisible). [DONE 2026-07-03 live session]
+
+8. Live finds: administrative regions (provinces, districts, municipalities)
+   show as boring generic markers - EXCLUDE them in liveFetch.ts (their P31
+   types e.g. Q10864048, Q13220204, Q15284, or FILTER NOT EXISTS on admin
+   classes) so only real history surfaces. Extend TYPE_CATEGORY with a few
+   more mappings (bridge, palace, temple, university, mine, railway station).
+9. Two more phased battle views following battle-views.json schema:
+   Battle of Tours (732) and Battle of Midway (1942, ships + carriers).
+10. Flags: add a few more African/Asian entries missing from flags.ts
+   (Mali, Senegal, Cameroon, Uganda, Zambia, Sri Lanka, Bangladesh, Nepal)
+   with simple band/star geometry, plus tests for two of them.
