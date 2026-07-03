@@ -117,7 +117,7 @@ interface GlobeProps {
   onSeek: (yearsBP: number) => void;
   /** The dive: keep zooming onto a 3D-capable marker and this fires once so
    * the app can open its 3D scene. Re-arms when the camera climbs again. */
-  onDive: (target: { kind: 'battle' | 'site'; id: string }) => void;
+  onDive: (target: { kind: 'battle' | 'site' | 'event'; id: string }) => void;
 }
 
 /** Diving below this camera height (m) over a marker opens its 3D scene.
@@ -360,8 +360,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         const camLon = Cesium.Math.toDegrees(carto.longitude);
         const camLat = Cesium.Math.toDegrees(carto.latitude);
         const coslat = Math.max(0.2, Math.cos(carto.latitude));
-        let best: { kind: 'battle' | 'site'; id: string; d: number } | null = null;
-        const consider = (kind: 'battle' | 'site', id: string, lon: number, lat: number, shown: boolean) => {
+        type DiveKind = 'battle' | 'site' | 'event';
+        let best: { kind: DiveKind; id: string; d: number } | null = null;
+        const consider = (kind: DiveKind, id: string, lon: number, lat: number, shown: boolean) => {
           if (!shown) return;
           const d = Math.hypot((lon - camLon) * coslat, lat - camLat);
           if (d <= DIVE_RADIUS_DEG && (!best || d < best.d)) best = { kind, id, d };
@@ -374,9 +375,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           const battle = (ent as Cesium.Entity & { chronosBattle?: Battle }).chronosBattle;
           if (battle) consider('battle', id, battle.lon, battle.lat, ent.show);
         }
+        // Imported monuments are diveable too — every monument is zoomable.
+        for (const [id, ent] of eventEntitiesRef.current) {
+          const ev = (ent as Cesium.Entity & { chronosEvent?: TimelineEvent }).chronosEvent;
+          if (ev && ev.category === 'monument') consider('event', id, ev.lon, ev.lat, ent.show);
+        }
         if (best) {
           divedRef.current = true;
-          onDiveRef.current({ kind: (best as { kind: 'battle' | 'site' }).kind, id: (best as { id: string }).id });
+          onDiveRef.current({ kind: (best as { kind: DiveKind }).kind, id: (best as { id: string }).id });
         }
       }
       // Track the visible patch of Earth (rounded, so tiny drifts don't churn).

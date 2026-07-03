@@ -24,6 +24,20 @@ const MODEL_BY_ID: Record<string, string> = {
   'younger-dryas-impact': 'impact',
 };
 
+/** Pick a 3D model for an imported monument event from its name, so every
+ * monument on the map is zoomable into SOME reconstruction. */
+export function monumentModelForName(name: string): string {
+  const n = name.toLowerCase();
+  if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
+    return 'stepped-pyramid';
+  if (/pyramid|giza/.test(n)) return 'pyramid';
+  if (/sphinx/.test(n)) return 'sphinx';
+  if (/stonehenge/.test(n)) return 'stonehenge';
+  if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
+  if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
+  return 'megalith';
+}
+
 export function resolveMonumentModel(site: AncientSite): string {
   if (site.model) return site.model;
   if (MODEL_BY_ID[site.id]) return MODEL_BY_ID[site.id];
@@ -117,6 +131,10 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     ...(sections.length > 0 ? { sections } : {}),
     links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },
+    // Every monument gets a 3D reconstruction button (stylised by name).
+    ...(e.category === 'monument'
+      ? { monument3d: { model: monumentModelForName(e.name), title: e.name, lat: e.lat, lon: e.lon } }
+      : {}),
   };
 }
 

@@ -272,6 +272,12 @@ export default function App() {
             if (battleViews[t.id]) setActiveBattleView(t.id);
             return;
           }
+          if (t.kind === 'event') {
+            const ev = events.find((e) => e.id === t.id);
+            const m = ev && eventToPanel(ev).monument3d;
+            if (m) setActiveMonument(m);
+            return;
+          }
           const site = sites.find((s) => s.id === t.id);
           const m = site && siteToPanel(site).monument3d;
           if (m) setActiveMonument(m);

@@ -202,6 +202,24 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     group.add(pyr(10, 7, 0, 0));
     group.add(pyr(7, 5, -9, 4));
     group.add(pyr(5, 3.6, -15, 7));
+  } else if (model === 'stepped-pyramid') {
+    // Mesoamerican / ziggurat style: square tiers, a grand stair, temple on top.
+    ground = '#6c7a45';
+    const tierH = 1.15;
+    const tiers = 5;
+    for (let i = 0; i < tiers; i++) {
+      const w = 12 - i * 2.1;
+      const t = block(w, tierH, w, 0, i * tierH + tierH / 2, 0, '#9a8a6a');
+      weather(t, 0.06);
+      group.add(t);
+    }
+    const top = tiers * tierH;
+    group.add(block(2.6, 1.9, 2.6, 0, top + 0.95, 0, '#8a7a5c')); // temple
+    group.add(block(3.0, 0.35, 3.0, 0, top + 2.05, 0, '#6e6248')); // roof comb
+    // The grand stair climbing the south face.
+    for (let i = 0; i < tiers; i++) {
+      group.add(block(2.2, tierH, 1.2, 0, i * tierH + tierH / 2, 6.2 - i * 1.05, '#a89878'));
+    }
   } else if (model === 'sphinx') {
     ground = '#c9b487';
     group.add(block(10, 1, 4, 0, 0.5, 0, SANDSTONE)); // base
