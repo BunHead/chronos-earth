@@ -66,6 +66,9 @@ interface Battle3DProps {
   mapUrl?: string;
   /** Whether the historical map is currently shown. */
   showMap?: boolean;
+  /** Whether the satellite ground drape is shown (stylised positions don't
+   * always agree with real rivers). */
+  showGround?: boolean;
   /** Real-world battle coordinates — used to drape satellite imagery of the
    * actual battlefield onto the ground. */
   lat?: number;
@@ -74,7 +77,9 @@ interface Battle3DProps {
 
 /** Composite a 3×3 patch of Esri satellite tiles around a lat/lon. */
 function loadSatelliteTexture(lat: number, lon: number, onReady: (tex: THREE.Texture) => void) {
-  const z = 13;
+  // z12 frames a wider area — evocative terrain colour without the exact
+  // rivers/roads that stylised formations would then appear to violate.
+  const z = 12;
   const n = 2 ** z;
   const cx = Math.floor(((lon + 180) / 360) * n);
   const latR = (lat * Math.PI) / 180;
@@ -157,12 +162,14 @@ function makeHeightFn(terrain: BattleView['terrain']): (x: number, z: number) =>
  * low-poly "soldiers" (an InstancedMesh formation) that smoothly marches to its
  * position for the current phase. The camera is a free orbit camera.
  */
-export default function Battle3D({ view, phase, mapUrl, showMap = false, lat, lon }: Battle3DProps) {
+export default function Battle3D({ view, phase, mapUrl, showMap = false, showGround = true, lat, lon }: Battle3DProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
   const showMapRef = useRef(showMap);
   showMapRef.current = showMap;
+  const showGroundRef = useRef(showGround);
+  showGroundRef.current = showGround;
   // Set by the scene effect; lets the toggle effect swap the ground texture
   // without rebuilding the whole scene.
   const applyMapRef = useRef<(on: boolean) => void>(() => {});
@@ -238,7 +245,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, lat, lo
       if (on && mapTexture) {
         groundMat.map = mapTexture;
         groundMat.color.set('#e8e8e8'); // slightly dimmed so unit colors pop
-      } else if (satTexture) {
+      } else if (satTexture && showGroundRef.current) {
         // The REAL battlefield from above — satellite imagery of the site.
         groundMat.map = satTexture;
         groundMat.color.set('#cfcfcf');
@@ -635,10 +642,10 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, lat, lo
     };
   }, [view, mapUrl]);
 
-  // Flip the ground texture when the user toggles the map button.
+  // Flip the ground texture when the user toggles the map or ground buttons.
   useEffect(() => {
     applyMapRef.current(showMap);
-  }, [showMap]);
+  }, [showMap, showGround]);
 
   return <div className="battle3d" ref={containerRef} />;
 }

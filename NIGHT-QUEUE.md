@@ -59,3 +59,11 @@ items. The night session marks progress here and never deletes your words.
 13. monumentModelForName is now a pure function returning string|null - add
    a test file covering: cathedral names -> cathedral, university/rock-art ->
    null (no 3D button), pyramid/castle/henge mappings, case-insensitivity.
+14. Re-run `node scripts/fill-world.mjs` - the North America box 504'd on
+   first run (everything else landed). If it lands, also re-run
+   `node scripts/fill-modern.mjs` once for good measure. Both are idempotent.
+15. Synth-battle polish (lib/synthBattle.ts): era-specific side colours
+   (e.g. WW2 allies olive vs axis grey), unit sizes scaled from the battle
+   casualties field when parseable, and a third phase for battles whose
+   outcome text mentions retreat/rout/siege. Keep the honest auto-generated
+   note. npm test + build must stay green.

@@ -254,6 +254,7 @@ function MuralCircle({
       style={
         {
           left: `${item.anchor * 100}%`,
+          bottom: `calc(100% + ${16 + item.row * 66}px)`,
           '--mc-size': `${40 + Math.round(22 * fame)}px`,
           animationDelay: `${Math.min(index * 70, 900)}ms`,
         } as React.CSSProperties
@@ -292,6 +293,8 @@ export default function Timeline({
   onVisibleEvents,
 }: TimelineProps) {
   const minimapRef = useRef<HTMLDivElement | null>(null);
+  /** Re-render after height drags so the mural can claim the new space. */
+  const [, setHeightBump] = useState(0);
   /** Double-click the grip: the timeline folds to a sliver (full-screen
    * globe), double-click again to bring it back at its previous height. */
   const [collapsed, setCollapsed] = useState(false);
@@ -329,6 +332,7 @@ export default function Timeline({
     const up = () => {
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerup', up);
+      setHeightBump((b) => b + 1); // more height → more mural rows
     };
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
@@ -460,7 +464,16 @@ export default function Timeline({
     [fauna, showFauna, inRegion],
   );
 
-  // Pick the most-notable items that fit the window without overlapping, in two
+  // A taller timeline holds more mural rows — expand it and the wall fills.
+  const tlHeightPx = (() => {
+    const v = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--timeline-height'),
+    );
+    return Math.max(320, isNaN(v) ? 176 : v);
+  })();
+  const maxRows = Math.max(2, Math.min(5, Math.floor((tlHeightPx - 160) / 80)));
+
+  // Pick the most-notable items that fit the window without overlapping, in
   // staggered rows above the ribbon (adaptive declutter).
   const muralItems = useMemo(() => {
     if (!zoomedIn) return [];
@@ -479,17 +492,19 @@ export default function Timeline({
       byCat.set(c.it.cat, list);
     }
     const candidates: typeof inWindow = [];
+    const perCat = 9 + (maxRows - 2) * 4;
     for (const list of byCat.values()) {
       list.sort((a, b) => b.it.notability - a.it.notability);
-      candidates.push(...list.slice(0, 9));
+      candidates.push(...list.slice(0, perCat));
     }
     candidates.sort((a, b) => b.it.notability - a.it.notability);
 
+    const rowIndices = Array.from({ length: maxRows }, (_, i) => i);
     const placed: Array<{ pos: number; row: number }> = [];
     const out: Array<MuralSource & { anchor: number; row: number; lp: number; rp: number; isSpan: boolean }> = [];
     for (const c of candidates) {
       let row = -1;
-      for (const r of [0, 1]) {
+      for (const r of rowIndices) {
         if (!placed.some((p) => p.row === r && Math.abs(p.pos - c.anchor) < 0.05)) {
           row = r;
           break;
@@ -505,11 +520,33 @@ export default function Timeline({
         rp: c.rp,
         isSpan: c.it.olderBP !== c.it.youngerBP && c.rp - c.lp > 0.03,
       });
-      if (out.length >= 28) break;
+      if (out.length >= 14 * maxRows) break;
     }
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomedIn, win.centerBP, win.span, eventItems, faunaItems]);
+  }, [zoomedIn, win.centerBP, win.span, eventItems, faunaItems, maxRows]);
+
+  // In region mode the mural's own photos become the frame's backdrop — the
+  // wall of that place's history, washed faint behind the circles.
+  const collageStyle = useMemo<React.CSSProperties | undefined>(() => {
+    if (!region || !zoomedIn) return undefined;
+    const thumbs: string[] = [];
+    for (const m of muralItems) {
+      const t = thumbCache.get(m.wikiTitle);
+      if (typeof t === 'string') thumbs.push(t);
+      if (thumbs.length >= 6) break;
+    }
+    if (thumbs.length === 0) return undefined;
+    const n = thumbs.length;
+    return {
+      backgroundImage: thumbs.map((u) => `url(${u})`).join(', '),
+      backgroundPosition: thumbs
+        .map((_, i) => `${n === 1 ? 50 : Math.round((i * 100) / (n - 1))}% 50%`)
+        .join(', '),
+      backgroundSize: `${Math.max(24, Math.ceil(110 / n))}% auto`,
+      backgroundRepeat: 'no-repeat',
+    };
+  }, [region, zoomedIn, muralItems]);
 
   // Tell the globe exactly which events the mural is showing, so every timeline
   // circle has a matching map marker (null = not zoomed → globe uses its own era).
@@ -729,6 +766,7 @@ export default function Timeline({
             onPointerUp={onDragEnd}
             onPointerCancel={onDragEnd}
           >
+            {collageStyle && <div className="mural-collage" style={collageStyle} aria-hidden="true" />}
             <div className="detail-rail" style={{ background: detailGradient }} />
             <DetailBackdrop win={win} />
 

@@ -120,6 +120,9 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
   const [mode, setMode] = useState<'2d' | '3d'>('2d');
   // Historical map overlay: on by default whenever we have one.
   const [showMap, setShowMap] = useState(true);
+  // Satellite ground in the 3D scene — evocative, but stylised unit positions
+  // don't always agree with real rivers, so it's a toggle.
+  const [showGround, setShowGround] = useState(true);
   const [narrate, setNarrate] = useState(false);
 
   const phaseCount = view.phases.length;
@@ -184,6 +187,15 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
                 {showMap ? '🗺 Map on' : '🗺 Map off'}
               </button>
             )}
+            {mode === '3d' && (
+              <button
+                className={`btn ${showGround ? 'primary' : ''}`}
+                title="Toggle real satellite ground under the battlefield"
+                onClick={() => setShowGround((g) => !g)}
+              >
+                {showGround ? '🛰 Ground on' : '🛰 Ground off'}
+              </button>
+            )}
             {view.flagship && (
               <button className="btn" onClick={() => setMode((m) => (m === '2d' ? '3d' : '2d'))}>
                 {mode === '2d' ? '🧊 3D battle' : '🗺 2D map'}
@@ -204,7 +216,7 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
         {mode === '3d' ? (
           <div className="bv-stage bv-stage-3d">
             <Suspense fallback={<div className="bv-3d-loading">Loading 3D battlefield…</div>}>
-              <Battle3D view={view} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} lat={battle?.lat} lon={battle?.lon} />
+              <Battle3D view={view} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} />
             </Suspense>
             <div className="bv-3d-hint">Drag to orbit · scroll to zoom</div>
           </div>
