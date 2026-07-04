@@ -57,6 +57,18 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Kingdom of Nepal', 1900)).toBeNull();
   });
 
+  it('Romania flies its tricolour without becoming Rome', () => {
+    expect(flagSpecFor('Romania', 1900)?.key).toBe('romania');
+    expect(flagSpecFor('Romania', 2000)?.key).toBe('romania');
+    // 'roman' is a substring of 'Romania' — order keeps the Roman Empire distinct.
+    expect(flagSpecFor('Roman Empire', 100)?.key).toBe('rome');
+  });
+
+  it('Estonia flies from 1918', () => {
+    expect(flagSpecFor('Estonia', 1930)?.key).toBe('estonia');
+    expect(flagSpecFor('Estonia', 1850)).toBeNull();
+  });
+
   it('the US canton grows with the Union', () => {
     expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
     expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');

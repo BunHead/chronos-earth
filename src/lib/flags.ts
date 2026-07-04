@@ -345,6 +345,16 @@ export const FLAGS: FlagSpec[] = [
   { match: 'hungary', key: 'hungary', draw: hBands('#CD2A3E', '#ffffff', '#436F4D') },
   { match: 'greece', key: 'greece', from: 1822, draw: greeceFlag },
   { match: 'ukraine', key: 'ukraine', from: 1917, draw: hBands('#005BBB', '#FFD500') },
+  // 'romania' must sit BEFORE 'roman' below, else "Romania" matches Rome first.
+  { match: 'romania', key: 'romania', from: 1867, draw: vBands('#002B7F', '#FCD116', '#CE1126') },
+  { match: 'bulgaria', key: 'bulgaria', from: 1878, draw: hBands('#ffffff', '#00966E', '#D62612') },
+  { match: 'iceland', key: 'iceland', from: 1944, draw: nordicCross('#02529C', '#DC1E35', '#ffffff') },
+  { match: 'lithuania', key: 'lithuania', from: 1918, draw: hBands('#FDB913', '#006A44', '#C1272D') },
+  { match: 'estonia', key: 'estonia', from: 1918, draw: hBands('#0072CE', '#1a1a1a', '#ffffff') },
+  { match: 'latvia', key: 'latvia', from: 1918, draw: (ctx, w, h) => {
+    fill(ctx, '#9E3039', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, h * 0.4, w, h * 0.2);
+  } },
 
   // Classical & medieval powers.
   { match: 'holy roman', key: 'holy-roman', draw: discFlag('#F5C518', '#1a1a1a', 0.22) },
@@ -496,6 +506,12 @@ export const FLAGS: FlagSpec[] = [
     fill(ctx, '#1a1a1a', x0 + bw, h * 0.4, bw, h * 0.6);
     fill(ctx, '#EF7D00', x0 + 2 * bw, h * 0.4, bw, h * 0.6);
   } },
+  { match: 'ivory', key: 'ivory-coast', from: 1960, draw: vBands('#F77F00', '#ffffff', '#009E60') },
+  { match: 'botswana', key: 'botswana', from: 1966, draw: (ctx, w, h) => {
+    fill(ctx, '#75AADB', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, h * 0.36, w, h * 0.28);
+    fill(ctx, '#1a1a1a', 0, h * 0.42, w, h * 0.16);
+  } },
 
   // More of Asia & the Middle East.
   { match: 'indonesia', key: 'indonesia', from: 1945, draw: hBands('#CE1126', '#ffffff') },
@@ -534,6 +550,23 @@ export const FLAGS: FlagSpec[] = [
   { match: 'saudi', key: 'saudi', from: 1932, draw: (ctx, w, h) => {
     fill(ctx, '#006C35', 0, 0, w, h);
     fill(ctx, '#ffffff', w * 0.2, h * 0.62, w * 0.6, h * 0.06);
+  } },
+  { match: 'emirates', key: 'uae', from: 1971, draw: (ctx, w, h) => {
+    fill(ctx, '#00732F', w * 0.25, 0, w * 0.75, h / 3);
+    fill(ctx, '#ffffff', w * 0.25, h / 3, w * 0.75, h / 3);
+    fill(ctx, '#1a1a1a', w * 0.25, (h * 2) / 3, w * 0.75, h / 3);
+    fill(ctx, '#FF0000', 0, 0, w * 0.25, h);
+  } },
+  { match: 'kuwait', key: 'kuwait', from: 1961, draw: (ctx, w, h) => {
+    hBands('#007A3D', '#ffffff', '#CE1126')(ctx, w, h);
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w * 0.25, h / 3);
+    ctx.lineTo(w * 0.25, (h * 2) / 3);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fill();
   } },
   { match: 'kazakhstan', key: 'kazakhstan', from: 1991, draw: discFlag('#00AFCA', '#FEC50C', 0.24) },
   { match: 'mongolia', key: 'mongolia-modern', from: 1945, draw: (ctx, w, h) => {
@@ -594,6 +627,13 @@ export const FLAGS: FlagSpec[] = [
     ctx.fill();
   } },
   { match: 'mexico', key: 'mexico', from: 1821, draw: vBands('#006847', '#ffffff', '#CE1126') },
+  { match: 'costa rica', key: 'costa-rica', from: 1848, draw: (ctx, w, h) => {
+    fill(ctx, '#002B7F', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, h * 0.1667, w, h * 0.1667);
+    fill(ctx, '#CE1126', 0, h * 0.3333, w, h * 0.3333);
+    fill(ctx, '#ffffff', 0, h * 0.6667, w, h * 0.1667);
+    fill(ctx, '#002B7F', 0, h * 0.8333, w, h * 0.1667);
+  } },
   { match: 'brazil', key: 'brazil', from: 1889, draw: brazilFlag },
   { match: 'argentina', key: 'argentina', from: 1812, draw: hBands('#74ACDF', '#ffffff', '#74ACDF') },
   { match: 'australia', key: 'australia', from: 1901, draw: (ctx, w, h) => {
