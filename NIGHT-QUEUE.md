@@ -45,3 +45,17 @@ items. The night session marks progress here and never deletes your words.
    (Mali, Senegal, Cameroon, Uganda, Zambia, Sri Lanka, Bangladesh, Nepal)
    with simple band/star geometry, plus tests for two of them.
    [DONE 2026-07-04 ad0cd9b]
+11. AFRICA BULK BOOST: Africa is far too empty outside Egypt. Write a
+   scratchpad box-import (pattern: the Benelux fill in project memory) with
+   5-6 wikibase:box regions covering West Africa/Sahel, Horn, East coast,
+   Central, Southern Africa; sitelinks floor ~15; categories city, monument,
+   battle, event; merge into events.json with ALL the guards (count must go
+   UP, cur- ids preserved, dedupe by normalised name). npm test must pass.
+12. NOTTINGHAMSHIRE + MIDLANDS DEEP BATCH: 20+ curated entries with real
+   coords and wikiTitles - e.g. Creswell Crags (ice-age cave art!), Southwell
+   Minster, Newstead Abbey + Lord Byron (person), Bess of Hardwick + Hardwick
+   Hall, Haddon Hall, Peveril Castle, Arbor Low, Buxton spa, Erasmus Darwin,
+   Torvill and Dean (Nottingham, 1984). cur- ids, notability 400.
+13. monumentModelForName is now a pure function returning string|null - add
+   a test file covering: cathedral names -> cathedral, university/rock-art ->
+   null (no 3D button), pyramid/castle/henge mappings, case-insensitivity.
