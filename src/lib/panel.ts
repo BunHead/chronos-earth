@@ -26,7 +26,7 @@ const MODEL_BY_ID: Record<string, string> = {
 
 /** Pick a 3D model for an imported monument event from its name, so every
  * monument on the map is zoomable into SOME reconstruction. */
-export function monumentModelForName(name: string): string {
+export function monumentModelForName(name: string): string | null {
   const n = name.toLowerCase();
   if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
     return 'stepped-pyramid';
@@ -35,7 +35,11 @@ export function monumentModelForName(name: string): string {
   if (/stonehenge/.test(n)) return 'stonehenge';
   if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
   if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
-  return 'megalith';
+  if (/cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/.test(n)) return 'cathedral';
+  if (/temple|wat |parthenon|acropolis/.test(n)) return 'megalith';
+  // Anything we can't honestly represent gets NO 3D button — a university
+  // rendered as a ziggurat helps nobody.
+  return null;
 }
 
 export function resolveMonumentModel(site: AncientSite): string {
@@ -131,9 +135,9 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     ...(sections.length > 0 ? { sections } : {}),
     links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },
-    // Every monument gets a 3D reconstruction button (stylised by name).
-    ...(e.category === 'monument'
-      ? { monument3d: { model: monumentModelForName(e.name), title: e.name, lat: e.lat, lon: e.lon } }
+    // Monuments we can plausibly reconstruct get a 3D button (stylised by name).
+    ...(e.category === 'monument' && monumentModelForName(e.name)
+      ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon } }
       : {}),
   };
 }

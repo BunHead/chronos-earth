@@ -1024,6 +1024,14 @@ body {
   gap: 8px;
   z-index: 20;
 }
+/* Folded away to a sliver — double-click the grip to bring it back. */
+.timeline.collapsed {
+  padding: 0;
+}
+.timeline.collapsed .timeline-grip {
+  top: 0;
+}
+
 /* Grab the timeline's top edge to grow or shrink it (globe reflows too). */
 .timeline-grip {
   position: absolute;

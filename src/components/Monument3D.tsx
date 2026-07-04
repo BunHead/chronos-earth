@@ -244,6 +244,56 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
         group.add(block(1.9, h, 1.9, x + (Math.random() - 0.5) * 0.3, h / 2, z, '#b58c5a'));
       }
     }
+  } else if (model === 'cathedral') {
+    // A stylised gothic church: nave + transept, twin west towers with
+    // spires, a crossing tower, buttresses and a rounded apse.
+    ground = '#5a6247';
+    const wall = '#b8ad98';
+    const roof = '#6d6257';
+    group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
+    const naveRoof = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1, 3.2, 14.4, 4, 1),
+      new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+    );
+    naveRoof.rotation.x = Math.PI / 2;
+    naveRoof.rotation.y = Math.PI / 4;
+    naveRoof.position.y = 6.2;
+    group.add(naveRoof);
+    group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
+    // Twin west towers with spires.
+    for (const s of [-1, 1]) {
+      group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
+      const spire = new THREE.Mesh(
+        new THREE.ConeGeometry(1.5, 3.6, 4),
+        new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+      );
+      spire.position.set(s * 1.9, 9.4, 7.2);
+      spire.rotation.y = Math.PI / 4;
+      group.add(spire);
+    }
+    // Crossing tower.
+    group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
+    const crossSpire = new THREE.Mesh(
+      new THREE.ConeGeometry(1.9, 4.6, 4),
+      new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+    );
+    crossSpire.position.set(0, 10.7, -1.5);
+    crossSpire.rotation.y = Math.PI / 4;
+    group.add(crossSpire);
+    // Apse (rounded east end).
+    const apse = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
+      new THREE.MeshStandardMaterial({ color: wall, roughness: 1, map: getStoneTexture() }),
+    );
+    apse.rotation.y = Math.PI;
+    apse.position.set(0, 2.3, -7);
+    group.add(apse);
+    // Buttresses along the nave.
+    for (const s of [-1, 1]) {
+      for (let z = -4.5; z <= 4.5; z += 3) {
+        group.add(block(0.7, 3.4, 0.7, s * 2.9, 1.7, z, wall));
+      }
+    }
   } else if (model === 'impact') {
     ground = '#3a3a42';
     const rim = new THREE.Mesh(

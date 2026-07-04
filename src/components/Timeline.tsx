@@ -292,6 +292,24 @@ export default function Timeline({
   onVisibleEvents,
 }: TimelineProps) {
   const minimapRef = useRef<HTMLDivElement | null>(null);
+  /** Double-click the grip: the timeline folds to a sliver (full-screen
+   * globe), double-click again to bring it back at its previous height. */
+  const [collapsed, setCollapsed] = useState(false);
+  const prevHeightRef = useRef('176px');
+  const toggleCollapsed = () => {
+    const root = document.documentElement;
+    setCollapsed((prev) => {
+      if (!prev) {
+        const h = getComputedStyle(root).getPropertyValue('--timeline-height').trim();
+        // Never memorise the collapsed sliver as the height to restore.
+        prevHeightRef.current = h && h !== '18px' ? h : '176px';
+        root.style.setProperty('--timeline-height', '18px');
+        return true;
+      }
+      root.style.setProperty('--timeline-height', prevHeightRef.current);
+      return false;
+    });
+  };
   /** Drag the timeline's top edge to grow/shrink it — the CSS variable drives
    * the whole layout, so the globe reflows with it. */
   const startHeightDrag = (e: React.PointerEvent) => {
@@ -301,9 +319,10 @@ export default function Timeline({
       parseFloat(getComputedStyle(root).getPropertyValue('--timeline-height')) || 176;
     const sy = e.clientY;
     const move = (ev: PointerEvent) => {
+      // Full range: from a slim strip to covering the globe entirely.
       const h = Math.min(
-        Math.max(140, startH + (sy - ev.clientY)),
-        Math.max(300, window.innerHeight * 0.6),
+        Math.max(90, startH + (sy - ev.clientY)),
+        Math.max(300, window.innerHeight - 2),
       );
       root.style.setProperty('--timeline-height', `${h}px`);
     };
@@ -561,8 +580,15 @@ export default function Timeline({
   );
 
   return (
-    <div className={`timeline${zoomedIn ? ' zoomed' : ''}`}>
-      <div className="timeline-grip" title="Drag to resize the timeline" onPointerDown={startHeightDrag} />
+    <div className={`timeline${zoomedIn && !collapsed ? ' zoomed' : ''}${collapsed ? ' collapsed' : ''}`}>
+      <div
+        className="timeline-grip"
+        title="Drag to resize · double-click to hide/show"
+        onPointerDown={collapsed ? undefined : startHeightDrag}
+        onDoubleClick={toggleCollapsed}
+      />
+      {collapsed ? null : (
+      <>
       <div className="timeline-top">
         <div className="timeline-readout">
           <span className="time">{formatTime(yearsBP)}</span>
@@ -755,6 +781,8 @@ export default function Timeline({
           </div>
         )}
       </div>
+      </>
+      )}
     </div>
   );
 }
