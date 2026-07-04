@@ -818,6 +818,15 @@ export const FLAGS: FlagSpec[] = [
   { match: 'united states', key: 'usa-26', from: 1818, to: 1911, draw: usaFlag(4, 7) },
   { match: 'united states', key: 'usa-48', from: 1912, to: 1958, draw: usaFlag(6, 8) },
   { match: 'united states', key: 'usa-50', from: 1959, draw: usaFlag(5, 10) },
+  // Before the maple leaf (Feb 1965) Canada flew the Red Ensign — red field,
+  // Union Jack in the canton (the shield is illegible at tint scale).
+  { match: 'canada', key: 'canada-red-ensign', to: 1964, draw: (ctx, w, h) => {
+    fill(ctx, '#D80621', 0, 0, w, h);
+    ctx.save();
+    ctx.scale(0.5, 0.5);
+    unionJack(ctx, w, h);
+    ctx.restore();
+  } },
   { match: 'canada', key: 'canada', from: 1965, draw: (ctx, w, h) => {
     vBands('#D80621', '#ffffff', '#D80621')(ctx, w, h);
     ctx.fillStyle = '#D80621';

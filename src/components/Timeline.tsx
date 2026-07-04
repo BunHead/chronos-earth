@@ -16,6 +16,7 @@ import {
 } from '../lib/timeScale';
 import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
+import { ELSEWHERE, laneRegionFor } from '../lib/laneRegions';
 
 interface TimelineProps {
   yearsBP: number;
@@ -78,6 +79,9 @@ interface MuralSource {
   /** Older edge & younger edge in years before present (equal for a point). */
   olderBP: number;
   youngerBP: number;
+  /** Where on Earth it happened — sorts the mural into labelled regional lanes. */
+  lat: number;
+  lon: number;
   wikiTitle: string;
   notability: number;
   /** Category key, for balancing the mural mix (event category, or 'fauna'). */
@@ -219,6 +223,9 @@ function MuralBackdrop() {
     </>
   );
 }
+
+/** Each labelled lane wears its own hue — label, rule and ring agree. */
+const LANE_COLORS = ['#f2c74a', '#7fd0f2', '#9be07f', '#f29bd0', '#c9a2ff'];
 
 /** One photo-circle on the mural: a placeholder icon that fades into a live,
  * pencil-sketched Wikipedia photo once it loads. */
@@ -438,6 +445,8 @@ export default function Timeline({
           title: e.name,
           olderBP: yearToYearsBP(e.startYear),
           youngerBP: e.endYear !== undefined ? yearToYearsBP(e.endYear) : yearToYearsBP(e.startYear),
+          lat: e.lat,
+          lon: e.lon,
           wikiTitle: e.wikiTitle ?? e.name,
           notability: e.notability ?? 0,
           cat: e.category,
@@ -454,6 +463,8 @@ export default function Timeline({
         title: f.name,
         olderBP: f.fromMa * 1_000_000,
         youngerBP: f.toMa * 1_000_000,
+        lat: f.lat,
+        lon: f.lon,
         wikiTitle: f.wiki,
         notability: 45,
         cat: 'fauna',
@@ -474,9 +485,15 @@ export default function Timeline({
   const maxRows = Math.max(2, Math.min(5, Math.floor((tlHeightPx - 160) / 80)));
 
   // Pick the most-notable items that fit the window without overlapping, in
-  // staggered rows above the ribbon (adaptive declutter).
-  const muralItems = useMemo(() => {
-    if (!zoomedIn) return [];
+  // staggered rows above the ribbon (adaptive declutter). On a tall timeline
+  // the rows become labelled regional lanes — Italy's history above England's,
+  // read side by side like a wall-chart.
+  const mural = useMemo(() => {
+    const none = {
+      items: [] as Array<MuralSource & { anchor: number; row: number; lp: number; rp: number; isSpan: boolean }>,
+      lanes: [] as Array<{ name: string; row: number }>,
+    };
+    if (!zoomedIn) return none;
     const inWindow = [...eventItems, ...faunaItems]
       .map((it) => {
         const lp = bpToWindowPos(it.olderBP, win);
@@ -499,15 +516,45 @@ export default function Timeline({
     }
     candidates.sort((a, b) => b.it.notability - a.it.notability);
 
+    // Lane mode: on a tall wall, give the busiest regions their own labelled
+    // row (bottom-up) with everything else in a catch-all lane on top. Falls
+    // back to plain density rows when one region dominates the window (e.g.
+    // zoomed to Derbyshire) — lanes only pay off when history runs parallel.
+    let lanes: Array<{ name: string; row: number }> = [];
+    if (maxRows >= 3) {
+      const counts = new Map<string, number>();
+      for (const c of candidates) {
+        const name = laneRegionFor(c.it.lat, c.it.lon);
+        counts.set(name, (counts.get(name) ?? 0) + 1);
+      }
+      const ranked = [...counts.entries()]
+        .filter(([name]) => name !== ELSEWHERE)
+        .sort((a, b) => b[1] - a[1]);
+      if (ranked.length >= 2 && ranked[1][1] >= 3) {
+        const names = ranked.slice(0, maxRows - 1).map(([name]) => name);
+        lanes = names.map((name, i) => ({ name, row: i }));
+        lanes.push({ name: ELSEWHERE, row: names.length });
+      }
+    }
+    const laneRow = new Map(lanes.map((l) => [l.name, l.row]));
+
     const rowIndices = Array.from({ length: maxRows }, (_, i) => i);
     const placed: Array<{ pos: number; row: number }> = [];
+    const free = (r: number, pos: number) =>
+      !placed.some((p) => p.row === r && Math.abs(p.pos - pos) < 0.05);
     const out: Array<MuralSource & { anchor: number; row: number; lp: number; rp: number; isSpan: boolean }> = [];
     for (const c of candidates) {
       let row = -1;
-      for (const r of rowIndices) {
-        if (!placed.some((p) => p.row === r && Math.abs(p.pos - c.anchor) < 0.05)) {
-          row = r;
-          break;
+      if (lanes.length > 0) {
+        const name = laneRegionFor(c.it.lat, c.it.lon);
+        const r = laneRow.get(name) ?? laneRow.get(ELSEWHERE)!;
+        if (free(r, c.anchor)) row = r;
+      } else {
+        for (const r of rowIndices) {
+          if (free(r, c.anchor)) {
+            row = r;
+            break;
+          }
         }
       }
       if (row === -1) continue; // no room — declutter away
@@ -522,9 +569,10 @@ export default function Timeline({
       });
       if (out.length >= 14 * maxRows) break;
     }
-    return out;
+    return { items: out, lanes };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zoomedIn, win.centerBP, win.span, eventItems, faunaItems, maxRows]);
+  const muralItems = mural.items;
 
   // In region mode the mural's own photos become the frame's backdrop — the
   // wall of that place's history, washed faint behind the circles.
@@ -779,6 +827,24 @@ export default function Timeline({
                 </div>
               );
             })}
+
+            {/* Labelled regional lanes (tall wall only): a rule under each
+                row with the region's name pinned at the left. */}
+            {mural.lanes.map((l) => (
+              <div
+                key={'lane-' + l.row}
+                className="mural-lane"
+                style={
+                  {
+                    bottom: `calc(100% + ${8 + l.row * 66}px)`,
+                    '--lane-color': LANE_COLORS[l.row % LANE_COLORS.length],
+                  } as React.CSSProperties
+                }
+                aria-hidden="true"
+              >
+                <span className="lane-name">{l.name}</span>
+              </div>
+            ))}
 
             {/* Span bars on the ribbon (monument construction, reigns, eras). */}
             {muralItems

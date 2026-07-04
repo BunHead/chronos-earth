@@ -164,6 +164,34 @@ body {
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 90%, transparent);
 }
 
+/* Labelled regional lanes on the tall mural: a faint rule under each row,
+   the region's name pinned at the left in that lane's colour. */
+.mural-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed color-mix(in srgb, var(--lane-color, #f2c74a) 45%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+.mural-lane .lane-name {
+  position: absolute;
+  left: 10px;
+  bottom: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--lane-color, #f2c74a);
+  background: rgba(8, 12, 18, 0.62);
+  border: 1px solid color-mix(in srgb, var(--lane-color, #f2c74a) 45%, transparent);
+  border-radius: 9px;
+  padding: 2px 9px;
+  backdrop-filter: blur(2px);
+}
+
 /* Little pill on the timeline when the mural is telling one region's story. */
 .region-chip {
   margin-left: 8px;

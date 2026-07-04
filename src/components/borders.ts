@@ -252,8 +252,17 @@ export class BordersController {
   /** Zoomed-in region (degrees) — borders re-rasterise crisply just for it. */
   private detailRect: { w: number; s: number; e: number; n: number } | null = null;
   private detailLayer: Cesium.ImageryLayer | undefined;
-  private detailKey = '';
+  /** What the current detail layer actually covers (its rect is padded well
+   * beyond the view, so small pans/zooms ride the existing texture). */
+  private detailBuilt: {
+    floor: number;
+    flagsOn: boolean;
+    warKey: string;
+    rect: { w: number; s: number; e: number; n: number };
+  } | null = null;
   private detailBuilding = false;
+  /** Rebuilds are throttled — rasterising 3k×3k mid-drag caused visible hitches. */
+  private lastDetailBuild = 0;
   /** Battles feeding the red "at war" borders (set by the globe). */
   private warPoints: WarPoint[] = [];
   /** Campaign front lines (loaded from campaigns.json) — also feed the red. */
@@ -713,14 +722,30 @@ export class BordersController {
     // Crisp regional layer while zoomed in: it REPLACES the world-resolution
     // layers inside the view (they'd show as chunky halos underneath).
     if (this.detailRect && this.cache.has(floor)) {
-      const r = this.detailRect;
+      const view = this.detailRect;
       const war = this.warAt(year);
-      const key = `${floor}|${r.w},${r.s},${r.e},${r.n}|${this.flagsOn}|${war.key}`;
-      if (key !== this.detailKey) void this.buildDetail(floor, year, r, key);
-      if (this.detailLayer && key === this.detailKey) {
+      const b = this.detailBuilt;
+      // The built patch extends well past the view, so it only goes stale when
+      // the camera truly escapes it, dives much deeper, or the world under it
+      // changes (snapshot year, flags toggle, battles coming/going).
+      const fresh =
+        b !== null &&
+        b.floor === floor &&
+        b.flagsOn === this.flagsOn &&
+        b.warKey === war.key &&
+        view.w >= b.rect.w &&
+        view.e <= b.rect.e &&
+        view.s >= b.rect.s &&
+        view.n <= b.rect.n &&
+        view.e - view.w > (b.rect.e - b.rect.w) / 3.4;
+      if (!fresh && !this.detailBuilding && performance.now() - this.lastDetailBuild > 400) {
+        void this.buildDetail(floor, year, view, war.key);
+      }
+      if (this.detailLayer) {
+        // Keep the last-built patch up even while a fresh one rasterises —
+        // dropping back to the blurry world layers mid-move was the flicker.
         this.detailLayer.show = true;
         this.detailLayer.alpha = 0.92;
-        // Hide the blurry world layers while the crisp one covers the view.
         for (const { layer } of this.cache.values()) layer.show = false;
         const o = this.cache.get(floor)?.orange;
         if (o?.layer) o.layer.show = false;
@@ -728,7 +753,6 @@ export class BordersController {
       }
     } else if (this.detailLayer) {
       this.detailLayer.show = false;
-      this.detailKey = '';
     }
 
     const floorLayer = this.cache.get(floor)?.layer;
@@ -754,21 +778,33 @@ export class BordersController {
   private async buildDetail(
     floorYear: number,
     year: number,
-    rect: { w: number; s: number; e: number; n: number },
-    key: string,
+    view: { w: number; s: number; e: number; n: number },
+    warKey: string,
   ): Promise<void> {
     if (this.detailBuilding) return;
     this.detailBuilding = true;
     try {
       const frame = this.cache.get(floorYear);
       if (!frame) return;
+      // Pad ~40% each side: a tilted camera sees past computeViewRectangle
+      // (tints looked "cropped at the top"), and small pans/zooms then ride
+      // the existing texture instead of forcing a rebuild.
+      const padLon = Math.max(0.2, view.e - view.w) * 0.4;
+      const padLat = Math.max(0.2, view.n - view.s) * 0.4;
+      const rect = {
+        w: Math.max(-180, view.w - padLon),
+        e: Math.min(180, view.e + padLon),
+        s: Math.max(-88, view.s - padLat),
+        n: Math.min(88, view.n + padLat),
+      };
       const lonSpan = Math.max(0.2, rect.e - rect.w);
       const latSpan = Math.max(0.2, rect.n - rect.s);
-      let W = 2048;
+      // 3072 over the padded patch ≈ the old 2048 over the bare view.
+      let W = 3072;
       let H = Math.round((W * latSpan) / lonSpan);
-      if (H > 2048) {
-        W = Math.round((2048 * lonSpan) / latSpan);
-        H = 2048;
+      if (H > 3072) {
+        W = Math.round((3072 * lonSpan) / latSpan);
+        H = 3072;
       }
       const project = (lon: number, lat: number): [number, number] => [
         ((lon - rect.w) / lonSpan) * W,
@@ -909,12 +945,13 @@ export class BordersController {
       this.viewer.imageryLayers.add(layer);
       if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
       this.detailLayer = layer;
-      this.detailKey = key;
+      this.detailBuilt = { floor: floorYear, flagsOn: this.flagsOn, warKey, rect };
       this.debug.detail = { floorYear, rect, W, H, polities: local.length };
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
     } catch (err) {
       console.warn('Failed to build border detail layer', err);
     } finally {
+      this.lastDetailBuild = performance.now();
       this.detailBuilding = false;
     }
   }
@@ -935,7 +972,7 @@ export class BordersController {
     this.redLayer = undefined;
     this.redKey = '';
     this.detailLayer = undefined;
-    this.detailKey = '';
+    this.detailBuilt = null;
     this.cache.clear();
     this.loading.clear();
     if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);

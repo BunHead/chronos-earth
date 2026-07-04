@@ -78,7 +78,6 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
   const [flagStory, setFlagStory] = useState<{
     status: 'closed' | 'loading' | 'done' | 'none';
     extract?: string;
-    thumb?: string;
   }>({ status: 'closed' });
   useEffect(() => {
     setFlagStory({ status: 'closed' });
@@ -94,7 +93,8 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
     const base = name.replace(/^(kingdom|empire|republic|duchy|grand duchy|principality) of /i, '');
     fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent('Flag_of_' + base.replace(/ /g, '_'))}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => setFlagStory({ status: 'done', extract: j.extract, thumb: j.thumbnail?.source }))
+      // No thumbnail: the banner above IS the flag — two flags confused the bridge.
+      .then((j) => setFlagStory({ status: 'done', extract: j.extract }))
       .catch(() => setFlagStory({ status: 'none' }));
   };
 
@@ -175,7 +175,6 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
                   {flagStory.status === 'loading' && <p className="flag-story dim">Fetching this flag's story…</p>}
                   {flagStory.status === 'done' && (
                     <div className="flag-story">
-                      {flagStory.thumb && <img src={flagStory.thumb} alt="" />}
                       <p>{flagStory.extract}</p>
                     </div>
                   )}

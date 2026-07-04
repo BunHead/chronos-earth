@@ -19,6 +19,12 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Germany', 1930)?.key).toBe('germany');
   });
 
+  it('Canada: Red Ensign until 1964, maple leaf from 1965', () => {
+    expect(flagSpecFor('Canada', 1900)?.key).toBe('canada-red-ensign');
+    expect(flagSpecFor('Canada', 1964)?.key).toBe('canada-red-ensign');
+    expect(flagSpecFor('Canada', 1965)?.key).toBe('canada');
+  });
+
   it('Soviet red is not the Russian tricolour', () => {
     expect(flagSpecFor('Soviet Union', 1950)?.key).toBe('soviet');
     expect(flagSpecFor('Russia', 1900)?.key).toBe('russia');
