@@ -197,6 +197,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     onViewRegionRef.current(zoomTier >= 1 ? viewRect : null);
   }, [zoomTier, viewRect]);
 
+  // Crisp borders under zoom: the border engine re-rasterises the viewed
+  // region at high resolution once the camera is properly down.
+  useEffect(() => {
+    bordersRef.current?.setDetailRegion(zoomTier >= 2 && viewRect ? viewRect : null);
+  }, [zoomTier, viewRect]);
+
   // Linger deep over ANY region and it quietly asks Wikidata for its own
   // history — Derbyshire summons its silk mills, Greece its ancients. The
   // per-area cache means each patch of Earth is only ever asked once.

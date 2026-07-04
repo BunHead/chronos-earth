@@ -188,8 +188,13 @@ function projector(w: number, h: number) {
  * holes) into the current path; returns false for dateline-wrap artifacts,
  * which we skip.
  */
-function makeTracer(ctx: CanvasRenderingContext2D, w: number, h: number) {
-  const project = projector(w, h);
+function makeTracer(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  projectFn?: (lon: number, lat: number) => [number, number],
+) {
+  const project = projectFn ?? projector(w, h);
   return (poly: number[][][]): boolean => {
     const outer = poly[0];
     if (!outer || outer.length < 4) return false;
@@ -244,6 +249,11 @@ export class BordersController {
   private pending: { year: number; visible: boolean; paleoActive: boolean } | undefined;
   /** Paint real flag artwork inside borders (toggleable from the Layers panel). */
   private flagsOn = true;
+  /** Zoomed-in region (degrees) — borders re-rasterise crisply just for it. */
+  private detailRect: { w: number; s: number; e: number; n: number } | null = null;
+  private detailLayer: Cesium.ImageryLayer | undefined;
+  private detailKey = '';
+  private detailBuilding = false;
   /** Battles feeding the red "at war" borders (set by the globe). */
   private warPoints: WarPoint[] = [];
   /** Campaign front lines (loaded from campaigns.json) — also feed the red. */
@@ -700,13 +710,213 @@ export class BordersController {
       }
     }
 
+    // Crisp regional layer while zoomed in: it REPLACES the world-resolution
+    // layers inside the view (they'd show as chunky halos underneath).
+    if (this.detailRect && this.cache.has(floor)) {
+      const r = this.detailRect;
+      const war = this.warAt(year);
+      const key = `${floor}|${r.w},${r.s},${r.e},${r.n}|${this.flagsOn}|${war.key}`;
+      if (key !== this.detailKey) void this.buildDetail(floor, year, r, key);
+      if (this.detailLayer && key === this.detailKey) {
+        this.detailLayer.show = true;
+        this.detailLayer.alpha = 0.92;
+        // Hide the blurry world layers while the crisp one covers the view.
+        for (const { layer } of this.cache.values()) layer.show = false;
+        const o = this.cache.get(floor)?.orange;
+        if (o?.layer) o.layer.show = false;
+        if (this.redLayer) this.redLayer.show = false;
+      }
+    } else if (this.detailLayer) {
+      this.detailLayer.show = false;
+      this.detailKey = '';
+    }
+
     const floorLayer = this.cache.get(floor)?.layer;
     const ceilLayer = ceil !== floor ? this.cache.get(ceil)?.layer : undefined;
-    if (floorLayer) this.viewer.imageryLayers.raiseToTop(floorLayer);
-    if (ceilLayer) this.viewer.imageryLayers.raiseToTop(ceilLayer);
+    if (floorLayer?.show) this.viewer.imageryLayers.raiseToTop(floorLayer);
+    if (ceilLayer?.show) this.viewer.imageryLayers.raiseToTop(ceilLayer);
     const orangeLayer = this.cache.get(floor)?.orange?.layer;
     if (orangeLayer?.show) this.viewer.imageryLayers.raiseToTop(orangeLayer);
     if (this.redLayer?.show) this.viewer.imageryLayers.raiseToTop(this.redLayer);
+    if (this.detailLayer?.show) this.viewer.imageryLayers.raiseToTop(this.detailLayer);
+  }
+
+  /** The zoomed-in region the camera is studying (null = whole world).
+   * Borders re-rasterise at high resolution just for that patch, so lines
+   * stay crisp instead of chunky under zoom. */
+  setDetailRegion(rect: { w: number; s: number; e: number; n: number } | null) {
+    this.detailRect = rect;
+    if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
+  }
+
+  /** Build the crisp regional layer: tints, flags, yellow lines and red war
+   * stretches, re-projected into the view rectangle at full resolution. */
+  private async buildDetail(
+    floorYear: number,
+    year: number,
+    rect: { w: number; s: number; e: number; n: number },
+    key: string,
+  ): Promise<void> {
+    if (this.detailBuilding) return;
+    this.detailBuilding = true;
+    try {
+      const frame = this.cache.get(floorYear);
+      if (!frame) return;
+      const lonSpan = Math.max(0.2, rect.e - rect.w);
+      const latSpan = Math.max(0.2, rect.n - rect.s);
+      let W = 2048;
+      let H = Math.round((W * latSpan) / lonSpan);
+      if (H > 2048) {
+        W = Math.round((2048 * lonSpan) / latSpan);
+        H = 2048;
+      }
+      const project = (lon: number, lat: number): [number, number] => [
+        ((lon - rect.w) / lonSpan) * W,
+        ((rect.n - lat) / latSpan) * H,
+      ];
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d')!;
+      ctx.lineJoin = 'round';
+      const trace = makeTracer(ctx, W, H, project);
+
+      // Only polities that touch the view (with margin) are worth drawing.
+      const margin = Math.max(lonSpan, latSpan) * 0.3;
+      const touches = (p: Polity) =>
+        p.mp.some((poly) => {
+          const outer = poly[0];
+          if (!outer) return false;
+          let minLon = 999, maxLon = -999, minLat = 999, maxLat = -999;
+          for (const pt of outer) {
+            if (pt[0] < minLon) minLon = pt[0];
+            if (pt[0] > maxLon) maxLon = pt[0];
+            if (pt[1] < minLat) minLat = pt[1];
+            if (pt[1] > maxLat) maxLat = pt[1];
+          }
+          return (
+            maxLon >= rect.w - margin &&
+            minLon <= rect.e + margin &&
+            maxLat >= rect.s - margin &&
+            minLat <= rect.n + margin
+          );
+        });
+      const local = frame.polities.filter(touches);
+
+      // Tints / flags inside borders.
+      for (const polity of local) {
+        const flag = this.flagsOn ? flagCanvasFor(polity.name, year) : null;
+        for (const poly of polity.mp) {
+          if (!trace(poly)) continue;
+          if (flag) {
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            for (const p of poly[0]) {
+              const [x, y] = project(p[0], p[1]);
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+            const bw = Math.max(1, maxX - minX);
+            const bh = Math.max(1, maxY - minY);
+            ctx.save();
+            ctx.clip('evenodd');
+            ctx.globalAlpha = TINT_ALPHA + 0.08;
+            if (bw > 620 || bh > 340) {
+              const pattern = ctx.createPattern(flag, 'repeat');
+              if (pattern) {
+                const sc = 460 / flag.width;
+                pattern.setTransform(new DOMMatrix().translate(minX, minY).scale(sc));
+                ctx.fillStyle = pattern;
+                ctx.fill('evenodd');
+              }
+            } else {
+              const scale = Math.max(bw / flag.width, bh / flag.height);
+              ctx.drawImage(flag, minX + (bw - flag.width * scale) / 2, minY + (bh - flag.height * scale) / 2, flag.width * scale, flag.height * scale);
+            }
+            ctx.restore();
+          } else {
+            ctx.fillStyle = colorForName(polity.name);
+            ctx.globalAlpha = TINT_ALPHA;
+            ctx.fill('evenodd');
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // Crisp yellow lines.
+      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = '#f2d34a';
+      for (const polity of local) {
+        for (const poly of polity.mp) {
+          if (trace(poly)) ctx.stroke();
+        }
+      }
+
+      // Red war stretches, re-projected (orange is world-view only for now).
+      const war = this.warAt(year);
+      if (war.points.length > 0 || war.fronts.length > 0) {
+        const red = document.createElement('canvas');
+        red.width = W;
+        red.height = H;
+        const rctx = red.getContext('2d')!;
+        rctx.lineJoin = 'round';
+        rctx.lineCap = 'round';
+        const rtrace = makeTracer(rctx, W, H, project);
+        for (const pass of [
+          { width: 5.2, style: 'rgba(255,64,44,0.5)' },
+          { width: 2.2, style: '#ff3226' },
+        ]) {
+          rctx.lineWidth = pass.width;
+          rctx.strokeStyle = pass.style;
+          for (const polity of local) {
+            for (const poly of polity.mp) {
+              if (rtrace(poly)) rctx.stroke();
+            }
+          }
+        }
+        rctx.globalCompositeOperation = 'destination-in';
+        rctx.fillStyle = '#fff';
+        rctx.strokeStyle = '#fff';
+        // War radius: km → degrees → region pixels.
+        const rpx = Math.max(8, (WAR_RADIUS_KM / 111 / lonSpan) * W);
+        for (const p of war.points) {
+          const [x, y] = project(p.lon, p.lat);
+          rctx.beginPath();
+          rctx.arc(x, y, rpx, 0, Math.PI * 2);
+          rctx.fill();
+        }
+        rctx.lineWidth = rpx * 2;
+        for (const front of war.fronts) {
+          rctx.beginPath();
+          front.forEach((pt, i) => {
+            const [x, y] = project(pt[0], pt[1]);
+            if (i === 0) rctx.moveTo(x, y);
+            else rctx.lineTo(x, y);
+          });
+          rctx.stroke();
+        }
+        ctx.drawImage(red, 0, 0);
+      }
+
+      const provider = await Cesium.SingleTileImageryProvider.fromUrl(
+        canvas.toDataURL('image/png'),
+        { rectangle: Cesium.Rectangle.fromDegrees(rect.w, rect.s, rect.e, rect.n) },
+      );
+      if (this.viewer.isDestroyed()) return;
+      const layer = new Cesium.ImageryLayer(provider);
+      layer.show = false;
+      this.viewer.imageryLayers.add(layer);
+      if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
+      this.detailLayer = layer;
+      this.detailKey = key;
+      this.debug.detail = { floorYear, rect, W, H, polities: local.length };
+      if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
+    } catch (err) {
+      console.warn('Failed to build border detail layer', err);
+    } finally {
+      this.detailBuilding = false;
+    }
   }
 
   /** Toggle the flag artwork inside borders. Re-rasterises the loaded
@@ -720,9 +930,12 @@ export class BordersController {
         if (frame.orange?.layer) this.viewer.imageryLayers.remove(frame.orange.layer, true);
       }
       if (this.redLayer) this.viewer.imageryLayers.remove(this.redLayer, true);
+      if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
     }
     this.redLayer = undefined;
     this.redKey = '';
+    this.detailLayer = undefined;
+    this.detailKey = '';
     this.cache.clear();
     this.loading.clear();
     if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
@@ -794,9 +1007,11 @@ export class BordersController {
         if (frame.orange?.layer) this.viewer.imageryLayers.remove(frame.orange.layer, true);
       }
       if (this.redLayer) this.viewer.imageryLayers.remove(this.redLayer, true);
+      if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
       this.viewer.scene.primitives.remove(this.labels); // also destroys the collection
     }
     this.redLayer = undefined;
+    this.detailLayer = undefined;
     this.cache.clear();
   }
 }
