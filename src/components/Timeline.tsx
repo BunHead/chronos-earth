@@ -262,6 +262,8 @@ function MuralCircle({
         {
           left: `${item.anchor * 100}%`,
           bottom: `calc(100% + ${16 + item.row * 66}px)`,
+          // Stem runs the full drop to the ribbon — the photo hangs from its date.
+          '--stem-h': `${18 + item.row * 66}px`,
           '--mc-size': `${40 + Math.round(22 * fame)}px`,
           animationDelay: `${Math.min(index * 70, 900)}ms`,
         } as React.CSSProperties

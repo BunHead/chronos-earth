@@ -75,8 +75,23 @@ interface Battle3DProps {
   lon?: number;
 }
 
+/** Where the sea sits in the satellite patch, in ground-plane world coords —
+ * so coastal battlefields can keep boots on land and keels in water. */
+interface WaterReport {
+  /** Fraction of the patch that reads as water. */
+  frac: number;
+  /** Centroid of the land pixels (world x, z). */
+  landC: [number, number];
+  /** Centroid of the water pixels (world x, z). */
+  waterC: [number, number];
+}
+
 /** Composite a 3×3 patch of Esri satellite tiles around a lat/lon. */
-function loadSatelliteTexture(lat: number, lon: number, onReady: (tex: THREE.Texture) => void) {
+function loadSatelliteTexture(
+  lat: number,
+  lon: number,
+  onReady: (tex: THREE.Texture, water: WaterReport) => void,
+) {
   // z12 frames a wider area — evocative terrain colour without the exact
   // rivers/roads that stylised formations would then appear to violate.
   const z = 12;
@@ -97,9 +112,42 @@ function loadSatelliteTexture(lat: number, lon: number, onReady: (tex: THREE.Tex
         ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
         loaded++;
         if (loaded === 9 && !failed) {
+          // Sample the composite for sea (blue-dominant pixels). The ground
+          // plane is 120×90 world units; canvas x → world x, canvas y → world z
+          // (row 0 is north, which the plane shows at -z).
+          const data = ctx.getImageData(0, 0, 768, 768).data;
+          let water = 0;
+          let total = 0;
+          let lx = 0, lz = 0, ln = 0, wx = 0, wz = 0, wn = 0;
+          for (let py = 8; py < 768; py += 16) {
+            for (let px = 8; px < 768; px += 16) {
+              const o = (py * 768 + px) * 4;
+              const r = data[o];
+              const g = data[o + 1];
+              const b = data[o + 2];
+              const isWater = b - r > 8 && b - g >= 0 && b > 35;
+              const X = (px / 768 - 0.5) * 120;
+              const Z = (py / 768 - 0.5) * 90;
+              total++;
+              if (isWater) {
+                water++;
+                wx += X;
+                wz += Z;
+                wn++;
+              } else {
+                lx += X;
+                lz += Z;
+                ln++;
+              }
+            }
+          }
           const tex = new THREE.CanvasTexture(canvas);
           tex.colorSpace = THREE.SRGBColorSpace;
-          onReady(tex);
+          onReady(tex, {
+            frac: water / total,
+            landC: ln ? [lx / ln, lz / ln] : [0, 0],
+            waterC: wn ? [wx / wn, wz / wn] : [0, 0],
+          });
         }
       };
       img.onerror = () => {
@@ -263,10 +311,31 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         applyMapRef.current(showMapRef.current);
       });
     }
+    // Coastal sites: the whole battle slides toward dry land (or toward open
+    // water for fleets) so the formations stop wading. Applied once the
+    // satellite patch has been read; the retarget loop adds it ever after.
+    const landShift = new THREE.Vector3();
     if (lat !== undefined && lon !== undefined) {
-      loadSatelliteTexture(lat, lon, (tex) => {
+      loadSatelliteTexture(lat, lon, (tex, water) => {
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         satTexture = tex;
+        const naval = view.units.some((u) => u.shape === 'ship');
+        const wrongFrac = naval ? 1 - water.frac : water.frac;
+        if (wrongFrac > 0.12 && wrongFrac < 0.98) {
+          const [cx, cz] = naval ? water.waterC : water.landC;
+          landShift.set(
+            THREE.MathUtils.clamp(cx, -26, 26),
+            0,
+            THREE.MathUtils.clamp(cz, -20, 20),
+          );
+          for (const u of unitMeshes) {
+            u.mesh.position.x += landShift.x;
+            u.mesh.position.z += landShift.z;
+            if (!u.floats) u.mesh.position.y = heightAt(u.mesh.position.x, u.mesh.position.z);
+            u.target.x += landShift.x;
+            u.target.z += landShift.z;
+          }
+        }
         applyMapRef.current(showMapRef.current);
       });
     }
@@ -542,7 +611,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         lastPhase = phaseRef.current;
         for (const u of unitMeshes) {
           const p = u.posList[Math.min(lastPhase, u.posList.length - 1)] ?? u.posList[0];
-          u.target.set(toWorldX(p[0]), 0, toWorldZ(p[1]));
+          u.target.set(toWorldX(p[0]) + landShift.x, 0, toWorldZ(p[1]) + landShift.z);
         }
       }
       for (const u of unitMeshes) {

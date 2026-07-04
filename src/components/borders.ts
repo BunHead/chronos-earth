@@ -376,13 +376,15 @@ export class BordersController {
           ctx.save();
           ctx.clip('evenodd');
           ctx.globalAlpha = TINT_ALPHA + 0.08;
-          if (bw > 620 || bh > 340) {
-            // A giant realm (Russia, colonial empires) stretched to one flag
-            // would show a single band filling the whole view — tile it
-            // instead, so the flag stays recognisable everywhere.
+          // Tile ONLY true continental empires (measured in degrees, not
+          // pixels — the old pixel rule wallpapered the USA in giant stars).
+          // A normal country wears ONE flag draped over its whole shape.
+          const ppdX = TEX_W / 360;
+          const ppdY = TEX_H / 180;
+          if (bw / ppdX > 65 || bh / ppdY > 40) {
             const pattern = ctx.createPattern(flag, 'repeat');
             if (pattern) {
-              const s = 460 / flag.width;
+              const s = Math.min(ppdX * 30, 1100) / flag.width; // ~30° per flag
               pattern.setTransform(new DOMMatrix().translate(minX, minY).scale(s));
               ctx.fillStyle = pattern;
               ctx.fill('evenodd');
@@ -885,10 +887,11 @@ export class BordersController {
             ctx.save();
             ctx.clip('evenodd');
             ctx.globalAlpha = TINT_ALPHA + 0.08;
-            if (bw > 620 || bh > 340) {
+            // Same degree-based rule as the world layer: tile only empires.
+            if (bw / (W / lonSpan) > 65 || bh / (H / latSpan) > 40) {
               const pattern = ctx.createPattern(flag, 'repeat');
               if (pattern) {
-                const sc = 460 / flag.width;
+                const sc = Math.min((W / lonSpan) * 30, 1100) / flag.width;
                 pattern.setTransform(new DOMMatrix().translate(minX, minY).scale(sc));
                 ctx.fillStyle = pattern;
                 ctx.fill('evenodd');
