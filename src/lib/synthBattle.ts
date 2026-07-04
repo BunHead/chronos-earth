@@ -15,6 +15,38 @@ import type { Battle, BattleTerrain, BattleUnit, BattleView } from './types';
 const NAVAL =
   /sea battle|naval|midway|jutland|trafalgar|lepanto|salamis|actium|armada|tsushima|coral sea|leyte|navarino|aboukir|of the nile|chesapeake|hampton roads/i;
 
+/** World-War belligerents who wore field grey — the other side gets olive. */
+const CENTRAL_AXIS = /german|axis|japan|austria|central powers|ottoman/i;
+
+/** Era-true side colours: khaki vs field grey for the World Wars (when the
+ * names say who is who), the classic blue vs red everywhere else. */
+export function sideColorsFor(
+  year: number,
+  side1: string,
+  side2: string,
+): { a: string; b: string } {
+  if (year >= 1914 && year <= 1945) {
+    const OLIVE = '#6b7a3f';
+    const GREY = '#555b63';
+    if (CENTRAL_AXIS.test(side2) && !CENTRAL_AXIS.test(side1)) return { a: OLIVE, b: GREY };
+    if (CENTRAL_AXIS.test(side1) && !CENTRAL_AXIS.test(side2)) return { a: GREY, b: OLIVE };
+  }
+  return { a: '#3b6fb5', b: '#c0392b' };
+}
+
+/** How big the armies read on the field, from the battle's casualties text.
+ * "≈1,200,000 dead" scales formations up; a skirmish scales them down. */
+export function casualtyScale(casualties: string | undefined): number {
+  if (!casualties) return 1;
+  const nums = casualties.replace(/,/g, '').match(/\d+/g);
+  if (!nums) return 1;
+  const worst = Math.max(...nums.map(Number));
+  if (worst >= 200_000) return 1.35;
+  if (worst >= 50_000) return 1.18;
+  if (worst >= 5_000) return 1;
+  return 0.82;
+}
+
 /** Small deterministic PRNG so each battle keeps the same field forever. */
 function mulberry(seed: number) {
   let t = seed >>> 0;
@@ -32,6 +64,7 @@ export function synthesizeBattleView(b: Battle): BattleView {
   const modern = b.year >= 1900;
   const side1 = b.belligerents?.side1 ?? 'Side A';
   const side2 = b.belligerents?.side2 ?? 'Side B';
+  const scale = casualtyScale(b.casualties);
 
   // --- Terrain: stable per battle. ---
   const terrain: BattleTerrain[] = [];
@@ -59,7 +92,7 @@ export function synthesizeBattleView(b: Battle): BattleView {
   ) => {
     const y = lane(i, n) + (rnd() - 0.5) * 4;
     const [x0, x1] = side === 'a' ? [22, 42] : [78, 58];
-    units.push({ id: `${side}${i}`, side, label, shape, size, pos: [[x0, y], [x1, y]] });
+    units.push({ id: `${side}${i}`, side, label, shape, size: size * scale, pos: [[x0, y], [x1, y]] });
   };
   for (const side of ['a', 'b'] as const) {
     const who = side === 'a' ? side1 : side2;
@@ -78,29 +111,72 @@ export function synthesizeBattleView(b: Battle): BattleView {
     }
   }
 
+  const colors = sideColorsFor(b.year, side1, side2);
+  const phases: BattleView['phases'] = [
+    {
+      name: 'Deployment',
+      narration: `${side1} and ${side2} draw up their forces. ${b.significance ?? ''}`.trim(),
+    },
+    {
+      name: 'The clash',
+      narration: `${b.victor ? `${b.victor} — ` : ''}${b.outcome ?? 'The armies meet.'}`,
+      arrows: [
+        { from: [30, 25], to: [45, 28], side: 'a' },
+        { from: [70, 40], to: [55, 37], side: 'b' },
+      ],
+    },
+  ];
+
+  // A third act when the outcome tells us how it ended: the beaten side
+  // streams off its own edge of the field (or the siege ring closes).
+  const endText = `${b.outcome ?? ''} ${b.significance ?? ''}`;
+  const ending = /rout/i.test(endText)
+    ? 'The rout'
+    : /siege|besieg/i.test(endText)
+      ? 'The siege closes'
+      : /surrender|capitulat/i.test(endText)
+        ? 'The surrender'
+        : /retreat|withdr|flee|fled|fell back|evacuat/i.test(endText)
+          ? 'The retreat'
+          : null;
+  if (ending) {
+    // Who runs? The side the victor's name matches LEAST (generic words like
+    // "Kingdom" appear on both sides, so count matches rather than any-hit).
+    const hits = (s: string) =>
+      s.split(/[ ,&]+/).filter((w) => w.length > 3 && b.victor?.includes(w)).length;
+    const victorIsA = !!b.victor && hits(side1) > hits(side2);
+    const loser: 'a' | 'b' = victorIsA ? 'b' : 'a';
+    const arrows =
+      loser === 'b'
+        ? [
+            { from: [58, 28] as [number, number], to: [82, 24] as [number, number], side: 'b' as const },
+            { from: [58, 44] as [number, number], to: [84, 46] as [number, number], side: 'b' as const },
+          ]
+        : [
+            { from: [42, 28] as [number, number], to: [18, 24] as [number, number], side: 'a' as const },
+            { from: [42, 44] as [number, number], to: [16, 46] as [number, number], side: 'a' as const },
+          ];
+    phases.push({
+      name: ending,
+      narration: `${loser === 'a' ? side1 : side2} ${
+        ending === 'The siege closes' ? 'is shut in as the lines tighten' : 'gives ground and quits the field'
+      }.`,
+      arrows,
+    });
+  }
+  phases[phases.length - 1].narration +=
+    ' (This battlefield is auto-generated — terrain and formations are illustrative, not exact.)';
+
   return {
     id: b.id,
     title: b.name,
     subtitle: `${b.dateLabel} — ${side1} vs ${side2}`,
     sides: {
-      a: { name: side1, color: '#3b6fb5' },
-      b: { name: side2, color: '#c0392b' },
+      a: { name: side1, color: colors.a },
+      b: { name: side2, color: colors.b },
     },
     terrain,
-    phases: [
-      {
-        name: 'Deployment',
-        narration: `${side1} and ${side2} draw up their forces. ${b.significance ?? ''}`.trim(),
-      },
-      {
-        name: 'The clash',
-        narration: `${b.victor ? `${b.victor} — ` : ''}${b.outcome ?? 'The armies meet.'} (This battlefield is auto-generated — terrain and formations are illustrative, not exact.)`,
-        arrows: [
-          { from: [30, 25], to: [45, 28], side: 'a' },
-          { from: [70, 40], to: [55, 37], side: 'b' },
-        ],
-      },
-    ],
+    phases,
     units,
     flagship: true, // every battlefield earns its 3D view
   };

@@ -62,8 +62,17 @@ items. The night session marks progress here and never deletes your words.
 14. Re-run `node scripts/fill-world.mjs` - the North America box 504'd on
    first run (everything else landed). If it lands, also re-run
    `node scripts/fill-modern.mjs` once for good measure. Both are idempotent.
+   [DONE 2026-07-04 live session — the single N.America box 504s EVERY time
+   (too dense for WDQS); split into East/Central/West thirds in the script,
+   all three landed (77/80/64 candidates). World +12, modern +1 -> 2328
+   events. Most NA rows were already imported via earlier fills - dedupe
+   guards did their job.]
 15. Synth-battle polish (lib/synthBattle.ts): era-specific side colours
    (e.g. WW2 allies olive vs axis grey), unit sizes scaled from the battle
    casualties field when parseable, and a third phase for battles whose
    outcome text mentions retreat/rout/siege. Keep the honest auto-generated
    note. npm test + build must stay green.
+   [DONE 2026-07-04 live session — olive vs field grey by name match (1914-45),
+   casualtyScale 0.82-1.35, third phase for rout/siege/surrender/retreat with
+   the loser fleeing its own edge, honest note moved to the last phase,
+   synthBattle.test.ts +5 tests]

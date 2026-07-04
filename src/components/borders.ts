@@ -74,8 +74,9 @@ interface LoadedFrame {
   polities: Polity[];
   owner?: OwnerGrid;
   /** Orange "about to move" overlay vs. the NEXT snapshot (layer absent when
-   * nothing changes between the two). */
-  orange?: { layer?: Cesium.ImageryLayer; vsYear: number };
+   * nothing changes between the two). The mask is kept so the zoomed detail
+   * layer can re-project the same warning crisply. */
+  orange?: { layer?: Cesium.ImageryLayer; vsYear: number; mask?: HTMLCanvasElement };
 }
 
 /** A battle (curated or imported) that reddens nearby borders while current. */
@@ -258,6 +259,10 @@ export class BordersController {
     floor: number;
     flagsOn: boolean;
     warKey: string;
+    /** Orange warning baked in, quantised 0-3 (rebuild only when it steps). */
+    warnBucket: number;
+    /** Whether the change-mask existed at build time (it arrives async). */
+    hadOrange: boolean;
     rect: { w: number; s: number; e: number; n: number };
   } | null = null;
   private detailBuilding = false;
@@ -494,8 +499,9 @@ export class BordersController {
         { width: 2.4, style: '#ffa02e' }, // core
       ]);
       // Keep orange only where the owner-diff says land is about to change hands.
+      const maskCanvas = maskToCanvas(mask, OWNER_W, OWNER_H);
       ctx.globalCompositeOperation = 'destination-in';
-      ctx.drawImage(maskToCanvas(mask, OWNER_W, OWNER_H), 0, 0, TEX_W, TEX_H);
+      ctx.drawImage(maskCanvas, 0, 0, TEX_W, TEX_H);
       const provider = await Cesium.SingleTileImageryProvider.fromUrl(
         canvas.toDataURL('image/png'),
         { rectangle: FULL_GLOBE },
@@ -505,7 +511,7 @@ export class BordersController {
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
       if (a.orange?.layer) this.viewer.imageryLayers.remove(a.orange.layer, true);
-      a.orange = { layer, vsYear: ceilYear };
+      a.orange = { layer, vsYear: ceilYear, mask: maskCanvas };
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
     } catch (err) {
       console.warn('Failed to build contested-border overlay', err);
@@ -542,6 +548,22 @@ export class BordersController {
       '|' +
       frontKeys.join(';');
     return { points, fronts, key };
+  }
+
+  /** The orange "about to move" state at this moment: how strongly to warn
+   * (quantised to 3 steps so the detail patch doesn't rebuild every year of a
+   * scrub) and whether the change-mask has arrived to draw it from. */
+  private orangeStateAt(
+    floorYear: number,
+    ceilYear: number,
+    year: number,
+  ): { warn: number; warnBucket: number; hasOrange: boolean } {
+    if (ceilYear === floorYear) return { warn: 0, warnBucket: 0, hasOrange: false };
+    const lead = ceilYear - year;
+    const warn = Cesium.Math.clamp((ORANGE_WARN_YEARS - lead) / ORANGE_WARN_YEARS, 0, 1);
+    const o = this.cache.get(floorYear)?.orange;
+    const hasOrange = warn > 0 && !!o?.mask && o.vsYear === ceilYear;
+    return { warn, warnBucket: hasOrange ? Math.ceil(warn * 3) : 0, hasOrange };
   }
 
   /** Build the red "at war" overlay: the floor frame's borders, kept only
@@ -725,14 +747,19 @@ export class BordersController {
       const view = this.detailRect;
       const war = this.warAt(year);
       const b = this.detailBuilt;
+      // Orange state the patch should show right now (mask arrives async).
+      const { warnBucket, hasOrange } = this.orangeStateAt(floor, ceil, year);
       // The built patch extends well past the view, so it only goes stale when
       // the camera truly escapes it, dives much deeper, or the world under it
-      // changes (snapshot year, flags toggle, battles coming/going).
+      // changes (snapshot year, flags toggle, battles or the orange warning
+      // coming/going).
       const fresh =
         b !== null &&
         b.floor === floor &&
         b.flagsOn === this.flagsOn &&
         b.warKey === war.key &&
+        b.warnBucket === warnBucket &&
+        b.hadOrange === hasOrange &&
         view.w >= b.rect.w &&
         view.e <= b.rect.e &&
         view.s >= b.rect.s &&
@@ -889,7 +916,46 @@ export class BordersController {
         }
       }
 
-      // Red war stretches, re-projected (orange is world-view only for now).
+      // Orange "about to move" stretches, re-projected crisp: stroke the local
+      // borders in orange, then keep only where the world change-mask says
+      // land swaps hands, faded by how far off the change still is.
+      const floorIdx = this.frames.findIndex((f) => f.year === floorYear);
+      const ceilYear = this.frames[floorIdx + 1]?.year ?? floorYear;
+      const os = this.orangeStateAt(floorYear, ceilYear, year);
+      if (os.hasOrange) {
+        const mask = this.cache.get(floorYear)!.orange!.mask!;
+        const oc = document.createElement('canvas');
+        oc.width = W;
+        oc.height = H;
+        const octx = oc.getContext('2d')!;
+        octx.lineJoin = 'round';
+        octx.lineCap = 'round';
+        const otrace = makeTracer(octx, W, H, project);
+        for (const pass of [
+          { width: 5.4, style: 'rgba(255,157,43,0.45)' },
+          { width: 2.6, style: '#ffa02e' },
+        ]) {
+          octx.lineWidth = pass.width;
+          octx.strokeStyle = pass.style;
+          for (const polity of local) {
+            for (const poly of polity.mp) {
+              if (otrace(poly)) octx.stroke();
+            }
+          }
+        }
+        octx.globalCompositeOperation = 'destination-in';
+        // This rect's slice of the equirectangular world mask.
+        const sx = ((rect.w + 180) / 360) * OWNER_W;
+        const sw = (lonSpan / 360) * OWNER_W;
+        const sy = ((90 - rect.n) / 180) * OWNER_H;
+        const sh = (latSpan / 180) * OWNER_H;
+        octx.drawImage(mask, sx, sy, sw, sh, 0, 0, W, H);
+        ctx.globalAlpha = 0.25 + 0.7 * os.warn;
+        ctx.drawImage(oc, 0, 0);
+        ctx.globalAlpha = 1;
+      }
+
+      // Red war stretches, re-projected.
       const war = this.warAt(year);
       if (war.points.length > 0 || war.fronts.length > 0) {
         const red = document.createElement('canvas');
@@ -945,8 +1011,15 @@ export class BordersController {
       this.viewer.imageryLayers.add(layer);
       if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
       this.detailLayer = layer;
-      this.detailBuilt = { floor: floorYear, flagsOn: this.flagsOn, warKey, rect };
-      this.debug.detail = { floorYear, rect, W, H, polities: local.length };
+      this.detailBuilt = {
+        floor: floorYear,
+        flagsOn: this.flagsOn,
+        warKey,
+        warnBucket: os.warnBucket,
+        hadOrange: os.hasOrange,
+        rect,
+      };
+      this.debug.detail = { floorYear, rect, W, H, polities: local.length, orange: os };
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
     } catch (err) {
       console.warn('Failed to build border detail layer', err);

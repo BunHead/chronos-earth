@@ -104,12 +104,18 @@ const starPath = (ctx: CanvasRenderingContext2D, cx: number, cy: number, r: numb
 /** Simplified nine-spike maple leaf with stem, unit coords (y up), mirrored
  * left-right. The star helper read as a star, not a leaf — the Captain caught it. */
 const MAPLE_LEAF: Array<[number, number]> = [
-  [0, 1], [0.08, 0.76], [0.28, 0.84], [0.22, 0.6], [0.5, 0.66], [0.42, 0.44],
-  [0.78, 0.44], [0.68, 0.22], [1, 0.04], [0.6, -0.06], [0.68, -0.28],
-  [0.3, -0.2], [0.34, -0.42], [0.08, -0.28], [0.07, -0.72], [-0.07, -0.72],
-  [-0.08, -0.28], [-0.34, -0.42], [-0.3, -0.2], [-0.68, -0.28], [-0.6, -0.06],
-  [-1, 0.04], [-0.68, 0.22], [-0.78, 0.44], [-0.42, 0.44], [-0.5, 0.66],
-  [-0.22, 0.6], [-0.28, 0.84], [-0.08, 0.76],
+  // Central lobe (deep notches either side keep it a lobe, not a starburst).
+  [0, 1], [0.13, 0.66], [0.3, 0.74], [0.2, 0.42],
+  // Side lobe: two teeth, then the horizontal point.
+  [0.56, 0.62], [0.44, 0.36], [0.92, 0.4], [0.7, 0.14], [1, 0],
+  // Lower teeth tapering to the stem.
+  [0.52, -0.1], [0.6, -0.34], [0.24, -0.26], [0.28, -0.52], [0.07, -0.34],
+  // Stem.
+  [0.06, -0.85], [-0.06, -0.85],
+  // Mirror, bottom to top.
+  [-0.07, -0.34], [-0.28, -0.52], [-0.24, -0.26], [-0.6, -0.34], [-0.52, -0.1],
+  [-1, 0], [-0.7, 0.14], [-0.92, 0.4], [-0.44, 0.36], [-0.56, 0.62],
+  [-0.2, 0.42], [-0.3, 0.74], [-0.13, 0.66],
 ];
 const mapleLeafPath = (ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number) => {
   ctx.beginPath();

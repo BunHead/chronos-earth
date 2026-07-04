@@ -24,7 +24,10 @@ const BOXES = [
   ['Southeast Asia', 92, -11, 141, 20],
   ['Middle East', 34, 12, 60, 40],
   ['Central Asia & Siberia', 46, 35, 90, 60],
-  ['North America', -130, 25, -60, 55],
+  // North America as one box 504s every run (too dense for WDQS) — thirds work.
+  ['North America East', -90, 25, -60, 55],
+  ['North America Central', -110, 25, -90, 55],
+  ['North America West', -130, 25, -110, 55],
   ['Central America & Caribbean', -118, 5, -60, 25],
   ['South America', -82, -56, -34, 5],
   ['Oceania', 110, -48, 180, -8],
