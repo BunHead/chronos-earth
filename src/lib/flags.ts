@@ -101,6 +101,25 @@ const starPath = (ctx: CanvasRenderingContext2D, cx: number, cy: number, r: numb
   ctx.closePath();
 };
 
+/** Simplified nine-spike maple leaf with stem, unit coords (y up), mirrored
+ * left-right. The star helper read as a star, not a leaf — the Captain caught it. */
+const MAPLE_LEAF: Array<[number, number]> = [
+  [0, 1], [0.08, 0.76], [0.28, 0.84], [0.22, 0.6], [0.5, 0.66], [0.42, 0.44],
+  [0.78, 0.44], [0.68, 0.22], [1, 0.04], [0.6, -0.06], [0.68, -0.28],
+  [0.3, -0.2], [0.34, -0.42], [0.08, -0.28], [0.07, -0.72], [-0.07, -0.72],
+  [-0.08, -0.28], [-0.34, -0.42], [-0.3, -0.2], [-0.68, -0.28], [-0.6, -0.06],
+  [-1, 0.04], [-0.68, 0.22], [-0.78, 0.44], [-0.42, 0.44], [-0.5, 0.66],
+  [-0.22, 0.6], [-0.28, 0.84], [-0.08, 0.76],
+];
+const mapleLeafPath = (ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number) => {
+  ctx.beginPath();
+  MAPLE_LEAF.forEach(([x, y], i) => {
+    if (i === 0) ctx.moveTo(cx + x * r, cy - y * r);
+    else ctx.lineTo(cx + x * r, cy - y * r);
+  });
+  ctx.closePath();
+};
+
 const unionJack: Draw = (ctx, w, h) => {
   fill(ctx, '#012169', 0, 0, w, h);
   // White diagonals under red diagonals.
@@ -828,9 +847,12 @@ export const FLAGS: FlagSpec[] = [
     ctx.restore();
   } },
   { match: 'canada', key: 'canada', from: 1965, draw: (ctx, w, h) => {
-    vBands('#D80621', '#ffffff', '#D80621')(ctx, w, h);
+    // True Canadian pale: the white band is HALF the flag, leaf filling it.
+    fill(ctx, '#ffffff', 0, 0, w, h);
+    fill(ctx, '#D80621', 0, 0, w * 0.25, h);
+    fill(ctx, '#D80621', w * 0.75, 0, w * 0.25, h);
     ctx.fillStyle = '#D80621';
-    starPath(ctx, w / 2, h / 2, h * 0.2);
+    mapleLeafPath(ctx, w / 2, h * 0.47, h * 0.34);
     ctx.fill();
   } },
   { match: 'mexico', key: 'mexico', from: 1821, draw: vBands('#006847', '#ffffff', '#CE1126') },
