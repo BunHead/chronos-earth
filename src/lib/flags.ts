@@ -708,6 +708,64 @@ export const FLAGS: FlagSpec[] = [
     ctx.arc(w / 2, h / 2, h * 0.14, 0, Math.PI * 2);
     ctx.fill();
   } },
+  { match: 'uzbekistan', key: 'uzbekistan', from: 1991, draw: (ctx, w, h) => {
+    hBands('#0099B5', '#ffffff', '#1EB53A')(ctx, w, h);
+    fill(ctx, '#CE1126', 0, h / 3 - 1, w, 2);
+    fill(ctx, '#CE1126', 0, (2 * h) / 3 - 1, w, 2);
+  } },
+  { match: 'kyrgyz', key: 'kyrgyzstan', from: 1992, draw: (ctx, w, h) => {
+    fill(ctx, '#E8112D', 0, 0, w, h);
+    ctx.strokeStyle = '#FFEF00';
+    ctx.lineWidth = h * 0.04;
+    for (let i = 0; i < 12; i++) {
+      const a = (Math.PI / 6) * i;
+      ctx.beginPath();
+      ctx.moveTo(w / 2, h / 2);
+      ctx.lineTo(w / 2 + Math.cos(a) * h * 0.28, h / 2 + Math.sin(a) * h * 0.28);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#FFEF00';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.16, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'tajikistan', key: 'tajikistan', from: 1992, draw: (ctx, w, h) => {
+    fill(ctx, '#CC0000', 0, 0, w, h * 0.29);
+    fill(ctx, '#ffffff', 0, h * 0.29, w, h * 0.42);
+    fill(ctx, '#006600', 0, h * 0.71, w, h * 0.29);
+  } },
+  // Ancient Macedon is safe: 'macedonia' is from 1992 and 'macedon' ⊄ 'macedonia'.
+  { match: 'macedonia', key: 'macedonia', from: 1992, draw: (ctx, w, h) => {
+    fill(ctx, '#D20000', 0, 0, w, h);
+    ctx.strokeStyle = '#FFE600';
+    ctx.lineWidth = h * 0.1;
+    for (let i = 0; i < 8; i++) {
+      const a = (Math.PI / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(w / 2, h / 2);
+      ctx.lineTo(w / 2 + Math.cos(a) * w, h / 2 + Math.sin(a) * h);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#FFE600';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.16, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'bosnia', key: 'bosnia', from: 1998, draw: (ctx, w, h) => {
+    fill(ctx, '#002395', 0, 0, w, h);
+    ctx.fillStyle = '#FECB00';
+    ctx.beginPath();
+    ctx.moveTo(w * 0.28, 0);
+    ctx.lineTo(w * 0.78, 0);
+    ctx.lineTo(w * 0.28, h);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    for (const [sx, sy] of [[0.42, 0.2], [0.5, 0.4], [0.42, 0.6], [0.3, 0.8]]) {
+      starPath(ctx, w * sx, h * sy, h * 0.07);
+      ctx.fill();
+    }
+  } },
   { match: 'kazakhstan', key: 'kazakhstan', from: 1991, draw: discFlag('#00AFCA', '#FEC50C', 0.24) },
   { match: 'mongolia', key: 'mongolia-modern', from: 1945, draw: (ctx, w, h) => {
     vBands('#C4272F', '#015197', '#C4272F')(ctx, w, h);

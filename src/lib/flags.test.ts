@@ -90,6 +90,14 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Romania', 1990)?.key).toBe('romania');
   });
 
+  it('modern North Macedonia does not flag ancient Macedon', () => {
+    expect(flagSpecFor('North Macedonia', 2010)?.key).toBe('macedonia');
+    expect(flagSpecFor('Macedonia', 2000)?.key).toBe('macedonia');
+    // Alexander's kingdom is 'Macedon' — no modern sun flag in antiquity.
+    expect(flagSpecFor('Macedon', -330)).toBeNull();
+    expect(flagSpecFor('Macedonia', -330)).toBeNull();
+  });
+
   it('the US canton grows with the Union', () => {
     expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
     expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');
