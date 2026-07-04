@@ -355,6 +355,32 @@ export const FLAGS: FlagSpec[] = [
     fill(ctx, '#9E3039', 0, 0, w, h);
     fill(ctx, '#ffffff', 0, h * 0.4, w, h * 0.2);
   } },
+  { match: 'serbia', key: 'serbia', from: 1882, draw: hBands('#C6363C', '#0C4076', '#ffffff') },
+  { match: 'croatia', key: 'croatia', from: 1990, draw: hBands('#FF0000', '#ffffff', '#171796') },
+  { match: 'slovenia', key: 'slovenia', from: 1991, draw: hBands('#ffffff', '#005DA4', '#ED1C24') },
+  { match: 'slovakia', key: 'slovakia', from: 1993, draw: hBands('#ffffff', '#0B4EA2', '#EE1C25') },
+  { match: 'czech', key: 'czech', from: 1920, draw: triangleFlag(hBands('#ffffff', '#D7141A'), '#11457E') },
+  { match: 'luxembourg', key: 'luxembourg', from: 1848, draw: hBands('#ED2939', '#ffffff', '#00A1DE') },
+  { match: 'belarus', key: 'belarus', from: 1995, draw: (ctx, w, h) => {
+    fill(ctx, '#CE1720', 0, 0, w, h);
+    fill(ctx, '#4AA657', 0, h * 0.67, w, h * 0.33);
+    fill(ctx, '#ffffff', 0, 0, w * 0.11, h);
+  } },
+  { match: 'moldova', key: 'moldova', from: 1990, draw: vBands('#0046AE', '#FFD200', '#CC092F') },
+  { match: 'malta', key: 'malta', from: 1964, draw: vBands('#ffffff', '#CF142B') },
+  { match: 'georgia', key: 'georgia', from: 2004, draw: (ctx, w, h) => {
+    centredCross('#ffffff', '#FF0000', 0.13)(ctx, w, h);
+    for (const [qx, qy] of [[0.25, 0.25], [0.75, 0.25], [0.25, 0.75], [0.75, 0.75]]) {
+      const s = Math.min(w, h) * 0.05;
+      fill(ctx, '#FF0000', w * qx - s * 1.5, h * qy - s * 0.5, s * 3, s);
+      fill(ctx, '#FF0000', w * qx - s * 0.5, h * qy - s * 1.5, s, s * 3);
+    }
+  } },
+  { match: 'armenia', key: 'armenia', from: 1918, draw: hBands('#D90012', '#0033A0', '#F2A800') },
+  { match: 'azerbaijan', key: 'azerbaijan', from: 1918, draw: (ctx, w, h) => {
+    hBands('#00B9E4', '#ED2939', '#3F9C35')(ctx, w, h);
+    crescentFlag('none', '#ffffff')(ctx, w, h);
+  } },
 
   // Classical & medieval powers.
   { match: 'holy roman', key: 'holy-roman', draw: discFlag('#F5C518', '#1a1a1a', 0.22) },
