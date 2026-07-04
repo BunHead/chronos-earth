@@ -82,6 +82,14 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Malawi', 2000)?.key).toBe('malawi');
   });
 
+  it('Oman gets its own flag despite living inside Ottoman/Roman/Romania', () => {
+    expect(flagSpecFor('Oman', 2000)?.key).toBe('oman');
+    // The words that contain 'oman' as a substring keep their own flags.
+    expect(flagSpecFor('Ottoman Empire', 1600)?.key).toBe('ottoman');
+    expect(flagSpecFor('Roman Empire', 100)?.key).toBe('rome');
+    expect(flagSpecFor('Romania', 1990)?.key).toBe('romania');
+  });
+
   it('the US canton grows with the Union', () => {
     expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
     expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');

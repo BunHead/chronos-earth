@@ -663,6 +663,51 @@ export const FLAGS: FlagSpec[] = [
     ctx.closePath();
     ctx.fill();
   } },
+  // 'oman' ⊂ 'ottoman'/'roman'/'romania', all of which precede it — safe here.
+  { match: 'oman', key: 'oman', from: 1970, draw: (ctx, w, h) => {
+    fill(ctx, '#ffffff', w * 0.25, 0, w * 0.75, h / 3);
+    fill(ctx, '#DB161B', w * 0.25, h / 3, w * 0.75, h / 3);
+    fill(ctx, '#008000', w * 0.25, (h * 2) / 3, w * 0.75, h / 3);
+    fill(ctx, '#DB161B', 0, 0, w * 0.25, h);
+  } },
+  { match: 'yemen', key: 'yemen', from: 1990, draw: hBands('#CE1126', '#ffffff', '#1a1a1a') },
+  { match: 'qatar', key: 'qatar', from: 1971, draw: (ctx, w, h) => {
+    fill(ctx, '#8A1538', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, 0, w * 0.3, h);
+  } },
+  { match: 'bahrain', key: 'bahrain', from: 2002, draw: (ctx, w, h) => {
+    fill(ctx, '#CE1126', 0, 0, w, h);
+    fill(ctx, '#ffffff', 0, 0, w * 0.3, h);
+  } },
+  { match: 'lebanon', key: 'lebanon', from: 1943, draw: (ctx, w, h) => {
+    fill(ctx, '#ED1C24', 0, 0, w, h * 0.25);
+    fill(ctx, '#ffffff', 0, h * 0.25, w, h * 0.5);
+    fill(ctx, '#ED1C24', 0, h * 0.75, w, h * 0.25);
+    ctx.fillStyle = '#00A651';
+    ctx.beginPath();
+    ctx.moveTo(w / 2, h * 0.34);
+    ctx.lineTo(w * 0.6, h * 0.66);
+    ctx.lineTo(w * 0.4, h * 0.66);
+    ctx.closePath();
+    ctx.fill();
+  } },
+  { match: 'cambodia', key: 'cambodia', from: 1993, draw: (ctx, w, h) => {
+    fill(ctx, '#032EA1', 0, 0, w, h * 0.25);
+    fill(ctx, '#E00025', 0, h * 0.25, w, h * 0.5);
+    fill(ctx, '#032EA1', 0, h * 0.75, w, h * 0.25);
+    fill(ctx, '#ffffff', w * 0.44, h * 0.36, w * 0.12, h * 0.28);
+    fill(ctx, '#ffffff', w * 0.36, h * 0.44, w * 0.06, h * 0.2);
+    fill(ctx, '#ffffff', w * 0.58, h * 0.44, w * 0.06, h * 0.2);
+  } },
+  { match: 'laos', key: 'laos', from: 1975, draw: (ctx, w, h) => {
+    fill(ctx, '#CE1126', 0, 0, w, h / 3);
+    fill(ctx, '#002868', 0, h / 3, w, h / 3);
+    fill(ctx, '#CE1126', 0, (h * 2) / 3, w, h / 3);
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.14, 0, Math.PI * 2);
+    ctx.fill();
+  } },
   { match: 'kazakhstan', key: 'kazakhstan', from: 1991, draw: discFlag('#00AFCA', '#FEC50C', 0.24) },
   { match: 'mongolia', key: 'mongolia-modern', from: 1945, draw: (ctx, w, h) => {
     vBands('#C4272F', '#015197', '#C4272F')(ctx, w, h);
@@ -728,6 +773,69 @@ export const FLAGS: FlagSpec[] = [
     fill(ctx, '#CE1126', 0, h * 0.3333, w, h * 0.3333);
     fill(ctx, '#ffffff', 0, h * 0.6667, w, h * 0.1667);
     fill(ctx, '#002B7F', 0, h * 0.8333, w, h * 0.1667);
+  } },
+  { match: 'guatemala', key: 'guatemala', from: 1871, draw: vBands('#4997D0', '#ffffff', '#4997D0') },
+  { match: 'salvador', key: 'el-salvador', from: 1912, draw: hBands('#0F47AF', '#ffffff', '#0F47AF') },
+  { match: 'honduras', key: 'honduras', from: 1866, draw: (ctx, w, h) => {
+    hBands('#0073CF', '#ffffff', '#0073CF')(ctx, w, h);
+    ctx.fillStyle = '#0073CF';
+    for (const [sx, sy] of [[0.5, 0.5], [0.42, 0.42], [0.58, 0.42], [0.42, 0.58], [0.58, 0.58]]) {
+      starPath(ctx, w * sx, h * sy, h * 0.05);
+      ctx.fill();
+    }
+  } },
+  { match: 'nicaragua', key: 'nicaragua', from: 1908, draw: (ctx, w, h) => {
+    hBands('#0067C6', '#ffffff', '#0067C6')(ctx, w, h);
+    ctx.fillStyle = '#F9D616';
+    ctx.beginPath();
+    ctx.moveTo(w / 2, h * 0.42);
+    ctx.lineTo(w * 0.55, h * 0.58);
+    ctx.lineTo(w * 0.45, h * 0.58);
+    ctx.closePath();
+    ctx.fill();
+  } },
+  { match: 'panama', key: 'panama', from: 1925, draw: (ctx, w, h) => {
+    fill(ctx, '#ffffff', 0, 0, w, h);
+    fill(ctx, '#D21034', w / 2, 0, w / 2, h / 2);
+    fill(ctx, '#005293', 0, h / 2, w / 2, h / 2);
+    ctx.fillStyle = '#005293';
+    starPath(ctx, w * 0.25, h * 0.25, h * 0.12);
+    ctx.fill();
+    ctx.fillStyle = '#D21034';
+    starPath(ctx, w * 0.75, h * 0.75, h * 0.12);
+    ctx.fill();
+  } },
+  { match: 'dominican', key: 'dominican-republic', from: 1844, draw: (ctx, w, h) => {
+    fill(ctx, '#002D62', 0, 0, w, h);
+    fill(ctx, '#CE1126', w / 2, 0, w / 2, h / 2);
+    fill(ctx, '#CE1126', 0, h / 2, w / 2, h / 2);
+    const t = Math.min(w, h) * 0.1;
+    fill(ctx, '#ffffff', 0, (h - t) / 2, w, t);
+    fill(ctx, '#ffffff', (w - t) / 2, 0, t, h);
+  } },
+  { match: 'jamaica', key: 'jamaica', from: 1962, draw: (ctx, w, h) => {
+    fill(ctx, '#009B3A', 0, 0, w, h);
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w * 0.5, h * 0.5);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(w, 0);
+    ctx.lineTo(w * 0.5, h * 0.5);
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#FED100';
+    ctx.lineWidth = Math.min(w, h) * 0.12;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w, h);
+    ctx.moveTo(w, 0);
+    ctx.lineTo(0, h);
+    ctx.stroke();
   } },
   { match: 'brazil', key: 'brazil', from: 1889, draw: brazilFlag },
   { match: 'argentina', key: 'argentina', from: 1812, draw: hBands('#74ACDF', '#ffffff', '#74ACDF') },
