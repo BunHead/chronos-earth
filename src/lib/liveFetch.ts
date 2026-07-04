@@ -49,6 +49,68 @@ const TYPE_CATEGORY: Record<string, EventCategory> = {
   Q7944: 'disaster', // earthquake
 };
 
+/** One row of the WDQS JSON response — a map of variable name → {value}. */
+export type Binding = Record<string, { value: string } | undefined>;
+
+/** Most live rows we surface for a single clicked area. */
+const MAX_RESULTS = 14;
+
+/**
+ * Shape raw WDQS rows into de-duplicated TimelineEvents. Pure and
+ * network-free, so the fiddly bits are unit-testable: one item can arrive
+ * as several rows (one per instance-of type) — the first row creates the
+ * entry and later rows only refine its 'event' category; provinces and
+ * other admin regions are pruned unless they earned a real badge; the
+ * query's sitelink-descending order is preserved and capped.
+ *
+ * @param nowYear the current year, so future-dated rows are rejected.
+ */
+export function parseBindings(bindings: Binding[], nowYear: number): TimelineEvent[] {
+  const byId = new Map<string, TimelineEvent>();
+  // Wikidata flags provinces/districts/municipalities as administrative
+  // territorial entities (subclasses of Q56061). We drop those, but only
+  // when they resolve to the generic 'event' badge — a real city or monument
+  // that also carries an admin type (e.g. Paris is a "commune of France")
+  // keeps its proper category and survives.
+  const adminIds = new Set<string>();
+  for (const b of bindings) {
+    const qid = b.item?.value.split('/').pop();
+    if (!qid) continue;
+    if (b.isAdmin?.value === 'true') adminIds.add(qid);
+    const typeQ = b.type?.value.split('/').pop();
+    const cat = typeQ ? TYPE_CATEGORY[typeQ] : undefined;
+    const existing = byId.get(qid);
+    if (existing) {
+      if (cat && existing.category === 'event') existing.category = cat;
+      continue;
+    }
+    const label = b.itemLabel?.value ?? '';
+    if (!label || /^Q\d+$/.test(label)) continue; // no English label — skip
+    const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
+    if (!coord) continue;
+    const iso = /^([+-]?)0*(\d+)/.exec(b.date?.value ?? '');
+    if (!iso) continue;
+    const year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
+    if (year > nowYear) continue;
+    byId.set(qid, {
+      id: 'live-' + qid,
+      name: label,
+      startYear: year,
+      lat: +coord[2],
+      lon: +coord[1],
+      category: cat ?? 'event',
+      wikidataId: qid,
+      wikiTitle: label,
+      notability: +(b.sitelinks?.value ?? 0),
+    });
+  }
+  // Boring admin regions that never earned a real badge get pruned.
+  for (const id of adminIds) {
+    if (byId.get(id)?.category === 'event') byId.delete(id);
+  }
+  return [...byId.values()].slice(0, MAX_RESULTS);
+}
+
 const ENDPOINT = 'https://query.wikidata.org/sparql';
 /** Half-size of the search box, in degrees (~140 km at the equator). */
 const BOX_DEG = 1.3;
@@ -97,55 +159,8 @@ LIMIT 40`;
       headers: { Accept: 'application/sparql-results+json' },
     });
     if (!res.ok) throw new Error(`WDQS ${res.status}`);
-    const json = (await res.json()) as {
-      results: { bindings: Array<Record<string, { value: string } | undefined>> };
-    };
-    // One item can arrive as several rows (one per instance-of type); the
-    // first row creates the entry, later rows may refine its category.
-    const byId = new Map<string, TimelineEvent>();
-    // Wikidata flags provinces/districts/municipalities as administrative
-    // territorial entities (subclasses of Q56061). We drop those, but only
-    // when they resolve to the generic 'event' badge — a real city or
-    // monument that also carries an admin type (e.g. Paris is a "commune of
-    // France") keeps its proper category and survives.
-    const adminIds = new Set<string>();
-    for (const b of json.results.bindings) {
-      const qid = b.item?.value.split('/').pop();
-      if (!qid) continue;
-      if (b.isAdmin?.value === 'true') adminIds.add(qid);
-      const typeQ = b.type?.value.split('/').pop();
-      const cat = typeQ ? TYPE_CATEGORY[typeQ] : undefined;
-      const existing = byId.get(qid);
-      if (existing) {
-        if (cat && existing.category === 'event') existing.category = cat;
-        continue;
-      }
-      const label = b.itemLabel?.value ?? '';
-      if (!label || /^Q\d+$/.test(label)) continue; // no English label — skip
-      const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
-      if (!coord) continue;
-      const iso = /^([+-]?)0*(\d+)/.exec(b.date?.value ?? '');
-      if (!iso) continue;
-      const year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
-      if (year > new Date().getFullYear()) continue;
-      byId.set(qid, {
-        id: 'live-' + qid,
-        name: label,
-        startYear: year,
-        lat: +coord[2],
-        lon: +coord[1],
-        category: cat ?? 'event',
-        wikidataId: qid,
-        wikiTitle: label,
-        notability: +(b.sitelinks?.value ?? 0),
-      });
-    }
-    // Boring admin regions that never earned a real badge get pruned; the
-    // rest keep their sitelink-descending order, capped to a handful.
-    for (const id of adminIds) {
-      if (byId.get(id)?.category === 'event') byId.delete(id);
-    }
-    return [...byId.values()].slice(0, 14);
+    const json = (await res.json()) as { results: { bindings: Binding[] } };
+    return parseBindings(json.results.bindings, new Date().getFullYear());
   } finally {
     window.clearTimeout(timer);
   }
