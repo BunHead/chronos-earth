@@ -103,7 +103,7 @@ export interface BattleUnit {
   pos: Array<[number, number]>;
   /** Relative size of the block (default 1). */
   size?: number;
-  shape?: 'block' | 'ship' | 'cavalry' | 'vehicle';
+  shape?: 'block' | 'ship' | 'cavalry' | 'vehicle' | 'plane';
 }
 
 export interface BattleArrow {
@@ -139,6 +139,8 @@ export interface BattleView {
   units: BattleUnit[];
   /** Flagship battles also offer a full 3D (Three.js) scene. */
   flagship?: boolean;
+  /** The beaten side, when the record names one — its ranks thin faster. */
+  loser?: 'a' | 'b';
 }
 
 /* ------------------------------------------------------------------ *

@@ -76,3 +76,9 @@ items. The night session marks progress here and never deletes your words.
    casualtyScale 0.82-1.35, third phase for rout/siege/surrender/retreat with
    the loser fleeing its own edge, honest note moved to the last phase,
    synthBattle.test.ts +5 tests]
+16. ORIGINAL BATTLE MAPS: the Captain prefers period maps in the 2D battle
+   view. Extend/run scripts/fetch-battle-maps.mjs to hunt Wikimedia Commons
+   maps for the WW1/WW2 tour battles that lack one (El Alamein, Kursk,
+   Berlin, Verdun, Gallipoli, Iwo Jima, Okinawa, Leyte Gulf, Bulge...).
+   Follow the existing battle-maps.json schema + credits. Only commit maps
+   whose licence is public-domain/CC (record the licence like the others).

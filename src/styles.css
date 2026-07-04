@@ -152,16 +152,42 @@ body {
   opacity: 0.3;
 }
 
-/* Region mode: the mural's own photos wash across the frame as a backdrop. */
+/* Region mode: the mural's own photos wash across the frame as a backdrop —
+   reaching the TOP of the timeline however tall it is dragged. */
 .mural-collage {
   position: absolute;
-  inset: -160px 0 0 0;
+  inset: min(-160px, calc(140px - var(--timeline-height, 176px))) 0 0 0;
   z-index: 0;
   opacity: 0.14;
   filter: blur(1.5px) saturate(0.8);
   pointer-events: none;
   mask-image: linear-gradient(180deg, transparent, #000 25%, #000 90%, transparent);
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 90%, transparent);
+}
+
+/* The two flags in the dossier: the banner flies the year's flag, the story
+   shows today's — each captioned so the pair reads as time, not a bug. */
+.flag-then {
+  display: block;
+  margin: -4px 0 8px;
+  font-size: 10px;
+  font-style: italic;
+  color: rgba(233, 239, 247, 0.6);
+}
+.flag-today {
+  float: right;
+  margin: 0 0 6px 10px;
+  text-align: center;
+}
+.flag-today img {
+  display: block;
+  width: 86px;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+.flag-today em {
+  font-size: 10px;
+  color: rgba(233, 239, 247, 0.6);
 }
 
 /* Labelled regional lanes on the tall mural: a faint rule under each row,
@@ -175,23 +201,23 @@ body {
   pointer-events: none;
   z-index: 1;
 }
-.mural-lane .lane-name {
+/* Standalone sibling of the rule (NOT a child — the rule's own z-index made
+   a child label unwinnable against the circles), pinned above everything. */
+.track .lane-name {
   position: absolute;
   left: 10px;
-  bottom: 3px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--lane-color, #f2c74a);
-  background: rgba(8, 12, 18, 0.82);
-  border: 1px solid color-mix(in srgb, var(--lane-color, #f2c74a) 55%, transparent);
+  background: rgba(8, 12, 18, 0.88);
+  border: 1px solid color-mix(in srgb, var(--lane-color, #f2c74a) 60%, transparent);
   border-radius: 9px;
   padding: 2px 10px;
-  backdrop-filter: blur(2px);
-  /* Above the circles (z 6) — a name you can't read labels nothing. */
-  z-index: 8;
+  pointer-events: none;
+  z-index: 9;
 }
 
 /* Little pill on the timeline when the mural is telling one region's story. */

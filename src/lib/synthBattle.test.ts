@@ -62,10 +62,44 @@ describe('synthesizeBattleView polish (queue #15)', () => {
     expect(v.phases[1].narration).not.toContain('auto-generated');
   });
 
-  it('no ending words → the classic two phases, note on the last', () => {
-    const v = synthesizeBattleView(base);
+  it('a known victor always earns a resolution phase (and the loser field)', () => {
+    const v = synthesizeBattleView(base); // no rout/siege words, but a victor
+    expect(v.phases).toHaveLength(3);
+    expect(v.phases[2].name).toBe('The day is decided');
+    expect(v.loser).toBe('b'); // England won → France lost
+    expect(v.phases[2].narration).toContain('auto-generated');
+  });
+
+  it('no victor at all → the classic two phases, note on the last', () => {
+    const v = synthesizeBattleView({ ...base, victor: '', outcome: 'Inconclusive.' });
     expect(v.phases).toHaveLength(2);
+    expect(v.loser).toBeUndefined();
     expect(v.phases[1].narration).toContain('auto-generated');
+  });
+
+  it('air battles fly squadrons, not tanks', () => {
+    const v = synthesizeBattleView({
+      ...base,
+      id: 'britain-1940',
+      name: 'Battle of Britain',
+      year: 1940,
+      belligerents: { side1: 'Royal Air Force', side2: 'German Luftwaffe' },
+      victor: 'Royal Air Force',
+    });
+    expect(v.units.every((u) => u.shape === 'plane')).toBe(true);
+    expect(v.units.some((u) => u.label.includes('fighter wing'))).toBe(true);
+  });
+
+  it('Pearl Harbor is a naval affair — ships, not tanks', () => {
+    const v = synthesizeBattleView({
+      ...base,
+      id: 'pearl-harbor',
+      name: 'Attack on Pearl Harbor',
+      year: 1941,
+      belligerents: { side1: 'Empire of Japan', side2: 'United States' },
+      victor: 'Empire of Japan',
+    });
+    expect(v.units.every((u) => u.shape === 'ship')).toBe(true);
   });
 
   it('same battle always gets the same field (stable seed)', () => {

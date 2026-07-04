@@ -484,7 +484,7 @@ export default function Timeline({
     );
     return Math.max(320, isNaN(v) ? 176 : v);
   })();
-  const maxRows = Math.max(2, Math.min(5, Math.floor((tlHeightPx - 160) / 80)));
+  const maxRows = Math.max(2, Math.min(8, Math.floor((tlHeightPx - 160) / 80)));
 
   // Pick the most-notable items that fit the window without overlapping, in
   // staggered rows above the ribbon (adaptive declutter). On a tall timeline
@@ -831,7 +831,9 @@ export default function Timeline({
             })}
 
             {/* Labelled regional lanes (tall wall only): a rule under each
-                row with the region's name pinned at the left. */}
+                row, the name pinned at the left. The name is a SEPARATE
+                sibling because the rule's low z-index made any child label
+                unwinnable against the circles (stacking context). */}
             {mural.lanes.map((l) => (
               <div
                 key={'lane-' + l.row}
@@ -843,9 +845,22 @@ export default function Timeline({
                   } as React.CSSProperties
                 }
                 aria-hidden="true"
+              />
+            ))}
+            {mural.lanes.map((l) => (
+              <span
+                key={'lname-' + l.row}
+                className="lane-name"
+                style={
+                  {
+                    bottom: `calc(100% + ${14 + l.row * 66}px)`,
+                    '--lane-color': LANE_COLORS[l.row % LANE_COLORS.length],
+                  } as React.CSSProperties
+                }
+                aria-hidden="true"
               >
-                <span className="lane-name">{l.name}</span>
-              </div>
+                {l.name}
+              </span>
             ))}
 
             {/* Span bars on the ribbon (monument construction, reigns, eras). */}

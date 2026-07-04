@@ -9,6 +9,7 @@ import type {
 } from '../lib/types';
 import CommanderFaces from './CommanderFaces';
 import { speak, stopSpeech, speechAvailable } from '../lib/speech';
+import { loadSatellitePatch } from '../lib/satPatch';
 
 // Three.js is heavy, so we only download it when a user actually opens a 3D
 // flagship battle (keeps the initial app load light).
@@ -107,6 +108,11 @@ function Unit({ unit, phase, color }: { unit: BattleUnit; phase: number; color: 
           ▲
         </text>
       )}
+      {unit.shape === 'plane' && (
+        <text x={0} y={1} textAnchor="middle" fontSize={3} fill="rgba(255,255,255,0.9)">
+          ✈
+        </text>
+      )}
       <text className="bv-unit-label" x={0} y={h / 2 + 2.6} textAnchor="middle">
         {unit.label}
       </text>
@@ -123,6 +129,19 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
   // Satellite ground in the 3D scene — evocative, but stylised unit positions
   // don't always agree with real rivers, so it's a toggle.
   const [showGround, setShowGround] = useState(true);
+  // The same satellite patch backs the 2D map, faded, so the schematic sits
+  // over the real place (a period map, when we have one, draws on top).
+  const [satUrl, setSatUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (battle?.lat === undefined || battle?.lon === undefined) return;
+    let ok = true;
+    loadSatellitePatch(battle.lat, battle.lon, (canvas) => {
+      if (ok) setSatUrl(canvas.toDataURL('image/jpeg', 0.82));
+    });
+    return () => {
+      ok = false;
+    };
+  }, [battle?.lat, battle?.lon]);
   const [narrate, setNarrate] = useState(false);
 
   const phaseCount = view.phases.length;
@@ -196,11 +215,11 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
                 {showGround ? '🛰 Ground on' : '🛰 Ground off'}
               </button>
             )}
-            {view.flagship && (
-              <button className="btn" onClick={() => setMode((m) => (m === '2d' ? '3d' : '2d'))}>
-                {mode === '2d' ? '🧊 3D battle' : '🗺 2D map'}
-              </button>
-            )}
+            {/* Every battle earns its 3D view now — curated ones included
+                (D-Day predated the doctrine and was stuck in 2D). */}
+            <button className="btn" onClick={() => setMode((m) => (m === '2d' ? '3d' : '2d'))}>
+              {mode === '2d' ? '🧊 3D battle' : '🗺 2D map'}
+            </button>
             <button className="info-close" onClick={onClose} aria-label="Close battle view">
               ×
             </button>
@@ -233,6 +252,20 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
             </defs>
 
             <rect x={0} y={0} width={VIEW_W} height={VIEW_H} fill="#3c4a2e" />
+
+            {/* The real battlefield from above, faded under the schematic.
+                (Covers the same 120×90 world patch as the 3D ground.) */}
+            {satUrl && (
+              <image
+                href={satUrl}
+                x={-10}
+                y={-10}
+                width={120}
+                height={90}
+                opacity={0.5}
+                preserveAspectRatio="none"
+              />
+            )}
 
             {/* Period battle map under the stylized layers (toggleable). */}
             {mapInfo && showMap && (

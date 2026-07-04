@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BattleUnit, BattleView } from '../lib/types';
+import { loadSatellitePatch } from '../lib/satPatch';
 
 /** A box positioned by its centre, ready to merge into a unit model. */
 function box(w: number, h: number, d: number, x: number, y: number, z: number): THREE.BufferGeometry {
@@ -50,6 +51,15 @@ function unitFigureGeometry(shape: BattleUnit['shape']): THREE.BufferGeometry {
       box(0.3, 0.16, 0.3, 0.18, 1.34, -0.3), // cupola
     ])!;
   }
+  if (shape === 'plane') {
+    return mergeGeometries([
+      box(0.5, 0.45, 2.6, 0, 0, 0.1), // fuselage
+      box(3.0, 0.1, 0.7, 0, 0.02, 0.3), // wings
+      box(1.2, 0.1, 0.4, 0, 0.3, -1.15), // tailplane
+      box(0.08, 0.6, 0.5, 0, 0.4, -1.15), // fin
+      box(0.4, 0.35, 0.5, 0, 0.28, 0.5), // canopy
+    ])!;
+  }
   // Infantry: torso + head + legs.
   return mergeGeometries([
     box(0.55, 0.8, 0.4, 0, 0.95, 0), // torso
@@ -75,88 +85,8 @@ interface Battle3DProps {
   lon?: number;
 }
 
-/** Where the sea sits in the satellite patch, in ground-plane world coords —
- * so coastal battlefields can keep boots on land and keels in water. */
-interface WaterReport {
-  /** Fraction of the patch that reads as water. */
-  frac: number;
-  /** Centroid of the land pixels (world x, z). */
-  landC: [number, number];
-  /** Centroid of the water pixels (world x, z). */
-  waterC: [number, number];
-}
-
-/** Composite a 3×3 patch of Esri satellite tiles around a lat/lon. */
-function loadSatelliteTexture(
-  lat: number,
-  lon: number,
-  onReady: (tex: THREE.Texture, water: WaterReport) => void,
-) {
-  // z12 frames a wider area — evocative terrain colour without the exact
-  // rivers/roads that stylised formations would then appear to violate.
-  const z = 12;
-  const n = 2 ** z;
-  const cx = Math.floor(((lon + 180) / 360) * n);
-  const latR = (lat * Math.PI) / 180;
-  const cy = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 768;
-  const ctx = canvas.getContext('2d')!;
-  let loaded = 0;
-  let failed = false;
-  for (let dx = -1; dx <= 1; dx++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
-        loaded++;
-        if (loaded === 9 && !failed) {
-          // Sample the composite for sea (blue-dominant pixels). The ground
-          // plane is 120×90 world units; canvas x → world x, canvas y → world z
-          // (row 0 is north, which the plane shows at -z).
-          const data = ctx.getImageData(0, 0, 768, 768).data;
-          let water = 0;
-          let total = 0;
-          let lx = 0, lz = 0, ln = 0, wx = 0, wz = 0, wn = 0;
-          for (let py = 8; py < 768; py += 16) {
-            for (let px = 8; px < 768; px += 16) {
-              const o = (py * 768 + px) * 4;
-              const r = data[o];
-              const g = data[o + 1];
-              const b = data[o + 2];
-              const isWater = b - r > 8 && b - g >= 0 && b > 35;
-              const X = (px / 768 - 0.5) * 120;
-              const Z = (py / 768 - 0.5) * 90;
-              total++;
-              if (isWater) {
-                water++;
-                wx += X;
-                wz += Z;
-                wn++;
-              } else {
-                lx += X;
-                lz += Z;
-                ln++;
-              }
-            }
-          }
-          const tex = new THREE.CanvasTexture(canvas);
-          tex.colorSpace = THREE.SRGBColorSpace;
-          onReady(tex, {
-            frac: water / total,
-            landC: ln ? [lx / ln, lz / ln] : [0, 0],
-            waterC: wn ? [wx / wn, wz / wn] : [0, 0],
-          });
-        }
-      };
-      img.onerror = () => {
-        failed = true; // offline — the plain green ground stays
-      };
-      img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${cy + dy}/${cx + dx}`;
-    }
-  }
-}
+/** Cruising altitude for plane formations — they fly, everything else walks. */
+const PLANE_ALT = 7;
 
 /** Map battle-map coordinates (0..100, 0..70) into centred 3D world space. */
 function toWorldX(x: number): number {
@@ -316,7 +246,9 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     // satellite patch has been read; the retarget loop adds it ever after.
     const landShift = new THREE.Vector3();
     if (lat !== undefined && lon !== undefined) {
-      loadSatelliteTexture(lat, lon, (tex, water) => {
+      loadSatellitePatch(lat, lon, (patch, water) => {
+        const tex = new THREE.CanvasTexture(patch);
+        tex.colorSpace = THREE.SRGBColorSpace;
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         satTexture = tex;
         const naval = view.units.some((u) => u.shape === 'ship');
@@ -422,6 +354,8 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       shape: BattleUnit['shape'];
       /** Formation-local (x, z) of each figure, for the marching bob. */
       base: Array<[number, number]>;
+      /** Full-strength figure count — later phases show fewer (casualties). */
+      fullCount: number;
       /** Per-figure gait offset so the formation doesn't bounce in unison. */
       phases: Float32Array;
       wasMoving: boolean;
@@ -433,12 +367,13 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     for (const unit of view.units) {
       const size = unit.size ?? 1;
       const shape = unit.shape;
-      // Bigger figures (horses/ships/tanks) come in smaller, wider-spaced groups.
-      const big = shape === 'ship' || shape === 'vehicle';
+      // Bigger figures (horses/ships/tanks/planes) come in smaller, wider-spaced groups.
+      const big = shape === 'ship' || shape === 'vehicle' || shape === 'plane';
       const count = big ? Math.max(3, Math.round(5 * size)) : Math.max(9, Math.round(20 * size));
       const cols = Math.ceil(Math.sqrt(count * 1.6));
       const rows = Math.ceil(count / cols);
-      const spacing = shape === 'ship' ? 2.6 : shape === 'vehicle' ? 2.2 : shape === 'cavalry' ? 1.4 : 0.95;
+      const spacing =
+        shape === 'ship' ? 2.6 : shape === 'plane' ? 3.4 : shape === 'vehicle' ? 2.2 : shape === 'cavalry' ? 1.4 : 0.95;
 
       const geo = unitFigureGeometry(shape);
       ownedGeometries.push(geo);
@@ -465,9 +400,10 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
 
       const start = unit.pos[0];
       const floats = shape === 'ship';
+      const flies = shape === 'plane';
       const sx = toWorldX(start[0]);
       const sz = toWorldZ(start[1]);
-      mesh.position.set(sx, floats ? 0 : heightAt(sx, sz), sz);
+      mesh.position.set(sx, floats ? 0 : flies ? PLANE_ALT : heightAt(sx, sz), sz);
       scene.add(mesh);
       unitMeshes.push({
         mesh,
@@ -478,6 +414,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         shape,
         base,
         phases,
+        fullCount: count,
         wasMoving: false,
       });
     }
@@ -606,12 +543,18 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       const dt = Math.min(0.05, clock.getDelta());
       const t = clock.elapsedTime;
 
-      // When the phase changes, retarget every unit.
+      // When the phase changes, retarget every unit — and thin the ranks:
+      // battles cost soldiers, so later phases show visibly fewer figures
+      // (the beaten side loses more when the outcome names one).
       if (phaseRef.current !== lastPhase) {
         lastPhase = phaseRef.current;
+        const span = Math.max(1, view.phases.length - 1);
+        const frac = Math.min(1, lastPhase / span);
         for (const u of unitMeshes) {
           const p = u.posList[Math.min(lastPhase, u.posList.length - 1)] ?? u.posList[0];
           u.target.set(toWorldX(p[0]) + landShift.x, 0, toWorldZ(p[1]) + landShift.z);
+          const toll = view.loser === u.side ? 0.55 : 0.28;
+          u.mesh.count = Math.max(2, Math.round(u.fullCount * (1 - toll * frac)));
         }
       }
       for (const u of unitMeshes) {
@@ -620,8 +563,13 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         const moving = dx * dx + dz * dz > 0.05;
 
         u.mesh.position.lerp(u.target, 0.05);
-        // Keep formations standing on the terrain (ships stay on the water).
-        u.mesh.position.y = u.floats ? 0 : heightAt(u.mesh.position.x, u.mesh.position.z);
+        // Keep formations standing on the terrain (ships stay on the water,
+        // squadrons hold their altitude).
+        u.mesh.position.y = u.floats
+          ? 0
+          : u.shape === 'plane'
+            ? PLANE_ALT + Math.sin(t * 1.3 + u.phases[0]) * 0.5
+            : heightAt(u.mesh.position.x, u.mesh.position.z);
 
         // Face the direction of travel (smoothly, shortest way round).
         if (moving) {
@@ -631,8 +579,9 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
           u.mesh.rotation.y += delta * 0.06;
         }
 
-        // Marching bob for feet and hooves (ships glide, tanks rumble flat).
-        if ((moving || u.wasMoving) && !u.floats && u.shape !== 'vehicle') {
+        // Marching bob for feet and hooves (ships glide, tanks rumble flat,
+        // planes hold formation).
+        if ((moving || u.wasMoving) && !u.floats && u.shape !== 'vehicle' && u.shape !== 'plane') {
           const gait = u.shape === 'cavalry' ? 11 : 7.5;
           const lift = u.shape === 'cavalry' ? 0.11 : 0.07;
           for (let i = 0; i < u.base.length; i++) {
@@ -646,8 +595,8 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
           u.mesh.instanceMatrix.needsUpdate = true;
         }
 
-        // Marching feet kick up dust behind the formation.
-        if (moving && !u.floats && Math.random() < (u.shape === 'cavalry' ? 0.5 : 0.3)) {
+        // Marching feet kick up dust behind the formation (not at altitude).
+        if (moving && !u.floats && u.shape !== 'plane' && Math.random() < (u.shape === 'cavalry' ? 0.5 : 0.3)) {
           emitDust(u.mesh.position.x, u.mesh.position.y, u.mesh.position.z, u.base.length > 24 ? 5 : 3);
         }
         u.wasMoving = moving;

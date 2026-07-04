@@ -13,7 +13,11 @@
 import type { Battle, BattleTerrain, BattleUnit, BattleView } from './types';
 
 const NAVAL =
-  /sea battle|naval|midway|jutland|trafalgar|lepanto|salamis|actium|armada|tsushima|coral sea|leyte|navarino|aboukir|of the nile|chesapeake|hampton roads/i;
+  /sea battle|naval|midway|jutland|trafalgar|lepanto|salamis|actium|armada|tsushima|coral sea|leyte|navarino|aboukir|of the nile|chesapeake|hampton roads|pearl harbor|harbou?r|gulf of/i;
+
+/** Air battles get squadrons, not tanks — matched on the name AND the
+ * belligerents (Royal Air Force vs Luftwaffe says it all). */
+const AIR = /battle of britain|air battle|air raid|bombing of|air force|luftwaffe|air corps/i;
 
 /** World-War belligerents who wore field grey — the other side gets olive. */
 const CENTRAL_AXIS = /german|axis|japan|austria|central powers|ottoman/i;
@@ -94,21 +98,40 @@ export function synthesizeBattleView(b: Battle): BattleView {
     const [x0, x1] = side === 'a' ? [22, 42] : [78, 58];
     units.push({ id: `${side}${i}`, side, label, shape, size: size * scale, pos: [[x0, y], [x1, y]] });
   };
+  const air = modern && !naval && AIR.test(`${b.name} ${side1} ${side2}`);
   for (const side of ['a', 'b'] as const) {
     const who = side === 'a' ? side1 : side2;
-    if (naval) {
-      mk(side, 0, 3, `${who} van`, 'ship', 0.8);
-      mk(side, 1, 3, `${who} main fleet`, 'ship', 1.1);
-      mk(side, 2, 3, `${who} rear`, 'ship', 0.7);
-    } else if (modern) {
-      mk(side, 0, 3, `${who} infantry`, 'block', 1.2);
-      mk(side, 1, 3, `${who} armour`, 'vehicle', 0.8);
-      mk(side, 2, 3, `${who} reserves`, 'block', 0.9);
-    } else {
-      mk(side, 0, 3, `${who} infantry`, 'block', 1.2);
-      mk(side, 1, 3, `${who} cavalry`, 'cavalry', 0.8);
-      mk(side, 2, 3, `${who} reserves`, 'block', 0.9);
-    }
+    // 3 or sometimes 4 formations per side — seeded, so each battle keeps
+    // its own order of battle but they stop all looking identical.
+    const n = 3 + (rnd() < 0.4 ? 1 : 0);
+    const defs: Array<[string, BattleUnit['shape'], number]> = air
+      ? [
+          [`${who} fighter wing`, 'plane', 0.9],
+          [`${who} bomber group`, 'plane', 1.1],
+          [`${who} reserve squadrons`, 'plane', 0.7],
+          [`${who} escort wing`, 'plane', 0.6],
+        ]
+      : naval
+        ? [
+            [`${who} van`, 'ship', 0.8],
+            [`${who} main fleet`, 'ship', 1.1],
+            [`${who} rear`, 'ship', 0.7],
+            [`${who} screening ships`, 'ship', 0.55],
+          ]
+        : modern
+          ? [
+              [`${who} infantry`, 'block', 1.2],
+              [`${who} armour`, 'vehicle', 0.8],
+              [`${who} reserves`, 'block', 0.9],
+              [`${who} artillery`, 'vehicle', 0.55],
+            ]
+          : [
+              [`${who} infantry`, 'block', 1.2],
+              [`${who} cavalry`, 'cavalry', 0.8],
+              [`${who} reserves`, 'block', 0.9],
+              [`${who} archers`, 'block', 0.7],
+            ];
+    for (let i = 0; i < n; i++) mk(side, i, n, defs[i][0], defs[i][1], defs[i][2]);
   }
 
   const colors = sideColorsFor(b.year, side1, side2);
@@ -127,10 +150,18 @@ export function synthesizeBattleView(b: Battle): BattleView {
     },
   ];
 
-  // A third act when the outcome tells us how it ended: the beaten side
-  // streams off its own edge of the field (or the siege ring closes).
+  // Who lost? The side the victor's name matches LEAST (generic words like
+  // "Kingdom" appear on both sides, so count matches rather than any-hit).
+  const hits = (s: string) =>
+    s.split(/[ ,&]+/).filter((w) => w.length > 3 && b.victor?.includes(w)).length;
+  const victorIsA = !!b.victor && hits(side1) > hits(side2);
+  const loser: 'a' | 'b' = victorIsA ? 'b' : 'a';
+
+  // A third act whenever history tells us how it ended: named after the
+  // outcome when the words are there, else the plain fall of the day. The
+  // beaten side streams off its own edge of the field.
   const endText = `${b.outcome ?? ''} ${b.significance ?? ''}`;
-  const ending = /rout/i.test(endText)
+  let ending = /rout/i.test(endText)
     ? 'The rout'
     : /siege|besieg/i.test(endText)
       ? 'The siege closes'
@@ -139,13 +170,8 @@ export function synthesizeBattleView(b: Battle): BattleView {
         : /retreat|withdr|flee|fled|fell back|evacuat/i.test(endText)
           ? 'The retreat'
           : null;
+  if (!ending && b.victor) ending = 'The day is decided';
   if (ending) {
-    // Who runs? The side the victor's name matches LEAST (generic words like
-    // "Kingdom" appear on both sides, so count matches rather than any-hit).
-    const hits = (s: string) =>
-      s.split(/[ ,&]+/).filter((w) => w.length > 3 && b.victor?.includes(w)).length;
-    const victorIsA = !!b.victor && hits(side1) > hits(side2);
-    const loser: 'a' | 'b' = victorIsA ? 'b' : 'a';
     const arrows =
       loser === 'b'
         ? [
@@ -179,5 +205,6 @@ export function synthesizeBattleView(b: Battle): BattleView {
     phases,
     units,
     flagship: true, // every battlefield earns its 3D view
+    loser: b.victor ? loser : undefined, // their ranks thin faster in 3D
   };
 }

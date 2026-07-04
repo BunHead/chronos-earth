@@ -78,6 +78,7 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
   const [flagStory, setFlagStory] = useState<{
     status: 'closed' | 'loading' | 'done' | 'none';
     extract?: string;
+    thumb?: string;
   }>({ status: 'closed' });
   useEffect(() => {
     setFlagStory({ status: 'closed' });
@@ -93,8 +94,7 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
     const base = name.replace(/^(kingdom|empire|republic|duchy|grand duchy|principality) of /i, '');
     fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent('Flag_of_' + base.replace(/ /g, '_'))}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      // No thumbnail: the banner above IS the flag — two flags confused the bridge.
-      .then((j) => setFlagStory({ status: 'done', extract: j.extract }))
+      .then((j) => setFlagStory({ status: 'done', extract: j.extract, thumb: j.thumbnail?.source }))
       .catch(() => setFlagStory({ status: 'none' }));
   };
 
@@ -172,9 +172,21 @@ export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onV
                     title="Click for this flag's story"
                     onClick={() => openFlagStory(content.flag!.name)}
                   />
+                  <em className="flag-then">
+                    flying in {Math.abs(content.flag.year)} {content.flag.year < 0 ? 'BCE' : 'CE'}
+                  </em>
                   {flagStory.status === 'loading' && <p className="flag-story dim">Fetching this flag's story…</p>}
                   {flagStory.status === 'done' && (
                     <div className="flag-story">
+                      {/* The banner above shows the flag OF THAT YEAR; this is
+                          the country's flag today — captioned so the pair
+                          reads as history, not a glitch. */}
+                      {flagStory.thumb && (
+                        <span className="flag-today">
+                          <img src={flagStory.thumb} alt="" />
+                          <em>the flag today</em>
+                        </span>
+                      )}
                       <p>{flagStory.extract}</p>
                     </div>
                   )}
