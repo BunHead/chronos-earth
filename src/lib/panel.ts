@@ -30,8 +30,8 @@ export function monumentModelForName(name: string): string | null {
   const n = name.toLowerCase();
   if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
     return 'stepped-pyramid';
+  if (/sphinx/.test(n)) return 'sphinx'; // before pyramid — "Sphinx of Giza"
   if (/pyramid|giza/.test(n)) return 'pyramid';
-  if (/sphinx/.test(n)) return 'sphinx';
   if (/stonehenge/.test(n)) return 'stonehenge';
   if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
   if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
