@@ -14,6 +14,7 @@ import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type 
 import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
 import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
+import { synthesizeBattleView } from './lib/synthBattle';
 import type {
   AncientSite,
   Battle,
@@ -396,14 +397,22 @@ export default function App() {
         onViewMonument={setActiveMonument}
       />
 
-      {activeBattleView && battleViews[activeBattleView] && (
-        <BattleView
-          view={battleViews[activeBattleView]}
-          battle={battles.find((b) => b.id === activeBattleView)}
-          mapInfo={battleMaps[activeBattleView]}
-          onClose={() => setActiveBattleView(null)}
-        />
-      )}
+      {activeBattleView &&
+        (() => {
+          const battle = battles.find((b) => b.id === activeBattleView);
+          // Hand-crafted views win; every other battle gets a synthesised one.
+          const view =
+            battleViews[activeBattleView] ?? (battle ? synthesizeBattleView(battle) : undefined);
+          if (!view) return null;
+          return (
+            <BattleView
+              view={view}
+              battle={battle}
+              mapInfo={battleMaps[activeBattleView]}
+              onClose={() => setActiveBattleView(null)}
+            />
+          );
+        })()}
 
       {activeMonument && (
         <Suspense fallback={null}>

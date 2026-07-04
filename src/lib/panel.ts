@@ -94,7 +94,9 @@ export function battleToPanel(battle: Battle): PanelContent {
     ],
     links: battle.links,
     fly: { lon: battle.lon, lat: battle.lat, altitude: BATTLE_FLY_ALTITUDE },
-    battleId: battle.hasBattleView ? battle.id : undefined,
+    // Every battle opens a battlefield now — hand-crafted where we have one,
+    // auto-generated otherwise (see lib/synthBattle.ts).
+    battleId: battle.id,
   };
 }
 

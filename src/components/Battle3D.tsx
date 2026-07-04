@@ -66,6 +66,43 @@ interface Battle3DProps {
   mapUrl?: string;
   /** Whether the historical map is currently shown. */
   showMap?: boolean;
+  /** Real-world battle coordinates — used to drape satellite imagery of the
+   * actual battlefield onto the ground. */
+  lat?: number;
+  lon?: number;
+}
+
+/** Composite a 3×3 patch of Esri satellite tiles around a lat/lon. */
+function loadSatelliteTexture(lat: number, lon: number, onReady: (tex: THREE.Texture) => void) {
+  const z = 13;
+  const n = 2 ** z;
+  const cx = Math.floor(((lon + 180) / 360) * n);
+  const latR = (lat * Math.PI) / 180;
+  const cy = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 768;
+  const ctx = canvas.getContext('2d')!;
+  let loaded = 0;
+  let failed = false;
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
+        loaded++;
+        if (loaded === 9 && !failed) {
+          const tex = new THREE.CanvasTexture(canvas);
+          tex.colorSpace = THREE.SRGBColorSpace;
+          onReady(tex);
+        }
+      };
+      img.onerror = () => {
+        failed = true; // offline — the plain green ground stays
+      };
+      img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${cy + dy}/${cx + dx}`;
+    }
+  }
 }
 
 /** Map battle-map coordinates (0..100, 0..70) into centred 3D world space. */
@@ -120,7 +157,7 @@ function makeHeightFn(terrain: BattleView['terrain']): (x: number, z: number) =>
  * low-poly "soldiers" (an InstancedMesh formation) that smoothly marches to its
  * position for the current phase. The camera is a free orbit camera.
  */
-export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battle3DProps) {
+export default function Battle3D({ view, phase, mapUrl, showMap = false, lat, lon }: Battle3DProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -196,10 +233,15 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
     // When toggled on, the period map is textured onto the ground plane so the
     // soldier formations march across the real battle map.
     let mapTexture: THREE.Texture | null = null;
+    let satTexture: THREE.Texture | null = null;
     applyMapRef.current = (on: boolean) => {
       if (on && mapTexture) {
         groundMat.map = mapTexture;
         groundMat.color.set('#e8e8e8'); // slightly dimmed so unit colors pop
+      } else if (satTexture) {
+        // The REAL battlefield from above — satellite imagery of the site.
+        groundMat.map = satTexture;
+        groundMat.color.set('#cfcfcf');
       } else {
         groundMat.map = null;
         groundMat.color.set('#46562f');
@@ -211,6 +253,13 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
         tex.colorSpace = THREE.SRGBColorSpace;
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         mapTexture = tex;
+        applyMapRef.current(showMapRef.current);
+      });
+    }
+    if (lat !== undefined && lon !== undefined) {
+      loadSatelliteTexture(lat, lon, (tex) => {
+        tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        satTexture = tex;
         applyMapRef.current(showMapRef.current);
       });
     }
@@ -575,6 +624,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false }: Battl
       controls.dispose();
       renderer.dispose();
       mapTexture?.dispose();
+      satTexture?.dispose();
       applyMapRef.current = () => {};
       for (const g of ownedGeometries) g.dispose();
       for (const u of unitMeshes) (u.mesh.material as THREE.Material).dispose();
