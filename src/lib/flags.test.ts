@@ -69,6 +69,19 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Estonia', 1850)).toBeNull();
   });
 
+  it('substring-sensitive African names keep their own flags', () => {
+    // 'sudan' ⊂ 'south sudan', 'niger' ⊂ 'nigeria', 'guinea' ⊂ the compounds.
+    expect(flagSpecFor('South Sudan', 2015)?.key).toBe('south-sudan');
+    expect(flagSpecFor('Sudan', 2000)?.key).toBe('sudan');
+    expect(flagSpecFor('Nigeria', 2000)?.key).toBe('nigeria');
+    expect(flagSpecFor('Niger', 2000)?.key).toBe('niger');
+    expect(flagSpecFor('Guinea', 2000)?.key).toBe('guinea');
+    expect(flagSpecFor('Guinea-Bissau', 2000)?.key).toBe('guinea-bissau');
+    expect(flagSpecFor('Equatorial Guinea', 2000)?.key).toBe('equatorial-guinea');
+    // Mali must not swallow Malawi.
+    expect(flagSpecFor('Malawi', 2000)?.key).toBe('malawi');
+  });
+
   it('the US canton grows with the Union', () => {
     expect(flagSpecFor('United States', 1790)?.key).toBe('usa-13');
     expect(flagSpecFor('United States', 1800)?.key).toBe('usa-15');

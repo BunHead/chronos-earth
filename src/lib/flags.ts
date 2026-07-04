@@ -455,6 +455,13 @@ export const FLAGS: FlagSpec[] = [
   } },
   { match: 'libya', key: 'libya-green', from: 1977, to: 2010, draw: (ctx, w, h) => fill(ctx, '#239E46', 0, 0, w, h) },
   { match: 'libya', key: 'libya', from: 2011, draw: hBands('#E70013', '#1a1a1a', '#239E46') },
+  // 'south sudan' must precede 'sudan', else "South Sudan" matches it first.
+  { match: 'south sudan', key: 'south-sudan', from: 2011, draw: (ctx, w, h) => {
+    triangleFlag(hBands('#1a1a1a', '#DA121A', '#078930'), '#0F47AF')(ctx, w, h);
+    ctx.fillStyle = '#FCDD09';
+    starPath(ctx, w * 0.14, h * 0.5, h * 0.09);
+    ctx.fill();
+  } },
   { match: 'sudan', key: 'sudan', from: 1970, draw: triangleFlag(hBands('#D21034', '#ffffff', '#1a1a1a'), '#007229') },
   { match: 'nigeria', key: 'nigeria', from: 1960, draw: vBands('#008751', '#ffffff', '#008751') },
   { match: 'ghana', key: 'ghana', from: 1957, draw: (ctx, w, h) => {
@@ -537,6 +544,68 @@ export const FLAGS: FlagSpec[] = [
     fill(ctx, '#75AADB', 0, 0, w, h);
     fill(ctx, '#ffffff', 0, h * 0.36, w, h * 0.28);
     fill(ctx, '#1a1a1a', 0, h * 0.42, w, h * 0.16);
+  } },
+  // 'niger' sits AFTER 'nigeria' above so "Nigeria" is not stolen.
+  { match: 'niger', key: 'niger', from: 1959, draw: (ctx, w, h) => {
+    hBands('#E05206', '#ffffff', '#0DB02B')(ctx, w, h);
+    ctx.fillStyle = '#E05206';
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, h * 0.11, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'chad', key: 'chad', from: 1959, draw: vBands('#002664', '#FECB00', '#C60C30') },
+  // The compound Guinea names must precede plain 'guinea'.
+  { match: 'guinea-bissau', key: 'guinea-bissau', from: 1973, draw: (ctx, w, h) => {
+    fill(ctx, '#FCD116', w * 0.3, 0, w * 0.7, h / 2);
+    fill(ctx, '#009E49', w * 0.3, h / 2, w * 0.7, h / 2);
+    fill(ctx, '#CE1126', 0, 0, w * 0.3, h);
+    ctx.fillStyle = '#1a1a1a';
+    starPath(ctx, w * 0.15, h * 0.5, h * 0.12);
+    ctx.fill();
+  } },
+  { match: 'equatorial guinea', key: 'equatorial-guinea', from: 1968, draw: triangleFlag(hBands('#3E9A00', '#ffffff', '#E32118'), '#0073CE') },
+  { match: 'guinea', key: 'guinea', from: 1958, draw: vBands('#CE1126', '#FCD116', '#009460') },
+  { match: 'burkina', key: 'burkina-faso', from: 1984, draw: (ctx, w, h) => {
+    hBands('#EF2B2D', '#009E49')(ctx, w, h);
+    ctx.fillStyle = '#FCD116';
+    starPath(ctx, w / 2, h / 2, h * 0.15);
+    ctx.fill();
+  } },
+  { match: 'gabon', key: 'gabon', from: 1960, draw: hBands('#009E60', '#FCD116', '#3A75C4') },
+  { match: 'sierra leone', key: 'sierra-leone', from: 1961, draw: hBands('#1EB53A', '#ffffff', '#0072C6') },
+  { match: 'malawi', key: 'malawi', from: 1964, draw: (ctx, w, h) => {
+    hBands('#1a1a1a', '#CE1126', '#339E35')(ctx, w, h);
+    ctx.fillStyle = '#CE1126';
+    ctx.beginPath();
+    ctx.arc(w / 2, h * 0.28, h * 0.1, 0, Math.PI * 2);
+    ctx.fill();
+  } },
+  { match: 'eritrea', key: 'eritrea', from: 1993, draw: (ctx, w, h) => {
+    fill(ctx, '#12AD2B', 0, 0, w, h / 2);
+    fill(ctx, '#4189DD', 0, h / 2, w, h / 2);
+    ctx.fillStyle = '#EA0437';
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w, h / 2);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fill();
+  } },
+  { match: 'mauritania', key: 'mauritania', from: 1959, draw: (ctx, w, h) => {
+    fill(ctx, '#006233', 0, 0, w, h);
+    crescentFlag('none', '#FFC400')(ctx, w, h);
+  } },
+  { match: 'benin', key: 'benin', from: 1959, draw: (ctx, w, h) => {
+    fill(ctx, '#FCD116', w * 0.35, 0, w * 0.65, h / 2);
+    fill(ctx, '#E8112D', w * 0.35, h / 2, w * 0.65, h / 2);
+    fill(ctx, '#008751', 0, 0, w * 0.35, h);
+  } },
+  { match: 'togo', key: 'togo', from: 1960, draw: (ctx, w, h) => {
+    for (let i = 0; i < 5; i++) fill(ctx, i % 2 === 0 ? '#006A4E' : '#FFCE00', 0, (h / 5) * i, w, h / 5 + 1);
+    fill(ctx, '#D21034', 0, 0, w * 0.4, h * 0.6);
+    ctx.fillStyle = '#ffffff';
+    starPath(ctx, w * 0.2, h * 0.3, h * 0.12);
+    ctx.fill();
   } },
 
   // More of Asia & the Middle East.
