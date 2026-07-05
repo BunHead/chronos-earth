@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { startWindowDrag } from '../lib/windowDrag';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 interface Monument3DProps {
   model: string;
@@ -53,11 +54,74 @@ function getStoneTexture(): THREE.CanvasTexture {
   return stoneTexture;
 }
 
+/* Real weathered-stone PBR maps (Poly Haven, CC0 — credited in About)
+ * upgrade every registered material the moment they load; the procedural
+ * canvas above stays as the instant — and offline — fallback. */
+type PbrKey = 'map' | 'normalMap' | 'roughnessMap';
+type PbrSet = Partial<Record<PbrKey, THREE.Texture>>;
+const stonePbr: PbrSet = {};
+const sandPbr: PbrSet = {};
+const stoneFamily = new Set<THREE.MeshStandardMaterial>();
+const sandFamily = new Set<THREE.MeshStandardMaterial>();
+function loadPbr(
+  set: PbrSet,
+  family: Set<THREE.MeshStandardMaterial>,
+  files: Array<[PbrKey, string, boolean]>,
+) {
+  const loader = new THREE.TextureLoader();
+  for (const [key, file, srgb] of files) {
+    loader.load(`${import.meta.env.BASE_URL}textures/${file}`, (t) => {
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.repeat.set(1.6, 1.6);
+      if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+      set[key] = t;
+      for (const m of family) {
+        m[key] = t;
+        m.needsUpdate = true; // normal/roughness maps change the shader defines
+      }
+    });
+  }
+}
+loadPbr(stonePbr, stoneFamily, [
+  ['map', 'stone_diff.jpg', true],
+  ['normalMap', 'stone_nor.jpg', false],
+  ['roughnessMap', 'stone_rough.jpg', false],
+]);
+loadPbr(sandPbr, sandFamily, [
+  ['map', 'sandstone_diff.jpg', true],
+  ['normalMap', 'sandstone_nor.jpg', false],
+]);
+function registerPbr(
+  m: THREE.MeshStandardMaterial,
+  set: PbrSet,
+  family: Set<THREE.MeshStandardMaterial>,
+): THREE.MeshStandardMaterial {
+  if (set.map) m.map = set.map;
+  if (set.normalMap) m.normalMap = set.normalMap;
+  if (set.roughnessMap) m.roughnessMap = set.roughnessMap;
+  family.add(m);
+  return m;
+}
+function stoneLike(opts: THREE.MeshStandardMaterialParameters): THREE.MeshStandardMaterial {
+  return registerPbr(
+    new THREE.MeshStandardMaterial({ roughness: 1, map: getStoneTexture(), ...opts }),
+    stonePbr,
+    stoneFamily,
+  );
+}
+function sandLike(opts: THREE.MeshStandardMaterialParameters): THREE.MeshStandardMaterial {
+  return registerPbr(
+    new THREE.MeshStandardMaterial({ roughness: 1, map: getStoneTexture(), ...opts }),
+    sandPbr,
+    sandFamily,
+  );
+}
+
 const matCache = new Map<string, THREE.MeshStandardMaterial>();
 function stoneMat(color: string): THREE.MeshStandardMaterial {
   let m = matCache.get(color);
   if (!m) {
-    m = new THREE.MeshStandardMaterial({ color, roughness: 1, map: getStoneTexture() });
+    m = stoneLike({ color });
     matCache.set(color, m);
   }
   return m;
@@ -194,7 +258,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     const pyr = (w: number, h: number, x: number, z: number) => {
       const m = new THREE.Mesh(
         new THREE.ConeGeometry((w / 2) * Math.SQRT2, h, 4),
-        new THREE.MeshStandardMaterial({ color: SANDSTONE, roughness: 1, flatShading: true, map: getStoneTexture() }),
+        sandLike({ color: SANDSTONE, flatShading: true }),
       );
       m.rotation.y = Math.PI / 4;
       m.position.set(x, h / 2, z);
@@ -253,7 +317,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
     const naveRoof = new THREE.Mesh(
       new THREE.CylinderGeometry(0.1, 3.2, 14.4, 4, 1),
-      new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+      stoneLike({ color: roof, flatShading: true }),
     );
     naveRoof.rotation.x = Math.PI / 2;
     naveRoof.rotation.y = Math.PI / 4;
@@ -265,7 +329,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
       group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
       const spire = new THREE.Mesh(
         new THREE.ConeGeometry(1.5, 3.6, 4),
-        new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+        stoneLike({ color: roof, flatShading: true }),
       );
       spire.position.set(s * 1.9, 9.4, 7.2);
       spire.rotation.y = Math.PI / 4;
@@ -275,7 +339,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
     const crossSpire = new THREE.Mesh(
       new THREE.ConeGeometry(1.9, 4.6, 4),
-      new THREE.MeshStandardMaterial({ color: roof, roughness: 1, flatShading: true, map: getStoneTexture() }),
+      stoneLike({ color: roof, flatShading: true }),
     );
     crossSpire.position.set(0, 10.7, -1.5);
     crossSpire.rotation.y = Math.PI / 4;
@@ -283,7 +347,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     // Apse (rounded east end).
     const apse = new THREE.Mesh(
       new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
-      new THREE.MeshStandardMaterial({ color: wall, roughness: 1, map: getStoneTexture() }),
+      stoneLike({ color: wall }),
     );
     apse.rotation.y = Math.PI;
     apse.position.set(0, 2.3, -7);
@@ -298,7 +362,7 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     ground = '#3a3a42';
     const rim = new THREE.Mesh(
       new THREE.TorusGeometry(7, 1.4, 12, 40),
-      new THREE.MeshStandardMaterial({ color: '#55524d', roughness: 1, map: getStoneTexture() }),
+      stoneLike({ color: '#55524d' }),
     );
     rim.rotation.x = -Math.PI / 2;
     rim.position.y = 0.4;
@@ -397,6 +461,14 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
+    // Environment lighting: reflected fill from every direction, so stone
+    // faces away from the sun still read as material instead of flat shadow.
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+    scene.environment = envTex;
+    scene.environmentIntensity = 0.35;
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.autoRotate = true;
@@ -426,6 +498,27 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     scene.add(sun);
 
     const groundMat = new THREE.MeshStandardMaterial({ color: ground, roughness: 1 });
+    // Real dry-earth maps fade in under the monument (the satellite drape
+    // below still wins if it arrives — it carries the actual site).
+    {
+      const gl = new THREE.TextureLoader();
+      gl.load(`${import.meta.env.BASE_URL}textures/ground_diff.jpg`, (t) => {
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(7, 7);
+        t.colorSpace = THREE.SRGBColorSpace;
+        if (!groundMat.map) {
+          groundMat.map = t;
+          groundMat.color.set('#cfc4ae');
+          groundMat.needsUpdate = true;
+        }
+      });
+      gl.load(`${import.meta.env.BASE_URL}textures/ground_rough.jpg`, (t) => {
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(7, 7);
+        groundMat.roughnessMap = t;
+        groundMat.needsUpdate = true;
+      });
+    }
     const groundMesh = new THREE.Mesh(new THREE.CircleGeometry(40, 48), groundMat);
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
@@ -509,6 +602,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       ro.disconnect();
       controls.dispose();
       renderer.dispose();
+      envTex.dispose();
       groundTex?.dispose();
       groundMat.dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);

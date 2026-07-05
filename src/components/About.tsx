@@ -70,6 +70,11 @@ export default function About({ onClose }: AboutProps) {
               (public domain / Creative Commons — each map shows its credit and links to the original
               file).
             </li>
+            <li>
+              <b>Monument stone &amp; ground textures:</b>{' '}
+              <a href="https://polyhaven.com/" target="_blank" rel="noopener noreferrer">Poly Haven</a>{' '}
+              (CC0 — large_sandstone_blocks, old_stone_wall, dry_ground_01).
+            </li>
           </ul>
 
           <h3 className="info-h3">Built with</h3>

@@ -1032,8 +1032,17 @@ body {
 }
 
 .battle3d {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+/* Filmic vignette — free (CSS), and it frames the battlefield like a lens. */
+.battle3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.32) 100%);
 }
 
 .battle3d canvas {

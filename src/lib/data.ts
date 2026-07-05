@@ -36,7 +36,11 @@ export async function loadBattleViews(): Promise<Record<string, BattleView>> {
     throw new Error(`Failed to load battle-views.json (HTTP ${res.status})`);
   }
   const json = (await res.json()) as { battleViews: Record<string, BattleView> };
-  return json.battleViews ?? {};
+  const views = json.battleViews ?? {};
+  // The curated JSON keeps ids as OBJECT KEYS only — stamp them inside too,
+  // so every consumer can rely on view.id (a bare view.id crashed 3D once).
+  for (const [id, v] of Object.entries(views)) v.id = v.id ?? id;
+  return views;
 }
 
 export async function loadTours(): Promise<Tour[]> {

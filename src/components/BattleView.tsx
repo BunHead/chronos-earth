@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { Component, lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { startWindowDrag } from '../lib/windowDrag';
 import type {
   Battle,
@@ -15,6 +15,24 @@ import { inferLoser, keepFraction, sideTally } from '../lib/battleMath';
 // Three.js is heavy, so we only download it when a user actually opens a 3D
 // flagship battle (keeps the initial app load light).
 const Battle3D = lazy(() => import('./Battle3D'));
+
+/** A 3D failure must never sink the whole app — catch it at the stage edge. */
+class Stage3DBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="bv-3d-loading">
+          The 3D battlefield hit a snag on this machine — the 2D map still works.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 interface BattleViewProps {
   view: BattleViewData;
@@ -360,9 +378,11 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
 
         {mode === '3d' ? (
           <div className="bv-stage bv-stage-3d">
-            <Suspense fallback={<div className="bv-3d-loading">Loading 3D battlefield…</div>}>
-              <Battle3D view={view3d} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} timeOfDay={battle?.timeOfDay} />
-            </Suspense>
+            <Stage3DBoundary>
+              <Suspense fallback={<div className="bv-3d-loading">Loading 3D battlefield…</div>}>
+                <Battle3D view={view3d} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} timeOfDay={battle?.timeOfDay} />
+              </Suspense>
+            </Stage3DBoundary>
             <div className="bv-3d-hint">Drag to orbit · scroll to zoom</div>
             {tallyCard}
           </div>

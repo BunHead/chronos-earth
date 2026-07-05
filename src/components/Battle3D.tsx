@@ -2,6 +2,10 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import type { BattleUnit, BattleView } from '../lib/types';
 import { loadSatellitePatch, waterAt, type WaterReport } from '../lib/satPatch';
 import { figureCount, keepFraction } from '../lib/battleMath';
@@ -176,6 +180,22 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
+    // --- Post-processing: HDR render → soft bloom (muzzle flashes, the low
+    // sun) → tone-mapped output. If the machine can't keep up, we quietly
+    // fall back to the plain pipeline (fancy = false below).
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    // Threshold ABOVE 1: only true HDR hotspots bloom (the sun's disc,
+    // additive muzzle flashes) — at 0.86 the whole daytime sky bloomed and
+    // washed the frame to white.
+    // Threshold 0.9: the painted sky tops out ~0.82 linear, so only the sun
+    // disc (1.0, toneMapped:false) and stacked additive flashes bloom.
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.5, 0.85, 0.9);
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
+    let fancy = true;
+    let slowFrames = 0;
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.target.set(0, 0, 0);
@@ -205,8 +225,10 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     // --- Weather and hour, seeded per battle so each field keeps its sky:
     // dawn light for some, dusk for others; rain in the temperate mud,
     // snow only where the latitude earns it (Stalingrad, take a bow). ---
+    // Curated views carry no inner id (their id is the JSON key) — seed from
+    // whatever names this battle. `view.id` alone crashed every curated 3D.
     let wh = 7;
-    for (const ch of view.id) wh = (wh * 31 + ch.charCodeAt(0)) | 0;
+    for (const ch of view.id ?? view.title ?? 'field') wh = (wh * 31 + ch.charCodeAt(0)) | 0;
     const wRoll = ((wh >>> 8) & 255) / 255;
     const hRoll = ((wh >>> 16) & 255) / 255;
     const cold = lat !== undefined && Math.abs(lat) > 47;
@@ -230,6 +252,102 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       hemi.intensity = 0.4;
       hemi.color.set(0x8fa3c8);
     }
+    // --- The sky itself: a hand-painted gradient dome (three's scattering
+    // Sky clips to white at our 1.2 exposure — its demo runs at 0.5), with a
+    // bright sun disc for the bloom pass. Night keeps a dark vault of stars.
+    let stars: THREE.Points | null = null;
+    let skyDome: THREE.Mesh | null = null;
+    let sunSprite: THREE.Sprite | null = null;
+    if (tod !== 'night') {
+      const skyGeo = new THREE.SphereGeometry(600, 24, 16);
+      const palettes: Record<string, [string, string]> = {
+        day: ['#5b8cc8', '#d3e2ef'],
+        dawn: ['#48639a', '#efb27e'],
+        dusk: ['#3d4a6f', '#e8956a'],
+      };
+      const [zen, hor] = palettes[tod];
+      const zc = new THREE.Color(zen);
+      const hc = new THREE.Color(hor);
+      const spos = skyGeo.attributes.position;
+      const colors = new Float32Array(spos.count * 3);
+      const cc = new THREE.Color();
+      for (let i = 0; i < spos.count; i++) {
+        const k = Math.max(0, Math.min(1, spos.getY(i) / 600)); // horizon → zenith
+        cc.copy(hc).lerp(zc, Math.pow(k, 0.65));
+        colors[i * 3] = cc.r;
+        colors[i * 3 + 1] = cc.g;
+        colors[i * 3 + 2] = cc.b;
+      }
+      skyGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      skyDome = new THREE.Mesh(
+        skyGeo,
+        new THREE.MeshBasicMaterial({
+          vertexColors: true,
+          side: THREE.BackSide,
+          fog: false,
+          toneMapped: false, // exact painted colours, no ACES surprises
+          depthWrite: false,
+        }),
+      );
+      scene.add(skyDome);
+      // The sun — pure white, so it alone crosses the bloom threshold.
+      const sc = document.createElement('canvas');
+      sc.width = sc.height = 64;
+      const sg = sc.getContext('2d')!;
+      const grad = sg.createRadialGradient(32, 32, 4, 32, 32, 30);
+      grad.addColorStop(0, 'rgba(255,255,255,1)');
+      grad.addColorStop(0.35, 'rgba(255,244,214,0.9)');
+      grad.addColorStop(1, 'rgba(255,244,214,0)');
+      sg.fillStyle = grad;
+      sg.fillRect(0, 0, 64, 64);
+      sunSprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: new THREE.CanvasTexture(sc),
+          transparent: true,
+          fog: false,
+          toneMapped: false,
+          depthWrite: false,
+        }),
+      );
+      sunSprite.position.copy(sun.position).normalize().multiplyScalar(560);
+      sunSprite.scale.setScalar(tod === 'day' ? 55 : 80);
+      scene.add(sunSprite);
+      scene.background = null;
+      if (weather === 'clear') {
+        scene.fog!.color.set(tod === 'day' ? '#b7c6d8' : tod === 'dawn' ? '#c9a488' : '#b28a74');
+        // Clear air carries further — the old dark-fog range washed the
+        // whole field pale now that the fog colour is bright.
+        scene.fog!.near = 120;
+        scene.fog!.far = 340;
+      }
+    } else {
+      const starGeo = new THREE.BufferGeometry();
+      const sp = new Float32Array(420 * 3);
+      for (let i = 0; i < 420; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const e = Math.random() * Math.PI * 0.48;
+        sp[i * 3] = Math.cos(a) * Math.cos(e) * 900;
+        sp[i * 3 + 1] = Math.sin(e) * 900 + 10;
+        sp[i * 3 + 2] = Math.sin(a) * Math.cos(e) * 900;
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+      stars = new THREE.Points(
+        starGeo,
+        new THREE.PointsMaterial({
+          color: '#dfe8ff',
+          size: 2.2,
+          sizeAttenuation: false,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+          fog: false, // stars sit far beyond the ground fog
+        }),
+      );
+      scene.add(stars);
+      scene.background = new THREE.Color('#0a0f1c');
+      if (weather === 'clear') scene.fog!.color.set('#0a0f1c');
+    }
+
     let precip: THREE.Points | null = null;
     if (weather !== 'clear') {
       scene.fog = new THREE.Fog(weather === 'rain' ? 0x77828e : 0xbfc7d1, 70, 240);
@@ -675,6 +793,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
       renderer.setSize(w, h, false);
+      composer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     };
@@ -683,7 +802,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     ro.observe(container);
 
     if (import.meta.env.DEV) {
-      (window as unknown as { __b3d?: object }).__b3d = { renderer, scene, camera };
+      (window as unknown as { __b3d?: object }).__b3d = { renderer, scene, camera, composer };
     }
 
     // --- Animation loop ---
@@ -865,7 +984,12 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       }
 
       controls.update();
-      renderer.render(scene, camera);
+      // Consistently slow frames retire the bloom pipeline for this machine.
+      if (dt > 0.04) slowFrames++;
+      else slowFrames = Math.max(0, slowFrames - 2);
+      if (slowFrames > 90) fancy = false;
+      if (fancy) composer.render();
+      else renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
     };
     animate();
@@ -887,6 +1011,19 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         precip.geometry.dispose();
         (precip.material as THREE.Material).dispose();
       }
+      if (stars) {
+        stars.geometry.dispose();
+        (stars.material as THREE.Material).dispose();
+      }
+      if (skyDome) {
+        skyDome.geometry.dispose();
+        (skyDome.material as THREE.Material).dispose();
+      }
+      if (sunSprite) {
+        sunSprite.material.map?.dispose();
+        sunSprite.material.dispose();
+      }
+      composer.dispose();
       (fallen.a.material as THREE.Material).dispose();
       (fallen.b.material as THREE.Material).dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
