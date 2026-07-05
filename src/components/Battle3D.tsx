@@ -612,6 +612,90 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       });
     }
 
+    // --- Living water: battles that declare sea get a translucent, rippling
+    // surface in the sunken basins (plains sit at 0, so it only shows where
+    // the seabed dips). Ships ride it with a gentle bob. ---
+    const hasSea = (view.terrain ?? []).some((tt) => tt.type === 'sea');
+    let waterMesh: THREE.Mesh | null = null;
+    let waterTex: THREE.CanvasTexture | null = null;
+    if (hasSea) {
+      const wc = document.createElement('canvas');
+      wc.width = wc.height = 256;
+      const wg = wc.getContext('2d')!;
+      wg.fillStyle = '#808080';
+      wg.fillRect(0, 0, 256, 256);
+      for (let i = 0; i < 260; i++) {
+        const v = 100 + Math.random() * 110;
+        wg.fillStyle = `rgba(${v},${v},${v},0.35)`;
+        wg.beginPath();
+        wg.ellipse(
+          Math.random() * 256,
+          Math.random() * 256,
+          6 + Math.random() * 22,
+          2 + Math.random() * 7,
+          0,
+          0,
+          Math.PI * 2,
+        );
+        wg.fill();
+      }
+      waterTex = new THREE.CanvasTexture(wc);
+      waterTex.wrapS = waterTex.wrapT = THREE.RepeatWrapping;
+      waterTex.repeat.set(5, 4);
+      waterMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(120, 90),
+        new THREE.MeshStandardMaterial({
+          color: '#1d4560',
+          transparent: true,
+          opacity: 0.78,
+          roughness: 0.22,
+          metalness: 0.05,
+          bumpMap: waterTex,
+          bumpScale: 0.6,
+          depthWrite: false,
+        }),
+      );
+      waterMesh.rotation.x = -Math.PI / 2;
+      waterMesh.position.y = -0.06;
+      waterMesh.receiveShadow = true;
+      scene.add(waterMesh);
+    }
+
+    // --- Tracers: brief additive streaks from muzzle toward the enemy. ---
+    interface Tracer {
+      l: THREE.Line;
+      life: number;
+      max: number;
+    }
+    const tracers: Tracer[] = [];
+    for (let i = 0; i < 14; i++) {
+      const tg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const tl = new THREE.Line(
+        tg,
+        new THREE.LineBasicMaterial({
+          color: '#ffcf7e',
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        }),
+      );
+      tl.visible = false;
+      scene.add(tl);
+      tracers.push({ l: tl, life: 0, max: 0 });
+    }
+    let tracerCursor = 0;
+    const fireTracer = (x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => {
+      const tr = tracers[tracerCursor++ % tracers.length];
+      const tp = tr.l.geometry.attributes.position as THREE.BufferAttribute;
+      tp.setXYZ(0, x1, y1, z1);
+      tp.setXYZ(1, x2, y2, z2);
+      tp.needsUpdate = true;
+      tr.life = 0;
+      tr.max = 0.14;
+      tr.l.visible = true;
+    };
+
     // --- The fallen: casualties don't vanish, they stay on the field where
     // their formation stood — rebuilt each phase from the depletion math. ---
     const guns = view.units.some(
@@ -839,7 +923,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         // Keep formations standing on the terrain (ships stay on the water,
         // squadrons hold their altitude).
         u.mesh.position.y = u.floats
-          ? 0
+          ? Math.sin(t * 0.9 + u.phases[0]) * 0.08 // ships ride the swell
           : u.shape === 'plane'
             ? PLANE_ALT + Math.sin(t * 1.3 + u.phases[0]) * 0.5
             : surfaceY(u.mesh.position.x, u.mesh.position.z);
@@ -940,6 +1024,9 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
               vy: 0.7,
               vz: nz * 1.2 + (Math.random() - 0.5) * 0.4,
             });
+            if (Math.random() < 0.7) {
+              fireTracer(px, py, pz, px + nx * len * 0.7, py + 0.4, pz + nz * len * 0.7);
+            }
           } else {
             emitDust(
               (u.mesh.position.x + best.mesh.position.x) / 2,
@@ -949,6 +1036,23 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
             );
           }
         }
+      }
+
+      // Tracers flare and die within a couple of frames.
+      for (const tr of tracers) {
+        if (!tr.l.visible) continue;
+        tr.life += dt;
+        if (tr.life >= tr.max) {
+          tr.l.visible = false;
+          continue;
+        }
+        (tr.l.material as THREE.LineBasicMaterial).opacity = 0.9 * (1 - tr.life / tr.max);
+      }
+
+      // The sea breathes: ripples drift slowly across the water plane.
+      if (waterTex) {
+        waterTex.offset.x = t * 0.015;
+        waterTex.offset.y = Math.sin(t * 0.3) * 0.02;
       }
 
       // Rain falls hard, snow drifts sideways; both recycle at the top.
@@ -1014,6 +1118,15 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       if (stars) {
         stars.geometry.dispose();
         (stars.material as THREE.Material).dispose();
+      }
+      if (waterMesh) {
+        waterMesh.geometry.dispose();
+        (waterMesh.material as THREE.Material).dispose();
+        waterTex?.dispose();
+      }
+      for (const tr of tracers) {
+        tr.l.geometry.dispose();
+        (tr.l.material as THREE.Material).dispose();
       }
       if (skyDome) {
         skyDome.geometry.dispose();

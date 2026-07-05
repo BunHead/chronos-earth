@@ -100,6 +100,10 @@ items. The night session marks progress here and never deletes your words.
    c. IF BUDGET REMAINS: tracer lines + shell arcs with impact bursts in
       Battle3D (line segments from firing unit toward enemy, gunpowder era
       only); animated normal-scroll water material for naval battlefields.
+      [DONE 2026-07-05 live session — 14-line additive tracer pool fired
+      with 70% of gun flashes; rippling translucent water plane at y=-0.06
+      for sea battles (bump-scrolled canvas noise; shows only in sunken
+      basins since plains sit at 0); ships bob on the swell.]
    d. NOT THIS PASS (successor list): photogrammetry glTFs for marquee
       monuments (Sketchfab CC0, Draco+KTX2, 2-8MB lazy-loaded per open);
       Google Photorealistic 3D Tiles permanently rejected (API key/billing).
