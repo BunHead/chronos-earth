@@ -19,6 +19,13 @@ describe('flagSpecFor — the right flag at the right time', () => {
     expect(flagSpecFor('Germany', 1930)?.key).toBe('germany');
   });
 
+  it('the Heptarchy flies its attributed banners (and America is not Mercia)', () => {
+    expect(flagSpecFor('Mercia', 700)?.key).toBe('mercia');
+    expect(flagSpecFor('Wessex', 800)?.key).toBe('wessex');
+    expect(flagSpecFor('Mercia', 1200)).toBeNull(); // gone after the unification
+    expect(flagSpecFor('United States of America', 1900)?.key).toBe('usa-26');
+  });
+
   it('Canada: Red Ensign until 1964, maple leaf from 1965', () => {
     expect(flagSpecFor('Canada', 1900)?.key).toBe('canada-red-ensign');
     expect(flagSpecFor('Canada', 1964)?.key).toBe('canada-red-ensign');

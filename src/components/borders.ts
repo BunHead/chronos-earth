@@ -61,6 +61,8 @@ interface Polity {
   name: string;
   /** MultiPolygon coordinates: [polygon][ring][point][lon,lat]. */
   mp: number[][][][];
+  /** Small-but-important polities (the Heptarchy) skip the min-area check. */
+  alwaysLabel?: boolean;
 }
 
 /** Per-pixel polity indices (-1 = nobody/ocean) plus the matching name table. */
@@ -105,6 +107,17 @@ const FLAG_COLORS: Array<[string, string]> = [
   ['united kingdom', '#012169'],
   ['great britain', '#012169'],
   ['england', '#c8102e'],
+  // The Heptarchy (order: 'wessex' MUST precede any future 'essex' entry —
+  // "wessex" contains "essex" as a substring).
+  ['northumbria', '#7a5c1e'],
+  ['mercia', '#2456a4'],
+  ['wessex', '#a41f1f'],
+  ['essex', '#b0651e'],
+  ['sussex', '#d19a2f'],
+  ['kent', '#8a2a5a'],
+  ['anglia', '#3b7a3b'],
+  ['dumnonia', '#4a7a6a'],
+  ['welsh', '#b03a3a'],
   ['scotland', '#005eb8'],
   ['ireland', '#169b62'],
   ['france', '#0055a4'],
@@ -283,6 +296,9 @@ export class BordersController {
   private labels: Cesium.LabelCollection;
   /** Which floor frame the labels currently belong to (rebuild only on change). */
   private labelYear: number | undefined;
+  /** The hand-drawn Anglo-Saxon kingdoms, injected into early-medieval frames. */
+  private heptarchy: Polity[] = [];
+  private heptRange: [number, number] = [520, 900];
   /** Live build stats (pixel counts etc.) for dev-time verification. */
   readonly debug: Record<string, unknown> = {};
 
@@ -301,6 +317,26 @@ export class BordersController {
   }
 
   private async init() {
+    // The hand-drawn Anglo-Saxon Heptarchy overlays the coarse world basemap
+    // through the early middle ages (Mercia finally gets its own borders).
+    try {
+      const res = await fetch(`${this.baseUrl}data/heptarchy.json`);
+      if (res.ok) {
+        const j = (await res.json()) as {
+          from: number;
+          to: number;
+          kingdoms: Array<{ name: string; coords: number[][] }>;
+        };
+        this.heptRange = [j.from, j.to];
+        this.heptarchy = j.kingdoms.map((k) => ({
+          name: k.name,
+          mp: [[k.coords]],
+          alwaysLabel: true,
+        }));
+      }
+    } catch {
+      /* optional layer */
+    }
     try {
       const res = await fetch(`${this.baseUrl}data/borders/manifest.json`);
       if (!res.ok) throw new Error(`manifest HTTP ${res.status}`);
@@ -640,7 +676,7 @@ export class BordersController {
       const fc = (await res.json()) as {
         features: Array<{ properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }>;
       };
-      const polities: Polity[] = [];
+      let polities: Polity[] = [];
       for (const f of fc.features ?? []) {
         const g = f.geometry;
         const mp =
@@ -650,6 +686,12 @@ export class BordersController {
               ? (g.coordinates as number[][][][])
               : [];
         if (mp.length) polities.push({ name: f.properties?.name ?? 'Unknown', mp });
+      }
+      // Early middle ages: swap in the hand-drawn Heptarchy over Britain.
+      // First in the list, so clicks resolve to Mercia, not the world blob.
+      if (this.heptarchy.length && year >= this.heptRange[0] && year <= this.heptRange[1]) {
+        const ours = new Set(this.heptarchy.map((h) => h.name.toLowerCase()));
+        polities = [...this.heptarchy, ...polities.filter((p) => !ours.has(p.name.toLowerCase()))];
       }
       if (this.viewer.isDestroyed()) return;
       const canvas = this.rasterise(polities, year);
@@ -1175,7 +1217,7 @@ function polityLabelPoint(polity: Polity): { lon: number; lat: number } | undefi
       best = ring;
     }
   }
-  if (!best || bestArea < LABEL_MIN_AREA) return undefined;
+  if (!best || (bestArea < LABEL_MIN_AREA && !polity.alwaysLabel)) return undefined;
   return ringCentroid(best);
 }
 

@@ -449,6 +449,33 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
               />
             ))}
 
+            {/* The fallen, 2D: small marks left behind as the ranks thin. */}
+            {phase > 0 &&
+              view.units.map((u) => {
+                const keep = keepFraction(
+                  phase / Math.max(1, view.phases.length - 1),
+                  effLoser === u.side,
+                  view.severity,
+                );
+                const lost = Math.round((1 - keep) * 6);
+                if (lost <= 0) return null;
+                const prev = u.pos[Math.min(phase - 1, u.pos.length - 1)] ?? u.pos[0];
+                return (
+                  <g key={'fallen-' + u.id} opacity={0.55}>
+                    {Array.from({ length: lost }, (_, i) => (
+                      <rect
+                        key={i}
+                        x={prev[0] + (((i * 37) % 11) - 5)}
+                        y={prev[1] + (((i * 53) % 7) - 3)}
+                        width={1.1}
+                        height={0.5}
+                        fill={colorFor(u.side)}
+                      />
+                    ))}
+                  </g>
+                );
+              })}
+
             {view.units.map((u) => (
               <Unit
                 key={u.id}

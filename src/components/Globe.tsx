@@ -9,6 +9,7 @@ import { PaleoController } from './paleo';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
+import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
 
 /** A battle marker is visible from its date until this many years after it —
@@ -145,6 +146,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
   const faunaRef = useRef<FaunaController | null>(null);
+  const fxRef = useRef<DisasterFx | null>(null);
+  /** Disasters already played this session (no reruns on every scrub-past). */
+  const playedFxRef = useRef(new Set<string>());
   const onCampaignLabelRef = useRef(onCampaignLabel);
   onCampaignLabelRef.current = onCampaignLabel;
   /** The modern-Earth imagery layers (Natural Earth fallback + sharp satellite). */
@@ -398,6 +402,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
     paleoRef.current = new PaleoController(viewer, import.meta.env.BASE_URL);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
+    fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
     campaignRef.current.onActiveLabel = (label) => onCampaignLabelRef.current(label);
     faunaRef.current = new FaunaController(viewer, import.meta.env.BASE_URL);
@@ -406,10 +411,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         __viewer?: Cesium.Viewer;
         __Cesium?: typeof Cesium;
         __borders?: BordersController | null;
+        __fx?: DisasterFx | null;
       };
       w.__viewer = viewer;
       w.__Cesium = Cesium;
       w.__borders = bordersRef.current;
+      w.__fx = fxRef.current;
     }
 
     viewer.camera.flyTo({
@@ -546,6 +553,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         onSelectRef.current(eventToPanel(event));
         onSeekRef.current(yearToYearsBP(event.startYear));
         flyTo(event.lon, event.lat, 600_000);
+        // Clicking a disaster replays it where it happened.
+        if (event.category === 'disaster') {
+          fxRef.current?.play(disasterKindFor(event.name), event.lon, event.lat, 120);
+        }
         return;
       }
 
@@ -633,6 +644,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       paleoRef.current?.dispose();
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
+      fxRef.current?.dispose();
+      fxRef.current = null;
       paleoRef.current = null;
       bordersRef.current = null;
       campaignRef.current = null;
@@ -913,6 +926,40 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       if (setShownPop(entity, visibleIds.has(id), Math.min(appeared * 60, 900))) appeared++;
     }
   }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect]);
+
+  // Catastrophes play themselves where they happened as the timeline sweeps
+  // across their moment — the comet finds Chicxulub, Krakatoa goes up.
+  const prevBPRef = useRef(currentYearsBP);
+  useEffect(() => {
+    const prev = prevBPRef.current;
+    prevBPRef.current = currentYearsBP;
+    const fx = fxRef.current;
+    if (!fx || prev === currentYearsBP) return;
+    const lo = Math.min(prev, currentYearsBP);
+    const hi = Math.max(prev, currentYearsBP);
+    const span = hi - lo;
+    let budget = 3; // a giant timeline jump must not become a fireworks show
+    const crossed = (bp: number) =>
+      bp > lo && bp <= hi && span < Math.max(400, bp * 0.5);
+    for (const d of CURATED_DISASTERS) {
+      const bp =
+        CURATED_YEARS[d.name] !== undefined ? yearToYearsBP(CURATED_YEARS[d.name]) : d.bp;
+      if (budget > 0 && crossed(bp) && !playedFxRef.current.has(d.name)) {
+        playedFxRef.current.add(d.name);
+        fx.play(d.kind, d.lon, d.lat, d.radiusKm, d.flash);
+        budget--;
+      }
+    }
+    for (const ev of events) {
+      if (ev.category !== 'disaster' || budget <= 0) continue;
+      const bp = yearToYearsBP(ev.startYear);
+      if (!crossed(bp) || playedFxRef.current.has(ev.id)) continue;
+      playedFxRef.current.add(ev.id);
+      const radius = 60 + Math.min(1, (ev.notability ?? 0) / 350) * 140;
+      fx.play(disasterKindFor(ev.name), ev.lon, ev.lat, radius);
+      budget--;
+    }
+  }, [currentYearsBP, events]);
 
   return <div className="globe" ref={containerRef} />;
 });

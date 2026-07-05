@@ -333,6 +333,10 @@ export const FLAGS: FlagSpec[] = [
   { match: 'england', key: 'st-george', to: 1706, draw: centredCross('#ffffff', '#C8102E', 0.16) },
   { match: 'england', key: 'union-jack', from: 1707, draw: unionJack },
   { match: 'scotland', key: 'st-andrew', draw: saltire('#005EB8', '#ffffff') },
+  // Heptarchy banners as tradition paints them: Mercia's gold saltire on
+  // blue, Wessex in red and gold (the wyvern simplified to a cross).
+  { match: 'mercia', key: 'mercia', to: 918, draw: saltire('#1d4fa1', '#f5c33b') },
+  { match: 'wessex', key: 'wessex', to: 927, draw: centredCross('#a41f1f', '#f5c33b', 0.14) },
   { match: 'ireland', key: 'ireland', from: 1916, draw: vBands('#169B62', '#ffffff', '#FF883E') },
 
   // France — royal lilies, then the tricolore.
