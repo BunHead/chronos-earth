@@ -206,5 +206,6 @@ export function synthesizeBattleView(b: Battle): BattleView {
     units,
     flagship: true, // every battlefield earns its 3D view
     loser: b.victor ? loser : undefined, // their ranks thin faster in 3D
+    severity: scale, // bloodier records thin the ranks harder
   };
 }

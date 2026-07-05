@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { startWindowDrag } from '../lib/windowDrag';
 import type {
   Battle,
@@ -10,6 +10,7 @@ import type {
 import CommanderFaces from './CommanderFaces';
 import { speak, stopSpeech, speechAvailable } from '../lib/speech';
 import { loadSatellitePatch } from '../lib/satPatch';
+import { inferLoser, keepFraction, sideTally } from '../lib/battleMath';
 
 // Three.js is heavy, so we only download it when a user actually opens a 3D
 // flagship battle (keeps the initial app load light).
@@ -93,10 +94,21 @@ function Terrain({ t }: { t: BattleTerrain }) {
   }
 }
 
-/** A unit block that smoothly transitions to its current-phase position. */
-function Unit({ unit, phase, color }: { unit: BattleUnit; phase: number; color: string }) {
+/** A unit block that smoothly transitions to its current-phase position —
+ * and shrinks as its ranks thin (same depletion math as the 3D scene). */
+function Unit({
+  unit,
+  phase,
+  color,
+  keep = 1,
+}: {
+  unit: BattleUnit;
+  phase: number;
+  color: string;
+  keep?: number;
+}) {
   const p = unit.pos[Math.min(phase, unit.pos.length - 1)] ?? unit.pos[0];
-  const size = unit.size ?? 1;
+  const size = (unit.size ?? 1) * Math.sqrt(keep);
   const w = (unit.shape === 'ship' ? 7 : 6) * size;
   const h = (unit.shape === 'ship' ? 2.4 : 4) * size;
 
@@ -142,6 +154,113 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
       ok = false;
     };
   }, [battle?.lat, battle?.lon]);
+
+  // Synthesized battle sound — a distant rumble, cannon thumps in the
+  // gunpowder ages. No audio assets, nothing copyrighted, off by default.
+  const [sound, setSound] = useState(false);
+  useEffect(() => {
+    if (!sound) return;
+    const AC = window.AudioContext;
+    if (!AC) return;
+    const ctx = new AC();
+    const master = ctx.createGain();
+    master.gain.value = 0.5;
+    master.connect(ctx.destination);
+    // Looped brown noise through a low-pass = the din of a distant field.
+    const len = ctx.sampleRate * 2;
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    let lastS = 0;
+    for (let i = 0; i < len; i++) {
+      lastS = (lastS + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+      data[i] = lastS * 3.5;
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 110;
+    const bed = ctx.createGain();
+    bed.gain.value = 0.35;
+    src.connect(lp).connect(bed).connect(master);
+    src.start();
+    // Cannon: a noise burst swept down through a low-pass, every few seconds.
+    const gunpowder =
+      view.units.some((u) => u.shape === 'vehicle' || u.shape === 'plane' || u.shape === 'ship') ||
+      (battle?.year ?? 0) >= 1500;
+    let timer = 0;
+    const thump = () => {
+      const t0 = ctx.currentTime;
+      const n = ctx.createBufferSource();
+      n.buffer = buf;
+      const f = ctx.createBiquadFilter();
+      f.type = 'lowpass';
+      f.frequency.setValueAtTime(240, t0);
+      f.frequency.exponentialRampToValueAtTime(60, t0 + 0.5);
+      const env = ctx.createGain();
+      env.gain.setValueAtTime(0.9, t0);
+      env.gain.exponentialRampToValueAtTime(0.001, t0 + 0.7);
+      n.connect(f).connect(env).connect(master);
+      n.start(t0);
+      n.stop(t0 + 0.8);
+      timer = window.setTimeout(thump, 1600 + Math.random() * 3200);
+    };
+    if (gunpowder) timer = window.setTimeout(thump, 900);
+    return () => {
+      window.clearTimeout(timer);
+      src.stop();
+      void ctx.close();
+    };
+  }, [sound, view, battle]);
+
+  // Curated views predate the explicit loser field — read it off the victor
+  // string so Cannae's Romans bleed like the record says they did.
+  const effLoser =
+    view.loser ?? inferLoser(battle?.victor, view.sides.a.name, view.sides.b.name);
+  const view3d = useMemo(
+    () => (effLoser === view.loser ? view : { ...view, loser: effLoser }),
+    [view, effLoser],
+  );
+
+  // The reckoning: on the final phase, tot up what each side fielded and
+  // what marched away — same depletion math the two stages animate.
+  const lastIdx = view.phases.length - 1;
+  const tally =
+    phase === lastIdx && lastIdx > 0
+      ? {
+          a: sideTally(view.units, 'a', effLoser, view.severity),
+          b: sideTally(view.units, 'b', effLoser, view.severity),
+        }
+      : null;
+  const victorName = battle?.victor
+    ? battle.victor
+    : effLoser
+      ? view.sides[effLoser === 'a' ? 'b' : 'a'].name
+      : null;
+  const tallyCard = tally && (
+    <div className="bv-tally">
+      <div className="bv-tally-title">The reckoning</div>
+      <div className="bv-tally-victor">
+        {victorName
+          ? /victor|win/i.test(victorName)
+            ? victorName
+            : `${victorName} carries the day`
+          : 'The field falls silent'}
+      </div>
+      {(['a', 'b'] as const).map((s) => (
+        <div key={s} className="bv-tally-side">
+          <i style={{ background: view.sides[s].color }} />
+          <span className="bv-tally-name">{view.sides[s].name}</span>
+          <span className="bv-tally-nums">
+            {tally[s].start} → {tally[s].end} <em>−{tally[s].start - tally[s].end}</em>
+          </span>
+        </div>
+      ))}
+      {battle?.casualties && <div className="bv-tally-record">The record: {battle.casualties}</div>}
+      <div className="bv-tally-note">figures illustrate the scale — the record line is the history</div>
+    </div>
+  );
   const [narrate, setNarrate] = useState(false);
 
   const phaseCount = view.phases.length;
@@ -215,6 +334,13 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
                 {showGround ? '🛰 Ground on' : '🛰 Ground off'}
               </button>
             )}
+            <button
+              className={`btn ${sound ? 'primary' : ''}`}
+              title="Synthesized battle sound — rumble and cannon, no recordings"
+              onClick={() => setSound((s) => !s)}
+            >
+              {sound ? '💥 Sound on' : '💥 Sound off'}
+            </button>
             {/* Every battle earns its 3D view now — curated ones included
                 (D-Day predated the doctrine and was stuck in 2D). */}
             <button className="btn" onClick={() => setMode((m) => (m === '2d' ? '3d' : '2d'))}>
@@ -235,9 +361,10 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
         {mode === '3d' ? (
           <div className="bv-stage bv-stage-3d">
             <Suspense fallback={<div className="bv-3d-loading">Loading 3D battlefield…</div>}>
-              <Battle3D view={view} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} />
+              <Battle3D view={view3d} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} />
             </Suspense>
             <div className="bv-3d-hint">Drag to orbit · scroll to zoom</div>
+            {tallyCard}
           </div>
         ) : (
         <div className="bv-stage">
@@ -303,9 +430,20 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
             ))}
 
             {view.units.map((u) => (
-              <Unit key={u.id} unit={u} phase={phase} color={colorFor(u.side)} />
+              <Unit
+                key={u.id}
+                unit={u}
+                phase={phase}
+                color={colorFor(u.side)}
+                keep={keepFraction(
+                  phase / Math.max(1, view.phases.length - 1),
+                  effLoser === u.side,
+                  view.severity,
+                )}
+              />
             ))}
           </svg>
+          {tallyCard}
         </div>
         )}
 

@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BattleUnit, BattleView } from '../lib/types';
 import { loadSatellitePatch } from '../lib/satPatch';
+import { figureCount, keepFraction } from '../lib/battleMath';
 
 /** A box positioned by its centre, ready to merge into a unit model. */
 function box(w: number, h: number, d: number, x: number, y: number, z: number): THREE.BufferGeometry {
@@ -197,6 +198,51 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     sun.shadow.normalBias = 0.5;
     scene.add(sun);
 
+    // --- Weather and hour, seeded per battle so each field keeps its sky:
+    // dawn light for some, dusk for others; rain in the temperate mud,
+    // snow only where the latitude earns it (Stalingrad, take a bow). ---
+    let wh = 7;
+    for (const ch of view.id) wh = (wh * 31 + ch.charCodeAt(0)) | 0;
+    const wRoll = ((wh >>> 8) & 255) / 255;
+    const hRoll = ((wh >>> 16) & 255) / 255;
+    const cold = lat !== undefined && Math.abs(lat) > 47;
+    const weather: 'clear' | 'rain' | 'snow' =
+      wRoll < 0.26 ? (cold && wRoll < 0.13 ? 'snow' : 'rain') : 'clear';
+    if (hRoll < 0.22) {
+      sun.position.set(80, 22, 10); // dawn attack — long light from the east
+      sun.color.set('#ffc08a');
+      sun.intensity = 1.7;
+    } else if (hRoll > 0.8) {
+      sun.position.set(-70, 18, 30); // dusk — the day is nearly spent
+      sun.color.set('#ff9f6e');
+      sun.intensity = 1.5;
+    }
+    let precip: THREE.Points | null = null;
+    if (weather !== 'clear') {
+      scene.fog = new THREE.Fog(weather === 'rain' ? 0x77828e : 0xbfc7d1, 70, 240);
+      sun.intensity *= 0.55;
+      const N = 900;
+      const ppos = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++) {
+        ppos[i * 3] = (Math.random() - 0.5) * 130;
+        ppos[i * 3 + 1] = Math.random() * 42;
+        ppos[i * 3 + 2] = (Math.random() - 0.5) * 100;
+      }
+      const pgeo = new THREE.BufferGeometry();
+      pgeo.setAttribute('position', new THREE.BufferAttribute(ppos, 3));
+      precip = new THREE.Points(
+        pgeo,
+        new THREE.PointsMaterial({
+          color: weather === 'rain' ? '#9fb4c8' : '#ffffff',
+          size: weather === 'rain' ? 0.28 : 0.5,
+          transparent: true,
+          opacity: weather === 'rain' ? 0.55 : 0.85,
+          depthWrite: false,
+        }),
+      );
+      scene.add(precip); // geometry + material disposed in the cleanup below
+    }
+
     // --- Ground: a real 3D heightfield shaped by the battle's terrain. ---
     const heightAt = makeHeightFn(view.terrain);
     const groundMat = new THREE.MeshStandardMaterial({ color: '#46562f', roughness: 1 });
@@ -368,8 +414,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       const size = unit.size ?? 1;
       const shape = unit.shape;
       // Bigger figures (horses/ships/tanks/planes) come in smaller, wider-spaced groups.
-      const big = shape === 'ship' || shape === 'vehicle' || shape === 'plane';
-      const count = big ? Math.max(3, Math.round(5 * size)) : Math.max(9, Math.round(20 * size));
+      const count = figureCount(shape, size);
       const cols = Math.ceil(Math.sqrt(count * 1.6));
       const rows = Math.ceil(count / cols);
       const spacing =
@@ -419,6 +464,52 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       });
     }
 
+    // --- The fallen: casualties don't vanish, they stay on the field where
+    // their formation stood — rebuilt each phase from the depletion math. ---
+    const guns = view.units.some(
+      (x) => x.shape === 'vehicle' || x.shape === 'plane' || x.shape === 'ship',
+    );
+    const fallenGeo = box(0.8, 0.1, 0.34, 0, 0.05, 0);
+    ownedGeometries.push(fallenGeo);
+    const mkFallen = (side: 'a' | 'b') => {
+      const c = new THREE.Color(view.sides[side].color).multiplyScalar(0.5);
+      const m = new THREE.InstancedMesh(
+        fallenGeo,
+        new THREE.MeshStandardMaterial({ color: c, roughness: 1 }),
+        400,
+      );
+      m.count = 0;
+      m.receiveShadow = true;
+      scene.add(m);
+      return m;
+    };
+    const fallen = { a: mkFallen('a'), b: mkFallen('b') };
+    const rebuildFallen = () => {
+      const counts = { a: 0, b: 0 };
+      for (const u of unitMeshes) {
+        if (u.floats) continue; // the sea keeps its dead
+        const lost = u.fullCount - u.mesh.count;
+        const m = fallen[u.side];
+        for (let i = 0; i < lost; i++) {
+          const idx = counts[u.side]++;
+          if (idx >= 400) break;
+          // Stable scatter around where the formation now stands.
+          const ang = u.phases[i % u.phases.length] * 2;
+          const rad = 1.5 + ((i * 37) % 100) / 16;
+          const x = u.target.x + Math.cos(ang) * rad;
+          const z = u.target.z + Math.sin(ang) * rad * 0.7;
+          dummy.position.set(x, heightAt(x, z) + 0.06, z);
+          dummy.rotation.set(0, ang * 3, 0);
+          dummy.updateMatrix();
+          m.setMatrixAt(idx, dummy.matrix);
+        }
+      }
+      fallen.a.count = Math.min(counts.a, 400);
+      fallen.b.count = Math.min(counts.b, 400);
+      fallen.a.instanceMatrix.needsUpdate = true;
+      fallen.b.instanceMatrix.needsUpdate = true;
+    };
+
     // --- Life pass: dust of the march. A small recycled pool of soft sprites
     // puffed up behind formations while they move. ---
     const dustTex = (() => {
@@ -440,9 +531,14 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       vx: number;
       vy: number;
       vz: number;
+      /** Peak opacity and scale growth — dust billows, smoke drifts, muzzle
+       * flashes snap bright and die fast. */
+      baseO: number;
+      grow: number;
+      startScale: number;
     }
     const puffs: Puff[] = [];
-    for (let i = 0; i < 64; i++) {
+    for (let i = 0; i < 96; i++) {
       const m = new THREE.SpriteMaterial({
         map: dustTex,
         color: '#c6b489',
@@ -453,19 +549,44 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       const s = new THREE.Sprite(m);
       s.visible = false;
       scene.add(s);
-      puffs.push({ s, life: 0, max: 0, vx: 0, vy: 0, vz: 0 });
+      puffs.push({ s, life: 0, max: 0, vx: 0, vy: 0, vz: 0, baseO: 0.34, grow: 3.2, startScale: 1.4 });
     }
     let puffCursor = 0;
-    const emitDust = (x: number, y: number, z: number, spread: number) => {
+    interface PuffOpts {
+      color?: string;
+      life?: number;
+      vx?: number;
+      vy?: number;
+      vz?: number;
+      baseO?: number;
+      grow?: number;
+      scale?: number;
+      additive?: boolean;
+    }
+    const emitPuff = (x: number, y: number, z: number, o: PuffOpts) => {
       const p = puffs[puffCursor++ % puffs.length];
+      const m = p.s.material as THREE.SpriteMaterial;
+      m.color.set(o.color ?? '#c6b489');
+      m.blending = o.additive ? THREE.AdditiveBlending : THREE.NormalBlending;
       p.life = 0;
-      p.max = 0.9 + Math.random() * 0.6;
-      p.vx = (Math.random() - 0.5) * 0.6;
-      p.vy = 0.5 + Math.random() * 0.4;
-      p.vz = (Math.random() - 0.5) * 0.6;
-      p.s.position.set(x + (Math.random() - 0.5) * spread, y + 0.3, z + (Math.random() - 0.5) * spread);
-      p.s.scale.setScalar(1.4);
+      p.max = o.life ?? 0.9 + Math.random() * 0.6;
+      p.vx = o.vx ?? (Math.random() - 0.5) * 0.6;
+      p.vy = o.vy ?? 0.5 + Math.random() * 0.4;
+      p.vz = o.vz ?? (Math.random() - 0.5) * 0.6;
+      p.baseO = o.baseO ?? 0.34;
+      p.grow = o.grow ?? 3.2;
+      p.startScale = o.scale ?? 1.4;
+      p.s.position.set(x, y, z);
+      p.s.scale.setScalar(p.startScale);
       p.s.visible = true;
+    };
+    const emitDust = (x: number, y: number, z: number, spread: number) => {
+      emitPuff(
+        x + (Math.random() - 0.5) * spread,
+        y + 0.3,
+        z + (Math.random() - 0.5) * spread,
+        {},
+      );
     };
 
     // --- Life pass: a waving banner follows each side's lead formation. ---
@@ -553,9 +674,12 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         for (const u of unitMeshes) {
           const p = u.posList[Math.min(lastPhase, u.posList.length - 1)] ?? u.posList[0];
           u.target.set(toWorldX(p[0]) + landShift.x, 0, toWorldZ(p[1]) + landShift.z);
-          const toll = view.loser === u.side ? 0.55 : 0.28;
-          u.mesh.count = Math.max(2, Math.round(u.fullCount * (1 - toll * frac)));
+          u.mesh.count = Math.max(
+            2,
+            Math.round(u.fullCount * keepFraction(frac, view.loser === u.side, view.severity)),
+          );
         }
+        rebuildFallen();
       }
       for (const u of unitMeshes) {
         const dx = u.target.x - u.mesh.position.x;
@@ -614,8 +738,81 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
         p.s.position.x += p.vx * dt;
         p.s.position.y += p.vy * dt;
         p.s.position.z += p.vz * dt;
-        (p.s.material as THREE.SpriteMaterial).opacity = 0.34 * (1 - k);
-        p.s.scale.setScalar(1.4 + k * 3.2);
+        (p.s.material as THREE.SpriteMaterial).opacity = p.baseO * (1 - k);
+        p.s.scale.setScalar(p.startScale + k * p.grow);
+      }
+
+      // --- The exchange: once the clash begins, engaged formations trade
+      // fire — muzzle flashes and rolling smoke for the gunpowder ages,
+      // boiling dust where lines meet steel-to-steel before that. ---
+      if (lastPhase >= 1) {
+        for (const u of unitMeshes) {
+          if (Math.random() > 0.035) continue;
+          let best: (typeof unitMeshes)[number] | null = null;
+          let bd = Infinity;
+          for (const e of unitMeshes) {
+            if (e.side === u.side) continue;
+            const d =
+              (e.mesh.position.x - u.mesh.position.x) ** 2 +
+              (e.mesh.position.z - u.mesh.position.z) ** 2;
+            if (d < bd) {
+              bd = d;
+              best = e;
+            }
+          }
+          if (!best || bd > 55 ** 2) continue;
+          const dx = best.mesh.position.x - u.mesh.position.x;
+          const dz = best.mesh.position.z - u.mesh.position.z;
+          const len = Math.max(0.001, Math.hypot(dx, dz));
+          const nx = dx / len;
+          const nz = dz / len;
+          if (guns) {
+            const px = u.mesh.position.x + nx * 2.4;
+            const py = u.mesh.position.y + (u.shape === 'plane' ? 0 : 1.0);
+            const pz = u.mesh.position.z + nz * 2.4;
+            emitPuff(px, py, pz, {
+              color: '#ffd27a',
+              additive: true,
+              life: 0.14,
+              baseO: 0.95,
+              grow: 1.6,
+              scale: 1.1,
+              vx: nx * 2,
+              vy: 0.4,
+              vz: nz * 2,
+            });
+            emitPuff(px, py + 0.3, pz, {
+              color: '#cdd2d6',
+              life: 1.9,
+              baseO: 0.3,
+              grow: 4.2,
+              scale: 1.2,
+              vx: nx * 1.2 + (Math.random() - 0.5) * 0.4,
+              vy: 0.7,
+              vz: nz * 1.2 + (Math.random() - 0.5) * 0.4,
+            });
+          } else {
+            emitDust(
+              (u.mesh.position.x + best.mesh.position.x) / 2,
+              Math.min(u.mesh.position.y, best.mesh.position.y) + 0.3,
+              (u.mesh.position.z + best.mesh.position.z) / 2,
+              4,
+            );
+          }
+        }
+      }
+
+      // Rain falls hard, snow drifts sideways; both recycle at the top.
+      if (precip) {
+        const pp = precip.geometry.attributes.position as THREE.BufferAttribute;
+        const fall = weather === 'rain' ? 34 : 5.5;
+        for (let i = 0; i < pp.count; i++) {
+          let y = pp.getY(i) - fall * dt;
+          if (weather === 'snow') pp.setX(i, pp.getX(i) + Math.sin(t * 1.1 + i) * 0.02);
+          if (y < 0) y = 42;
+          pp.setY(i, y);
+        }
+        pp.needsUpdate = true;
       }
 
       // Banners follow their side's lead formation; cloth ripples in the wind.
@@ -656,6 +853,12 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
       for (const p of puffs) (p.s.material as THREE.Material).dispose();
       dustTex.dispose();
       for (const r of ownedBannerResources) r.dispose();
+      if (precip) {
+        precip.geometry.dispose();
+        (precip.material as THREE.Material).dispose();
+      }
+      (fallen.a.material as THREE.Material).dispose();
+      (fallen.b.material as THREE.Material).dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
   }, [view, mapUrl]);

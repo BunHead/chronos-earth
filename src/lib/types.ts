@@ -141,6 +141,9 @@ export interface BattleView {
   flagship?: boolean;
   /** The beaten side, when the record names one — its ranks thin faster. */
   loser?: 'a' | 'b';
+  /** How bloody the day was (from the casualties record, ~0.8–1.35). Scales
+   * how fast ranks thin; 1 when unknown. */
+  severity?: number;
 }
 
 /* ------------------------------------------------------------------ *
