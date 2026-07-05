@@ -501,7 +501,8 @@
           "side": 2,
           "wiki": "Harold Godwinson"
         }
-      ]
+      ],
+      "timeOfDay": "day"
     },
     {
       "id": "manzikert",
@@ -999,7 +1000,8 @@
           "side": 2,
           "wiki": "Pierre-Charles Villeneuve"
         }
-      ]
+      ],
+      "timeOfDay": "day"
     },
     {
       "id": "austerlitz",
@@ -1039,7 +1041,8 @@
           "side": 2,
           "wiki": "Mikhail Kutuzov"
         }
-      ]
+      ],
+      "timeOfDay": "dawn"
     },
     {
       "id": "borodino",
@@ -1152,7 +1155,8 @@
           "side": 2,
           "wiki": "Napoleon"
         }
-      ]
+      ],
+      "timeOfDay": "day"
     },
     {
       "id": "antietam",
@@ -1464,7 +1468,8 @@
           "side": 2,
           "wiki": "Hermann Göring"
         }
-      ]
+      ],
+      "timeOfDay": "day"
     },
     {
       "id": "midway",
@@ -1509,7 +1514,8 @@
           "side": 2,
           "wiki": "Chūichi Nagumo"
         }
-      ]
+      ],
+      "timeOfDay": "day"
     },
     {
       "id": "el-alamein",
@@ -1543,7 +1549,8 @@
           "side": 2,
           "wiki": "Erwin Rommel"
         }
-      ]
+      ],
+      "timeOfDay": "night"
     },
     {
       "id": "stalingrad",
@@ -1583,7 +1590,8 @@
           "wiki": "Friedrich Paulus"
         }
       ],
-      "hasBattleView": true
+      "hasBattleView": true,
+      "timeOfDay": "day"
     },
     {
       "id": "kursk",
@@ -1662,7 +1670,8 @@
           "side": 2,
           "wiki": "Gerd von Rundstedt"
         }
-      ]
+      ],
+      "timeOfDay": "dawn"
     },
     {
       "id": "berlin-1945",
@@ -2665,7 +2674,8 @@
           "side": 2,
           "wiki": "Husband E. Kimmel"
         }
-      ]
+      ],
+      "timeOfDay": "dawn"
     },
     {
       "id": "leyte-gulf",
@@ -2748,7 +2758,8 @@
           "side": 2,
           "wiki": "Walter Model"
         }
-      ]
+      ],
+      "timeOfDay": "dawn"
     },
     {
       "id": "inchon",

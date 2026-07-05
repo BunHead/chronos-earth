@@ -170,6 +170,8 @@ body {
   position: absolute;
   top: 12px;
   right: 12px;
+  /* Never traps clicks — the close button must always win. */
+  pointer-events: none;
   max-width: 260px;
   padding: 10px 14px;
   background: rgba(10, 14, 20, 0.86);
@@ -340,10 +342,14 @@ body {
 
 /* The ruling polity's flag banner in the dossier panel — click for its story. */
 .info-flag {
+  /* True 3:2 proportions — the old full-width letterbox crop showed only the
+     Union Jack's middle bar and read as a different flag entirely. */
   display: block;
-  width: 100%;
-  height: 58px;
-  object-fit: cover;
+  width: auto;
+  height: 84px;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: fill;
   border-radius: 8px;
   border: 1px solid var(--border);
   margin: 10px 0 4px;
@@ -970,6 +976,9 @@ body {
 }
 
 .bv-stage {
+  /* Positioned so the tally card anchors HERE, not to the window (where it
+     sat exactly over the close button). */
+  position: relative;
   background: radial-gradient(circle at 50% 40%, #45562f, #2c361f);
   padding: 10px;
 }
@@ -1018,7 +1027,8 @@ body {
 .bv-stage-3d {
   position: relative;
   padding: 0;
-  height: 56vh;
+  /* Short enough that narration + transport controls stay above the fold. */
+  height: 46vh;
 }
 
 .battle3d {

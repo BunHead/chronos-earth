@@ -14,9 +14,19 @@ export interface WaterReport {
   landC: [number, number];
   /** Centroid of the water pixels (ground-plane world x, z). */
   waterC: [number, number];
+  /** GRID×GRID water mask (row-major, 1 = water) for point lookups. */
+  grid: Uint8Array;
 }
 
 const SIZE = 768; // 3 × 256px tiles
+const GRID = 48; // sampling resolution of the water mask
+
+/** Is this ground-plane world point (x ±60, z ±45) on water? */
+export function waterAt(rep: WaterReport, x: number, z: number): boolean {
+  const gx = Math.min(GRID - 1, Math.max(0, Math.round(((x / 120 + 0.5) * SIZE - 8) / 16)));
+  const gz = Math.min(GRID - 1, Math.max(0, Math.round(((z / 90 + 0.5) * SIZE - 8) / 16)));
+  return rep.grid[gz * GRID + gx] === 1;
+}
 
 export function loadSatellitePatch(
   lat: number,
@@ -47,6 +57,8 @@ export function loadSatellitePatch(
           // units; canvas x → world x, canvas y → world z (row 0 is north,
           // which the rotated plane shows at -z).
           const data = ctx.getImageData(0, 0, SIZE, SIZE).data;
+          const grid = new Uint8Array(GRID * GRID);
+          let gi = 0;
           let water = 0;
           let total = 0;
           let lx = 0, lz = 0, ln = 0, wx = 0, wz = 0, wn = 0;
@@ -59,6 +71,7 @@ export function loadSatellitePatch(
               const isWater = b - r > 8 && b - g >= 0 && b > 35;
               const X = (px / SIZE - 0.5) * 120;
               const Z = (py / SIZE - 0.5) * 90;
+              grid[gi++] = isWater ? 1 : 0;
               total++;
               if (isWater) {
                 water++;
@@ -76,6 +89,7 @@ export function loadSatellitePatch(
             frac: water / total,
             landC: ln ? [lx / ln, lz / ln] : [0, 0],
             waterC: wn ? [wx / wn, wz / wn] : [0, 0],
+            grid,
           });
         }
       };

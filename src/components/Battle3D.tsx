@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BattleUnit, BattleView } from '../lib/types';
-import { loadSatellitePatch } from '../lib/satPatch';
+import { loadSatellitePatch, waterAt, type WaterReport } from '../lib/satPatch';
 import { figureCount, keepFraction } from '../lib/battleMath';
 
 /** A box positioned by its centre, ready to merge into a unit model. */
@@ -84,6 +84,9 @@ interface Battle3DProps {
    * actual battlefield onto the ground. */
   lat?: number;
   lon?: number;
+  /** The hour history records (D-Day at dawn, El Alamein by night); when
+   * absent, each battle keeps its own seeded sky. */
+  timeOfDay?: 'dawn' | 'day' | 'dusk' | 'night';
 }
 
 /** Cruising altitude for plane formations — they fly, everything else walks. */
@@ -141,7 +144,7 @@ function makeHeightFn(terrain: BattleView['terrain']): (x: number, z: number) =>
  * low-poly "soldiers" (an InstancedMesh formation) that smoothly marches to its
  * position for the current phase. The camera is a free orbit camera.
  */
-export default function Battle3D({ view, phase, mapUrl, showMap = false, showGround = true, lat, lon }: Battle3DProps) {
+export default function Battle3D({ view, phase, mapUrl, showMap = false, showGround = true, lat, lon, timeOfDay }: Battle3DProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
@@ -181,7 +184,8 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     controls.maxDistance = 160;
 
     // --- Lighting --- (intensities tuned for ACES filmic tone mapping)
-    scene.add(new THREE.HemisphereLight(0xcfe3ff, 0x40502f, 1.15));
+    const hemi = new THREE.HemisphereLight(0xcfe3ff, 0x40502f, 1.15);
+    scene.add(hemi);
     const sun = new THREE.DirectionalLight(0xffffff, 2.2);
     sun.position.set(40, 70, 30);
     sun.castShadow = true;
@@ -208,14 +212,23 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     const cold = lat !== undefined && Math.abs(lat) > 47;
     const weather: 'clear' | 'rain' | 'snow' =
       wRoll < 0.26 ? (cold && wRoll < 0.13 ? 'snow' : 'rain') : 'clear';
-    if (hRoll < 0.22) {
-      sun.position.set(80, 22, 10); // dawn attack — long light from the east
+    // The recorded hour wins over the seeded one (El Alamein opened by night).
+    const tod: 'dawn' | 'day' | 'dusk' | 'night' =
+      timeOfDay ?? (hRoll < 0.22 ? 'dawn' : hRoll > 0.8 ? 'dusk' : 'day');
+    if (tod === 'dawn') {
+      sun.position.set(80, 22, 10); // long light from the east
       sun.color.set('#ffc08a');
       sun.intensity = 1.7;
-    } else if (hRoll > 0.8) {
-      sun.position.set(-70, 18, 30); // dusk — the day is nearly spent
+    } else if (tod === 'dusk') {
+      sun.position.set(-70, 18, 30); // the day is nearly spent
       sun.color.set('#ff9f6e');
       sun.intensity = 1.5;
+    } else if (tod === 'night') {
+      sun.position.set(30, 55, -25); // moonlight, cool and thin
+      sun.color.set('#b9c8ff');
+      sun.intensity = 0.6;
+      hemi.intensity = 0.4;
+      hemi.color.set(0x8fa3c8);
     }
     let precip: THREE.Points | null = null;
     if (weather !== 'clear') {
@@ -291,12 +304,29 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     // water for fleets) so the formations stop wading. Applied once the
     // satellite patch has been read; the retarget loop adds it ever after.
     const landShift = new THREE.Vector3();
+    // Once the imagery tells us where the sea is, the ground stays flat there
+    // (no more hills of standing water) and units stand on the corrected
+    // surface.
+    let waterRep: WaterReport | null = null;
+    const surfaceY = (x: number, z: number): number =>
+      waterRep && waterAt(waterRep, x, z) ? 0 : heightAt(x, z);
     if (lat !== undefined && lon !== undefined) {
       loadSatellitePatch(lat, lon, (patch, water) => {
         const tex = new THREE.CanvasTexture(patch);
         tex.colorSpace = THREE.SRGBColorSpace;
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         satTexture = tex;
+        waterRep = water;
+        if (water.frac > 0.03) {
+          // Flatten synthetic hills that landed on the sea (only bumps — the
+          // sunken seabeds of naval fields stay below the waterline).
+          const gp = groundGeo.attributes.position;
+          for (let i = 0; i < gp.count; i++) {
+            if (gp.getZ(i) > 0 && waterAt(water, gp.getX(i), -gp.getY(i))) gp.setZ(i, 0);
+          }
+          gp.needsUpdate = true;
+          groundGeo.computeVertexNormals();
+        }
         const naval = view.units.some((u) => u.shape === 'ship');
         const wrongFrac = naval ? 1 - water.frac : water.frac;
         if (wrongFrac > 0.12 && wrongFrac < 0.98) {
@@ -309,7 +339,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
           for (const u of unitMeshes) {
             u.mesh.position.x += landShift.x;
             u.mesh.position.z += landShift.z;
-            if (!u.floats) u.mesh.position.y = heightAt(u.mesh.position.x, u.mesh.position.z);
+            if (!u.floats) u.mesh.position.y = surfaceY(u.mesh.position.x, u.mesh.position.z);
             u.target.x += landShift.x;
             u.target.z += landShift.z;
           }
@@ -498,7 +528,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
           const rad = 1.5 + ((i * 37) % 100) / 16;
           const x = u.target.x + Math.cos(ang) * rad;
           const z = u.target.z + Math.sin(ang) * rad * 0.7;
-          dummy.position.set(x, heightAt(x, z) + 0.06, z);
+          dummy.position.set(x, surfaceY(x, z) + 0.06, z);
           dummy.rotation.set(0, ang * 3, 0);
           dummy.updateMatrix();
           m.setMatrixAt(idx, dummy.matrix);
@@ -693,7 +723,7 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
           ? 0
           : u.shape === 'plane'
             ? PLANE_ALT + Math.sin(t * 1.3 + u.phases[0]) * 0.5
-            : heightAt(u.mesh.position.x, u.mesh.position.z);
+            : surfaceY(u.mesh.position.x, u.mesh.position.z);
 
         // Face the direction of travel (smoothly, shortest way round).
         if (moving) {

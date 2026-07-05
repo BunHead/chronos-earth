@@ -361,7 +361,7 @@ export default function BattleView({ view, battle, mapInfo, onClose }: BattleVie
         {mode === '3d' ? (
           <div className="bv-stage bv-stage-3d">
             <Suspense fallback={<div className="bv-3d-loading">Loading 3D battlefield…</div>}>
-              <Battle3D view={view3d} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} />
+              <Battle3D view={view3d} phase={phase} mapUrl={mapInfo?.url} showMap={showMap} showGround={showGround} lat={battle?.lat} lon={battle?.lon} timeOfDay={battle?.timeOfDay} />
             </Suspense>
             <div className="bv-3d-hint">Drag to orbit · scroll to zoom</div>
             {tallyCard}

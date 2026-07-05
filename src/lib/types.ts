@@ -70,6 +70,9 @@ export interface Battle {
   outcome: string;
   significance: string;
   casualties: string;
+  /** The hour history records the fighting opening (curated where known —
+   * D-Day at dawn, El Alamein's night barrage). Unset = seeded sky. */
+  timeOfDay?: 'dawn' | 'day' | 'dusk' | 'night';
   links: ExternalLink[];
   commanders?: BattleCommander[];
   /** True if this battle has a phase-by-phase animated battle view (Phase 5/6). */
