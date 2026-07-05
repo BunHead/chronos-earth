@@ -34,6 +34,9 @@ export function monumentModelForName(name: string): string | null {
   if (/pyramid|giza/.test(n)) return 'pyramid';
   if (/stonehenge/.test(n)) return 'stonehenge';
   if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
+  if (/aqueduct|pont du gard/.test(n)) return 'aqueduct';
+  if (/pagoda/.test(n)) return 'pagoda';
+  if (/lighthouse|pharos/.test(n)) return 'lighthouse';
   if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
   if (/cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/.test(n)) return 'cathedral';
   if (/temple|wat |parthenon|acropolis/.test(n)) return 'megalith';

@@ -82,6 +82,13 @@ items. The night session marks progress here and never deletes your words.
    Berlin, Verdun, Gallipoli, Iwo Jima, Okinawa, Leyte Gulf, Bulge...).
    Follow the existing battle-maps.json schema + credits. Only commit maps
    whose licence is public-domain/CC (record the licence like the others).
+   [DONE 2026-07-05 live session — 26/26 battles now carry a period map
+   (manifest went 10 → 26): Thermopylae, Tours, Stalingrad, Midway,
+   Gallipoli (a 1915 cloth map!), Verdun, Somme, Jutland, Britain,
+   El Alamein, Kursk, Berlin, Marne, Pearl Harbor (the Japanese attack
+   plan), Leyte Gulf, Bulge. Every licence recorded (PD/CC/GFDL).
+   Wikimedia thumbor rate-limits (429) survive retries — the fix is a
+   60s cool-down + a different thumb width (new cache key).]
 
 17. GRAPHICS PASS (planned with the Captain 2026-07-05, execute at midday
    token reset). Zero cost, no API keys, assets bundled and small (<3MB

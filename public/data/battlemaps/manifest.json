@@ -49,6 +49,86 @@
       "file": "d-day.png",
       "credit": "\"Map of the D-Day landings.svg\" · CC BY 4.0 · Wikimedia Commons",
       "page": "https://commons.wikimedia.org/wiki/File:Map_of_the_D-Day_landings.svg"
+    },
+    "thermopylae": {
+      "file": "thermopylae.png",
+      "credit": "\"Battle of Thermopylae and movements to Salamis and Plataea map-en.svg\" · Attribution · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Thermopylae_and_movements_to_Salamis_and_Plataea_map-en.svg"
+    },
+    "stalingrad": {
+      "file": "stalingrad.png",
+      "credit": "\"Map Battle of Stalingrad-en.svg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Map_Battle_of_Stalingrad-en.svg"
+    },
+    "tours": {
+      "file": "tours.jpg",
+      "credit": "\"Battle of Tours 932-map.jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Tours_932-map.jpg"
+    },
+    "midway": {
+      "file": "midway.png",
+      "credit": "\"Battle of Midway map - attacks of Midway based aircraft on 4 June 1942.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Midway_map_-_attacks_of_Midway_based_aircraft_on_4_June_1942.png"
+    },
+    "gallipoli": {
+      "file": "gallipoli.jpg",
+      "credit": "\"Cloth map of the Gallipoli campaign.jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Cloth_map_of_the_Gallipoli_campaign.jpg"
+    },
+    "verdun": {
+      "file": "verdun.png",
+      "credit": "\"Battle of Verdun map.png\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Verdun_map.png"
+    },
+    "somme": {
+      "file": "somme.png",
+      "credit": "\"Battle of the Somme 1916 map.png\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_the_Somme_1916_map.png"
+    },
+    "jutland": {
+      "file": "jutland.png",
+      "credit": "\"Map of the Battle of Jutland, 1916.svg\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Map_of_the_Battle_of_Jutland,_1916.svg"
+    },
+    "britain-1940": {
+      "file": "britain-1940.png",
+      "credit": "\"Battle of Britain map.svg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Britain_map.svg"
+    },
+    "kursk": {
+      "file": "kursk.jpg",
+      "credit": "\"Battle of Kursk (map).jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Kursk_(map).jpg"
+    },
+    "berlin-1945": {
+      "file": "berlin-1945.png",
+      "credit": "\"Battle of Berlin 1945-a.png\" · CC BY-SA 4.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_Berlin_1945-a.png"
+    },
+    "marne-1914": {
+      "file": "marne-1914.jpg",
+      "credit": "\"Battle of the Marne - Map.jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Battle_of_the_Marne_-_Map.jpg"
+    },
+    "pearl-harbor": {
+      "file": "pearl-harbor.jpg",
+      "credit": "\"Japanese attack plan at Pearl Harbor, Japan, 1941.jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Japanese_attack_plan_at_Pearl_Harbor,_Japan,_1941.jpg"
+    },
+    "bulge": {
+      "file": "bulge.png",
+      "credit": "\"Wacht am Rhein map (Opaque).svg\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Wacht_am_Rhein_map_(Opaque).svg"
+    },
+    "el-alamein": {
+      "file": "el-alamein.png",
+      "credit": "\"2 Battle of El Alamein 001.png\" · CC BY-SA 3.0 · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:2_Battle_of_El_Alamein_001.png"
+    },
+    "leyte-gulf": {
+      "file": "leyte-gulf.jpg",
+      "credit": "\"Leyte map annotated.jpg\" · Public domain · Wikimedia Commons",
+      "page": "https://commons.wikimedia.org/wiki/File:Leyte_map_annotated.jpg"
     }
   }
 }

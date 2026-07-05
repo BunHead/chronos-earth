@@ -26,6 +26,14 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
   });
 
+  it('the new archetypes: aqueduct, pagoda, lighthouse', () => {
+    expect(monumentModelForName('Pont du Gard')).toBe('aqueduct');
+    expect(monumentModelForName('Aqueduct of Segovia')).toBe('aqueduct');
+    expect(monumentModelForName('Yellow Crane Pagoda')).toBe('pagoda');
+    expect(monumentModelForName('Pharos of Alexandria')).toBe('lighthouse');
+    expect(monumentModelForName('Eddystone Lighthouse')).toBe('lighthouse');
+  });
+
   it('matching is case-insensitive', () => {
     expect(monumentModelForName('SAGRADA FAMILIA BASILICA')).toBe('cathedral');
     expect(monumentModelForName('great pyramid')).toBe('pyramid');

@@ -44,7 +44,40 @@ const CANDIDATES = {
   waterloo: ['Battle of Waterloo map.png', 'Waterloo Campaign map-alt3.svg'],
   gettysburg: ['Gettysburg Battle Map Day3.png', 'Gettysburg Battle Map Day1.png'],
   'd-day': ['Map of the D-Day landings.svg', 'Normandy Invasion, June 1944.png'],
+  thermopylae: ['Battle of Thermopylae and movements to Salamis and Plataea map-en.svg'],
+  tours: ['Bataille de Poitiers (732).jpg'],
+  stalingrad: ['Map Battle of Stalingrad-en.svg'],
+  midway: ['Battle of Midway map.svg'],
+  gallipoli: ['Gallipoli campaign map2.png'],
+  verdun: ['Battle of Verdun map.png'],
+  somme: ['Battle of the Somme 1916 map.png'],
+  jutland: ['Map of the Battle of Jutland, 1916.svg', 'Jutland1916.jpg'],
+  'britain-1940': ['Battle of Britain map.svg'],
+  'el-alamein': ['2 Battle of El Alamein 001.png'],
+  kursk: ['Battle of Kursk (map).jpg', 'Kursk-1943-Plan-GE.svg'],
+  'berlin-1945': ['Battle of Berlin 1945-a.png'],
+  'marne-1914': ['Battle of the Marne - Map.jpg'],
+  'pearl-harbor': ['Pearl Harbor bombings map.svg'],
+  'leyte-gulf': ['Leyte map annotated.jpg'],
+  bulge: ['Wacht am Rhein map (Opaque).svg'],
 };
+
+/** WW-tour battles the Captain wants period maps for (queue #16) — they run
+ * on synth views, so they aren't in battle-views.json. */
+const EXTRA_IDS = [
+  'gallipoli',
+  'verdun',
+  'somme',
+  'jutland',
+  'britain-1940',
+  'el-alamein',
+  'kursk',
+  'berlin-1945',
+  'marne-1914',
+  'pearl-harbor',
+  'leyte-gulf',
+  'bulge',
+];
 
 /** Search queries used if none of the curated candidates exist. */
 const SEARCH_QUERY = {
@@ -58,6 +91,22 @@ const SEARCH_QUERY = {
   waterloo: 'Battle of Waterloo 1815 map',
   gettysburg: 'Gettysburg battle map',
   'd-day': 'Normandy invasion 1944 map',
+  thermopylae: 'Battle of Thermopylae map',
+  tours: 'Battle of Tours 732 map',
+  stalingrad: 'Battle of Stalingrad map',
+  midway: 'Battle of Midway 1942 map',
+  gallipoli: 'Gallipoli campaign 1915 map',
+  verdun: 'Battle of Verdun 1916 map',
+  somme: 'Battle of the Somme 1916 map',
+  jutland: 'Battle of Jutland 1916 map',
+  'britain-1940': 'Battle of Britain 1940 map',
+  'el-alamein': 'Second Battle of El Alamein map',
+  kursk: 'Battle of Kursk 1943 map',
+  'berlin-1945': 'Battle of Berlin 1945 map',
+  'marne-1914': 'First Battle of the Marne 1914 map',
+  'pearl-harbor': 'Attack on Pearl Harbor map',
+  'leyte-gulf': 'Battle of Leyte Gulf 1944 map',
+  bulge: 'Battle of the Bulge map',
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -139,8 +188,8 @@ async function download(url) {
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const { battleViews } = JSON.parse(await readFile(join(DATA, 'battle-views.json'), 'utf-8'));
-  const ids = Object.keys(battleViews);
-  console.log(`Fetching maps for ${ids.length} battle views...`);
+  const ids = [...new Set([...Object.keys(battleViews), ...EXTRA_IDS])];
+  console.log(`Fetching maps for ${ids.length} battles...`);
 
   const maps = {};
   for (const id of ids) {

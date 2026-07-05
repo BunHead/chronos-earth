@@ -358,6 +358,65 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
         group.add(block(0.7, 3.4, 0.7, s * 2.9, 1.7, z, wall));
       }
     }
+  } else if (model === 'aqueduct') {
+    // Two tiers of piers carrying a water channel across the valley.
+    ground = '#7a7a55';
+    const stone = '#c2a878';
+    for (let x = -12; x <= 12; x += 3) {
+      const p = block(1.1, 4.4, 1.5, x, 2.2, 0, stone);
+      weather(p, 0.05);
+      group.add(p);
+    }
+    group.add(block(27, 1.0, 1.7, 0, 4.9, 0, stone)); // lower spans
+    for (let x = -12; x <= 12; x += 3) {
+      const p = block(0.85, 3.2, 1.3, x, 7.0, 0, stone);
+      weather(p, 0.05);
+      group.add(p);
+    }
+    group.add(block(27, 0.9, 1.5, 0, 9.0, 0, stone)); // upper spans
+    group.add(block(27, 0.5, 1.0, 0, 9.7, 0, '#9a8a68')); // the channel itself
+  } else if (model === 'pagoda') {
+    // Five diminishing storeys, each under a wide dark roof slab.
+    ground = '#5c6b42';
+    for (let i = 0; i < 5; i++) {
+      const w = 6 - i * 1.0;
+      const y = i * 2.1;
+      group.add(block(w, 1.7, w, 0, y + 0.85, 0, '#8a5a3c'));
+      group.add(block(w + 1.6, 0.35, w + 1.6, 0, y + 1.9, 0, '#4a3a30'));
+    }
+    const finial = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.12, 0.12, 2.2, 6),
+      stoneLike({ color: '#c9a227' }),
+    );
+    finial.position.y = 11.6;
+    group.add(finial);
+  } else if (model === 'lighthouse') {
+    // A tapering tower on the rocks, gallery and lamp at the top.
+    ground = '#6a6f63';
+    const tower = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.4, 2.3, 9.5, 14),
+      stoneLike({ color: '#d8d2c4' }),
+    );
+    tower.position.y = 4.75;
+    group.add(tower);
+    group.add(block(3.4, 0.5, 3.4, 0, 9.75, 0, '#8a8478')); // gallery
+    const lamp = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.9, 0.9, 1.5, 10),
+      new THREE.MeshStandardMaterial({
+        color: '#fff2c4',
+        emissive: '#ffca4a',
+        emissiveIntensity: 1.4,
+      }),
+    );
+    lamp.userData.noShadow = true;
+    lamp.position.y = 10.75;
+    group.add(lamp);
+    const cap = new THREE.Mesh(
+      new THREE.ConeGeometry(1.2, 1.1, 10),
+      stoneLike({ color: '#7c4a3a' }),
+    );
+    cap.position.y = 12.1;
+    group.add(cap);
   } else if (model === 'impact') {
     ground = '#3a3a42';
     const rim = new THREE.Mesh(
