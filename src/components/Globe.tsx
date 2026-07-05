@@ -385,6 +385,37 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.imageryLayers.add(satellite);
     modernLayersRef.current = [naturalEarth, satellite];
 
+    // The satellite tiles are Web-Mercator and stop at ±85° — cap both poles
+    // with soft-edged ice so the planet doesn't have holes drilled through it.
+    // Registered as modern layers so deep time (drifted continents) hides them.
+    {
+      const cap = (north: boolean) => {
+        const c = document.createElement('canvas');
+        c.width = 64;
+        c.height = 64;
+        const g = c.getContext('2d')!;
+        const grad = g.createLinearGradient(0, north ? 0 : 64, 0, north ? 64 : 0);
+        grad.addColorStop(0, 'rgba(238,243,246,1)');
+        grad.addColorStop(0.7, 'rgba(238,243,246,1)');
+        grad.addColorStop(1, 'rgba(238,243,246,0)');
+        g.fillStyle = grad;
+        g.fillRect(0, 0, 64, 64);
+        return c.toDataURL('image/png');
+      };
+      const addCap = (url: string, s: number, n: number) =>
+        Cesium.SingleTileImageryProvider.fromUrl(url, {
+          rectangle: Cesium.Rectangle.fromDegrees(-180, s, 180, n),
+        })
+          .then((provider) => {
+            if (viewer.isDestroyed()) return;
+            const layer = viewer.imageryLayers.addImageryProvider(provider);
+            modernLayersRef.current.push(layer);
+          })
+          .catch(() => {});
+      void addCap(cap(true), 83.5, 90);
+      void addCap(cap(false), -90, -83.5);
+    }
+
     // Real mountains and valleys: keyless Esri world-elevation terrain. If it
     // can't load (offline), the globe simply stays smooth — everything else
     // keeps working on the ellipsoid.

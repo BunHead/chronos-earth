@@ -194,6 +194,7 @@ export class DisasterFx {
     image: HTMLCanvasElement,
     until: number,
     update: (t: number, b: Cesium.Billboard) => void,
+    vOrigin?: Cesium.VerticalOrigin,
   ) {
     const b = this.billboards.add({
       position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
@@ -201,6 +202,7 @@ export class DisasterFx {
       sizeInMeters: true,
       width: 1,
       height: 1,
+      verticalOrigin: vOrigin ?? Cesium.VerticalOrigin.CENTER,
       disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
     this.parts.push({ b, until, update: (t) => update(t, b) });
@@ -252,16 +254,26 @@ export class DisasterFx {
       });
       if (flash) window.setTimeout(() => this.screenFlash(), 1150);
     } else if (kind === 'eruption') {
-      // The column climbs for 2s and towers for six more.
-      this.add(lon, lat, 0, this.sprites.column, t0 + 8, (t, b) => {
-        const k = clamp01((t - t0) / 2);
-        const h = Math.max(1, R * 1.3 * k + 8_000);
-        b.height = h;
-        b.width = h * 0.375;
-        b.position = Cesium.Cartesian3.fromDegrees(lon, lat, h / 2);
-        const fade = clamp01((t - t0 - 6) / 2);
-        b.color = Cesium.Color.WHITE.withAlpha(1 - fade);
-      });
+      // The column climbs for 2s and towers for six more. Anchored at its
+      // BASE on the vent, so it rises screen-up from any camera angle (a
+      // centre anchor made it smear downward when viewed from above — the
+      // Captain: "explosion goes down not up").
+      this.add(
+        lon,
+        lat,
+        0,
+        this.sprites.column,
+        t0 + 8,
+        (t, b) => {
+          const k = clamp01((t - t0) / 2);
+          const h = Math.max(1, R * 1.3 * k + 8_000);
+          b.height = h;
+          b.width = h * 0.375;
+          const fade = clamp01((t - t0 - 6) / 2);
+          b.color = Cesium.Color.WHITE.withAlpha(1 - fade);
+        },
+        Cesium.VerticalOrigin.BOTTOM,
+      );
       // Pyroclastic ring hugging the ground.
       this.add(lon, lat, 500, this.sprites.ringGrey, t0 + 5, (t, b) => {
         const k = clamp01((t - t0 - 0.8) / 3.4);

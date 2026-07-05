@@ -16,6 +16,8 @@ interface LayersPanelProps {
   onToggleCities: (value: boolean) => void;
   showDisasters: boolean;
   onToggleDisasters: (value: boolean) => void;
+  showEvents: boolean;
+  onToggleEvents: (value: boolean) => void;
   showScience: boolean;
   onToggleScience: (value: boolean) => void;
   showPeople: boolean;
@@ -50,6 +52,8 @@ export default function LayersPanel({
   onToggleCities,
   showDisasters,
   onToggleDisasters,
+  showEvents,
+  onToggleEvents,
   showScience,
   onToggleScience,
   showPeople,
@@ -115,6 +119,10 @@ export default function LayersPanel({
       <label className="layer-row">
         <input type="checkbox" checked={showDisasters} onChange={(e) => onToggleDisasters(e.target.checked)} />
         <span>🌋 Natural disasters</span>
+      </label>
+      <label className="layers-row">
+        <input type="checkbox" checked={showEvents} onChange={(e) => onToggleEvents(e.target.checked)} />
+        <span>📜 Treaties &amp; events</span>
       </label>
       <label className="layer-row">
         <input type="checkbox" checked={showScience} onChange={(e) => onToggleScience(e.target.checked)} />

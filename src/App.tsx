@@ -67,6 +67,7 @@ export default function App() {
   // (showSites); cities, disasters and science get their own toggles below.
   const [showCities, setShowCities] = useState(true);
   const [showDisasters, setShowDisasters] = useState(true);
+  const [showEvents, setShowEvents] = useState(true);
   const [showScience, setShowScience] = useState(true);
   const [showPeople, setShowPeople] = useState(true);
   const enabledEventCats = useMemo(() => {
@@ -80,9 +81,11 @@ export default function App() {
       s.add('discovery');
     }
     if (showPeople) s.add('person');
-    s.add('event'); // no toggle yet — no dedicated 'event' data imported
+    // Treaties, conferences, summits — the imported 'event' category (the
+    // Captain caught these ignoring the panel: they had no toggle).
+    if (showEvents) s.add('event');
     return s;
-  }, [showBattles, showSites, showCities, showDisasters, showScience, showPeople]);
+  }, [showBattles, showSites, showCities, showDisasters, showEvents, showScience, showPeople]);
   // Which events the zoomed-in mural is showing, so the globe shows the same set
   // (null = not zoomed → globe uses its own "current era" window).
   const [muralEventIds, setMuralEventIds] = useState<string[] | null>(null);
@@ -364,6 +367,8 @@ export default function App() {
         showCities={showCities}
         onToggleCities={setShowCities}
         showDisasters={showDisasters}
+        showEvents={showEvents}
+        onToggleEvents={setShowEvents}
         onToggleDisasters={setShowDisasters}
         showScience={showScience}
         onToggleScience={setShowScience}
