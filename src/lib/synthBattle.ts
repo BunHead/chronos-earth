@@ -99,11 +99,32 @@ export function synthesizeBattleView(b: Battle): BattleView {
     units.push({ id: `${side}${i}`, side, label, shape, size: size * scale, pos: [[x0, y], [x1, y]] });
   };
   const air = modern && !naval && AIR.test(`${b.name} ${side1} ${side2}`);
+  // Pearl Harbor and its kin: a raid FROM the sky ON the harbour — the
+  // attacker flies, the defender sits at anchor.
+  const airRaid = modern && naval && /attack on|raid/i.test(b.name);
   for (const side of ['a', 'b'] as const) {
     const who = side === 'a' ? side1 : side2;
     // 3 or sometimes 4 formations per side — seeded, so each battle keeps
     // its own order of battle but they stop all looking identical.
     const n = 3 + (rnd() < 0.4 ? 1 : 0);
+    if (airRaid) {
+      const raidDefs: Array<[string, BattleUnit['shape'], number]> =
+        side === 'a'
+          ? [
+              [`${who} strike wave`, 'plane', 1.0],
+              [`${who} torpedo bombers`, 'plane', 0.9],
+              [`${who} escort fighters`, 'plane', 0.7],
+              [`${who} second wave`, 'plane', 0.8],
+            ]
+          : [
+              [`${who} fleet at anchor`, 'ship', 1.1],
+              [`${who} harbour watch`, 'ship', 0.6],
+              [`${who} shore defences`, 'block', 0.9],
+              [`${who} airfields`, 'block', 0.7],
+            ];
+      for (let i = 0; i < n; i++) mk(side, i, n, raidDefs[i][0], raidDefs[i][1], raidDefs[i][2]);
+      continue;
+    }
     const defs: Array<[string, BattleUnit['shape'], number]> = air
       ? [
           [`${who} fighter wing`, 'plane', 0.9],

@@ -90,7 +90,7 @@ describe('synthesizeBattleView polish (queue #15)', () => {
     expect(v.units.some((u) => u.label.includes('fighter wing'))).toBe(true);
   });
 
-  it('Pearl Harbor is a naval affair — ships, not tanks', () => {
+  it('Pearl Harbor is a raid FROM the sky ON the harbour', () => {
     const v = synthesizeBattleView({
       ...base,
       id: 'pearl-harbor',
@@ -99,7 +99,10 @@ describe('synthesizeBattleView polish (queue #15)', () => {
       belligerents: { side1: 'Empire of Japan', side2: 'United States' },
       victor: 'Empire of Japan',
     });
-    expect(v.units.every((u) => u.shape === 'ship')).toBe(true);
+    // The attacker flies, the defender sits at anchor.
+    expect(v.units.filter((u) => u.side === 'a').every((u) => u.shape === 'plane')).toBe(true);
+    expect(v.units.filter((u) => u.side === 'b').some((u) => u.shape === 'ship')).toBe(true);
+    expect(v.units.some((u) => u.label.includes('fleet at anchor'))).toBe(true);
   });
 
   it('same battle always gets the same field (stable seed)', () => {
