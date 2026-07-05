@@ -82,3 +82,26 @@ items. The night session marks progress here and never deletes your words.
    Berlin, Verdun, Gallipoli, Iwo Jima, Okinawa, Leyte Gulf, Bulge...).
    Follow the existing battle-maps.json schema + credits. Only commit maps
    whose licence is public-domain/CC (record the licence like the others).
+
+17. GRAPHICS PASS (planned with the Captain 2026-07-05, execute at midday
+   token reset). Zero cost, no API keys, assets bundled and small (<3MB
+   total), licences recorded in About. In order:
+   a. BATTLE SKY + BLOOM: THREE.Sky dome with sun position matched to the
+      battle's timeOfDay (incl. night = stars/dark dome); EffectComposer +
+      UnrealBloomPass at half resolution (muzzle flashes and the sun glow),
+      subtle vignette. Battle3D only; keep 60fps on integrated graphics —
+      if bloom costs too much, gate it behind a Layers "Fancy graphics"
+      toggle default ON with auto-off below 30fps.
+   b. MONUMENT PBR: real stone/marble/sandstone textures from ambientCG
+      (CC0) — 1K JPGs ~150-300KB each, colour+normal+roughness for ~4
+      materials max, stored public/textures/. Environment lighting via
+      THREE RoomEnvironment (no HDRI download needed) or one small HDR.
+      Apply across Monument3D archetypes; same sky/bloom treatment as (a).
+   c. IF BUDGET REMAINS: tracer lines + shell arcs with impact bursts in
+      Battle3D (line segments from firing unit toward enemy, gunpowder era
+      only); animated normal-scroll water material for naval battlefields.
+   d. NOT THIS PASS (successor list): photogrammetry glTFs for marquee
+      monuments (Sketchfab CC0, Draco+KTX2, 2-8MB lazy-loaded per open);
+      Google Photorealistic 3D Tiles permanently rejected (API key/billing).
+   Verify per the hidden-tab recipe: pump __b3d renderer, pixel-diff before/
+   after for bloom presence, check fps via a frame-time probe.
