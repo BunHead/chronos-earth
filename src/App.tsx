@@ -443,6 +443,7 @@ export default function App() {
         onSpeedChange={setSpeed}
         battles={battles}
         onJumpToBattle={handleJumpToBattle}
+        onFlyTo={(lon, lat) => globeRef.current?.flyTo(lon, lat, 400_000)}
         events={events}
         fauna={fauna}
         enabledEventCats={enabledEventCats}

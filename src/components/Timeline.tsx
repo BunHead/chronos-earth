@@ -27,6 +27,8 @@ interface TimelineProps {
   onSpeedChange: (speed: number) => void;
   battles: Battle[];
   onJumpToBattle: (battle: Battle) => void;
+  /** Double-clicking a mural photo flies the globe to where it happened. */
+  onFlyTo?: (lon: number, lat: number) => void;
   /** Imported events + prehistoric creatures, for the zoomed-in photo mural. */
   events: TimelineEvent[];
   fauna: Fauna[];
@@ -233,11 +235,14 @@ function MuralCircle({
   item,
   index,
   onSelect,
+  onFlyTo,
 }: {
   item: MuralSource & { anchor: number; row: number };
   /** Position in this window's cast — staggers the pop-in into a cascade. */
   index: number;
   onSelect: (c: PanelContent) => void;
+  /** Double-click: the globe flies to where this happened. */
+  onFlyTo?: (lon: number, lat: number) => void;
 }) {
   const [thumb, setThumb] = useState<string | null | undefined>(() => {
     const c = thumbCache.get(item.wikiTitle);
@@ -268,10 +273,14 @@ function MuralCircle({
           animationDelay: `${Math.min(index * 70, 900)}ms`,
         } as React.CSSProperties
       }
-      title={item.title}
+      title={`${item.title} — double-click to fly there`}
       onPointerDown={(e) => {
         e.stopPropagation();
         onSelect(item.toPanel());
+      }}
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        onFlyTo?.(item.lon, item.lat);
       }}
     >
       <span className="mc-disc" style={{ borderColor: item.color }}>
@@ -297,6 +306,7 @@ export default function Timeline({
   showFauna,
   region,
   onSelect,
+  onFlyTo,
   zoomIdx,
   onZoomChange,
   onVisibleEvents,
@@ -891,7 +901,7 @@ export default function Timeline({
 
             {/* The photo-circle mural above the ribbon. */}
             {muralItems.map((m, i) => (
-              <MuralCircle key={m.id} item={m} index={i} onSelect={onSelect} />
+              <MuralCircle key={m.id} item={m} index={i} onSelect={onSelect} onFlyTo={onFlyTo} />
             ))}
 
             <div className="playline" style={{ left: `${clamp(detailPos, 0, 1) * 100}%` }} />

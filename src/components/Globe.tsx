@@ -389,21 +389,17 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // with soft-edged ice so the planet doesn't have holes drilled through it.
     // Registered as modern layers so deep time (drifted continents) hides them.
     {
-      const cap = (north: boolean) => {
-        const c = document.createElement('canvas');
-        c.width = 64;
-        c.height = 64;
-        const g = c.getContext('2d')!;
-        const grad = g.createLinearGradient(0, north ? 0 : 64, 0, north ? 64 : 0);
-        grad.addColorStop(0, 'rgba(238,243,246,1)');
-        grad.addColorStop(0.7, 'rgba(238,243,246,1)');
-        grad.addColorStop(1, 'rgba(238,243,246,0)');
-        g.fillStyle = grad;
-        g.fillRect(0, 0, 64, 64);
-        return c.toDataURL('image/png');
-      };
-      const addCap = (url: string, s: number, n: number) =>
-        Cesium.SingleTileImageryProvider.fromUrl(url, {
+      // SOLID ice, no gradient — a fade rendered inverted on the first try
+      // (glowing rim, black pole). Plain and opaque cannot be upside-down.
+      const c = document.createElement('canvas');
+      c.width = 64;
+      c.height = 64;
+      const g = c.getContext('2d')!;
+      g.fillStyle = '#e7edf1';
+      g.fillRect(0, 0, 64, 64);
+      const capUrl = c.toDataURL('image/png');
+      const addCap = (s: number, n: number) =>
+        Cesium.SingleTileImageryProvider.fromUrl(capUrl, {
           rectangle: Cesium.Rectangle.fromDegrees(-180, s, 180, n),
         })
           .then((provider) => {
@@ -412,8 +408,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
             modernLayersRef.current.push(layer);
           })
           .catch(() => {});
-      void addCap(cap(true), 83.5, 90);
-      void addCap(cap(false), -90, -83.5);
+      void addCap(82.5, 90);
+      void addCap(-90, -82.5);
     }
 
     // Real mountains and valleys: keyless Esri world-elevation terrain. If it
@@ -658,9 +654,46 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
+    // Hover bubble: know what a marker is before you click it. Picks are
+    // throttled — a pick per mousemove would chug on busy eras.
+    const tooltip = document.createElement('div');
+    tooltip.className = 'globe-tooltip';
+    containerRef.current?.appendChild(tooltip);
+    let lastHoverPick = 0;
+    handler.setInputAction((movement: Cesium.ScreenSpaceEventHandler.MotionEvent) => {
+      const now = performance.now();
+      if (now - lastHoverPick < 70) return;
+      lastHoverPick = now;
+      let label: string | null = null;
+      try {
+        const picked = viewer.scene.pick(movement.endPosition);
+        const id = picked?.id as
+          | (Cesium.Entity & {
+              chronosSite?: AncientSite;
+              chronosBattle?: Battle;
+              chronosEvent?: TimelineEvent;
+            })
+          | undefined;
+        if (id?.chronosSite) label = id.chronosSite.name;
+        else if (id?.chronosBattle) label = `⚔ ${id.chronosBattle.name} · ${id.chronosBattle.dateLabel}`;
+        else if (id?.chronosEvent) label = id.chronosEvent.name;
+      } catch {
+        /* picking mid-render can throw — never break the hover */
+      }
+      if (label) {
+        tooltip.textContent = label;
+        tooltip.style.left = `${movement.endPosition.x + 14}px`;
+        tooltip.style.top = `${movement.endPosition.y - 12}px`;
+        tooltip.style.opacity = '1';
+      } else {
+        tooltip.style.opacity = '0';
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
     viewerRef.current = viewer;
 
     return () => {
+      tooltip.remove();
       window.clearTimeout(resizeTimer);
       resizeObserver.disconnect();
       window.clearInterval(tierTimer);
