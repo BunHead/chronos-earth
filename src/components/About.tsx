@@ -81,6 +81,10 @@ export default function About({ onClose }: AboutProps) {
           <ul className="facts">
             <li>CesiumJS (3D globe) · Three.js (3D battle scenes)</li>
             <li>React · TypeScript · Vite</li>
+            <li>
+              Built by the Captain with Claude — Fable&nbsp;5 and Opus&nbsp;4.8 at the helm in
+              turns, July 2026. Zero running cost, one raised eyebrow at a time.
+            </li>
           </ul>
 
           <h3 className="info-h3">A note on accuracy</h3>

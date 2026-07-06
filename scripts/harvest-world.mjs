@@ -47,6 +47,7 @@ const TYPE_CATEGORY = {
   Q16970: 'monument', Q23413: 'monument', Q44613: 'monument', Q33506: 'monument',
   Q839954: 'monument', Q12518: 'monument', Q39715: 'monument', Q4989906: 'monument',
   Q16560: 'monument', Q44539: 'monument', Q12280: 'monument', Q57821: 'monument',
+  Q193475: 'monument', // ziggurats — the Captain keeps meeting them
   Q7944: 'disaster', Q8065: 'disaster',
 };
 
@@ -157,16 +158,6 @@ async function main() {
       chunkQids.add(qid);
       added++;
     }
-    // Narrate the best finds so the console is worth watching.
-    if (added > 0) {
-      const finds = chunk.events
-        .slice(-added)
-        .sort((a, b) => b.notability - a.notability)
-        .slice(0, 3)
-        .map((e) => e.name)
-        .join(' · ');
-      console.log(`   found: ${finds}${added > 3 ? ` … and ${added - 3} more` : ''}`);
-    }
     if (chunk.events.length > 0) await writeFile(chunkPath, JSON.stringify(chunk));
     progress.done[cell.key] = chunk.events.length;
     await writeFile(PROGRESS, JSON.stringify(progress, null, 1));
@@ -176,6 +167,17 @@ async function main() {
     await writeFile(INDEX, JSON.stringify(index));
     harvested += added;
     console.log(`${cell.key}: ${rows.length} rows, +${added} (chunk now ${chunk.events.length})`);
+    // Narrate the best finds so the console is worth watching (after the
+    // cell header — the Captain caught them printing backwards).
+    if (added > 0) {
+      const finds = chunk.events
+        .slice(-added)
+        .sort((a, b) => b.notability - a.notability)
+        .slice(0, 3)
+        .map((e) => e.name)
+        .join(' · ');
+      console.log(`   found: ${finds}${added > 3 ? ` … and ${added - 3} more` : ''}`);
+    }
     await sleep(1500);
   }
   const doneCount = Object.keys(progress.done).length;
