@@ -4,11 +4,22 @@ import { startWindowDrag } from '../lib/windowDrag';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import SkyDial from './SkyDial';
-import { sunDirection } from '../lib/sun';
+import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing. */
 interface SkyState { date: Date; solarHours: number; auto: boolean; }
+
+/** Compass bearing (° from N) at which the sun clears the horizon on the summer
+ * solstice for a latitude — the axis Stonehenge and its Heel Stone point to. */
+function solsticeSunriseAzimuth(lat: number): number {
+  const june = solsticesEquinoxes(2026).juneSolstice;
+  for (let h = 2; h < 7; h += 0.05) {
+    const p = sunPosition(june, h, lat);
+    if (p.altitude >= 0) return p.azimuth;
+  }
+  return 50;
+}
 
 interface Monument3DProps {
   model: string;
@@ -656,6 +667,13 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
+    // Orient the model to true north on the satellite ground (north = −Z here).
+    // Stonehenge is built with its Heel Stone / entrance on local +Z, so we aim
+    // that axis at the real summer-solstice sunrise: the sun then rises straight
+    // over the Heel Stone. (Other models: their true facing is a later pass.)
+    if (model === 'stonehenge') {
+      group.rotation.y = (180 - solsticeSunriseAzimuth(latVal)) * (Math.PI / 180);
+    }
     scene.add(group);
     // Every stone casts and catches shadows; sky objects (the comet) opt out.
     group.traverse((obj) => {
@@ -698,15 +716,44 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     const NIGHT_SKY = new THREE.Color('#070b16');
     const skyColor = new THREE.Color();
 
+    // A visible sun disc that crosses the sky (the directional light itself is
+    // invisible). Soft radial glow, unfogged so it reads at sky distance.
+    const sunSprite = (() => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 128;
+      const g = c.getContext('2d')!;
+      const grad = g.createRadialGradient(64, 64, 3, 64, 64, 64);
+      grad.addColorStop(0, 'rgba(255,255,244,1)');
+      grad.addColorStop(0.16, 'rgba(255,241,196,0.96)');
+      grad.addColorStop(0.5, 'rgba(255,201,112,0.34)');
+      grad.addColorStop(1, 'rgba(255,180,90,0)');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 128, 128);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, fog: false, blending: THREE.AdditiveBlending });
+      const sp = new THREE.Sprite(mat);
+      sp.scale.set(28, 28, 1);
+      return sp;
+    })();
+    scene.add(sunSprite);
+
     let raf = 0;
     const animate = () => {
       const { date, solarHours } = skyRef.current;
       const dir = sunDirection(date, solarHours, latVal);
       const s = dir.y; // sine of the sun's altitude: >0 day, <0 night
-      sun.position.set(dir.x * 40, dir.y * 40, dir.z * 40);
+      // Scene frame matches the satellite ground: east +X, up +Y, north −Z.
+      const sx = dir.x, sy = dir.y, sz = -dir.z;
+      sun.position.set(sx * 40, sy * 40, sz * 40);
       sun.intensity = Math.max(0, s) * 2.4;
       sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
       hemi.intensity = 0.3 + Math.max(0, s) * 1.0;
+      // The visible sun rides a far sky-dome along the same bearing.
+      sunSprite.position.set(sx * 180, sy * 180, sz * 180);
+      sunSprite.visible = s > -0.06;
+      const warm = Math.max(0, Math.min(1, (0.32 - s) / 0.5)); // redder near the horizon
+      (sunSprite.material as THREE.SpriteMaterial).color.setHSL(0.12 - warm * 0.07, 0.85, 0.72);
 
       // Sky: night below horizon, warm band near it, blue when high.
       if (s < -0.18) skyColor.copy(NIGHT_SKY);
@@ -738,6 +785,8 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       envTex.dispose();
       groundTex?.dispose();
       groundMat.dispose();
+      sunSprite.material.map?.dispose();
+      sunSprite.material.dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
   }, [model, lat, lon, phase, onClose]);
