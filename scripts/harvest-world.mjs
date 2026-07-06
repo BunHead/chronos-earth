@@ -157,6 +157,16 @@ async function main() {
       chunkQids.add(qid);
       added++;
     }
+    // Narrate the best finds so the console is worth watching.
+    if (added > 0) {
+      const finds = chunk.events
+        .slice(-added)
+        .sort((a, b) => b.notability - a.notability)
+        .slice(0, 3)
+        .map((e) => e.name)
+        .join(' · ');
+      console.log(`   found: ${finds}${added > 3 ? ` … and ${added - 3} more` : ''}`);
+    }
     if (chunk.events.length > 0) await writeFile(chunkPath, JSON.stringify(chunk));
     progress.done[cell.key] = chunk.events.length;
     await writeFile(PROGRESS, JSON.stringify(progress, null, 1));

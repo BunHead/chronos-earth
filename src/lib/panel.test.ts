@@ -26,6 +26,14 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
   });
 
+  it('the Greeks get a real temple (apology accepted, Athens)', () => {
+    expect(monumentModelForName('Parthenon')).toBe('greek-temple');
+    expect(monumentModelForName('Acropolis of Athens')).toBe('greek-temple');
+    expect(monumentModelForName('Temple of Artemis')).toBe('greek-temple');
+    expect(monumentModelForName('Temple of Heaven')).toBe('megalith'); // broad bucket unchanged
+    expect(monumentModelForName('Angkor Wat')).toBe('stepped-pyramid'); // temple-mountain, by design
+  });
+
   it('the new archetypes: aqueduct, pagoda, lighthouse', () => {
     expect(monumentModelForName('Pont du Gard')).toBe('aqueduct');
     expect(monumentModelForName('Aqueduct of Segovia')).toBe('aqueduct');

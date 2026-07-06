@@ -39,7 +39,9 @@ export function monumentModelForName(name: string): string | null {
   if (/lighthouse|pharos/.test(n)) return 'lighthouse';
   if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
   if (/cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/.test(n)) return 'cathedral';
-  if (/temple|wat |parthenon|acropolis/.test(n)) return 'megalith';
+  if (/parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/.test(n))
+    return 'greek-temple';
+  if (/temple|wat /.test(n)) return 'megalith';
   // Anything we can't honestly represent gets NO 3D button — a university
   // rendered as a ziggurat helps nobody.
   return null;

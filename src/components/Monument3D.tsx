@@ -358,6 +358,39 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
         group.add(block(0.7, 3.4, 0.7, s * 2.9, 1.7, z, wall));
       }
     }
+  } else if (model === 'greek-temple') {
+    // The classical order: stylobate, a colonnade all round, architrave,
+    // and a pitched roof with pediments. Athens, our apologies.
+    ground = '#8a8465';
+    const marble = '#d9d2c0';
+    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
+    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    const colX = 4.6;
+    const colZ = 2.3;
+    const col = (x: number, z: number) => {
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
+      c.position.set(x, 2.55, z);
+      weather(c, 0.02);
+      group.add(c);
+    };
+    for (let i = -4; i <= 4; i++) {
+      col((i / 4) * colX, colZ); // long sides
+      col((i / 4) * colX, -colZ);
+    }
+    for (const s of [-1, 1]) {
+      col(s * colX, 0.77); // short ends (corners already placed)
+      col(s * colX, -0.77);
+    }
+    group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
+    group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
+    const roof = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.08, 2.5, 10.6, 3, 1),
+      stoneLike({ color: '#c9bfa8', flatShading: true }),
+    );
+    roof.rotation.z = Math.PI / 2;
+    roof.rotation.y = Math.PI / 2;
+    roof.position.y = 5.2;
+    group.add(roof);
   } else if (model === 'aqueduct') {
     // Two tiers of piers carrying a water channel across the valley.
     ground = '#7a7a55';
