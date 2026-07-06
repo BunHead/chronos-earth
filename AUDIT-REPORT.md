@@ -1,6 +1,6 @@
 # Chronos Earth — Monument & Battle Audit
 
-_Generated 2026-07-06 08:07 by `npm run audit`. Reads only; changes nothing._
+_Generated 2026-07-06 08:17 by `npm run audit`. Reads only; changes nothing._
 
 This is the worksheet for the "old template" problem. It lists every monument
 and battle, the 3D archetype the app hands it, **how** it got that archetype,
