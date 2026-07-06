@@ -325,6 +325,101 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
         group.add(block(1.9, h, 1.9, x + (Math.random() - 0.5) * 0.3, h / 2, z, '#b58c5a'));
       }
     }
+  } else if (model === 'castle') {
+    // A stylised medieval castle: a square curtain wall with crenellations,
+    // round corner towers under conical roofs, a twin-towered gatehouse with a
+    // gateway, and a taller central keep. All in the weathered-stone material.
+    ground = '#5c6544';
+    const wallC = '#9a9184';
+    const roofC = '#6a4a3a';
+    const R = 7; // half-width of the curtain-wall square
+    const wallH = 3.2;
+    const wallT = 0.9;
+    // A row of merlons (the toothed battlement) marching along a wall top.
+    const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
+      const n = Math.max(2, Math.round(len / 1.2));
+      for (let i = 0; i <= n; i++) {
+        const t = -len / 2 + len * (i / n);
+        group.add(block(0.55, 0.7, 0.55, x0 + dx * t, wallH + 0.35, z0 + dz * t, wallC));
+      }
+    };
+    // North, east and west curtain walls (south wall is split for the gate).
+    group.add(block(2 * R, wallH, wallT, 0, wallH / 2, -R, wallC));
+    group.add(block(wallT, wallH, 2 * R, -R, wallH / 2, 0, wallC));
+    group.add(block(wallT, wallH, 2 * R, R, wallH / 2, 0, wallC));
+    merlons(0, -R, 1, 0, 2 * R);
+    merlons(-R, 0, 0, 1, 2 * R);
+    merlons(R, 0, 0, 1, 2 * R);
+    // South wall in two halves, leaving a gateway in the middle.
+    const gap = 3.2;
+    const half = (2 * R - gap) / 2;
+    for (const s of [-1, 1] as const) {
+      const cx = s * (gap / 2 + half / 2);
+      group.add(block(half, wallH, wallT, cx, wallH / 2, R, wallC));
+      merlons(cx, R, 1, 0, half);
+    }
+    // Round corner towers with conical roofs.
+    const tower = (x: number, z: number, h: number, rad: number) => {
+      const t = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad * 1.12, h, 12), stoneMat(wallC));
+      t.position.set(x, h / 2, z);
+      group.add(t);
+      const roof = new THREE.Mesh(
+        new THREE.ConeGeometry(rad * 1.4, rad * 1.9, 12),
+        stoneLike({ color: roofC, flatShading: true }),
+      );
+      roof.position.set(x, h + rad * 0.95, z);
+      group.add(roof);
+    };
+    for (const sx of [-1, 1] as const)
+      for (const sz of [-1, 1] as const) tower(sx * R, sz * R, wallH + 2.4, 1.2);
+    // Gatehouse: two shorter towers flanking the gateway, a lintel over the gate,
+    // and a dark doorway recessed into the wall.
+    for (const s of [-1, 1] as const) tower(s * (gap / 2 + 0.3), R, wallH + 1.2, 0.85);
+    group.add(block(gap + 1.6, 1.1, wallT + 0.3, 0, wallH + 0.15, R, wallC)); // lintel
+    group.add(block(gap - 1.0, wallH - 0.6, 0.4, 0, (wallH - 0.6) / 2, R + 0.35, '#3a332c')); // doorway
+    // The central keep — a tall square tower with its own battlement.
+    const keepH = 6.6;
+    group.add(block(3.6, keepH, 3.6, 0, keepH / 2, 0, wallC));
+    for (const [dx, dz, len] of [[1, 0, 3.6], [0, 1, 3.6]] as const) {
+      for (const off of [-1, 1] as const) {
+        const px = dz ? off * 1.8 : 0;
+        const pz = dx ? off * 1.8 : 0;
+        const n = 3;
+        for (let i = 0; i <= n; i++) {
+          const t = -len / 2 + len * (i / n);
+          group.add(block(0.5, 0.6, 0.5, px + dx * t, keepH + 0.3, pz + dz * t, wallC));
+        }
+      }
+    }
+  } else if (model === 'temple-tower') {
+    // A South / South-East Asian temple (Prambanan, Konark, Preah Vihear): a
+    // tall tapering spire (shikhara / candi) of stacked receding tiers on a
+    // raised platform, flanked by lesser spires — not a nondescript stone pile.
+    ground = '#6c7a45';
+    const stone = '#8f7f62';
+    const alt = '#9a8a6a';
+    group.add(block(12, 1.0, 12, 0, 0.5, 0, stone)); // platform (jagati)
+    group.add(block(10.4, 0.7, 10.4, 0, 1.35, 0, alt));
+    const spire = (cx: number, cz: number, base: number, tiers: number, tierH: number) => {
+      // The sanctuary body, then receding tiers narrowing to a crowning stone.
+      group.add(block(base * 1.3, tierH * 1.4, base * 1.3, cx, 1.7 + tierH * 0.7, cz, stone));
+      let y = 1.7 + tierH * 1.4;
+      let w = base;
+      for (let i = 0; i < tiers; i++) {
+        const t = block(w, tierH, w, cx, y + tierH / 2, cz, i % 2 ? alt : stone);
+        weather(t, 0.04);
+        group.add(t);
+        y += tierH;
+        w *= 0.8;
+      }
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(w * 0.95, 10, 8), stoneLike({ color: '#b7a06f' }));
+      cap.position.set(cx, y + w * 0.5, cz);
+      group.add(cap);
+    };
+    spire(0, 0, 3.2, 6, 0.9); // central tower — tallest
+    spire(-4.2, -0.2, 1.7, 4, 0.65); // flanking lesser towers
+    spire(4.2, -0.2, 1.7, 4, 0.65);
+    spire(0, -4.4, 1.5, 3, 0.6);
   } else if (model === 'cathedral') {
     // A stylised gothic church: nave + transept, twin west towers with
     // spires, a crossing tower, buttresses and a rounded apse.

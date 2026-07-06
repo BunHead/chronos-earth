@@ -13,8 +13,8 @@
 /** Every 3D archetype buildModel() in Monument3D.tsx can actually render. */
 export const VALID_MODELS = [
   'tpillars', 'stonehenge', 'pyramid', 'stepped-pyramid', 'sphinx', 'circle',
-  'settlement', 'cathedral', 'greek-temple', 'aqueduct', 'pagoda', 'lighthouse',
-  'impact', 'megalith',
+  'settlement', 'castle', 'cathedral', 'greek-temple', 'temple-tower',
+  'aqueduct', 'pagoda', 'lighthouse', 'impact', 'megalith',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -51,9 +51,10 @@ const KEYWORD_RULES = [
   { rule: '"aqueduct" keyword', model: 'aqueduct', re: /aqueduct|pont du gard/ },
   { rule: '"pagoda" keyword', model: 'pagoda', re: /pagoda/ },
   { rule: 'lighthouse keyword', model: 'lighthouse', re: /lighthouse|pharos/ },
-  { rule: 'castle/fort/palace keyword → generic settlement', model: 'settlement', re: /castle|fort|citadel|palace|alham|kremlin/ },
+  { rule: 'castle/fort/palace keyword (word-boundaried)', model: 'castle', re: /\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/ },
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },
+  { rule: 'South/SE-Asian temple keyword → spired temple', model: 'temple-tower', re: /prambanan|preah vihear|konark|khajuraho|brihadeeswara|kailasa|virupaksha|candi / },
   { rule: 'generic "temple"/"wat" → megalith bucket', model: 'megalith', re: /temple|wat / },
 ];
 

@@ -37,10 +37,17 @@ export function monumentModelForName(name: string): string | null {
   if (/aqueduct|pont du gard/.test(n)) return 'aqueduct';
   if (/pagoda/.test(n)) return 'pagoda';
   if (/lighthouse|pharos/.test(n)) return 'lighthouse';
-  if (/castle|fort|citadel|palace|alham|kremlin/.test(n)) return 'settlement';
+  // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
+  // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
+  // "fort". Real castles/forts/palaces get the dedicated castle model.
+  if (/\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/.test(n))
+    return 'castle';
   if (/cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/.test(n)) return 'cathedral';
   if (/parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/.test(n))
     return 'greek-temple';
+  // South & South-East Asian temples — a spired candi/shikhara, not a stone pile.
+  if (/prambanan|preah vihear|konark|khajuraho|brihadeeswara|kailasa|virupaksha|candi /.test(n))
+    return 'temple-tower';
   if (/temple|wat /.test(n)) return 'megalith';
   // Anything we can't honestly represent gets NO 3D button — a university
   // rendered as a ziggurat helps nobody.

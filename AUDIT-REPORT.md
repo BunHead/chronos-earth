@@ -1,6 +1,6 @@
 # Chronos Earth — Monument & Battle Audit
 
-_Generated 2026-07-06 06:53 by `npm run audit`. Reads only; changes nothing._
+_Generated 2026-07-06 07:45 by `npm run audit`. Reads only; changes nothing._
 
 This is the worksheet for the "old template" problem. It lists every monument
 and battle, the 3D archetype the app hands it, **how** it got that archetype,
@@ -17,9 +17,6 @@ and every entry that looks wrong, generic, out-of-period, or frozen in time.
 
 | Count | Flag |
 |------:|------|
-| 1 | 🔴 False-friend keyword (probably the wrong model) |
-| 16 | 🟠 Castle/fort → generic "settlement" boxes (all identical) |
-| 3 | 🟠 Generic "megalith" fallback (a nondescript stone pile) |
 | 7 | 🟡 Known to have been destroyed/rebuilt — deserves phases over time |
 | 270 | ⚪ No 3D model at all (panel only, no "View in 3D") |
 
@@ -29,31 +26,13 @@ The entries most worth fixing first, hardest-first by severity.
 
 | Monument | Date | Source | Model | How it was chosen | Problems |
 |----------|------|--------|-------|-------------------|----------|
-| Brimstone Hill Fortress National Park | 1987 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | suspicious keyword; shared castle |
-| Nottingham Castle | 1068 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle; should be phased |
-| Alhambra | 1238 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Malbork Castle | 1270 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Himeji Castle | 1346 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Agra Fort | 1565 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Palace of Versailles | 1661 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Drottningholm Palace | 1699 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Blenheim Palace | 1705 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Fort de Loncin | 1881 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Neuschwanstein Castle | 1886 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Forth Bridge | 1890 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Stoclet Palace | 1905 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Elmina Castle | 1482 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Peveril Castle | 1086 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
-| Potala Palace | 637 CE | imported event | settlement | castle/fort/palace keyword → generic settlement | shared castle |
 | Colosseum | 80 CE | imported event | — | no keyword matched → no 3D button | no 3d; should be phased |
 | Hagia Sophia | 537 CE | imported event | — | no keyword matched → no 3D button | no 3d; should be phased |
-| Prambanan Temple | 850 CE | imported event | megalith | generic "temple"/"wat" → megalith bucket | generic megalith |
-| Preah Vihear Temple | 893 CE | imported event | megalith | generic "temple"/"wat" → megalith bucket | generic megalith |
-| Konark Sun Temple | 1201 CE | imported event | megalith | generic "temple"/"wat" → megalith bucket | generic megalith |
 | Parthenon | 438 BCE | imported event | greek-temple | greek-temple keyword | should be phased |
 | Notre-Dame de Chartres | 1145 CE | imported event | cathedral | cathedral/church keyword | should be phased |
 | Notre-Dame d'Amiens | 1220 CE | imported event | cathedral | cathedral/church keyword | should be phased |
 | Notre-Dame de Paris | 1345 CE | imported event | cathedral | cathedral/church keyword | should be phased |
+| Nottingham Castle | 1068 CE | imported event | castle | castle/fort/palace keyword (word-boundaried) | should be phased |
 | Blombos Cave engravings | 71000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Sulawesi cave paintings | 42000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Chauvet Cave paintings | 34000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
@@ -69,44 +48,33 @@ The entries most worth fixing first, hardest-first by severity.
 | Thebes | 3199 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Troy | 2999 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Mohenjo-daro | 2500 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Assur | 2499 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Acre | 1499 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Chavín de Huántar | 1200 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| La Venta (Olmec) | 900 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Meroë (Kush) | 800 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Petra | 799 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Leptis Magna | 700 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Shahrisabz | 700 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Cyrene | 629 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Verona | 549 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Persepolis | 515 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Persepolis | 510 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Appian Way | 311 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Petra | 300 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Terracotta Army | 210 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Ajanta Caves | 200 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Nazca Lines | 200 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Nazca Lines | 199 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 
 ## Full lists by problem
-
-### 🔴 False-friend keyword (probably the wrong model) — 1
-
-- **Brimstone Hill Fortress National Park** (1987 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-
-### 🟠 Castle/fort → generic "settlement" boxes (all identical) — 16
-
-- **Potala Palace** (637 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Nottingham Castle** (1068 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Peveril Castle** (1086 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Alhambra** (1238 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Malbork Castle** (1270 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Himeji Castle** (1346 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Elmina Castle** (1482 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Agra Fort** (1565 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Palace of Versailles** (1661 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Drottningholm Palace** (1699 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Blenheim Palace** (1705 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Fort de Loncin** (1881 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Neuschwanstein Castle** (1886 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Forth Bridge** (1890 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Stoclet Palace** (1905 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-- **Brimstone Hill Fortress National Park** (1987 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
-
-### 🟠 Generic "megalith" fallback (a nondescript stone pile) — 3
-
-- **Prambanan Temple** (850 CE, imported event) → `megalith` — _generic "temple"/"wat" → megalith bucket_
-- **Preah Vihear Temple** (893 CE, imported event) → `megalith` — _generic "temple"/"wat" → megalith bucket_
-- **Konark Sun Temple** (1201 CE, imported event) → `megalith` — _generic "temple"/"wat" → megalith bucket_
 
 ### 🟡 Known to have been destroyed/rebuilt — deserves phases over time — 7
 
 - **Parthenon** (438 BCE, imported event) → `greek-temple` — _greek-temple keyword_
 - **Colosseum** (80 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Hagia Sophia** (537 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Nottingham Castle** (1068 CE, imported event) → `settlement` — _castle/fort/palace keyword → generic settlement_
+- **Nottingham Castle** (1068 CE, imported event) → `castle` — _castle/fort/palace keyword (word-boundaried)_
 - **Notre-Dame de Chartres** (1145 CE, imported event) → `cathedral` — _cathedral/church keyword_
 - **Notre-Dame d'Amiens** (1220 CE, imported event) → `cathedral` — _cathedral/church keyword_
 - **Notre-Dame de Paris** (1345 CE, imported event) → `cathedral` — _cathedral/church keyword_
@@ -178,7 +146,6 @@ The entries most worth fixing first, hardest-first by severity.
 - **Nan Madol** (1180 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Walls of Benin City** (1180 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Ye Olde Trip to Jerusalem** (1189 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Castel del Monte** (1240 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Great Mosque of Djenné** (1240 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Moai (Rapa Nui)** (1250 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Chesterfield Crooked Spire** (1362 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -190,7 +157,6 @@ The entries most worth fixing first, hardest-first by severity.
 - **San Cristóbal de La Laguna** (1496 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **El Camino Real de Tierra Adentro** (1500 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Jerónimos Monastery** (1502 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Château de Chambord** (1519 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Ruínas de León Viejo** (1524 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Santa Cruz de Mompós** (1537 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Salvador** (1549 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -228,6 +194,7 @@ The entries most worth fixing first, hardest-first by severity.
 - **Tongariro National Park** (1887 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Eiffel Tower** (1889 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Yosemite National Park** (1890 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Forth Bridge** (1890 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Kaziranga National Park** (1905 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mesa Verde National Park** (1906 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Ploegsteert Wood Military Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -358,6 +325,7 @@ The entries most worth fixing first, hardest-first by severity.
 - **Desembarco del Granma National Park** (1985 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Miguasha National Park** (1985 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Gondwana Rainforests of Australia** (1986 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Brimstone Hill Fortress National Park** (1987 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Purnululu National Park** (1987 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Wet Tropics of Queensland** (1988 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Chiribiquete National Park** (1989 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -393,15 +361,17 @@ too much work (this is why every castle looks the same).
 |-------|------:|
 | (none) | 270 |
 | cathedral | 22 |
-| settlement | 17 |
+| castle | 16 |
 | stepped-pyramid | 9 |
-| megalith | 5 |
+| temple-tower | 3 |
 | tpillars | 2 |
 | circle | 2 |
 | stonehenge | 2 |
 | pyramid | 2 |
 | sphinx | 2 |
+| megalith | 2 |
 | greek-temple | 2 |
+| settlement | 1 |
 | impact | 1 |
 | aqueduct | 1 |
 | lighthouse | 1 |
@@ -420,7 +390,7 @@ watchlist — these are the first candidates for a phase-over-time treatment
 - **Parthenon** (438 BCE) → currently a static `greek-temple`
 - **Colosseum** (80 CE) → currently a static `no model`
 - **Hagia Sophia** (537 CE) → currently a static `no model`
-- **Nottingham Castle** (1068 CE) → currently a static `settlement`
+- **Nottingham Castle** (1068 CE) → currently a static `castle`
 - **Notre-Dame de Chartres** (1145 CE) → currently a static `cathedral`
 - **Notre-Dame d'Amiens** (1220 CE) → currently a static `cathedral`
 - **Notre-Dame de Paris** (1345 CE) → currently a static `cathedral`

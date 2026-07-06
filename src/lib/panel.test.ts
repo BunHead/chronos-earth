@@ -21,9 +21,38 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Great Pyramid of Giza')).toBe('pyramid');
     expect(monumentModelForName('Chichén Itzá')).toBe('stepped-pyramid');
     expect(monumentModelForName('Borobudur')).toBe('stepped-pyramid');
-    expect(monumentModelForName('Edinburgh Castle')).toBe('settlement');
     expect(monumentModelForName('Avebury henge')).toBe('circle');
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
+  });
+
+  it('castles, forts and palaces get their own castle model (not a settlement box)', () => {
+    expect(monumentModelForName('Edinburgh Castle')).toBe('castle');
+    expect(monumentModelForName('Nottingham Castle')).toBe('castle');
+    expect(monumentModelForName('Malbork Castle')).toBe('castle');
+    expect(monumentModelForName('Agra Fort')).toBe('castle');
+    expect(monumentModelForName('Fort de Loncin')).toBe('castle');
+    expect(monumentModelForName('Palace of Versailles')).toBe('castle');
+    expect(monumentModelForName('Alhambra')).toBe('castle');
+    expect(monumentModelForName('Potala Palace')).toBe('castle');
+    expect(monumentModelForName('Château de Chambord')).toBe('castle');
+    expect(monumentModelForName('Castel del Monte')).toBe('castle');
+  });
+
+  it('false friends: bridges and parks are NOT dragged into the castle model', () => {
+    // "Forth" contains the letters of "fort"; "Fortress" starts with "fort".
+    // Word boundaries keep both out of the castle bucket.
+    expect(monumentModelForName('Forth Bridge')).toBeNull();
+    expect(monumentModelForName('Brimstone Hill Fortress National Park')).toBeNull();
+    expect(monumentModelForName('Golden Gate Bridge')).toBeNull();
+  });
+
+  it('South/SE-Asian temples get a spired temple, not a generic stone pile', () => {
+    expect(monumentModelForName('Prambanan Temple')).toBe('temple-tower');
+    expect(monumentModelForName('Preah Vihear Temple')).toBe('temple-tower');
+    expect(monumentModelForName('Konark Sun Temple')).toBe('temple-tower');
+    // The broad temple bucket and temple-mountains are unchanged.
+    expect(monumentModelForName('Temple of Heaven')).toBe('megalith');
+    expect(monumentModelForName('Angkor Wat')).toBe('stepped-pyramid');
   });
 
   it('the Greeks get a real temple (apology accepted, Athens)', () => {
