@@ -46,10 +46,15 @@ export interface SkyDialProps {
   date: Date;
   solarHours: number;
   auto: boolean;
+  moonPhase: number; // 0 = new, 0.5 = full, wraps at 1
   latitude: number;
   title: string;
-  onChange: (next: { date?: Date; solarHours?: number; auto?: boolean }) => void;
+  onChange: (next: { date?: Date; solarHours?: number; auto?: boolean; moonPhase?: number }) => void;
 }
+
+// New → waxing → full → waning, eight steps round the cycle.
+const MOON_EMOJI = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+const MOON_NAME = ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbous', 'Full moon', 'Waning gibbous', 'Last quarter', 'Waning crescent'];
 
 /**
  * The brass "weather control" — a 2D armillary. The outer ring sets time of day
@@ -57,7 +62,7 @@ export interface SkyDialProps {
  * and each site's own celestial dates. Temperature/cloud/wind dials (the cross
  * bars and centre hub, drawn here) arrive in later stages.
  */
-export default function SkyDial({ date, solarHours, auto, latitude, title, onChange }: SkyDialProps) {
+export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, title, onChange }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
 
@@ -67,6 +72,17 @@ export default function SkyDial({ date, solarHours, auto, latitude, title, onCha
   const sunY = cy - R * Math.sin(theta);
   const { altitude } = sunPosition(date, solarHours, latitude);
   const daytime = altitude > 0;
+
+  // The moon lags the sun by its phase: full moon (0.5) sits opposite the sun,
+  // so it rides the ring on an inner track and its position "orbits" as the
+  // phase changes. Clicking it steps through the eight phases.
+  const mp = Number.isFinite(moonPhase) ? moonPhase : 0.5;
+  const moonHours = ((solarHours + mp * 24) % 24 + 24) % 24;
+  const moonTheta = (moonHours - 6) * 15 * DEG;
+  const moonX = cx + (R - 12) * Math.cos(moonTheta);
+  const moonY = cy - (R - 12) * Math.sin(moonTheta);
+  const moonIdx = (((Math.round(mp * 8) % 8) + 8) % 8);
+  const cycleMoon = () => onChange({ moonPhase: (mp + 0.125) % 1 });
 
   const setFromPointer = (e: React.PointerEvent) => {
     const svg = svgRef.current;
@@ -128,6 +144,17 @@ export default function SkyDial({ date, solarHours, auto, latitude, title, onCha
         <line x1={cx} y1={cy - 4} x2={cx} y2={cy + 4} className="ring-hub-plus" />
         {/* the sun */}
         <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
+        {/* the moon — click to change its phase */}
+        <text
+          x={moonX}
+          y={moonY}
+          className="ring-moon"
+          textAnchor="middle"
+          dominantBaseline="central"
+          onPointerDown={(e) => { e.stopPropagation(); cycleMoon(); }}
+        >
+          {MOON_EMOJI[moonIdx]}
+        </text>
       </svg>
 
       <div className="sky-readout">
@@ -140,6 +167,9 @@ export default function SkyDial({ date, solarHours, auto, latitude, title, onCha
         </button>
         <span className="sky-time">{fmtTime(solarHours)}</span>
         <span className="sky-alt">{daytime ? `sun ${Math.round(altitude)}° up` : 'below horizon'}</span>
+        <button className="sky-moon" onClick={cycleMoon} title={`${MOON_NAME[moonIdx]} — click for the next phase`}>
+          {MOON_EMOJI[moonIdx]}
+        </button>
       </div>
 
       <div className="sky-date">

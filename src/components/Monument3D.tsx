@@ -7,8 +7,8 @@ import SkyDial from './SkyDial';
 import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
- * the day is auto-advancing. */
-interface SkyState { date: Date; solarHours: number; auto: boolean; }
+ * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
+interface SkyState { date: Date; solarHours: number; auto: boolean; moonPhase: number; }
 
 /** Compass bearing (° from N) at which the sun clears the horizon on the summer
  * solstice for a latitude — the axis Stonehenge and its Heel Stone point to. */
@@ -667,7 +667,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
 
   // Sky/sun state, driven by the SkyDial. Opens on today, mid-morning, gently
   // auto-advancing so the day still passes on its own until you grab the dial.
-  const [sky, setSky] = useState<SkyState>(() => ({ date: new Date(), solarHours: 9, auto: true }));
+  const [sky, setSky] = useState<SkyState>(() => ({ date: new Date(), solarHours: 9, auto: true, moonPhase: 0.5 }));
   const skyRef = useRef<SkyState>(sky);
   const latVal = lat ?? 45;
   useEffect(() => { skyRef.current = sky; }, [sky]);
@@ -848,6 +848,21 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     })();
     scene.add(sunSprite);
 
+    // The moon: a real sphere lit by a dedicated light aimed from the sun's
+    // direction, so its phase is modelled by actual illumination. That light
+    // sits on its own layer (1) so it lights ONLY the moon, never the ground.
+    const moonMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(5, 24, 24),
+      new THREE.MeshStandardMaterial({ color: '#d9d9e4', roughness: 1, emissive: '#0b0b14', emissiveIntensity: 0.16 }),
+    );
+    moonMesh.layers.enable(1);
+    const moonLight = new THREE.DirectionalLight(0xfffdf5, 2.6);
+    moonLight.layers.set(1);
+    scene.add(moonMesh, moonLight);
+    // A faint cool wash on the scene when the moon is up and the sun is down.
+    const moonGlow = new THREE.DirectionalLight(0x9fb6e0, 0);
+    scene.add(moonGlow);
+
     let raf = 0;
     const animate = () => {
       const { date, solarHours } = skyRef.current;
@@ -864,6 +879,18 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       sunSprite.visible = s > -0.06;
       const warm = Math.max(0, Math.min(1, (0.32 - s) / 0.5)); // redder near the horizon
       (sunSprite.material as THREE.SpriteMaterial).color.setHSL(0.12 - warm * 0.07, 0.85, 0.72);
+
+      // The moon lags the sun by its phase; the moon-light comes from the sun's
+      // direction so the visible sphere shows the right phase. A cool glow lifts
+      // the scene out of pitch black on a moonlit night.
+      const mp = Number.isFinite(skyRef.current.moonPhase) ? skyRef.current.moonPhase : 0.5;
+      const moonHours = ((solarHours + mp * 24) % 24 + 24) % 24;
+      const md = sunDirection(date, moonHours, latVal);
+      moonMesh.position.set(md.x * 178, md.y * 178, md.z * 178);
+      moonMesh.visible = md.y > -0.03;
+      moonLight.position.set(sx, sy, sz); // lit from the sun → correct phase
+      moonGlow.position.set(md.x, md.y, md.z);
+      moonGlow.intensity = s < 0.04 && md.y > 0 ? 0.28 * Math.min(1, md.y * 2.5) : 0;
 
       // Sky: night below horizon, warm band near it, blue when high.
       if (s < -0.18) skyColor.copy(NIGHT_SKY);
@@ -897,6 +924,8 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       groundMat.dispose();
       sunSprite.material.map?.dispose();
       sunSprite.material.dispose();
+      moonMesh.geometry.dispose();
+      (moonMesh.material as THREE.Material).dispose();
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
   }, [model, lat, lon, phase, onClose]);
@@ -938,6 +967,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
             date={sky.date}
             solarHours={sky.solarHours}
             auto={sky.auto}
+            moonPhase={sky.moonPhase}
             latitude={latVal}
             title={title}
             onChange={(next) => setSky((s) => ({ ...s, ...next }))}

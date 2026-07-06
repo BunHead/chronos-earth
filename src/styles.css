@@ -1142,6 +1142,8 @@ body {
 .ring-hub-plus { stroke: #e8d9a8; stroke-width: 1; }
 .ring-sun { fill: #ffd873; filter: drop-shadow(0 0 5px #ffcf5a); }
 .ring-sun.below { fill: #6a7690; filter: none; }
+.ring-moon { font-size: 15px; cursor: pointer; }
+.sky-moon { background: none; border: none; cursor: pointer; font-size: 14px; line-height: 1; padding: 0 2px; }
 
 .sky-readout { display: flex; align-items: center; gap: 6px; justify-content: center; margin-bottom: 4px; }
 .sky-play {
