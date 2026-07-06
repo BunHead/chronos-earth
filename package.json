@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "refresh-data": "node scripts/refresh-data.mjs",
-    "harvest": "node scripts/harvest-world.mjs"
+    "harvest": "node scripts/harvest-world.mjs",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "cesium": "^1.123.0",
