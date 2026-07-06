@@ -1,6 +1,6 @@
 # Chronos Earth — Monument & Battle Audit
 
-_Generated 2026-07-06 07:45 by `npm run audit`. Reads only; changes nothing._
+_Generated 2026-07-06 07:56 by `npm run audit`. Reads only; changes nothing._
 
 This is the worksheet for the "old template" problem. It lists every monument
 and battle, the 3D archetype the app hands it, **how** it got that archetype,
@@ -11,7 +11,7 @@ and every entry that looks wrong, generic, out-of-period, or frozen in time.
 - **Monuments checked:** 338  (10 curated sites + 328 imported)
 - Monuments with a 3D model: **68** · with no 3D button: **270**
 - **Battles checked:** 350  (78 named + 272 imported)
-- Battles with hand-crafted phased choreography: **14** · running the generic template: **336**
+- Battles with hand-crafted phased choreography: **15** · running the generic template: **335**
 
 ### Flags raised (monuments)
 
@@ -400,8 +400,8 @@ _The watchlist is a hand-seeded starting point, not exhaustive — extend it in
 
 ## Battles — choreography coverage
 
-Of 78 named battles, **14** have real phase-by-phase
-choreography; **64** named battles + **272** imported battles use the
+Of 78 named battles, **15** have real phase-by-phase
+choreography; **63** named battles + **272** imported battles use the
 generic "two lines meet in the middle" template. These named battles are the
 best candidates for hand-authored, historically accurate movement next:
 
@@ -411,7 +411,6 @@ best candidates for hand-authored, historically accurate movement next:
 - **Battle of Plataea** (479 BCE) — id `plataea`
 - **Battle of Issus** (333 BCE) — id `issus`
 - **Battle of the Hydaspes** (326 BCE) — id `hydaspes`
-- **Battle of Zama** (202 BCE) — id `zama`
 - **Battle of Carrhae** (53 BCE) — id `carrhae`
 - **Siege of Alesia** (52 BCE) — id `alesia`
 - **Battle of Pharsalus** (48 BCE) — id `pharsalus`

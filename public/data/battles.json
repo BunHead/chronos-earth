@@ -246,7 +246,8 @@
           "side": 2,
           "wiki": "Hannibal"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "pharsalus",

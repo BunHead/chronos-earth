@@ -3699,6 +3699,380 @@
           ]
         }
       ]
+    },
+    "zama": {
+      "title": "Battle of Zama",
+      "subtitle": "202 BCE — Rome (Scipio Africanus) vs Carthage (Hannibal)",
+      "flagship": false,
+      "sides": {
+        "a": {
+          "name": "Roman Republic (Scipio)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Carthage (Hannibal)",
+          "color": "#b08a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 60,
+          "w": 70,
+          "h": 4,
+          "label": "Roman camp"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 10,
+          "w": 70,
+          "h": 4,
+          "label": "Carthaginian camp"
+        }
+      ],
+      "units": [
+        {
+          "id": "hastati",
+          "side": "a",
+          "label": "Hastati (front line)",
+          "pos": [
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              50,
+              31
+            ]
+          ]
+        },
+        {
+          "id": "principes",
+          "side": "a",
+          "label": "Principes & triarii",
+          "pos": [
+            [
+              50,
+              50
+            ],
+            [
+              50,
+              50
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              50,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "masinissa",
+          "side": "a",
+          "label": "Masinissa’s Numidians",
+          "shape": "cavalry",
+          "size": 1.1,
+          "pos": [
+            [
+              70,
+              46
+            ],
+            [
+              84,
+              30
+            ],
+            [
+              93,
+              14
+            ],
+            [
+              58,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "laelius",
+          "side": "a",
+          "label": "Laelius’s Roman cavalry",
+          "shape": "cavalry",
+          "size": 1.1,
+          "pos": [
+            [
+              30,
+              46
+            ],
+            [
+              16,
+              30
+            ],
+            [
+              7,
+              14
+            ],
+            [
+              42,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "elephants",
+          "side": "b",
+          "label": "War elephants",
+          "size": 1.3,
+          "pos": [
+            [
+              50,
+              32
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              66
+            ]
+          ]
+        },
+        {
+          "id": "mercenaries",
+          "side": "b",
+          "label": "Mercenary front line",
+          "pos": [
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              33
+            ],
+            [
+              50,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "citizens",
+          "side": "b",
+          "label": "Carthaginian citizen line",
+          "pos": [
+            [
+              50,
+              21
+            ],
+            [
+              50,
+              21
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              50,
+              27
+            ]
+          ]
+        },
+        {
+          "id": "veterans",
+          "side": "b",
+          "label": "Hannibal’s Old Guard",
+          "size": 1.2,
+          "pos": [
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              19
+            ],
+            [
+              50,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "punic-cav-r",
+          "side": "b",
+          "label": "Carthaginian cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              72,
+              28
+            ],
+            [
+              86,
+              42
+            ],
+            [
+              96,
+              56
+            ],
+            [
+              96,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "punic-cav-l",
+          "side": "b",
+          "label": "Numidian allies",
+          "shape": "cavalry",
+          "pos": [
+            [
+              28,
+              28
+            ],
+            [
+              14,
+              42
+            ],
+            [
+              4,
+              56
+            ],
+            [
+              4,
+              60
+            ]
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment",
+          "narration": "Hannibal masses eighty war elephants across his front, three lines of infantry behind — mercenaries, then Carthaginian citizens, then his hardened veterans of Italy held in reserve. Scipio lines up his maniples with deliberate lanes running straight back through them, and puts his cavalry on the wings: Masinissa’s Numidians on the right, Laelius’s Romans on the left."
+        },
+        {
+          "name": "The elephant charge fails",
+          "narration": "The elephants charge. Roman horns and trumpets blare, panicking many; the rest are funnelled harmlessly down Scipio’s open lanes and out the rear. On both wings the stronger Roman and Numidian cavalry rout Hannibal’s horsemen and gallop off in pursuit.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                36
+              ],
+              "to": [
+                50,
+                52
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                70,
+                44
+              ],
+              "to": [
+                88,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                30,
+                44
+              ],
+              "to": [
+                12,
+                34
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The lines collide",
+          "narration": "The infantry meet head-on. Scipio’s hastati and principes grind through Hannibal’s first two lines, but his fresh veterans stand firm. Scipio breaks off, halts the pursuit, and reforms his whole army into one long line to face them.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                42
+              ],
+              "to": [
+                50,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                24
+              ],
+              "to": [
+                50,
+                30
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The cavalry returns",
+          "narration": "At the decisive moment Masinissa and Laelius return from the chase and smash into the rear of Hannibal’s veterans. Trapped front and back, the last Carthaginian line is destroyed. Hannibal escapes; the Second Punic War is over, and Rome has won the western Mediterranean.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                20
+              ],
+              "to": [
+                52,
+                24
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                42,
+                20
+              ],
+              "to": [
+                48,
+                24
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ]
     }
   }
 }
