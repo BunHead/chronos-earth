@@ -192,7 +192,8 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
     const a = (i / 56) * Math.PI * 2;
     group.add(block(0.34, 0.16, 0.34, Math.cos(a) * 9.2, 0.08, Math.sin(a) * 9.2, '#d8d2c4'));
   }
-  const heel = block(1.2, 3.2, 1.0, 0, 1.5, 13.5, '#90887b');
+  // Heel Stone: ~4.9 m tall, slender — proportioned to the real ring.
+  const heel = block(0.95, 1.95, 0.6, 0, 0.98, 13.5, '#90887b');
   heel.rotation.z = 0.12;
   heel.rotation.x = -0.08;
   weather(heel, 0.1);
@@ -203,33 +204,35 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
     for (let i = 0; i < 18; i++) {
       const a = (i / 18) * Math.PI * 2 + 0.1;
       if (Math.abs(a - Math.PI / 2) < 0.35) continue; // keep the NE entrance open
-      const b = block(0.45, 1.3 + Math.random() * 0.5, 0.6, Math.cos(a) * 4.7, 0.7, Math.sin(a) * 4.7, '#6e7480', -a);
+      const b = block(0.32, 0.8 + Math.random() * 0.4, 0.32, Math.cos(a) * 4.7, 0.5, Math.sin(a) * 4.7, '#6e7480', -a);
       weather(b, 0.12);
       group.add(b);
     }
   }
 
   // --- Phase 3: the great sarsen circle, lintel ring, trilithons and altar. ---
+  // Stones are proportioned to reality (~4.1 m tall, ~2.1 m wide, ~1.1 m thick
+  // against a 33 m ring) so the gaps open up and you can see between them.
   if (phase >= 3) {
     for (let i = 0; i < N; i++) {
       const a = (i / N) * Math.PI * 2;
-      const up = block(0.8, 2.9, 1.35, Math.cos(a) * R, 1.45, Math.sin(a) * R, STONE, -a);
+      const up = block(0.83, 1.6, 0.45, Math.cos(a) * R, 0.8, Math.sin(a) * R, STONE, -a);
       weather(up);
       group.add(up);
       // Lintel bridging this upright to the next (continuous ring).
       const am = ((i + 0.5) / N) * Math.PI * 2;
-      const lin = block(0.85, 0.48, 1.6, Math.cos(am) * R, 3.12, Math.sin(am) * R, '#948d82', -am);
+      const lin = block(0.43, 0.3, 1.3, Math.cos(am) * R, 1.75, Math.sin(am) * R, '#948d82', -am);
       weather(lin, 0.04);
       group.add(lin);
     }
 
-    // Trilithon horseshoe — opening faces +z (north-east); back one tallest.
+    // Trilithon horseshoe — opening faces +z (the solstice axis); back tallest.
     const stations = [
-      { a: (130 * Math.PI) / 180, h: 3.6 },
-      { a: (200 * Math.PI) / 180, h: 4.1 },
-      { a: (270 * Math.PI) / 180, h: 4.7 },
-      { a: (340 * Math.PI) / 180, h: 4.1 },
-      { a: (50 * Math.PI) / 180, h: 3.6 },
+      { a: (130 * Math.PI) / 180, h: 2.3 },
+      { a: (200 * Math.PI) / 180, h: 2.6 },
+      { a: (270 * Math.PI) / 180, h: 2.9 },
+      { a: (340 * Math.PI) / 180, h: 2.6 },
+      { a: (50 * Math.PI) / 180, h: 2.3 },
     ];
     for (const { a, h } of stations) {
       const r = 3.3;
@@ -237,17 +240,17 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
       const cz = Math.sin(a) * r;
       const [tx, tz] = tangent(a);
       for (const s of [-1, 1]) {
-        const up = block(1.0, h, 1.45, cx + tx * s * 1.0, h / 2, cz + tz * s * 1.0, STONE, -a);
+        const up = block(0.85, h, 0.5, cx + tx * s * 0.95, h / 2, cz + tz * s * 0.95, STONE, -a);
         weather(up, 0.05);
         group.add(up);
       }
-      const lin = block(1.05, 0.55, 3.4, cx, h + 0.28, cz, '#948d82', -a);
+      const lin = block(0.6, 0.35, 2.0, cx, h + 0.18, cz, '#948d82', -a);
       weather(lin, 0.03);
       group.add(lin);
     }
 
     // Altar Stone (recumbent slab at the centre).
-    group.add(block(2.2, 0.45, 1.0, 0, 0.22, 0.6, '#7d7468', 0.3));
+    group.add(block(1.6, 0.3, 0.5, 0, 0.15, 0.6, '#7d7468', 0.3));
   }
 }
 
@@ -774,8 +777,10 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       const vx = Math.sin(A), vz = Math.cos(A); // sunrise bearing, scene north +Z
       group.rotation.y = A;
       group.scale.setScalar(0.71); // ~33 m ring to match the z18 satellite patch
-      camera.position.set(-vx * 15, 5, -vz * 15);
-      controls.target.set(vx * 3, 3, vz * 3);
+      // Low and to the SW, looking NE across the ring toward the Heel Stone and
+      // the rising sun — near eye level so the sun clears the stones, not the top.
+      camera.position.set(-vx * 16, 3.4, -vz * 16);
+      controls.target.set(vx * 6, 2.4, vz * 6);
       controls.update();
       groundZoom = 18; // tighter imagery so the real ring marries the real site
     }
