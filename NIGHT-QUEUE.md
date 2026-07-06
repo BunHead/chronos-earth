@@ -116,3 +116,14 @@ items. The night session marks progress here and never deletes your words.
       Google Photorealistic 3D Tiles permanently rejected (API key/billing).
    Verify per the hidden-tab recipe: pump __b3d renderer, pixel-diff before/
    after for bloom presence, check fps via a frame-time probe.
+   [DONE 2026-07-05 midday tank — a+b+c all shipped]
+
+18. WORLD HARVEST (standing, resumable — run whenever there is spare tank):
+   `npm run harvest -- --cells 40` sweeps the next 40 pending 20-degree
+   cells of the planet from Wikidata (floor 12 sitelinks) into
+   public/data/regions/ chunks that the app lazy-loads by viewport.
+   Progress checkpoints after EVERY cell (harvest-progress.json), so any
+   session can run any amount and it resumes exactly. After a run:
+   npm test + build, commit the new chunk files + index + progress, push.
+   144 cells total. When all are done, consider a second pass at --floor 8
+   for true UK-density everywhere.

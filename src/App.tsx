@@ -1,5 +1,11 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
+import {
+  cellKeysForRect,
+  loadRegionChunk,
+  loadRegionIndex,
+  type RegionIndex,
+} from './lib/regionChunks';
 import Timeline from './components/Timeline';
 import InfoPanel from './components/InfoPanel';
 import LayersPanel from './components/LayersPanel';
@@ -89,9 +95,45 @@ export default function App() {
   // Which events the zoomed-in mural is showing, so the globe shows the same set
   // (null = not zoomed → globe uses its own "current era" window).
   const [muralEventIds, setMuralEventIds] = useState<string[] | null>(null);
+  // Harvested long-tail history streams in by 20° cell as the camera settles
+  // over a region (see lib/regionChunks + scripts/harvest-world.mjs). The
+  // index is fetched once; missing index = harvest not run yet = feature off.
+  const regionIndexRef = useRef<RegionIndex | null | 'pending'>('pending');
+  const loadedCellsRef = useRef(new Set<string>());
   // The patch of Earth the camera is looking at (null = orbit / whole globe);
   // when set, the timeline tells that region's own story.
   const [viewRegion, setViewRegion] = useState<{ w: number; s: number; e: number; n: number } | null>(null);
+  useEffect(() => {
+    if (!viewRegion) return;
+    let live = true;
+    void (async () => {
+      if (regionIndexRef.current === 'pending') {
+        regionIndexRef.current = await loadRegionIndex(import.meta.env.BASE_URL);
+      }
+      const idx = regionIndexRef.current;
+      if (!idx) return;
+      const keys = cellKeysForRect(viewRegion).filter(
+        (k) => idx.cells[k] && !loadedCellsRef.current.has(k),
+      );
+      if (keys.length === 0) return;
+      for (const k of keys) loadedCellsRef.current.add(k);
+      const fresh = (
+        await Promise.all(keys.map((k) => loadRegionChunk(import.meta.env.BASE_URL, k)))
+      ).flat();
+      if (!live || fresh.length === 0) return;
+      setEvents((prev) => {
+        const seenIds = new Set(prev.map((e) => e.id));
+        const seenQids = new Set(prev.map((e) => e.wikidataId).filter(Boolean));
+        const add = fresh.filter(
+          (e) => !seenIds.has(e.id) && !(e.wikidataId && seenQids.has(e.wikidataId)),
+        );
+        return add.length ? [...prev, ...add] : prev;
+      });
+    })();
+    return () => {
+      live = false;
+    };
+  }, [viewRegion]);
   // The imported event you just picked (search/click) — its globe marker stays
   // visible even when the declutter caps would have hidden it.
   const [focusEventId, setFocusEventId] = useState<string | null>(null);

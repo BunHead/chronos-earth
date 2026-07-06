@@ -410,6 +410,31 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           .catch(() => {});
       void addCap(82.5, 90);
       void addCap(-90, -82.5);
+
+      // The imagery caps can only paint geometry that EXISTS — the ArcGIS
+      // terrain is Web-Mercator, so above ~85 deg there is no globe surface
+      // at all (the black disc the Captain kept photographing). A soft ice
+      // disc billboard pinned at each pole plugs the hole from every angle.
+      const disc = document.createElement('canvas');
+      disc.width = disc.height = 256;
+      const dg = disc.getContext('2d')!;
+      const dgrad = dg.createRadialGradient(128, 128, 30, 128, 128, 126);
+      dgrad.addColorStop(0, 'rgba(231,237,241,1)');
+      dgrad.addColorStop(0.8, 'rgba(231,237,241,1)');
+      dgrad.addColorStop(1, 'rgba(231,237,241,0)');
+      dg.fillStyle = dgrad;
+      dg.fillRect(0, 0, 256, 256);
+      const polePlugs = new Cesium.BillboardCollection({ scene: viewer.scene });
+      for (const lat of [89.99, -89.99]) {
+        polePlugs.add({
+          position: Cesium.Cartesian3.fromDegrees(0, lat, 0),
+          image: disc,
+          sizeInMeters: true,
+          width: 1_400_000,
+          height: 1_400_000,
+        });
+      }
+      viewer.scene.primitives.add(polePlugs);
     }
 
     // Real mountains and valleys: keyless Esri world-elevation terrain. If it

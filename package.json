@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "refresh-data": "node scripts/refresh-data.mjs"
+    "refresh-data": "node scripts/refresh-data.mjs",
+    "harvest": "node scripts/harvest-world.mjs"
   },
   "dependencies": {
     "cesium": "^1.123.0",
