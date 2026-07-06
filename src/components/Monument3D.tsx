@@ -471,12 +471,31 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     trail.userData.noShadow = true;
     group.add(trail);
   } else {
-    group.add(block(12, 1.2, 12, 0, 0.6, 0, STONE));
-    group.add(block(9, 1.2, 9, 0, 1.8, 0, STONE));
-    group.add(block(6, 1.2, 6, 0, 3, 0, STONE));
-    for (let i = 0; i < 6; i++) {
-      group.add(block(1.6, 1, 2.4, (Math.random() - 0.5) * 5, 4, (Math.random() - 0.5) * 5, '#9a8f80'));
+    // The honest generic ruin — megaliths, stone circles, and anything
+    // without a handcrafted model: weathered standing stones and a fallen
+    // slab on a low platform. (The old fallback was three stacked tiers,
+    // which quietly turned every unmodelled monument into a ziggurat —
+    // the Captain kept meeting them and finally caught it.)
+    group.add(block(11, 0.7, 8, 0, 0.35, 0, STONE));
+    const n = 7;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const s = block(
+        1.1,
+        2.6 + (i % 3) * 0.5,
+        0.8,
+        Math.cos(a) * 3.4,
+        2.0,
+        Math.sin(a) * 2.6,
+        '#9a8f80',
+        -a,
+      );
+      weather(s, 0.12);
+      group.add(s);
     }
+    const fallen = block(2.6, 0.6, 1.0, 1.2, 1.05, 0.4, '#8a7f70');
+    fallen.rotation.z = 0.15;
+    group.add(fallen);
   }
 
   return { group, ground };
