@@ -3,6 +3,12 @@ import * as THREE from 'three';
 import { startWindowDrag } from '../lib/windowDrag';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import SkyDial from './SkyDial';
+import { sunDirection } from '../lib/sun';
+
+/** Sun state driven by the SkyDial: which day, what local solar time, whether
+ * the day is auto-advancing. */
+interface SkyState { date: Date; solarHours: number; auto: boolean; }
 
 interface Monument3DProps {
   model: string;
@@ -550,6 +556,22 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
   // show (3 = complete). Only surfaced for the stonehenge model.
   const [phase, setPhase] = useState(3);
 
+  // Sky/sun state, driven by the SkyDial. Opens on today, mid-morning, gently
+  // auto-advancing so the day still passes on its own until you grab the dial.
+  const [sky, setSky] = useState<SkyState>(() => ({ date: new Date(), solarHours: 9, auto: true }));
+  const skyRef = useRef<SkyState>(sky);
+  const latVal = lat ?? 45;
+  useEffect(() => { skyRef.current = sky; }, [sky]);
+
+  // Auto "watch a day pass" — advance local solar time until the user takes over.
+  useEffect(() => {
+    if (!sky.auto) return;
+    const id = setInterval(() => {
+      setSky((s) => ({ ...s, solarHours: (s.solarHours + 0.03) % 24 }));
+    }, 80);
+    return () => clearInterval(id);
+  }, [sky.auto]);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -669,19 +691,19 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       (window as unknown as { __mon3d?: object }).__mon3d = { renderer, scene, camera };
     }
 
-    // --- Day/night cycle (~70 s per full day) ---
+    // --- Day/night: the sun is where it really is, for the site's latitude,
+    // the chosen date and the chosen local solar time (all set on the dial). ---
     const DAY_SKY = new THREE.Color('#87add0');
     const DUSK_SKY = new THREE.Color('#b86a3e');
     const NIGHT_SKY = new THREE.Color('#070b16');
     const skyColor = new THREE.Color();
-    const clock = new THREE.Clock();
 
     let raf = 0;
     const animate = () => {
-      const t = clock.getElapsedTime();
-      const ang = (t / 70) * Math.PI * 2 + Math.PI / 5; // start mid-morning
-      const s = Math.sin(ang);
-      sun.position.set(Math.cos(ang) * 32, s * 36, 14);
+      const { date, solarHours } = skyRef.current;
+      const dir = sunDirection(date, solarHours, latVal);
+      const s = dir.y; // sine of the sun's altitude: >0 day, <0 night
+      sun.position.set(dir.x * 40, dir.y * 40, dir.z * 40);
       sun.intensity = Math.max(0, s) * 2.4;
       sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
       hemi.intensity = 0.3 + Math.max(0, s) * 1.0;
@@ -753,6 +775,14 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
         <div className="bv-stage bv-stage-3d">
           <div className="battle3d" ref={containerRef} />
           <div className="bv-3d-hint">Drag to orbit · scroll to zoom · a stylised reconstruction, not exact</div>
+          <SkyDial
+            date={sky.date}
+            solarHours={sky.solarHours}
+            auto={sky.auto}
+            latitude={latVal}
+            title={title}
+            onChange={(next) => setSky((s) => ({ ...s, ...next }))}
+          />
         </div>
       </div>
     </div>
