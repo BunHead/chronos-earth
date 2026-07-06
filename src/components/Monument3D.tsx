@@ -604,8 +604,8 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.7;
+    // The camera holds still; the visitor drags to look around at their pace.
+    controls.autoRotate = false;
     controls.target.set(0, 2.5, 0);
     controls.maxPolarAngle = Math.PI / 2.05;
     controls.minDistance = 8;

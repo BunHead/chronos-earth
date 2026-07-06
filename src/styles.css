@@ -1108,6 +1108,22 @@ body {
   user-select: none;
   z-index: 5;
 }
+.sky-grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: -2px -4px 5px;
+  padding: 2px 0 4px;
+  font-size: 9.5px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #c9b98f;
+  cursor: move;
+  touch-action: none;
+  border-bottom: 1px solid rgba(201, 162, 75, 0.22);
+}
+.sky-grip span { font-size: 12px; color: #c9a24b; }
 .sky-ring {
   width: 150px;
   height: 150px;

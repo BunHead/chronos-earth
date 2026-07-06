@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { sunPosition, sunriseSolarHour, solsticesEquinoxes } from '../lib/sun';
+import { startDrag } from '../lib/windowDrag';
 
 const DEG = Math.PI / 180;
 const REF_YEAR = 2026; // the sun's path depends only on day-of-year, not the year
@@ -95,6 +96,9 @@ export default function SkyDial({ date, solarHours, auto, latitude, title, onCha
 
   return (
     <div className="sky-dial" role="group" aria-label="Sun, time of day and calendar">
+      <div className="sky-grip" onPointerDown={(e) => startDrag(e, '.sky-dial')} title="Drag to move">
+        <span>⠿</span> weather &amp; sky
+      </div>
       <svg
         ref={svgRef}
         viewBox="0 0 160 160"
