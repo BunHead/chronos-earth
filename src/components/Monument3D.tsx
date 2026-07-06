@@ -617,8 +617,8 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
  * Real terrain: stitch a 3×3 patch of Esri World Imagery tiles centred
  * on the site into one texture for the ground disc.
  * ------------------------------------------------------------------ */
-function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void) {
-  const z = 16;
+function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void, zoom = 16) {
+  const z = zoom;
   const n = 2 ** z;
   const latR = (lat * Math.PI) / 180;
   const xt = Math.floor(((lon + 180) / 360) * n);
@@ -762,12 +762,20 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
-    // Orient the model to true north on the satellite ground (north = −Z here).
-    // Stonehenge is built with its Heel Stone / entrance on local +Z, so we aim
-    // that axis at the real summer-solstice sunrise: the sun then rises straight
-    // over the Heel Stone. (Other models: their true facing is a later pass.)
+    // Orient & frame Stonehenge to the real summer-solstice sunrise. Its Heel
+    // Stone sits on local +Z; we aim that axis at the true sunrise bearing so
+    // the sun rises straight over the Heel Stone, then stand the camera on the
+    // opposite (south-west) side, behind the great trilithon, looking along the
+    // axis — the classic view of the sun rising through the tallest stones.
+    let groundZoom = 16;
     if (model === 'stonehenge') {
-      group.rotation.y = (180 - solsticeSunriseAzimuth(latVal)) * (Math.PI / 180);
+      const A = solsticeSunriseAzimuth(latVal) * (Math.PI / 180);
+      const ax = Math.sin(A), az = -Math.cos(A); // sunrise bearing, scene frame
+      group.rotation.y = Math.PI - A;
+      camera.position.set(-ax * 22, 6.5, -az * 22);
+      controls.target.set(ax * 4, 4, az * 4);
+      controls.update();
+      groundZoom = 18; // tighter imagery so the ~33 m ring marries the real site
     }
     scene.add(group);
     // Every stone casts and catches shadows; sky objects (the comet) opt out.
@@ -786,7 +794,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
         groundMat.map = tex;
         groundMat.color.set('#d8d8d8');
         groundMat.needsUpdate = true;
-      });
+      }, groundZoom);
     }
 
     const resize = () => {
