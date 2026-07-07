@@ -24,10 +24,44 @@ const MODEL_BY_ID: Record<string, string> = {
   'younger-dryas-impact': 'impact',
 };
 
+/**
+ * Monuments a generic archetype would MISREPRESENT — we'd rather show no 3D
+ * (the real photo carries it) than a misleading model. MIRRORS NO_3D_NAMES in
+ * scripts/monument-archetype.mjs; the parity test (audit.test.ts) enforces it.
+ */
+const NO_3D_NAMES = new Set([
+  'elmina castle',
+  'riber castle',
+  'brimstone hill fortress national park',
+  'forth bridge',
+  'palace of versailles',
+  'drottningholm palace',
+  'blenheim palace',
+  'stoclet palace',
+  'château de chambord',
+  'alhambra',
+  'potala palace',
+  'agra fort',
+  'himeji castle',
+  'fort de loncin',
+  'mosque-cathedral of cordoba',
+  "saint basil's cathedral",
+  'saint sophia cathedral',
+  'church of the nativity',
+  'sagrada família',
+  'basilica and expiatory church of the holy family',
+  'rock churches of lalibela',
+  'church of saint george',
+  'church of our lady mary of zion',
+  'church of cristo obrero y nuestra señora de lourdes',
+  'angkor wat',
+]);
+
 /** Pick a 3D model for an imported monument event from its name, so every
  * monument on the map is zoomable into SOME reconstruction. */
 export function monumentModelForName(name: string): string | null {
   const n = name.toLowerCase();
+  if (NO_3D_NAMES.has(n.trim())) return null; // suppressed — would misrepresent it
   if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
     return 'stepped-pyramid';
   if (/sphinx/.test(n)) return 'sphinx'; // before pyramid — "Sphinx of Giza"

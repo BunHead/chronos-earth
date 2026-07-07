@@ -10,6 +10,45 @@
 // just the chosen 3D model but WHICH branch chose it — that "how" is the whole
 // point of the audit report.
 
+/**
+ * Monuments whose real form a generic archetype would MISREPRESENT — better to
+ * show no 3D button (just the real photo in the panel) than a misleading model.
+ * Policy: "prefer no 3D to a wrong one." Keys are lowercased full names.
+ * Reviewed by scripts/verify-3d.mjs (a cheap-AI pass); MIRRORED in panel.ts
+ * (the parity test enforces it).
+ */
+export const NO_3D_NAMES = new Set([
+  // Seed: keyword false-friends.
+  'elmina castle', // a low West African coastal trade fort, not a turreted keep
+  'riber castle', // a Victorian Gothic folly, not a medieval castle
+  'brimstone hill fortress national park', // a fortress park, not a single keep
+  'forth bridge', // a railway bridge (snared by "forth" ⊃ "fort")
+  // From the cheap-AI (Haiku) correctness review — the generic archetype would
+  // misrepresent these distinctive real forms (palace≠keep, mosque/onion-dome/
+  // rock-cut/Gaudí≠Gothic cathedral, non-European castles). Show the photo.
+  'palace of versailles',
+  'drottningholm palace',
+  'blenheim palace',
+  'stoclet palace',
+  'château de chambord',
+  'alhambra',
+  'potala palace',
+  'agra fort',
+  'himeji castle',
+  'fort de loncin',
+  'mosque-cathedral of cordoba',
+  "saint basil's cathedral",
+  'saint sophia cathedral',
+  'church of the nativity',
+  'sagrada família',
+  'basilica and expiatory church of the holy family',
+  'rock churches of lalibela',
+  'church of saint george',
+  'church of our lady mary of zion',
+  'church of cristo obrero y nuestra señora de lourdes',
+  'angkor wat',
+]);
+
 /** Every 3D archetype buildModel() in Monument3D.tsx can actually render. */
 export const VALID_MODELS = [
   'tpillars', 'stonehenge', 'pyramid', 'stepped-pyramid', 'sphinx', 'circle',
@@ -66,6 +105,7 @@ const KEYWORD_RULES = [
  */
 export function classifyMonumentName(name) {
   const n = String(name).toLowerCase();
+  if (NO_3D_NAMES.has(n.trim())) return { model: null, rule: 'suppressed — a generic model would misrepresent it' };
   for (const row of KEYWORD_RULES) {
     if (row.re.test(n)) return { model: row.model, rule: row.rule };
   }
