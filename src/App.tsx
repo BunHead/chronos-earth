@@ -17,6 +17,7 @@ import Tours from './components/Tours';
 // Three.js-based; loaded on demand to keep the initial bundle small.
 const Monument3D = lazy(() => import('./components/Monument3D'));
 import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
+import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
 import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
@@ -51,6 +52,10 @@ const PRESENT_FALLBACK_YEAR = 2026;
 
 export default function App() {
   const [yearsBP, setYearsBP] = useState<number>(OLDEST_BP);
+  // The globe's heavy per-tick work (markers, borders, drift) follows a
+  // throttled timeline value — ~10×/second instead of the play loop's 60 — so
+  // playback stays smooth. The playhead + readout still use the raw `yearsBP`.
+  const heavyYearsBP = useThrottledValue(yearsBP, 100);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   // Timeline zoom level (index into ZOOM_SPANS). Default = full range (classic
@@ -316,7 +321,7 @@ export default function App() {
     <div className="app">
       <Globe
         ref={globeRef}
-        currentYearsBP={yearsBP}
+        currentYearsBP={heavyYearsBP}
         sites={sites}
         battles={battles}
         showSites={showSites}
