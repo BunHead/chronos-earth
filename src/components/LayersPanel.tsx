@@ -24,7 +24,6 @@ interface LayersPanelProps {
   onTogglePeople: (value: boolean) => void;
   showFauna: boolean;
   onToggleFauna: (value: boolean) => void;
-  onAbout: () => void;
 }
 
 /**
@@ -60,7 +59,6 @@ export default function LayersPanel({
   onTogglePeople,
   showFauna,
   onToggleFauna,
-  onAbout,
 }: LayersPanelProps) {
   // Collapsible, and folded by default for a clean view of the planet.
   const [open, setOpen] = useState(false);
@@ -163,9 +161,6 @@ export default function LayersPanel({
         <input type="checkbox" checked={showFauna} onChange={(e) => onToggleFauna(e.target.checked)} />
         <span>🦕 Prehistoric life</span>
       </label>
-      <button className="layers-about" onClick={onAbout}>
-        ℹ About &amp; sources
-      </button>
         </>
       )}
     </div>

@@ -18,8 +18,7 @@ interface ToursProps {
  * Prev/Next, a progress dot per stop, and an optional read-aloud toggle.
  * Moving the timeline/camera per step is App's job; this is just the UI.
  */
-export default function Tours({ tours, active, step, onStart, onStep, onExit }: ToursProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function Tours({ active, step, onStep, onExit }: ToursProps) {
   const [narrate, setNarrate] = useState(false);
 
   const current = active?.steps[step];
@@ -30,37 +29,9 @@ export default function Tours({ tours, active, step, onStart, onStep, onExit }: 
     return () => stopSpeech();
   }, [active, current, narrate]);
 
-  if (!active) {
-    return (
-      <div className="tours-launcher">
-        <button className="btn" onClick={() => setMenuOpen((o) => !o)}>
-          🎬 Story tours
-        </button>
-        {menuOpen && (
-          <div className="tours-menu">
-            {tours.map((tour) => (
-              <button
-                key={tour.id}
-                className="tours-item"
-                onClick={() => {
-                  setMenuOpen(false);
-                  onStart(tour);
-                }}
-              >
-                <span className="tours-emoji">{tour.emoji}</span>
-                <span>
-                  <b>{tour.title}</b>
-                  <small>{tour.description}</small>
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (!current) return null;
+  // Tours are launched from the ⋮ menu now; this component is just the running
+  // story card.
+  if (!active || !current) return null;
   const last = step >= active.steps.length - 1;
 
   return (

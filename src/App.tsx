@@ -13,6 +13,7 @@ import BattleView from './components/BattleView';
 import SearchBox from './components/SearchBox';
 import About from './components/About';
 import Tours from './components/Tours';
+import AppMenu from './components/AppMenu';
 
 // Three.js-based; loaded on demand to keep the initial bundle small.
 const Monument3D = lazy(() => import('./components/Monument3D'));
@@ -154,6 +155,12 @@ export default function App() {
     lon: number;
   } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  // "Reduce motion" (in the ⋮ menu) sets a root attribute; CSS then stills the
+  // app's transitions and animations for anyone who finds movement distracting.
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-reduce-motion', reduceMotion);
+  }, [reduceMotion]);
   // A newer build has been deployed since this tab loaded — offer a refresh.
   const [newVersion, setNewVersion] = useState(false);
 
@@ -386,6 +393,14 @@ export default function App() {
         <p>250 million years of history · drag the timeline to travel</p>
       </div>
 
+      <AppMenu
+        tours={tours}
+        onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
+        onAbout={() => setShowAbout(true)}
+        reduceMotion={reduceMotion}
+        onReduceMotion={setReduceMotion}
+      />
+
       <SearchBox
         sites={sites}
         battles={battles}
@@ -421,7 +436,6 @@ export default function App() {
         onToggleScience={setShowScience}
         showPeople={showPeople}
         onTogglePeople={setShowPeople}
-        onAbout={() => setShowAbout(true)}
       />
 
       {showAbout && <About onClose={() => setShowAbout(false)} />}
