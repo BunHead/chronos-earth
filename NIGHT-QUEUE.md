@@ -51,14 +51,17 @@ items. The night session marks progress here and never deletes your words.
    Central, Southern Africa; sitelinks floor ~15; categories city, monument,
    battle, event; merge into events.json with ALL the guards (count must go
    UP, cur- ids preserved, dedupe by normalised name). npm test must pass.
+   [DONE 2026-07-04 c7d0006 — scripts/fill-africa.mjs, +225 African events]
 12. NOTTINGHAMSHIRE + MIDLANDS DEEP BATCH: 20+ curated entries with real
    coords and wikiTitles - e.g. Creswell Crags (ice-age cave art!), Southwell
    Minster, Newstead Abbey + Lord Byron (person), Bess of Hardwick + Hardwick
    Hall, Haddon Hall, Peveril Castle, Arbor Low, Buxton spa, Erasmus Darwin,
    Torvill and Dean (Nottingham, 1984). cur- ids, notability 400.
+   [DONE 2026-07-04 c7d0006 — 21 Midlands curated entries incl. Creswell Crags]
 13. monumentModelForName is now a pure function returning string|null - add
    a test file covering: cathedral names -> cathedral, university/rock-art ->
    null (no 3D button), pyramid/castle/henge mappings, case-insensitivity.
+   [DONE 2026-07-04 c7d0006 — src/lib/panel.test.ts, caught the Sphinx/pyramid bug]
 14. Re-run `node scripts/fill-world.mjs` - the North America box 504'd on
    first run (everything else landed). If it lands, also re-run
    `node scripts/fill-modern.mjs` once for good measure. Both are idempotent.
