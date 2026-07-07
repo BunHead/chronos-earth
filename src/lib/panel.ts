@@ -55,6 +55,10 @@ const NO_3D_NAMES = new Set([
   'church of our lady mary of zion',
   'church of cristo obrero y nuestra señora de lourdes',
   'angkor wat',
+  // TODO(colosseum): suppressed until a proper arched model exists — the boxy
+  // 'amphitheatre' can't do the arcades and its ruin is a rubble-jumble; the
+  // photo reads better. Mirrored in scripts/monument-archetype.mjs.
+  'colosseum',
 ]);
 
 /** Pick a 3D model for an imported monument event from its name, so every

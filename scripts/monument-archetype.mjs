@@ -47,6 +47,11 @@ export const NO_3D_NAMES = new Set([
   'church of our lady mary of zion',
   'church of cristo obrero y nuestra señora de lourdes',
   'angkor wat',
+  // TODO(colosseum): suppressed until a proper arched model exists. Our boxy
+  // 'amphitheatre' can't render the Colosseum's arcades, and its ruin form is a
+  // rubble-jumble — the photo reads far better. Build real arch geometry + the
+  // iconic half-collapsed form, then remove this line to bring the 3D back.
+  'colosseum',
 ]);
 
 /** Every 3D archetype buildModel() in Monument3D.tsx can actually render. */

@@ -3,7 +3,7 @@ import { monumentModelForName } from './panel';
 
 describe('monumentModelForName — honest 3D or nothing', () => {
   it('churches get the cathedral model', () => {
-    expect(monumentModelForName('Sagrada Família')).toBe('cathedral');
+    expect(monumentModelForName('Cologne Cathedral')).toBe('cathedral');
     expect(monumentModelForName('Notre-Dame de Paris')).toBe('cathedral');
     expect(monumentModelForName('Canterbury Cathedral')).toBe('cathedral');
     expect(monumentModelForName('Westminster Abbey')).toBe('cathedral');
@@ -26,15 +26,16 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   });
 
   it('castles, forts and palaces get their own castle model (not a settlement box)', () => {
+    // Examples chosen to sit OUTSIDE the suppression list (NO_3D_NAMES), which
+    // runs first — these exercise the keyword rule itself, one per sub-pattern.
     expect(monumentModelForName('Edinburgh Castle')).toBe('castle');
     expect(monumentModelForName('Nottingham Castle')).toBe('castle');
     expect(monumentModelForName('Malbork Castle')).toBe('castle');
-    expect(monumentModelForName('Agra Fort')).toBe('castle');
-    expect(monumentModelForName('Fort de Loncin')).toBe('castle');
-    expect(monumentModelForName('Palace of Versailles')).toBe('castle');
-    expect(monumentModelForName('Alhambra')).toBe('castle');
-    expect(monumentModelForName('Potala Palace')).toBe('castle');
-    expect(monumentModelForName('Château de Chambord')).toBe('castle');
+    expect(monumentModelForName('Fort Ticonderoga')).toBe('castle');
+    expect(monumentModelForName('Citadel of Aleppo')).toBe('castle');
+    expect(monumentModelForName('Buckingham Palace')).toBe('castle');
+    expect(monumentModelForName('Château de Chenonceau')).toBe('castle');
+    expect(monumentModelForName('Moscow Kremlin')).toBe('castle');
     expect(monumentModelForName('Castel del Monte')).toBe('castle');
   });
 
@@ -52,7 +53,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Konark Sun Temple')).toBe('temple-tower');
     // The broad temple bucket and temple-mountains are unchanged.
     expect(monumentModelForName('Temple of Heaven')).toBe('megalith');
-    expect(monumentModelForName('Angkor Wat')).toBe('stepped-pyramid');
+    expect(monumentModelForName('Templo Mayor')).toBe('stepped-pyramid');
   });
 
   it('the Greeks get a real temple (apology accepted, Athens)', () => {
@@ -60,7 +61,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Acropolis of Athens')).toBe('greek-temple');
     expect(monumentModelForName('Temple of Artemis')).toBe('greek-temple');
     expect(monumentModelForName('Temple of Heaven')).toBe('megalith'); // broad bucket unchanged
-    expect(monumentModelForName('Angkor Wat')).toBe('stepped-pyramid'); // temple-mountain, by design
+    expect(monumentModelForName('Monte Albán')).toBe('stepped-pyramid'); // temple-mountain, by design
   });
 
   it('the new archetypes: aqueduct, pagoda, lighthouse', () => {

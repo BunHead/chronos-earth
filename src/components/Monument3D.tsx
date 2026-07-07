@@ -972,6 +972,11 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       group.traverse((o) => {
         if (o instanceof THREE.Mesh && !o.userData.noShadow) sBox.expandByObject(o);
       });
+      // Seat the model on the ground. Most archetypes are built base-at-y=0,
+      // but a few pivot off it — the leaning tower tilts about its base and dips
+      // below zero — so drop (or lift) the whole group until its lowest point
+      // rests on the terrain. No-op for models already grounded.
+      group.position.y -= sBox.min.y;
       const sSize = sBox.getSize(new THREE.Vector3());
       const maxDim = Math.max(sSize.x, sSize.y, sSize.z) || 20;
       const dist = maxDim * 1.5 + 6;
