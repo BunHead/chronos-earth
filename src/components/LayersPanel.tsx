@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { startDrag } from '../lib/windowDrag';
 
 interface LayersPanelProps {
@@ -62,10 +62,33 @@ export default function LayersPanel({
   onToggleFauna,
   onAbout,
 }: LayersPanelProps) {
-  // Collapsible, so the panel can fold away for a clean view of the planet.
-  const [open, setOpen] = useState(true);
+  // Collapsible, and folded by default for a clean view of the planet.
+  const [open, setOpen] = useState(false);
   // Draggable by its title bar — a real drag swallows the collapse-click.
   const draggedRef = useRef<(() => boolean) | undefined>(undefined);
+
+  // The master "All layers" switch — turns every layer on or off at once.
+  const allToggles: Array<[boolean, (v: boolean) => void]> = [
+    [showBorders, onToggleBorders],
+    [showFlags, onToggleFlags],
+    [showBattles, onToggleBattles],
+    [showCampaigns, onToggleCampaigns],
+    [showSites, onToggleSites],
+    [showCities, onToggleCities],
+    [showDisasters, onToggleDisasters],
+    [showEvents, onToggleEvents],
+    [showScience, onToggleScience],
+    [showPeople, onTogglePeople],
+    [showFauna, onToggleFauna],
+  ];
+  const allOn = allToggles.every(([v]) => v);
+  const anyOn = allToggles.some(([v]) => v);
+  const setAll = (value: boolean) => allToggles.forEach(([, fn]) => fn(value));
+  const allRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    // Show a dash (indeterminate) when only some layers are on.
+    if (allRef.current) allRef.current.indeterminate = anyOn && !allOn;
+  }, [anyOn, allOn]);
   return (
     <div className="layers-panel-wrap">
     <div className={open ? 'layers-panel' : 'layers-panel collapsed'}>
@@ -87,6 +110,10 @@ export default function LayersPanel({
       </button>
       {open && (
         <>
+      <label className="layer-row layer-all">
+        <input ref={allRef} type="checkbox" checked={allOn} onChange={(e) => setAll(e.target.checked)} />
+        <span>All layers</span>
+      </label>
       <label className="layer-row">
         <input type="checkbox" checked={showBorders} onChange={(e) => onToggleBorders(e.target.checked)} />
         <span>Political borders</span>
@@ -120,7 +147,7 @@ export default function LayersPanel({
         <input type="checkbox" checked={showDisasters} onChange={(e) => onToggleDisasters(e.target.checked)} />
         <span>🌋 Natural disasters</span>
       </label>
-      <label className="layers-row">
+      <label className="layer-row">
         <input type="checkbox" checked={showEvents} onChange={(e) => onToggleEvents(e.target.checked)} />
         <span>📜 Treaties &amp; events</span>
       </label>
@@ -135,10 +162,6 @@ export default function LayersPanel({
       <label className="layer-row">
         <input type="checkbox" checked={showFauna} onChange={(e) => onToggleFauna(e.target.checked)} />
         <span>🦕 Prehistoric life</span>
-      </label>
-      <label className="layer-row disabled" title="Coming in a future update">
-        <input type="checkbox" disabled />
-        <span>🐫 Trade routes</span>
       </label>
       <button className="layers-about" onClick={onAbout}>
         ℹ About &amp; sources

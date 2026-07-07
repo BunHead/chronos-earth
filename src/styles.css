@@ -607,6 +607,14 @@ body {
   cursor: not-allowed;
 }
 
+/* The master "All layers" switch sits above the list, set apart by a rule. */
+.layer-row.layer-all {
+  font-weight: 600;
+  margin-bottom: 4px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+}
+
 .layers-about {
   margin-top: 10px;
   width: 100%;
