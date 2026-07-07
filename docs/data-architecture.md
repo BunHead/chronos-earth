@@ -50,10 +50,13 @@ builds from this.
 
 ## The steps (build order)
 
-1. **Search‑driven live fetch.** Type any place not in the set → live
-   Wikidata/Wikipedia → show + cache. Fixes missing castles (Edinburgh, Windsor,
-   Chatsworth, Hardwick, Germany's Schlösser) for good. Reuses `liveFetch` +
-   the panel's existing live‑summary path.
+1. **Search‑driven live fetch — ✅ SHIPPED (ee7b01e, Opus).** The search box's
+   "🌐 Look up '<query>' online" row → `liveFetch.fetchByName` (Wikidata
+   entity‑search → SPARQL → shared `parseBindings`, date optional w/ ~1700
+   fallback for undated country houses) → adds the place (marker via the pool),
+   flies + opens the panel, and remembers it in `liveCache` (localStorage) for
+   next visit. Fixes the missing castles for good — bundle is a fast core, the
+   web fills any gap on demand. Zero cost, 9s timeout.
 2. **Skeleton / flesh split — ✅ SHIPPED (cfa61e2, Fable 5).** `scripts/build-core-index.mjs`
    emits a columnar `public/data/core-index.json` (year‑sorted, cell‑stamped)
    + 181 per‑cell `detail/` files; the app loads the skeleton first (63 KB gz
