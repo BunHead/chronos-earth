@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import SkyDial from './SkyDial';
 import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
+import { fitFor, computeFit } from '../lib/monumentFit';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
@@ -718,7 +719,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     controls.target.set(0, 2.5, 0);
     controls.maxPolarAngle = Math.PI / 2.05;
     controls.minDistance = 8;
-    controls.maxDistance = 60;
+    controls.maxDistance = 120;
 
     const hemi = new THREE.HemisphereLight(0xcfe3ff, 0x40402f, 1.0);
     scene.add(hemi);
@@ -783,6 +784,34 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       controls.target.set(vx * 6, 2.4, vz * 6);
       controls.update();
       groundZoom = 18; // tighter imagery so the real ring marries the real site
+    } else {
+      // Every other monument fits itself to the real world: measure its
+      // footprint, scale it to its true width, pull the satellite in to match,
+      // and turn it to face the right way. The camera then frames whatever size
+      // that produces (a squat pyramid or a tall pagoda alike).
+      const fpBox = new THREE.Box3();
+      group.traverse((o) => {
+        if (o instanceof THREE.Mesh && !o.userData.noShadow) fpBox.expandByObject(o);
+      });
+      const fpSize = fpBox.getSize(new THREE.Vector3());
+      const footprint = Math.max(fpSize.x, fpSize.z) || 10;
+      const { widthM, facingDeg } = fitFor(title, model);
+      const fit = computeFit(footprint, widthM, latVal);
+      group.scale.setScalar(fit.scale);
+      group.rotation.y = facingDeg * (Math.PI / 180);
+      groundZoom = fit.zoom;
+      // Frame the model from its scaled bounds — a steady 3/4 view.
+      group.updateMatrixWorld(true);
+      const sBox = new THREE.Box3();
+      group.traverse((o) => {
+        if (o instanceof THREE.Mesh && !o.userData.noShadow) sBox.expandByObject(o);
+      });
+      const sSize = sBox.getSize(new THREE.Vector3());
+      const maxDim = Math.max(sSize.x, sSize.y, sSize.z) || 20;
+      const dist = maxDim * 1.5 + 6;
+      camera.position.set(0, maxDim * 0.55 + 3, dist);
+      controls.target.set(0, maxDim * 0.3, 0);
+      controls.update();
     }
     scene.add(group);
     // Every stone casts and catches shadows; sky objects (the comet) opt out.
