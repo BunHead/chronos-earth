@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "refresh-data": "node scripts/refresh-data.mjs",
+    "build:core": "node scripts/build-core-index.mjs",
     "harvest": "node scripts/harvest-world.mjs",
     "audit": "node scripts/audit.mjs"
   },

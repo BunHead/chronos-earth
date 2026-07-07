@@ -15,7 +15,9 @@ const CELL = 10; // degrees per spatial bucket
 const CELLS = Math.round(360 / CELL); // longitude buckets, 0..CELLS-1
 const latIdx = (lat: number) => Math.floor(lat / CELL);
 const lonIdx = (lon: number) => (((Math.floor(lon / CELL)) % CELLS) + CELLS) % CELLS;
-const cellKey = (lat: number, lon: number) => `${latIdx(lat)}|${lonIdx(lon)}`;
+/** Exported: scripts/build-core-index.mjs mirrors this formula to pre-stamp
+ * cells at harvest — parity is unit-tested in coreIndex.test.ts. */
+export const cellKey = (lat: number, lon: number) => `${latIdx(lat)}|${lonIdx(lon)}`;
 
 export interface ViewRect { w: number; s: number; e: number; n: number }
 
@@ -30,7 +32,16 @@ export interface EventIndex {
 }
 
 export function buildEventIndex(events: TimelineEvent[]): EventIndex {
-  const sorted = [...events].sort((a, b) => a.startYear - b.startYear);
+  // The core index arrives pre-sorted by year — one cheap pass detects that
+  // and skips the sort (region chunks appended later still get sorted).
+  let presorted = true;
+  for (let i = 1; i < events.length; i++) {
+    if (events[i].startYear < events[i - 1].startYear) {
+      presorted = false;
+      break;
+    }
+  }
+  const sorted = presorted ? events.slice() : [...events].sort((a, b) => a.startYear - b.startYear);
   const years = sorted.map((e) => e.startYear);
 
   // First index whose year >= target.

@@ -18,6 +18,9 @@ import { dirname, join } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const steps = [
   ['History events (Wikidata)', 'fetch-wikidata-events.mjs'],
+  // Rebuilds the columnar skeleton + per-cell detail from whatever the
+  // events fetch just wrote (docs/data-architecture.md, skeleton/flesh split).
+  ['Core skeleton index', 'build-core-index.mjs'],
   ['Commander portraits', 'fetch-portraits.mjs'],
   ['Historical battle maps', 'fetch-battle-maps.mjs'],
   ['Prehistoric life positions', 'fetch-fauna-paleo.mjs'],

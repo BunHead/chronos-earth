@@ -149,6 +149,9 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     ...(sections.length > 0 ? { sections } : {}),
     links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },
+    // Skeleton-loaded events carry a grid cell — InfoPanel lazy-fetches the
+    // rest (sides, deaths, war…) and rebuilds this content when it lands.
+    ...(e.cell ? { hydrate: e } : {}),
     // Monuments we can plausibly reconstruct get a 3D button (stylised by name).
     ...(e.category === 'monument' && monumentModelForName(e.name)
       ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon } }

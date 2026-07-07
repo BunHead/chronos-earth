@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ExternalLink, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
+import { hydrateEvent } from '../lib/detail';
+import { eventToPanel } from '../lib/panel';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
@@ -32,7 +34,26 @@ function LinkList({ links }: { links: ExternalLink[] }) {
  * entity, or battle). Shows the mainstream content first, then — if present —
  * a clearly-flagged alternative hypothesis.
  */
-export default function InfoPanel({ content, onClose, onFly, onZoomToBattle, onViewMonument }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomToBattle, onViewMonument }: InfoPanelProps) {
+  // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
+  // the war they belong to…). `content.hydrate` carries the source event; we
+  // fetch its per-cell detail lazily and rebuild the panel when it lands. The
+  // `source` tag ties the upgrade to the content that asked for it, so a
+  // late fetch can never resurrect a closed or replaced panel.
+  const [upgraded, setUpgraded] = useState<{ source: PanelContent; content: PanelContent } | null>(null);
+  useEffect(() => {
+    const ev = rawContent?.hydrate;
+    if (!ev) return;
+    let cancelled = false;
+    void hydrateEvent(ev).then((changed) => {
+      if (!cancelled && changed) setUpgraded({ source: rawContent, content: eventToPanel(ev) });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [rawContent]);
+  const content = upgraded && upgraded.source === rawContent ? upgraded.content : rawContent;
+
   const [wiki, setWiki] = useState<{
     status: 'idle' | 'loading' | 'done' | 'error';
     extract?: string;

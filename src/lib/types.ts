@@ -218,6 +218,9 @@ export interface TimelineEvent {
   image?: string;
   /** Notability proxy (Wikipedia sitelink count) — used to declutter by zoom. */
   notability?: number;
+  /** Spatial grid key stamped by the core index (scripts/build-core-index.mjs).
+   * Present = skeleton-loaded; names the detail/<cell>.json file with the rest. */
+  cell?: string;
 }
 
 /** A prehistoric creature (public/data/fauna.json). Lives on the timeline while
@@ -282,4 +285,7 @@ export interface PanelContent {
   monument3d?: { model: string; title: string; lat: number; lon: number };
   /** Clickable "nearby in this era" rows for the on-the-fly place+time dossier. */
   related?: RelatedItem[];
+  /** Skeleton-loaded events: the source event, so InfoPanel can lazy-fetch its
+   * detail (lib/detail.ts) and rebuild the panel once the flesh arrives. */
+  hydrate?: TimelineEvent;
 }

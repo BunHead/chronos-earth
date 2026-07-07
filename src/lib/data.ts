@@ -6,6 +6,7 @@
  * later phases without rebuilding the app.
  */
 import type { AncientSite, Battle, BattleMapInfo, BattleView, Fauna, TimelineEvent, Tour } from './types';
+import { eventsFromColumns, type CoreColumns } from './coreIndex';
 
 /** Resolve a path inside /public/data, respecting the app's base URL. */
 function dataUrl(file: string): string {
@@ -55,8 +56,21 @@ export async function loadTours(): Promise<Tour[]> {
 /**
  * Bulk history events imported from Wikidata (scripts/fetch-wikidata-events.mjs).
  * A missing file just means the import hasn't been run yet — the app still works.
+ *
+ * Fast path: the columnar skeleton (core-index.json, pre-sorted + pre-celled,
+ * built by scripts/build-core-index.mjs) — per-event detail then streams in
+ * lazily via lib/detail.ts. The full events.json stays as the fallback.
  */
 export async function loadEvents(): Promise<TimelineEvent[]> {
+  try {
+    const res = await fetch(dataUrl('core-index.json'));
+    if (res.ok) {
+      const events = eventsFromColumns((await res.json()) as CoreColumns);
+      if (events.length > 0) return events;
+    }
+  } catch {
+    // fall through to the legacy single file
+  }
   try {
     const res = await fetch(dataUrl('imported/events.json'));
     if (!res.ok) return [];
