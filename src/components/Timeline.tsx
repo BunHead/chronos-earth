@@ -451,7 +451,7 @@ export default function Timeline({
   const eventItems = useMemo<MuralSource[]>(
     () =>
       events
-        .filter((e) => enabledEventCats.has(e.category) && inRegion(e.lat, e.lon))
+        .filter((e) => enabledEventCats.has(e.category))
         .map((e) => ({
           id: 'e-' + e.id,
           title: e.name,
@@ -466,11 +466,11 @@ export default function Timeline({
           color: CAT_COLOR[e.category] ?? '#cccccc',
           toPanel: () => eventToPanel(e),
         })),
-    [events, enabledEventCats, inRegion],
+    [events, enabledEventCats],
   );
   const faunaItems = useMemo<MuralSource[]>(
     () =>
-      (showFauna ? fauna : []).filter((f) => inRegion(f.lat, f.lon)).map((f) => ({
+      (showFauna ? fauna : []).map((f) => ({
         id: 'f-' + f.id,
         title: f.name,
         olderBP: f.fromMa * 1_000_000,
@@ -484,7 +484,7 @@ export default function Timeline({
         color: FAUNA_COLOR,
         toPanel: () => faunaToPanel(f),
       })),
-    [fauna, showFauna, inRegion],
+    [fauna, showFauna],
   );
 
   // A taller timeline holds more mural rows — expand it and the wall fills.
@@ -504,15 +504,24 @@ export default function Timeline({
     const none = {
       items: [] as Array<MuralSource & { anchor: number; row: number; lp: number; rp: number; isSpan: boolean }>,
       lanes: [] as Array<{ name: string; row: number }>,
+      regionActive: false,
     };
     if (!zoomedIn) return none;
-    const inWindow = [...eventItems, ...faunaItems]
+    const REGION_MIN = 10; // fewer region events than this in-window → widen out
+    const windowed = [...eventItems, ...faunaItems]
       .map((it) => {
         const lp = bpToWindowPos(it.olderBP, win);
         const rp = bpToWindowPos(it.youngerBP, win);
-        return { it, lp, rp, anchor: clamp((lp + rp) / 2, 0.02, 0.98) };
+        return { it, lp, rp, anchor: clamp((lp + rp) / 2, 0.02, 0.98), regionHit: !region || inRegion(it.lat, it.lon) };
       })
       .filter((c) => c.rp > -0.05 && c.lp < 1.05);
+    // Region mode tells the place's own story — but if that's too sparse in this
+    // window (a quiet corner in a quiet century), widen to the wider world so
+    // the wall never looks bare. Region events keep priority via `regionHit`.
+    const regionCount = windowed.filter((c) => c.regionHit).length;
+    const inWindow = region && regionCount >= REGION_MIN
+      ? windowed.filter((c) => c.regionHit)
+      : windowed;
     // Balance categories so cities (highest sitelinks) don't crowd out the rest.
     const byCat = new Map<string, typeof inWindow>();
     for (const c of inWindow) {
@@ -522,11 +531,13 @@ export default function Timeline({
     }
     const candidates: typeof inWindow = [];
     const perCat = 9 + (maxRows - 2) * 4;
+    const byPriority = (a: typeof inWindow[number], b: typeof inWindow[number]) =>
+      Number(b.regionHit) - Number(a.regionHit) || b.it.notability - a.it.notability;
     for (const list of byCat.values()) {
-      list.sort((a, b) => b.it.notability - a.it.notability);
+      list.sort(byPriority);
       candidates.push(...list.slice(0, perCat));
     }
-    candidates.sort((a, b) => b.it.notability - a.it.notability);
+    candidates.sort(byPriority);
 
     // Lane mode: on a tall wall, give the busiest regions their own labelled
     // row (bottom-up) with everything else in a catch-all lane on top. Falls
@@ -581,15 +592,15 @@ export default function Timeline({
       });
       if (out.length >= 14 * maxRows) break;
     }
-    return { items: out, lanes };
+    return { items: out, lanes, regionActive: !!(region && regionCount >= REGION_MIN) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomedIn, win.centerBP, win.span, eventItems, faunaItems, maxRows]);
+  }, [zoomedIn, win.centerBP, win.span, eventItems, faunaItems, maxRows, region, inRegion]);
   const muralItems = mural.items;
 
   // In region mode the mural's own photos become the frame's backdrop — the
   // wall of that place's history, washed faint behind the circles.
   const collageStyle = useMemo<React.CSSProperties | undefined>(() => {
-    if (!region || !zoomedIn) return undefined;
+    if (!mural.regionActive) return undefined;
     const thumbs: string[] = [];
     for (const m of muralItems) {
       const t = thumbCache.get(m.wikiTitle);
@@ -606,7 +617,7 @@ export default function Timeline({
       backgroundSize: `${Math.max(24, Math.ceil(110 / n))}% auto`,
       backgroundRepeat: 'no-repeat',
     };
-  }, [region, zoomedIn, muralItems]);
+  }, [mural.regionActive, muralItems]);
 
   // Tell the globe exactly which events the mural is showing, so every timeline
   // circle has a matching map marker (null = not zoomed → globe uses its own era).
@@ -726,7 +737,7 @@ export default function Timeline({
           </button>
           <span className="zoom-label">
             {zoomLabel(span)}
-            {region && zoomedIn && <span className="region-chip" title="Showing this region's own story — zoom the globe out for the whole world">🔍 region</span>}
+            {mural.regionActive && <span className="region-chip" title="Showing this region's own story — zoom the globe out for the whole world">🔍 region</span>}
           </span>
           <button
             className="btn zoom-btn"
