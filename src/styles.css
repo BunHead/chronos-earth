@@ -71,7 +71,11 @@ body {
   border-radius: 10px;
   backdrop-filter: blur(6px);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
+.brand-text { pointer-events: none; }
 
 .brand h1 {
   margin: 0;
@@ -86,27 +90,29 @@ body {
   color: var(--text-dim);
 }
 
-/* ── ⋮ App menu (top-left, below the brand) — tours, settings, about ── */
+/* ── ⋯ App menu — sits inside the brand box, right of the title ── */
 .app-menu {
-  position: absolute;
-  top: 92px;
-  left: 18px;
-  z-index: 25;
+  position: relative;
+  margin-left: auto; /* push to the right of the brand text */
+  pointer-events: auto;
 }
 .app-menu-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: var(--panel);
+  width: 34px;
+  height: 30px;
+  border-radius: 8px;
+  background: transparent;
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
 }
 .app-menu-btn:hover { background: #1d2735; }
 .app-menu-drop {
-  margin-top: 6px;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
   width: 234px;
   background: var(--panel);
   border: 1px solid var(--border);

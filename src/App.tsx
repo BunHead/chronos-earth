@@ -422,17 +422,18 @@ export default function App() {
       )}
 
       <div className="brand">
-        <h1>Chronos Earth</h1>
-        <p>250 million years of history · drag the timeline to travel</p>
+        <div className="brand-text">
+          <h1>Chronos Earth</h1>
+          <p>250 million years of history · drag the timeline to travel</p>
+        </div>
+        <AppMenu
+          tours={tours}
+          onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
+          onAbout={() => setShowAbout(true)}
+          reduceMotion={reduceMotion}
+          onReduceMotion={setReduceMotion}
+        />
       </div>
-
-      <AppMenu
-        tours={tours}
-        onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
-        onAbout={() => setShowAbout(true)}
-        reduceMotion={reduceMotion}
-        onReduceMotion={setReduceMotion}
-      />
 
       <SearchBox
         sites={sites}

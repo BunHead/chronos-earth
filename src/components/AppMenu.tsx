@@ -40,7 +40,7 @@ export default function AppMenu({ tours, onStartTour, onAbout, reduceMotion, onR
         aria-expanded={open}
         onClick={() => { setOpen((o) => !o); setView('root'); }}
       >
-        ⋮
+        ⋯
       </button>
       {open && (
         <div className="app-menu-drop" role="menu">
