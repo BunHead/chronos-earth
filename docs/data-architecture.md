@@ -54,15 +54,20 @@ builds from this.
    Wikidata/Wikipedia → show + cache. Fixes missing castles (Edinburgh, Windsor,
    Chatsworth, Hardwick, Germany's Schlösser) for good. Reuses `liveFetch` +
    the panel's existing live‑summary path.
-2. **Skeleton / flesh split.** Emit the skeleton index at harvest (pre‑sorted +
-   pre‑celled); lazy‑load detail per item; back it with an IndexedDB cache
-   (warm loads instant). Turns Lever 3's in‑memory index into a bundled asset.
+2. **Skeleton / flesh split — ✅ SHIPPED (cfa61e2, Fable 5).** `scripts/build-core-index.mjs`
+   emits a columnar `public/data/core-index.json` (year‑sorted, cell‑stamped)
+   + 181 per‑cell `detail/` files; the app loads the skeleton first (63 KB gz
+   vs 93 KB), falls back to `events.json`, and hydrates flesh from one cached
+   per‑cell fetch on panel open. `eventIndex` detects the pre‑sorted input and
+   skips its sort. Chained into `refresh-data` + `npm run build:core`.
 3. **Harvest craft‑ready fields.** Fetch Wikidata instance‑of **type** (accurate
    archetype, not name‑guessing) + **dimensions** (height/area) so monuments
    arrive craft‑ready and auto‑fill `monumentFit`. Plus a targeted
    castle/palace/country‑house harvest for the famous bundled set.
-4. **LOD tiles + Web Worker.** Level‑of‑detail streaming (famous when zoomed out,
-   everything up close) + off‑thread queries. Only needed near 100k+ rows.
+4. **Repeat‑visit cache — ✅ SHIPPED (cfa61e2, Fable 5):** `public/sw.js`, a
+   hand‑rolled versioned service worker (no deps), cache‑first for `/data/`
+   JSON + images, cache name keyed to the build stamp, production‑only.
+   **Remaining:** LOD tiles + Web Worker (off‑thread queries) — only near 100k+ rows.
 
 ## Format & scaling decisions (2026‑07‑07 review)
 
