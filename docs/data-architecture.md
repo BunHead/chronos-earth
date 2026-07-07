@@ -64,6 +64,33 @@ builds from this.
 4. **LOD tiles + Web Worker.** Level‑of‑detail streaming (famous when zoomed out,
    everything up close) + off‑thread queries. Only needed near 100k+ rows.
 
+## Format & scaling decisions (2026‑07‑07 review)
+
+Anchor numbers: current events ≈ 175 B/event raw, ~50 B gzipped (Pages gzips JSON
+automatically). Skeleton‑only columnar ≈ 60–70 B/event raw → **~1.5–2 MB gz at
+100k rows** — an acceptable single load (revises the "few hundred KB" guess above).
+
+- **Skeleton format: columnar JSON** — one array per field instead of one object
+  per event. Kills repeated key names (30–50% raw savings), and pre‑sorted arrays
+  mean the index build is a slice, not a sort. Human‑inspectable, zero deps.
+- **Rejected:** NDJSON (streams but ships same bytes); FlatBuffers/Protobuf/
+  Arrow/Parquet (schema/WASM tax, and **GitHub Pages does not gzip binary
+  content‑types** — "compact" binary can arrive larger than gzipped JSON);
+  sql.js/SQLite‑WASM (1–1.5 MB WASM + per‑query JS↔WASM cost vs many
+  queries/sec during playback; `sql.js‑httpvfs` range‑request trick only wins at
+  GB scale); quadtree/R‑tree (the ~10° grid is simpler and fast enough).
+- **Never chunk by time** — playback sweeps all of time and would fetch‑churn
+  mid‑animation. Chunk on SPACE (cells); time stays an in‑memory dimension.
+- **Repeat visits: service worker + Cache API** for `/data/*`, keyed by
+  `stamp-version.mjs` (e.g. `vite-plugin-pwa`). Instant warm loads + offline.
+  IndexedDB stays the flesh cache; IDB for the skeleton only if parse ever hurts.
+- **Search:** debounced lowercase substring scan over skeleton names (~2–5 ms at
+  100k) — start there; MiniSearch (~7 KB, built in a worker) only if fuzzy wanted.
+- **Measured triggers, not dates:** parse+index > 100 ms → move load work to a
+  worker; skeleton gz > ~3 MB (~300k rows) → top‑20k famous set always loaded +
+  region‑streamed skeleton chunks (reuse `regionChunks.ts`); typed‑array binary
+  core → likely never.
+
 ## Zero‑cost law
 
 Static hosting (GitHub Pages), free endpoints (Wikidata SPARQL, Wikipedia REST),
