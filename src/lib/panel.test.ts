@@ -20,7 +20,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   it('classic mappings still hold', () => {
     expect(monumentModelForName('Great Pyramid of Giza')).toBe('pyramid');
     expect(monumentModelForName('Chichén Itzá')).toBe('stepped-pyramid');
-    expect(monumentModelForName('Borobudur')).toBe('stepped-pyramid');
+    expect(monumentModelForName('Teotihuacan')).toBe('stepped-pyramid');
     expect(monumentModelForName('Avebury henge')).toBe('circle');
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
   });
@@ -36,7 +36,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Buckingham Palace')).toBe('castle');
     expect(monumentModelForName('Château de Chenonceau')).toBe('castle');
     expect(monumentModelForName('Moscow Kremlin')).toBe('castle');
-    expect(monumentModelForName('Castel del Monte')).toBe('castle');
+    expect(monumentModelForName('Warwick Castle')).toBe('castle');
   });
 
   it('false friends: bridges and parks are NOT dragged into the castle model', () => {

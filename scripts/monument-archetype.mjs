@@ -52,6 +52,18 @@ export const NO_3D_NAMES = new Set([
   // rubble-jumble — the photo reads far better. Build real arch geometry + the
   // iconic half-collapsed form, then remove this line to bring the 3D back.
   'colosseum',
+  // From the overnight cheap-AI (Haiku) verify pass, 2026-07-07 — WRONG-FAMILY
+  // cases where the generic archetype badly misrepresents the real form (three
+  // independent reviewers, high confidence). See AI-VERIFY-REPORT.md.
+  'aachen cathedral', // Carolingian octagonal palatine chapel, not a twin-tower Gothic
+  'speyer cathedral', // Romanesque — round arches & four towers, no Gothic spire
+  'cusco cathedral', // Andean Baroque colonial, not Gothic
+  'newstead abbey', // a ruined priory turned country house, not an intact cathedral
+  'castel del monte', // a unique octagonal castle, not a square keep
+  'neuschwanstein castle', // a fairy-tale Revival castle a plain keep can't convey
+  'cahokia', // great earthen mounds, not a stone stepped-pyramid
+  'borobudur', // a Buddhist stupa-mandala, not a Mesoamerican stepped-pyramid
+  'borobudur temple',
 ]);
 
 /** Every 3D archetype buildModel() in Monument3D.tsx can actually render. */

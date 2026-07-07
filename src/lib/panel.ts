@@ -59,6 +59,16 @@ const NO_3D_NAMES = new Set([
   // 'amphitheatre' can't do the arcades and its ruin is a rubble-jumble; the
   // photo reads better. Mirrored in scripts/monument-archetype.mjs.
   'colosseum',
+  // Overnight cheap-AI (Haiku) verify pass, 2026-07-07 — wrong-family cases.
+  'aachen cathedral',
+  'speyer cathedral',
+  'cusco cathedral',
+  'newstead abbey',
+  'castel del monte',
+  'neuschwanstein castle',
+  'cahokia',
+  'borobudur',
+  'borobudur temple',
 ]);
 
 /** Pick a 3D model for an imported monument event from its name, so every
