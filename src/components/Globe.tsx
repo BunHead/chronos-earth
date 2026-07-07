@@ -780,10 +780,29 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     faunaRef.current?.update(ma, showFauna);
   }, [currentYearsBP, showBorders, showCampaigns, showFauna]);
 
-  // Flag artwork inside borders on/off.
+  // Flag artwork inside borders on/off — and auto-hidden when the whole view
+  // sits inside one country (the flag is redundant there, and just clutters).
+  // Only re-rasterise when the visibility actually flips (rasterising is dear).
+  const flagsAppliedRef = useRef<boolean | null>(null);
   useEffect(() => {
-    bordersRef.current?.setFlags(showFlags);
-  }, [showFlags]);
+    const borders = bordersRef.current;
+    if (!borders) return;
+    let insideOneCountry = false;
+    if (showFlags && zoomTier >= 2 && viewRect) {
+      const { w, s, e, n } = viewRect;
+      const midLon = e >= w ? (w + e) / 2 : (((w + e + 360) / 2 + 180) % 360) - 180;
+      const pts: Array<[number, number]> = [
+        [w, s], [e, s], [w, n], [e, n], [midLon, (s + n) / 2],
+      ];
+      const names = pts.map(([lo, la]) => borders.hitTest(lo, la)?.name);
+      insideOneCountry = names.every((nm) => nm != null && nm === names[0]);
+    }
+    const want = showFlags && !insideOneCountry;
+    if (flagsAppliedRef.current !== want) {
+      flagsAppliedRef.current = want;
+      borders.setFlags(want);
+    }
+  }, [showFlags, zoomTier, viewRect]);
 
   // Feed the border engine every battle we know of (curated + imported), so
   // the line map can burn its borders red where fighting is current.
