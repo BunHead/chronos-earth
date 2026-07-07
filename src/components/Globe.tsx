@@ -3,6 +3,7 @@ import * as Cesium from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
+import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
@@ -34,6 +35,12 @@ const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
  * flat whether there are 2,000 events or 200,000. Assigned in the visibility
  * effect; the other 99% of imports stay as cheap plain data until shown. */
 const EVENT_POOL_SIZE = 180;
+/** A year slice this wide around the playhead safely contains every event that
+ * eventVisibleAt could keep on screen — its widest window is ±150 years, and
+ * the deep-time age-stretch multiplies that by at most 30 (= 4,500). We query a
+ * touch beyond, then apply the exact test. So the index narrows without ever
+ * dropping a visible event. */
+const EVENT_QUERY_SPAN = 5000;
 
 /** Camera height (m) → zoom tier 0..3. */
 function zoomTierFor(height: number): number {
@@ -972,6 +979,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     for (const e of events) m.set(e.id, e);
     return m;
   }, [events]);
+  const eventIndex = useMemo(() => buildEventIndex(events), [events]);
 
   // Work out which events are on screen (capped to the most notable) and hand
   // the marker pool to them. Everything else stays as plain data — no entity,
@@ -1012,7 +1020,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           ? ev.lon >= w - mLon && ev.lon <= e + mLon
           : ev.lon >= w - mLon || ev.lon <= e + mLon; // view crosses the dateline
       };
-      const inWindow = events.filter((ev) => {
+      // Narrow with the index before the exact per-event test: a year slice
+      // (wide enough to never drop a visible event) and, when scoped to a
+      // region, the grid cells in view. Identical result to scanning all events.
+      let candidates = eventIndex.window(year - EVENT_QUERY_SPAN, year + EVENT_QUERY_SPAN);
+      if (scopeToView) {
+        const { w, s, e, n } = viewRect;
+        const mLat = Math.max(1, (n - s) * 0.1);
+        const mLon = Math.max(1, (e >= w ? e - w : 360 - (w - e)) * 0.1);
+        const viewSet = eventIndex.inView(viewRect, mLat, mLon);
+        if (viewSet) candidates = candidates.filter((ev) => viewSet.has(ev));
+      }
+      const inWindow = candidates.filter((ev) => {
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         if (!enabledEventCats.has(ev.category)) return false; // category toggled off
         return inView(ev) && eventVisibleAt(ev, year);
@@ -1071,7 +1090,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       tagged.chronosScale = scale;
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
-  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById]);
+  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById, eventIndex]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.
