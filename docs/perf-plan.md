@@ -1,10 +1,20 @@
-# Chronos Earth — Performance Levers 3 & 4 (queued, ready to run)
+# Chronos Earth — Performance Levers 3 & 4
 
-**Status.** Lever 1 (marker pool) and Lever 2 (throttle) are shipped and live.
+**Status (2026-07-07).**
+- Lever 1 (marker pool) — **SHIPPED**.
+- Lever 2 (throttle) — **SHIPPED**.
+- Lever 3b (runtime index: binary-search time slice + spatial grid) — **SHIPPED**
+  (`src/lib/eventIndex.ts`, wired in `Globe.tsx`). Retrieval is now O(log n + slice).
+- Lever 3a (harvest pre-bake: stamp cell + dupOf, emit tiny index file) — remaining,
+  LOW marginal value (index build is ~1 ms; dedup runs once per load, not per tick).
+- Lever 3c (levels of detail / per-cell top-N) — remaining, only for region-streaming
+  at very large scale.
+- Lever 4 — **HELD** by recommendation (see below).
+
 Profiling proved the per-scrub data *scan* is cheap (0.025 ms at 2,328 events,
-0.4 ms at 50,000) — the stutter was update *frequency*, now fixed. Levers 3 & 4
-are therefore **future-proofing for 10,000s+ and instant loads**, not the
-current stutter. Execute this top-to-bottom on the Captain's nod.
+0.4 ms at 50,000) — the stutter was update *frequency* (fixed by Lever 2).
+Levers 3a/3c/4 are **future-proofing for 10,000s+ and instant loads**, not the
+current stutter.
 
 The golden rule: **do the work once, at harvest; make everything after a lookup.
 Every stage costs O(what's on screen), never O(everything imported).**
@@ -45,12 +55,14 @@ first (3b), then bake the source at harvest (3a).
 
 ---
 
-## Lever 4 — Off-thread + warm cache (for true 10,000s / instant loads)
+## Lever 4 — Off-thread + warm cache (HELD — do only when the trigger below fires)
 
-### 4a. Web Worker
-- `src/workers/eventQuery.worker.ts`: move filter+declutter off the main thread.
-  Globe posts `{year, viewRect, tier}`, worker returns visible ids from the index.
-  Keep a synchronous fallback so nothing breaks if workers are unavailable.
+### 4a. Web Worker — NOT RECOMMENDED yet (premature)
+- The filter is already 0.025 ms (indexed + throttled). A worker adds a ~1 ms
+  message round-trip and complexity, making marker updates *slower*. Only worth
+  it at MILLIONS of events. Skip until then.
+- If ever built: `src/workers/eventQuery.worker.ts`; Globe posts `{year, viewRect,
+  tier}`, worker returns visible ids from the index; keep a synchronous fallback.
 
 ### 4b. IndexedDB warm cache
 - Cache parsed events (and region chunks) in IndexedDB, keyed by the build
