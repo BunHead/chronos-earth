@@ -38,6 +38,7 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'petra', widthM: 40 },
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
+  { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
 ];
 
 // Per-archetype fallback: a typical real footprint (m) and a default facing.
@@ -50,6 +51,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   circle: { widthM: 40, facingDeg: 0 },
   settlement: { widthM: 90, facingDeg: 0 },
   castle: { widthM: 120, facingDeg: 0 },
+  mansion: { widthM: 65, facingDeg: 0 },
   cathedral: { widthM: 110, facingDeg: 90 },
   'greek-temple': { widthM: 65, facingDeg: 90 },
   'temple-tower': { widthM: 60, facingDeg: 0 },

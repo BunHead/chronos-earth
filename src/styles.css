@@ -1098,6 +1098,13 @@ body {
   justify-content: center;
   padding: 8px 12px 10px;
 }
+.bv-phase-note {
+  margin: -4px 12px 8px;
+  text-align: center;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-dim);
+}
 
 .bv-phase {
   display: flex;

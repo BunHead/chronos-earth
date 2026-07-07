@@ -17,7 +17,7 @@ import AppMenu from './components/AppMenu';
 
 // Three.js-based; loaded on demand to keep the initial bundle small.
 const Monument3D = lazy(() => import('./components/Monument3D'));
-import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
+import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
 import { fetchByName } from './lib/liveFetch';
@@ -523,6 +523,7 @@ export default function App() {
             title={activeMonument.title}
             lat={activeMonument.lat}
             lon={activeMonument.lon}
+            year={yearsBPToYear(yearsBP)}
             onClose={() => setActiveMonument(null)}
           />
         </Suspense>

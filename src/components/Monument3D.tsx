@@ -6,6 +6,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import SkyDial from './SkyDial';
 import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
 import { fitFor, computeFit } from '../lib/monumentFit';
+import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
@@ -28,6 +29,9 @@ interface Monument3DProps {
   /** Site coordinates — used to pull real satellite imagery for the ground. */
   lat?: number;
   lon?: number;
+  /** The timeline's current calendar year — picks the starting life-phase for
+   *  monuments that changed through time (e.g. Nottingham Castle). */
+  year?: number;
   onClose: () => void;
 }
 
@@ -255,6 +259,20 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
   }
 }
 
+/** A soft radial-gradient sprite texture (flames, smoke) from colour stops. */
+function makeGlowTexture(stops: string[]): THREE.CanvasTexture {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  const grad = g.createRadialGradient(32, 32, 2, 32, 32, 32);
+  stops.forEach((s, i) => grad.addColorStop(i / (stops.length - 1), s));
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 64, 64);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
 function buildModel(model: string, phase = 3): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
@@ -395,6 +413,45 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
         }
       }
     }
+  } else if (model === 'mansion') {
+    // A stylised Palladian country house: a symmetrical two-storey block with a
+    // central pillared portico + pediment, two lower wings, ranks of windows, a
+    // hipped roof and chimneys. (Nottingham Castle's later, grander life.)
+    ground = '#4f6138';
+    const stoneCol = '#d8c9a8';
+    const trimCol = '#e6dcc4';
+    const winCol = '#2f3742';
+    const mainW = 12, mainH = 5.2, mainD = 7;
+    group.add(block(mainW, mainH, mainD, 0, mainH / 2, 0, stoneCol)); // main block
+    group.add(block(mainW + 0.6, 0.5, mainD + 0.6, 0, mainH + 0.25, 0, '#8a7d6a')); // cornice
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(mainW - 1.2, 1.1, mainD - 1.2), stoneLike({ color: '#5a5049', flatShading: true }));
+    roof.position.set(0, mainH + 0.9, 0);
+    group.add(roof);
+    for (const s of [-1, 1] as const) { // two lower wings
+      const wingW = 4;
+      group.add(block(wingW, mainH - 1.4, mainD - 1.2, s * (mainW / 2 + wingW / 2 - 0.2), (mainH - 1.4) / 2, 0, stoneCol));
+      group.add(block(wingW + 0.4, 0.4, mainD - 0.8, s * (mainW / 2 + wingW / 2 - 0.2), mainH - 1.4 + 0.2, 0, '#8a7d6a'));
+    }
+    for (let row = 0; row < 2; row++) { // two ranks of windows on the front
+      for (let i = 0; i < 5; i++) {
+        const wx = -mainW / 2 + 1.6 + i * ((mainW - 3.2) / 4);
+        group.add(block(0.9, 1.4, 0.2, wx, 1.5 + row * 2, mainD / 2 + 0.01, winCol));
+      }
+    }
+    const porticoZ = mainD / 2 + 1.4; // central portico
+    for (let i = 0; i < 4; i++) {
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 4.2, 12), stoneMat(trimCol));
+      col.position.set(-2.4 + i * 1.6, 2.1, porticoZ);
+      group.add(col);
+    }
+    group.add(block(6.4, 0.7, 1.6, 0, 4.5, porticoZ, trimCol)); // entablature
+    for (const s of [-1, 1] as const) { // triangular pediment from two angled slabs
+      const slab = block(3.4, 0.5, 1.6, s * 1.55, 5.15, porticoZ, trimCol);
+      slab.rotation.z = s * -0.5;
+      group.add(slab);
+    }
+    group.add(block(1.4, 2.6, 0.3, 0, 1.3, mainD / 2 + 0.02, '#3a2f26')); // grand door
+    for (const s of [-1, 1] as const) group.add(block(0.8, 1.6, 0.8, s * 3.5, mainH + 1.3, 0, '#b8a888')); // chimneys
   } else if (model === 'temple-tower') {
     // A South / South-East Asian temple (Prambanan, Konark, Preah Vihear): a
     // tall tapering spire (shikhara / candi) of stacked receding tiers on a
@@ -660,11 +717,18 @@ function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.Canv
  * Monument3D — a procedural 3D impression of an ancient site standing on real
  * satellite terrain, under a slow day/night cycle. Drag to orbit.
  */
-export default function Monument3D({ model, title, lat, lon, onClose }: Monument3DProps) {
+export default function Monument3D({ model, title, lat, lon, year, onClose }: Monument3DProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   // Stonehenge grew over ~1,500 years; this picks which construction phase to
   // show (3 = complete). Only surfaced for the stonehenge model.
   const [phase, setPhase] = useState(3);
+
+  // Monuments that changed through time (Nottingham Castle) open on the life-
+  // phase in force at the timeline's year; a bar steps through the others.
+  const phases = phasesFor(title);
+  const [lifeIdx, setLifeIdx] = useState(() => (phases ? phaseIndexAt(phases, year ?? 2026) : 0));
+  const effModel = phases ? phases[lifeIdx].model : model;
+  const burning = phases?.[lifeIdx].state === 'burning';
 
   // Sky/sun state, driven by the SkyDial. Opens on today, mid-morning, gently
   // auto-advancing so the day still passes on its own until you grab the dial.
@@ -686,7 +750,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
     const container = containerRef.current;
     if (!container) return;
 
-    const { group, ground } = buildModel(model, phase);
+    const { group, ground } = buildModel(effModel, phase);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#10151f');
@@ -795,7 +859,7 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       });
       const fpSize = fpBox.getSize(new THREE.Vector3());
       const footprint = Math.max(fpSize.x, fpSize.z) || 10;
-      const { widthM, facingDeg } = fitFor(title, model);
+      const { widthM, facingDeg } = fitFor(title, effModel);
       const fit = computeFit(footprint, widthM, latVal);
       group.scale.setScalar(fit.scale);
       group.rotation.y = facingDeg * (Math.PI / 180);
@@ -821,6 +885,30 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
         obj.receiveShadow = true;
       }
     });
+
+    // A 'burning' life-phase (Nottingham's 1831 fire): flames licking the walls
+    // and smoke rolling off, as children of the already-scaled building.
+    const fireSprites: Array<{ s: THREE.Sprite; kind: 'flame' | 'smoke'; by: number; bx: number; seed: number; sc: number }> = [];
+    const fireTextures: THREE.Texture[] = [];
+    if (burning) {
+      const flameTex = makeGlowTexture(['#fff6c0', '#ffcf5a', '#ff7a1a', 'rgba(255,80,10,0)']);
+      const smokeTex = makeGlowTexture(['rgba(70,64,58,0.85)', 'rgba(45,42,38,0.5)', 'rgba(30,28,26,0)']);
+      fireTextures.push(flameTex, smokeTex);
+      const addFx = (tex: THREE.Texture, kind: 'flame' | 'smoke', x: number, y: number, z: number, sc: number) => {
+        const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, fog: false, blending: kind === 'flame' ? THREE.AdditiveBlending : THREE.NormalBlending });
+        const sp = new THREE.Sprite(mat);
+        sp.scale.set(sc, sc, 1);
+        sp.position.set(x, y, z);
+        sp.userData.noShadow = true;
+        group.add(sp);
+        fireSprites.push({ s: sp, kind, by: y, bx: x, seed: Math.random() * 10, sc });
+      };
+      for (let i = 0; i < 12; i++) {
+        const a = (i / 12) * Math.PI * 2;
+        addFx(flameTex, 'flame', Math.cos(a) * 5, 1.6 + Math.random() * 4.5, Math.sin(a) * 3, 2 + Math.random() * 1.2);
+      }
+      for (let i = 0; i < 6; i++) addFx(smokeTex, 'smoke', (Math.random() - 0.5) * 9, 6.5 + Math.random() * 2, (Math.random() - 0.5) * 4, 4.5);
+    }
 
     // Drop in the real satellite ground once the tiles arrive.
     let groundTex: THREE.CanvasTexture | null = null;
@@ -931,6 +1019,24 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       (scene.background as THREE.Color).copy(skyColor);
       scene.fog!.color.copy(skyColor);
 
+      // Flicker the flames and roll the smoke upward (the 1831 fire).
+      if (fireSprites.length) {
+        const ft = performance.now() / 1000;
+        for (const f of fireSprites) {
+          if (f.kind === 'flame') {
+            const fl = 0.7 + 0.4 * Math.abs(Math.sin(ft * 7 + f.seed) * Math.sin(ft * 11 + f.seed * 1.7));
+            f.s.scale.set(f.sc * fl, f.sc * fl * 1.3, 1);
+            f.s.position.y = f.by + 0.3 * Math.sin(ft * 6 + f.seed);
+          } else {
+            f.s.position.y += 0.02;
+            f.s.position.x = f.bx + 0.6 * Math.sin(ft * 0.5 + f.seed);
+            const rise = f.s.position.y - f.by;
+            (f.s.material as THREE.SpriteMaterial).opacity = Math.max(0, 1 - rise / 6);
+            if (rise > 6) f.s.position.y = f.by;
+          }
+        }
+      }
+
       controls.update();
       renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
@@ -955,9 +1061,11 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
       sunSprite.material.dispose();
       moonMesh.geometry.dispose();
       (moonMesh.material as THREE.Material).dispose();
+      fireSprites.forEach((f) => (f.s.material as THREE.Material).dispose());
+      fireTextures.forEach((t) => t.dispose());
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
-  }, [model, lat, lon, phase, onClose]);
+  }, [model, effModel, burning, lat, lon, phase, onClose]);
 
   return (
     <div className="bv-overlay" role="dialog" aria-label={`${title} in 3D`}>
@@ -989,6 +1097,21 @@ export default function Monument3D({ model, title, lat, lon, onClose }: Monument
             ))}
           </div>
         )}
+        {phases && (
+          <div className="bv-phase-bar" role="group" aria-label={`${title} through time`}>
+            {phases.map((p, i) => (
+              <button
+                key={i}
+                className={`bv-phase${lifeIdx === i ? ' active' : ''}`}
+                onClick={() => setLifeIdx(i)}
+              >
+                <strong>{p.yearLabel}</strong>
+                <span>{p.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+        {phases?.[lifeIdx].note && <div className="bv-phase-note">{phases[lifeIdx].note}</div>}
         <div className="bv-stage bv-stage-3d">
           <div className="battle3d" ref={containerRef} />
           <div className="bv-3d-hint">Drag to orbit · scroll to zoom · a stylised reconstruction, not exact</div>
