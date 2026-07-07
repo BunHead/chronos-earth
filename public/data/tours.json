@@ -441,6 +441,142 @@
      "text": "In 1558 Anne Boleyn’s daughter became Elizabeth I. Her long reign — Shakespeare, Drake, the defeat of the Spanish Armada — is remembered as a Tudor golden age."
     }
    ]
+  },
+  {
+   "id": "egypt",
+   "emoji": "🐫",
+   "title": "Ancient Egypt",
+   "description": "Pharaohs, pyramids and hieroglyphs — 2,500 years by the Nile.",
+   "steps": [
+    {
+     "year": -2560,
+     "lon": 31.1342,
+     "lat": 29.9792,
+     "altitude": 350000,
+     "title": "The Great Pyramid of Giza",
+     "text": "Around 2560 BCE the Egyptians built the Great Pyramid as a tomb for pharaoh Khufu. At 146 m it was the tallest building on Earth for nearly 4,000 years — made of over two million stone blocks."
+    },
+    {
+     "year": -2500,
+     "lon": 31.1376,
+     "lat": 29.9753,
+     "altitude": 250000,
+     "title": "The Great Sphinx",
+     "text": "Beside the pyramids crouches the Sphinx — a giant lion with a human head, carved from a single ridge of rock, guarding the Giza plateau."
+    },
+    {
+     "year": -1479,
+     "lon": 32.6068,
+     "lat": 25.7381,
+     "altitude": 300000,
+     "title": "Hatshepsut, the woman pharaoh",
+     "text": "Hatshepsut became one of Egypt’s few female pharaohs around 1479 BCE, ruling for over 20 years and building a magnificent temple at Deir el-Bahari."
+    },
+    {
+     "year": -1332,
+     "lon": 32.6013,
+     "lat": 25.7402,
+     "altitude": 250000,
+     "title": "Tutankhamun",
+     "text": "The boy-king Tutankhamun died around 1323 BCE and was buried in the Valley of the Kings. When Howard Carter found his golden tomb in 1922, the treasures made him the most famous pharaoh of all."
+    },
+    {
+     "year": -1279,
+     "lon": 31.6258,
+     "lat": 22.3372,
+     "altitude": 300000,
+     "title": "Ramesses II & Abu Simbel",
+     "text": "Ramesses the Great carved four colossal statues of himself into the cliff at Abu Simbel. Twice a year the rising sun still reaches deep inside to light the inner sanctuary."
+    },
+    {
+     "year": -196,
+     "lon": 30.4167,
+     "lat": 31.4,
+     "altitude": 350000,
+     "title": "The Rosetta Stone",
+     "text": "Carved in 196 BCE with the same text in three scripts, the Rosetta Stone — found in 1799 — became the key that let scholars finally read Egyptian hieroglyphs."
+    },
+    {
+     "year": -30,
+     "lon": 29.9187,
+     "lat": 31.2001,
+     "altitude": 400000,
+     "title": "Cleopatra, the last pharaoh",
+     "text": "Cleopatra VII ruled from Alexandria, allied with Rome’s Julius Caesar and Mark Antony. Her death in 30 BCE ended 3,000 years of the pharaohs, as Egypt became a Roman province."
+    }
+   ]
+  },
+  {
+   "id": "victorians",
+   "emoji": "🎩",
+   "title": "The Victorians",
+   "description": "Steam, empire and invention — Britain, 1837 to 1901.",
+   "steps": [
+    {
+     "year": 1830,
+     "lon": -2.7,
+     "lat": 53.45,
+     "altitude": 400000,
+     "title": "The railway age",
+     "text": "In 1830 the Liverpool & Manchester Railway opened — the first inter-city line worked entirely by steam. Railways would soon stitch the whole country together and change everyday life for ever."
+    },
+    {
+     "year": 1837,
+     "lon": -0.1419,
+     "lat": 51.5014,
+     "altitude": 300000,
+     "title": "Queen Victoria",
+     "text": "In 1837 the 18-year-old Victoria became queen. Her 63-year reign gave its name to an age of huge change — factories, railways, science and a vast empire."
+    },
+    {
+     "year": 1843,
+     "lon": -0.12,
+     "lat": 51.515,
+     "altitude": 300000,
+     "title": "Dickens and the cities",
+     "text": "Charles Dickens’s stories — Oliver Twist, A Christmas Carol (1843) — showed the poverty and hope of the crowded new industrial cities, and helped push for reform."
+    },
+    {
+     "year": 1851,
+     "lon": -0.1657,
+     "lat": 51.5074,
+     "altitude": 250000,
+     "title": "The Great Exhibition",
+     "text": "In 1851 the Crystal Palace — a giant hall of iron and glass in Hyde Park — hosted the Great Exhibition, showing off the marvels of industry to six million visitors."
+    },
+    {
+     "year": 1859,
+     "lon": 0.0546,
+     "lat": 51.331,
+     "altitude": 350000,
+     "title": "Darwin’s big idea",
+     "text": "From his home in Kent, Charles Darwin published On the Origin of Species in 1859, explaining life through evolution by natural selection — one of the most important ideas in science."
+    },
+    {
+     "year": 1863,
+     "lon": -0.1435,
+     "lat": 51.5237,
+     "altitude": 250000,
+     "title": "The Underground",
+     "text": "London opened the world’s first underground railway in 1863 — steam trains running in tunnels beneath the streets to carry the growing city’s workers."
+    },
+    {
+     "year": 1876,
+     "lon": 77.209,
+     "lat": 28.6139,
+     "altitude": 900000,
+     "title": "Empress of India",
+     "text": "By 1876 Victoria was declared Empress of India, ruling an empire so wide that it was said “the sun never set” on it — a source of both pride and, we now see, great harm."
+    },
+    {
+     "year": 1901,
+     "lon": -1.2833,
+     "lat": 50.7494,
+     "altitude": 300000,
+     "title": "The end of an era",
+     "text": "Victoria died at Osborne House on the Isle of Wight in 1901, mourned across the world. The 20th century — cars, flight and world wars — was about to begin."
+    }
+   ]
   }
  ]
 }
