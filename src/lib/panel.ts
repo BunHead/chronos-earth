@@ -71,6 +71,7 @@ export function monumentModelForName(name: string): string | null {
   if (/aqueduct|pont du gard/.test(n)) return 'aqueduct';
   if (/pagoda/.test(n)) return 'pagoda';
   if (/lighthouse|pharos/.test(n)) return 'lighthouse';
+  if (/leaning tower|torre di pisa/.test(n)) return 'leaning-tower';
   // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
   // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
   // "fort". Real castles/forts/palaces get the dedicated castle model.
@@ -187,7 +188,10 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     // rest (sides, deaths, war…) and rebuilds this content when it lands.
     ...(e.cell ? { hydrate: e } : {}),
     // Monuments we can plausibly reconstruct get a 3D button (stylised by name).
-    ...(e.category === 'monument' && monumentModelForName(e.name)
+    // Also the generic 'event' bucket — a live-fetched building (e.g. the
+    // Leaning Tower) lands there when Wikidata's type-map misses it, but its
+    // name still maps to an archetype.
+    ...((e.category === 'monument' || e.category === 'event') && monumentModelForName(e.name)
       ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon } }
       : {}),
   };

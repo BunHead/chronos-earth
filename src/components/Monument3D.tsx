@@ -647,6 +647,45 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     );
     cap.position.y = 12.1;
     group.add(cap);
+  } else if (model === 'leaning-tower') {
+    // The Leaning Tower of Pisa: a white marble campanile of eight stacked
+    // arcaded galleries under a bell chamber — built from the base up, then
+    // tilted ~5° so it leans like the real thing.
+    ground = '#6a7050';
+    const marble = '#e8e4da';
+    const cornice = '#d6cfbf';
+    const tower = new THREE.Group();
+    const R = 2.4;
+    const tierH = 1.7;
+    const tiers = 7;
+    for (let t = 0; t < tiers; t++) {
+      const yBase = t * tierH;
+      // Inner drum (solid wall of the storey).
+      const drum = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.8, R * 0.8, tierH, 24), stoneMat(marble));
+      drum.position.y = yBase + tierH / 2;
+      tower.add(drum);
+      // A ring of slender columns forming the open arcade (blind on the ground floor).
+      const cols = 14;
+      for (let i = 0; i < cols; i++) {
+        const a = (i / cols) * Math.PI * 2;
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, tierH * 0.86, 8), stoneMat(marble));
+        c.position.set(Math.cos(a) * R, yBase + tierH / 2, Math.sin(a) * R);
+        tower.add(c);
+      }
+      // Cornice ring between storeys.
+      const ring = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.06, R * 1.06, 0.22, 24), stoneMat(cornice));
+      ring.position.y = yBase;
+      tower.add(ring);
+    }
+    // The bell chamber on top, a touch narrower.
+    const bell = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.72, R * 0.72, 1.5, 20), stoneMat(marble));
+    bell.position.y = tiers * tierH + 0.75;
+    tower.add(bell);
+    tower.add(new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 0.2, 20), stoneMat(cornice)))
+      .position.set(0, tiers * tierH, 0);
+    // The famous lean (~5°), pivoting at the base.
+    tower.rotation.z = 0.09;
+    group.add(tower);
   } else if (model === 'impact') {
     ground = '#3a3a42';
     const rim = new THREE.Mesh(
