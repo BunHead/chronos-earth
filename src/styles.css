@@ -749,6 +749,27 @@ body {
   background: #1d2735;
 }
 
+/* The "look it up online" row, set apart at the foot of the results. */
+.search-web { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 4px; }
+.search-web .search-label { color: var(--accent); }
+
+/* A brief status pill (bottom centre) for web-search feedback. */
+.app-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 210px;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: rgba(14, 18, 26, 0.92);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
 .search-badge {
   font-size: 10px;
   text-transform: uppercase;

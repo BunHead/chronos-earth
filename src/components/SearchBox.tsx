@@ -13,6 +13,8 @@ interface SearchBoxProps {
   onPickEra: (era: Era) => void;
   onPickEvent: (event: TimelineEvent) => void;
   onPickFauna: (fauna: Fauna) => void;
+  /** Fetch a place we don't have from the web (Wikidata) and add it live. */
+  onWebSearch: (query: string) => void;
 }
 
 const EVENT_BADGE: Record<string, string> = {
@@ -43,7 +45,7 @@ interface Result {
  * A single search field that finds battles, ancient sites and eras by name and
  * jumps the app to them.
  */
-export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna }: SearchBoxProps) {
+export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onWebSearch }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
 
@@ -105,6 +107,13 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     setFocused(false);
   };
 
+  const q2 = query.trim();
+  const doWeb = () => {
+    onWebSearch(q2);
+    setQuery('');
+    setFocused(false);
+  };
+
   return (
     <div className="search-box">
       <input
@@ -115,11 +124,11 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         onFocus={() => setFocused(true)}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && results[0]) pick(results[0]);
+          if (e.key === 'Enter') { if (results[0]) pick(results[0]); else if (q2.length >= 2) doWeb(); }
           if (e.key === 'Escape') setQuery('');
         }}
       />
-      {focused && results.length > 0 && (
+      {focused && q2.length >= 2 && (
         <ul className="search-results">
           {results.map((r) => (
             <li key={r.key}>
@@ -130,6 +139,13 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
               </button>
             </li>
           ))}
+          <li className="search-web">
+            <button onMouseDown={doWeb}>
+              <span className="search-badge">🌐 Web</span>
+              <span className="search-label">Look up “{q2}” online</span>
+              <span className="search-sub">Wikidata · added live</span>
+            </button>
+          </li>
         </ul>
       )}
     </div>

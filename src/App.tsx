@@ -20,6 +20,8 @@ const Monument3D = lazy(() => import('./components/Monument3D'));
 import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
+import { fetchByName } from './lib/liveFetch';
+import { loadLiveCache, addToLiveCache } from './lib/liveCache';
 import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
 import { synthesizeBattleView } from './lib/synthBattle';
@@ -145,6 +147,11 @@ export default function App() {
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
   const [campaignLabel, setCampaignLabel] = useState<string | null>(null);
   const [panel, setPanel] = useState<PanelContent | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const showToast = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast((t) => (t === msg ? null : t)), 3600);
+  };
   const [battleViews, setBattleViews] = useState<Record<string, BattleViewData>>({});
   const [battleMaps, setBattleMaps] = useState<Record<string, BattleMapInfo>>({});
   const [activeBattleView, setActiveBattleView] = useState<string | null>(null);
@@ -201,7 +208,13 @@ export default function App() {
       .then(setBattles)
       .catch((err) => console.error('Could not load battles:', err));
     loadEvents()
-      .then(setEvents)
+      .then((evs) => {
+        // Fold in any places you found live on earlier visits.
+        const cached = loadLiveCache();
+        if (!cached.length) return setEvents(evs);
+        const ids = new Set(evs.map((e) => e.id));
+        setEvents([...evs, ...cached.filter((e) => !ids.has(e.id))]);
+      })
       .catch((err) => console.error('Could not load events:', err));
     loadFauna()
       .then(setFauna)
@@ -249,6 +262,26 @@ export default function App() {
     setPanel(eventToPanel(e));
     setFocusEventId(e.id);
     globeRef.current?.flyTo(e.lon, e.lat, 600_000);
+  };
+
+  // "Look it up online": fetch a place we don't have from Wikidata, add it as a
+  // live event (marker + panel), and remember it for next time.
+  const handleWebSearch = async (query: string) => {
+    showToast(`Searching the web for “${query}”…`);
+    const found = await fetchByName(query);
+    if (!found.length) {
+      showToast(`Couldn't find “${query}” online.`);
+      return;
+    }
+    const ev = found[0];
+    setEvents((prev) =>
+      prev.some((e) => e.id === ev.id || (ev.wikidataId && e.wikidataId === ev.wikidataId))
+        ? prev
+        : [...prev, ev],
+    );
+    addToLiveCache(ev);
+    handlePickEvent(ev);
+    showToast(`Added ${ev.name} · ${ev.startYear < 0 ? `${-ev.startYear} BCE` : `${ev.startYear} CE`}`);
   };
 
   const handlePickFauna = (f: Fauna) => {
@@ -411,6 +444,7 @@ export default function App() {
         onPickEra={handlePickEra}
         onPickEvent={handlePickEvent}
         onPickFauna={handlePickFauna}
+        onWebSearch={handleWebSearch}
       />
 
       <LayersPanel
@@ -439,6 +473,8 @@ export default function App() {
       />
 
       {showAbout && <About onClose={() => setShowAbout(false)} />}
+
+      {toast && <div className="app-toast">{toast}</div>}
 
       <Tours
         tours={tours}

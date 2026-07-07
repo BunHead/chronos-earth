@@ -64,8 +64,12 @@ const MAX_RESULTS = 14;
  * query's sitelink-descending order is preserved and capped.
  *
  * @param nowYear the current year, so future-dated rows are rejected.
+ * @param fallbackYear if given, undated items are KEPT at this year (many
+ *   famous buildings — country houses especially — have coordinates but no
+ *   structured date; a name search should still surface them). Omit it and
+ *   undated rows are dropped, as the nearby-history fetch wants.
  */
-export function parseBindings(bindings: Binding[], nowYear: number): TimelineEvent[] {
+export function parseBindings(bindings: Binding[], nowYear: number, fallbackYear?: number): TimelineEvent[] {
   const byId = new Map<string, TimelineEvent>();
   // Wikidata flags provinces/districts/municipalities as administrative
   // territorial entities (subclasses of Q56061). We drop those, but only
@@ -89,9 +93,15 @@ export function parseBindings(bindings: Binding[], nowYear: number): TimelineEve
     const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
     if (!coord) continue;
     const iso = /^([+-]?)0*(\d+)/.exec(b.date?.value ?? '');
-    if (!iso) continue;
-    const year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
-    if (year > nowYear) continue;
+    let year: number;
+    if (iso) {
+      year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
+      if (year > nowYear) continue;
+    } else if (fallbackYear !== undefined) {
+      year = fallbackYear; // undated but wanted — keep it at the fallback
+    } else {
+      continue;
+    }
     byId.set(qid, {
       id: 'live-' + qid,
       name: label,
@@ -128,6 +138,66 @@ export function fetchNearbyHistory(lat: number, lon: number): Promise<TimelineEv
   });
   cache.set(key, p);
   return p;
+}
+
+const WD_API = 'https://www.wikidata.org/w/api.php';
+const nameCache = new Map<string, Promise<TimelineEvent[]>>();
+/** Where to place a searched building that has no structured date in Wikidata —
+ * an honest "historic" approximation so it's still findable on the timeline. */
+const NAME_FALLBACK_YEAR = 1700;
+
+/**
+ * Find dated, located things by NAME — the search box's "look it up on the web"
+ * path. Wikidata entity-search finds candidate QIDs; a VALUES query then keeps
+ * the ones with real coordinates + a date, shaped by the shared parser. So a
+ * castle our bulk import missed (Edinburgh, Chatsworth, a German Schloss)
+ * appears the moment someone searches for it. Best match (most sitelinks) first.
+ */
+export function fetchByName(query: string): Promise<TimelineEvent[]> {
+  const key = query.trim().toLowerCase();
+  if (key.length < 2) return Promise.resolve([]);
+  const hit = nameCache.get(key);
+  if (hit) return hit;
+  const p = runByName(query).catch(() => {
+    nameCache.delete(key); // allow a retry (e.g. back online)
+    return [] as TimelineEvent[];
+  });
+  nameCache.set(key, p);
+  return p;
+}
+
+async function runByName(query: string): Promise<TimelineEvent[]> {
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), 9000);
+  try {
+    const searchUrl = `${WD_API}?action=wbsearchentities&search=${encodeURIComponent(query)}&language=en&uselang=en&format=json&origin=*&limit=7`;
+    const sres = await fetch(searchUrl, { signal: ctrl.signal });
+    if (!sres.ok) throw new Error(`WD search ${sres.status}`);
+    const sjson = (await sres.json()) as { search?: Array<{ id: string }> };
+    const qids = (sjson.search ?? []).map((s) => s.id).filter((id) => /^Q\d+$/.test(id));
+    if (!qids.length) return [];
+    const values = qids.map((q) => `wd:${q}`).join(' ');
+    const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin WHERE {
+  VALUES ?item { ${values} }
+  ?item wdt:P625 ?coord .
+  OPTIONAL { { ?item wdt:P571 ?date . } UNION { ?item wdt:P585 ?date . } UNION { ?item wdt:P580 ?date . } UNION { ?item wdt:P1619 ?date . } }
+  ?item wikibase:sitelinks ?sitelinks .
+  OPTIONAL { ?item wdt:P31 ?type . }
+  BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q56061 } AS ?isAdmin)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
+}
+ORDER BY DESC(?sitelinks)`;
+    const res = await fetch(`${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`, {
+      signal: ctrl.signal,
+      headers: { Accept: 'application/sparql-results+json' },
+    });
+    if (!res.ok) throw new Error(`WDQS ${res.status}`);
+    const json = (await res.json()) as { results: { bindings: Binding[] } };
+    // Undated but wanted (e.g. Chatsworth) kept at an approximate year.
+    return parseBindings(json.results.bindings, new Date().getFullYear(), NAME_FALLBACK_YEAR);
+  } finally {
+    window.clearTimeout(timer);
+  }
 }
 
 async function run(lat: number, lon: number): Promise<TimelineEvent[]> {
