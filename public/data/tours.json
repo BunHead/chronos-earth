@@ -1,358 +1,446 @@
 {
-  "_comment": "Chronos Earth — story tours. Each step moves the timeline (year = signed calendar year, negative = BCE; or ma = millions of years ago for deep time), flies the camera to lon/lat/altitude, and shows (or speaks) the text. battleId optionally opens that battle's panel. Add a tour by copying one.",
-  "tours": [
+ "_comment": "Chronos Earth — story tours. Each step moves the timeline (year = signed calendar year, negative = BCE; or ma = millions of years ago for deep time), flies the camera to lon/lat/altitude, and shows (or speaks) the text. battleId optionally opens that battle's panel. Add a tour by copying one.",
+ "tours": [
+  {
+   "id": "rome",
+   "emoji": "🏛️",
+   "title": "The Rise and Fall of Rome",
+   "description": "From a village on the Tiber to a continental empire — and the long fall.",
+   "steps": [
     {
-      "id": "rome",
-      "emoji": "🏛️",
-      "title": "The Rise and Fall of Rome",
-      "description": "From a village on the Tiber to a continental empire — and the long fall.",
-      "steps": [
-        {
-          "year": -753,
-          "lon": 12.49,
-          "lat": 41.89,
-          "altitude": 1500000,
-          "title": "A village on seven hills",
-          "text": "Legend says Rome was founded in 753 BCE by Romulus, on seven hills beside the river Tiber. For centuries it was just one small town among many in Italy."
-        },
-        {
-          "year": -509,
-          "lon": 12.49,
-          "lat": 41.89,
-          "altitude": 1200000,
-          "title": "The Republic is born",
-          "text": "In 509 BCE the Romans threw out their last king and invented a republic — power shared between elected consuls, a senate, and the people. Its motto: S P Q R, the Senate and People of Rome."
-        },
-        {
-          "year": -216,
-          "lon": 16.13,
-          "lat": 41.31,
-          "altitude": 900000,
-          "title": "Disaster at Cannae",
-          "battleId": "cannae",
-          "text": "Hannibal of Carthage crossed the Alps with elephants and, at Cannae in 216 BCE, destroyed a Roman army of eighty thousand in a single afternoon. Almost any other state would have surrendered. Rome refused — and slowly won the war instead."
-        },
-        {
-          "year": -52,
-          "lon": 4.5,
-          "lat": 47.54,
-          "altitude": 1500000,
-          "title": "Caesar conquers Gaul",
-          "battleId": "alesia",
-          "text": "Julius Caesar spent eight years conquering Gaul — modern France. At Alesia in 52 BCE he besieged the Gallic leader Vercingetorix, building two rings of walls — one to keep him in, one to keep his rescuers out. Victory made Caesar dangerously powerful."
-        },
-        {
-          "year": -31,
-          "lon": 20.72,
-          "lat": 38.91,
-          "altitude": 900000,
-          "title": "Actium: Republic becomes Empire",
-          "battleId": "actium",
-          "text": "After Caesar's murder, his heir Octavian fought Mark Antony and Cleopatra for everything. The naval battle of Actium in 31 BCE settled it. Octavian became Augustus, the first emperor — the Republic was over."
-        },
-        {
-          "year": 117,
-          "lon": 18,
-          "lat": 38,
-          "altitude": 7000000,
-          "title": "The empire at its greatest",
-          "text": "In 117 CE, under the emperor Trajan, Rome ruled from Britain to the Persian Gulf — roads, aqueducts, cities and law across three continents. Watch the borders on the globe: this is as big as it ever got."
-        },
-        {
-          "year": 378,
-          "lon": 26.5,
-          "lat": 41.67,
-          "altitude": 1500000,
-          "title": "Warning at Adrianople",
-          "battleId": "adrianople-378",
-          "text": "In 378 CE, Gothic refugees-turned-rebels annihilated a Roman army and killed the emperor Valens at Adrianople. The legions were no longer invincible, and the frontiers were cracking."
-        },
-        {
-          "year": 476,
-          "lon": 12.49,
-          "lat": 41.89,
-          "altitude": 4000000,
-          "title": "The fall of the West",
-          "text": "In 476 CE the last western emperor, a boy called Romulus Augustulus, was quietly deposed. The western empire dissolved into new kingdoms — but Roman law, language and roads shaped Europe forever. The eastern half, Byzantium, lived on for another thousand years."
-        }
-      ]
+     "year": -753,
+     "lon": 12.49,
+     "lat": 41.89,
+     "altitude": 1500000,
+     "title": "A village on seven hills",
+     "text": "Legend says Rome was founded in 753 BCE by Romulus, on seven hills beside the river Tiber. For centuries it was just one small town among many in Italy."
     },
     {
-      "id": "napoleon",
-      "emoji": "🎖️",
-      "title": "Napoleon's Wars",
-      "description": "A young general seizes France, conquers Europe, and loses it all.",
-      "steps": [
-        {
-          "year": 1799,
-          "lon": 2.35,
-          "lat": 48.86,
-          "altitude": 1500000,
-          "title": "From chaos, a general",
-          "text": "France's revolution had descended into chaos and war with all of Europe. In 1799 a brilliant young general from Corsica, Napoleon Bonaparte, seized power in Paris. Within five years he crowned himself emperor."
-        },
-        {
-          "year": 1805,
-          "lon": 16.76,
-          "lat": 49.13,
-          "altitude": 700000,
-          "title": "Austerlitz — the masterpiece",
-          "battleId": "austerlitz",
-          "text": "At Austerlitz in 1805, Napoleon deliberately weakened his own right flank to lure the Russians and Austrians off the high ground — then smashed through their centre. It is still studied as the perfect battle."
-        },
-        {
-          "year": 1812,
-          "lon": 35.82,
-          "lat": 55.52,
-          "altitude": 2500000,
-          "title": "The fatal march on Moscow",
-          "battleId": "borodino",
-          "text": "In 1812 Napoleon marched six hundred thousand men into Russia. The Russians traded space for time, burned the land behind them, and fought him bloodily at Borodino. Napoleon took Moscow — and then winter took his army. Watch the front line on the globe sweep east and collapse back west."
-        },
-        {
-          "year": 1813,
-          "lon": 12.37,
-          "lat": 51.34,
-          "altitude": 900000,
-          "title": "The Battle of the Nations",
-          "battleId": "leipzig",
-          "text": "Europe rose against the weakened emperor. At Leipzig in 1813 — the biggest battle the world had yet seen, half a million men — Napoleon was beaten and driven back to France."
-        },
-        {
-          "year": 1815,
-          "lon": 4.41,
-          "lat": 50.68,
-          "altitude": 600000,
-          "title": "Waterloo",
-          "battleId": "waterloo",
-          "text": "Exiled, escaped, and emperor again for one hundred days, Napoleon met Wellington and Blücher near a Belgian village called Waterloo on the 18th of June 1815. By nightfall his last army was broken — and so was he."
-        },
-        {
-          "year": 1821,
-          "lon": -5.72,
-          "lat": -15.95,
-          "altitude": 3000000,
-          "title": "The rock in the Atlantic",
-          "text": "The British shipped Napoleon to Saint Helena, a tiny island three thousand kilometres from anywhere. He died there in 1821, aged 51 — leaving behind a legal code, a redrawn Europe, and an argument historians are still having."
-        }
-      ]
+     "year": -509,
+     "lon": 12.49,
+     "lat": 41.89,
+     "altitude": 1200000,
+     "title": "The Republic is born",
+     "text": "In 509 BCE the Romans threw out their last king and invented a republic — power shared between elected consuls, a senate, and the people. Its motto: S P Q R, the Senate and People of Rome."
     },
     {
-      "id": "dinosaurs",
-      "emoji": "🦖",
-      "title": "The Age of Dinosaurs",
-      "description": "180 million years of giants — from Pangea to the asteroid.",
-      "steps": [
-        {
-          "ma": 210,
-          "lon": 15,
-          "lat": 15,
-          "altitude": 22000000,
-          "title": "One world: Pangea",
-          "text": "210 million years ago every continent was joined into one — Pangea. The first dinosaurs, like Coelophysis and Plateosaurus, were spreading across it. Look: you could walk from New Mexico to Germany."
-        },
-        {
-          "ma": 150,
-          "lon": -36,
-          "lat": 36,
-          "altitude": 9000000,
-          "title": "Jurassic giants",
-          "text": "By 150 million years ago Pangea was tearing apart and the Atlantic was being born. On the Morrison floodplains, Brachiosaurus and Stegosaurus browsed while Allosaurus hunted — and in Europe, Archaeopteryx, the first bird, took wing."
-        },
-        {
-          "ma": 67,
-          "lon": -67,
-          "lat": 50,
-          "altitude": 9000000,
-          "title": "The last kings",
-          "text": "67 million years ago the continents are starting to look familiar. In western North America, Tyrannosaurus rex hunts Triceratops, while bus-sized Mosasaurs rule the seas. The dinosaurs' world seems eternal."
-        },
-        {
-          "ma": 65.8,
-          "lon": -89.5,
-          "lat": 21.4,
-          "altitude": 12000000,
-          "title": "The day the sky fell",
-          "text": "66 million years ago a ten-kilometre asteroid struck the sea at Chicxulub, in modern Mexico. Firestorms, darkness and a years-long winter followed. Three quarters of all species — and every dinosaur that couldn't fly — vanished. Notice the markers are gone."
-        },
-        {
-          "ma": 0.02,
-          "lon": 100,
-          "lat": 55,
-          "altitude": 16000000,
-          "title": "A colder, newer world",
-          "text": "Twenty thousand years ago, in the grip of the ice age, giants walked again: woolly mammoths and woolly rhinos on the steppe, sabre-toothed cats in the tar pits, giant sloths on the pampas. And this time, humans were watching them — and painting them on cave walls."
-        }
-      ]
+     "year": -216,
+     "lon": 16.13,
+     "lat": 41.31,
+     "altitude": 900000,
+     "title": "Disaster at Cannae",
+     "battleId": "cannae",
+     "text": "Hannibal of Carthage crossed the Alps with elephants and, at Cannae in 216 BCE, destroyed a Roman army of eighty thousand in a single afternoon. Almost any other state would have surrendered. Rome refused — and slowly won the war instead."
     },
     {
-      "id": "ww2",
-      "emoji": "🌍",
-      "title": "World War Two",
-      "description": "Six years that remade the world - from Munich to Hiroshima.",
-      "steps": [
-        {
-          "year": 1938,
-          "lon": 11.58,
-          "lat": 48.14,
-          "altitude": 1200000,
-          "title": "Munich, 1938",
-          "text": "Britain and France let Hitler take the Sudetenland, hoping to buy peace. Within a year, the hope is ash."
-        },
-        {
-          "year": 1939,
-          "lon": 21.01,
-          "lat": 52.23,
-          "altitude": 1500000,
-          "title": "Poland, September 1939",
-          "text": "Germany invades Poland with a new kind of fast, mechanised war. Britain and France declare war two days later."
-        },
-        {
-          "year": 1940,
-          "lon": 2.37,
-          "lat": 51.03,
-          "altitude": 800000,
-          "title": "Dunkirk",
-          "text": "Trapped against the sea, 338,000 Allied soldiers are lifted off the beaches by warships, ferries and little fishing boats.",
-          "battleId": "dunkirk"
-        },
-        {
-          "year": 1940,
-          "lon": -0.1,
-          "lat": 51.5,
-          "altitude": 900000,
-          "title": "The Battle of Britain",
-          "text": "Through the summer of 1940 the RAF holds the sky. Invasion is postponed - forever, as it turns out.",
-          "battleId": "britain-1940"
-        },
-        {
-          "year": 1941,
-          "lon": 30.5,
-          "lat": 50.45,
-          "altitude": 3000000,
-          "title": "Barbarossa",
-          "text": "Hitler turns east and invades the Soviet Union along a 2,900 km front - the largest invasion in history."
-        },
-        {
-          "year": 1941,
-          "lon": -157.95,
-          "lat": 21.36,
-          "altitude": 1200000,
-          "title": "Pearl Harbor",
-          "text": "Japan strikes the US Pacific Fleet at anchor. America enters the war; the conflict is now truly global.",
-          "battleId": "pearl-harbor"
-        },
-        {
-          "year": 1942,
-          "lon": 28.9,
-          "lat": 30.8,
-          "altitude": 1200000,
-          "title": "El Alamein",
-          "text": "In the Egyptian desert, Montgomery's Eighth Army breaks Rommel's Afrika Korps. Churchill: 'the end of the beginning.'"
-        },
-        {
-          "year": 1943,
-          "lon": 44.5,
-          "lat": 48.7,
-          "altitude": 1200000,
-          "title": "Stalingrad",
-          "text": "An entire German army dies in the frozen ruins on the Volga. The tide of the war turns east.",
-          "battleId": "stalingrad"
-        },
-        {
-          "year": 1944,
-          "lon": -0.85,
-          "lat": 49.34,
-          "altitude": 900000,
-          "title": "D-Day",
-          "text": "The largest seaborne invasion ever lands five beaches in Normandy. The Western Front is open.",
-          "battleId": "d-day"
-        },
-        {
-          "year": 1945,
-          "lon": 13.4,
-          "lat": 52.52,
-          "altitude": 1000000,
-          "title": "Berlin, May 1945",
-          "text": "The Red Army takes the ruined capital. Germany surrenders on the 8th of May - VE Day."
-        },
-        {
-          "year": 1945,
-          "lon": 132.45,
-          "lat": 34.39,
-          "altitude": 1000000,
-          "title": "Hiroshima",
-          "text": "A single bomb destroys a city. Japan surrenders in September; the war - and 60 million lives - are done."
-        }
-      ]
+     "year": -52,
+     "lon": 4.5,
+     "lat": 47.54,
+     "altitude": 1500000,
+     "title": "Caesar conquers Gaul",
+     "battleId": "alesia",
+     "text": "Julius Caesar spent eight years conquering Gaul — modern France. At Alesia in 52 BCE he besieged the Gallic leader Vercingetorix, building two rings of walls — one to keep him in, one to keep his rescuers out. Victory made Caesar dangerously powerful."
     },
     {
-      "id": "ww1",
-      "emoji": "🕊️",
-      "title": "World War One",
-      "description": "The war that was meant to be over by Christmas, 1914-1918.",
-      "steps": [
-        {
-          "year": 1914,
-          "lon": 18.43,
-          "lat": 43.86,
-          "altitude": 900000,
-          "title": "Sarajevo",
-          "text": "A wrong turn, a pistol, an archduke. Within six weeks the alliances drag all of Europe into war."
-        },
-        {
-          "year": 1914,
-          "lon": 3,
-          "lat": 49,
-          "altitude": 1200000,
-          "title": "The Marne",
-          "text": "The German sweep on Paris is stopped at the river Marne. Both sides dig in - the trenches will barely move for four years.",
-          "battleId": "marne-1914"
-        },
-        {
-          "year": 1916,
-          "lon": 5.4,
-          "lat": 49.2,
-          "altitude": 700000,
-          "title": "Verdun",
-          "text": "Ten months, 700,000 casualties, the village of Fleury taken and retaken sixteen times. 'They shall not pass.'",
-          "battleId": "verdun"
-        },
-        {
-          "year": 1916,
-          "lon": 2.7,
-          "lat": 50,
-          "altitude": 700000,
-          "title": "The Somme",
-          "text": "On the first day alone, Britain loses 57,000 men. The battle gains ten kilometres of mud.",
-          "battleId": "somme"
-        },
-        {
-          "year": 1916,
-          "lon": 5.7,
-          "lat": 56.7,
-          "altitude": 1500000,
-          "title": "Jutland",
-          "text": "The only full clash of the great battleship fleets. Both sides claim victory; the German fleet never risks it again.",
-          "battleId": "jutland"
-        },
-        {
-          "year": 1917,
-          "lon": -75.15,
-          "lat": 39.95,
-          "altitude": 3000000,
-          "title": "America comes in",
-          "text": "Unrestricted submarine warfare and a leaked telegram bring the United States - and two million fresh soldiers - into the war."
-        },
-        {
-          "year": 1918,
-          "lon": 2.83,
-          "lat": 49.42,
-          "altitude": 900000,
-          "title": "Armistice",
-          "text": "At the eleventh hour of the eleventh day of the eleventh month, the guns fall silent. Nine million soldiers never came home."
-        }
-      ]
+     "year": -31,
+     "lon": 20.72,
+     "lat": 38.91,
+     "altitude": 900000,
+     "title": "Actium: Republic becomes Empire",
+     "battleId": "actium",
+     "text": "After Caesar's murder, his heir Octavian fought Mark Antony and Cleopatra for everything. The naval battle of Actium in 31 BCE settled it. Octavian became Augustus, the first emperor — the Republic was over."
+    },
+    {
+     "year": 117,
+     "lon": 18,
+     "lat": 38,
+     "altitude": 7000000,
+     "title": "The empire at its greatest",
+     "text": "In 117 CE, under the emperor Trajan, Rome ruled from Britain to the Persian Gulf — roads, aqueducts, cities and law across three continents. Watch the borders on the globe: this is as big as it ever got."
+    },
+    {
+     "year": 378,
+     "lon": 26.5,
+     "lat": 41.67,
+     "altitude": 1500000,
+     "title": "Warning at Adrianople",
+     "battleId": "adrianople-378",
+     "text": "In 378 CE, Gothic refugees-turned-rebels annihilated a Roman army and killed the emperor Valens at Adrianople. The legions were no longer invincible, and the frontiers were cracking."
+    },
+    {
+     "year": 476,
+     "lon": 12.49,
+     "lat": 41.89,
+     "altitude": 4000000,
+     "title": "The fall of the West",
+     "text": "In 476 CE the last western emperor, a boy called Romulus Augustulus, was quietly deposed. The western empire dissolved into new kingdoms — but Roman law, language and roads shaped Europe forever. The eastern half, Byzantium, lived on for another thousand years."
     }
-  ]
+   ]
+  },
+  {
+   "id": "napoleon",
+   "emoji": "🎖️",
+   "title": "Napoleon's Wars",
+   "description": "A young general seizes France, conquers Europe, and loses it all.",
+   "steps": [
+    {
+     "year": 1799,
+     "lon": 2.35,
+     "lat": 48.86,
+     "altitude": 1500000,
+     "title": "From chaos, a general",
+     "text": "France's revolution had descended into chaos and war with all of Europe. In 1799 a brilliant young general from Corsica, Napoleon Bonaparte, seized power in Paris. Within five years he crowned himself emperor."
+    },
+    {
+     "year": 1805,
+     "lon": 16.76,
+     "lat": 49.13,
+     "altitude": 700000,
+     "title": "Austerlitz — the masterpiece",
+     "battleId": "austerlitz",
+     "text": "At Austerlitz in 1805, Napoleon deliberately weakened his own right flank to lure the Russians and Austrians off the high ground — then smashed through their centre. It is still studied as the perfect battle."
+    },
+    {
+     "year": 1812,
+     "lon": 35.82,
+     "lat": 55.52,
+     "altitude": 2500000,
+     "title": "The fatal march on Moscow",
+     "battleId": "borodino",
+     "text": "In 1812 Napoleon marched six hundred thousand men into Russia. The Russians traded space for time, burned the land behind them, and fought him bloodily at Borodino. Napoleon took Moscow — and then winter took his army. Watch the front line on the globe sweep east and collapse back west."
+    },
+    {
+     "year": 1813,
+     "lon": 12.37,
+     "lat": 51.34,
+     "altitude": 900000,
+     "title": "The Battle of the Nations",
+     "battleId": "leipzig",
+     "text": "Europe rose against the weakened emperor. At Leipzig in 1813 — the biggest battle the world had yet seen, half a million men — Napoleon was beaten and driven back to France."
+    },
+    {
+     "year": 1815,
+     "lon": 4.41,
+     "lat": 50.68,
+     "altitude": 600000,
+     "title": "Waterloo",
+     "battleId": "waterloo",
+     "text": "Exiled, escaped, and emperor again for one hundred days, Napoleon met Wellington and Blücher near a Belgian village called Waterloo on the 18th of June 1815. By nightfall his last army was broken — and so was he."
+    },
+    {
+     "year": 1821,
+     "lon": -5.72,
+     "lat": -15.95,
+     "altitude": 3000000,
+     "title": "The rock in the Atlantic",
+     "text": "The British shipped Napoleon to Saint Helena, a tiny island three thousand kilometres from anywhere. He died there in 1821, aged 51 — leaving behind a legal code, a redrawn Europe, and an argument historians are still having."
+    }
+   ]
+  },
+  {
+   "id": "dinosaurs",
+   "emoji": "🦖",
+   "title": "The Age of Dinosaurs",
+   "description": "180 million years of giants — from Pangea to the asteroid.",
+   "steps": [
+    {
+     "ma": 210,
+     "lon": 15,
+     "lat": 15,
+     "altitude": 22000000,
+     "title": "One world: Pangea",
+     "text": "210 million years ago every continent was joined into one — Pangea. The first dinosaurs, like Coelophysis and Plateosaurus, were spreading across it. Look: you could walk from New Mexico to Germany."
+    },
+    {
+     "ma": 150,
+     "lon": -36,
+     "lat": 36,
+     "altitude": 9000000,
+     "title": "Jurassic giants",
+     "text": "By 150 million years ago Pangea was tearing apart and the Atlantic was being born. On the Morrison floodplains, Brachiosaurus and Stegosaurus browsed while Allosaurus hunted — and in Europe, Archaeopteryx, the first bird, took wing."
+    },
+    {
+     "ma": 67,
+     "lon": -67,
+     "lat": 50,
+     "altitude": 9000000,
+     "title": "The last kings",
+     "text": "67 million years ago the continents are starting to look familiar. In western North America, Tyrannosaurus rex hunts Triceratops, while bus-sized Mosasaurs rule the seas. The dinosaurs' world seems eternal."
+    },
+    {
+     "ma": 65.8,
+     "lon": -89.5,
+     "lat": 21.4,
+     "altitude": 12000000,
+     "title": "The day the sky fell",
+     "text": "66 million years ago a ten-kilometre asteroid struck the sea at Chicxulub, in modern Mexico. Firestorms, darkness and a years-long winter followed. Three quarters of all species — and every dinosaur that couldn't fly — vanished. Notice the markers are gone."
+    },
+    {
+     "ma": 0.02,
+     "lon": 100,
+     "lat": 55,
+     "altitude": 16000000,
+     "title": "A colder, newer world",
+     "text": "Twenty thousand years ago, in the grip of the ice age, giants walked again: woolly mammoths and woolly rhinos on the steppe, sabre-toothed cats in the tar pits, giant sloths on the pampas. And this time, humans were watching them — and painting them on cave walls."
+    }
+   ]
+  },
+  {
+   "id": "ww2",
+   "emoji": "🌍",
+   "title": "World War Two",
+   "description": "Six years that remade the world - from Munich to Hiroshima.",
+   "steps": [
+    {
+     "year": 1938,
+     "lon": 11.58,
+     "lat": 48.14,
+     "altitude": 1200000,
+     "title": "Munich, 1938",
+     "text": "Britain and France let Hitler take the Sudetenland, hoping to buy peace. Within a year, the hope is ash."
+    },
+    {
+     "year": 1939,
+     "lon": 21.01,
+     "lat": 52.23,
+     "altitude": 1500000,
+     "title": "Poland, September 1939",
+     "text": "Germany invades Poland with a new kind of fast, mechanised war. Britain and France declare war two days later."
+    },
+    {
+     "year": 1940,
+     "lon": 2.37,
+     "lat": 51.03,
+     "altitude": 800000,
+     "title": "Dunkirk",
+     "text": "Trapped against the sea, 338,000 Allied soldiers are lifted off the beaches by warships, ferries and little fishing boats.",
+     "battleId": "dunkirk"
+    },
+    {
+     "year": 1940,
+     "lon": -0.1,
+     "lat": 51.5,
+     "altitude": 900000,
+     "title": "The Battle of Britain",
+     "text": "Through the summer of 1940 the RAF holds the sky. Invasion is postponed - forever, as it turns out.",
+     "battleId": "britain-1940"
+    },
+    {
+     "year": 1941,
+     "lon": 30.5,
+     "lat": 50.45,
+     "altitude": 3000000,
+     "title": "Barbarossa",
+     "text": "Hitler turns east and invades the Soviet Union along a 2,900 km front - the largest invasion in history."
+    },
+    {
+     "year": 1941,
+     "lon": -157.95,
+     "lat": 21.36,
+     "altitude": 1200000,
+     "title": "Pearl Harbor",
+     "text": "Japan strikes the US Pacific Fleet at anchor. America enters the war; the conflict is now truly global.",
+     "battleId": "pearl-harbor"
+    },
+    {
+     "year": 1942,
+     "lon": 28.9,
+     "lat": 30.8,
+     "altitude": 1200000,
+     "title": "El Alamein",
+     "text": "In the Egyptian desert, Montgomery's Eighth Army breaks Rommel's Afrika Korps. Churchill: 'the end of the beginning.'"
+    },
+    {
+     "year": 1943,
+     "lon": 44.5,
+     "lat": 48.7,
+     "altitude": 1200000,
+     "title": "Stalingrad",
+     "text": "An entire German army dies in the frozen ruins on the Volga. The tide of the war turns east.",
+     "battleId": "stalingrad"
+    },
+    {
+     "year": 1944,
+     "lon": -0.85,
+     "lat": 49.34,
+     "altitude": 900000,
+     "title": "D-Day",
+     "text": "The largest seaborne invasion ever lands five beaches in Normandy. The Western Front is open.",
+     "battleId": "d-day"
+    },
+    {
+     "year": 1945,
+     "lon": 13.4,
+     "lat": 52.52,
+     "altitude": 1000000,
+     "title": "Berlin, May 1945",
+     "text": "The Red Army takes the ruined capital. Germany surrenders on the 8th of May - VE Day."
+    },
+    {
+     "year": 1945,
+     "lon": 132.45,
+     "lat": 34.39,
+     "altitude": 1000000,
+     "title": "Hiroshima",
+     "text": "A single bomb destroys a city. Japan surrenders in September; the war - and 60 million lives - are done."
+    }
+   ]
+  },
+  {
+   "id": "ww1",
+   "emoji": "🕊️",
+   "title": "World War One",
+   "description": "The war that was meant to be over by Christmas, 1914-1918.",
+   "steps": [
+    {
+     "year": 1914,
+     "lon": 18.43,
+     "lat": 43.86,
+     "altitude": 900000,
+     "title": "Sarajevo",
+     "text": "A wrong turn, a pistol, an archduke. Within six weeks the alliances drag all of Europe into war."
+    },
+    {
+     "year": 1914,
+     "lon": 3,
+     "lat": 49,
+     "altitude": 1200000,
+     "title": "The Marne",
+     "text": "The German sweep on Paris is stopped at the river Marne. Both sides dig in - the trenches will barely move for four years.",
+     "battleId": "marne-1914"
+    },
+    {
+     "year": 1916,
+     "lon": 5.4,
+     "lat": 49.2,
+     "altitude": 700000,
+     "title": "Verdun",
+     "text": "Ten months, 700,000 casualties, the village of Fleury taken and retaken sixteen times. 'They shall not pass.'",
+     "battleId": "verdun"
+    },
+    {
+     "year": 1916,
+     "lon": 2.7,
+     "lat": 50,
+     "altitude": 700000,
+     "title": "The Somme",
+     "text": "On the first day alone, Britain loses 57,000 men. The battle gains ten kilometres of mud.",
+     "battleId": "somme"
+    },
+    {
+     "year": 1916,
+     "lon": 5.7,
+     "lat": 56.7,
+     "altitude": 1500000,
+     "title": "Jutland",
+     "text": "The only full clash of the great battleship fleets. Both sides claim victory; the German fleet never risks it again.",
+     "battleId": "jutland"
+    },
+    {
+     "year": 1917,
+     "lon": -75.15,
+     "lat": 39.95,
+     "altitude": 3000000,
+     "title": "America comes in",
+     "text": "Unrestricted submarine warfare and a leaked telegram bring the United States - and two million fresh soldiers - into the war."
+    },
+    {
+     "year": 1918,
+     "lon": 2.83,
+     "lat": 49.42,
+     "altitude": 900000,
+     "title": "Armistice",
+     "text": "At the eleventh hour of the eleventh day of the eleventh month, the guns fall silent. Nine million soldiers never came home."
+    }
+   ]
+  },
+  {
+   "id": "tudors",
+   "emoji": "👑",
+   "title": "The Tudors & Henry VIII",
+   "description": "A schoolroom favourite: the dynasty, the six wives, and the break with Rome.",
+   "steps": [
+    {
+     "year": 1485,
+     "lon": -1.412,
+     "lat": 52.594,
+     "altitude": 500000,
+     "title": "Bosworth Field — a new dynasty",
+     "text": "In 1485 Henry Tudor defeated Richard III at the Battle of Bosworth, ending the Wars of the Roses. As Henry VII he founded the Tudor dynasty that would rule England for 118 years."
+    },
+    {
+     "year": 1509,
+     "lon": -0.127,
+     "lat": 51.499,
+     "altitude": 350000,
+     "title": "Henry VIII is crowned",
+     "text": "In 1509 the young, athletic, clever Henry VIII took the throne and married Catherine of Aragon — the first of his famous six wives."
+    },
+    {
+     "year": 1520,
+     "lon": 1.897,
+     "lat": 50.876,
+     "altitude": 400000,
+     "title": "The Field of the Cloth of Gold",
+     "text": "In 1520, near Calais, Henry met King Francis I of France for two dazzling weeks of feasting, jousting and golden tents — a summit meant to outshine every rival."
+    },
+    {
+     "year": 1533,
+     "lon": -0.09,
+     "lat": 51.505,
+     "altitude": 300000,
+     "title": "Anne Boleyn and the great matter",
+     "text": "Desperate for a son and in love with Anne Boleyn, Henry sought to annul his marriage to Catherine. When the Pope refused, Henry took a drastic step."
+    },
+    {
+     "year": 1534,
+     "lon": -0.09,
+     "lat": 51.505,
+     "altitude": 300000,
+     "title": "The break with Rome",
+     "text": "The 1534 Act of Supremacy made Henry — not the Pope — head of the Church of England. England had broken with Rome, and the Reformation had begun."
+    },
+    {
+     "year": 1536,
+     "lon": -2.714,
+     "lat": 51.146,
+     "altitude": 400000,
+     "title": "Dissolution of the monasteries",
+     "text": "From 1536 Henry closed the monasteries and abbeys, seizing their wealth and lands. Great houses like Glastonbury were stripped and left as ruins that still stand today."
+    },
+    {
+     "year": 1536,
+     "lon": -0.076,
+     "lat": 51.508,
+     "altitude": 250000,
+     "title": "The six wives",
+     "text": "Anne Boleyn was executed at the Tower of London in 1536. In all Henry had six wives — divorced, beheaded, died; divorced, beheaded, survived — Catherine of Aragon, Anne Boleyn, Jane Seymour, Anne of Cleves, Catherine Howard and Catherine Parr."
+    },
+    {
+     "year": 1545,
+     "lon": -1.1,
+     "lat": 50.792,
+     "altitude": 300000,
+     "title": "The Mary Rose sinks",
+     "text": "In 1545 Henry's great warship the Mary Rose sank in the Solent as the French fleet attacked. Raised in 1982, her timbers and thousands of Tudor objects survive in Portsmouth."
+    },
+    {
+     "year": 1547,
+     "lon": -0.604,
+     "lat": 51.483,
+     "altitude": 300000,
+     "title": "Henry VIII dies",
+     "text": "Henry died in 1547 and was buried at St George’s Chapel, Windsor. His young son Edward VI, then his daughters Mary I and Elizabeth I, would each take the throne in turn."
+    },
+    {
+     "year": 1558,
+     "lon": -0.09,
+     "lat": 51.505,
+     "altitude": 350000,
+     "title": "Elizabeth I — the golden age",
+     "text": "In 1558 Anne Boleyn’s daughter became Elizabeth I. Her long reign — Shakespeare, Drake, the defeat of the Spanish Armada — is remembered as a Tudor golden age."
+    }
+   ]
+  }
+ ]
 }
