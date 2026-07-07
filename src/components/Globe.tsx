@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import * as Cesium from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
@@ -29,6 +29,11 @@ const MARKER_DEPTH_TEST_DISTANCE = 1_000_000;
  * everything we have. Index = zoom tier (0 orbit … 3 low). */
 const EVENT_MAX_VISIBLE_BY_TIER = [34, 52, 80, 130];
 const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
+/** Reusable marker pool: only ever as many entities as can be shown at once
+ * (max visible + focus + headroom), NOT one per import — so the globe's cost is
+ * flat whether there are 2,000 events or 200,000. Assigned in the visibility
+ * effect; the other 99% of imports stay as cheap plain data until shown. */
+const EVENT_POOL_SIZE = 180;
 
 /** Camera height (m) → zoom tier 0..3. */
 function zoomTierFor(height: number): number {
@@ -162,7 +167,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   yearsBPRef.current = currentYearsBP;
   const entitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
   const battleEntitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
-  const eventEntitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
+  const eventPoolRef = useRef<Cesium.Entity[]>([]);
+  // Which event id currently owns which pooled marker, so a marker keeps its
+  // slot (and stays put) as long as its event is on screen.
+  const eventAssignRef = useRef<Map<string, Cesium.Entity>>(new Map());
   // Ids of imported events that duplicate a curated battle/site — hidden in the
   // overview, but still built so the zoomed-in mural can match every circle.
   const dupEventIdsRef = useRef<Set<string>>(new Set());
@@ -542,9 +550,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           if (battle) consider('battle', id, battle.lon, battle.lat, ent.show);
         }
         // Imported monuments are diveable too — every monument is zoomable.
-        for (const [id, ent] of eventEntitiesRef.current) {
+        // Only pool slots currently assigned to a shown monument qualify.
+        for (const ent of eventPoolRef.current) {
           const ev = (ent as Cesium.Entity & { chronosEvent?: TimelineEvent }).chronosEvent;
-          if (ev && ev.category === 'monument') consider('event', id, ev.lon, ev.lat, ent.show);
+          if (ev && ev.category === 'monument') consider('event', ev.id, ev.lon, ev.lat, ent.show);
         }
         if (best) {
           divedRef.current = true;
@@ -747,7 +756,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       viewerRef.current = null;
       entitiesRef.current.clear();
       battleEntitiesRef.current.clear();
-      eventEntitiesRef.current.clear();
+      eventPoolRef.current = [];
+      eventAssignRef.current.clear();
       liveEntitiesRef.current.clear();
     };
   }, []);
@@ -884,12 +894,42 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     const viewer = viewerRef.current;
     if (!viewer) return;
 
-    for (const entity of eventEntitiesRef.current.values()) viewer.entities.remove(entity);
-    eventEntitiesRef.current.clear();
+    // Create the reusable marker pool ONCE. It is never rebuilt when more
+    // events are imported — the visibility effect below just reassigns these
+    // slots to whichever events are on screen, so cost stays flat.
+    if (eventPoolRef.current.length === 0) {
+      for (let i = 0; i < EVENT_POOL_SIZE; i++) {
+        const ent = viewer.entities.add({
+          position: Cesium.Cartesian3.fromDegrees(0, 0),
+          show: false,
+          billboard: {
+            image: eventIcon('city'),
+            scale: 0.4,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+          },
+          label: {
+            text: '',
+            font: '12px "Segoe UI", sans-serif',
+            fillColor: Cesium.Color.WHITE,
+            outlineColor: Cesium.Color.BLACK,
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -28),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+          },
+        });
+        eventPoolRef.current.push(ent);
+      }
+    }
 
-    // Flag imported events that duplicate a curated battle or site. We still
-    // build a marker (so the zoomed-in mural can match every circle), but hide
-    // them in the overview, where the richer curated marker wins.
+    // Flag imported events that duplicate a curated battle or site (data only):
+    // the curated marker wins in the overview, but a duplicate is still shown
+    // when the zoomed-in mural asks for it.
     const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
     const findTwin = (ev: TimelineEvent): { kind: 'battle' | 'site'; id: string } | undefined => {
       if (ev.category === 'battle') {
@@ -922,62 +962,41 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         dups.add(ev.id);
         twins.set(ev.id, twin);
       }
-      const isBattle = ev.category === 'battle';
-      const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4);
-      const entity = viewer.entities.add({
-        position: Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat),
-        show: false,
-        billboard: {
-          image: eventIcon(ev.category),
-          scale,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-          disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
-        },
-        label: {
-          text: ev.name,
-          font: '12px "Segoe UI", sans-serif',
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, isBattle ? -32 : -28),
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, isBattle ? 6_000_000 : 1_500_000),
-          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-          disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
-        },
-      });
-      const tagged = entity as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
-      tagged.chronosEvent = ev;
-      tagged.chronosScale = scale;
-      eventEntitiesRef.current.set(ev.id, entity);
     }
     dupEventIdsRef.current = dups;
     dupTwinRef.current = twins;
   }, [events, sites, battles]);
 
-  // Show events within a window of the current year, capped to the most notable —
-  // so scrubbing the timeline lights up the era you're viewing.
+  const eventById = useMemo(() => {
+    const m = new Map<string, TimelineEvent>();
+    for (const e of events) m.set(e.id, e);
+    return m;
+  }, [events]);
+
+  // Work out which events are on screen (capped to the most notable) and hand
+  // the marker pool to them. Everything else stays as plain data — no entity,
+  // no per-frame cost — so importing 10× more events costs the globe nothing.
   useEffect(() => {
+    const pool = eventPoolRef.current;
+    if (!pool.length) return;
     const year = yearsBPToYear(currentYearsBP);
-    let visibleIds = new Set<string>();
+    let visList: TimelineEvent[] = [];
     if (muralEventIds !== null) {
       // Zoomed into the mural — every circle the timeline shows gets a marker.
-      // An import that duplicates a curated battle/site steps aside ONLY while
-      // its curated twin is actually on screen (curated battle markers are
-      // brief, so otherwise a mural circle would have no marker at all).
-      visibleIds = new Set(
-        muralEventIds.filter((id) => {
-          const twin = dupTwinRef.current.get(id);
-          if (!twin) return true;
+      // A duplicate of a curated battle/site steps aside ONLY while its curated
+      // twin is actually on screen (curated battle markers are brief).
+      for (const id of muralEventIds) {
+        const twin = dupTwinRef.current.get(id);
+        if (twin) {
           const twinEntity =
             twin.kind === 'battle'
               ? battleEntitiesRef.current.get(twin.id)
               : entitiesRef.current.get(twin.id);
-          return !twinEntity?.show;
-        }),
-      );
+          if (twinEntity?.show) continue;
+        }
+        const ev = eventById.get(id);
+        if (ev) visList.push(ev);
+      }
     } else {
       // When zoomed toward a region, the quota is spent on what's IN VIEW —
       // zooming into Kent fills Kent, not the whole planet. (Tier 0 = orbit,
@@ -994,7 +1013,6 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           : ev.lon >= w - mLon || ev.lon <= e + mLon; // view crosses the dateline
       };
       const inWindow = events.filter((ev) => {
-        if (!eventEntitiesRef.current.has(ev.id)) return false;
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         if (!enabledEventCats.has(ev.category)) return false; // category toggled off
         return inView(ev) && eventVisibleAt(ev, year);
@@ -1011,15 +1029,49 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         picked.push(...list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]));
       }
       picked.sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0));
-      visibleIds = new Set(picked.slice(0, EVENT_MAX_VISIBLE_BY_TIER[zoomTier]).map((e) => e.id));
+      visList = picked.slice(0, EVENT_MAX_VISIBLE_BY_TIER[zoomTier]);
     }
     // Whatever the user just searched for / clicked always keeps its marker.
-    if (focusEventId && eventEntitiesRef.current.has(focusEventId)) visibleIds.add(focusEventId);
-    let appeared = 0;
-    for (const [id, entity] of eventEntitiesRef.current) {
-      if (setShownPop(entity, visibleIds.has(id), Math.min(appeared * 60, 900))) appeared++;
+    if (focusEventId && !visList.some((e) => e.id === focusEventId)) {
+      const fev = eventById.get(focusEventId);
+      if (fev) visList.push(fev);
     }
-  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect]);
+
+    // Assign the pool with STABLE slots: an event keeps its marker while it
+    // stays visible (so markers pop in/out in place, never teleport).
+    const assign = eventAssignRef.current;
+    const want = new Map(visList.slice(0, pool.length).map((ev) => [ev.id, ev] as const));
+    // Release slots whose event has left the screen.
+    for (const [id, ent] of [...assign]) {
+      if (!want.has(id)) {
+        ent.show = false;
+        (ent as Cesium.Entity & { chronosEvent?: TimelineEvent }).chronosEvent = undefined;
+        assign.delete(id);
+      }
+    }
+    const assigned = new Set(assign.values());
+    const free = pool.filter((e) => !assigned.has(e));
+    let appeared = 0;
+    for (const [id, ev] of want) {
+      if (assign.has(id)) continue; // already on screen in a stable slot
+      const ent = free.pop();
+      if (!ent) break; // pool exhausted (shouldn't happen within the caps)
+      assign.set(id, ent);
+      const isBattle = ev.category === 'battle';
+      const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4);
+      (ent.position as Cesium.ConstantPositionProperty).setValue(Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat));
+      const bb = ent.billboard!;
+      (bb.image as Cesium.ConstantProperty).setValue(eventIcon(ev.category));
+      const lbl = ent.label!;
+      (lbl.text as Cesium.ConstantProperty).setValue(ev.name);
+      (lbl.pixelOffset as Cesium.ConstantProperty).setValue(new Cesium.Cartesian2(0, isBattle ? -32 : -28));
+      (lbl.distanceDisplayCondition as Cesium.ConstantProperty).setValue(new Cesium.DistanceDisplayCondition(0, isBattle ? 6_000_000 : 1_500_000));
+      const tagged = ent as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
+      tagged.chronosEvent = ev;
+      tagged.chronosScale = scale;
+      if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
+    }
+  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.
