@@ -53,7 +53,7 @@ export const NO_3D_NAMES = new Set([
 export const VALID_MODELS = [
   'tpillars', 'stonehenge', 'pyramid', 'stepped-pyramid', 'sphinx', 'circle',
   'settlement', 'castle', 'mansion', 'cathedral', 'greek-temple', 'temple-tower',
-  'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'impact', 'megalith',
+  'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'amphitheatre', 'impact', 'megalith',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -91,6 +91,7 @@ const KEYWORD_RULES = [
   { rule: '"pagoda" keyword', model: 'pagoda', re: /pagoda/ },
   { rule: 'lighthouse keyword', model: 'lighthouse', re: /lighthouse|pharos/ },
   { rule: 'leaning tower keyword', model: 'leaning-tower', re: /leaning tower|torre di pisa/ },
+  { rule: 'amphitheatre keyword', model: 'amphitheatre', re: /colosseum|colise|amphitheatre|amphitheater/ },
   { rule: 'castle/fort/palace keyword (word-boundaried)', model: 'castle', re: /\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/ },
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },

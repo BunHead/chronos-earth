@@ -40,4 +40,11 @@ describe('monument phases', () => {
     expect(p[phaseIndexAt(p, -100)].label).toBe('Temple of Athena');
     expect(p[phaseIndexAt(p, 1800)].state).toBe('ruin');
   });
+
+  it('the Colosseum: an arena from 80 CE, a ruin after 1349', () => {
+    const p = phasesFor('Colosseum')!;
+    expect(p[phaseIndexAt(p, 200)].model).toBe('amphitheatre');
+    expect(p[phaseIndexAt(p, 200)].state).toBeUndefined();
+    expect(p[phaseIndexAt(p, 2020)].state).toBe('ruin');
+  });
 });

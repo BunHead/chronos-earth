@@ -59,6 +59,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   pagoda: { widthM: 30, facingDeg: 0 },
   lighthouse: { widthM: 25, facingDeg: 0 },
   'leaning-tower': { widthM: 20, facingDeg: 0 },
+  amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
 };

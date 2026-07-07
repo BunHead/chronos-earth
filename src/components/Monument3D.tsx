@@ -686,6 +686,43 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     // The famous lean (~5°), pivoting at the base.
     tower.rotation.z = 0.09;
     group.add(tower);
+  } else if (model === 'amphitheatre') {
+    // A Roman amphitheatre (the Colosseum): an elliptical wall of stacked arched
+    // arcades wrapping a tiered seating bank and an oval arena.
+    ground = '#7a6f52';
+    const stone = '#cbb48c';
+    const A = 7.4, B = 5.8;
+    const piers = 28, tiers = 3, tierH = 2.3, pierW = 0.5;
+    const pt = (r: number, ang: number): [number, number] => [Math.cos(ang) * A * r, Math.sin(ang) * B * r];
+    for (let i = 0; i < piers; i++) {
+      const ang = (i / piers) * Math.PI * 2;
+      const [x, z] = pt(1, ang);
+      for (let t = 0; t < tiers; t++) group.add(block(pierW, tierH, 0.7, x, tierH / 2 + t * tierH, z, stone, -ang));
+      // Lintel bridging this pier to the next — the top of each arch.
+      const angM = ((i + 0.5) / piers) * Math.PI * 2;
+      const [mx, mz] = pt(1, angM);
+      const [nx, nz] = pt(1, ((i + 1) / piers) * Math.PI * 2);
+      const gap = Math.hypot(nx - x, nz - z);
+      for (let t = 0; t < tiers; t++) group.add(block(0.4, 0.55, gap, mx, (t + 1) * tierH - 0.27, mz, stone, -angM));
+      // Attic storey (solid top band).
+      group.add(block(0.95, 1.0, 0.7, x, tiers * tierH + 0.5, z, '#c0aa82', -ang));
+    }
+    // Tiered seating bank, sloping down to the arena.
+    for (let s = 0; s < 4; s++) {
+      const r = 0.84 - s * 0.16;
+      const y = tiers * tierH * 0.62 - s * (tiers * tierH * 0.62 / 4) - 0.2;
+      for (let i = 0; i < 24; i++) {
+        const ang = (i / 24) * Math.PI * 2;
+        const [x, z] = pt(r, ang);
+        group.add(block(1.1, 0.4, 0.7, x, y, z, '#b8a271', -ang));
+      }
+    }
+    // The oval arena floor.
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(1, 40), stoneMat('#a89868'));
+    floor.scale.set(A * 0.3, B * 0.3, 1);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = 0.05;
+    group.add(floor);
   } else if (model === 'impact') {
     ground = '#3a3a42';
     const rim = new THREE.Mesh(

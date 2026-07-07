@@ -55,6 +55,15 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
         note: 'A Venetian mortar struck the Ottoman gunpowder stored inside; the blast tore the temple apart. It has stood a ruin ever since.' },
     ],
   },
+  {
+    match: 'colosseum',
+    phases: [
+      { fromYear: 80, yearLabel: '80 CE', label: 'The arena', model: 'amphitheatre',
+        note: 'Opened in 80 CE with 100 days of games — gladiators, wild beasts and even mock sea-battles before some 50,000 spectators.' },
+      { fromYear: 1349, yearLabel: '1349', label: 'Ruin', model: 'amphitheatre', state: 'ruin',
+        note: 'A great earthquake toppled the south outer wall in 1349, and for centuries its stone was quarried for Rome’s churches and palaces — leaving the ruin we know.' },
+    ],
+  },
 ];
 
 /** The phases for a monument, or null if it has none (renders normally). */
