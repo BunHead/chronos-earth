@@ -273,6 +273,30 @@ function makeGlowTexture(stops: string[]): THREE.CanvasTexture {
   return t;
 }
 
+/** Break a built model into a ruin: remove ~a third of its stones, topple some
+ * of the rest, and scatter fallen blocks. Used by any 'ruin' life-phase (the
+ * Parthenon after the 1687 explosion). */
+function ruinify(group: THREE.Group) {
+  const doomed: THREE.Object3D[] = [];
+  group.traverse((o) => {
+    if (o instanceof THREE.Mesh && !o.userData.noShadow) {
+      const r = Math.random();
+      if (r < 0.32) doomed.push(o);
+      else if (r < 0.58) {
+        o.rotation.z += (Math.random() - 0.5) * 0.5;
+        o.rotation.x += (Math.random() - 0.5) * 0.3;
+        o.position.y *= 0.82;
+      }
+    }
+  });
+  for (const o of doomed) o.parent?.remove(o);
+  for (let i = 0; i < 9; i++) {
+    const b = block(0.8 + Math.random(), 0.45 + Math.random() * 0.4, 0.6 + Math.random(), (Math.random() - 0.5) * 11, 0.3, (Math.random() - 0.5) * 7, '#9a9184', Math.random() * Math.PI);
+    b.rotation.z = (Math.random() - 0.5) * 0.4;
+    group.add(b);
+  }
+}
+
 function buildModel(model: string, phase = 3): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
@@ -729,6 +753,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
   const [lifeIdx, setLifeIdx] = useState(() => (phases ? phaseIndexAt(phases, year ?? 2026) : 0));
   const effModel = phases ? phases[lifeIdx].model : model;
   const burning = phases?.[lifeIdx].state === 'burning';
+  const ruined = phases?.[lifeIdx].state === 'ruin';
 
   // Sky/sun state, driven by the SkyDial. Opens on today, mid-morning, gently
   // auto-advancing so the day still passes on its own until you grab the dial.
@@ -751,6 +776,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     if (!container) return;
 
     const { group, ground } = buildModel(effModel, phase);
+    if (ruined) ruinify(group);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#10151f');
@@ -1065,7 +1091,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       fireTextures.forEach((t) => t.dispose());
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
-  }, [model, effModel, burning, lat, lon, phase, onClose]);
+  }, [model, effModel, burning, ruined, lat, lon, phase, onClose]);
 
   return (
     <div className="bv-overlay" role="dialog" aria-label={`${title} in 3D`}>

@@ -25,4 +25,19 @@ describe('monument phases', () => {
     const p = phasesFor('Nottingham Castle')!;
     expect(p[2].state).toBe('burning');
   });
+
+  it('Notre-Dame de Paris burns in 2019 and is restored by 2024', () => {
+    const p = phasesFor('Notre-Dame de Paris')!;
+    expect(p[phaseIndexAt(p, 1800)].label).toBe('The Gothic cathedral');
+    expect(p[phaseIndexAt(p, 2020)].state).toBe('burning');
+    expect(p[phaseIndexAt(p, 2025)].label).toBe('Restored');
+    // The other Notre-Dames don't get Paris's phases.
+    expect(phasesFor('Notre-Dame de Chartres')).toBeNull();
+  });
+
+  it('the Parthenon is a ruin after the 1687 explosion', () => {
+    const p = phasesFor('Parthenon')!;
+    expect(p[phaseIndexAt(p, -100)].label).toBe('Temple of Athena');
+    expect(p[phaseIndexAt(p, 1800)].state).toBe('ruin');
+  });
 });

@@ -35,6 +35,26 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
         note: 'Restored and reopened as the first municipal museum of art outside London.' },
     ],
   },
+  {
+    match: 'notre-dame de paris',
+    phases: [
+      { fromYear: 1163, yearLabel: '1163', label: 'The Gothic cathedral', model: 'cathedral',
+        note: 'Begun in 1163, completed around 1345 — a masterpiece of French Gothic, with its great spire and flying buttresses.' },
+      { fromYear: 2019, yearLabel: '2019', label: 'The fire', model: 'cathedral', state: 'burning',
+        note: 'On 15 April 2019 a blaze destroyed the spire and most of the roof, watched by the world.' },
+      { fromYear: 2024, yearLabel: '2024', label: 'Restored', model: 'cathedral',
+        note: 'Painstakingly rebuilt and reopened in December 2024, spire and all.' },
+    ],
+  },
+  {
+    match: 'parthenon',
+    phases: [
+      { fromYear: -447, yearLabel: '447 BCE', label: 'Temple of Athena', model: 'greek-temple',
+        note: 'Raised on the Acropolis at the height of Athens — a Doric temple to the goddess Athena.' },
+      { fromYear: 1687, yearLabel: '1687', label: 'The explosion', model: 'greek-temple', state: 'ruin',
+        note: 'A Venetian mortar struck the Ottoman gunpowder stored inside; the blast tore the temple apart. It has stood a ruin ever since.' },
+    ],
+  },
 ];
 
 /** The phases for a monument, or null if it has none (renders normally). */
