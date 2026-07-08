@@ -14,7 +14,8 @@
     "build:core": "node scripts/build-core-index.mjs",
     "harvest": "node scripts/harvest-world.mjs",
     "audit": "node scripts/audit.mjs",
-    "verify-3d": "node scripts/verify-3d.mjs"
+    "verify-3d": "node scripts/verify-3d.mjs",
+    "render": "node scripts/render-model.mjs"
   },
   "dependencies": {
     "cesium": "^1.123.0",
@@ -27,6 +28,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/three": "^0.169.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "puppeteer": "^25.3.0",
     "typescript": "^5.5.4",
     "vite": "^5.4.2",
     "vite-plugin-cesium": "^1.2.23",

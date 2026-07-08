@@ -297,7 +297,7 @@ function ruinify(group: THREE.Group) {
   }
 }
 
-function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group; ground: string } {
+export function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
 
