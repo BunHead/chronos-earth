@@ -39,7 +39,7 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
   { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
-  { match: 'richat', widthM: 40000 }, // the Eye of the Sahara is ~40 km across
+  { match: 'richat', widthM: 2500 }, // ~40 km across, but the stylised rings sit at this scale
 ];
 
 // Per-archetype fallback: a typical real footprint (m) and a default facing.
@@ -63,7 +63,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
-  rings: { widthM: 40000, facingDeg: 0 }, // eroded ring dome (the Richat)
+  rings: { widthM: 2500, facingDeg: 0 }, // eroded ring dome (the Richat)
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };
