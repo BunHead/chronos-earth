@@ -577,6 +577,70 @@
      "text": "Victoria died at Osborne House on the Isle of Wight in 1901, mourned across the world. The 20th century — cars, flight and world wars — was about to begin."
     }
    ]
+  },
+  {
+   "id": "seven-wonders",
+   "emoji": "🏛️",
+   "title": "The Seven Wonders of the Ancient World",
+   "description": "The seven greatest marvels the ancient Greeks made a list of — and what became of them.",
+   "steps": [
+    {
+     "year": -2560,
+     "lon": 31.1342,
+     "lat": 29.9792,
+     "altitude": 350000,
+     "title": "The Great Pyramid of Giza",
+     "text": "The oldest Wonder — and the only one still standing. Built around 2560 BCE as a tomb for pharaoh Khufu, it was once cased in gleaming white limestone with a golden cap. Open it in 3D and step through the years to watch it built. It stayed the tallest thing humans had ever made for nearly 4,000 years."
+    },
+    {
+     "year": -600,
+     "lon": 44.4209,
+     "lat": 32.5424,
+     "altitude": 300000,
+     "title": "The Hanging Gardens of Babylon",
+     "text": "Terraces of trees and flowers rising like a green hillside beside the river, watered by machines that lifted water to the top. No one has ever found them — this is the only Wonder we're not even sure was real, or whether it stood here at Babylon or far to the north at Nineveh."
+    },
+    {
+     "year": -550,
+     "lon": 27.3639,
+     "lat": 37.9497,
+     "altitude": 300000,
+     "title": "The Temple of Artemis at Ephesus",
+     "text": "A gigantic marble temple with a whole forest of columns, far bigger than the Parthenon. A man burned it down in 356 BCE just to make his name famous — so the Ephesians built it again, even grander. Step through its 3D life to see it burn and rise once more."
+    },
+    {
+     "year": -435,
+     "lon": 21.63,
+     "lat": 37.6379,
+     "altitude": 300000,
+     "title": "The Statue of Zeus at Olympia",
+     "text": "A colossal seated statue of the king of the gods, made of gold and ivory over a wooden frame, so huge that if Zeus stood up he'd have taken the roof off his own temple. It sat where the ancient Olympic Games were held."
+    },
+    {
+     "year": -350,
+     "lon": 27.4241,
+     "lat": 37.038,
+     "altitude": 300000,
+     "title": "The Mausoleum at Halicarnassus",
+     "text": "A towering marble tomb for a ruler named Mausolus, topped by a four-horse chariot. It was so famous that we still call any grand tomb a 'mausoleum'. Earthquakes finally brought it down — step through its 3D life to see it fall."
+    },
+    {
+     "year": -280,
+     "lon": 28.2278,
+     "lat": 36.451,
+     "altitude": 300000,
+     "title": "The Colossus of Rhodes",
+     "text": "A giant bronze statue of the sun-god Helios, as tall as the Statue of Liberty, standing beside the harbour of Rhodes. It stood for just 54 years before an earthquake snapped it at the knees. Open it in 3D and watch it topple."
+    },
+    {
+     "year": -280,
+     "lon": 29.8856,
+     "lat": 31.2139,
+     "altitude": 350000,
+     "title": "The Lighthouse of Alexandria",
+     "text": "A stone tower over 100 m tall on the island of Pharos, with a fire at the top whose light guided ships into Egypt's greatest port. It was the last of the ancient Wonders to fall — earthquakes finally toppled it after more than 1,500 years. Its blocks still lie on the seabed."
+    }
+   ]
   }
  ]
 }

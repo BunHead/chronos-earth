@@ -85,6 +85,46 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
     ],
   },
   {
+    match: 'colossus',
+    phases: [
+      { fromYear: -280, yearLabel: 'c. 280 BCE', label: 'The Colossus raised', model: 'colossus',
+        note: 'A ~33 m bronze Helios set beside the harbour of Rhodes to mark the island’s survival of a great siege — one of the tallest statues of the ancient world.' },
+      { fromYear: -226, yearLabel: 'c. 226 BCE', label: 'The earthquake', model: 'colossus', state: 'ruin',
+        note: 'An earthquake snapped the Colossus at the knees after just 54 years. The great bronze pieces lay where they fell, marvelled at by travellers for centuries.' },
+    ],
+  },
+  {
+    match: 'lighthouse of alexandria',
+    phases: [
+      { fromYear: -280, yearLabel: 'c. 280 BCE', label: 'The Pharos', model: 'pharos',
+        note: 'The great lighthouse on Pharos island — over 100 m tall, its fire and mirror guiding ships into Alexandria for more than 1,500 years.' },
+      { fromYear: 1303, yearLabel: '1303–1480', label: 'Earthquakes topple it', model: 'pharos', state: 'ruin',
+        note: 'A series of earthquakes felled the last surviving ancient Wonder. Its stone was reused for a harbour fort; blocks still lie on the seabed today.' },
+    ],
+  },
+  {
+    match: 'mausoleum',
+    phases: [
+      { fromYear: -350, yearLabel: 'c. 350 BCE', label: 'The tomb of Mausolus', model: 'mausoleum',
+        note: 'The towering tomb at Halicarnassus, crowned by a marble chariot — so renowned it gave us the word “mausoleum”.' },
+      { fromYear: 1404, yearLabel: 'by 1404', label: 'Fallen to earthquakes', model: 'mausoleum', state: 'ruin',
+        note: 'Earthquakes toppled the tomb over the centuries, and crusader knights later quarried its stone for a castle. Only foundations remain.' },
+    ],
+  },
+  {
+    match: 'temple of artemis',
+    phases: [
+      { fromYear: -550, yearLabel: 'c. 550 BCE', label: 'The great temple', model: 'artemis-temple',
+        note: 'The colossal Ionic temple at Ephesus, a forest of ~127 columns, funded in part by King Croesus of Lydia.' },
+      { fromYear: -356, yearLabel: '356 BCE', label: 'Burned by Herostratus', model: 'artemis-temple', state: 'burning',
+        note: 'A man named Herostratus set the temple ablaze to make his name live forever — on, it was said, the very night Alexander the Great was born.' },
+      { fromYear: -323, yearLabel: 'rebuilt', label: 'Raised again, grander', model: 'artemis-temple',
+        note: 'The Ephesians rebuilt it larger and more splendid than before — the version counted among the Seven Wonders.' },
+      { fromYear: 268, yearLabel: '268 CE', label: 'Destroyed', model: 'artemis-temple', state: 'ruin',
+        note: 'Sacked by the Goths and later dismantled for its stone. Today a single reassembled column marks the site.' },
+    ],
+  },
+  {
     // Atlantis, drowned "in a single day and night" — the phase bar steps through
     // it. (A flagged hypothesis: the real Richat is a dry natural rock dome.)
     match: 'eye of the sahara',

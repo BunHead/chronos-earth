@@ -48,6 +48,27 @@ describe('monument phases', () => {
     expect(p[phaseIndexAt(p, 2020)].state).toBe('ruin');
   });
 
+  it('the ancient Wonders meet their ends through the phase bar', () => {
+    const colossus = phasesFor('Colossus of Rhodes')!;
+    expect(colossus[phaseIndexAt(colossus, -250)].label).toBe('The Colossus raised');
+    expect(colossus[phaseIndexAt(colossus, -100)].state).toBe('ruin'); // the 226 BCE earthquake
+    const pharos = phasesFor('Lighthouse of Alexandria (Pharos)')!;
+    expect(pharos[phaseIndexAt(pharos, 1000)].state).toBeUndefined();
+    expect(pharos[phaseIndexAt(pharos, 1500)].state).toBe('ruin');
+    // The Temple of Artemis burns, is rebuilt, then is destroyed.
+    const artemis = phasesFor('Temple of Artemis at Ephesus')!;
+    expect(artemis[phaseIndexAt(artemis, -356)].state).toBe('burning');
+    expect(artemis[phaseIndexAt(artemis, -300)].state).toBeUndefined(); // rebuilt
+    expect(artemis[phaseIndexAt(artemis, 500)].state).toBe('ruin');
+  });
+
+  it('the Giza plateau is built up through time (buildFrac rises)', () => {
+    const p = phasesFor('Giza Pyramids')!;
+    expect(p[0].build!).toBeLessThan(p[p.length - 1].build!);
+    expect(p[p.length - 1].build).toBe(1);
+    expect(p[phaseIndexAt(p, -2530)].label).toBe('The Sphinx is carved');
+  });
+
   it('Atlantis drowns in three phases with a steadily rising sea', () => {
     const p = phasesFor('Richat Structure (Eye of the Sahara)')!;
     expect(p.length).toBe(3);

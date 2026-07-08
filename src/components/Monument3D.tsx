@@ -1577,7 +1577,9 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       // Flat, wide models (the Richat's rings, stone circles) would be missed by
       // the tall-monument framing — the camera would aim at empty air above them.
       // When the footprint dwarfs the height, aim near the ground and pull in.
-      const flat = sSize.y < 0.4 * Math.max(sSize.x, sSize.z);
+      // The Giza scene is wide too, but it has TALL pyramids — the low flat
+      // camera tips its ground onto its edge, so it keeps the normal 3/4 view.
+      const flat = effModel !== 'giza' && sSize.y < 0.4 * Math.max(sSize.x, sSize.z);
       const dist = maxDim * (flat ? 1.15 : 1.5) + 6;
       camera.position.set(0, flat ? maxDim * 0.4 + 2 : maxDim * 0.55 + 3, dist);
       controls.target.set(0, flat ? sSize.y * 0.6 : maxDim * 0.3, 0);
