@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { seaLevelAt, glaciationAt } from './seaLevel';
+import { seaLevelAt, glaciationAt, floodAt } from './seaLevel';
 
 describe('Ice Age sea-level curve', () => {
   it('is at present level today and in the Holocene', () => {
@@ -20,9 +20,11 @@ describe('Ice Age sea-level curve', () => {
     expect(seaLevelAt(7_500)).toBeCloseTo(-20.5, 1);
   });
 
-  it('rises back near present in the Eemian interglacial (~125 ka) and clamps beyond', () => {
-    expect(seaLevelAt(125_000)).toBeGreaterThan(0); // ~+4 m high stand
-    expect(seaLevelAt(500_000)).toBe(seaLevelAt(125_000)); // clamped, not extrapolated
+  it('rises to a high stand in the Eemian (~125 ka) and keeps cycling beyond', () => {
+    expect(seaLevelAt(125_000)).toBeGreaterThan(4); // ~+6 m high stand
+    // Older times swing between glacial lows and interglacial highs (not clamped).
+    expect(seaLevelAt(150_000)).toBeLessThan(-80); // MIS 6 glacial low
+    expect(seaLevelAt(225_000)).toBeGreaterThan(4); // next interglacial high
   });
 
   it('glaciation runs 0 today to 1 at the LGM, driving ice & land bridges together', () => {
@@ -39,6 +41,17 @@ describe('Ice Age sea-level curve', () => {
     // Earlier glacial maxima keep recurring on the ~100 ka beat.
     expect(glaciationAt(260_000)).toBeGreaterThan(0.5);
     // Before the Quaternary there are no great northern ice sheets.
-    expect(glaciationAt(3_000_000)).toBe(0);
+    expect(glaciationAt(3_000_000)).toBeCloseTo(0, 5);
+  });
+
+  it('the sea also rises above today in interglacials, drowning coasts', () => {
+    // The Eemian high stand (~125 ka) is well above present sea level.
+    expect(seaLevelAt(125_000)).toBeGreaterThan(4);
+    expect(floodAt(125_000)).toBeCloseTo(1, 1);
+    // Older interglacials (on the ~100 ka beat) flood too.
+    expect(floodAt(225_000)).toBeGreaterThan(0.6);
+    // Today and at a glacial maximum there is no flooding.
+    expect(floodAt(0)).toBeCloseTo(0, 5);
+    expect(floodAt(18_000)).toBeCloseTo(0, 5);
   });
 });
