@@ -776,18 +776,20 @@ function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group;
       group.add(m);
     };
     // Central island + a low acropolis hill (Poseidon's citadel in the tale).
-    const isle = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.8, 0.6, 32), stoneLike({ color: '#bcab7d' }));
-    isle.position.y = 0.3;
+    const isle = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.8, 0.7, 32), stoneLike({ color: '#bcab7d' }));
+    isle.position.y = 0.35; // base at ground
     group.add(isle);
     const hill = new THREE.Mesh(new THREE.ConeGeometry(1.5, 2.2, 24), stoneLike({ color: '#a8925f', flatShading: true }));
-    hill.position.y = 1.35;
+    hill.position.y = 1.1; // base at ground
     group.add(hill);
-    // Alternating water and land rings outward, as Plato describes.
-    flatRing(4.0, 0.55, 0.18, waterMat);
-    flatRing(5.4, 0.6, 0.42, stoneLike({ color: rock[0], flatShading: true }));
-    flatRing(6.8, 0.55, 0.18, waterMat);
-    flatRing(8.2, 0.6, 0.42, stoneLike({ color: rock[1], flatShading: true }));
-    flatRing(9.6, 0.5, 0.18, waterMat);
+    // Alternating water (low, at the waterline) and land (raised) rings — Plato's
+    // rings of water and land. Nothing dips below y=0, so the seating step won't
+    // lift the whole model off the terrain (a bug the review panel caught).
+    flatRing(4.0, 0.4, 0.4, waterMat);
+    flatRing(5.4, 0.5, 0.6, stoneLike({ color: rock[0], flatShading: true }));
+    flatRing(6.8, 0.4, 0.4, waterMat);
+    flatRing(8.2, 0.5, 0.6, stoneLike({ color: rock[1], flatShading: true }));
+    flatRing(9.6, 0.4, 0.4, waterMat);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -930,7 +932,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     controls.target.set(0, 2.5, 0);
     controls.maxPolarAngle = Math.PI / 2.05;
     controls.minDistance = 8;
-    controls.maxDistance = 120;
+    controls.maxDistance = 170;
 
     const hemi = new THREE.HemisphereLight(0xcfe3ff, 0x40402f, 1.0);
     scene.add(hemi);
@@ -1024,9 +1026,13 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       group.position.y -= sBox.min.y;
       const sSize = sBox.getSize(new THREE.Vector3());
       const maxDim = Math.max(sSize.x, sSize.y, sSize.z) || 20;
-      const dist = maxDim * 1.5 + 6;
-      camera.position.set(0, maxDim * 0.55 + 3, dist);
-      controls.target.set(0, maxDim * 0.3, 0);
+      // Flat, wide models (the Richat's rings, stone circles) would be missed by
+      // the tall-monument framing — the camera would aim at empty air above them.
+      // When the footprint dwarfs the height, aim near the ground and pull in.
+      const flat = sSize.y < 0.4 * Math.max(sSize.x, sSize.z);
+      const dist = maxDim * (flat ? 1.15 : 1.5) + 6;
+      camera.position.set(0, flat ? maxDim * 0.4 + 2 : maxDim * 0.55 + 3, dist);
+      controls.target.set(0, flat ? sSize.y * 0.6 : maxDim * 0.3, 0);
       controls.update();
     }
     scene.add(group);

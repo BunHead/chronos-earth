@@ -83,7 +83,7 @@ export function fitFor(title: string, model: string): MonumentFit {
 const EARTH_M = 40_075_016.686; // equatorial circumference
 /** Fraction of the ground view the monument should occupy — leaves context and
  * keeps the fixed camera framing it well for every archetype. */
-const OCCUPANCY = 0.32;
+const OCCUPANCY = 0.24;
 /** The ground disc is CircleGeometry(40) → 80 units across, textured by a 3×3
  * satellite tile patch. */
 const GROUND_UNITS = 80;
