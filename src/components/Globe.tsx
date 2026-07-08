@@ -7,6 +7,7 @@ import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
+import { SeaLevelController } from './seaLevel';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
@@ -116,6 +117,8 @@ interface GlobeProps {
   showBattles: boolean;
   showCampaigns: boolean;
   showFauna: boolean;
+  /** Fade in the Ice Age exposed-shelf land bridges as the seas fall. */
+  showSeaLevel: boolean;
   events: TimelineEvent[];
   /** Imported-event categories currently enabled in the Layers panel. */
   enabledEventCats: Set<string>;
@@ -149,12 +152,13 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
+  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const paleoRef = useRef<PaleoController | null>(null);
+  const seaRef = useRef<SeaLevelController | null>(null);
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
   const faunaRef = useRef<FaunaController | null>(null);
@@ -473,6 +477,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       });
 
     paleoRef.current = new PaleoController(viewer, import.meta.env.BASE_URL);
+    seaRef.current = new SeaLevelController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
     fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
@@ -752,6 +757,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       faunaRef.current?.dispose();
       faunaRef.current = null;
       paleoRef.current?.dispose();
+      seaRef.current?.dispose();
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
       fxRef.current?.dispose();
@@ -775,10 +781,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     const year = yearsBPToYear(currentYearsBP);
     applyTerrain(ma < PALEO_MA);
     paleoRef.current?.update(ma, modernLayersRef.current);
+    seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA);
     bordersRef.current?.update(year, showBorders, ma >= PALEO_MA);
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA);
     faunaRef.current?.update(ma, showFauna);
-  }, [currentYearsBP, showBorders, showCampaigns, showFauna]);
+  }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel]);
 
   // Flag artwork inside borders on/off — and auto-hidden when the whole view
   // sits inside one country (the flag is redundant there, and just clutters).

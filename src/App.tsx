@@ -76,6 +76,7 @@ export default function App() {
   const [showBattles, setShowBattles] = useState(true);
   const [showCampaigns, setShowCampaigns] = useState(true);
   const [showFauna, setShowFauna] = useState(true);
+  const [showSeaLevel, setShowSeaLevel] = useState(true);
   // Imported-event categories — each gets its own Layers switch. Battles fold
   // into "Wars & battles" (showBattles) and monuments into "Ancient sites"
   // (showSites); cities, disasters and science get their own toggles below.
@@ -370,6 +371,7 @@ export default function App() {
         showBattles={showBattles}
         showCampaigns={showCampaigns}
         showFauna={showFauna}
+        showSeaLevel={showSeaLevel}
         events={events}
         enabledEventCats={enabledEventCats}
         muralEventIds={muralEventIds}
@@ -461,6 +463,8 @@ export default function App() {
         onToggleCampaigns={setShowCampaigns}
         showFauna={showFauna}
         onToggleFauna={setShowFauna}
+        showSeaLevel={showSeaLevel}
+        onToggleSeaLevel={setShowSeaLevel}
         showCities={showCities}
         onToggleCities={setShowCities}
         showDisasters={showDisasters}
