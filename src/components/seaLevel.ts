@@ -1,22 +1,25 @@
 /**
- * seaLevel.ts — Ice Age seas & land bridges.
+ * seaLevel.ts — the Ice Age world: falling seas & advancing ice.
  *
- * The recent-time mirror of paleo.ts. Through the last glacial cycle the seas
- * stood far lower than today — up to ~125 m down at the Last Glacial Maximum
- * (~20,000 years ago) — because so much water was locked up in ice sheets. That
- * drop laid bare the shallow continental shelves and opened the famous land
- * bridges: Doggerland joining Britain to Europe, Beringia joining Siberia to
- * Alaska, the Sunda and Sahul shelves across South-East Asia and to Australia.
+ * The recent-time mirror of paleo.ts. Through the last glacial cycle two things
+ * happened together, both driven by how much water was locked up in ice:
+ *   1. SEAS FELL — up to ~125 m at the Last Glacial Maximum (~20,000 years ago),
+ *      baring the continental shelves and opening the great land bridges
+ *      (Doggerland, Beringia, Sunda/Sahul).
+ *   2. ICE SHEETS SPREAD — the Laurentide over Canada, the Fennoscandian over
+ *      northern Europe, and the Antarctic fringe all pushed toward the equator,
+ *      then pulled back as the world warmed.
  *
- * We show this as a single translucent "exposed shelf" overlay rasterised onto
- * an equirectangular canvas (same robust SingleTileImageryProvider trick paleo
- * uses), fading IN on top of the modern globe as the timeline scrubs into the
- * Ice Age and the seas fall. It is a curated, deliberately APPROXIMATE picture
- * of the great low-stand land bridges — the honest science behind the "drowned
- * coastlines" stories — not a precise bathymetric flood model.
+ * We show both on one translucent overlay (same robust SingleTileImageryProvider
+ * trick paleo uses), keyed to a "glaciation" fraction from the sea-level curve:
+ * 0 today, 1 at the LGM. The ice margins slide equatorward as you scrub into the
+ * cold and retreat as you scrub out — the ebb and flow of the Ice Age — while the
+ * land bridges surface beneath the falling sea. Curated and deliberately
+ * APPROXIMATE: the honest science behind the "drowned coastlines" stories, not a
+ * precise bathymetric or glaciological model.
  *
- * Scope (v1): the last glacial cycle, ~0–125,000 years ago, deepest at the LGM.
- * Earlier Pleistocene glacials repeated this many times over; not yet modelled.
+ * Scope (v1): the last glacial cycle, ~0–125,000 years ago. Earlier Pleistocene
+ * glacials repeated this many times over; not yet modelled.
  */
 import * as Cesium from 'cesium';
 
@@ -25,6 +28,8 @@ const TEX_H = 1024;
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
 /** Dry, pale continental-shelf sand — reads as newly exposed land. */
 const SHELF_CSS = '#c2b280';
+/** Cold blue-white — glacial ice. */
+const ICE_CSS = '#e9f1f7';
 
 /**
  * Sea level relative to today (metres), by years before present. Piecewise-
@@ -65,19 +70,19 @@ export function seaLevelAt(ybp: number): number {
 }
 
 /**
- * How strongly to show the exposed shelf, from the sea-level drop: nothing until
- * the seas are ~30 m down, ramping to a firm tint by the LGM low. Kept below 1
- * so the modern coastline still reads faintly underneath.
+ * Glaciation fraction at a given age: 0 today (present sea level), 1 at the LGM
+ * low stand (~-125 m). Drives both the ice-sheet margins and the overlay's
+ * strength, so ice and land bridges wax and wane together.
  */
-function exposeAlpha(metres: number): number {
-  return Cesium.Math.clamp((-metres - 30) / (125 - 30), 0, 1) * 0.82;
+export function glaciationAt(ybp: number): number {
+  return Cesium.Math.clamp(-seaLevelAt(ybp) / 125, 0, 1);
 }
 
 /**
  * Approximate exposed continental shelf at glacial low stand, as lon/lat rings.
- * Crude but recognisable — the point is the SHAPE of the land bridges, not the
- * exact shoreline. Beringia is split either side of the dateline so no ring
- * spans more than 180° (which the rasteriser skips as a wrap artifact).
+ * Crude but recognisable — the point is the SHAPE of the land bridges. Beringia
+ * is split either side of the dateline so no ring spans >180° (which the
+ * rasteriser would smear).
  */
 const SHELF_POLYS: number[][][] = [
   // Doggerland — the southern North Sea plain.
@@ -100,47 +105,86 @@ const SHELF_POLYS: number[][][] = [
   [[48, 30], [52, 30], [57, 26.5], [56, 24], [50, 25], [48, 28], [48, 30]],
 ];
 
+/**
+ * Ice sheets as longitude bands that fill from the pole down to a MARGIN latitude
+ * that slides equatorward with glaciation. `warm` is the margin today, `cold`
+ * the LGM maximum. Crude rectangles in projected space, but they convey the
+ * advance and retreat from each pole — which is the point.
+ */
+interface IceSheet { lonMin: number; lonMax: number; pole: 1 | -1; warm: number; cold: number; }
+const ICE_SHEETS: IceSheet[] = [
+  // — Northern hemisphere —
+  { lonMin: -145, lonMax: -60, pole: 1, warm: 74, cold: 42 }, // Laurentide (N America)
+  { lonMin: -60, lonMax: -11, pole: 1, warm: 60, cold: 58 }, // Greenland (near-permanent)
+  { lonMin: -11, lonMax: 70, pole: 1, warm: 78, cold: 50 }, // Fennoscandian / British / N European
+  { lonMin: 70, lonMax: 180, pole: 1, warm: 80, cold: 63 }, // Barents–Kara / NE Siberian
+  // — Southern hemisphere —
+  { lonMin: -180, lonMax: 180, pole: -1, warm: -68, cold: -59 }, // Antarctic sheet & sea ice (near-permanent)
+  { lonMin: -78, lonMax: -66, pole: -1, warm: -47, cold: -40 }, // Patagonian
+];
+
+/** Ice margins are quantised to these glaciation steps so we cache only a few
+ * rasterised frames rather than redrawing every scrub. */
+const G_STEP = 0.2;
+
 export class SeaLevelController {
   private viewer: Cesium.Viewer;
-  private layer: Cesium.ImageryLayer | undefined;
-  private creating = false;
-  private lastAlpha = -1;
+  private layers = new Map<number, Cesium.ImageryLayer>();
+  private building = new Set<number>();
+  private shown: Cesium.ImageryLayer | undefined;
+  private lastKey = -1;
 
   constructor(viewer: Cesium.Viewer) {
     this.viewer = viewer;
   }
 
-  /** Draw the exposed-shelf polygons onto a transparent equirectangular canvas. */
-  private rasterise(): HTMLCanvasElement {
+  private project(lon: number, lat: number): [number, number] {
+    return [((lon + 180) / 360) * TEX_W, ((90 - lat) / 180) * TEX_H];
+  }
+
+  private fillRing(ctx: CanvasRenderingContext2D, ring: number[][]): void {
+    ctx.beginPath();
+    for (let i = 0; i < ring.length; i++) {
+      const [x, y] = this.project(ring[i][0], ring[i][1]);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  /** Rasterise the Ice-Age overlay for a given glaciation fraction g (0..1). */
+  private rasterise(g: number): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     canvas.width = TEX_W;
     canvas.height = TEX_H;
     const ctx = canvas.getContext('2d')!;
-    ctx.clearRect(0, 0, TEX_W, TEX_H); // transparent everywhere but the shelves
-    ctx.fillStyle = SHELF_CSS;
-    const project = (lon: number, lat: number): [number, number] => [
-      ((lon + 180) / 360) * TEX_W,
-      ((90 - lat) / 180) * TEX_H,
-    ];
-    for (const ring of SHELF_POLYS) {
-      ctx.beginPath();
-      for (let i = 0; i < ring.length; i++) {
-        const [x, y] = project(ring[i][0], ring[i][1]);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-      ctx.fill();
+    ctx.clearRect(0, 0, TEX_W, TEX_H);
+
+    // Ice sheets: each band filled from its margin(g) to just shy of the pole.
+    ctx.fillStyle = ICE_CSS;
+    for (const s of ICE_SHEETS) {
+      const margin = s.warm + (s.cold - s.warm) * g;
+      const poleLat = s.pole === 1 ? 89.5 : -89.5;
+      this.fillRing(ctx, [
+        [s.lonMin, margin], [s.lonMax, margin], [s.lonMax, poleLat], [s.lonMin, poleLat],
+      ]);
+    }
+
+    // Land bridges surface once the sea has fallen enough (g ≳ 0.22, ~-28 m).
+    if (g > 0.22) {
+      ctx.fillStyle = SHELF_CSS;
+      for (const ring of SHELF_POLYS) this.fillRing(ctx, ring);
     }
     return canvas;
   }
 
-  private async ensureLayer(): Promise<void> {
-    if (this.layer || this.creating) return;
-    this.creating = true;
+  private async ensureFrame(key: number): Promise<void> {
+    if (this.layers.has(key) || this.building.has(key)) return;
+    this.building.add(key);
     try {
       const provider = await Cesium.SingleTileImageryProvider.fromUrl(
-        this.rasterise().toDataURL('image/png'),
+        this.rasterise(key * G_STEP).toDataURL('image/png'),
         { rectangle: FULL_GLOBE },
       );
       if (this.viewer.isDestroyed()) return;
@@ -148,11 +192,11 @@ export class SeaLevelController {
       layer.show = false;
       layer.alpha = 0;
       this.viewer.imageryLayers.add(layer);
-      this.layer = layer;
+      this.layers.set(key, layer);
     } catch (err) {
-      console.warn('Ice Age sea-level overlay unavailable.', err);
+      console.warn('Ice Age overlay frame unavailable.', err);
     } finally {
-      this.creating = false;
+      this.building.delete(key);
     }
   }
 
@@ -162,22 +206,41 @@ export class SeaLevelController {
    */
   update(ybp: number, enabled: boolean): void {
     if (this.viewer.isDestroyed()) return;
-    const alpha = enabled ? exposeAlpha(seaLevelAt(ybp)) : 0;
-    if (alpha > 0 && !this.layer) {
-      void this.ensureLayer().then(() => this.update(ybp, enabled));
+    const g = enabled ? glaciationAt(ybp) : 0;
+    // Overlay strength follows glaciation; nothing to show in a warm interglacial.
+    const alpha = Cesium.Math.clamp((g - 0.03) / 0.97, 0, 1) * 0.82;
+    const key = Math.round(g / G_STEP);
+    if (key === this.lastKey && this.shown) {
+      this.shown.alpha = alpha;
+      this.shown.show = alpha > 0;
       return;
     }
-    if (!this.layer || alpha === this.lastAlpha) return;
-    this.lastAlpha = alpha;
-    this.layer.show = alpha > 0;
-    this.layer.alpha = alpha;
-    if (alpha > 0) this.viewer.imageryLayers.raiseToTop(this.layer);
+    this.lastKey = key;
+    if (alpha <= 0) {
+      if (this.shown) this.shown.show = false;
+      this.shown = undefined;
+      return;
+    }
+    const layer = this.layers.get(key);
+    if (!layer) {
+      void this.ensureFrame(key).then(() => {
+        this.lastKey = -1; // force re-apply once the frame exists
+        this.update(ybp, enabled);
+      });
+      return;
+    }
+    for (const [k, l] of this.layers) if (k !== key) l.show = false;
+    layer.alpha = alpha;
+    layer.show = true;
+    this.viewer.imageryLayers.raiseToTop(layer);
+    this.shown = layer;
   }
 
   dispose(): void {
-    if (this.layer && !this.viewer.isDestroyed()) {
-      this.viewer.imageryLayers.remove(this.layer, true);
+    if (!this.viewer.isDestroyed()) {
+      for (const l of this.layers.values()) this.viewer.imageryLayers.remove(l, true);
     }
-    this.layer = undefined;
+    this.layers.clear();
+    this.shown = undefined;
   }
 }

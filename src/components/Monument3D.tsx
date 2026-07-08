@@ -681,8 +681,9 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     const bell = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.72, R * 0.72, 1.5, 20), stoneMat(marble));
     bell.position.y = tiers * tierH + 0.75;
     tower.add(bell);
-    tower.add(new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 0.2, 20), stoneMat(cornice)))
-      .position.set(0, tiers * tierH, 0);
+    const topRing = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 0.2, 20), stoneMat(cornice));
+    topRing.position.set(0, tiers * tierH, 0);
+    tower.add(topRing);
     // A flat stepped plinth at the foot: the real campanile rises from a base
     // planted in the piazza. Left untilted, it sits flush on the ground and
     // anchors the tower's contact shadow while the shaft above leans away.

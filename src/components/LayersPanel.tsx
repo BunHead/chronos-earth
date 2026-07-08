@@ -168,7 +168,7 @@ export default function LayersPanel({
       </label>
       <label className="layer-row">
         <input type="checkbox" checked={showSeaLevel} onChange={(e) => onToggleSeaLevel(e.target.checked)} />
-        <span>🌊 Ice Age seas</span>
+        <span>🧊 Ice Ages (seas &amp; ice)</span>
       </label>
         </>
       )}
