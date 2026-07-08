@@ -32,4 +32,13 @@ describe('Ice Age sea-level curve', () => {
     // Monotonic-ish into the cold: more glaciated at the LGM than mid-Holocene.
     expect(glaciationAt(18_000)).toBeGreaterThan(glaciationAt(9_000));
   });
+
+  it('repeats the ice ages through the Quaternary, then stops', () => {
+    // A penultimate-glacial maximum (~150 ka, MIS 6) is strongly glaciated again.
+    expect(glaciationAt(150_000)).toBeGreaterThan(0.7);
+    // Earlier glacial maxima keep recurring on the ~100 ka beat.
+    expect(glaciationAt(260_000)).toBeGreaterThan(0.5);
+    // Before the Quaternary there are no great northern ice sheets.
+    expect(glaciationAt(3_000_000)).toBe(0);
+  });
 });
