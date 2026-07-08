@@ -1385,14 +1385,7 @@ export function buildModel(
     const stone = '#c9b483';
     const trim = '#b9a473';
     const roof = '#41525c';
-    const river = new THREE.Mesh(
-      new THREE.PlaneGeometry(46, 11),
-      new THREE.MeshStandardMaterial({ color: '#3f6f8a', roughness: 0.3, metalness: 0.06 }),
-    );
-    river.rotation.x = -Math.PI / 2;
-    river.position.set(0, 0.04, 9.5);
-    river.userData.noShadow = true;
-    group.add(river);
+    // (No stylised river — the real Thames is in the satellite imagery.)
     group.add(block(26, 5, 6, 0, 2.5, 0, stone)); // long main range
     group.add(block(26.4, 0.6, 6.4, 0, 5.2, 0, trim));
     for (let i = 0; i < 13; i++) {
@@ -1438,14 +1431,8 @@ export function buildModel(
     const podMat = new THREE.MeshStandardMaterial({ color: '#bfe0ff', metalness: 0.2, roughness: 0.25, transparent: true, opacity: 0.85 });
     const R = 11;
     const cy = R + 1.6;
-    const river = new THREE.Mesh(
-      new THREE.PlaneGeometry(40, 12),
-      new THREE.MeshStandardMaterial({ color: '#3f6f8a', roughness: 0.3, metalness: 0.06 }),
-    );
-    river.rotation.x = -Math.PI / 2;
-    river.position.set(0, 0.04, 8);
-    river.userData.noShadow = true;
-    group.add(river);
+    // (No stylised river here — on real satellite terrain the actual Thames is
+    // already in the imagery; a painted strip only juts out misaligned.)
     const wheel = new THREE.Group();
     const rim = new THREE.Mesh(new THREE.TorusGeometry(R, 0.32, 10, 72), steelMat);
     wheel.add(rim); // upright, in the XY plane
@@ -1668,6 +1655,19 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
+    // A broad ground apron reaching well past the satellite disc, so the monument
+    // sits on an expansive flat plain that hazes into the horizon under the fog —
+    // instead of perching on a tiny curved "planet" whose edge dips away on every
+    // side (the "alignment still off" the Captain kept seeing once the tilt was
+    // fixed). Sits just under the imagery so the real tiles still read on top.
+    const apron = new THREE.Mesh(
+      new THREE.CircleGeometry(150, 64),
+      new THREE.MeshStandardMaterial({ color: ground, roughness: 1 }),
+    );
+    apron.rotation.x = -Math.PI / 2;
+    apron.position.y = -0.04;
+    apron.receiveShadow = true;
+    scene.add(apron);
     // Orient, size & frame Stonehenge to the real summer-solstice sunrise. The
     // Heel Stone sits on local +Z; we aim that axis at the true sunrise bearing
     // (scene north = +Z) so the sun rises straight over it, shrink the ring to
