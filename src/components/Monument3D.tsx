@@ -762,49 +762,65 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
     trail.userData.noShadow = true;
     group.add(trail);
   } else if (model === 'rings') {
-    // The Richat as Plato's ATLANTIS is imagined (Critias): a central island
-    // crowned by an acropolis, ringed by alternating bands of WATER and LAND.
-    // Honest note — the real Richat is dry eroded rock; this is the MYTH's layout,
-    // a flagged hypothesis, not fact.
+    // Plato's ATLANTIS as the ringed CITY of legend (Critias): a central citadel
+    // on its island, wrapped by concentric rings of WATER and LAND — the land
+    // rings packed with buildings and joined by bridges, all inside a great outer
+    // wall, with the royal canal cutting straight to the sea. Honest note: the
+    // real Richat is a dry natural rock dome — this is the MYTH, flagged as such.
     ground = '#c8b98a';
-    const rock = ['#a8925f', '#bcab7d', '#9a8455'];
-    const waterMat = new THREE.MeshStandardMaterial({ color: '#2f6d93', roughness: 0.25, metalness: 0.1 });
-    const flatRing = (r: number, tube: number, y: number, mat: THREE.Material) => {
-      const m = new THREE.Mesh(new THREE.TorusGeometry(r, tube, 10, 72), mat);
+    const waterMat = new THREE.MeshStandardMaterial({ color: '#2f74a4', roughness: 0.55, metalness: 0 });
+    const landMat = stoneLike({ color: '#b3a473' });
+    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a'];
+    const LAND_Y = 0.22, WATER_Y = 0.1;
+    const annulus = (inner: number, outer: number, y: number, mat: THREE.Material) => {
+      const m = new THREE.Mesh(new THREE.RingGeometry(inner, outer, 80), mat);
       m.rotation.x = -Math.PI / 2;
       m.position.y = y;
       group.add(m);
     };
-    // Central island + a low acropolis hill (Poseidon's citadel in the tale).
-    const isle = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.8, 0.7, 32), stoneLike({ color: '#bcab7d' }));
-    isle.position.y = 0.35; // base at ground
-    group.add(isle);
-    const hill = new THREE.Mesh(new THREE.ConeGeometry(1.5, 2.2, 24), stoneLike({ color: '#a8925f', flatShading: true }));
-    hill.position.y = 1.1; // base at ground
-    group.add(hill);
-    // Alternating water (low, at the waterline) and land (raised) rings — Plato's
-    // rings of water and land. Nothing dips below y=0, so the seating step won't
-    // lift the whole model off the terrain (a bug the review panel caught).
-    flatRing(4.0, 0.4, 0.4, waterMat);
-    flatRing(5.4, 0.5, 0.6, stoneLike({ color: rock[0], flatShading: true }));
-    flatRing(6.8, 0.4, 0.4, waterMat);
-    flatRing(8.2, 0.5, 0.6, stoneLike({ color: rock[1], flatShading: true }));
-    flatRing(9.6, 0.4, 0.4, waterMat);
-    // Plato's northern highland: the plain of Atlantis was sheltered by mountains
-    // to the north, whose springs fed the concentric rings. (Scene north = +Z.)
-    // In the Captain's reading, the drowning wave rolled in from up here.
-    group.add(block(15, 3.0, 4, 0, 1.5, 15, '#8a7a5c'));
-    group.add(block(6, 2.3, 3, -3.6, 3.15, 15.8, '#7d6e50'));
-    group.add(block(5, 1.9, 2.6, 4, 2.6, 16, '#7d6e50'));
-    // A crescent-moon fall of water off the highland, feeding the rings…
-    const crescent = new THREE.Mesh(new THREE.TorusGeometry(3.4, 0.45, 8, 44, Math.PI), waterMat);
-    crescent.rotation.x = -Math.PI / 2;
-    crescent.position.set(0, 0.5, 12.4);
-    group.add(crescent);
-    // …carried down into the outermost ring by a channel.
-    const channel = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.35, 2.8), waterMat);
-    channel.position.set(0, 0.42, 10.7);
-    group.add(channel);
+    // Concentric rings of land and water, alternating outward.
+    annulus(0, 2.6, LAND_Y, landMat);      // central island
+    annulus(2.6, 3.6, WATER_Y, waterMat);  // ring of water
+    annulus(3.6, 5.6, LAND_Y, landMat);    // ring of land
+    annulus(5.6, 6.9, WATER_Y, waterMat);  // ring of water
+    annulus(6.9, 9.0, LAND_Y, landMat);    // ring of land
+    annulus(9.0, 10.4, WATER_Y, waterMat); // outer ring of water
+    // The great outer wall.
+    for (let i = 0; i < 96; i++) {
+      const a = (i / 96) * Math.PI * 2;
+      group.add(block(0.7, 1.0, 0.34, Math.cos(a) * 10.7, LAND_Y + 0.5, Math.sin(a) * 10.7, '#b0895a', -a));
+    }
+    // Buildings clustered on the two land rings (deterministic scatter).
+    const houses = (R0: number, R1: number, count: number, seed: number) => {
+      for (let i = 0; i < count; i++) {
+        const a = (i / count) * Math.PI * 2 + ((i * 1.7 + seed) % 1) * 0.4;
+        const rr = R0 + ((i * 0.37 + seed) % 1) * (R1 - R0);
+        const h = 0.45 + ((i * 0.53 + seed) % 1) * 0.9;
+        const w = 0.34 + ((i * 0.29) % 1) * 0.28;
+        group.add(block(w, h, w * 1.2, Math.cos(a) * rr, LAND_Y + h / 2, Math.sin(a) * rr, roofCols[i % roofCols.length], -a));
+      }
+    };
+    houses(3.9, 5.3, 44, 0.1);
+    houses(7.2, 8.7, 68, 0.6);
+    // The central citadel: a stepped acropolis, a colonnaded temple (Poseidon's),
+    // its pyramidal roof, and corner columns.
+    group.add(block(2.3, 0.5, 2.3, 0, LAND_Y + 0.25, 0, '#c2b48a'));
+    group.add(block(1.4, 1.6, 1.4, 0, LAND_Y + 1.05, 0, '#d8cfb0'));
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.35, 0.9, 4), stoneLike({ color: '#9a7b4a', flatShading: true }));
+    roof.rotation.y = Math.PI / 4;
+    roof.position.y = LAND_Y + 2.3;
+    group.add(roof);
+    for (const [cx, cz] of [[-0.75, -0.75], [0.75, -0.75], [-0.75, 0.75], [0.75, 0.75]]) {
+      group.add(block(0.16, 1.6, 0.16, cx, LAND_Y + 1.0, cz, '#e4dec6'));
+    }
+    // The royal canal: bridges/causeways crossing each ring of water on one axis.
+    for (const ang of [0, Math.PI]) {
+      const bx = Math.cos(ang), bz = Math.sin(ang);
+      for (const [r0, r1] of [[2.6, 3.6], [5.6, 6.9], [9.0, 10.4]]) {
+        const rm = (r0 + r1) / 2, len = r1 - r0 + 0.6;
+        group.add(block(len, 0.3, 1.0, bx * rm, LAND_Y + 0.18, bz * rm, '#c9b98a', -ang));
+      }
+    }
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -1048,12 +1064,6 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       const dist = maxDim * (flat ? 1.15 : 1.5) + 6;
       camera.position.set(0, flat ? maxDim * 0.4 + 2 : maxDim * 0.55 + 3, dist);
       controls.target.set(0, flat ? sSize.y * 0.6 : maxDim * 0.3, 0);
-      if (effModel === 'rings') {
-        // View from the SOUTH so the ringed island sits in front and Plato's
-        // northern highland (scene north = +Z) rises behind it.
-        camera.position.z = -Math.abs(camera.position.z);
-        controls.target.set(0, sSize.y * 0.5, 4);
-      }
       controls.update();
     }
     scene.add(group);

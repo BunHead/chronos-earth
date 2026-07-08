@@ -69,7 +69,8 @@ const r = Math.max(size.x, size.y, size.z) || 20;
 
 const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 6000);
 if (angle === 'top') {
-  cam.position.set(c.x, box.max.y + r * 2.1, c.z + 0.001);
+  cam.up.set(0, 0, -1); // north (-Z) points up in the plan view
+  cam.position.set(c.x, box.max.y + r * 2.2, c.z);
   cam.lookAt(c.x, 0, c.z);
 } else if (angle === 'side') {
   cam.position.set(c.x + r * 2.0, size.y * 0.5 + r * 0.05, c.z);
