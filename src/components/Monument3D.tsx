@@ -790,6 +790,21 @@ function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group;
     flatRing(6.8, 0.4, 0.4, waterMat);
     flatRing(8.2, 0.5, 0.6, stoneLike({ color: rock[1], flatShading: true }));
     flatRing(9.6, 0.4, 0.4, waterMat);
+    // Plato's northern highland: the plain of Atlantis was sheltered by mountains
+    // to the north, whose springs fed the concentric rings. (Scene north = +Z.)
+    // In the Captain's reading, the drowning wave rolled in from up here.
+    group.add(block(15, 3.0, 4, 0, 1.5, 15, '#8a7a5c'));
+    group.add(block(6, 2.3, 3, -3.6, 3.15, 15.8, '#7d6e50'));
+    group.add(block(5, 1.9, 2.6, 4, 2.6, 16, '#7d6e50'));
+    // A crescent-moon fall of water off the highland, feeding the rings…
+    const crescent = new THREE.Mesh(new THREE.TorusGeometry(3.4, 0.45, 8, 44, Math.PI), waterMat);
+    crescent.rotation.x = -Math.PI / 2;
+    crescent.position.set(0, 0.5, 12.4);
+    group.add(crescent);
+    // …carried down into the outermost ring by a channel.
+    const channel = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.35, 2.8), waterMat);
+    channel.position.set(0, 0.42, 10.7);
+    group.add(channel);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -1033,6 +1048,12 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       const dist = maxDim * (flat ? 1.15 : 1.5) + 6;
       camera.position.set(0, flat ? maxDim * 0.4 + 2 : maxDim * 0.55 + 3, dist);
       controls.target.set(0, flat ? sSize.y * 0.6 : maxDim * 0.3, 0);
+      if (effModel === 'rings') {
+        // View from the SOUTH so the ringed island sits in front and Plato's
+        // northern highland (scene north = +Z) rises behind it.
+        camera.position.z = -Math.abs(camera.position.z);
+        controls.target.set(0, sSize.y * 0.5, 4);
+      }
       controls.update();
     }
     scene.add(group);
