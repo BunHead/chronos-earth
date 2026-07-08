@@ -297,7 +297,7 @@ function ruinify(group: THREE.Group) {
   }
 }
 
-function buildModel(model: string, phase = 3): { group: THREE.Group; ground: string } {
+function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
 
@@ -506,40 +506,51 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     spire(4.2, -0.2, 1.7, 4, 0.65);
     spire(0, -4.4, 1.5, 3, 0.6);
   } else if (model === 'cathedral') {
-    // A stylised gothic church: nave + transept, twin west towers with
-    // spires, a crossing tower, buttresses and a rounded apse.
+    // A stylised gothic church: nave + transept, twin west towers, a slender
+    // crossing flèche, buttresses and a rounded apse. Notre-Dame de Paris and
+    // Amiens wear FLAT-topped square west towers; the rest (Cologne, Burgos,
+    // León…) get their spires.
     ground = '#5a6247';
     const wall = '#b8ad98';
     const roof = '#6d6257';
+    const flatTowers = /notre-dame de paris|notre dame de paris|amiens/.test(title.toLowerCase());
     group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
+    // A true gable roof over the nave — a triangular ridge running its length,
+    // NOT a tapering cone laid on its side.
+    const roofShape = new THREE.Shape();
+    roofShape.moveTo(-2.5, 0);
+    roofShape.lineTo(2.5, 0);
+    roofShape.lineTo(0, 2.3);
+    roofShape.lineTo(-2.5, 0);
     const naveRoof = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.1, 3.2, 14.4, 4, 1),
+      new THREE.ExtrudeGeometry(roofShape, { depth: 14, bevelEnabled: false }),
       stoneLike({ color: roof, flatShading: true }),
     );
-    naveRoof.rotation.x = Math.PI / 2;
-    naveRoof.rotation.y = Math.PI / 4;
-    naveRoof.position.y = 6.2;
+    naveRoof.position.set(0, 5.2, -7);
     group.add(naveRoof);
     group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
-    // Twin west towers with spires.
+    // Twin west towers — flat-topped or spired depending on the cathedral.
     for (const s of [-1, 1]) {
       group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
-      const spire = new THREE.Mesh(
-        new THREE.ConeGeometry(1.5, 3.6, 4),
-        stoneLike({ color: roof, flatShading: true }),
-      );
-      spire.position.set(s * 1.9, 9.4, 7.2);
-      spire.rotation.y = Math.PI / 4;
-      group.add(spire);
+      if (flatTowers) {
+        group.add(block(2.5, 0.4, 2.5, s * 1.9, 7.8, 7.2, roof)); // parapet cornice
+      } else {
+        const spire = new THREE.Mesh(
+          new THREE.ConeGeometry(1.5, 3.6, 4),
+          stoneLike({ color: roof, flatShading: true }),
+        );
+        spire.position.set(s * 1.9, 9.4, 7.2);
+        spire.rotation.y = Math.PI / 4;
+        group.add(spire);
+      }
     }
-    // Crossing tower.
+    // Crossing tower + a tall, slender flèche standing upright over it.
     group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
     const crossSpire = new THREE.Mesh(
-      new THREE.ConeGeometry(1.9, 4.6, 4),
+      new THREE.ConeGeometry(0.85, 6.2, 8),
       stoneLike({ color: roof, flatShading: true }),
     );
-    crossSpire.position.set(0, 10.7, -1.5);
-    crossSpire.rotation.y = Math.PI / 4;
+    crossSpire.position.set(0, 11.5, -1.5);
     group.add(crossSpire);
     // Apse (rounded east end).
     const apse = new THREE.Mesh(
@@ -858,7 +869,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     const container = containerRef.current;
     if (!container) return;
 
-    const { group, ground } = buildModel(effModel, phase);
+    const { group, ground } = buildModel(effModel, phase, title);
     if (ruined) ruinify(group);
 
     const scene = new THREE.Scene();
