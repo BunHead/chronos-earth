@@ -1579,7 +1579,10 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#10151f');
-    scene.fog = new THREE.Fog('#10151f', 40, 90);
+    // Fade the ground GRADUALLY to a far horizon (not a near ring), so the flat
+    // apron reads as an expansive plain hazing into the distance rather than a
+    // small curved ball whose edge dips away right past the monument.
+    scene.fog = new THREE.Fog('#10151f', 55, 340);
 
     const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 500);
     camera.position.set(0, 9, 20);
@@ -1661,7 +1664,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     // side (the "alignment still off" the Captain kept seeing once the tilt was
     // fixed). Sits just under the imagery so the real tiles still read on top.
     const apron = new THREE.Mesh(
-      new THREE.CircleGeometry(150, 64),
+      new THREE.CircleGeometry(420, 64),
       new THREE.MeshStandardMaterial({ color: ground, roughness: 1 }),
     );
     apron.rotation.x = -Math.PI / 2;

@@ -490,6 +490,34 @@
           "url": "https://en.wikipedia.org/wiki/Lighthouse_of_Alexandria"
         }
       ]
+    },
+    {
+      "id": "byzantine-empire",
+      "name": "Byzantine Empire (Constantinople)",
+      "category": "monument",
+      "lat": 41.008,
+      "lon": 28.98,
+      "model": "castle",
+      "builtYear": 330,
+      "builtYearLabel": "330 CE — Constantine's new capital",
+      "consensusSummary": "The Byzantine Empire was the eastern half of the Roman Empire, which lived on for a thousand years after Rome fell in the west. Its capital was Constantinople (modern Istanbul), refounded by the emperor Constantine in 330 CE on the old Greek city of Byzantium. Its people called themselves Romans — 'Byzantine' is a name coined by later historians. Guarded by the mightiest walls of the medieval world, it finally fell to the Ottomans in 1453.",
+      "significance": "The bridge between the ancient and medieval worlds: it preserved Roman law and Greek learning, spread Orthodox Christianity, and raised the great domed church of Hagia Sophia. On the globe's border layer it appears as the 'Eastern Roman' / 'Byzantine' Empire down the centuries.",
+      "keyFacts": [
+        "Capital: Constantinople, refounded 330 CE (modern Istanbul)",
+        "Its people called themselves Romans; 'Byzantine' is a modern term",
+        "Justinian's Hagia Sophia (537 CE) held the world's largest dome for centuries",
+        "Defended by the great Theodosian Walls; fell to the Ottomans in 1453"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Byzantine Empire",
+          "url": "https://en.wikipedia.org/wiki/Byzantine_Empire"
+        },
+        {
+          "label": "Wikipedia: Constantinople",
+          "url": "https://en.wikipedia.org/wiki/Constantinople"
+        }
+      ]
     }
   ]
 }
