@@ -18,15 +18,24 @@
         "Part of the wider 'Taş Tepeler' cluster of early Neolithic sites"
       ],
       "links": [
-        { "label": "Wikipedia: Göbekli Tepe", "url": "https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe" },
-        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/1572/" }
+        {
+          "label": "Wikipedia: Göbekli Tepe",
+          "url": "https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe"
+        },
+        {
+          "label": "UNESCO World Heritage listing",
+          "url": "https://whc.unesco.org/en/list/1572/"
+        }
       ],
       "alternative": {
         "proponent": "Graham Hancock",
         "claim": "Hancock cites Göbekli Tepe as evidence that a sophisticated 'lost' culture existed during the last Ice Age and transmitted advanced knowledge to later hunter-gatherers.",
         "note": "Mainstream archaeology attributes the site entirely to local Neolithic foragers and finds no evidence of an earlier advanced civilization. Treat as a contested popular hypothesis, not established fact.",
         "links": [
-          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" }
+          {
+            "label": "Wikipedia: Graham Hancock",
+            "url": "https://en.wikipedia.org/wiki/Graham_Hancock"
+          }
         ]
       }
     },
@@ -46,7 +55,10 @@
         "Part of Turkey's 'Taş Tepeler' (Stone Hills) project"
       ],
       "links": [
-        { "label": "Wikipedia: Karahan Tepe", "url": "https://en.wikipedia.org/wiki/Karahan_Tepe" }
+        {
+          "label": "Wikipedia: Karahan Tepe",
+          "url": "https://en.wikipedia.org/wiki/Karahan_Tepe"
+        }
       ]
     },
     {
@@ -66,8 +78,14 @@
         "UNESCO World Heritage Site"
       ],
       "links": [
-        { "label": "Wikipedia: Çatalhöyük", "url": "https://en.wikipedia.org/wiki/%C3%87atalh%C3%B6y%C3%BCk" },
-        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/1405/" }
+        {
+          "label": "Wikipedia: Çatalhöyük",
+          "url": "https://en.wikipedia.org/wiki/%C3%87atalh%C3%B6y%C3%BCk"
+        },
+        {
+          "label": "UNESCO World Heritage listing",
+          "url": "https://whc.unesco.org/en/list/1405/"
+        }
       ]
     },
     {
@@ -86,7 +104,10 @@
         "Stones later moved to the Nubian Museum in Aswan"
       ],
       "links": [
-        { "label": "Wikipedia: Nabta Playa", "url": "https://en.wikipedia.org/wiki/Nabta_Playa" }
+        {
+          "label": "Wikipedia: Nabta Playa",
+          "url": "https://en.wikipedia.org/wiki/Nabta_Playa"
+        }
       ]
     },
     {
@@ -106,8 +127,14 @@
         "UNESCO World Heritage Site"
       ],
       "links": [
-        { "label": "Wikipedia: Stonehenge", "url": "https://en.wikipedia.org/wiki/Stonehenge" },
-        { "label": "UNESCO World Heritage listing", "url": "https://whc.unesco.org/en/list/373/" }
+        {
+          "label": "Wikipedia: Stonehenge",
+          "url": "https://en.wikipedia.org/wiki/Stonehenge"
+        },
+        {
+          "label": "UNESCO World Heritage listing",
+          "url": "https://whc.unesco.org/en/list/373/"
+        }
       ]
     },
     {
@@ -127,7 +154,10 @@
         "UNESCO World Heritage Site"
       ],
       "links": [
-        { "label": "Wikipedia: Giza pyramid complex", "url": "https://en.wikipedia.org/wiki/Giza_pyramid_complex" }
+        {
+          "label": "Wikipedia: Giza pyramid complex",
+          "url": "https://en.wikipedia.org/wiki/Giza_pyramid_complex"
+        }
       ]
     },
     {
@@ -146,14 +176,20 @@
         "The nose was lost centuries ago; cause debated"
       ],
       "links": [
-        { "label": "Wikipedia: Great Sphinx of Giza", "url": "https://en.wikipedia.org/wiki/Great_Sphinx_of_Giza" }
+        {
+          "label": "Wikipedia: Great Sphinx of Giza",
+          "url": "https://en.wikipedia.org/wiki/Great_Sphinx_of_Giza"
+        }
       ],
       "alternative": {
         "proponent": "Robert Schoch / Graham Hancock",
         "claim": "The 'water erosion' hypothesis argues the Sphinx enclosure shows rainfall weathering, implying it was carved far earlier (perhaps 10,000+ BCE), which Hancock links to a lost precursor civilization.",
         "note": "The great majority of geologists and Egyptologists reject this and support the ~2500 BCE date. Presented as a well-known but contested claim.",
         "links": [
-          { "label": "Wikipedia: Sphinx water-erosion hypothesis", "url": "https://en.wikipedia.org/wiki/Sphinx_water_erosion_hypothesis" }
+          {
+            "label": "Wikipedia: Sphinx water-erosion hypothesis",
+            "url": "https://en.wikipedia.org/wiki/Sphinx_water_erosion_hypothesis"
+          }
         ]
       }
     },
@@ -173,15 +209,24 @@
         "Radiocarbon dates cluster around the 6th century CE"
       ],
       "links": [
-        { "label": "Wikipedia: Pumapunku", "url": "https://en.wikipedia.org/wiki/Pumapunku" },
-        { "label": "Wikipedia: Tiwanaku", "url": "https://en.wikipedia.org/wiki/Tiwanaku" }
+        {
+          "label": "Wikipedia: Pumapunku",
+          "url": "https://en.wikipedia.org/wiki/Pumapunku"
+        },
+        {
+          "label": "Wikipedia: Tiwanaku",
+          "url": "https://en.wikipedia.org/wiki/Tiwanaku"
+        }
       ],
       "alternative": {
         "proponent": "Graham Hancock and others",
         "claim": "Some alternative authors argue the precision stonework implies a much older, technologically advanced lost culture.",
         "note": "Radiocarbon dating firmly places construction in the first millennium CE. The 'lost advanced civilization' reading is not supported by evidence.",
         "links": [
-          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" }
+          {
+            "label": "Wikipedia: Graham Hancock",
+            "url": "https://en.wikipedia.org/wiki/Graham_Hancock"
+          }
         ]
       }
     },
@@ -201,14 +246,20 @@
         "Featured prominently in Hancock's 'Ancient Apocalypse'"
       ],
       "links": [
-        { "label": "Wikipedia: Gunung Padang", "url": "https://en.wikipedia.org/wiki/Gunung_Padang" }
+        {
+          "label": "Wikipedia: Gunung Padang",
+          "url": "https://en.wikipedia.org/wiki/Gunung_Padang"
+        }
       ],
       "alternative": {
         "proponent": "Danny Hilman Natawidjaja / Graham Hancock",
         "claim": "A 2023 paper claimed buried 'construction' as old as ~25,000 years, which Hancock presented as evidence of a lost Ice Age civilization.",
         "note": "That 2023 paper was RETRACTED by the journal in 2024 after experts argued the ancient layers are natural rock, not built structures. A clear example of why dating claims need scrutiny.",
         "links": [
-          { "label": "Wikipedia: Gunung Padang (dating controversy)", "url": "https://en.wikipedia.org/wiki/Gunung_Padang#Dating_controversy" }
+          {
+            "label": "Wikipedia: Gunung Padang (dating controversy)",
+            "url": "https://en.wikipedia.org/wiki/Gunung_Padang#Dating_controversy"
+          }
         ]
       }
     },
@@ -217,7 +268,7 @@
       "name": "Younger Dryas Impact Hypothesis",
       "category": "precursor-hypothesis",
       "lat": 78.75,
-      "lon": -66.0,
+      "lon": -66,
       "builtYear": -10900,
       "builtYearLabel": "c. 10,900 BCE (event)",
       "consensusSummary": "A proposed cosmic impact or airburst around 12,900 years ago, suggested as a trigger for the sudden 'Younger Dryas' cold snap and the extinction of many Ice Age animals. The marker is placed near Greenland's Hiawatha crater for illustration; the hypothesis concerns a global event.",
@@ -228,16 +279,67 @@
         "Marker location is illustrative, not a confirmed impact site"
       ],
       "links": [
-        { "label": "Wikipedia: Younger Dryas impact hypothesis", "url": "https://en.wikipedia.org/wiki/Younger_Dryas_impact_hypothesis" },
-        { "label": "Wikipedia: Younger Dryas", "url": "https://en.wikipedia.org/wiki/Younger_Dryas" }
+        {
+          "label": "Wikipedia: Younger Dryas impact hypothesis",
+          "url": "https://en.wikipedia.org/wiki/Younger_Dryas_impact_hypothesis"
+        },
+        {
+          "label": "Wikipedia: Younger Dryas",
+          "url": "https://en.wikipedia.org/wiki/Younger_Dryas"
+        }
       ],
       "alternative": {
         "proponent": "Graham Hancock",
         "claim": "Hancock argues a comet impact at this time wiped out a globe-spanning advanced civilization, with survivors passing knowledge to hunter-gatherers — explaining sites like Göbekli Tepe.",
         "note": "The 'lost advanced civilization' claim is rejected by mainstream archaeology, and even the impact trigger for the Younger Dryas is contested among scientists. Included because the user asked to feature Hancock's research, clearly labelled as a hypothesis.",
         "links": [
-          { "label": "Wikipedia: Graham Hancock", "url": "https://en.wikipedia.org/wiki/Graham_Hancock" },
-          { "label": "Wikipedia: Ancient Apocalypse (series)", "url": "https://en.wikipedia.org/wiki/Ancient_Apocalypse" }
+          {
+            "label": "Wikipedia: Graham Hancock",
+            "url": "https://en.wikipedia.org/wiki/Graham_Hancock"
+          },
+          {
+            "label": "Wikipedia: Ancient Apocalypse (series)",
+            "url": "https://en.wikipedia.org/wiki/Ancient_Apocalypse"
+          }
+        ]
+      }
+    },
+    {
+      "id": "richat-structure",
+      "name": "Richat Structure (Eye of the Sahara)",
+      "category": "precursor-hypothesis",
+      "lat": 21.124,
+      "lon": -11.401,
+      "model": "rings",
+      "builtYear": -9600,
+      "builtYearLabel": "the Atlantis date, c. 9600 BCE",
+      "consensusSummary": "A vast bullseye of concentric rock ridges in the Mauritanian Sahara, about 40 km across and clearest from orbit. Geologists read it as a natural landform: a dome of layered rock gently pushed up and then worn flat by erosion, so bands of harder and softer stone stand out as rings. Once thought a meteor crater; there is no sign of an impact, and no sign of a city.",
+      "significance": "Its uncanny ring-within-ring shape has made it the most popular modern candidate for Plato’s Atlantis — a striking lesson in how ordinary erosion can mimic deliberate design.",
+      "keyFacts": [
+        "~40 km wide — a landmark for astronauts, an eroded geological dome",
+        "Its rings are bands of differing rock hardness, not built walls",
+        "No archaeological evidence of a city or civilisation here",
+        "Lies west of Egypt, ‘beyond the Pillars of Hercules’ in the old geography"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Richat Structure",
+          "url": "https://en.wikipedia.org/wiki/Richat_Structure"
+        },
+        {
+          "label": "Wikipedia: Atlantis",
+          "url": "https://en.wikipedia.org/wiki/Atlantis"
+        }
+      ],
+      "alternative": {
+        "proponent": "the ‘Richat = Atlantis’ hypothesis (popularised online)",
+        "claim": "That the Richat’s concentric rings ARE Plato’s rings of land and water; that it sits beyond the Pillars of Hercules as he said; and that when the Sahara was green — with far higher lakes and seas at the end of the Ice Age — it could have stood near water, matching a drowned island-city.",
+        "note": "Mainstream scholarship holds that Atlantis is Plato’s ALLEGORY — a moral fable he invented — not a real place; and that the Richat is a natural geological structure with no archaeology of a city, at the wrong scale and elevation for Plato’s account. The real, testable kernel is the drowned-coastline science: seas WERE far lower in the Ice Age and rose after, so genuine coastal sites older than ~10,000 years now lie underwater. Treat the Atlantis link as a contested popular hypothesis, not established fact.",
+        "links": [
+          {
+            "label": "Wikipedia: Location hypotheses of Atlantis",
+            "url": "https://en.wikipedia.org/wiki/Location_hypotheses_of_Atlantis"
+          }
         ]
       }
     }

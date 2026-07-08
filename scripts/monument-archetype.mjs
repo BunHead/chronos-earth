@@ -75,7 +75,7 @@ export const NO_3D_NAMES = new Set([
 export const VALID_MODELS = [
   'tpillars', 'stonehenge', 'pyramid', 'stepped-pyramid', 'sphinx', 'circle',
   'settlement', 'castle', 'mansion', 'cathedral', 'greek-temple', 'temple-tower',
-  'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'amphitheatre', 'impact', 'megalith',
+  'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'amphitheatre', 'impact', 'megalith', 'rings',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.

@@ -1,6 +1,6 @@
 # Chronos Earth — Monument & Battle Audit
 
-_Generated 2026-07-08 05:37 by `npm run audit`. Reads only; changes nothing._
+_Generated 2026-07-08 14:55 by `npm run audit`. Reads only; changes nothing._
 
 This is the worksheet for the "old template" problem. It lists every monument
 and battle, the 3D archetype the app hands it, **how** it got that archetype,
@@ -8,17 +8,17 @@ and every entry that looks wrong, generic, out-of-period, or frozen in time.
 
 ## At a glance
 
-- **Monuments checked:** 338  (10 curated sites + 328 imported)
-- Monuments with a 3D model: **34** · with no 3D button: **304**
-- **Battles checked:** 350  (78 named + 272 imported)
-- Battles with hand-crafted phased choreography: **15** · running the generic template: **335**
+- **Monuments checked:** 253  (11 curated sites + 242 imported)
+- Monuments with a 3D model: **33** · with no 3D button: **220**
+- **Battles checked:** 235  (78 named + 157 imported)
+- Battles with hand-crafted phased choreography: **15** · running the generic template: **220**
 
 ### Flags raised (monuments)
 
 | Count | Flag |
 |------:|------|
 | 7 | 🟡 Known to have been destroyed/rebuilt — deserves phases over time |
-| 304 | ⚪ No 3D model at all (panel only, no "View in 3D") |
+| 220 | ⚪ No 3D model at all (panel only, no "View in 3D") |
 
 ## Worst offenders (top 40)
 
@@ -29,15 +29,16 @@ The entries most worth fixing first, hardest-first by severity.
 | Colosseum | 80 CE | imported event | — | suppressed — a generic model would misrepresent it | no 3d; should be phased |
 | Hagia Sophia | 537 CE | imported event | — | no keyword matched → no 3D button | no 3d; should be phased |
 | Parthenon | 438 BCE | imported event | greek-temple | greek-temple keyword | should be phased |
+| Nottingham Castle | 1068 CE | imported event | castle | castle/fort/palace keyword (word-boundaried) | should be phased |
 | Notre-Dame de Chartres | 1145 CE | imported event | cathedral | cathedral/church keyword | should be phased |
 | Notre-Dame d'Amiens | 1220 CE | imported event | cathedral | cathedral/church keyword | should be phased |
 | Notre-Dame de Paris | 1345 CE | imported event | cathedral | cathedral/church keyword | should be phased |
-| Nottingham Castle | 1068 CE | imported event | castle | castle/fort/palace keyword (word-boundaried) | should be phased |
 | Blombos Cave engravings | 71000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Sulawesi cave paintings | 42000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Chauvet Cave paintings | 34000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Altamira cave art | 33000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Lascaux cave paintings | 15000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
+| Creswell Crags cave art | 11000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Uluru (Ayers Rock) | 10000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Göbekli Tepe | 9999 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Byblos | 8000 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
@@ -65,7 +66,6 @@ The entries most worth fixing first, hardest-first by severity.
 | Terracotta Army | 210 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Ajanta Caves | 200 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 | Nazca Lines | 200 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
-| Nazca Lines | 199 BCE | imported event | — | no keyword matched → no 3D button | no 3d |
 
 ## Full lists by problem
 
@@ -79,7 +79,7 @@ The entries most worth fixing first, hardest-first by severity.
 - **Notre-Dame d'Amiens** (1220 CE, imported event) → `cathedral` — _cathedral/church keyword_
 - **Notre-Dame de Paris** (1345 CE, imported event) → `cathedral` — _cathedral/church keyword_
 
-### ⚪ No 3D model at all (panel only, no "View in 3D") — 304
+### ⚪ No 3D model at all (panel only, no "View in 3D") — 220
 
 - **Blombos Cave engravings** (71000 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Sulawesi cave paintings** (42000 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -94,10 +94,8 @@ The entries most worth fixing first, hardest-first by severity.
 - **Çatalhöyük** (7499 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Cueva de las Manos (Cave of Hands)** (7300 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Susa** (3999 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Kerma kingdom** (3499 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Thebes** (3199 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Troy** (2999 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Kondoa Rock Art Sites** (2999 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mohenjo-daro** (2500 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Assur** (2499 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Acre** (1499 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -119,10 +117,8 @@ The entries most worth fixing first, hardest-first by severity.
 - **Nazca Lines** (199 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Bath** (43 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Colosseum** (80 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
-- **Tower of Hercules** (100 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Tiwanaku** (110 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Hadrian's Wall** (122 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Antonine Wall** (142 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Bagan** (200 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Palenque (Maya)** (226 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Church of the Nativity** (327 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
@@ -130,29 +126,23 @@ The entries most worth fixing first, hardest-first by severity.
 - **Hagia Sophia** (537 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Itsukushima Shrine** (593 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mesa Verde** (600 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Alodia** (600 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Potala Palace** (637 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Kairouan** (670 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Dome of the Rock** (691 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Al-Aqsa Mosque** (710 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Borobudur** (750 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Mosque-Cathedral of Cordoba** (786 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
-- **Borobudur Temple** (800 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Aachen Cathedral** (801 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Chan Chan** (850 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Chaco Canyon** (850 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mont-Saint-Michel** (1000 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Major Oak, Sherwood Forest** (1000 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Qal'at Bani Hammad** (1007 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Saint Sophia Cathedral** (1011 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Cahokia** (1050 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Tower of London** (1066 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Wartburg** (1067 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Speyer Cathedral** (1080 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Peveril Castle** (1086 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Haddon Hall** (1087 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Great Zimbabwe** (1100 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Tournai Cathedral** (1101 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Gelati Monastery** (1106 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Angkor Wat** (1122 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Newstead Abbey** (1170 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
@@ -160,24 +150,17 @@ The entries most worth fixing first, hardest-first by severity.
 - **Walls of Benin City** (1180 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Rock churches of Lalibela** (1181 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Ye Olde Trip to Jerusalem** (1189 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Church of Saint George** (1200 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Konark Sun Temple** (1201 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Alhambra** (1238 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Castel del Monte** (1240 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Great Mosque of Djenné** (1240 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Moai (Rapa Nui)** (1250 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Malbork Castle** (1270 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Himeji Castle** (1346 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Chesterfield Crooked Spire** (1362 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Bruges City Hall** (1377 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Santa Maria delle Grazie** (1401 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Forbidden City** (1420 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Machu Picchu** (1450 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Elmina Castle** (1482 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **San Cristóbal de La Laguna** (1496 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **El Camino Real de Tierra Adentro** (1500 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Jerónimos Monastery** (1502 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Château de Chambord** (1519 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Ruínas de León Viejo** (1524 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Santa Cruz de Mompós** (1537 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Salvador** (1549 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -197,111 +180,47 @@ The entries most worth fixing first, hardest-first by severity.
 - **Taj Mahal** (1643 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Palace of Versailles** (1661 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Drottningholm Palace** (1699 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
-- **Blenheim Palace** (1705 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Jaipur** (1727 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Suomenlinna** (1748 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Blue John Cavern** (1750 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Independence Hall** (1753 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Sanctuary of Bom Jesus de Matosinhos** (1757 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Aachen Chapel of Hungary** (1764 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Eise Eisinga Planetarium** (1781 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Brandenburg Gate** (1791 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Hospicio Cabañas** (1810 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Valongo Wharf** (1811 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Tlacotalpan** (1847 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Zollverein Coal Mine Industrial Complex** (1847 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Victoria Falls** (1855 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Big Ben** (1859 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Kyoto Prefecture** (1868 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Yellowstone National Park** (1872 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Yellowstone** (1872 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Museum Plantin-Moretus** (1877 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Fort de Loncin** (1881 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
-- **Sagrada Família** (1882 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Basilica and Expiatory Church of the Holy Family** (1882 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
+- **Sagrada Família** (1882 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Statue of Liberty** (1886 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Statue of Liberty** (1886 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Neuschwanstein Castle** (1886 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Tongariro National Park** (1887 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Eiffel Tower** (1889 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Yosemite National Park** (1890 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Forth Bridge** (1890 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Kaziranga National Park** (1905 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Stoclet Palace** (1905 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Mesa Verde National Park** (1906 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Ploegsteert Wood Military Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Rifle House Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Prowse Point Military Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Assevent French-German War Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Strand Military Cemetery** (1914 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Hiroshima Peace Memorial** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Hyde Park Corner (Royal Berks) Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Berks Cemetery Extension** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Essex Farm Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Hedge Row Trench Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Woods Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Bedford House Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **First DCLI Cemetery, The Bluff** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Larch Wood (Railway Cutting) Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Louvencourt Military Cemetery** (1915 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Hawaiʻi Volcanoes National Park** (1916 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Hunter's Cemetery** (1916 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Faubourg d'Amiens Cemetery** (1916 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Rancourt Military Cemetery** (1916 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Tyne Cot Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Canadian Cemetery No. 2** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Mill Road Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Mud Corner Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Givenchy Road Canadian Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Track "X" Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Buffs Road Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **La Targette British Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Toronto Avenue Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Lichfield Crater, Thelus** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Louverval Military Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Welsh Cemetery (Caesar's Nose)** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **No Man's Cot Cemetery** (1917 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Le Quesnoy Communal Cemetery Extension** (1918 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Grand Canyon National Park** (1919 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Grand Canyon** (1919 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Neuville-St Vaast German war cemetery** (1919 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Delville Wood Cemetery** (1920 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Cuts National Cemetery** (1920 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Pierrepont National Cemetery** (1920 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Thiescourt German military cemetery** (1920 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Notre Dame de Lorette National Cemetery** (1921 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Rancourt German military cemetery** (1921 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Wood Buffalo National Park** (1922 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Saint Julien Memorial** (1923 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Richebourg-L'Avoue Portuguese National Cemetery** (1923 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Rietveld Schröder House** (1924 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Craonnelle National Cemetery** (1924 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Virunga National Park** (1925 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Delville Wood South African National Memorial** (1926 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Menin Gate** (1927 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Nieuport Memorial** (1928 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Vatican City** (1929 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Carlsbad Caverns National Park** (1930 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Yser Tower** (1930 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Cambrai Memorial to the Missing** (1930 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Loos Memorial** (1930 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Empire State Building** (1931 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Christ the Redeemer** (1931 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Van Nelle Factory** (1931 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Ploegsteert Memorial to the Missing** (1931 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Thiepval Anglo-French Cemetery** (1931 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Waterton-Glacier International Peace Park** (1932 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Białowieża Forest** (1932 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Thiepval Memorial** (1932 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Arras Memorial** (1932 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Arras Flying Services Memorial** (1932 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Iguazú National Park** (1934 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Great Smoky Mountains National Park** (1934 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Los Glaciares National Park** (1937 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Los Alerces National Park** (1937 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Golden Gate Bridge** (1937 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Olympic National Park** (1938 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Villers–Bretonneux Australian National Memorial** (1938 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Iguaçu National Park** (1939 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Auschwitz** (1940 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mammoth Cave National Park** (1941 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -309,21 +228,19 @@ The entries most worth fixing first, hardest-first by severity.
 - **Pampulha Modern Ensemble** (1943 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Everglades National Park** (1947 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Plitvice Lakes National Park** (1949 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Chemin des Dames Memorial Chapel** (1950 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Lake District** (1951 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Mount Everest (first summit)** (1953 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Ciudad Universitaria** (1954 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Teide National Park** (1954 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Niokolo-Koba National Park** (1954 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Dinosaur Provincial Park** (1955 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Uluṟu-Kata Tjuṯa National Park** (1958 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Ngorongoro Conservation Area** (1959 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Brasília** (1960 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Church of Cristo Obrero y Nuestra Señora de Lourdes** (1960 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Tijuca Forest** (1961 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Canaima National Park** (1962 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Surtsey** (1963 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Kinabalu Park** (1964 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Church of Our Lady Mary of Zion** (1964 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Gobustan State Historical and Cultural Reserve** (1966 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Redwood National and State Parks** (1968 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Comoé National Park** (1968 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -332,7 +249,6 @@ The entries most worth fixing first, hardest-first by severity.
 - **Chitwan National Park** (1973 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Sydney Opera House** (1973 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Sydney Opera House** (1973 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Hortobágy National Park** (1973 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Los Katíos National Park** (1974 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Huascarán National Park** (1975 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Morne Trois Pitons National Park** (1975 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -364,8 +280,8 @@ The entries most worth fixing first, hardest-first by severity.
 - **Wet Tropics of Queensland** (1988 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Chiribiquete National Park** (1989 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Manas National Park** (1990 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Shark Bay** (1991 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Danube Delta** (1991 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Shark Bay** (1991 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Coiba** (1992 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Okapi Wildlife Reserve** (1992 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **K'gari** (1992 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -373,6 +289,7 @@ The entries most worth fixing first, hardest-first by severity.
 - **Sítio Roberto Burle Marx** (1995 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Virgin Komi Forests** (1995 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Lorentz National Park** (1997 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Luis Barragán House and Studio** (1998 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Cavernas do Peruaçu National Park** (1999 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Monarch Butterfly Biosphere Reserve** (2000 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Greater Blue Mountains Area** (2000 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -381,7 +298,6 @@ The entries most worth fixing first, hardest-first by severity.
 - **Thingvellir National Park** (2004 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Gros Morne National Park** (2005 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Burj Khalifa** (2010 CE, imported event) → `no model` — _no keyword matched → no 3D button_
-- **Fromelles (Pheasant Wood) Military Cemetery** (2010 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Ningaloo Reef** (2011 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Murujuga National Park** (2013 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Serengeti National Park** (2020 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -393,8 +309,8 @@ too much work (this is why every castle looks the same).
 
 | Model | Count |
 |-------|------:|
-| (none) | 304 |
-| cathedral | 7 |
+| (none) | 220 |
+| cathedral | 6 |
 | stepped-pyramid | 5 |
 | tpillars | 2 |
 | circle | 2 |
@@ -406,10 +322,10 @@ too much work (this is why every castle looks the same).
 | temple-tower | 2 |
 | settlement | 1 |
 | impact | 1 |
+| rings | 1 |
 | aqueduct | 1 |
-| leaning-tower | 1 |
-| lighthouse | 1 |
 | castle | 1 |
+| leaning-tower | 1 |
 
 ## Over-time pass (the "watch it get built / burnt / rebuilt" check)
 
@@ -436,7 +352,7 @@ _The watchlist is a hand-seeded starting point, not exhaustive — extend it in
 ## Battles — choreography coverage
 
 Of 78 named battles, **15** have real phase-by-phase
-choreography; **63** named battles + **272** imported battles use the
+choreography; **63** named battles + **157** imported battles use the
 generic "two lines meet in the middle" template. These named battles are the
 best candidates for hand-authored, historically accurate movement next:
 

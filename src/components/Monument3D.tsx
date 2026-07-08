@@ -761,6 +761,29 @@ function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group;
     trail.rotation.set(0.5, 0.4, 0.2);
     trail.userData.noShadow = true;
     group.add(trail);
+  } else if (model === 'rings') {
+    // The Richat Structure — concentric ridges of an eroded rock dome, bands of
+    // alternating harder and softer stone, a low mound at the heart. Honest to
+    // the real landform, and it happens to echo Plato's rings of land and water.
+    ground = '#b7a066';
+    const bands = ['#a8925f', '#8f7c50', '#bcab7d', '#9a8455'];
+    for (let i = 0; i < 5; i++) {
+      const r = 9 - i * 1.75;
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(r, 0.4 + (i % 2) * 0.15, 10, 64),
+        stoneLike({ color: bands[i % bands.length], flatShading: true }),
+      );
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.y = 0.35;
+      group.add(ring);
+    }
+    // A low central dome.
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(1.7, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+      stoneLike({ color: '#b8a878' }),
+    );
+    core.scale.y = 0.45;
+    group.add(core);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
