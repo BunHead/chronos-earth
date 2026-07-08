@@ -32,6 +32,10 @@ interface RiverPhase {
   fromYear: number;
   /** The channel as a lon/lat polyline; omitted when the river has run dry. */
   path?: number[][];
+  /** True when this course matches TODAY'S river. We don't draw those — the
+   * satellite already shows the real modern channel, so the overlay would just be
+   * redundant clutter. Only DIVERGENT past courses get drawn. */
+  current?: boolean;
 }
 interface River { name: string; phases: RiverPhase[]; }
 
@@ -40,8 +44,9 @@ const RIVERS: River[] = [
     name: 'Huang He (Yellow River)',
     phases: [
       // The upper/middle course (the great Ordos loop) is stable; the LOWER course
-      // and mouth jump. North (into the Bohai Sea) in antiquity…
-      { fromYear: -2000, path: [
+      // and mouth jump. North (Bohai Sea) in antiquity — same as today, so not
+      // drawn; the river only appears when it broke away south.
+      { fromYear: -2000, current: true, path: [
         [103, 35.5], [107, 36.5], [110, 37.6], [111, 39], [110.5, 40.3], [109, 40.5],
         [108, 39], [110, 35.6], [113, 34.8], [116, 35.6], [118, 37.2], [119.3, 37.8],
       ] },
@@ -50,8 +55,9 @@ const RIVERS: River[] = [
         [103, 35.5], [107, 36.5], [110, 37.6], [111, 39], [110.5, 40.3], [109, 40.5],
         [108, 39], [110, 35.6], [113, 34.8], [116, 34.4], [118.5, 34], [120.2, 34],
       ] },
-      // …and back north again after 1855 (today's mouth in Shandong).
-      { fromYear: 1855, path: [
+      // …and back north again after 1855 (today's mouth in Shandong) — matches the
+      // satellite, so not drawn.
+      { fromYear: 1855, current: true, path: [
         [103, 35.5], [107, 36.5], [110, 37.6], [111, 39], [110.5, 40.3], [109, 40.5],
         [108, 39], [110, 35.6], [113, 34.8], [116, 35.6], [118, 37.2], [119.3, 37.8],
       ] },
@@ -64,8 +70,9 @@ const RIVERS: River[] = [
       { fromYear: -3000, path: [
         [44, 33], [44.8, 32.2], [45.6, 31.5], [46.1, 31.0], [46.5, 30.7], [47.2, 30.5],
       ] },
-      // …then wandered north-east, leaving Ur stranded in the desert.
-      { fromYear: -500, path: [
+      // …then wandered north-east (close to today's channel), leaving Ur stranded
+      // in the desert — matches the satellite, so not drawn.
+      { fromYear: -500, current: true, path: [
         [44, 33], [45.2, 32.1], [46.1, 31.6], [46.6, 31.2], [47.1, 30.9], [47.6, 30.7],
       ] },
     ],
@@ -92,8 +99,8 @@ const RIVERS: River[] = [
         [31.6, 30.7], [32.0, 31.0], [32.3, 31.15],
       ] },
       // Modern course: the river sits east by Luxor; the delta now drains west
-      // (Rosetta), the eastern branches long silted up.
-      { fromYear: 700, path: [
+      // (Rosetta) — this is today's Nile, shown by the satellite, so not drawn.
+      { fromYear: 700, current: true, path: [
         [32.9, 24.0], [32.64, 25.7], [31.6, 27.2], [31.2, 29.0], [31.2, 30.1],
         [30.9, 30.7], [30.55, 31.2], [30.4, 31.5],
       ] },
@@ -139,10 +146,10 @@ export class RiversController {
     const ctx = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, TEX_W, TEX_H);
     RIVERS.forEach((river, i) => {
-      const path = river.phases[indices[i]]?.path;
-      if (!path) return; // dried up
-      this.stroke(ctx, path, 7, RIVER_HALO); // soft halo
-      this.stroke(ctx, path, 3, RIVER_CSS); // bright channel
+      const phase = river.phases[indices[i]];
+      if (!phase?.path || phase.current) return; // dried up, or on today's course
+      this.stroke(ctx, phase.path, 7, RIVER_HALO); // soft halo
+      this.stroke(ctx, phase.path, 3, RIVER_CSS); // bright channel
     });
     return canvas;
   }
@@ -177,6 +184,18 @@ export class RiversController {
       return;
     }
     const indices = RIVERS.map((r) => activePhaseIndex(r, year));
+    // If every river is on its modern course (or dried up) there is nothing
+    // divergent to draw — turn the overlay off and let the satellite speak.
+    const anyDraw = indices.some((idx, i) => {
+      const ph = RIVERS[i].phases[idx];
+      return ph?.path && !ph.current;
+    });
+    if (!anyDraw) {
+      if (this.shown) this.shown.show = false;
+      this.shown = undefined;
+      this.lastSig = '';
+      return;
+    }
     const sig = indices.join(',');
     if (sig === this.lastSig && this.shown) return;
     this.lastSig = sig;
