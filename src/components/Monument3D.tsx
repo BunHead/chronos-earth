@@ -1338,6 +1338,147 @@ export function buildModel(
       sx.rotation.y = -0.5;
       group.add(sx);
     }
+  } else if (model === 'buckingham') {
+    // Buckingham Palace — the famous East Front: a long Neoclassical facade in
+    // Portland stone, three ranks of windows, the central balcony, the forecourt
+    // railings, and the Victoria Memorial standing before the gates.
+    ground = '#3f5138';
+    const stone = '#cdbfa6';
+    const trim = '#ddd2bb';
+    const win = '#2f3742';
+    const W = 22;
+    const H = 5.2;
+    const D = 6;
+    group.add(block(W, H, D, 0, H / 2, 0, stone)); // main range
+    group.add(block(6, H + 0.7, D + 0.8, 0, (H + 0.7) / 2, 0.4, trim)); // central projecting bay
+    group.add(block(W + 0.6, 0.6, D + 0.6, 0, H + 0.3, 0, trim)); // cornice
+    group.add(block(W - 1, 1.0, D - 1, 0, H + 0.9, 0, '#9aa0a6')); // attic/roof
+    for (let row = 0; row < 3; row++) {
+      for (let i = 0; i < 11; i++) {
+        const wx = -W / 2 + 1.4 + i * ((W - 2.8) / 10);
+        group.add(block(0.8, 1.2, 0.15, wx, 1.3 + row * 1.5, D / 2 + 0.02, win));
+      }
+    }
+    group.add(block(1.7, 2.4, 0.2, 0, 1.2, 0.4 + (D + 0.8) / 2 + 0.01, '#3a2f26')); // central door
+    group.add(block(3.4, 0.3, 0.7, 0, 3.6, 0.4 + (D + 0.8) / 2 + 0.2, trim)); // balcony
+    // Forecourt railings with a gap for the gates.
+    for (let i = 0; i <= 20; i++) {
+      const gx = -W / 2 + i * (W / 20);
+      if (Math.abs(gx) < 1.8) continue;
+      group.add(block(0.1, 1.5, 0.1, gx, 0.75, D / 2 + 4, '#1c1c1c'));
+    }
+    group.add(block(W, 0.2, 0.2, 0, 1.5, D / 2 + 4, '#1c1c1c')); // rail top
+    // The Victoria Memorial — white plinth, gold Winged Victory.
+    group.add(block(2.8, 1.8, 2.8, 0, 0.9, D / 2 + 7.5, trim));
+    const vcol = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 2.0, 12), stoneLike({ color: trim }));
+    vcol.position.set(0, 2.8, D / 2 + 7.5);
+    group.add(vcol);
+    const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
+    vic.position.set(0, 4.0, D / 2 + 7.5);
+    group.add(vic);
+  } else if (model === 'westminster') {
+    // The Palace of Westminster — the Houses of Parliament: a long Gothic Revival
+    // range along the Thames, the Elizabeth Tower (Big Ben) at one end with its
+    // four clock faces, the great square Victoria Tower at the other, and a
+    // central lantern spire between them.
+    ground = '#3f5138';
+    const stone = '#c9b483';
+    const trim = '#b9a473';
+    const roof = '#41525c';
+    const river = new THREE.Mesh(
+      new THREE.PlaneGeometry(46, 11),
+      new THREE.MeshStandardMaterial({ color: '#3f6f8a', roughness: 0.3, metalness: 0.06 }),
+    );
+    river.rotation.x = -Math.PI / 2;
+    river.position.set(0, 0.04, 9.5);
+    river.userData.noShadow = true;
+    group.add(river);
+    group.add(block(26, 5, 6, 0, 2.5, 0, stone)); // long main range
+    group.add(block(26.4, 0.6, 6.4, 0, 5.2, 0, trim));
+    for (let i = 0; i < 13; i++) {
+      const x = -12 + i * 2;
+      group.add(block(0.5, 1.6, 0.5, x, 5.9, 0, trim)); // roofline pinnacles
+      group.add(block(0.7, 2.4, 0.15, x + 0.5, 2.5, 3.02, '#2f3742')); // tall Gothic windows
+    }
+    // Elizabeth Tower (Big Ben) at the +X end.
+    const bx = 13.8;
+    group.add(block(3, 13, 3, bx, 6.5, 1.5, stone));
+    const face = (dx: number, dz: number, ry: number) => {
+      const f = block(1.7, 1.7, 0.16, bx + dx, 10.6, 1.5 + dz, '#efe9d2', ry);
+      group.add(f);
+      group.add(block(0.5, 0.08, 0.2, bx + dx, 10.6, 1.5 + dz, '#1c1c1c', ry)); // clock hand hint
+    };
+    face(0, 1.55, 0);
+    face(0, -1.55, 0);
+    face(1.55, 0, Math.PI / 2);
+    face(-1.55, 0, Math.PI / 2);
+    group.add(block(3.2, 1.2, 3.2, bx, 13.4, 1.5, trim)); // belfry stage
+    const espire = new THREE.Mesh(new THREE.ConeGeometry(2.2, 4.2, 4), stoneLike({ color: roof, flatShading: true }));
+    espire.rotation.y = Math.PI / 4;
+    espire.position.set(bx, 16.1, 1.5);
+    group.add(espire);
+    // Victoria Tower at the -X end — taller and broader, with a square top.
+    const vx = -13.8;
+    group.add(block(5, 15, 5, vx, 7.5, -0.3, stone));
+    group.add(block(5.6, 1.2, 5.6, vx, 15.4, -0.3, trim));
+    for (const cx of [-1, 1] as const) {
+      for (const cz of [-1, 1] as const) group.add(block(0.7, 2.4, 0.7, vx + cx * 2.2, 16.4, -0.3 + cz * 2.2, trim));
+    }
+    // Central lantern tower + spire.
+    group.add(block(2.8, 4, 2.8, 0, 6, -1, stone));
+    const cs = new THREE.Mesh(new THREE.ConeGeometry(1.6, 5.2, 8), stoneLike({ color: roof, flatShading: true }));
+    cs.position.set(0, 10.6, -1);
+    group.add(cs);
+  } else if (model === 'london-eye') {
+    // The London Eye — a giant cantilevered observation wheel: a steel rim on
+    // spokes, glass passenger capsules around it, held out over the Thames on an
+    // A-frame. Stands upright, facing the river.
+    ground = '#3f5138';
+    const steelMat = new THREE.MeshStandardMaterial({ color: '#dfe4ea', metalness: 0.6, roughness: 0.35 });
+    const podMat = new THREE.MeshStandardMaterial({ color: '#bfe0ff', metalness: 0.2, roughness: 0.25, transparent: true, opacity: 0.85 });
+    const R = 11;
+    const cy = R + 1.6;
+    const river = new THREE.Mesh(
+      new THREE.PlaneGeometry(40, 12),
+      new THREE.MeshStandardMaterial({ color: '#3f6f8a', roughness: 0.3, metalness: 0.06 }),
+    );
+    river.rotation.x = -Math.PI / 2;
+    river.position.set(0, 0.04, 8);
+    river.userData.noShadow = true;
+    group.add(river);
+    const wheel = new THREE.Group();
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(R, 0.32, 10, 72), steelMat);
+    wheel.add(rim); // upright, in the XY plane
+    const rim2 = new THREE.Mesh(new THREE.TorusGeometry(R - 0.5, 0.16, 8, 72), steelMat);
+    wheel.add(rim2);
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 1.4, 16), steelMat);
+    hub.rotation.x = Math.PI / 2;
+    wheel.add(hub);
+    for (let i = 0; i < 32; i++) {
+      const a = (i / 32) * Math.PI * 2;
+      const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, R, 6), steelMat);
+      spoke.position.set((Math.cos(a) * R) / 2, (Math.sin(a) * R) / 2, 0);
+      spoke.rotation.z = a - Math.PI / 2;
+      wheel.add(spoke);
+    }
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * Math.PI * 2;
+      const pod = new THREE.Mesh(new THREE.CapsuleGeometry(0.5, 0.5, 6, 12), podMat);
+      pod.rotation.z = Math.PI / 2;
+      pod.position.set(Math.cos(a) * (R + 0.55), Math.sin(a) * (R + 0.55), 0);
+      wheel.add(pod);
+    }
+    wheel.position.set(0, cy, 0);
+    group.add(wheel);
+    // A-frame support raking back from the base to the hub.
+    for (const s of [-1, 1] as const) {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.42, cy + 3, 10), steelMat);
+      leg.position.set(s * 3.5, cy / 2, -3);
+      leg.rotation.x = 0.32;
+      leg.rotation.z = -s * 0.22;
+      group.add(leg);
+    }
+    group.add(block(11, 0.6, 3.5, 0, 0.3, -3.4, '#9aa0a6')); // base beam
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

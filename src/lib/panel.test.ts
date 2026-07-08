@@ -36,10 +36,20 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Bodiam Castle')).toBe('castle');
     expect(monumentModelForName('Fort Ticonderoga')).toBe('castle');
     expect(monumentModelForName('Citadel of Aleppo')).toBe('castle');
-    expect(monumentModelForName('Buckingham Palace')).toBe('castle');
+    expect(monumentModelForName('Buckingham Palace')).toBe('buckingham'); // its own facade now
     expect(monumentModelForName('Château de Chenonceau')).toBe('castle');
     expect(monumentModelForName('Moscow Kremlin')).toBe('castle');
     expect(monumentModelForName('Warwick Castle')).toBe('castle');
+  });
+
+  it('London landmarks get their own models, not the generic castle/palace', () => {
+    expect(monumentModelForName('London Eye')).toBe('london-eye');
+    expect(monumentModelForName('Buckingham Palace')).toBe('buckingham');
+    expect(monumentModelForName('Palace of Westminster')).toBe('westminster');
+    expect(monumentModelForName('Big Ben')).toBe('westminster');
+    expect(monumentModelForName('Houses of Parliament')).toBe('westminster');
+    // …but Westminster Abbey is a church, not Parliament.
+    expect(monumentModelForName('Westminster Abbey')).toBe('cathedral');
   });
 
   it('false friends: bridges and parks are NOT dragged into the castle model', () => {

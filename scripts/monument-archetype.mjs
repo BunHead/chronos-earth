@@ -78,6 +78,8 @@ export const VALID_MODELS = [
   'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'amphitheatre', 'impact', 'megalith', 'rings',
   // Seven Wonders of the Ancient World (+ the Giza plateau scene).
   'hanging-gardens', 'zeus-statue', 'artemis-temple', 'mausoleum', 'colossus', 'pharos', 'giza',
+  // London landmarks.
+  'buckingham', 'westminster', 'london-eye',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -116,6 +118,9 @@ const KEYWORD_RULES = [
   { rule: 'lighthouse keyword', model: 'lighthouse', re: /lighthouse|pharos/ },
   { rule: 'leaning tower keyword', model: 'leaning-tower', re: /leaning tower|torre di pisa/ },
   { rule: 'amphitheatre keyword', model: 'amphitheatre', re: /colosseum|colise|amphitheatre|amphitheater/ },
+  { rule: 'London Eye keyword', model: 'london-eye', re: /london eye|millennium wheel/ },
+  { rule: 'Buckingham Palace keyword', model: 'buckingham', re: /buckingham/ },
+  { rule: 'Palace of Westminster / Big Ben keyword', model: 'westminster', re: /palace of westminster|houses of parliament|big ben|elizabeth tower/ },
   { rule: 'castle/fort/palace keyword (word-boundaried)', model: 'castle', re: /\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/ },
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },

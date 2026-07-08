@@ -73,6 +73,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 30, facingDeg: 0 },
   giza: { widthM: 620, facingDeg: 0 }, // the whole plateau scene
+  // London landmarks — real footprints (m).
+  buckingham: { widthM: 108, facingDeg: 0 }, // the ~108 m East Front
+  westminster: { widthM: 265, facingDeg: 0 }, // the long Thames-side palace
+  'london-eye': { widthM: 130, facingDeg: 0 }, // ~120 m wheel
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

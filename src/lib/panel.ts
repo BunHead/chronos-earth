@@ -92,6 +92,11 @@ export function monumentModelForName(name: string): string | null {
   if (/lighthouse|pharos/.test(n)) return 'lighthouse';
   if (/leaning tower|torre di pisa/.test(n)) return 'leaning-tower';
   if (/colosseum|colise|amphitheatre|amphitheater/.test(n)) return 'amphitheatre';
+  // London landmarks — matched BEFORE the generic castle/palace bucket below, so
+  // "Buckingham Palace" and "Palace of Westminster" get their own facades.
+  if (/london eye|millennium wheel/.test(n)) return 'london-eye';
+  if (/buckingham/.test(n)) return 'buckingham';
+  if (/palace of westminster|houses of parliament|big ben|elizabeth tower/.test(n)) return 'westminster';
   // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
   // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
   // "fort". Real castles/forts/palaces get the dedicated castle model.
