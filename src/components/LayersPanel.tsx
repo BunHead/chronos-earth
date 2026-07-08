@@ -26,6 +26,8 @@ interface LayersPanelProps {
   onToggleFauna: (value: boolean) => void;
   showSeaLevel: boolean;
   onToggleSeaLevel: (value: boolean) => void;
+  showRivers: boolean;
+  onToggleRivers: (value: boolean) => void;
 }
 
 /**
@@ -63,6 +65,8 @@ export default function LayersPanel({
   onToggleFauna,
   showSeaLevel,
   onToggleSeaLevel,
+  showRivers,
+  onToggleRivers,
 }: LayersPanelProps) {
   // Collapsible, and folded by default for a clean view of the planet.
   const [open, setOpen] = useState(false);
@@ -83,6 +87,7 @@ export default function LayersPanel({
     [showPeople, onTogglePeople],
     [showFauna, onToggleFauna],
     [showSeaLevel, onToggleSeaLevel],
+    [showRivers, onToggleRivers],
   ];
   const allOn = allToggles.every(([v]) => v);
   const anyOn = allToggles.some(([v]) => v);
@@ -169,6 +174,10 @@ export default function LayersPanel({
       <label className="layer-row">
         <input type="checkbox" checked={showSeaLevel} onChange={(e) => onToggleSeaLevel(e.target.checked)} />
         <span>🧊 Ice Ages (seas &amp; ice)</span>
+      </label>
+      <label className="layer-row">
+        <input type="checkbox" checked={showRivers} onChange={(e) => onToggleRivers(e.target.checked)} />
+        <span>🏞️ Shifting rivers</span>
       </label>
         </>
       )}

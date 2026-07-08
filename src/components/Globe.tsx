@@ -8,6 +8,7 @@ import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
 import { SeaLevelController } from './seaLevel';
+import { RiversController } from './rivers';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
@@ -119,6 +120,8 @@ interface GlobeProps {
   showFauna: boolean;
   /** Fade in the Ice Age exposed-shelf land bridges as the seas fall. */
   showSeaLevel: boolean;
+  /** Draw the curated great rivers whose courses shifted over time. */
+  showRivers: boolean;
   events: TimelineEvent[];
   /** Imported-event categories currently enabled in the Layers panel. */
   enabledEventCats: Set<string>;
@@ -152,13 +155,14 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
+  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const paleoRef = useRef<PaleoController | null>(null);
   const seaRef = useRef<SeaLevelController | null>(null);
+  const riversRef = useRef<RiversController | null>(null);
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
   const faunaRef = useRef<FaunaController | null>(null);
@@ -478,6 +482,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
     paleoRef.current = new PaleoController(viewer, import.meta.env.BASE_URL);
     seaRef.current = new SeaLevelController(viewer);
+    riversRef.current = new RiversController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
     fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
@@ -758,6 +763,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       faunaRef.current = null;
       paleoRef.current?.dispose();
       seaRef.current?.dispose();
+      riversRef.current?.dispose();
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
       fxRef.current?.dispose();
@@ -782,10 +788,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     applyTerrain(ma < PALEO_MA);
     paleoRef.current?.update(ma, modernLayersRef.current);
     seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA);
+    riversRef.current?.update(year, showRivers && ma < PALEO_MA);
     bordersRef.current?.update(year, showBorders, ma >= PALEO_MA);
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA);
     faunaRef.current?.update(ma, showFauna);
-  }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel]);
+  }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel, showRivers]);
 
   // Flag artwork inside borders on/off — and auto-hidden once you zoom right in.
   // Flags label the wider view; below zoom tier 3 (~1,200 km up) you're inside a
