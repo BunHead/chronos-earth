@@ -907,17 +907,26 @@ export function buildModel(model: string, phase = 3, title = '', seaLevel?: numb
     // translucent water plane lapping the island's outer rings. Flagged noShadow
     // so it neither casts a slab-shadow nor swells the fit (which would shrink the
     // city). The drowning sequence will later raise this level to swallow it all.
-    const drowned = seaLevel !== undefined && seaLevel > LAND_Y + 0.3;
-    const seaMat = new THREE.MeshStandardMaterial({
-      color: drowned ? '#356f96' : '#2d6f9e', roughness: drowned ? 0.3 : 0.4,
-      metalness: 0.08, transparent: true, opacity: drowned ? 0.9 : 0.82,
-    });
-    const sea = new THREE.Mesh(new THREE.CircleGeometry(52, 72), seaMat);
-    sea.rotation.x = -Math.PI / 2;
-    sea.position.y = seaLevel ?? (LAND_Y - 0.06);
-    sea.renderOrder = 1;
-    sea.userData.noShadow = true;
-    group.add(sea);
+    // The COAST: open sea beyond the harbour to the SSW — the city is coastal,
+    // while the dry Richat terrain shows everywhere else. Always present.
+    const coastMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.45, metalness: 0.06, transparent: true, opacity: 0.82 });
+    const coast = new THREE.Mesh(new THREE.CircleGeometry(17, 56), coastMat);
+    coast.rotation.x = -Math.PI / 2;
+    coast.position.set(hx * 25, WATER_Y, hz * 25);
+    coast.renderOrder = 1;
+    coast.userData.noShadow = true;
+    group.add(coast);
+    // The DELUGE / drowning: a full sea plane rising over the whole city — only
+    // present once the flood has begun, so 'her height' keeps its dry coast.
+    if (seaLevel !== undefined && seaLevel > LAND_Y + 0.4) {
+      const floodMat = new THREE.MeshStandardMaterial({ color: '#356f96', roughness: 0.3, metalness: 0.08, transparent: true, opacity: 0.9 });
+      const flood = new THREE.Mesh(new THREE.CircleGeometry(52, 72), floodMat);
+      flood.rotation.x = -Math.PI / 2;
+      flood.position.y = seaLevel;
+      flood.renderOrder = 2;
+      flood.userData.noShadow = true;
+      group.add(flood);
+    }
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -1351,7 +1360,10 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       fireTextures.forEach((t) => t.dispose());
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
     };
-  }, [model, effModel, burning, ruined, lat, lon, phase, onClose]);
+    // lifeIdx is included so a phase change ALWAYS rebuilds — Atlantis's phases
+    // share the 'rings' model and differ only in sea level, which would otherwise
+    // never re-render.
+  }, [model, effModel, burning, ruined, lifeIdx, lat, lon, phase, onClose]);
 
   return (
     <div className="bv-overlay" role="dialog" aria-label={`${title} in 3D`}>
