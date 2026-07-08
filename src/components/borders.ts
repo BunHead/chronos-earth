@@ -33,7 +33,7 @@ const RED_W = 2048;
 const RED_H = 1024;
 const MAX_ALPHA = 0.92;
 /** How strongly each nation's own colour washes the land inside its border. */
-const TINT_ALPHA = 0.2;
+const TINT_ALPHA = 0.12;
 /** A battle keeps its stretch of border red for this long after its year
  * (matches the globe's battle-marker window and the timeline's pin flare). */
 const BATTLE_ACTIVE_YEARS = 3;
@@ -443,8 +443,8 @@ export class BordersController {
 
     // Then every border as a crisp thin yellow outline. Contested/at-war
     // stretches are overpainted by the orange/red status overlays.
-    ctx.lineWidth = 1.4;
-    ctx.strokeStyle = '#f2d34a';
+    ctx.lineWidth = 1.0;
+    ctx.strokeStyle = '#e6cd6b';
     for (const polity of polities) {
       for (const poly of polity.mp) {
         if (trace(poly)) ctx.stroke();
@@ -953,8 +953,8 @@ export class BordersController {
       ctx.globalAlpha = 1;
 
       // Crisp yellow lines.
-      ctx.lineWidth = 1.6;
-      ctx.strokeStyle = '#f2d34a';
+      ctx.lineWidth = 1.1;
+      ctx.strokeStyle = '#e6cd6b';
       for (const polity of local) {
         for (const poly of polity.mp) {
           if (trace(poly)) ctx.stroke();

@@ -794,16 +794,16 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     faunaRef.current?.update(ma, showFauna);
   }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel, showRivers]);
 
-  // Flag artwork inside borders on/off — and auto-hidden once you zoom right in.
-  // Flags label the wider view; below zoom tier 3 (~1,200 km up) you're inside a
-  // single country and the flag is just clutter, so it simply switches off. A
-  // plain zoom cutoff — no per-country geometry test — is predictable and cheap.
-  // Only re-rasterise when the visibility actually flips (rasterising is dear).
+  // Flag artwork inside borders on/off — and auto-hidden once you zoom in past a
+  // whole-continent view. Flags label the broad picture; from tier 2 (below
+  // ~3,500 km up) you're down to a region and the colour wash just clutters the
+  // map, so it switches off. A plain zoom cutoff — no per-country geometry test —
+  // is predictable and cheap. Only re-rasterise when the visibility flips.
   const flagsAppliedRef = useRef<boolean | null>(null);
   useEffect(() => {
     const borders = bordersRef.current;
     if (!borders) return;
-    const want = showFlags && zoomTier < 3;
+    const want = showFlags && zoomTier < 2;
     if (flagsAppliedRef.current !== want) {
       flagsAppliedRef.current = want;
       borders.setFlags(want);
