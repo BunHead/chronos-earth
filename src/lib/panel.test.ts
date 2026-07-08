@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { monumentModelForName } from './panel';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { monumentModelForName, resolveMonumentModel } from './panel';
+import type { AncientSite } from './types';
 
 describe('monumentModelForName — honest 3D or nothing', () => {
   it('churches get the cathedral model', () => {
@@ -75,5 +78,29 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   it('matching is case-insensitive', () => {
     expect(monumentModelForName('SAGRADA FAMILIA BASILICA')).toBe('cathedral');
     expect(monumentModelForName('great pyramid')).toBe('pyramid');
+  });
+});
+
+describe('the Seven Wonders of the Ancient World each carry their own archetype', () => {
+  const sites = JSON.parse(
+    readFileSync(join(process.cwd(), 'public/data/ancient-sites.json'), 'utf8'),
+  ).sites as AncientSite[];
+  const byId = Object.fromEntries(sites.map((s) => [s.id, s]));
+
+  const EXPECTED: Record<string, string> = {
+    'giza-pyramids': 'pyramid',
+    'hanging-gardens-babylon': 'hanging-gardens',
+    'temple-of-artemis': 'artemis-temple',
+    'statue-of-zeus': 'zeus-statue',
+    'mausoleum-halicarnassus': 'mausoleum',
+    'colossus-of-rhodes': 'colossus',
+    'lighthouse-of-alexandria': 'pharos',
+  };
+
+  it('all seven are present and resolve to their handcrafted model', () => {
+    for (const [id, model] of Object.entries(EXPECTED)) {
+      expect(byId[id], `missing wonder ${id}`).toBeTruthy();
+      expect(resolveMonumentModel(byId[id]), id).toBe(model);
+    }
   });
 });

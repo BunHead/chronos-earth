@@ -10,6 +10,7 @@
  *   /render-harness.html?model=rings&angle=3q   (3q | top | side)
  */
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { buildModel } from './components/Monument3D';
 
 const params = new URLSearchParams(location.search);
@@ -31,6 +32,12 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#9fb4c8'); // neutral sky so silhouettes read
+
+// Mirror the app's image-based lighting so metals/ivory read the SAME here as in
+// the viewer — otherwise the render step would judge a dark, env-less scene.
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.35;
 
 scene.add(new THREE.HemisphereLight(0xdfe9ff, 0x54513f, 1.1));
 const sun = new THREE.DirectionalLight(0xffffff, 1.8);

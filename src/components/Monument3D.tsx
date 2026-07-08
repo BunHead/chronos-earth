@@ -156,6 +156,24 @@ function block(w: number, h: number, d: number, x: number, y: number, z: number,
   return m;
 }
 
+/** Smooth, un-textured precious-material looks for statuary — gold, ivory,
+ * bronze — so a chryselephantine god or a bronze colossus reads as polished
+ * metal and flesh, not another stone crate. (Metalness draws on the scene's
+ * environment map; both the app and the render harness set one.) */
+const GOLD = new THREE.MeshStandardMaterial({ color: '#d4af37', metalness: 0.6, roughness: 0.32 });
+const GOLD_DK = new THREE.MeshStandardMaterial({ color: '#a9842a', metalness: 0.6, roughness: 0.38 });
+const IVORY = new THREE.MeshStandardMaterial({ color: '#f0e8d2', metalness: 0, roughness: 0.5 });
+const BRONZE = new THREE.MeshStandardMaterial({ color: '#b5722f', metalness: 0.72, roughness: 0.38 });
+const BRONZE_LT = new THREE.MeshStandardMaterial({ color: '#c98a3e', metalness: 0.72, roughness: 0.34 });
+
+/** Like block(), but with an explicit (usually smooth) material. */
+function matBlock(w: number, h: number, d: number, x: number, y: number, z: number, mat: THREE.Material, ry = 0): THREE.Mesh {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z);
+  m.rotation.y = ry;
+  return m;
+}
+
 /** Slight per-stone irregularity so nothing looks machine-cut. */
 function weather(mesh: THREE.Object3D, amount = 0.07) {
   mesh.scale.multiplyScalar(1 - amount / 2 + Math.random() * amount);
@@ -294,6 +312,34 @@ function ruinify(group: THREE.Group) {
     const b = block(0.8 + Math.random(), 0.45 + Math.random() * 0.4, 0.6 + Math.random(), (Math.random() - 0.5) * 11, 0.3, (Math.random() - 0.5) * 7, '#9a9184', Math.random() * Math.PI);
     b.rotation.z = (Math.random() - 0.5) * 0.4;
     group.add(b);
+  }
+}
+
+/** A pitched gable roof: two sloped slabs meeting at a ridge running along X,
+ * centred over the origin, with triangular pediments closing each end. halfX =
+ * half the ridge length, halfZ = half the span to the eaves, rise = ridge
+ * height above the eaves, yb = eaves height. A robust replacement for the old
+ * 3-sided-cylinder trick (which tapered to a point instead of a true ridge). */
+function gableRoof(group: THREE.Group, yb: number, halfX: number, halfZ: number, rise: number, color: string) {
+  const slopeLen = Math.hypot(halfZ, rise) + 0.15;
+  const ang = Math.atan2(rise, halfZ);
+  for (const s of [-1, 1] as const) {
+    const slab = new THREE.Mesh(new THREE.BoxGeometry(2 * halfX, 0.28, slopeLen), stoneLike({ color, flatShading: true }));
+    slab.position.set(0, yb + rise / 2, (s * halfZ) / 2);
+    slab.rotation.x = s * ang;
+    group.add(slab);
+  }
+  const ped = new THREE.Shape();
+  ped.moveTo(-halfZ, 0);
+  ped.lineTo(halfZ, 0);
+  ped.lineTo(0, rise);
+  ped.lineTo(-halfZ, 0);
+  const pedGeo = new THREE.ExtrudeGeometry(ped, { depth: 0.2, bevelEnabled: false });
+  for (const sx of [-1, 1] as const) {
+    const pedMesh = new THREE.Mesh(pedGeo, stoneMat(color));
+    pedMesh.rotation.y = Math.PI / 2;
+    pedMesh.position.set(sx * halfX, yb, 0);
+    group.add(pedMesh);
   }
 }
 
@@ -927,6 +973,272 @@ export function buildModel(model: string, phase = 3, title = '', seaLevel?: numb
       flood.userData.noShadow = true;
       group.add(flood);
     }
+  } else if (model === 'hanging-gardens') {
+    // The Hanging Gardens of Babylon — a stepped mountain of vaulted terraces,
+    // each planted and spilling greenery over its edge, watered from the top.
+    // (Its very existence is debated by historians; this is the wonder as the
+    // ancient writers described it.)
+    ground = '#9a7d4e';
+    const brick = '#b48a58';
+    const brickAlt = '#a67d4b';
+    const base = 15;
+    const bush = (x: number, y: number, z: number, r: number, col: string) => {
+      const m = new THREE.Mesh(
+        new THREE.SphereGeometry(r, 8, 6),
+        new THREE.MeshStandardMaterial({ color: col, roughness: 1, flatShading: true }),
+      );
+      m.position.set(x, y, z);
+      m.scale.y = 0.7;
+      group.add(m);
+    };
+    const tree = (x: number, z: number, y: number) => {
+      group.add(block(0.4, 2.2, 0.4, x, y + 1.1, z, '#6b4a2c'));
+      bush(x, y + 2.6, z, 1.3, '#638f42');
+    };
+    // Arched vaulted substructure (Strabo's stone galleries) at ground level.
+    for (let i = 0; i <= 7; i++) {
+      group.add(block(0.7, 2.4, base, -base / 2 + i * (base / 7), 1.2, 0, brickAlt));
+      group.add(block(base, 2.4, 0.7, 0, 1.2, -base / 2 + i * (base / 7), brickAlt));
+    }
+    group.add(block(base, 0.7, base, 0, 2.75, 0, brick)); // deck over the vaults
+    const tiers = 5;
+    const tierH = 1.5;
+    for (let t = 0; t < tiers; t++) {
+      const w = base - 2 - t * 2.3;
+      const y = 3.1 + t * tierH;
+      const terr = block(w, tierH, w, 0, y + tierH / 2, 0, t % 2 ? brickAlt : brick);
+      weather(terr, 0.03);
+      group.add(terr);
+      const topY = y + tierH;
+      const ring = Math.max(5, Math.round(w));
+      for (let i = 0; i < ring; i++) {
+        const a = (i / ring) * Math.PI * 2;
+        bush(Math.cos(a) * (w / 2 - 0.3), topY + 0.3, Math.sin(a) * (w / 2 - 0.3), 0.7, i % 2 ? '#4f7d3a' : '#638f42');
+      }
+      // Vines cascading down the terrace face towards the viewer (+Z).
+      for (let i = 0; i < 4; i++) {
+        const vx = -w / 2 + 0.6 + i * ((w - 1.2) / 3);
+        group.add(block(0.5, tierH * 0.9, 0.25, vx, y + tierH * 0.45, w / 2 + 0.15, '#4f7d3a'));
+      }
+      if (t < 2) {
+        tree(-w / 4, -w / 4, topY);
+        tree(w / 4, w / 5, topY);
+      }
+    }
+    bush(0, 3.1 + tiers * tierH + 0.6, 0, 1.7, '#638f42'); // crowning garden
+  } else if (model === 'zeus-statue') {
+    // The Statue of Zeus at Olympia — Phidias's ~12 m gold-and-ivory
+    // (chryselephantine) figure of Zeus enthroned, so vast that were he to
+    // stand he would unroof his own temple. Shown seated within the temple.
+    ground = '#8a8567';
+    const marble = '#d9d2c0';
+    group.add(block(11, 0.5, 8, 0, 0.25, 0, marble)); // stylobate
+    group.add(block(10.2, 0.45, 7.2, 0, 0.72, 0, marble));
+    const base = 0.95;
+    const colH = 7.8;
+    const colTop = base + colH;
+    // A minimal portico frame — two front columns, a lintel, side beams and a
+    // back wall — so the colossal enthroned god, not the architecture, reads.
+    for (const sx of [-1, 1] as const) {
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.44, colH, 12), stoneLike({ color: marble }));
+      c.position.set(sx * 4.2, base + colH / 2, 3.0);
+      group.add(c);
+      group.add(block(1.0, 0.4, 1.0, sx * 4.2, colTop, 3.0, marble)); // capital
+    }
+    group.add(block(9.6, colH * 0.82, 0.6, 0, base + colH * 0.41, -3.4, '#cfc7b2')); // low back wall
+    group.add(block(9.4, 0.7, 0.7, 0, colTop + 0.35, 3.0, marble)); // front lintel
+    // Deliberately UNROOFED and open above — this wonder is the colossal statue,
+    // not the temple, so the enthroned god is left in full view and full light.
+    // The throne — polished gold, tall back and armrests.
+    group.add(matBlock(4.4, 0.7, 3.4, 0, base + 0.35, -0.4, GOLD));
+    group.add(matBlock(4.4, 5.2, 0.6, 0, base + 3.0, -1.8, GOLD_DK)); // tall throne back
+    for (const s of [-1, 1] as const) group.add(matBlock(0.6, 3.4, 3.0, s * 1.9, base + 2.1, -0.4, GOLD_DK)); // armrests
+    // Zeus, seated and colossal — gold-robed below, bare ivory flesh above.
+    group.add(matBlock(3.4, 1.1, 2.6, 0, base + 1.25, 0.5, GOLD)); // draped lap
+    for (const s of [-1, 1] as const) group.add(matBlock(1.2, 2.4, 1.2, s * 0.85, base + 1.0, 1.4, GOLD)); // robed shins
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.7, 2.6, 14), GOLD);
+    torso.position.set(0, base + 3.3, -0.3);
+    group.add(torso); // gold-robed waist
+    group.add(matBlock(3.0, 1.8, 1.9, 0, base + 4.9, 0, IVORY)); // bare ivory chest
+    group.add(matBlock(0.8, 0.8, 0.8, 0, base + 6.0, 0.1, IVORY)); // neck
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.95, 16, 14), IVORY);
+    head.position.set(0, base + 6.9, 0.1);
+    group.add(head);
+    group.add(matBlock(2.0, 0.5, 2.0, 0, base + 7.5, 0.1, GOLD)); // gold olive wreath
+    // Right arm forward bearing a winged Nike; left hand on a tall sceptre.
+    group.add(matBlock(0.85, 0.85, 2.8, 1.7, base + 4.6, 1.0, IVORY)); // right arm
+    group.add(matBlock(0.7, 1.3, 0.5, 1.7, base + 5.2, 2.4, IVORY)); // open palm
+    group.add(matBlock(0.5, 1.4, 0.4, 1.7, base + 6.2, 2.5, GOLD)); // Nike on the palm
+    group.add(matBlock(0.3, 6.6, 0.3, -2.2, base + 3.6, 0.6, GOLD)); // sceptre
+    const eagle = new THREE.Mesh(new THREE.SphereGeometry(0.45, 10, 8), GOLD);
+    eagle.position.set(-2.2, base + 7.1, 0.6);
+    group.add(eagle);
+  } else if (model === 'artemis-temple') {
+    // The Temple of Artemis at Ephesus — a colossal Ionic temple, far larger
+    // than the Parthenon, its peristyle a DOUBLE row of ~18 m columns
+    // (dipteral). Burned, rebuilt, and finally lost.
+    ground = '#8a8567';
+    const marble = '#dcd6c4';
+    const top = 1.1;
+    const colH = 6.2;
+    group.add(block(16, 0.6, 9, 0, 0.3, 0, marble)); // broad stylobate
+    group.add(block(15, 0.5, 8, 0, 0.85, 0, marble));
+    const col = (x: number, z: number) => {
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.36, colH, 12), stoneLike({ color: marble }));
+      c.position.set(x, top + colH / 2, z);
+      weather(c, 0.02);
+      group.add(c);
+      group.add(block(0.85, 0.3, 0.85, x, top + colH + 0.15, z, marble)); // Ionic capital
+      for (const s of [-1, 1]) group.add(block(0.25, 0.25, 0.9, x + s * 0.4, top + colH + 0.15, z, '#cfc7b2')); // volutes
+    };
+    const front = 8;
+    const side = 6;
+    for (const inset of [0, 1.5]) { // outer + inner ring = dipteral
+      const halfW = 6.5 - inset;
+      const halfD = 3.3 - inset;
+      for (let i = 0; i < front; i++) {
+        const x = -halfW + (i / (front - 1)) * 2 * halfW;
+        col(x, halfD);
+        col(x, -halfD);
+      }
+      for (let j = 1; j < side - 1; j++) {
+        const z = -halfD + (j / (side - 1)) * 2 * halfD;
+        col(halfW, z);
+        col(-halfW, z);
+      }
+    }
+    group.add(block(14.4, 0.6, 7.6, 0, top + colH + 0.5, 0, marble)); // architrave
+    group.add(block(7, 3.4, 4.6, 0, top + 2, 0, '#d2cab5')); // cella
+    gableRoof(group, top + colH + 0.8, 7.5, 4.1, 2.6, '#cfc6ae');
+  } else if (model === 'mausoleum') {
+    // The Mausoleum at Halicarnassus — the tomb of Mausolus: a tall podium, an
+    // Ionic colonnade, a stepped pyramid roof, crowned by a marble four-horse
+    // chariot. The origin of the word "mausoleum".
+    ground = '#8a8262';
+    const marble = '#e0dac9';
+    const marbleAlt = '#d2cab5';
+    const W = 9;
+    const D = 7;
+    group.add(block(W + 2, 3.4, D + 2, 0, 1.7, 0, marbleAlt)); // tall podium
+    group.add(block(W + 0.8, 0.6, D + 0.8, 0, 3.7, 0, marble));
+    const podTop = 4.0;
+    group.add(block(W - 2.6, 3.6, D - 2.6, 0, podTop + 1.8, 0, marbleAlt)); // cella
+    const colH = 4.0;
+    const placeCol = (x: number, z: number) => {
+      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, colH, 12), stoneLike({ color: marble }));
+      c.position.set(x, podTop + colH / 2, z);
+      group.add(c);
+      group.add(block(0.9, 0.35, 0.9, x, podTop + colH, z, marble)); // capital
+    };
+    const nx = 5;
+    const nz = 4;
+    for (let i = 0; i < nx; i++) {
+      const x = -W / 2 + (i / (nx - 1)) * W;
+      placeCol(x, D / 2);
+      placeCol(x, -D / 2);
+    }
+    for (let j = 1; j < nz - 1; j++) {
+      const z = -D / 2 + (j / (nz - 1)) * D;
+      placeCol(W / 2, z);
+      placeCol(-W / 2, z);
+    }
+    group.add(block(W + 1, 0.7, D + 1, 0, podTop + colH + 0.35, 0, marble)); // entablature
+    const steps = 7;
+    const stepH = 0.5;
+    const ry0 = podTop + colH + 0.7;
+    for (let s = 0; s < steps; s++) {
+      const f = 1 - s / steps;
+      group.add(block((W + 0.4) * f, stepH, (D + 0.4) * f, 0, ry0 + s * stepH + stepH / 2, 0, s % 2 ? marbleAlt : marble));
+    }
+    const apex = ry0 + steps * stepH;
+    group.add(block(2.4, 0.4, 2.0, 0, apex + 0.2, 0, marble)); // quadriga plinth
+    group.add(block(1.0, 1.0, 0.9, 0, apex + 0.9, -0.4, marbleAlt)); // chariot
+    for (let h = 0; h < 4; h++) {
+      const hx = -1.2 + h * 0.8;
+      group.add(block(0.35, 0.9, 1.4, hx, apex + 0.85, 0.7, marble)); // horse body
+      group.add(block(0.35, 0.35, 0.5, hx, apex + 1.4, 1.3, marble)); // head/neck
+    }
+  } else if (model === 'colossus') {
+    // The Colossus of Rhodes — a ~33 m bronze figure of the sun-god Helios on a
+    // marble plinth at the harbour, a radiate crown on his brow and a beacon
+    // raised aloft. (He stood upright beside the harbour, not astride it.)
+    ground = '#8a8f7a';
+    const marble = '#ddd6c6';
+    group.add(block(6, 1.6, 6, 0, 0.8, 0, marble)); // plinth
+    group.add(block(4.6, 0.5, 4.6, 0, 1.85, 0, '#cfc7b5'));
+    const base = 2.1;
+    const bmat = BRONZE;
+    const bpart = (w: number, h: number, d: number, x: number, y: number, z: number, ry = 0) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), bmat);
+      m.position.set(x, y, z);
+      m.rotation.y = ry;
+      group.add(m);
+      return m;
+    };
+    for (const s of [-1, 1]) bpart(1.0, 4.2, 1.1, s * 0.9, base + 2.1, 0); // legs
+    bpart(2.6, 1.2, 1.4, 0, base + 4.4, 0); // hips
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.3, 3.4, 12), bmat);
+    torso.position.set(0, base + 6.6, 0);
+    group.add(torso);
+    bpart(0.4, 3.4, 2.2, -1.4, base + 6.4, 0, 0.1); // cloak over the shoulder
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.62, 0.9, 10), bmat);
+    neck.position.set(0, base + 8.7, 0);
+    group.add(neck);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.95, 12, 12), bmat);
+    head.position.set(0, base + 9.5, 0);
+    group.add(head);
+    for (let i = 0; i < 9; i++) { // radiate crown — spikes of sunlight
+      const a = (i / 9) * Math.PI * 2;
+      const spike = new THREE.Mesh(new THREE.ConeGeometry(0.16, 1.2, 6), BRONZE_LT);
+      spike.position.set(Math.cos(a) * 1.1, base + 10.1, Math.sin(a) * 1.1);
+      spike.rotation.z = -Math.cos(a) * 0.6;
+      spike.rotation.x = Math.sin(a) * 0.6;
+      group.add(spike);
+    }
+    bpart(0.8, 3.6, 0.9, 1.8, base + 8.2, 0); // right arm raised
+    const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.4, 0.6, 12), bmat);
+    bowl.position.set(1.8, base + 10.3, 0);
+    group.add(bowl);
+    const flame = new THREE.Mesh(new THREE.SphereGeometry(0.7, 12, 12), new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.9 }));
+    flame.position.set(1.8, base + 11.1, 0);
+    flame.userData.noShadow = true;
+    group.add(flame);
+    bpart(0.7, 3.8, 0.8, -1.9, base + 6.2, 0); // left arm at rest
+  } else if (model === 'pharos') {
+    // The Lighthouse of Alexandria (Pharos) — three stacked stages: a tall
+    // square base, an octagonal midsection, a round lantern with the ever-
+    // burning fire, crowned by a statue. Among the tallest of ancient towers.
+    ground = '#7b8a86';
+    const stone = '#ddd3bf';
+    const stoneAlt = '#cfc4ad';
+    group.add(block(9, 1.0, 9, 0, 0.5, 0, '#9a958a')); // rocky mole
+    const s1 = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 3.2, 7.5, 4), stoneLike({ color: stone })); // square base
+    s1.rotation.y = Math.PI / 4;
+    s1.position.y = 1.0 + 3.75;
+    group.add(s1);
+    const c1 = new THREE.Mesh(new THREE.CylinderGeometry(2.9, 2.9, 0.4, 4), stoneMat(stoneAlt));
+    c1.rotation.y = Math.PI / 4;
+    c1.position.y = 1.0 + 7.5;
+    group.add(c1);
+    const s2 = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 2.1, 4.6, 8), stoneLike({ color: stoneAlt })); // octagon
+    s2.position.y = 1.0 + 7.7 + 2.3;
+    group.add(s2);
+    const ly = 1.0 + 12.3 + 1.2;
+    const s3 = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.5, 2.4, 16), stoneLike({ color: stone })); // round lantern
+    s3.position.y = ly;
+    group.add(s3);
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      group.add(block(0.2, 2.4, 0.2, Math.cos(a) * 1.35, ly, Math.sin(a) * 1.35, stone)); // lantern columns
+    }
+    const fire = new THREE.Mesh(new THREE.SphereGeometry(0.9, 12, 12), new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.8 }));
+    fire.position.y = ly + 1.6;
+    fire.userData.noShadow = true;
+    group.add(fire);
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.5, 1.6, 8), stoneMat(stoneAlt));
+    roof.position.y = ly + 2.9;
+    group.add(roof);
+    group.add(block(0.5, 1.6, 0.5, 0, ly + 4.4, 0, '#b79a5a')); // statue of Zeus/Helios
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

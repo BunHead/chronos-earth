@@ -344,6 +344,151 @@
           }
         ]
       }
+    },
+    {
+      "id": "hanging-gardens-babylon",
+      "name": "Hanging Gardens of Babylon",
+      "category": "monument",
+      "lat": 32.5424,
+      "lon": 44.4209,
+      "model": "hanging-gardens",
+      "builtYear": -600,
+      "builtYearLabel": "c. 600 BCE",
+      "consensusSummary": "A legendary ascending series of planted terraces said to have been raised at Babylon, greenery spilling over stone vaults and watered by machines lifting water from the Euphrates. The only one of the Seven Wonders whose site has never been located, and whose very existence is debated — no Babylonian text mentions it, and some scholars place it at Nineveh instead.",
+      "significance": "One of the Seven Wonders of the Ancient World — and the most mysterious, surviving only in later Greek and Roman descriptions.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "Attributed to King Nebuchadnezzar II for his queen Amytis",
+        "No archaeological trace has ever been confirmed",
+        "Some scholars argue it was really at Nineveh, built by the Assyrian king Sennacherib"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Hanging Gardens of Babylon",
+          "url": "https://en.wikipedia.org/wiki/Hanging_Gardens_of_Babylon"
+        }
+      ]
+    },
+    {
+      "id": "temple-of-artemis",
+      "name": "Temple of Artemis at Ephesus",
+      "category": "monument",
+      "lat": 37.9497,
+      "lon": 27.3639,
+      "model": "artemis-temple",
+      "builtYear": -550,
+      "builtYearLabel": "c. 550 BCE",
+      "consensusSummary": "A colossal Ionic temple to the goddess Artemis at Ephesus, far larger than the Parthenon, ringed by a double row of some 127 columns around 18 m tall. Burned down in 356 BCE (by an arsonist seeking fame), rebuilt grander still, then destroyed and quarried away in late antiquity. Only a single reassembled column stands on the site today.",
+      "significance": "One of the Seven Wonders of the Ancient World, and one of the largest temples of the classical age.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "A dipteral temple — a forest of ~127 Ionic columns",
+        "Burned in 356 BCE by Herostratus, then rebuilt",
+        "Only a lone reconstructed column survives today"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Temple of Artemis",
+          "url": "https://en.wikipedia.org/wiki/Temple_of_Artemis"
+        }
+      ]
+    },
+    {
+      "id": "statue-of-zeus",
+      "name": "Statue of Zeus at Olympia",
+      "category": "monument",
+      "lat": 37.6379,
+      "lon": 21.63,
+      "model": "zeus-statue",
+      "builtYear": -435,
+      "builtYearLabel": "c. 435 BCE",
+      "consensusSummary": "A ~12 m seated figure of the god Zeus enthroned, made by the sculptor Phidias in gold and ivory over a wooden core (chryselephantine) inside the Temple of Zeus at Olympia. It was said that were the god to stand, he would unroof his own temple. Lost in late antiquity; likely carried to Constantinople and destroyed there by fire.",
+      "significance": "One of the Seven Wonders of the Ancient World, and the masterpiece of the greatest sculptor of classical Greece.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "Made by Phidias, sculptor of the Parthenon's statues",
+        "Chryselephantine — gold robes over ivory flesh on a wooden frame",
+        "Held a winged Nike (Victory) in one hand and a sceptre in the other"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Statue of Zeus at Olympia",
+          "url": "https://en.wikipedia.org/wiki/Statue_of_Zeus_at_Olympia"
+        }
+      ]
+    },
+    {
+      "id": "mausoleum-halicarnassus",
+      "name": "Mausoleum at Halicarnassus",
+      "category": "monument",
+      "lat": 37.038,
+      "lon": 27.4241,
+      "model": "mausoleum",
+      "builtYear": -350,
+      "builtYearLabel": "c. 350 BCE",
+      "consensusSummary": "The towering tomb of Mausolus, a Persian-era ruler of Caria, at Halicarnassus (modern Bodrum, Turkey): a tall podium carrying an Ionic colonnade, a stepped pyramid roof of 24 steps and, at its summit, a marble four-horse chariot. So famous that his name became the word for any grand tomb — 'mausoleum'. Toppled by earthquakes and quarried by crusaders by the 15th century.",
+      "significance": "One of the Seven Wonders of the Ancient World, and the origin of the word 'mausoleum'.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "The tomb of Mausolus and his wife Artemisia II",
+        "~45 m tall, crowned by a marble chariot",
+        "Its name became the word for a grand tomb"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Mausoleum at Halicarnassus",
+          "url": "https://en.wikipedia.org/wiki/Mausoleum_at_Halicarnassus"
+        }
+      ]
+    },
+    {
+      "id": "colossus-of-rhodes",
+      "name": "Colossus of Rhodes",
+      "category": "monument",
+      "lat": 36.451,
+      "lon": 28.2278,
+      "model": "colossus",
+      "builtYear": -280,
+      "builtYearLabel": "c. 280 BCE",
+      "consensusSummary": "A ~33 m bronze statue of the sun-god Helios that stood beside the harbour of Rhodes, raised to celebrate the island's survival of a great siege. It stood for only 54 years before an earthquake snapped it at the knees in 226 BCE; the fallen bronze lay admired for centuries. Despite the legend, it did NOT straddle the harbour mouth — it stood upright on one side.",
+      "significance": "One of the Seven Wonders of the Ancient World, and a distant ancestor of the Statue of Liberty in conception.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "A ~33 m bronze figure of the sun-god Helios",
+        "Stood only 54 years before an earthquake felled it in 226 BCE",
+        "It stood beside the harbour — the 'straddling the harbour' image is a myth"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Colossus of Rhodes",
+          "url": "https://en.wikipedia.org/wiki/Colossus_of_Rhodes"
+        }
+      ]
+    },
+    {
+      "id": "lighthouse-of-alexandria",
+      "name": "Lighthouse of Alexandria (Pharos)",
+      "category": "monument",
+      "lat": 31.2139,
+      "lon": 29.8856,
+      "model": "pharos",
+      "builtYear": -280,
+      "builtYearLabel": "c. 280 BCE",
+      "consensusSummary": "The great lighthouse on the island of Pharos at Alexandria, Egypt — over 100 m tall in three stages (a square base, an octagonal midsection and a round lantern) with a fire and mirror guiding ships by night. It stood for over 1,500 years, the last of the ancient Wonders to survive, before earthquakes brought it down between 1303 and 1480. Its very name became the word for 'lighthouse' in many languages.",
+      "significance": "One of the Seven Wonders of the Ancient World, and among the tallest structures on Earth for centuries.",
+      "keyFacts": [
+        "One of the Seven Wonders of the Ancient World",
+        "Three stages: square base, octagonal middle, round lantern",
+        "Guided ships with a fire and a polished mirror",
+        "Its name (Pharos) became the word for 'lighthouse' in French, Spanish and Greek",
+        "Toppled by earthquakes; blocks have been found on the seabed"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Lighthouse of Alexandria",
+          "url": "https://en.wikipedia.org/wiki/Lighthouse_of_Alexandria"
+        }
+      ]
     }
   ]
 }

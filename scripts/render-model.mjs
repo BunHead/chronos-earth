@@ -19,7 +19,7 @@ const model = process.argv[2] || 'rings';
 const outDir = process.argv[3] || './render-out';
 const title = process.argv[4] || '';
 const sea = process.argv[5]; // optional sea-plane level (Atlantis drowning)
-const BASE = 'http://localhost:5173/render-harness.html';
+const BASE = `${process.env.RENDER_BASE || 'http://localhost:5173'}/render-harness.html`;
 const ANGLES = ['3q', 'top', 'side'];
 
 await mkdir(outDir, { recursive: true });

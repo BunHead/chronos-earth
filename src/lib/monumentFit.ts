@@ -64,6 +64,13 @@ const BY_MODEL: Record<string, MonumentFit> = {
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
   rings: { widthM: 2500, facingDeg: 180 }, // Atlantis rings — turned so the harbour reads at ~7 o'clock
+  // Seven Wonders of the Ancient World — real footprints (m) of what stood.
+  'hanging-gardens': { widthM: 120, facingDeg: 0 },
+  'zeus-statue': { widthM: 40, facingDeg: 0 },
+  'artemis-temple': { widthM: 115, facingDeg: 0 },
+  mausoleum: { widthM: 40, facingDeg: 0 },
+  colossus: { widthM: 18, facingDeg: 0 },
+  pharos: { widthM: 30, facingDeg: 0 },
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };
