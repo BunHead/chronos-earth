@@ -770,7 +770,7 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
     ground = '#c8b98a';
     const waterMat = new THREE.MeshStandardMaterial({ color: '#2f74a4', roughness: 0.55, metalness: 0 });
     const landMat = stoneLike({ color: '#b3a473' });
-    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a'];
+    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a', '#cdc3a4', '#9a7b4a'];
     const LAND_Y = 0.22, WATER_Y = 0.1;
     const annulus = (inner: number, outer: number, y: number, mat: THREE.Material) => {
       const m = new THREE.Mesh(new THREE.RingGeometry(inner, outer, 80), mat);
@@ -785,9 +785,14 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
     annulus(5.6, 6.9, WATER_Y, waterMat);  // ring of water
     annulus(6.9, 9.0, LAND_Y, landMat);    // ring of land
     annulus(9.0, 10.4, WATER_Y, waterMat); // outer ring of water
-    // The great outer wall.
+    // The great outer wall — with a gap to the SSW where the harbour opens.
+    // (Scene north = +Z, east = +X; the wall angle runs from +X toward +Z.)
+    const HB = 4.32; // harbour-mouth bearing (SSW)
+    const hx = Math.cos(HB), hz = Math.sin(HB);
     for (let i = 0; i < 96; i++) {
       const a = (i / 96) * Math.PI * 2;
+      const d = Math.abs(a - HB);
+      if (Math.min(d, Math.PI * 2 - d) < 0.26) continue; // harbour mouth
       group.add(block(0.7, 1.0, 0.34, Math.cos(a) * 10.7, LAND_Y + 0.5, Math.sin(a) * 10.7, '#b0895a', -a));
     }
     // Buildings clustered on the two land rings (deterministic scatter).
@@ -800,19 +805,49 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
         group.add(block(w, h, w * 1.2, Math.cos(a) * rr, LAND_Y + h / 2, Math.sin(a) * rr, roofCols[i % roofCols.length], -a));
       }
     };
-    houses(3.9, 5.3, 44, 0.1);
-    houses(7.2, 8.7, 68, 0.6);
-    // The central citadel: a stepped acropolis, a colonnaded temple (Poseidon's),
-    // its pyramidal roof, and corner columns.
-    group.add(block(2.3, 0.5, 2.3, 0, LAND_Y + 0.25, 0, '#c2b48a'));
-    group.add(block(1.4, 1.6, 1.4, 0, LAND_Y + 1.05, 0, '#d8cfb0'));
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.35, 0.9, 4), stoneLike({ color: '#9a7b4a', flatShading: true }));
-    roof.rotation.y = Math.PI / 4;
-    roof.position.y = LAND_Y + 2.3;
-    group.add(roof);
-    for (const [cx, cz] of [[-0.75, -0.75], [0.75, -0.75], [-0.75, 0.75], [0.75, 0.75]]) {
-      group.add(block(0.16, 1.6, 0.16, cx, LAND_Y + 1.0, cz, '#e4dec6'));
+    houses(3.9, 5.3, 60, 0.1);
+    houses(7.2, 8.7, 98, 0.6);
+    // A few taller landmark towers punctuate the skyline.
+    for (let i = 0; i < 11; i++) {
+      const a = (i / 11) * Math.PI * 2 + 0.35;
+      const rr = i % 2 ? 4.6 : 7.9;
+      const th = 1.7 + (i % 3) * 0.5;
+      group.add(block(0.42, th, 0.42, Math.cos(a) * rr, LAND_Y + th / 2, Math.sin(a) * rr, '#c8b48a', -a));
     }
+    // Garden groves (green) and a few marble palaces among the houses.
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2 + 1.1;
+      const rr = i % 2 ? 4.3 : 8.3;
+      group.add(block(0.55, 0.3, 0.55, Math.cos(a) * rr, LAND_Y + 0.15, Math.sin(a) * rr, '#6f8a4f', -a));
+    }
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2 + 0.7;
+      group.add(block(0.95, 0.95, 0.7, Math.cos(a) * 4.6, LAND_Y + 0.47, Math.sin(a) * 4.6, '#e2dabf', -a));
+    }
+    // The central citadel — Poseidon's temple in its sacred enclosure: a low ring
+    // wall, a stepped marble platform, a full colonnade, a gabled roof and a
+    // gilded finial catching the sun.
+    for (let i = 0; i < 54; i++) {
+      const a = (i / 54) * Math.PI * 2;
+      group.add(block(0.24, 0.55, 0.16, Math.cos(a) * 2.35, LAND_Y + 0.28, Math.sin(a) * 2.35, '#cabf95', -a));
+    }
+    group.add(block(2.0, 0.35, 2.0, 0, LAND_Y + 0.18, 0, '#cdbf98'));  // step 1
+    group.add(block(1.6, 0.35, 1.6, 0, LAND_Y + 0.5, 0, '#d8cca6'));   // step 2
+    group.add(block(1.1, 1.5, 1.1, 0, LAND_Y + 1.4, 0, '#e6ddc2'));    // cella
+    for (let i = 0; i < 12; i++) {                                      // colonnade
+      const a = (i / 12) * Math.PI * 2;
+      group.add(block(0.14, 1.5, 0.14, Math.cos(a) * 0.86, LAND_Y + 1.35, Math.sin(a) * 0.86, '#efe8d2'));
+    }
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.18, 0.85, 4), stoneLike({ color: '#9a7b4a', flatShading: true }));
+    roof.rotation.y = Math.PI / 4;
+    roof.position.y = LAND_Y + 2.45;
+    group.add(roof);
+    const finial = new THREE.Mesh(
+      new THREE.ConeGeometry(0.13, 0.55, 8),
+      new THREE.MeshStandardMaterial({ color: '#e9c96a', roughness: 0.3, metalness: 0.7 }),
+    );
+    finial.position.y = LAND_Y + 3.1;
+    group.add(finial);
     // The royal canal: bridges/causeways crossing each ring of water on one axis.
     for (const ang of [0, Math.PI]) {
       const bx = Math.cos(ang), bz = Math.sin(ang);
@@ -821,6 +856,53 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
         group.add(block(len, 0.3, 1.0, bx * rm, LAND_Y + 0.18, bz * rm, '#c9b98a', -ang));
       }
     }
+    // A harbour to the SSW where the royal canal meets the sea: the channel out
+    // through the harbour mouth, a broad basin beyond the wall, and two jetties.
+    const chan = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.2, 2.2), waterMat);
+    chan.position.set(hx * 12.2, WATER_Y + 0.01, hz * 12.2);
+    chan.rotation.y = -HB;
+    group.add(chan);
+    const basin = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 3.1, 0.22, 40), waterMat);
+    basin.scale.set(1.2, 1, 0.82);
+    basin.rotation.y = -HB;
+    basin.position.set(hx * 14.4, WATER_Y, hz * 14.4);
+    group.add(basin);
+    for (const off of [-1.9, 1.9]) {
+      const px = hx * 13.7 + Math.cos(HB + Math.PI / 2) * off;
+      const pz = hz * 13.7 + Math.sin(HB + Math.PI / 2) * off;
+      group.add(block(2.6, 0.32, 0.42, px, LAND_Y + 0.15, pz, '#ac845a', -HB));
+    }
+    // A breakwater curving around the seaward side of the basin.
+    for (let i = 0; i < 20; i++) {
+      const a = HB - 1.3 + (i / 19) * 2.6;
+      group.add(block(0.5, 0.7, 0.3, hx * 14.4 + Math.cos(a) * 3.7, LAND_Y + 0.35, hz * 14.4 + Math.sin(a) * 3.7, '#a8825a', -a));
+    }
+    // The real Richat geography to the NORTH (+Z): a shallow crescent — an 'upper
+    // eyelid' — with riverlets draining north from it, plus dry river beds fanning
+    // north and east. A thin flat strip between two points:
+    const strip = (x0: number, z0: number, x1: number, z1: number, w: number, col: string) => {
+      const dx = x1 - x0, dz = z1 - z0, len = Math.hypot(dx, dz);
+      group.add(block(len, 0.1, w, (x0 + x1) / 2, LAND_Y + 0.03, (z0 + z1) / 2, col, -Math.atan2(dz, dx)));
+    };
+    // The crescent eyelid (shallow water arc) to the north.
+    const cresc = new THREE.Mesh(new THREE.TorusGeometry(4.8, 0.4, 8, 48, Math.PI * 0.8), waterMat);
+    cresc.rotation.x = -Math.PI / 2;
+    cresc.rotation.z = -Math.PI * 0.9;
+    cresc.scale.set(1, 1, 0.42);
+    cresc.position.set(0, WATER_Y + 0.03, 11.4);
+    group.add(cresc);
+    // Riverlets running north from the crescent.
+    const dry = '#a3926a';
+    strip(-2.6, 11.8, -2.9, 14.2, 0.4, dry);
+    strip(-0.9, 12.0, -0.6, 14.6, 0.4, dry);
+    strip(0.9, 12.0, 1.3, 14.6, 0.4, dry);
+    strip(2.6, 11.8, 3.0, 14.0, 0.4, dry);
+    // Dry river beds fanning to the north-east and east.
+    strip(6.4, 8.4, 8.6, 11.2, 0.55, dry);
+    strip(8.6, 11.2, 9.6, 13.6, 0.5, dry);
+    strip(9.2, 4.6, 12.0, 5.6, 0.55, dry);
+    strip(12.0, 5.6, 14.4, 4.9, 0.5, dry);
+    strip(9.6, 1.2, 12.6, 1.6, 0.5, dry);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
