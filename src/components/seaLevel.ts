@@ -106,21 +106,22 @@ const SHELF_POLYS: number[][][] = [
 ];
 
 /**
- * Ice sheets as longitude bands that fill from the pole down to a MARGIN latitude
- * that slides equatorward with glaciation. `warm` is the margin today, `cold`
- * the LGM maximum. Crude rectangles in projected space, but they convey the
- * advance and retreat from each pole — which is the point.
+ * Ice sheets as bounded patches: filled between an equatorward MARGIN latitude
+ * that slides with glaciation (`warm` today → `cold` at the LGM) and a fixed
+ * poleward edge `far`. Bounding both the latitude and the longitude keeps them
+ * looking like the real regional sheets — Laurentide, Greenland, Fennoscandian —
+ * rather than merging into one solid polar cap. Note the great gaps: the Arctic
+ * Ocean stays open, and Siberia was too DRY to glaciate at the LGM.
  */
-interface IceSheet { lonMin: number; lonMax: number; pole: 1 | -1; warm: number; cold: number; }
+interface IceSheet { lonMin: number; lonMax: number; warm: number; cold: number; far: number; }
 const ICE_SHEETS: IceSheet[] = [
-  // — Northern hemisphere —
-  { lonMin: -145, lonMax: -60, pole: 1, warm: 74, cold: 42 }, // Laurentide (N America)
-  { lonMin: -60, lonMax: -11, pole: 1, warm: 60, cold: 58 }, // Greenland (near-permanent)
-  { lonMin: -11, lonMax: 70, pole: 1, warm: 78, cold: 50 }, // Fennoscandian / British / N European
-  { lonMin: 70, lonMax: 180, pole: 1, warm: 80, cold: 63 }, // Barents–Kara / NE Siberian
+  // — Northern hemisphere: an arc over N America, Greenland and NW Europe only —
+  { lonMin: -128, lonMax: -62, warm: 72, cold: 46, far: 80 }, // Laurentide (N America)
+  { lonMin: -55, lonMax: -15, warm: 64, cold: 60, far: 84 }, // Greenland (near-permanent)
+  { lonMin: -9, lonMax: 45, warm: 70, cold: 52, far: 78 }, // Fennoscandian / British / N European
   // — Southern hemisphere —
-  { lonMin: -180, lonMax: 180, pole: -1, warm: -68, cold: -59 }, // Antarctic sheet & sea ice (near-permanent)
-  { lonMin: -78, lonMax: -66, pole: -1, warm: -47, cold: -40 }, // Patagonian
+  { lonMin: -180, lonMax: 180, warm: -68, cold: -60, far: -90 }, // Antarctic sheet & expanded sea ice
+  { lonMin: -77, lonMax: -67, warm: -47, cold: -41, far: -56 }, // Patagonian
 ];
 
 /** Ice margins are quantised to these glaciation steps so we cache only a few
@@ -165,9 +166,8 @@ export class SeaLevelController {
     ctx.fillStyle = ICE_CSS;
     for (const s of ICE_SHEETS) {
       const margin = s.warm + (s.cold - s.warm) * g;
-      const poleLat = s.pole === 1 ? 89.5 : -89.5;
       this.fillRing(ctx, [
-        [s.lonMin, margin], [s.lonMax, margin], [s.lonMax, poleLat], [s.lonMin, poleLat],
+        [s.lonMin, margin], [s.lonMax, margin], [s.lonMax, s.far], [s.lonMin, s.far],
       ]);
     }
 
