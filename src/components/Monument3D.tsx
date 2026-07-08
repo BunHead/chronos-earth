@@ -1721,9 +1721,30 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       // The Giza scene is wide too, but it has TALL pyramids — the low flat
       // camera tips its ground onto its edge, so it keeps the normal 3/4 view.
       const flat = effModel !== 'giza' && sSize.y < 0.4 * Math.max(sSize.x, sSize.z);
-      const dist = maxDim * (flat ? 1.15 : 1.5) + 6;
-      camera.position.set(0, flat ? maxDim * 0.4 + 2 : maxDim * 0.55 + 3, dist);
-      controls.target.set(0, flat ? sSize.y * 0.6 : maxDim * 0.3, 0);
+      if (flat) {
+        // Flat, wide models (the Richat's rings, stone circles): a low, pulled-in
+        // camera so the footprint fills the view rather than empty air above it.
+        const dist = maxDim * 1.15 + 6;
+        camera.position.set(0, maxDim * 0.4 + 2, dist);
+        controls.target.set(0, sSize.y * 0.6, 0);
+      } else {
+        // Everything with real height: frame the bounding sphere from a FIXED ~30°
+        // elevation. The old formula derived the angle from proportions, so a tall
+        // model (a tower, the London Eye, Stonehenge) put the camera only ~10° up
+        // and the ground fell away edge-on — the "90° off" tilt. A fixed elevation
+        // keeps the terrain reading as a floor for squat and tall alike.
+        const R = 0.5 * Math.hypot(sSize.x, sSize.y, sSize.z);
+        const el = (30 * Math.PI) / 180; // elevation above the ground
+        const az = (28 * Math.PI) / 180; // swing to the side for a 3/4 view
+        const dist = (R / Math.tan((48 * Math.PI) / 180 / 2)) * 1.05; // 48° = camera FOV
+        const ty = sSize.y * 0.42;
+        camera.position.set(
+          Math.sin(az) * Math.cos(el) * dist,
+          ty + Math.sin(el) * dist,
+          Math.cos(az) * Math.cos(el) * dist,
+        );
+        controls.target.set(0, ty, 0);
+      }
       controls.update();
     }
     scene.add(group);
