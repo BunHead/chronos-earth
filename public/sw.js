@@ -60,16 +60,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Data JSON/images — cache-first (warm, offline-friendly, versioned per build).
+  // Data JSON/images — NETWORK-FIRST, bypassing the HTTP cache, so a fresh deploy's
+  // data appears immediately; the versioned cache is only the offline fallback.
+  // (Cache-first quietly served STALE data after deploys — the worker's own fetch
+  // had grabbed a browser-HTTP-cached copy and cached that, so new content like
+  // the Byzantine Empire never surfaced. Freshness beats shaving a small fetch on
+  // an online history app.)
   if (url.pathname.startsWith(DATA_PATH) && CACHEABLE.test(url.pathname)) {
     event.respondWith(
       (async () => {
         const cache = await caches.open(DATA_CACHE);
-        const hit = await cache.match(req);
-        if (hit) return hit;
-        const res = await fetch(req);
-        if (res.ok) await cache.put(req, res.clone());
-        return res;
+        try {
+          const res = await fetch(req, { cache: 'reload' });
+          if (res.ok) cache.put(req, res.clone());
+          return res;
+        } catch {
+          return (await cache.match(req)) || Response.error();
+        }
       })(),
     );
   }
