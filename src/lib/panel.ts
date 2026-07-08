@@ -69,6 +69,11 @@ const NO_3D_NAMES = new Set([
   'cahokia',
   'borobudur',
   'borobudur temple',
+  // Judgment calls greenlit 2026-07-08.
+  'malbork castle',
+  'tournai cathedral',
+  'konark sun temple',
+  'peveril castle',
 ]);
 
 /** Pick a 3D model for an imported monument event from its name, so every

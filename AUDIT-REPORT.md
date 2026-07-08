@@ -1,6 +1,6 @@
 # Chronos Earth — Monument & Battle Audit
 
-_Generated 2026-07-07 21:36 by `npm run audit`. Reads only; changes nothing._
+_Generated 2026-07-08 05:26 by `npm run audit`. Reads only; changes nothing._
 
 This is the worksheet for the "old template" problem. It lists every monument
 and battle, the 3D archetype the app hands it, **how** it got that archetype,
@@ -9,7 +9,7 @@ and every entry that looks wrong, generic, out-of-period, or frozen in time.
 ## At a glance
 
 - **Monuments checked:** 338  (10 curated sites + 328 imported)
-- Monuments with a 3D model: **38** · with no 3D button: **300**
+- Monuments with a 3D model: **34** · with no 3D button: **304**
 - **Battles checked:** 350  (78 named + 272 imported)
 - Battles with hand-crafted phased choreography: **15** · running the generic template: **335**
 
@@ -18,7 +18,7 @@ and every entry that looks wrong, generic, out-of-period, or frozen in time.
 | Count | Flag |
 |------:|------|
 | 7 | 🟡 Known to have been destroyed/rebuilt — deserves phases over time |
-| 300 | ⚪ No 3D model at all (panel only, no "View in 3D") |
+| 304 | ⚪ No 3D model at all (panel only, no "View in 3D") |
 
 ## Worst offenders (top 40)
 
@@ -79,7 +79,7 @@ The entries most worth fixing first, hardest-first by severity.
 - **Notre-Dame d'Amiens** (1220 CE, imported event) → `cathedral` — _cathedral/church keyword_
 - **Notre-Dame de Paris** (1345 CE, imported event) → `cathedral` — _cathedral/church keyword_
 
-### ⚪ No 3D model at all (panel only, no "View in 3D") — 300
+### ⚪ No 3D model at all (panel only, no "View in 3D") — 304
 
 - **Blombos Cave engravings** (71000 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Sulawesi cave paintings** (42000 BCE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -149,8 +149,10 @@ The entries most worth fixing first, hardest-first by severity.
 - **Tower of London** (1066 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Wartburg** (1067 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Speyer Cathedral** (1080 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
+- **Peveril Castle** (1086 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Haddon Hall** (1087 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Great Zimbabwe** (1100 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Tournai Cathedral** (1101 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Gelati Monastery** (1106 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Angkor Wat** (1122 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Newstead Abbey** (1170 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
@@ -159,10 +161,12 @@ The entries most worth fixing first, hardest-first by severity.
 - **Rock churches of Lalibela** (1181 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Ye Olde Trip to Jerusalem** (1189 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Church of Saint George** (1200 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
+- **Konark Sun Temple** (1201 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Alhambra** (1238 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Castel del Monte** (1240 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Great Mosque of Djenné** (1240 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Moai (Rapa Nui)** (1250 CE, imported event) → `no model` — _no keyword matched → no 3D button_
+- **Malbork Castle** (1270 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Himeji Castle** (1346 CE, imported event) → `no model` — _suppressed — a generic model would misrepresent it_
 - **Chesterfield Crooked Spire** (1362 CE, imported event) → `no model` — _no keyword matched → no 3D button_
 - **Bruges City Hall** (1377 CE, imported event) → `no model` — _no keyword matched → no 3D button_
@@ -389,11 +393,9 @@ too much work (this is why every castle looks the same).
 
 | Model | Count |
 |-------|------:|
-| (none) | 300 |
-| cathedral | 8 |
+| (none) | 304 |
+| cathedral | 7 |
 | stepped-pyramid | 5 |
-| temple-tower | 3 |
-| castle | 3 |
 | tpillars | 2 |
 | circle | 2 |
 | stonehenge | 2 |
@@ -401,11 +403,13 @@ too much work (this is why every castle looks the same).
 | sphinx | 2 |
 | megalith | 2 |
 | greek-temple | 2 |
+| temple-tower | 2 |
 | settlement | 1 |
 | impact | 1 |
 | aqueduct | 1 |
 | leaning-tower | 1 |
 | lighthouse | 1 |
+| castle | 1 |
 
 ## Over-time pass (the "watch it get built / burnt / rebuilt" check)
 

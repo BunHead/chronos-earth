@@ -30,7 +30,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     // runs first — these exercise the keyword rule itself, one per sub-pattern.
     expect(monumentModelForName('Edinburgh Castle')).toBe('castle');
     expect(monumentModelForName('Nottingham Castle')).toBe('castle');
-    expect(monumentModelForName('Malbork Castle')).toBe('castle');
+    expect(monumentModelForName('Bodiam Castle')).toBe('castle');
     expect(monumentModelForName('Fort Ticonderoga')).toBe('castle');
     expect(monumentModelForName('Citadel of Aleppo')).toBe('castle');
     expect(monumentModelForName('Buckingham Palace')).toBe('castle');
@@ -50,7 +50,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   it('South/SE-Asian temples get a spired temple, not a generic stone pile', () => {
     expect(monumentModelForName('Prambanan Temple')).toBe('temple-tower');
     expect(monumentModelForName('Preah Vihear Temple')).toBe('temple-tower');
-    expect(monumentModelForName('Konark Sun Temple')).toBe('temple-tower');
+    expect(monumentModelForName('Khajuraho Temples')).toBe('temple-tower');
     // The broad temple bucket and temple-mountains are unchanged.
     expect(monumentModelForName('Temple of Heaven')).toBe('megalith');
     expect(monumentModelForName('Templo Mayor')).toBe('stepped-pyramid');

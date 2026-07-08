@@ -64,6 +64,11 @@ export const NO_3D_NAMES = new Set([
   'cahokia', // great earthen mounds, not a stone stepped-pyramid
   'borobudur', // a Buddhist stupa-mandala, not a Mesoamerican stepped-pyramid
   'borobudur temple',
+  // Judgment calls from AI-VERIFY-REPORT.md, greenlit 2026-07-08 — suppressed.
+  'malbork castle', // the world's largest BRICK castle; a grey stone keep understates it
+  'tournai cathedral', // Romanesque five-tower silhouette, not twin-tower Gothic
+  'konark sun temple', // a stone chariot with wheels — too distinctive for a spired temple
+  'peveril castle', // a fragmentary Norman ruin; an intact keep overstates it
 ]);
 
 /** Every 3D archetype buildModel() in Monument3D.tsx can actually render. */

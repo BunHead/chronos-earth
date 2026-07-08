@@ -683,8 +683,14 @@ function buildModel(model: string, phase = 3): { group: THREE.Group; ground: str
     tower.add(bell);
     tower.add(new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 0.2, 20), stoneMat(cornice)))
       .position.set(0, tiers * tierH, 0);
-    // The famous lean (~5°), pivoting at the base.
-    tower.rotation.z = 0.09;
+    // A flat stepped plinth at the foot: the real campanile rises from a base
+    // planted in the piazza. Left untilted, it sits flush on the ground and
+    // anchors the tower's contact shadow while the shaft above leans away.
+    const plinth = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.32, R * 1.46, 0.6, 24), stoneMat(cornice));
+    plinth.position.y = 0;
+    group.add(plinth);
+    // The famous lean (~4°, matching the real tower), pivoting at the base.
+    tower.rotation.z = 0.07;
     group.add(tower);
   } else if (model === 'amphitheatre') {
     // A Roman amphitheatre (the Colosseum): an elliptical wall of stacked arched
