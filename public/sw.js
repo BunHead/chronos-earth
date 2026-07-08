@@ -1,22 +1,24 @@
 /**
- * sw.js — versioned warm cache for the data files (hand-rolled, no deps).
+ * sw.js — service worker (hand-rolled, no deps).
  *
- * Cache-first for same-origin JSON + images under <site>/data/ : first visit
- * fills the cache from the network, every visit after that reads instantly
- * from disk (and works offline). The cache name carries the build stamp —
- * main.tsx registers "sw.js?v=<stamp>" from version.json (stamp-version.mjs),
- * so a new deploy installs a fresh worker, starts a clean cache, and the old
- * version's cache is deleted on activate. Live Wikipedia/Wikidata calls are
- * cross-origin and never touched.
+ * Two strategies, chosen per request:
+ *  • PAGE NAVIGATIONS (the app shell / index.html): NETWORK-FIRST. Every load
+ *    fetches the latest deploy, so a fresh build is picked up immediately and you
+ *    never load a stale, half-updated bundle (the hashed JS/CSS it references are
+ *    unique per build, so the browser fetches the new ones automatically). Falls
+ *    back to the cached shell only when offline.
+ *  • DATA FILES (same-origin JSON + images under <site>/data/): CACHE-FIRST, warm
+ *    and offline-friendly. The data cache carries the build stamp (main.tsx
+ *    registers "sw.js?v=<stamp>"), so a new deploy starts a clean cache and the
+ *    old one is deleted on activate.
+ * Live Wikipedia/Wikidata calls are cross-origin and never touched.
  */
 const VERSION = new URL(self.location.href).searchParams.get('v') || '0';
-const CACHE = `chronos-data-${VERSION}`;
+const DATA_CACHE = `chronos-data-${VERSION}`;
+const SHELL_CACHE = 'chronos-shell';
 const CACHE_PREFIX = 'chronos-data-';
 
-// The site lives under a subpath on GitHub Pages — derive the data path from
-// the registration scope rather than hardcoding it.
 const DATA_PATH = new URL('data/', self.registration.scope).pathname;
-
 const CACHEABLE = /\.(json|png|jpe?g|webp|gif|svg)$/i;
 
 self.addEventListener('install', () => {
@@ -28,7 +30,7 @@ self.addEventListener('activate', (event) => {
     (async () => {
       const names = await caches.keys();
       await Promise.all(
-        names.filter((n) => n.startsWith(CACHE_PREFIX) && n !== CACHE).map((n) => caches.delete(n)),
+        names.filter((n) => n.startsWith(CACHE_PREFIX) && n !== DATA_CACHE).map((n) => caches.delete(n)),
       );
       await self.clients.claim();
     })(),
@@ -40,15 +42,35 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (!url.pathname.startsWith(DATA_PATH) || !CACHEABLE.test(url.pathname)) return;
-  event.respondWith(
-    (async () => {
-      const cache = await caches.open(CACHE);
-      const hit = await cache.match(req);
-      if (hit) return hit;
-      const res = await fetch(req);
-      if (res.ok) await cache.put(req, res.clone());
-      return res;
-    })(),
-  );
+
+  // App shell / page navigations — NETWORK-FIRST so a fresh deploy always wins.
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        try {
+          const res = await fetch(req, { cache: 'no-store' });
+          (await caches.open(SHELL_CACHE)).put(req, res.clone());
+          return res;
+        } catch {
+          const cache = await caches.open(SHELL_CACHE);
+          return (await cache.match(req)) || fetch(req);
+        }
+      })(),
+    );
+    return;
+  }
+
+  // Data JSON/images — cache-first (warm, offline-friendly, versioned per build).
+  if (url.pathname.startsWith(DATA_PATH) && CACHEABLE.test(url.pathname)) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(DATA_CACHE);
+        const hit = await cache.match(req);
+        if (hit) return hit;
+        const res = await fetch(req);
+        if (res.ok) await cache.put(req, res.clone());
+        return res;
+      })(),
+    );
+  }
 });
