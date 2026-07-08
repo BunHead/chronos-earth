@@ -63,7 +63,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
-  rings: { widthM: 2500, facingDeg: 0 }, // eroded ring dome (the Richat)
+  rings: { widthM: 2500, facingDeg: 180 }, // Atlantis rings — turned so the harbour reads at ~7 o'clock
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

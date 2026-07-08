@@ -884,19 +884,19 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
       const dx = x1 - x0, dz = z1 - z0, len = Math.hypot(dx, dz);
       group.add(block(len, 0.1, w, (x0 + x1) / 2, LAND_Y + 0.03, (z0 + z1) / 2, col, -Math.atan2(dz, dx)));
     };
-    // The crescent eyelid (shallow water arc) to the north.
-    const cresc = new THREE.Mesh(new THREE.TorusGeometry(4.8, 0.4, 8, 48, Math.PI * 0.8), waterMat);
-    cresc.rotation.x = -Math.PI / 2;
-    cresc.rotation.z = -Math.PI * 0.9;
-    cresc.scale.set(1, 1, 0.42);
-    cresc.position.set(0, WATER_Y + 0.03, 11.4);
-    group.add(cresc);
-    // Riverlets running north from the crescent.
+    // The raised crescent 'eyelid' to the north — a low ridge, the water source,
+    // with falls on its southern face and riverlets draining SOUTH into the rings.
+    const ridge = new THREE.Mesh(new THREE.TorusGeometry(4.6, 0.7, 8, 48, Math.PI * 0.85), stoneLike({ color: '#9a8a63', flatShading: true }));
+    ridge.rotation.x = -Math.PI / 2;
+    ridge.rotation.z = -Math.PI * 0.925;
+    ridge.scale.set(1, 1, 0.5);
+    ridge.position.set(0, 0.7, 12.4);
+    group.add(ridge);
     const dry = '#a3926a';
-    strip(-2.6, 11.8, -2.9, 14.2, 0.4, dry);
-    strip(-0.9, 12.0, -0.6, 14.6, 0.4, dry);
-    strip(0.9, 12.0, 1.3, 14.6, 0.4, dry);
-    strip(2.6, 11.8, 3.0, 14.0, 0.4, dry);
+    for (const wx of [-2.2, -0.75, 0.75, 2.2]) {
+      group.add(block(0.22, 1.1, 0.14, wx, LAND_Y + 0.55, 11.5, '#8fc0e2')); // waterfall
+      strip(wx, 11.4, wx * 0.7, 9.9, 0.4, dry);                              // riverlet draining south
+    }
     // Dry river beds fanning to the north-east and east.
     strip(6.4, 8.4, 8.6, 11.2, 0.55, dry);
     strip(8.6, 11.2, 9.6, 13.6, 0.5, dry);
