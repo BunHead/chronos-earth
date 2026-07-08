@@ -16,6 +16,7 @@ const params = new URLSearchParams(location.search);
 const model = params.get('model') || 'rings';
 const angle = params.get('angle') || '3q';
 const title = params.get('title') || '';
+const seaParam = params.get('sea');
 
 const W = 960, H = 720;
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -51,7 +52,7 @@ const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
 };
 
 // Build the model and ground it (lowest point to y=0), exactly as the app does.
-const { group, ground } = buildModel(model, 3, title);
+const { group, ground } = buildModel(model, 3, title, seaParam != null ? +seaParam : undefined);
 group.updateMatrixWorld(true);
 group.position.y -= boxOf(group).min.y;
 group.traverse((o) => {

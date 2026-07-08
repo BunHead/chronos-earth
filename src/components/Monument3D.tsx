@@ -297,7 +297,7 @@ function ruinify(group: THREE.Group) {
   }
 }
 
-export function buildModel(model: string, phase = 3, title = ''): { group: THREE.Group; ground: string } {
+export function buildModel(model: string, phase = 3, title = '', seaLevel?: number): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
 
@@ -907,10 +907,14 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
     // translucent water plane lapping the island's outer rings. Flagged noShadow
     // so it neither casts a slab-shadow nor swells the fit (which would shrink the
     // city). The drowning sequence will later raise this level to swallow it all.
-    const seaMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.4, metalness: 0.08, transparent: true, opacity: 0.82 });
+    const drowned = seaLevel !== undefined && seaLevel > LAND_Y + 0.3;
+    const seaMat = new THREE.MeshStandardMaterial({
+      color: drowned ? '#356f96' : '#2d6f9e', roughness: drowned ? 0.3 : 0.4,
+      metalness: 0.08, transparent: true, opacity: drowned ? 0.9 : 0.82,
+    });
     const sea = new THREE.Mesh(new THREE.CircleGeometry(52, 72), seaMat);
     sea.rotation.x = -Math.PI / 2;
-    sea.position.y = LAND_Y - 0.06;
+    sea.position.y = seaLevel ?? (LAND_Y - 0.06);
     sea.renderOrder = 1;
     sea.userData.noShadow = true;
     group.add(sea);
@@ -1022,7 +1026,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     const container = containerRef.current;
     if (!container) return;
 
-    const { group, ground } = buildModel(effModel, phase, title);
+    const { group, ground } = buildModel(effModel, phase, title, phases?.[lifeIdx]?.sea);
     if (ruined) ruinify(group);
 
     const scene = new THREE.Scene();

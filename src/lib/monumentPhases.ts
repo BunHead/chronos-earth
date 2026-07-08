@@ -17,6 +17,8 @@ export interface MonumentPhase {
   model: string;
   /** Visual state — 'burning' adds flames & smoke, 'ruin' a broken form. */
   state?: 'intact' | 'burning' | 'ruin';
+  /** For a rising-sea model (Atlantis): the water-plane height this phase shows. */
+  sea?: number;
   /** A sentence for the viewer. */
   note?: string;
 }
@@ -62,6 +64,19 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
         note: 'Opened in 80 CE with 100 days of games — gladiators, wild beasts and even mock sea-battles before some 50,000 spectators.' },
       { fromYear: 1349, yearLabel: '1349', label: 'Ruin', model: 'amphitheatre', state: 'ruin',
         note: 'A great earthquake toppled the south outer wall in 1349, and for centuries its stone was quarried for Rome’s churches and palaces — leaving the ruin we know.' },
+    ],
+  },
+  {
+    // Atlantis, drowned "in a single day and night" — the phase bar steps through
+    // it. (A flagged hypothesis: the real Richat is a dry natural rock dome.)
+    match: 'eye of the sahara',
+    phases: [
+      { fromYear: -9600, yearLabel: 'her height', label: 'Atlantis', model: 'rings', sea: 0.16,
+        note: 'The ringed city at her height — Poseidon’s temple at the heart, the harbour open to the sea, the mountains and their springs to the north.' },
+      { fromYear: -9599, yearLabel: 'the deluge', label: 'The deluge', model: 'rings', sea: 1.7,
+        note: '“In a single day and night of misfortune…” — the sea climbs, the streets flood, the outer rings vanish beneath the swell.' },
+      { fromYear: -9598, yearLabel: 'lost', label: 'Beneath the waves', model: 'rings', sea: 3.1,
+        note: '“…Atlantis disappeared into the depths of the sea.” Only the temple’s gilded finial still breaks the surface.' },
     ],
   },
 ];

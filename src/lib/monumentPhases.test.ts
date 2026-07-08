@@ -47,4 +47,14 @@ describe('monument phases', () => {
     expect(p[phaseIndexAt(p, 200)].state).toBeUndefined();
     expect(p[phaseIndexAt(p, 2020)].state).toBe('ruin');
   });
+
+  it('Atlantis drowns in three phases with a steadily rising sea', () => {
+    const p = phasesFor('Richat Structure (Eye of the Sahara)')!;
+    expect(p.length).toBe(3);
+    expect(p[0].sea!).toBeLessThan(p[1].sea!);
+    expect(p[1].sea!).toBeLessThan(p[2].sea!);
+    expect(p[2].label).toBe('Beneath the waves');
+    // Ordinary monuments don't carry a sea level.
+    expect(phasesFor('Nottingham Castle')![0].sea).toBeUndefined();
+  });
 });
