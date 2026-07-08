@@ -19,6 +19,8 @@ export interface MonumentPhase {
   state?: 'intact' | 'burning' | 'ruin';
   /** For a rising-sea model (Atlantis): the water-plane height this phase shows. */
   sea?: number;
+  /** For a built-through-time model (Giza): construction completion, 0..1. */
+  build?: number;
   /** A sentence for the viewer. */
   note?: string;
 }
@@ -64,6 +66,22 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
         note: 'Opened in 80 CE with 100 days of games — gladiators, wild beasts and even mock sea-battles before some 50,000 spectators.' },
       { fromYear: 1349, yearLabel: '1349', label: 'Ruin', model: 'amphitheatre', state: 'ruin',
         note: 'A great earthquake toppled the south outer wall in 1349, and for centuries its stone was quarried for Rome’s churches and palaces — leaving the ruin we know.' },
+    ],
+  },
+  {
+    // The Giza plateau, raised across three reigns — the phase bar steps through
+    // the CONSTRUCTION: bare cores rise, then white casing and gold caps go on,
+    // and the Sphinx is carved from the bedrock.
+    match: 'giza',
+    phases: [
+      { fromYear: -2600, yearLabel: 'c. 2600 BCE', label: 'Khufu’s pyramid rises', model: 'giza', build: 0.35,
+        note: 'The Great Pyramid’s core goes up first — some 2.3 million limestone blocks, hauled up mud-brick ramps under Pharaoh Khufu.' },
+      { fromYear: -2560, yearLabel: 'c. 2560 BCE', label: 'Cased in white', model: 'giza', build: 0.6,
+        note: 'The finished pyramid is sheathed in smooth white Tura limestone and crowned with a gold-electrum capstone — dazzling in the sun. Khafre begins his own.' },
+      { fromYear: -2530, yearLabel: 'c. 2530 BCE', label: 'The Sphinx is carved', model: 'giza', build: 0.88,
+        note: 'Khafre’s pyramid is complete, and the Great Sphinx is carved from a knoll of bedrock nearby, guarding the plateau. Menkaure’s smaller pyramid rises last.' },
+      { fromYear: -2500, yearLabel: 'c. 2500 BCE', label: 'The plateau complete', model: 'giza', build: 1,
+        note: 'All three pyramids stand cased and gold-capped, the Sphinx before them, the Nile and its harbours close to the east — the plateau at its height.' },
     ],
   },
   {

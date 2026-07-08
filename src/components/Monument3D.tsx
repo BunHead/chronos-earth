@@ -343,7 +343,35 @@ function gableRoof(group: THREE.Group, yb: number, halfX: number, halfZ: number,
   }
 }
 
-export function buildModel(model: string, phase = 3, title = '', seaLevel?: number): { group: THREE.Group; ground: string } {
+/** The Great Sphinx of Giza — a recumbent lion with a royal human head in the
+ * nemes headdress, facing +Z (the fit turns it east, as the real one faces).
+ * Returned as a group so both the standalone model and the Giza plateau scene
+ * can place and scale it. */
+function sphinxGroup(): THREE.Group {
+  const g = new THREE.Group();
+  const s = SANDSTONE;
+  const nemes = '#c7ad6e';
+  g.add(block(6.6, 1.0, 13.5, 0, 0.5, -0.5, '#bfa877')); // bedrock plinth it's carved from
+  g.add(block(4.0, 3.0, 8.6, 0, 2.4, -1.8, s)); // long crouching body
+  g.add(block(4.7, 3.5, 3.6, 0, 2.7, -5.3, s)); // bulky hindquarters
+  for (const sx of [-1, 1] as const) g.add(block(1.2, 1.2, 6.2, sx * 1.2, 1.5, 3.6, s)); // forepaws
+  g.add(block(3.2, 0.8, 6.2, 0, 1.2, 3.6, s)); // chest slab between the paws
+  g.add(block(3.4, 3.8, 2.0, 0, 3.4, 1.3, s)); // breast rising to the neck
+  g.add(block(2.0, 2.1, 1.9, 0, 5.5, 1.5, s)); // face
+  g.add(block(3.1, 2.3, 2.5, 0, 6.1, 0.8, nemes)); // nemes headdress mass
+  for (const sx of [-1, 1] as const) g.add(block(0.7, 2.7, 1.5, sx * 1.55, 4.8, 1.5, nemes)); // headdress lappets
+  g.add(block(2.3, 0.5, 2.3, 0, 7.3, 0.9, nemes)); // crown of the nemes
+  g.add(block(0.5, 0.7, 0.5, 0, 6.5, 2.5, '#b89a54')); // uraeus (brow cobra)
+  return g;
+}
+
+export function buildModel(
+  model: string,
+  phase = 3,
+  title = '',
+  seaLevel?: number,
+  buildFrac?: number,
+): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
 
@@ -395,11 +423,8 @@ export function buildModel(model: string, phase = 3, title = '', seaLevel?: numb
       group.add(block(2.2, tierH, 1.2, 0, i * tierH + tierH / 2, 6.2 - i * 1.05, '#a89878'));
     }
   } else if (model === 'sphinx') {
-    ground = '#c9b487';
-    group.add(block(10, 1, 4, 0, 0.5, 0, SANDSTONE)); // base
-    group.add(block(9, 3, 3, 0, 2.2, 0, SANDSTONE)); // body
-    group.add(block(2.4, 3, 2.4, 4.4, 3.8, 0, SANDSTONE)); // head
-    group.add(block(2.8, 1.4, 2.8, 4.4, 5.6, 0, SANDSTONE)); // headdress
+    ground = '#d8c48a';
+    group.add(sphinxGroup());
   } else if (model === 'circle') {
     ground = '#b7a06f';
     const n = 11;
@@ -974,58 +999,75 @@ export function buildModel(model: string, phase = 3, title = '', seaLevel?: numb
       group.add(flood);
     }
   } else if (model === 'hanging-gardens') {
-    // The Hanging Gardens of Babylon — a stepped mountain of vaulted terraces,
-    // each planted and spilling greenery over its edge, watered from the top.
-    // (Its very existence is debated by historians; this is the wonder as the
-    // ancient writers described it.)
-    ground = '#9a7d4e';
-    const brick = '#b48a58';
-    const brickAlt = '#a67d4b';
-    const base = 15;
+    // The Hanging Gardens of Babylon — NOT a free-standing tower but planted
+    // terraces banked against a raised palace-citadel, greenery spilling down
+    // vaulted galleries to a great reflecting pool, fed by an aqueduct. (After
+    // the classic reconstruction; its very existence — and whether it stood at
+    // Babylon or, per Dalley, at Nineveh — is debated.)
+    ground = '#c9ac72';
+    const brick = '#c39a63';
+    const brickAlt = '#b58a52';
+    const leaf = '#4f7d3a';
+    const leafAlt = '#66934a';
     const bush = (x: number, y: number, z: number, r: number, col: string) => {
       const m = new THREE.Mesh(
         new THREE.SphereGeometry(r, 8, 6),
         new THREE.MeshStandardMaterial({ color: col, roughness: 1, flatShading: true }),
       );
       m.position.set(x, y, z);
-      m.scale.y = 0.7;
+      m.scale.y = 0.72;
       group.add(m);
     };
-    const tree = (x: number, z: number, y: number) => {
-      group.add(block(0.4, 2.2, 0.4, x, y + 1.1, z, '#6b4a2c'));
-      bush(x, y + 2.6, z, 1.3, '#638f42');
-    };
-    // Arched vaulted substructure (Strabo's stone galleries) at ground level.
-    for (let i = 0; i <= 7; i++) {
-      group.add(block(0.7, 2.4, base, -base / 2 + i * (base / 7), 1.2, 0, brickAlt));
-      group.add(block(base, 2.4, 0.7, 0, 1.2, -base / 2 + i * (base / 7), brickAlt));
-    }
-    group.add(block(base, 0.7, base, 0, 2.75, 0, brick)); // deck over the vaults
-    const tiers = 5;
-    const tierH = 1.5;
+    // A great reflecting pool / river across the front (+Z).
+    const pool = new THREE.Mesh(
+      new THREE.PlaneGeometry(34, 14),
+      new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.28, metalness: 0.06 }),
+    );
+    pool.rotation.x = -Math.PI / 2;
+    pool.position.set(-1, 0.05, 12);
+    pool.userData.noShadow = true;
+    group.add(pool);
+    group.add(block(30, 1.6, 1.0, -1, 0.8, 5.6, brickAlt)); // quay wall along the pool
+    // Planted terraces banked against the hill — each higher terrace set FURTHER
+    // BACK into the slope, rising to the palace, not a symmetric tower.
+    const tiers = 6;
+    const stepUp = 1.5;
+    const stepBack = 1.9;
     for (let t = 0; t < tiers; t++) {
-      const w = base - 2 - t * 2.3;
-      const y = 3.1 + t * tierH;
-      const terr = block(w, tierH, w, 0, y + tierH / 2, 0, t % 2 ? brickAlt : brick);
-      weather(terr, 0.03);
-      group.add(terr);
-      const topY = y + tierH;
-      const ring = Math.max(5, Math.round(w));
-      for (let i = 0; i < ring; i++) {
-        const a = (i / ring) * Math.PI * 2;
-        bush(Math.cos(a) * (w / 2 - 0.3), topY + 0.3, Math.sin(a) * (w / 2 - 0.3), 0.7, i % 2 ? '#4f7d3a' : '#638f42');
+      const y = 1.4 + t * stepUp;
+      const z = 3.5 - t * stepBack;
+      const w = 20 - t * 0.8;
+      const bed = block(w, stepUp, 3.0, 0, y, z, t % 2 ? brickAlt : brick);
+      weather(bed, 0.02);
+      group.add(bed);
+      const piers = Math.round(w / 2.6);
+      for (let i = 0; i <= piers; i++) {
+        const px = -w / 2 + i * (w / piers);
+        group.add(block(0.55, stepUp * 1.15, 0.55, px, y - 0.15, z + 1.55, brickAlt)); // vaulted gallery piers
       }
-      // Vines cascading down the terrace face towards the viewer (+Z).
-      for (let i = 0; i < 4; i++) {
-        const vx = -w / 2 + 0.6 + i * ((w - 1.2) / 3);
-        group.add(block(0.5, tierH * 0.9, 0.25, vx, y + tierH * 0.45, w / 2 + 0.15, '#4f7d3a'));
+      const n = Math.round(w / 1.5);
+      for (let i = 0; i < n; i++) {
+        const bx = -w / 2 + 0.8 + i * ((w - 1.6) / (n - 1));
+        bush(bx, y + stepUp / 2 + 0.45, z - 0.3, 0.75, i % 2 ? leaf : leafAlt);
+        if (i % 2) group.add(block(0.45, stepUp * 0.95, 0.22, bx, y, z + 1.65, leaf)); // vines over the edge
       }
-      if (t < 2) {
-        tree(-w / 4, -w / 4, topY);
-        tree(w / 4, w / 5, topY);
+      if (t < 3) {
+        for (const sx of [-1, 1] as const) {
+          const tx = sx * w * 0.32;
+          group.add(block(0.4, 2.4, 0.4, tx, y + stepUp / 2 + 1.2, z, '#6b4a2c'));
+          bush(tx, y + stepUp / 2 + 2.8, z, 1.15, leafAlt);
+        }
       }
     }
-    bush(0, 3.1 + tiers * tierH + 0.6, 0, 1.7, '#638f42'); // crowning garden
+    // The palace-citadel crowning the hill at the back.
+    const palY = 1.4 + tiers * stepUp;
+    const palZ = 3.5 - tiers * stepBack;
+    group.add(block(12, 4.5, 5, 0, palY + 2.25, palZ - 1, brick));
+    group.add(block(13, 0.6, 6, 0, palY + 4.7, palZ - 1, brickAlt)); // parapet
+    for (let i = 0; i < 6; i++) group.add(block(0.5, 3.2, 0.5, -4.5 + i * 1.8, palY + 1.6, palZ + 1.5, brickAlt)); // colonnade
+    // An aqueduct striding in from the right to feed the top terrace.
+    for (let i = 0; i < 6; i++) group.add(block(0.8, palY, 0.8, 12 + i * 2.4, palY / 2, palZ + 1, brickAlt));
+    group.add(block(14.4, 0.9, 1.2, 19, palY + 0.45, palZ + 1, brick)); // the water channel on top
   } else if (model === 'zeus-statue') {
     // The Statue of Zeus at Olympia — Phidias's ~12 m gold-and-ivory
     // (chryselephantine) figure of Zeus enthroned, so vast that were he to
@@ -1239,6 +1281,63 @@ export function buildModel(model: string, phase = 3, title = '', seaLevel?: numb
     roof.position.y = ly + 2.9;
     group.add(roof);
     group.add(block(0.5, 1.6, 0.5, 0, ly + 4.4, 0, '#b79a5a')); // statue of Zeus/Helios
+  } else if (model === 'giza') {
+    // The Giza plateau — the three great pyramids and the Sphinx, built up
+    // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
+    // cores rise first, then each is sheathed in smooth white Tura limestone
+    // and crowned with a gold-electrum capstone; the Sphinx is carved once the
+    // plateau is well advanced. The Nile runs as a blue ribbon to the east,
+    // where the real river and its harbours lay.
+    ground = '#d8c48a';
+    const frac = buildFrac ?? 1;
+    // The Nile / harbour channel to the east (excluded from the fit box).
+    const nile = new THREE.Mesh(
+      new THREE.PlaneGeometry(11, 64),
+      new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.3, metalness: 0.05 }),
+    );
+    nile.rotation.x = -Math.PI / 2;
+    nile.position.set(27, 0.04, 0);
+    nile.userData.noShadow = true;
+    group.add(nile);
+    // One pyramid, at a given completion.
+    const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number) => {
+      if (done) {
+        const white = new THREE.Mesh(
+          new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
+          new THREE.MeshStandardMaterial({ color: '#efe9d8', roughness: 0.72, flatShading: true }),
+        );
+        white.rotation.y = Math.PI / 4;
+        white.position.set(cx, h / 2, cz);
+        group.add(white);
+        const capH = h * 0.13;
+        const cap = new THREE.Mesh(new THREE.ConeGeometry(half * Math.SQRT2 * 0.13, capH, 4), GOLD);
+        cap.rotation.y = Math.PI / 4;
+        cap.position.set(cx, h - capH / 2, cz);
+        group.add(cap);
+      } else {
+        const cf = Math.max(0, Math.min(1, coreFrac));
+        if (cf <= 0.01) return;
+        const steps = 6;
+        const built = Math.max(1, Math.round(steps * cf));
+        for (let i = 0; i < built; i++) {
+          const t = i / steps;
+          const w = 2 * half * (1 - t * 0.9);
+          group.add(block(w, (h / steps) * 1.02, w, cx, (h / steps) * (i + 0.5), cz, i % 2 ? '#c9b487' : '#c2ad78'));
+        }
+        // A mud-brick construction ramp up one face while it rises.
+        group.add(block(1.8, h * cf * 0.5, half * 1.7, cx, h * cf * 0.24, cz + half * 0.95, '#b0905a'));
+      }
+    };
+    pyramid(0, 0, 5.0, 8.0, frac >= 0.55, (frac - 0.15) / 0.4); // Khufu — the Great Pyramid
+    pyramid(-11, 5, 4.3, 6.9, frac >= 0.8, (frac - 0.45) / 0.35); // Khafre
+    pyramid(-19.5, 9, 3.2, 5.0, frac >= 0.98, (frac - 0.7) / 0.28); // Menkaure
+    if (frac >= 0.82) { // the Great Sphinx, carved from the bedrock
+      const sx = sphinxGroup();
+      sx.scale.setScalar(0.62);
+      sx.position.set(9.5, 0, 9);
+      sx.rotation.y = -0.5;
+      group.add(sx);
+    }
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -1347,7 +1446,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     const container = containerRef.current;
     if (!container) return;
 
-    const { group, ground } = buildModel(effModel, phase, title, phases?.[lifeIdx]?.sea);
+    const { group, ground } = buildModel(effModel, phase, title, phases?.[lifeIdx]?.sea, phases?.[lifeIdx]?.build);
     if (ruined) ruinify(group);
 
     const scene = new THREE.Scene();

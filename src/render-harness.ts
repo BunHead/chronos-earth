@@ -18,6 +18,11 @@ const model = params.get('model') || 'rings';
 const angle = params.get('angle') || '3q';
 const title = params.get('title') || '';
 const seaParam = params.get('sea');
+const buildParam = params.get('build');
+
+document.title = `Chronos Earth · rendering "${model}"`;
+const label = document.getElementById('lbl');
+if (label) label.textContent = `🏛️ Chronos Earth · rendering "${model}" (${angle}) — Claude's 3D modeller, safe to close`;
 
 const W = 960, H = 720;
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -59,7 +64,13 @@ const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
 };
 
 // Build the model and ground it (lowest point to y=0), exactly as the app does.
-const { group, ground } = buildModel(model, 3, title, seaParam != null ? +seaParam : undefined);
+const { group, ground } = buildModel(
+  model,
+  3,
+  title,
+  seaParam != null ? +seaParam : undefined,
+  buildParam != null ? +buildParam : undefined,
+);
 group.updateMatrixWorld(true);
 group.position.y -= boxOf(group).min.y;
 group.traverse((o) => {

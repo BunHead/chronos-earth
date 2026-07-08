@@ -17,6 +17,7 @@ export interface MonumentFit {
 // Specific, well-known monuments — real footprint (m) and facing where known.
 // `match` is a lowercase substring of the title (first hit wins).
 const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
+  { match: 'giza pyramids', widthM: 620 }, // the whole plateau scene (3 pyramids + Sphinx)
   { match: 'giza', widthM: 230 },
   { match: 'great pyramid', widthM: 230 },
   { match: 'pyramid of the sun', widthM: 220 },
@@ -71,6 +72,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   mausoleum: { widthM: 40, facingDeg: 0 },
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 30, facingDeg: 0 },
+  giza: { widthM: 620, facingDeg: 0 }, // the whole plateau scene
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

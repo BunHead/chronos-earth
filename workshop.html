@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chronos Earth · Model Workshop</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #9fb4c8; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; }
+      canvas { display: block; }
+      #panel {
+        position: fixed; top: 12px; left: 12px; width: 250px; z-index: 10;
+        background: rgba(18, 26, 36, 0.84); color: #eaf1f8; padding: 15px 17px;
+        border-radius: 13px; box-shadow: 0 8px 30px rgba(0,0,0,.35); backdrop-filter: blur(5px);
+      }
+      #panel h1 { font-size: 15px; margin: 0 0 3px; }
+      #panel p.lead { font-size: 12px; opacity: .72; margin: 0 0 12px; line-height: 1.45; }
+      #panel label { display: block; font-size: 12px; margin: 11px 0 4px; opacity: .85; }
+      #panel select, #panel input[type="text"] {
+        width: 100%; box-sizing: border-box; padding: 7px 9px; border-radius: 8px;
+        border: 1px solid #3a4a5c; background: #0e1620; color: #eaf1f8; font-size: 13px;
+      }
+      #panel input[type="range"] { width: 100%; accent-color: #6fb1ff; }
+      .row { display: flex; gap: 6px; margin-top: 9px; }
+      .row button {
+        flex: 1; padding: 7px 0; border-radius: 8px; border: 1px solid #3a4a5c;
+        background: #1b2a3a; color: #eaf1f8; font-size: 12px; cursor: pointer;
+      }
+      .row button:hover { background: #26384c; }
+      .hint { font-size: 11px; opacity: .6; margin-top: 13px; line-height: 1.4; }
+      #extra { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <h1>🏛️ Model Workshop</h1>
+      <p class="lead">Pick a monument to see its 3D model. Drag to spin, scroll to zoom.</p>
+      <label for="model">Monument</label>
+      <select id="model"></select>
+      <label for="title">Name (optional — tweaks a few models)</label>
+      <input id="title" type="text" placeholder="e.g. Notre-Dame de Paris" />
+      <div id="extra">
+        <label id="slabel" for="slider">Stage</label>
+        <input id="slider" type="range" min="0" max="1" step="0.05" value="1" />
+      </div>
+      <div class="row">
+        <button data-a="3q">¾ view</button>
+        <button data-a="top">Top</button>
+        <button data-a="side">Side</button>
+      </div>
+      <p class="hint">This is the same modeller that draws monuments in the app — here you can browse every one.</p>
+    </div>
+    <script type="module" src="/src/workshop.ts"></script>
+  </body>
+</html>

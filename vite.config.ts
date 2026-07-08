@@ -8,6 +8,13 @@ import cesium from 'vite-plugin-cesium';
 export default defineConfig({
   base: './',
   plugins: [react(), cesium()],
+  build: {
+    rollupOptions: {
+      // Ship the app plus the standalone Model Workshop (workshop.html) — a
+      // no-command-line previewer for every 3D archetype.
+      input: { main: 'index.html', workshop: 'workshop.html' },
+    },
+  },
   test: {
     environment: 'node',
     globals: true,

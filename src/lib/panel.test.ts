@@ -88,7 +88,7 @@ describe('the Seven Wonders of the Ancient World each carry their own archetype'
   const byId = Object.fromEntries(sites.map((s) => [s.id, s]));
 
   const EXPECTED: Record<string, string> = {
-    'giza-pyramids': 'pyramid',
+    'giza-pyramids': 'giza',
     'hanging-gardens-babylon': 'hanging-gardens',
     'temple-of-artemis': 'artemis-temple',
     'statue-of-zeus': 'zeus-statue',
