@@ -42,10 +42,18 @@ sun.shadow.camera.far = 400;
 sun.shadow.bias = -0.0003;
 scene.add(sun);
 
+// Box over the real structure only — excluding noShadow meshes (sky, the sea
+// plane), exactly as the app's fit does — so a vast sea doesn't shrink the view.
+const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
+  const b = new THREE.Box3();
+  obj.traverse((o) => { if (o instanceof THREE.Mesh && !o.userData.noShadow) b.expandByObject(o); });
+  return b;
+};
+
 // Build the model and ground it (lowest point to y=0), exactly as the app does.
 const { group, ground } = buildModel(model, 3, title);
 group.updateMatrixWorld(true);
-group.position.y -= new THREE.Box3().setFromObject(group).min.y;
+group.position.y -= boxOf(group).min.y;
 group.traverse((o) => {
   if (o instanceof THREE.Mesh && !o.userData.noShadow) { o.castShadow = true; o.receiveShadow = true; }
 });
@@ -62,7 +70,7 @@ scene.add(disc);
 
 // Frame the model's scaled bounds from the requested angle.
 group.updateMatrixWorld(true);
-const box = new THREE.Box3().setFromObject(group);
+const box = boxOf(group);
 const size = box.getSize(new THREE.Vector3());
 const c = box.getCenter(new THREE.Vector3());
 const r = Math.max(size.x, size.y, size.z) || 20;

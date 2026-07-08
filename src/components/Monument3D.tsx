@@ -903,6 +903,17 @@ export function buildModel(model: string, phase = 3, title = ''): { group: THREE
     strip(9.2, 4.6, 12.0, 5.6, 0.55, dry);
     strip(12.0, 5.6, 14.4, 4.9, 0.5, dry);
     strip(9.6, 1.2, 12.6, 1.6, 0.5, dry);
+    // The raised sea / inland lake that made Atlantis a coastal city — a broad
+    // translucent water plane lapping the island's outer rings. Flagged noShadow
+    // so it neither casts a slab-shadow nor swells the fit (which would shrink the
+    // city). The drowning sequence will later raise this level to swallow it all.
+    const seaMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.4, metalness: 0.08, transparent: true, opacity: 0.82 });
+    const sea = new THREE.Mesh(new THREE.CircleGeometry(52, 72), seaMat);
+    sea.rotation.x = -Math.PI / 2;
+    sea.position.y = LAND_Y - 0.06;
+    sea.renderOrder = 1;
+    sea.userData.noShadow = true;
+    group.add(sea);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
