@@ -62,6 +62,23 @@ describe('synthesizeBattleView polish (queue #15)', () => {
     expect(v.phases[1].narration).not.toContain('auto-generated');
   });
 
+  it('the ending choreographs a rout: units gain a third position, loser flees its edge', () => {
+    const v = synthesizeBattleView({
+      ...base,
+      outcome: 'The French were routed and fled the field.',
+    });
+    const aUnit = v.units.find((u) => u.side === 'a')!; // England (won)
+    const bUnit = v.units.find((u) => u.side === 'b')!; // France (lost)
+    // Deploy -> clash -> rout/pursuit: three positions now, not two.
+    expect(aUnit.pos).toHaveLength(3);
+    expect(bUnit.pos).toHaveLength(3);
+    // The beaten side streams off its OWN back edge (rising x toward ~90); the
+    // victor pushes forward past the centre it held (also rising, but capped).
+    expect(bUnit.pos[2][0]).toBeGreaterThan(bUnit.pos[1][0]);
+    expect(aUnit.pos[2][0]).toBeGreaterThan(aUnit.pos[1][0]);
+    expect(bUnit.pos[2][0]).toBeGreaterThan(80); // right off the field
+  });
+
   it('a known victor always earns a resolution phase (and the loser field)', () => {
     const v = synthesizeBattleView(base); // no rout/siege words, but a victor
     expect(v.phases).toHaveLength(3);

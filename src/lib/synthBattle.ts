@@ -193,6 +193,30 @@ export function synthesizeBattleView(b: Battle): BattleView {
           : null;
   if (!ending && b.victor) ending = 'The day is decided';
   if (ending) {
+    // Choreograph the final act: give every formation a THIRD position for the
+    // ending phase, so the armies actually MOVE at the climax instead of only
+    // thinning in place. The beaten side streams off its own back edge (a rout),
+    // the victor pushes forward into the ground they quit; in a siege the loser
+    // is penned into the centre while the besiegers close in.
+    const siege = ending === 'The siege closes';
+    for (const u of units) {
+      const [cx, cy] = u.pos[u.pos.length - 1];
+      const isLoser = u.side === loser;
+      let rx: number;
+      let ry: number;
+      if (siege) {
+        rx = isLoser ? 50 + (rnd() - 0.5) * 6 : u.side === 'a' ? 42 : 58;
+        ry = isLoser ? 28 + (rnd() - 0.5) * 8 : cy;
+      } else if (isLoser) {
+        rx = u.side === 'a' ? 5 + rnd() * 4 : 91 - rnd() * 4; // off their own edge
+        ry = cy + (rnd() - 0.5) * 12;
+      } else {
+        // pursue forward into the vacated centre, but not off the far edge
+        rx = u.side === 'a' ? Math.min(72, cx + 16 + rnd() * 6) : Math.max(28, cx - 16 - rnd() * 6);
+        ry = cy + (rnd() - 0.5) * 6;
+      }
+      u.pos.push([rx, ry]);
+    }
     const arrows =
       loser === 'b'
         ? [
