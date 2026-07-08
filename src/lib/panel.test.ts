@@ -54,8 +54,9 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Prambanan Temple')).toBe('temple-tower');
     expect(monumentModelForName('Preah Vihear Temple')).toBe('temple-tower');
     expect(monumentModelForName('Khajuraho Temples')).toBe('temple-tower');
-    // The broad temple bucket and temple-mountains are unchanged.
-    expect(monumentModelForName('Temple of Heaven')).toBe('megalith');
+    // A plain "Temple of X" gets NO 3D now (photo beats random standing stones);
+    // temple-mountains still map by their own keyword.
+    expect(monumentModelForName('Temple of Heaven')).toBeNull();
     expect(monumentModelForName('Templo Mayor')).toBe('stepped-pyramid');
   });
 
@@ -63,7 +64,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Parthenon')).toBe('greek-temple');
     expect(monumentModelForName('Acropolis of Athens')).toBe('greek-temple');
     expect(monumentModelForName('Temple of Artemis')).toBe('greek-temple');
-    expect(monumentModelForName('Temple of Heaven')).toBe('megalith'); // broad bucket unchanged
+    expect(monumentModelForName('Temple of Heaven')).toBeNull(); // no generic temple bucket now
     expect(monumentModelForName('Monte Albán')).toBe('stepped-pyramid'); // temple-mountain, by design
   });
 

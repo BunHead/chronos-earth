@@ -120,7 +120,9 @@ const KEYWORD_RULES = [
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },
   { rule: 'South/SE-Asian temple keyword → spired temple', model: 'temple-tower', re: /prambanan|preah vihear|konark|khajuraho|brihadeeswara|kailasa|virupaksha|candi / },
-  { rule: 'generic "temple"/"wat" → megalith bucket', model: 'megalith', re: /temple|wat / },
+  // No generic "temple"/"wat" → megalith rule: a plain "Temple of X" rendered as
+  // random standing stones misleads (see the Temple of Ellesyia). It shows the
+  // photo instead. Truly megalithic sites reach 'megalith' via their id map.
 ];
 
 /**

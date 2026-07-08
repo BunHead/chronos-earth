@@ -103,7 +103,11 @@ export function monumentModelForName(name: string): string | null {
   // South & South-East Asian temples — a spired candi/shikhara, not a stone pile.
   if (/prambanan|preah vihear|konark|khajuraho|brihadeeswara|kailasa|virupaksha|candi /.test(n))
     return 'temple-tower';
-  if (/temple|wat /.test(n)) return 'megalith';
+  // NO generic "temple" bucket: a plain "Temple of X" (Egyptian rock-cut,
+  // Roman, unknown) rendered as random standing stones misleads more than it
+  // helps — the Captain caught the Temple of Ellesyia wearing exactly that. It
+  // shows the real photo instead. (Genuinely megalithic sites reach 'megalith'
+  // through their curated id map, not this name rule.)
   // Anything we can't honestly represent gets NO 3D button — a university
   // rendered as a ziggurat helps nobody.
   return null;
