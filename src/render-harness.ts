@@ -27,6 +27,9 @@ const lonParam = params.get('lon');
 const hasGeo = latParam != null && lonParam != null;
 const lat = hasGeo ? +latParam : 0;
 const lon = hasGeo ? +lonParam : 0;
+// ?spin=<deg> — rotate the model by a KNOWN angle (for the AI-orientation quiz).
+// The compass stays fixed at north, so the model's facing is spin° CCW-from-north.
+const spinDeg = params.get('spin') != null ? +params.get('spin')! : 0;
 
 document.title = `Chronos Earth · rendering "${model}"`;
 const label = document.getElementById('lbl');
@@ -124,6 +127,14 @@ if (hasGeo) {
     m.needsUpdate = true;
     satReady = true;
   }, fit.zoom);
+}
+
+// Apply the known quiz spin AFTER placement so the model turns but the compass
+// (added below, in world space) stays pinned to true north.
+if (spinDeg) {
+  group.rotation.y += (spinDeg * Math.PI) / 180;
+  group.updateMatrixWorld(true);
+  group.position.y -= boxOf(group).min.y;
 }
 
 // An orientation key laid on the ground: a long RED arrow to NORTH (+Z) and a
