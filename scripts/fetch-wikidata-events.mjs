@@ -122,17 +122,20 @@ async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const FILE = join(OUT_DIR, 'events.json');
 
-  // Preserve hand-curated entries (ids "cur-*") across re-imports.
-  let curated = [];
+  // Seed with the ENTIRE existing dataset (keyed by Wikidata id), so a partial or
+  // flaky harvest only ever ADDS events — it can never lose the ones already on
+  // file. (A 504-storm on one region used to wipe it; a timeout before the write
+  // discarded the whole run. Union fixes both.)
+  const byId = new Map();
+  let before = 0;
   try {
-    curated = (JSON.parse(await readFile(FILE, 'utf-8')).events ?? []).filter((e) =>
-      String(e.id).startsWith('cur-'),
-    );
+    for (const e of JSON.parse(await readFile(FILE, 'utf-8')).events ?? []) {
+      byId.set(e.wikidataId ?? e.id, e);
+    }
+    before = byId.size;
   } catch {
     /* first run */
   }
-
-  const byId = new Map();
   const contTotals = Object.fromEntries(CONTINENTS.map((c) => [c.name, 0]));
   for (const { category, selector, min } of CATEGORIES) {
     process.stdout.write(`\n=== ${category} ===\n`);
@@ -177,23 +180,12 @@ async function main() {
     }
   }
 
-  // Safety: keep the existing file if the box service mostly failed, OR if any
-  // whole continent came back empty (a query-failure storm) — writing then would
-  // silently wipe that region, as a 504 storm once did to Europe.
-  const emptyContinents = CONTINENTS.filter((c) => contTotals[c.name] === 0).map((c) => c.name);
-  if (byId.size < 300 || emptyContinents.length) {
-    console.error(
-      `\nNot writing — keeping the existing events.json untouched. ${byId.size} imported` +
-        (emptyContinents.length ? `; no data for: ${emptyContinents.join(', ')}.` : ' (too few).'),
-    );
-    return;
-  }
-
-  const curatedIds = new Set(curated.map((e) => e.id));
-  const bulk = [...byId.values()].filter((e) => !curatedIds.has(e.id));
-  const events = [...bulk, ...curated].sort((a, b) => a.startYear - b.startYear);
+  // The union can never shrink below what was already on file, so it's always
+  // safe to write — even a half-finished or partly-failed run leaves the dataset
+  // bigger, never broken. No more "not writing to be safe".
+  const events = [...byId.values()].sort((a, b) => a.startYear - b.startYear);
   await writeFile(FILE, JSON.stringify({ events }));
-  console.log(`\nDone: ${events.length} events (${bulk.length} imported + ${curated.length} curated).`);
+  console.log(`\nDone: ${events.length} events (+${events.length - before} new this run).`);
 
   const byCat = {};
   for (const e of events) byCat[e.category] = (byCat[e.category] ?? 0) + 1;
