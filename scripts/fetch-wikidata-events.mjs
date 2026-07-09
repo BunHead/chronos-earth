@@ -178,6 +178,9 @@ async function main() {
       contTotals[cont.name] += added;
       await sleep(700);
     }
+    // Persist after each category, so a capped or killed run keeps its progress
+    // (the union is always safe — it only grows).
+    await writeFile(FILE, JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }));
   }
 
   // The union can never shrink below what was already on file, so it's always
