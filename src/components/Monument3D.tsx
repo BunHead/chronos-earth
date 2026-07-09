@@ -1501,7 +1501,7 @@ export function buildModel(
  * Real terrain: stitch a 3×3 patch of Esri World Imagery tiles centred
  * on the site into one texture for the ground disc.
  * ------------------------------------------------------------------ */
-function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void, zoom = 16) {
+export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void, zoom = 16) {
   const z = zoom;
   const n = 2 ** z;
   const latR = (lat * Math.PI) / 180;
@@ -1582,9 +1582,9 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     // Fade the ground GRADUALLY to a far horizon (not a near ring), so the flat
     // apron reads as an expansive plain hazing into the distance rather than a
     // small curved ball whose edge dips away right past the monument.
-    scene.fog = new THREE.Fog('#10151f', 55, 340);
+    scene.fog = new THREE.Fog('#10151f', 90, 720);
 
-    const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 500);
+    const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 1500);
     camera.position.set(0, 9, 20);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1664,7 +1664,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     // side (the "alignment still off" the Captain kept seeing once the tilt was
     // fixed). Sits just under the imagery so the real tiles still read on top.
     const apron = new THREE.Mesh(
-      new THREE.CircleGeometry(420, 64),
+      new THREE.CircleGeometry(1000, 96),
       new THREE.MeshStandardMaterial({ color: ground, roughness: 1 }),
     );
     apron.rotation.x = -Math.PI / 2;

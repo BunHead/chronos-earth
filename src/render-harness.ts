@@ -11,14 +11,22 @@
  */
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { buildModel } from './components/Monument3D';
+import { fitFor, computeFit } from './lib/monumentFit';
+import { buildModel, loadSatelliteGround } from './components/Monument3D';
 
 const params = new URLSearchParams(location.search);
 const model = params.get('model') || 'rings';
-const angle = params.get('angle') || '3q';
+const angle = params.get('angle') || '3q'; // 3q | top(=plan) | side
 const title = params.get('title') || '';
 const seaParam = params.get('sea');
 const buildParam = params.get('build');
+// PLAN-FIRST orientation: pass ?lat&lon to size/orient the model exactly as the
+// app does and drape the REAL satellite tile beneath it.
+const latParam = params.get('lat');
+const lonParam = params.get('lon');
+const hasGeo = latParam != null && lonParam != null;
+const lat = hasGeo ? +latParam : 0;
+const lon = hasGeo ? +lonParam : 0;
 
 document.title = `Chronos Earth · rendering "${model}"`;
 const label = document.getElementById('lbl');
@@ -87,31 +95,88 @@ disc.rotation.x = -Math.PI / 2;
 disc.receiveShadow = true;
 scene.add(disc);
 
-// Frame the model's scaled bounds from the requested angle.
+// PLAN-FIRST: with a real lat/lon, size & orient the model exactly as the app
+// does (fit table → scale + facing) and drape the REAL satellite tile under it,
+// so the top-down "plan" render shows the monument on its actual terrain — the
+// ground truth for getting a model's facing right against real rivers/streets.
+let satReady = !hasGeo;
+if (hasGeo) {
+  const fp = boxOf(group).getSize(new THREE.Vector3());
+  const footprint = Math.max(fp.x, fp.z) || 10;
+  const { widthM, facingDeg } = fitFor(title || model, model);
+  const fit = computeFit(footprint, widthM, lat);
+  group.scale.setScalar(fit.scale);
+  group.rotation.y = (facingDeg * Math.PI) / 180;
+  group.updateMatrixWorld(true);
+  group.position.y -= boxOf(group).min.y;
+  const sat = new THREE.Mesh(
+    new THREE.CircleGeometry(40, 64),
+    new THREE.MeshStandardMaterial({ color: '#5b6470', roughness: 1 }),
+  );
+  sat.rotation.x = -Math.PI / 2;
+  sat.position.y = 0.02;
+  sat.receiveShadow = true;
+  scene.add(sat);
+  loadSatelliteGround(lat, lon, (tex) => {
+    const m = sat.material as THREE.MeshStandardMaterial;
+    m.map = tex;
+    m.color.set('#ffffff');
+    m.needsUpdate = true;
+    satReady = true;
+  }, fit.zoom);
+}
+
+// An orientation key laid on the ground: a long RED arrow to NORTH (+Z) and a
+// short GREEN bar to EAST (+X), so every render carries an unambiguous compass —
+// no guessing which way the model faces.
+const site = boxOf(group).getSize(new THREE.Vector3());
+const keyR = hasGeo ? 40 : Math.max(site.x, site.z) * 0.6 + 3;
+const compass = new THREE.Group();
+const redMat = new THREE.MeshStandardMaterial({ color: '#e0483a' });
+const shaft = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.05, 1.0), redMat);
+shaft.position.z = 0.5;
+compass.add(shaft);
+const head = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.36, 4), redMat);
+head.rotation.x = Math.PI / 2;
+head.position.z = 1.12;
+compass.add(head);
+const east = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.05, 0.1), new THREE.MeshStandardMaterial({ color: '#3fae55' }));
+east.position.x = 0.36;
+compass.add(east);
+compass.scale.setScalar(keyR * 0.16);
+compass.position.set(-keyR * 0.78, 0.08, -keyR * 0.78);
+scene.add(compass);
+
+// Frame from the requested angle. In geo mode we frame the whole SITE (the
+// satellite patch), so terrain and model both show.
 group.updateMatrixWorld(true);
 const box = boxOf(group);
 const size = box.getSize(new THREE.Vector3());
 const c = box.getCenter(new THREE.Vector3());
-const r = Math.max(size.x, size.y, size.z) || 20;
+const modelR = Math.max(size.x, size.y, size.z) || 20;
+const r = hasGeo ? 44 : modelR;
+const cx = hasGeo ? 0 : c.x;
+const cz = hasGeo ? 0 : c.z;
 
 const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 6000);
-if (angle === 'top') {
-  cam.up.set(0, 0, -1); // north (-Z) points up in the plan view
-  cam.position.set(c.x, box.max.y + r * 2.2, c.z);
-  cam.lookAt(c.x, 0, c.z);
+if (angle === 'top' || angle === 'plan') {
+  cam.up.set(0, 0, 1); // NORTH (+Z) up on screen — a standard north-up plan
+  cam.position.set(cx, Math.max(box.max.y, r) + r * 2.0, cz);
+  cam.lookAt(cx, 0, cz);
 } else if (angle === 'side') {
-  cam.position.set(c.x + r * 2.0, size.y * 0.5 + r * 0.05, c.z);
-  cam.lookAt(c.x, size.y * 0.45, c.z);
+  cam.position.set(cx + r * 2.0, size.y * 0.5 + r * 0.05, cz);
+  cam.lookAt(cx, size.y * 0.45, cz);
 } else {
-  cam.position.set(c.x + r * 1.3, r * 1.05 + 2, c.z + r * 1.3);
-  cam.lookAt(c.x, c.y * 0.6, c.z);
+  cam.position.set(cx + r * 1.2, r * 0.9 + 2, cz + r * 1.2);
+  cam.lookAt(cx, hasGeo ? 2 : c.y * 0.6, cz);
 }
 
-// Render a few frames (env/shadows settle), then signal ready for screenshot.
+// Render until the env/shadows settle AND (in geo mode) the satellite tile has
+// arrived, then flag ready for the screenshot.
 let f = 0;
 function loop() {
   renderer.render(scene, cam);
-  if (f++ < 5) requestAnimationFrame(loop);
+  if (f++ < 5 || (!satReady && f < 260)) requestAnimationFrame(loop);
   else (window as unknown as { __ready?: boolean }).__ready = true;
 }
 loop();
