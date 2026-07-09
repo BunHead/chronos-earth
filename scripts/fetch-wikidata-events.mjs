@@ -70,18 +70,37 @@ function buildQuery(selector, min, west, east) {
 } ORDER BY DESC(?sl) LIMIT ${PER_BOX}`;
 }
 
+const MAX_ATTEMPTS = 6;
+const REQ_TIMEOUT_MS = 45_000; // WDQS can hang; abort and retry rather than stall forever
+
 async function runQuery(sparql) {
   const url = `${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`;
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
-    });
-    if (res.ok) return (await res.json()).results.bindings;
-    if ((res.status === 429 || res.status >= 500) && attempt < 4) {
-      await sleep(2000 * 2 ** attempt);
-      continue;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), REQ_TIMEOUT_MS);
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
+        signal: ctrl.signal,
+      });
+      if (res.ok) return (await res.json()).results.bindings;
+      // 429 (rate-limit) and 5xx (incl. 504 query timeout) are retryable.
+      if ((res.status === 429 || res.status >= 500) && attempt < MAX_ATTEMPTS) {
+        await sleep(2000 * 2 ** attempt);
+        continue;
+      }
+      throw new Error(`HTTP ${res.status}`);
+    } catch (e) {
+      // Aborted (our timeout) or a network error (ECONNRESET/DNS) — back off and
+      // retry a few times before giving up on this one box.
+      if (attempt < MAX_ATTEMPTS && (e.name === 'AbortError' || e.name === 'TypeError' || /HTTP (429|5\d\d)/.test(e.message))) {
+        await sleep(2000 * 2 ** attempt);
+        continue;
+      }
+      throw e;
+    } finally {
+      clearTimeout(timer);
     }
-    throw new Error(`HTTP ${res.status}`);
   }
 }
 
@@ -128,25 +147,29 @@ async function main() {
       }
       let added = 0;
       for (const r of rows) {
-        const qid = r.item.value.split('/').pop();
-        if (byId.has(qid)) continue;
-        const name = r.itemLabel?.value ?? '';
-        if (!name || /^Q\d+$/.test(name)) continue;
-        const coord = parseCoord(r.coord.value);
-        const year = parseYear(r.date.value);
-        if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
-        byId.set(qid, {
-          id: qid.toLowerCase(),
-          name,
-          startYear: year,
-          lat: +coord.lat.toFixed(4),
-          lon: +coord.lon.toFixed(4),
-          category,
-          wikidataId: qid,
-          ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
-          notability: parseInt(r.sl.value, 10),
-        });
-        added++;
+        try {
+          const qid = r.item?.value?.split('/').pop();
+          if (!qid || byId.has(qid)) continue;
+          const name = r.itemLabel?.value ?? '';
+          if (!name || /^Q\d+$/.test(name)) continue;
+          const coord = parseCoord(r.coord?.value ?? '');
+          const year = parseYear(r.date?.value ?? '');
+          if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
+          byId.set(qid, {
+            id: qid.toLowerCase(),
+            name,
+            startYear: year,
+            lat: +coord.lat.toFixed(4),
+            lon: +coord.lon.toFixed(4),
+            category,
+            wikidataId: qid,
+            ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
+            notability: parseInt(r.sl?.value ?? '0', 10) || 0,
+          });
+          added++;
+        } catch {
+          /* skip a malformed row rather than crash the whole harvest */
+        }
       }
       console.log(`  ${cont.name.padEnd(14)} +${added}  (total ${byId.size})`);
       contTotals[cont.name] += added;
@@ -177,4 +200,9 @@ async function main() {
   console.log('By category:', byCat);
 }
 
-main();
+main().catch((e) => {
+  // Never crash the wider refresh-data chain on a harvest hiccup: log it, leave
+  // the existing events.json untouched, and exit cleanly so the other steps run.
+  console.error(`\nfetch-wikidata-events: giving up this run (${e.message}). Existing data kept.`);
+  process.exitCode = 0;
+});

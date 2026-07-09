@@ -1525,6 +1525,13 @@ export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THR
           const tex = new THREE.CanvasTexture(canvas);
           tex.colorSpace = THREE.SRGBColorSpace;
           tex.anisotropy = 4;
+          // The satellite tile sat 90° off the model's north convention (+Z) —
+          // the constant misalignment behind every "it's 90° out" report. The
+          // Captain read the correction as 90° clockwise; rotate the tile to
+          // match. (A 90° turn of a square texture about its centre is exact —
+          // no edge wrap.) Flip the sign if it lands the other way.
+          tex.center.set(0.5, 0.5);
+          tex.rotation = -Math.PI / 2;
           onReady(tex);
         }
       };
