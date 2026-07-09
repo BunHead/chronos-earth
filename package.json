@@ -15,7 +15,9 @@
     "harvest": "node scripts/harvest-world.mjs",
     "audit": "node scripts/audit.mjs",
     "verify-3d": "node scripts/verify-3d.mjs",
-    "render": "node scripts/render-model.mjs"
+    "render": "node scripts/render-model.mjs",
+    "quiz:build": "node scripts/quiz-sheet.mjs",
+    "quiz": "node scripts/quiz-score.mjs"
   },
   "dependencies": {
     "cesium": "^1.123.0",
