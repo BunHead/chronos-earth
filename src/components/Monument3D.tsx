@@ -1525,13 +1525,6 @@ export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THR
           const tex = new THREE.CanvasTexture(canvas);
           tex.colorSpace = THREE.SRGBColorSpace;
           tex.anisotropy = 4;
-          // The satellite tile sat 90° off the model's north convention (+Z) —
-          // the constant misalignment behind every "it's 90° out" report. The
-          // Captain read the correction as 90° clockwise; rotate the tile to
-          // match. (A 90° turn of a square texture about its centre is exact —
-          // no edge wrap.) Flip the sign if it lands the other way.
-          tex.center.set(0.5, 0.5);
-          tex.rotation = -Math.PI / 2;
           onReady(tex);
         }
       };
@@ -1765,6 +1758,40 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
         obj.receiveShadow = true;
       }
     });
+
+    // A visible NORTH marker — a red arrow + "N" at the model's north (+Z) edge.
+    // World +Z is the scene's north, and the satellite tile is drawn north-up, so
+    // this lets the direction be CHECKED against the real streets in the imagery
+    // instead of guessed. Kept for now as an orientation-calibration aid.
+    {
+      const nb = new THREE.Box3().setFromObject(group);
+      const ns = nb.getSize(new THREE.Vector3());
+      const s = Math.max(ns.x, ns.z, 6) * 0.5;
+      const nz = (Number.isFinite(nb.max.z) ? nb.max.z : 0) + s * 0.55 + 1;
+      const red = new THREE.MeshBasicMaterial({ color: '#ff2d20', depthTest: false, transparent: true });
+      const shaft = new THREE.Mesh(new THREE.BoxGeometry(s * 0.07, s * 0.07, s * 0.72), red);
+      shaft.position.set(0, 0.5, nz);
+      shaft.renderOrder = 998;
+      scene.add(shaft);
+      const nhead = new THREE.Mesh(new THREE.ConeGeometry(s * 0.17, s * 0.36, 4), red);
+      nhead.rotation.x = Math.PI / 2;
+      nhead.position.set(0, 0.5, nz + s * 0.5);
+      nhead.renderOrder = 998;
+      scene.add(nhead);
+      const nc = document.createElement('canvas');
+      nc.width = nc.height = 64;
+      const g2 = nc.getContext('2d')!;
+      g2.fillStyle = '#ff2d20';
+      g2.font = 'bold 54px system-ui, sans-serif';
+      g2.textAlign = 'center';
+      g2.textBaseline = 'middle';
+      g2.fillText('N', 32, 36);
+      const nSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(nc), depthTest: false, transparent: true }));
+      nSprite.scale.setScalar(s * 0.55);
+      nSprite.position.set(0, s * 0.7, nz + s * 0.6);
+      nSprite.renderOrder = 999;
+      scene.add(nSprite);
+    }
 
     // A 'burning' life-phase (Nottingham's 1831 fire): flames licking the walls
     // and smoke rolling off, as children of the already-scaled building.
