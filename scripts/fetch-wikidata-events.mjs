@@ -53,7 +53,7 @@ const CATEGORIES = [
     min: 4,
   },
 ];
-const PER_BOX = 40;
+const PER_BOX = 120; // widened from 40 — reach past the current top tier (additive union keeps it safe)
 
 function buildQuery(selector, min, west, east) {
   return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
