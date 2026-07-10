@@ -9,6 +9,11 @@ letter — every rule here was paid for with a real failure.
 1. **VERIFY BY RENDER, NEVER BY CODE.** You cannot judge 3D from source. Run
    the harness (`RENDER_BASE=http://localhost:<port> ANGLES=3q node
    scripts/render-model.mjs <model> ./out "<Title>"`), READ the PNG, iterate.
+   **And verify the PORT serves YOUR code first** — several dev servers can be
+   alive at once (main repo + agent worktrees); grep the served module for a
+   token you just wrote (`curl -s localhost:<port>/src/components/Monument3D.tsx
+   | grep -c <yourNewVariable>`) before trusting a single render. (Atlantis
+   was once render-reviewed against a rival server's stale code.)
    A model isn't done until its renders read right from 3q, top and (if
    relevant) ruin. Angles: `3q`, `top` (true north-up plan), `side`. Extra
    env: `RUIN=1`, `LAT=.. LON=..` (real satellite ground + crosshair),
