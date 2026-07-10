@@ -79,7 +79,8 @@
       <h1>🏛️ Model Workshop</h1>
       <p class="lead">Pick a monument to see its 3D model. Drag to spin, scroll to zoom.</p>
       <label for="model">Monument</label>
-      <select id="model"></select>
+      <input id="filter" type="text" placeholder="🔍 Filter the list…" autocomplete="off" style="margin-bottom:6px;" />
+      <select id="model" size="1"></select>
       <label for="title">Name (optional — tweaks a few models)</label>
       <input id="title" type="text" placeholder="e.g. Notre-Dame de Paris" />
       <div id="extra">
@@ -90,6 +91,14 @@
         <input id="ruin" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
         Show as ruin
       </label>
+      <label for="figure">Scale figure (real size)</label>
+      <select id="figure">
+        <option value="">None</option>
+        <option value="person">🧍 Person · 1.8 m</option>
+        <option value="camel">🐫 Camel · 2.2 m</option>
+        <option value="horse">🐎 Horse · 2.4 m</option>
+        <option value="bus">🚌 London bus · 4.4 m</option>
+      </select>
       <div class="row">
         <button data-a="3q">¾ view</button>
         <button data-a="top">Top</button>
