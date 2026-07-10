@@ -22,6 +22,15 @@
         font-family: inherit; resize: vertical;
       }
       #panel input[type="range"] { width: 100%; accent-color: #6fb1ff; }
+      .phase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+      .phase-row button {
+        padding: 6px 4px; border-radius: 7px; border: 1px solid #3a4a5c;
+        background: #16222e; color: #eaf1f8; font-size: 11px; cursor: pointer;
+      }
+      .phase-row button.active { border-color: #6fb1ff; background: #24466b; box-shadow: 0 0 8px #6fb1ff33; }
+      .site-note { margin: 4px 0 0; color: #9fb3c7; font-size: 10.5px; line-height: 1.35; }
+      .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+      .control-grid label { margin-top: 9px !important; }
       .row { display: flex; gap: 6px; margin-top: 9px; }
       .row button {
         flex: 1; padding: 7px 0; border-radius: 8px; border: 1px solid #3a4a5c;
@@ -87,10 +96,34 @@
         <label id="slabel" for="slider">Stage</label>
         <input id="slider" type="range" min="0" max="1" step="0.05" value="1" />
       </div>
+      <label>Life phase</label>
+      <div id="phaseRow" class="phase-row" role="group" aria-label="Model life phase">
+        <button data-phase="intact" class="active">Intact</button>
+        <button data-phase="construction">Building</button>
+        <button data-phase="burning">Burning</button>
+        <button data-phase="ruin">Ruin</button>
+        <button data-phase="drowning">Drowning</button>
+      </div>
       <label style="display:flex;align-items:center;gap:7px;cursor:pointer;margin-top:11px;">
-        <input id="ruin" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
-        Show as ruin
+        <input id="terrain" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
+        Real satellite site + crosshair
       </label>
+      <div id="siteLabel" class="site-note">Representative live site</div>
+      <div class="control-grid">
+        <div>
+          <label for="weather">Weather</label>
+          <select id="weather">
+            <option value="clear">Clear</option>
+            <option value="cloud">Cloud</option>
+            <option value="rain">Rain</option>
+            <option value="snow">Snow</option>
+          </select>
+        </div>
+        <div>
+          <label for="sunHour">Sun <span id="sunReadout">10:00</span></label>
+          <input id="sunHour" type="range" min="0" max="24" step="0.25" value="10" />
+        </div>
+      </div>
       <label for="figure">Scale figure (real size)</label>
       <select id="figure">
         <option value="">None</option>
@@ -98,6 +131,7 @@
         <option value="camel">🐫 Camel · 2.2 m</option>
         <option value="horse">🐎 Horse · 2.4 m</option>
         <option value="bus">🚌 London bus · 4.4 m</option>
+        <option value="trireme">⛵ Trireme · 37 m</option>
       </select>
       <div class="row">
         <button data-a="3q">¾ view</button>

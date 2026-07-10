@@ -4,6 +4,7 @@ import type { Tour } from '../lib/types';
 interface AppMenuProps {
   tours: Tour[];
   onStartTour: (t: Tour) => void;
+  onShare: () => void;
   onAbout: () => void;
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
@@ -16,7 +17,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onAbout, reduceMotion, onReduceMotion }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, reduceMotion, onReduceMotion }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +36,16 @@ export default function AppMenu({ tours, onStartTour, onAbout, reduceMotion, onR
   return (
     <div className="app-menu" ref={ref}>
       <button
+        className="app-menu-journeys"
+        aria-expanded={open && view === 'tours'}
+        onClick={() => {
+          if (open && view === 'tours') setOpen(false);
+          else { setOpen(true); setView('tours'); }
+        }}
+      >
+        🎬 <span>Journeys</span>
+      </button>
+      <button
         className="app-menu-btn"
         aria-label="Menu"
         aria-expanded={open}
@@ -47,6 +58,7 @@ export default function AppMenu({ tours, onStartTour, onAbout, reduceMotion, onR
           {view === 'root' && (
             <>
               <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
               {/* The maker's tools: browse every 3D model, and run the automated
                   Wikidata harvester on GitHub (free, no local setup) — the
                   Captain's no-tokens-needed controls. */}

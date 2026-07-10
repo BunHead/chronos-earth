@@ -3,17 +3,17 @@ import App from './App';
 import './styles.css';
 import { loadRejectedModels } from './lib/review';
 
-// Pull the Captain's Workshop review file so any archetype he has Rejected shows
-// its real photo instead of a wrong 3D model. Fire-and-forget: it resolves long
-// before a panel is ever opened, and a failure just leaves every model enabled.
-loadRejectedModels();
-
 // Note: we intentionally do NOT wrap the app in <React.StrictMode>. Strict mode
 // mounts every component twice in development, which forces CesiumJS to build,
 // tear down and rebuild the WebGL globe on each change — wasteful and a source
 // of flicker for a heavyweight 3D component. The rest of the app is side-effect
 // clean, so we lose nothing meaningful here.
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+// Resolve review decisions before the app becomes interactive. That makes a
+// Reject deterministic: there is no brief startup window in which a rejected
+// model can still be opened before its photo fallback is registered.
+void loadRejectedModels().finally(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+});
 
 // Production only: a small service worker warm-caches the /data/ files
 // (public/sw.js). The build stamp from version.json rides in the registration

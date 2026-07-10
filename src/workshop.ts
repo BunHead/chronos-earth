@@ -9,14 +9,15 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { buildModel, ruinify } from './components/Monument3D';
-import { fitFor } from './lib/monumentFit';
+import { buildModel, loadSatelliteGround, ruinify } from './components/Monument3D';
+import { computeFit, fitFor } from './lib/monumentFit';
 import {
   loadReview,
   saveReview,
   getToken,
   setToken,
   isMaker,
+  validateMakerToken,
   type ReviewData,
   type ReviewStatus,
 } from './lib/review';
@@ -53,6 +54,40 @@ const MODELS: Array<[string, string]> = [
   ['impact', 'Comet impact'],
 ];
 
+interface LiveSite { title: string; lat: number; lon: number }
+
+/** A real representative footprint for every Workshop archetype. */
+const LIVE_SITES: Record<string, LiveSite> = {
+  giza: { title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342 },
+  pyramid: { title: 'Great Pyramid of Giza', lat: 29.9792, lon: 31.1342 },
+  sphinx: { title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376 },
+  'hanging-gardens': { title: 'Hanging Gardens of Babylon', lat: 32.5424, lon: 44.4209 },
+  'zeus-statue': { title: 'Statue of Zeus at Olympia', lat: 37.6379, lon: 21.63 },
+  'artemis-temple': { title: 'Temple of Artemis at Ephesus', lat: 37.9497, lon: 27.3639 },
+  mausoleum: { title: 'Mausoleum at Halicarnassus', lat: 37.038, lon: 27.4241 },
+  colossus: { title: 'Colossus of Rhodes', lat: 36.451, lon: 28.2278 },
+  pharos: { title: 'Lighthouse of Alexandria', lat: 31.2139, lon: 29.8856 },
+  liberty: { title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445 },
+  rings: { title: 'Eye of the Sahara', lat: 21.124, lon: -11.396 },
+  stonehenge: { title: 'Stonehenge', lat: 51.1789, lon: -1.8262 },
+  tpillars: { title: 'Göbekli Tepe', lat: 37.2231, lon: 38.9225 },
+  'stepped-pyramid': { title: 'Chichén Itzá', lat: 20.6843, lon: -88.5678 },
+  'greek-temple': { title: 'Parthenon', lat: 37.9715, lon: 23.7267 },
+  cathedral: { title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499 },
+  castle: { title: 'Nottingham Castle', lat: 52.9497, lon: -1.1542 },
+  mansion: { title: 'Chatsworth House', lat: 53.227, lon: -1.61 },
+  'temple-tower': { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
+  aqueduct: { title: 'Pont du Gard', lat: 43.9475, lon: 4.535 },
+  pagoda: { title: 'Tō-ji Pagoda', lat: 34.9806, lon: 135.7477 },
+  lighthouse: { title: 'Eddystone Lighthouse', lat: 50.18, lon: -4.27 },
+  'leaning-tower': { title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966 },
+  amphitheatre: { title: 'Colosseum', lat: 41.8902, lon: 12.4922 },
+  circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
+  settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
+  megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },
+  impact: { title: 'Chicxulub impact site', lat: 21.4, lon: -89.5 },
+};
+
 // Models that take a "stage" slider, and what it means.
 const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' }> = {
   rings: { label: 'Sea level — drag to drown Atlantis', max: 3.5, kind: 'sea' },
@@ -74,7 +109,8 @@ scene.background = new THREE.Color('#9fb4c8');
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.35;
-scene.add(new THREE.HemisphereLight(0xdfe9ff, 0x54513f, 1.1));
+const ambient = new THREE.HemisphereLight(0xdfe9ff, 0x54513f, 1.1);
+scene.add(ambient);
 const sun = new THREE.DirectionalLight(0xffffff, 1.8);
 sun.position.set(30, 42, 22);
 sun.castShadow = true;
@@ -102,6 +138,12 @@ const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
 let current: THREE.Group | null = null;
 let disc: THREE.Mesh | null = null;
 let figure: THREE.Group | null = null;
+let phaseFx: THREE.Group | null = null;
+let terrainAids: THREE.Group | null = null;
+let weatherFx: THREE.Points | null = null;
+let terrainRequest = 0;
+type LifePhase = 'intact' | 'construction' | 'burning' | 'ruin' | 'drowning';
+let lifePhase: LifePhase = 'intact';
 
 // A real-world scale reference, built in METRES then scaled to the model's own
 // units (a model's native footprint spans fitFor().widthM metres). Blocky on
@@ -149,22 +191,165 @@ function makeFigure(kind: string): { group: THREE.Group; heightM: number } {
     box(8.5, 0.55, 2.52, 0, 3.05, 0, '#22303a'); // upper deck windows
     box(8.5, 0.55, 2.52, 0, 1.75, 0, '#22303a'); // lower deck windows
     heightM = 4.4;
+  } else if (kind === 'trireme') {
+    const wood = '#8a542f';
+    box(37, 2.2, 4.8, 0, 1.3, 0, wood);
+    box(28, 0.45, 5.1, -1.5, 2.55, 0, '#b77b43');
+    box(0.3, 12, 0.3, 0, 8.2, 0, '#6f4327');
+    const sail = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), new THREE.MeshStandardMaterial({ color: '#eee1bd', side: THREE.DoubleSide }));
+    sail.position.set(0, 8.4, 0);
+    sail.rotation.y = Math.PI / 2;
+    g.add(sail);
+    for (const z of [-2.8, 2.8]) for (let x = -14; x <= 12; x += 2) {
+      const oar = box(0.12, 0.12, 8, x, 1.6, z, '#d8b47a');
+      oar.rotation.x = z > 0 ? 0.25 : -0.25;
+    }
+    heightM = 14;
   }
   return { group: g, heightM };
 }
 
-function show(model: string, title: string, stage: number, ruined = false) {
+function addPhaseEffect(phase: LifePhase, box: THREE.Box3) {
+  if (phaseFx) scene.remove(phaseFx);
+  phaseFx = new THREE.Group();
+  const size = box.getSize(new THREE.Vector3());
+  const centre = box.getCenter(new THREE.Vector3());
+  if (phase === 'burning') {
+    for (let i = 0; i < 18; i++) {
+      const h = Math.max(0.8, size.y * (0.12 + Math.random() * 0.22));
+      const flame = new THREE.Mesh(
+        new THREE.ConeGeometry(h * 0.16, h, 7),
+        new THREE.MeshBasicMaterial({ color: i % 3 ? '#ff7a18' : '#ffd35a', transparent: true, opacity: 0.86 }),
+      );
+      flame.position.set(
+        centre.x + (Math.random() - 0.5) * size.x * 0.85,
+        box.max.y + h * 0.35,
+        centre.z + (Math.random() - 0.5) * size.z * 0.85,
+      );
+      phaseFx.add(flame);
+    }
+  } else if (phase === 'construction') {
+    const scaffold = new THREE.MeshStandardMaterial({ color: '#c99b59', roughness: 0.9 });
+    const bar = (w: number, h: number, d: number, x: number, y: number, z: number) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), scaffold);
+      m.position.set(x, y, z);
+      phaseFx!.add(m);
+    };
+    const pad = Math.max(size.x, size.z) * 0.08;
+    for (const x of [box.min.x - pad, box.max.x + pad]) for (const z of [box.min.z - pad, box.max.z + pad]) {
+      bar(pad * 0.18, size.y * 1.1, pad * 0.18, x, size.y * 0.55, z);
+    }
+    for (let y = size.y * 0.22; y < size.y; y += Math.max(1, size.y * 0.22)) {
+      bar(size.x + pad * 2, pad * 0.13, pad * 0.13, centre.x, y, box.min.z - pad);
+      bar(size.x + pad * 2, pad * 0.13, pad * 0.13, centre.x, y, box.max.z + pad);
+    }
+  } else if (phase === 'drowning') {
+    const water = new THREE.Mesh(
+      new THREE.CircleGeometry(Math.max(size.x, size.z) * 1.8, 64),
+      new THREE.MeshStandardMaterial({ color: '#287aa5', transparent: true, opacity: 0.68, roughness: 0.35 }),
+    );
+    water.rotation.x = -Math.PI / 2;
+    water.position.set(centre.x, box.min.y + size.y * 0.62, centre.z);
+    water.userData.noShadow = true;
+    phaseFx.add(water);
+  }
+  scene.add(phaseFx);
+}
+
+function addTerrainAids() {
+  if (terrainAids) scene.remove(terrainAids);
+  terrainAids = new THREE.Group();
+  const crossMat = new THREE.MeshBasicMaterial({ color: '#ff2d20', depthTest: false });
+  // Four bracket arms mark the exact origin without painting a red X over the
+  // monument being judged. For Giza they sit just outside Khufu's 10-unit base.
+  for (const [w, d, x, z] of [
+    [3, 0.12, -6.5, 0], [3, 0.12, 6.5, 0],
+    [0.12, 3, 0, -6.5], [0.12, 3, 0, 6.5],
+  ] as const) {
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(w, 0.06, d), crossMat);
+    bar.position.set(x, 0.16, z);
+    bar.renderOrder = 999;
+    bar.userData.noShadow = true;
+    terrainAids.add(bar);
+  }
+  const northMat = new THREE.MeshBasicMaterial({ color: '#ff4c3e', depthTest: false });
+  const north = new THREE.Mesh(new THREE.ConeGeometry(0.7, 2.4, 4), northMat);
+  north.rotation.x = -Math.PI / 2;
+  north.position.set(31, 0.18, -29);
+  north.userData.noShadow = true;
+  terrainAids.add(north);
+  const label = document.createElement('div');
+  label.id = 'workshopCompass';
+  label.textContent = 'N';
+  label.style.cssText = 'position:fixed;right:24px;top:18px;color:#ff6257;font:bold 18px system-ui;z-index:3;text-shadow:0 1px 3px #000';
+  document.getElementById('workshopCompass')?.remove();
+  document.body.appendChild(label);
+  scene.add(terrainAids);
+}
+
+function applyWeather() {
+  const weather = (document.getElementById('weather') as HTMLSelectElement)?.value || 'clear';
+  const hour = +(document.getElementById('sunHour') as HTMLInputElement)?.value || 10;
+  const angle = ((hour - 6) / 24) * Math.PI * 2;
+  const daylight = Math.max(0, Math.sin(angle));
+  sun.position.set(Math.cos(angle) * 55, Math.sin(angle) * 65, 24);
+  sun.intensity = 0.18 + daylight * (weather === 'clear' ? 2.0 : 1.15);
+  ambient.intensity = weather === 'clear' ? 0.45 + daylight * 0.7 : 0.5;
+  scene.background = new THREE.Color(
+    hour < 5 || hour > 20 ? '#09111f' : weather === 'clear' ? '#9fb4c8' : '#687583',
+  );
+  scene.fog = weather === 'clear' ? null : new THREE.Fog(weather === 'snow' ? 0xc8d1da : 0x697683, 80, 320);
+  if (weatherFx) scene.remove(weatherFx);
+  weatherFx = null;
+  if (weather === 'rain' || weather === 'snow') {
+    const positions = new Float32Array(420 * 3);
+    for (let i = 0; i < 420; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 140;
+      positions[i * 3 + 1] = Math.random() * 90;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    weatherFx = new THREE.Points(geo, new THREE.PointsMaterial({
+      color: weather === 'rain' ? '#b6d4ed' : '#ffffff',
+      size: weather === 'rain' ? 0.3 : 0.75,
+      transparent: true,
+      opacity: 0.72,
+    }));
+    scene.add(weatherFx);
+  }
+}
+
+function show(model: string, title: string, stage: number) {
   if (current) scene.remove(current);
   if (disc) scene.remove(disc);
+  if (phaseFx) scene.remove(phaseFx);
+  if (terrainAids) scene.remove(terrainAids);
+  document.getElementById('workshopCompass')?.remove();
+  const site = LIVE_SITES[model];
+  const displayTitle = title.trim() || site?.title || model;
   const st = STAGE[model];
-  const sea = st?.kind === 'sea' ? stage : undefined;
-  const build = st?.kind === 'build' ? stage : undefined;
-  const { group, ground } = buildModel(model, 3, title, sea, build, ruined);
+  const sea = lifePhase === 'drowning' && model === 'rings' ? 3.1 : st?.kind === 'sea' ? stage : undefined;
+  const build = lifePhase === 'construction' && model === 'giza' ? 0.42 : st?.kind === 'build' ? stage : undefined;
+  const ruined = lifePhase === 'ruin';
+  const { group, ground } = buildModel(model, 3, displayTitle, sea, build, ruined);
   // Models with their own ruin form (the Colosseum) handle it inside buildModel;
   // the rest get the generic collapse, exactly as the app does.
   if (ruined && !group.userData.selfRuined) ruinify(group);
   group.updateMatrixWorld(true);
   group.position.y -= boxOf(group).min.y;
+  const nativeSize = boxOf(group).getSize(new THREE.Vector3());
+  const nativeFootprint = Math.max(nativeSize.x, nativeSize.z) || 10;
+  let satelliteZoom = 16;
+  if (terrainEl.checked && site) {
+    const { widthM, facingDeg } = fitFor(displayTitle, model);
+    const fit = computeFit(nativeFootprint, widthM, site.lat);
+    satelliteZoom = fit.zoom;
+    group.scale.setScalar(fit.scale);
+    group.rotation.y = (facingDeg * Math.PI) / 180;
+    group.updateMatrixWorld(true);
+    group.position.y -= boxOf(group).min.y;
+  }
   group.traverse((o) => {
     if (o instanceof THREE.Mesh && !o.userData.noShadow) {
       o.castShadow = true;
@@ -173,10 +358,31 @@ function show(model: string, title: string, stage: number, ruined = false) {
   });
   scene.add(group);
   current = group;
-  disc = new THREE.Mesh(new THREE.CircleGeometry(400, 64), new THREE.MeshStandardMaterial({ color: ground, roughness: 1 }));
+  disc = new THREE.Mesh(
+    new THREE.CircleGeometry(terrainEl.checked ? 40 : 400, 64),
+    new THREE.MeshStandardMaterial({ color: terrainEl.checked ? '#5b6470' : ground, roughness: 1 }),
+  );
   disc.rotation.x = -Math.PI / 2;
   disc.receiveShadow = true;
   scene.add(disc);
+
+  if (terrainEl.checked && site) {
+    addTerrainAids();
+    const request = ++terrainRequest;
+    const target = disc;
+    loadSatelliteGround(site.lat, site.lon, (tex, shift) => {
+      if (request !== terrainRequest || disc !== target) return;
+      const material = target.material as THREE.MeshStandardMaterial;
+      material.map = tex;
+      material.color.set('#ffffff');
+      material.needsUpdate = true;
+      target.position.set(shift.x, 0.02, shift.z);
+    }, satelliteZoom);
+  } else {
+    terrainRequest++;
+  }
+
+  addPhaseEffect(lifePhase, boxOf(group));
 
   // Scale figure — sized so 1 metre of it matches 1 metre of the real monument.
   if (figure) {
@@ -188,7 +394,7 @@ function show(model: string, title: string, stage: number, ruined = false) {
     const b = boxOf(group);
     const size = b.getSize(new THREE.Vector3());
     const footprint = Math.max(size.x, size.z) || 10;
-    const widthM = fitFor(title || model, model).widthM || footprint;
+    const widthM = fitFor(displayTitle, model).widthM || footprint;
     const unitsPerMetre = footprint / widthM;
     const { group: fig } = makeFigure(kind);
     fig.scale.setScalar(unitsPerMetre);
@@ -205,11 +411,22 @@ function frame(angle: string) {
   const box = boxOf(current);
   const size = box.getSize(new THREE.Vector3());
   const c = box.getCenter(new THREE.Vector3());
-  const r = Math.max(size.x, size.y, size.z) || 20;
-  controls.target.set(c.x, c.y * 0.6, c.z);
-  if (angle === 'top') camera.position.set(c.x, box.max.y + r * 2.2, c.z + 0.01);
-  else if (angle === 'side') camera.position.set(c.x + r * 2.0, size.y * 0.5, c.z);
-  else camera.position.set(c.x + r * 1.3, r * 1.05 + 2, c.z + r * 1.3);
+  const r = terrainEl?.checked ? 44 : Math.max(size.x, size.y, size.z) || 20;
+  const cx = terrainEl?.checked ? 0 : c.x;
+  const cz = terrainEl?.checked ? 0 : c.z;
+  controls.target.set(cx, terrainEl?.checked ? 1.5 : c.y * 0.6, cz);
+  if (angle === 'top') {
+    // True map view: world −Z is north in the Esri patch, so keep it at the
+    // top of the screen instead of allowing the near-vertical camera to roll.
+    camera.up.set(0, 0, -1);
+    camera.position.set(cx, Math.max(box.max.y, r) + r * 2.0, cz);
+  } else if (angle === 'side') {
+    camera.up.set(0, 1, 0);
+    camera.position.set(cx + r * 2.0, size.y * 0.5 + 2, cz);
+  } else {
+    camera.up.set(0, 1, 0);
+    camera.position.set(cx + r * 1.3, r * 0.9 + 2, cz + r * 1.3);
+  }
   controls.update();
 }
 
@@ -241,8 +458,13 @@ const titleEl = document.getElementById('title') as HTMLInputElement;
 const extra = document.getElementById('extra') as HTMLDivElement;
 const slider = document.getElementById('slider') as HTMLInputElement;
 const slabel = document.getElementById('slabel') as HTMLLabelElement;
-const ruinEl = document.getElementById('ruin') as HTMLInputElement;
+const terrainEl = document.getElementById('terrain') as HTMLInputElement;
+const siteLabel = document.getElementById('siteLabel') as HTMLDivElement;
 const figureSel = document.getElementById('figure') as HTMLSelectElement;
+const weatherEl = document.getElementById('weather') as HTMLSelectElement;
+const sunHourEl = document.getElementById('sunHour') as HTMLInputElement;
+const sunReadout = document.getElementById('sunReadout') as HTMLSpanElement;
+const phaseBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('#phaseRow button'));
 
 function refresh() {
   const model = sel.value;
@@ -252,13 +474,30 @@ function refresh() {
     slabel.textContent = st.label;
     slider.max = String(st.max);
   }
-  show(model, titleEl.value, st ? +slider.value : 1, ruinEl.checked);
+  const site = LIVE_SITES[model];
+  siteLabel.textContent = site
+    ? `${site.title} · ${site.lat.toFixed(3)}°, ${site.lon.toFixed(3)}°`
+    : 'No representative site mapped yet';
+  show(model, titleEl.value, st ? +slider.value : 1);
 }
 sel.addEventListener('change', refresh);
 titleEl.addEventListener('input', refresh);
-ruinEl.addEventListener('change', refresh);
+terrainEl.addEventListener('change', refresh);
 figureSel.addEventListener('change', refresh);
-slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value, ruinEl.checked));
+slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value));
+for (const button of phaseBtns) button.addEventListener('click', () => {
+  lifePhase = button.dataset.phase as LifePhase;
+  for (const peer of phaseBtns) peer.classList.toggle('active', peer === button);
+  refresh();
+});
+weatherEl.addEventListener('change', applyWeather);
+sunHourEl.addEventListener('input', () => {
+  const hour = +sunHourEl.value;
+  const h = String(Math.floor(hour)).padStart(2, '0');
+  const m = String(Math.round((hour % 1) * 60)).padStart(2, '0');
+  sunReadout.textContent = `${h}:${m}`;
+  applyWeather();
+});
 document.querySelectorAll<HTMLButtonElement>('.row button').forEach((b) =>
   b.addEventListener('click', () => frame(b.dataset.a!)),
 );
@@ -269,9 +508,21 @@ window.addEventListener('resize', () => {
 });
 
 sel.value = 'giza';
+applyWeather();
 refresh();
 
 function loop() {
+  if (weatherFx) {
+    const positions = weatherFx.geometry.getAttribute('position') as THREE.BufferAttribute;
+    const weather = weatherEl.value;
+    for (let i = 0; i < positions.count; i++) {
+      let y = positions.getY(i) - (weather === 'rain' ? 0.8 : 0.12);
+      if (y < 0) y = 90;
+      positions.setY(i, y);
+      if (weather === 'snow') positions.setX(i, positions.getX(i) + Math.sin(performance.now() * 0.001 + i) * 0.003);
+    }
+    positions.needsUpdate = true;
+  }
   controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
@@ -370,12 +621,16 @@ makerToggle.addEventListener('click', () => {
   keyBox.style.display = keyBox.style.display === 'block' ? 'none' : 'block';
   ghToken.value = getToken() || '';
 });
-$<HTMLButtonElement>('keySave').addEventListener('click', () => {
-  setToken(ghToken.value);
-  keyBox.style.display = 'none';
+$<HTMLButtonElement>('keySave').addEventListener('click', async () => {
+  const candidate = ghToken.value.trim();
+  setToken(candidate);
+  flash('Verifying repository write access…');
+  const gate = await validateMakerToken(candidate);
+  if (!gate.ok) setToken('');
+  keyBox.style.display = gate.ok ? 'none' : 'block';
   reflectMakerState();
   renderReview();
-  flash(isMaker() ? 'Maker’s mode on.' : 'Key cleared.', 'ok');
+  flash(gate.msg, gate.ok ? 'ok' : 'err');
 });
 $<HTMLButtonElement>('keyClear').addEventListener('click', () => {
   setToken('');
@@ -386,8 +641,17 @@ $<HTMLButtonElement>('keyClear').addEventListener('click', () => {
 
 sel.addEventListener('change', renderReview);
 
-// Boot the review layer.
+// Boot the review layer. A remembered token stays dark until GitHub confirms
+// it still has write access; mere presence in browser storage is not identity.
 reflectMakerState();
+if (getToken()) {
+  makerLabel.textContent = 'Checking maker key…';
+  void validateMakerToken().then((gate) => {
+    if (!gate.ok) setToken('');
+    reflectMakerState();
+    flash(gate.msg, gate.ok ? 'ok' : 'err');
+  });
+}
 loadReview().then((d) => {
   reviewData = d;
   renderReview();

@@ -17,6 +17,7 @@ const OWNER = 'BunHead';
 const REPO = 'chronos-earth';
 const FILE_PATH = 'public/data/model-review.json';
 const TOKEN_KEY = 'ce_maker_token';
+let validatedToken: string | null = null;
 
 export type ReviewStatus = 'approved' | 'allowed' | 'rejected';
 
@@ -39,6 +40,7 @@ export function getToken(): string | null {
   }
 }
 export function setToken(t: string): void {
+  validatedToken = null;
   try {
     if (t && t.trim()) localStorage.setItem(TOKEN_KEY, t.trim());
     else localStorage.removeItem(TOKEN_KEY);
@@ -47,7 +49,38 @@ export function setToken(t: string): void {
   }
 }
 export function isMaker(): boolean {
-  return !!getToken();
+  const token = getToken();
+  return !!token && token === validatedToken;
+}
+
+/**
+ * Prove the token can actually write this repository before revealing maker
+ * controls. A random string in localStorage is not identity; GitHub's own
+ * repository permission response is the gate.
+ */
+export async function validateMakerToken(candidate?: string): Promise<{ ok: boolean; msg: string }> {
+  const token = (candidate ?? getToken() ?? '').trim();
+  if (!token) return { ok: false, msg: 'Paste a GitHub token first.' };
+  if (validatedToken === token) return { ok: true, msg: 'Maker access verified.' };
+  try {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      cache: 'no-store',
+    });
+    if (!res.ok) return { ok: false, msg: `GitHub rejected this key (HTTP ${res.status}).` };
+    const repo = (await res.json()) as { permissions?: { push?: boolean; admin?: boolean; maintain?: boolean } };
+    if (!repo.permissions?.push && !repo.permissions?.admin && !repo.permissions?.maintain) {
+      return { ok: false, msg: 'This key can read the repo but cannot save reviews.' };
+    }
+    validatedToken = token;
+    return { ok: true, msg: 'Maker access verified.' };
+  } catch {
+    return { ok: false, msg: 'Could not verify the key with GitHub. Check your connection.' };
+  }
 }
 
 // ── read (everyone) ────────────────────────────────────────────────────────
@@ -67,6 +100,8 @@ export async function loadReview(): Promise<ReviewData> {
 export async function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: string }> {
   const token = getToken();
   if (!token) return { ok: false, msg: 'No maker token set.' };
+  const gate = await validateMakerToken(token);
+  if (!gate.ok) return gate;
   const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
   const headers: Record<string, string> = {
     Authorization: `Bearer ${token}`,

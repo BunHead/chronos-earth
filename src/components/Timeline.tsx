@@ -48,6 +48,9 @@ interface TimelineProps {
   /** Report which events the mural is showing (so the globe can match them), or
    * null when not zoomed in (globe falls back to its own "current era" window). */
   onVisibleEvents?: (eventIds: string[] | null) => void;
+  /** Frozen left-hand date while the Time Rift comparison is active. */
+  compareLeftBP?: number;
+  onToggleCompare: () => void;
 }
 
 /** How far a single transport "step" nudges the playhead at full zoom (log pos). */
@@ -310,6 +313,8 @@ export default function Timeline({
   zoomIdx,
   onZoomChange,
   onVisibleEvents,
+  compareLeftBP,
+  onToggleCompare,
 }: TimelineProps) {
   const minimapRef = useRef<HTMLDivElement | null>(null);
   /** Re-render after height drags so the mural can claim the new space. */
@@ -724,6 +729,13 @@ export default function Timeline({
           <button className="btn" title="Step forward in time" onClick={() => stepTime(-1)}>
             Fwd ⏭
           </button>
+          <button
+            className={`btn compare-btn${compareLeftBP !== undefined ? ' active' : ''}`}
+            title="Freeze this view and compare it with another date"
+            onClick={onToggleCompare}
+          >
+            {compareLeftBP !== undefined ? '× Rift' : '◐ Compare'}
+          </button>
         </div>
 
         <div className="zoom-controls" title="Zoom the timeline (or scroll over it)">
@@ -825,6 +837,14 @@ export default function Timeline({
 
           <div className="playline" style={{ left: `${pos * 100}%` }} />
           <div className={isPlaying ? 'playhead playing' : 'playhead'} style={{ left: `${pos * 100}%` }} />
+          {compareLeftBP !== undefined && (
+            <div
+              className="compare-anchor"
+              style={{ left: `${yearsBPToPos(compareLeftBP) * 100}%` }}
+              title={`Frozen comparison date: ${formatTime(compareLeftBP)}`}
+              aria-label={`Frozen comparison date: ${formatTime(compareLeftBP)}`}
+            />
+          )}
         </div>
 
         {/* --- Linear, to-scale detail rail (only when zoomed in) --- */}

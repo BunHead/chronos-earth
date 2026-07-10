@@ -108,11 +108,15 @@ function eventVisibleAt(ev: TimelineEvent, year: number): boolean {
 /** Imperative handle so other components (panel, search) can move the camera. */
 export interface GlobeHandle {
   flyTo: (lon: number, lat: number, altitude: number) => void;
+  /** Freeze the current globe pixels for the Time Rift comparison overlay. */
+  captureFrame: () => string | null;
 }
 
 interface GlobeProps {
   /** Current position in time, in years before present. */
   currentYearsBP: number;
+  /** Time Rift freezes the camera so its captured left frame stays registered. */
+  cameraLocked?: boolean;
   sites: AncientSite[];
   battles: Battle[];
   showSites: boolean;
@@ -159,11 +163,13 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<Cesium.Viewer | null>(null);
+  const cameraLockedRef = useRef(cameraLocked);
+  cameraLockedRef.current = cameraLocked;
   const paleoRef = useRef<PaleoController | null>(null);
   const seaRef = useRef<SeaLevelController | null>(null);
   const riversRef = useRef<RiversController | null>(null);
@@ -347,10 +353,26 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   };
 
   const flyTo = (lon: number, lat: number, height: number) => {
+    if (cameraLockedRef.current) return;
     viewerRef.current?.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(lon, lat, height),
       duration: 2,
     });
+  };
+
+  const captureFrame = (): string | null => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return null;
+    try {
+      // Cesium normally renders on demand. Force one synchronous frame so the
+      // canvas is populated immediately before it is copied.
+      viewer.scene.render();
+      return viewer.scene.canvas.toDataURL('image/jpeg', 0.9);
+    } catch {
+      // A third-party imagery provider can make a WebGL canvas non-exportable.
+      // Compare mode degrades cleanly instead of breaking the rest of the app.
+      return null;
+    }
   };
 
   /** Real mountains only make sense on the modern Earth — deep time (drifting
@@ -364,7 +386,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.terrainProvider = on ? t.provider : new Cesium.EllipsoidTerrainProvider();
   };
 
-  useImperativeHandle(ref, () => ({ flyTo }));
+  useImperativeHandle(ref, () => ({ flyTo, captureFrame }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {

@@ -14,6 +14,7 @@ import SearchBox from './components/SearchBox';
 import About from './components/About';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
+import CompareMode from './components/CompareMode';
 
 // Three.js-based; loaded on demand to keep the initial bundle small.
 const Monument3D = lazy(() => import('./components/Monument3D'));
@@ -25,6 +26,7 @@ import { loadLiveCache, addToLiveCache } from './lib/liveCache';
 import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
 import { synthesizeBattleView } from './lib/synthBattle';
+import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneState';
 import type {
   AncientSite,
   Battle,
@@ -53,8 +55,16 @@ const ZOOMED_FRACTION_PER_SEC = 0.08;
 /** Used only if a tour step somehow has neither `year` nor `ma`. */
 const PRESENT_FALLBACK_YEAR = 2026;
 
+interface TimeRiftState {
+  snapshot: string;
+  leftYearsBP: number;
+  split: number;
+}
+
 export default function App() {
-  const [yearsBP, setYearsBP] = useState<number>(OLDEST_BP);
+  const initialScene = useRef(readSceneState(window.location.search)).current;
+  const layerStartsOn = (key: SceneLayerKey) => initialScene.layers?.has(key) ?? true;
+  const [yearsBP, setYearsBP] = useState<number>(initialScene.yearsBP);
   // The globe's heavy per-tick work (markers, borders, drift) follows a
   // throttled timeline value — ~10×/second instead of the play loop's 60 — so
   // playback stays smooth. The playhead + readout still use the raw `yearsBP`.
@@ -63,29 +73,29 @@ export default function App() {
   const [speed, setSpeed] = useState(1);
   // Timeline zoom level (index into ZOOM_SPANS). Default = full range (classic
   // log overview, detail rail hidden). Lifted here so the play loop can pace.
-  const [zoomIdx, setZoomIdx] = useState(ZOOM_SPANS.length - 1);
+  const [zoomIdx, setZoomIdx] = useState(initialScene.zoomIdx);
 
   // Content + layer state.
   const [sites, setSites] = useState<AncientSite[]>([]);
   const [battles, setBattles] = useState<Battle[]>([]);
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [fauna, setFauna] = useState<Fauna[]>([]);
-  const [showSites, setShowSites] = useState(true);
-  const [showBorders, setShowBorders] = useState(true);
-  const [showFlags, setShowFlags] = useState(true);
-  const [showBattles, setShowBattles] = useState(true);
-  const [showCampaigns, setShowCampaigns] = useState(true);
-  const [showFauna, setShowFauna] = useState(true);
-  const [showSeaLevel, setShowSeaLevel] = useState(true);
-  const [showRivers, setShowRivers] = useState(true);
+  const [showSites, setShowSites] = useState(layerStartsOn('sites'));
+  const [showBorders, setShowBorders] = useState(layerStartsOn('borders'));
+  const [showFlags, setShowFlags] = useState(layerStartsOn('flags'));
+  const [showBattles, setShowBattles] = useState(layerStartsOn('battles'));
+  const [showCampaigns, setShowCampaigns] = useState(layerStartsOn('campaigns'));
+  const [showFauna, setShowFauna] = useState(layerStartsOn('fauna'));
+  const [showSeaLevel, setShowSeaLevel] = useState(layerStartsOn('seas'));
+  const [showRivers, setShowRivers] = useState(layerStartsOn('rivers'));
   // Imported-event categories — each gets its own Layers switch. Battles fold
   // into "Wars & battles" (showBattles) and monuments into "Ancient sites"
   // (showSites); cities, disasters and science get their own toggles below.
-  const [showCities, setShowCities] = useState(true);
-  const [showDisasters, setShowDisasters] = useState(true);
-  const [showEvents, setShowEvents] = useState(true);
-  const [showScience, setShowScience] = useState(true);
-  const [showPeople, setShowPeople] = useState(true);
+  const [showCities, setShowCities] = useState(layerStartsOn('cities'));
+  const [showDisasters, setShowDisasters] = useState(layerStartsOn('disasters'));
+  const [showEvents, setShowEvents] = useState(layerStartsOn('events'));
+  const [showScience, setShowScience] = useState(layerStartsOn('science'));
+  const [showPeople, setShowPeople] = useState(layerStartsOn('people'));
   const enabledEventCats = useMemo(() => {
     const s = new Set<string>();
     if (showBattles) s.add('battle');
@@ -196,6 +206,62 @@ export default function App() {
   const [tourStep, setTourStep] = useState(0);
 
   const globeRef = useRef<GlobeHandle | null>(null);
+  const [timeRift, setTimeRift] = useState<TimeRiftState | null>(null);
+
+  const captureRiftLeft = () => {
+    const snapshot = globeRef.current?.captureFrame();
+    if (!snapshot) {
+      showToast('This map imagery cannot be captured here. Try the modern or Natural Earth view.');
+      return;
+    }
+    setIsPlaying(false);
+    setTimeRift((current) => ({
+      snapshot,
+      // The globe follows the throttled value, so label the frozen frame with
+      // the exact moment that was actually rendered rather than a playhead
+      // that may be a few milliseconds ahead during playback.
+      leftYearsBP: heavyYearsBP,
+      split: current?.split ?? 50,
+    }));
+  };
+
+  const toggleTimeRift = () => {
+    if (timeRift) setTimeRift(null);
+    else captureRiftLeft();
+  };
+
+  const enabledLayerKeys = (): SceneLayerKey[] => {
+    const keys: SceneLayerKey[] = [];
+    if (showSites) keys.push('sites');
+    if (showBorders) keys.push('borders');
+    if (showFlags) keys.push('flags');
+    if (showBattles) keys.push('battles');
+    if (showCampaigns) keys.push('campaigns');
+    if (showFauna) keys.push('fauna');
+    if (showSeaLevel) keys.push('seas');
+    if (showRivers) keys.push('rivers');
+    if (showCities) keys.push('cities');
+    if (showDisasters) keys.push('disasters');
+    if (showEvents) keys.push('events');
+    if (showScience) keys.push('science');
+    if (showPeople) keys.push('people');
+    return keys;
+  };
+
+  const shareScene = async () => {
+    const url = buildSceneUrl(window.location.href, {
+      yearsBP,
+      zoomIdx,
+      layers: enabledLayerKeys(),
+    });
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('Scene link copied — anyone opening it will land at this moment.');
+    } catch {
+      window.history.replaceState(null, '', url);
+      showToast('Scene link is ready in the address bar.');
+    }
+  };
 
   const yearsBPRef = useRef(yearsBP);
   useEffect(() => {
@@ -360,10 +426,11 @@ export default function App() {
   };
 
   return (
-    <div className="app">
+    <div className={`app${timeRift ? ' compare-active' : ''}`}>
       <Globe
         ref={globeRef}
         currentYearsBP={heavyYearsBP}
+        cameraLocked={Boolean(timeRift)}
         sites={sites}
         battles={battles}
         showSites={showSites}
@@ -403,6 +470,18 @@ export default function App() {
         }}
       />
 
+      {timeRift && (
+        <CompareMode
+          snapshot={timeRift.snapshot}
+          leftYearsBP={timeRift.leftYearsBP}
+          rightYearsBP={yearsBP}
+          split={timeRift.split}
+          onSplitChange={(split) => setTimeRift((current) => current && { ...current, split })}
+          onCaptureLeft={captureRiftLeft}
+          onClose={() => setTimeRift(null)}
+        />
+      )}
+
       {campaignLabel && <div className="campaign-banner">⚑ {campaignLabel}</div>}
 
       {newVersion && (
@@ -433,6 +512,7 @@ export default function App() {
         <AppMenu
           tours={tours}
           onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
+          onShare={() => void shareScene()}
           onAbout={() => setShowAbout(true)}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
@@ -560,6 +640,8 @@ export default function App() {
         zoomIdx={zoomIdx}
         onZoomChange={setZoomIdx}
         onVisibleEvents={setMuralEventIds}
+        compareLeftBP={timeRift?.leftYearsBP}
+        onToggleCompare={toggleTimeRift}
       />
     </div>
   );

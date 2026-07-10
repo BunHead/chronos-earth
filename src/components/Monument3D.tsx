@@ -1509,19 +1509,12 @@ export function buildModel(
     // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
     // cores rise first, then each is sheathed in smooth white Tura limestone
     // and crowned with a gold-electrum capstone; the Sphinx is carved once the
-    // plateau is well advanced. The Nile runs as a blue ribbon to the east,
-    // where the real river and its harbours lay.
+    // plateau is well advanced. The Nile is deliberately NOT drawn here: the
+    // river lies several kilometres east of this ~1 km plateau scene, and the
+    // old straight blue rectangle was neither geographically placed nor shaped
+    // like the real river. Satellite terrain supplies truthful context instead.
     ground = '#d8c48a';
     const frac = buildFrac ?? 1;
-    // The Nile / harbour channel to the east (excluded from the fit box).
-    const nile = new THREE.Mesh(
-      new THREE.PlaneGeometry(11, 64),
-      new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.3, metalness: 0.05 }),
-    );
-    nile.rotation.x = -Math.PI / 2;
-    nile.position.set(27, 0.04, 0);
-    nile.userData.noShadow = true;
-    group.add(nile);
     // One pyramid, at a given completion.
     const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number) => {
       if (done) {
@@ -1551,14 +1544,25 @@ export function buildModel(
         group.add(block(1.8, h * cf * 0.5, half * 1.7, cx, h * cf * 0.24, cz + half * 0.95, '#b0905a'));
       }
     };
-    pyramid(0, 0, 5.0, 8.0, frac >= 0.55, (frac - 0.15) / 0.4); // Khufu — the Great Pyramid
-    pyramid(-11, 5, 4.3, 6.9, frac >= 0.8, (frac - 0.45) / 0.35); // Khafre
-    pyramid(-19.5, 9, 3.2, 5.0, frac >= 0.98, (frac - 0.7) / 0.28); // Menkaure
+    // PLAN-CALIBRATED PLATEAU. Khufu is the origin used by the Workshop's red
+    // crosshair. The other centres are real approximate offsets from it:
+    // Khafre ~326 m west / 344 m south; Menkaure ~576 m west / 766 m south;
+    // the Sphinx ~326 m east / 433 m south. With Khufu's 230 m base represented
+    // by 10 model units, one unit is ~23 m. The old neat row put both smaller
+    // pyramids hundreds of metres north of their satellite footprints.
+    // Dimensions use an explicit ~23 m/model-unit scale:
+    // Khufu 230.3 × 146.5 m; Khafre 215.5 × 143.5 m;
+    // Menkaure ~103.4 × 65.5 m. The earlier heights (especially Menkaure) were
+    // dramatic guesses and made the family read almost evenly sized.
+    pyramid(0, 0, 5.0, 6.37, frac >= 0.55, (frac - 0.15) / 0.4); // Khufu — the Great Pyramid
+    pyramid(-14.2, 15.0, 4.68, 6.24, frac >= 0.8, (frac - 0.45) / 0.35); // Khafre
+    pyramid(-25.0, 33.3, 2.25, 2.85, frac >= 0.98, (frac - 0.7) / 0.28); // Menkaure
     if (frac >= 0.82) { // the Great Sphinx, carved from the bedrock
       const sx = sphinxGroup();
       sx.scale.setScalar(0.62);
-      sx.position.set(9.5, 0, 9);
-      sx.rotation.y = -0.5;
+      sx.position.set(14.2, 0, 18.8);
+      // The Sphinx faces due east; the group itself is authored facing +Z.
+      sx.rotation.y = Math.PI / 2;
       group.add(sx);
     }
   } else if (model === 'buckingham') {

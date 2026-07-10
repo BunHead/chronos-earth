@@ -17,7 +17,7 @@ export interface MonumentFit {
 // Specific, well-known monuments — real footprint (m) and facing where known.
 // `match` is a lowercase substring of the title (first hit wins).
 const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
-  { match: 'giza pyramids', widthM: 620 }, // the whole plateau scene (3 pyramids + Sphinx)
+  { match: 'giza pyramids', widthM: 1000 }, // whole plateau: Menkaure west edge → Sphinx east edge
   { match: 'giza', widthM: 230 },
   { match: 'great pyramid', widthM: 230 },
   { match: 'pyramid of the sun', widthM: 220 },
@@ -72,7 +72,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   mausoleum: { widthM: 40, facingDeg: 0 },
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 30, facingDeg: 0 },
-  giza: { widthM: 620, facingDeg: 0 }, // the whole plateau scene
+  giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   // London landmarks — real footprints (m). Facing numbers were READ off
   // calibration plan-renders on real satellite terrain (world −Z = imagery
   // north, +X = imagery east — confirmed at Westminster), not guessed.
