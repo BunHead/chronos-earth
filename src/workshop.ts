@@ -12,6 +12,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 import SkyDial from './components/SkyDial';
+import { startDrag } from './lib/windowDrag';
 import { sunDirection } from './lib/sun';
 import './sky-dial.css';
 import { buildModel, loadSatelliteGround, ruinify } from './components/Monument3D';
@@ -347,6 +348,27 @@ function applyWeather() {
   }
 }
 
+// The intact, fully-built footprint of each model — measured once and cached,
+// so every life phase of a monument shares ONE scale and one anchor.
+const pristineCache = new Map<string, number>();
+function pristineFootprint(model: string, title: string): number {
+  const key = `${model}|${title}`;
+  if (pristineCache.has(key)) return pristineCache.get(key)!;
+  const { group } = buildModel(model, 3, title);
+  const size = boxOf(group).getSize(new THREE.Vector3());
+  const footprint = Math.max(size.x, size.z) || 10;
+  group.traverse((o) => {
+    if (o instanceof THREE.Mesh) {
+      o.geometry.dispose();
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose();
+    }
+  });
+  pristineCache.set(key, footprint);
+  return footprint;
+}
+
+let lastFramedKey = '';
+
 function show(model: string, title: string, stage: number) {
   if (current) scene.remove(current);
   if (disc) scene.remove(disc);
@@ -365,8 +387,11 @@ function show(model: string, title: string, stage: number) {
   if (ruined && !group.userData.selfRuined) ruinify(group);
   group.updateMatrixWorld(true);
   group.position.y -= boxOf(group).min.y;
-  const nativeSize = boxOf(group).getSize(new THREE.Vector3());
-  const nativeFootprint = Math.max(nativeSize.x, nativeSize.z) || 10;
+  // FIT STABILITY: size and place from the PRISTINE (intact, complete) build,
+  // never the current phase's footprint — a half-built or ruined model has a
+  // different bounding box, which made the scene jump in scale and position at
+  // every step through time (the Captain caught Giza doing exactly this).
+  const nativeFootprint = pristineFootprint(model, displayTitle);
   let satelliteZoom = 16;
   if (terrainEl.checked && site) {
     const { widthM, facingDeg } = fitFor(displayTitle, model);
@@ -418,18 +443,25 @@ function show(model: string, title: string, stage: number) {
   }
   const kind = figureSel?.value;
   if (kind) {
+    // Metres-per-unit comes from the PRISTINE footprint so the figure holds
+    // its true size through every life phase (the terrain path scales the
+    // whole scene uniformly, so the same ratio holds there too).
     const b = boxOf(group);
-    const size = b.getSize(new THREE.Vector3());
-    const footprint = Math.max(size.x, size.z) || 10;
-    const widthM = fitFor(displayTitle, model).widthM || footprint;
-    const unitsPerMetre = footprint / widthM;
+    const widthM = fitFor(displayTitle, model).widthM || nativeFootprint;
+    const unitsPerMetre = (nativeFootprint / widthM) * group.scale.x;
     const { group: fig } = makeFigure(kind);
     fig.scale.setScalar(unitsPerMetre);
-    fig.position.set(b.max.x + footprint * 0.06 + unitsPerMetre * 1.5, 0, 0);
+    fig.position.set(b.max.x + nativeFootprint * group.scale.x * 0.06 + unitsPerMetre * 1.5, 0, 0);
     scene.add(fig);
     figure = fig;
   }
-  frame('3q');
+  // Reframe the camera only when the SUBJECT changes — stepping through life
+  // phases keeps your viewpoint planted instead of lurching every click.
+  const frameKey = `${model}|${terrainEl.checked}`;
+  if (frameKey !== lastFramedKey) {
+    lastFramedKey = frameKey;
+    frame('3q');
+  }
 }
 
 function frame(angle: string) {
@@ -488,7 +520,10 @@ const slabel = document.getElementById('slabel') as HTMLLabelElement;
 const terrainEl = document.getElementById('terrain') as HTMLInputElement;
 const siteLabel = document.getElementById('siteLabel') as HTMLDivElement;
 const figureSel = document.getElementById('figure') as HTMLSelectElement;
-const weatherEl = document.getElementById('weather') as HTMLSelectElement;
+// The weather select left the sidebar (the Captain's call) — precipitation
+// joins the Weather & Sky dial when it grows its cloud bars. Until then the
+// sky stays clear and this handle is null-safe.
+const weatherEl = document.getElementById('weather') as HTMLSelectElement | null;
 
 // Mount the app's SkyDial as a floating overlay (it styles itself bottom-right
 // and carries its own drag grip). Re-rendered whenever the sky state or the
@@ -549,7 +584,7 @@ for (const button of phaseBtns) button.addEventListener('click', () => {
   for (const peer of phaseBtns) peer.classList.toggle('active', peer === button);
   refresh();
 });
-weatherEl.addEventListener('change', applyWeather);
+weatherEl?.addEventListener('change', applyWeather);
 document.querySelectorAll<HTMLButtonElement>('.row button').forEach((b) =>
   b.addEventListener('click', () => frame(b.dataset.a!)),
 );
@@ -662,10 +697,16 @@ function openGallery() {
 document.getElementById('galleryBtn')!.addEventListener('click', openGallery);
 document.getElementById('galleryClose')!.addEventListener('click', () => galleryEl.classList.remove('open'));
 
+// The Workshop window drags by its title bar — the same grab-and-move the
+// app's floating windows use (native PointerEvent shares the React shape).
+document.getElementById('panelGrip')!.addEventListener('pointerdown', (e) => {
+  startDrag(e as unknown as Parameters<typeof startDrag>[0], '#panel');
+});
+
 function loop() {
   if (weatherFx) {
     const positions = weatherFx.geometry.getAttribute('position') as THREE.BufferAttribute;
-    const weather = weatherEl.value;
+    const weather = weatherEl?.value || 'clear';
     for (let i = 0; i < positions.count; i++) {
       let y = positions.getY(i) - (weather === 'rain' ? 0.8 : 0.12);
       if (y < 0) y = 90;

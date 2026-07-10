@@ -312,26 +312,38 @@ export function ruinify(group: THREE.Group) {
     }
     const r = Math.random();
     if (high) {
-      // NOTHING above the collapse line stays standing at full height: it is
-      // either gone or lies thrown on the ground as debris (the Lighthouse's
-      // lantern once floated in the sky where it used to stand).
-      if (r < 0.45) {
+      // Centuries of quarrying and collapse, not an explosion: most of the
+      // upper structure is simply GONE (carted away), and what fell lies
+      // half-buried close to the walls it fell from — not flung across the site.
+      if (r < 0.6) {
         doomed.push(o);
       } else {
         const ang = Math.random() * Math.PI * 2;
-        const throwDist = 1.5 + o.position.y * (0.3 + Math.random() * 0.3);
-        o.position.x += Math.cos(ang) * throwDist;
-        o.position.z += Math.sin(ang) * throwDist;
-        o.rotation.z += (Math.random() - 0.5) * 1.6;
-        o.rotation.x += (Math.random() - 0.5) * 0.6;
-        o.position.y = 0.4 + Math.random() * 0.9;
+        const slump = 0.8 + Math.random() * 1.4; // barely clears its own wall
+        o.position.x += Math.cos(ang) * slump;
+        o.position.z += Math.sin(ang) * slump;
+        o.rotation.z += (Math.random() - 0.5) * 0.7;
+        o.rotation.x += (Math.random() - 0.5) * 0.3;
+        o.position.y = 0.15 + Math.random() * 0.35; // half-sunk in the ground
       }
-    } else if (r < 0.32) {
+    } else if (r < 0.18) {
       doomed.push(o);
-    } else if (r < 0.58) {
-      o.rotation.z += (Math.random() - 0.5) * 0.5;
-      o.rotation.x += (Math.random() - 0.5) * 0.3;
-      o.position.y *= 0.82;
+    } else if (r < 0.5) {
+      // Standing but sagging — settled into the ground, barely off true.
+      o.rotation.z += (Math.random() - 0.5) * 0.16;
+      o.position.y *= 0.9;
+    }
+    // Every surviving stone wears its centuries: darker, rougher, sun-bleached
+    // patches. Materials are cloned so shared ones on other models stay clean.
+    if (!doomed.includes(o)) {
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      const worn = mats.map((m) => {
+        const c = (m as THREE.MeshStandardMaterial).clone();
+        if (c.color) c.color.multiplyScalar(0.82).lerp(new THREE.Color('#8f8677'), 0.22);
+        c.roughness = Math.min(1, (c.roughness ?? 0.8) + 0.15);
+        return c;
+      });
+      o.material = Array.isArray(o.material) ? worn : worn[0];
     }
   });
   for (const o of doomed) o.parent?.remove(o);
@@ -1514,10 +1526,34 @@ export function buildModel(
     // old straight blue rectangle was neither geographically placed nor shaped
     // like the real river. Satellite terrain supplies truthful context instead.
     ground = '#d8c48a';
+    // The pyramids have stood for 4,500 years — their "ruin" is not collapse
+    // but the stripping of the white Tura casing for Cairo's builders. So the
+    // giza scene handles its own ruin form: bare weathered core stone, no gold
+    // caps, and Khafre keeping the famous casing remnant at his tip.
+    group.userData.selfRuined = true;
     const frac = buildFrac ?? 1;
-    // One pyramid, at a given completion.
-    const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number) => {
-      if (done) {
+    // One pyramid, at a given completion (or as today's stripped ruin).
+    const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number, capRemnant = false) => {
+      if (done && ruined) {
+        const bare = new THREE.Mesh(
+          new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
+          stoneLike({ color: '#c3ad82', flatShading: true }),
+        );
+        bare.rotation.y = Math.PI / 4;
+        bare.position.set(cx, h / 2, cz);
+        group.add(bare);
+        if (capRemnant) {
+          // Khafre's surviving cap of smooth casing — the plateau's signature.
+          const remH = h * 0.24;
+          const rem = new THREE.Mesh(
+            new THREE.ConeGeometry(half * Math.SQRT2 * 0.24, remH, 4),
+            new THREE.MeshStandardMaterial({ color: '#e7dfc9', roughness: 0.7, flatShading: true }),
+          );
+          rem.rotation.y = Math.PI / 4;
+          rem.position.set(cx, h - remH / 2 + 0.01, cz);
+          group.add(rem);
+        }
+      } else if (done) {
         const white = new THREE.Mesh(
           new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
           new THREE.MeshStandardMaterial({ color: '#efe9d8', roughness: 0.72, flatShading: true }),
@@ -1555,11 +1591,16 @@ export function buildModel(
     // Menkaure ~103.4 × 65.5 m. The earlier heights (especially Menkaure) were
     // dramatic guesses and made the family read almost evenly sized.
     pyramid(0, 0, 5.0, 6.37, frac >= 0.55, (frac - 0.15) / 0.4); // Khufu — the Great Pyramid
-    pyramid(-14.2, 15.0, 4.68, 6.24, frac >= 0.8, (frac - 0.45) / 0.35); // Khafre
+    pyramid(-14.2, 15.0, 4.68, 6.24, frac >= 0.8, (frac - 0.45) / 0.35, true); // Khafre (keeps his casing cap)
     pyramid(-25.0, 33.3, 2.25, 2.85, frac >= 0.98, (frac - 0.7) / 0.28); // Menkaure
     if (frac >= 0.82) { // the Great Sphinx, carved from the bedrock
       const sx = sphinxGroup();
-      sx.scale.setScalar(0.62);
+      // TRUE size: 73 m nose-to-tail ≈ 3.17 units at this plateau's ~23 m/unit
+      // (the old fixed 0.62 scalar made her read half a pyramid). Measure the
+      // authored group and scale to fact, whatever its native size.
+      const sb = new THREE.Box3().setFromObject(sx);
+      const nativeLen = Math.max(sb.max.z - sb.min.z, 0.001);
+      sx.scale.setScalar(3.17 / nativeLen);
       sx.position.set(14.2, 0, 18.8);
       // The Sphinx faces due east; the group itself is authored facing +Z.
       sx.rotation.y = Math.PI / 2;
