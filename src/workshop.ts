@@ -302,6 +302,8 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       const mb = new THREE.Box3().setFromObject(m);
       const ms = mb.getSize(new THREE.Vector3());
       if (ms.x < 0.15 || ms.z < 0.15) continue; // nothing settles on spikes
+      if (m.geometry.type.includes('Cone')) continue; // spires shed their fall
+      if (Math.abs(m.rotation.x) > 0.08 || Math.abs(m.rotation.z) > 0.08) continue; // pitched roofs shed too
       const mc = mb.getCenter(new THREE.Vector3());
       const cap = new THREE.Mesh(
         new THREE.BoxGeometry(ms.x * 1.04, Math.max(0.06, ms.y * 0.05), ms.z * 1.04),
@@ -404,6 +406,24 @@ scene.add(sunDisc);
 const moonDisc = glowSprite('rgba(232,236,244,0.95)', 'rgba(190,200,220,0)', THREE.NormalBlending);
 moonDisc.scale.set(18, 18, 1);
 scene.add(moonDisc);
+// STARS — a night dome that fades in as the sun sinks. Deterministic scatter
+// for now; the real bright-star catalogue (Orion rising over Giza) is queued
+// as its own task and will replace these points with the true sky.
+const starGeo = new THREE.BufferGeometry();
+{
+  const pts: number[] = [];
+  for (let i = 0; i < 900; i++) {
+    const az = rnd2(i, 11) * Math.PI * 2;
+    const alt = Math.asin(0.05 + rnd2(i, 12) * 0.95); // upper dome only
+    const r = 520;
+    pts.push(Math.cos(alt) * Math.cos(az) * r, Math.sin(alt) * r, Math.cos(alt) * Math.sin(az) * r);
+  }
+  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+}
+const starMat = new THREE.PointsMaterial({ color: '#dfe8ff', size: 1.7, sizeAttenuation: false, transparent: true, opacity: 0 });
+const starField = new THREE.Points(starGeo, starMat);
+starField.userData.noShadow = true;
+scene.add(starField);
 const DAY_SKY = new THREE.Color('#87add0');
 const DUSK_SKY = new THREE.Color('#b86a3e');
 const GREY_SKY = new THREE.Color('#687583');
@@ -418,7 +438,11 @@ function applyWeather() {
   sun.position.set(dir.x * 55, dir.y * 55, dir.z * 55);
   sun.intensity = Math.max(0, s) * (clear ? 2.4 : 1.2);
   sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
-  ambient.intensity = 0.3 + Math.max(0, s) * (clear ? 1.0 : 0.55);
+  // Night must actually be DARK: the ambient and the image-based environment
+  // both follow the sun down (they were pinned bright, so 22:00 looked like a
+  // pale afternoon and the stars had nothing to shine against).
+  ambient.intensity = 0.08 + Math.max(0, s) * (clear ? 1.1 : 0.6);
+  scene.environmentIntensity = 0.04 + Math.max(0, s) * 0.33;
   // The VISIBLE sun and moon riding the sky-dome — the Stonehenge money shot
   // works again: park the dial on a solstice sunrise and watch the disc clear
   // the heel stone. The moon rides the same path, lagged by its phase.
@@ -429,6 +453,9 @@ function applyWeather() {
   const md = sunDirection(sky.date, (sky.solarHours + sky.moonPhase * 24) % 24, lat);
   moonDisc.position.set(md.x * 208, md.y * 208, md.z * 208);
   moonDisc.visible = md.y > -0.03;
+  // Stars fade up through dusk, hide under cloud.
+  starMat.opacity = clear ? Math.max(0, Math.min(0.9, -s * 5)) : 0;
+  starField.visible = starMat.opacity > 0.02;
   // Sky: night below the horizon, a warm band near it, blue when high — the
   // app's exact ramp, greyed over when the weather closes in.
   const skyColor = new THREE.Color();
@@ -711,14 +738,37 @@ sel.addEventListener('change', refresh);
 titleEl.addEventListener('input', refresh);
 terrainEl.addEventListener('change', refresh);
 slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value));
-const coverKindEl = document.getElementById('coverKind') as HTMLSelectElement;
-for (const button of phaseBtns) button.addEventListener('click', () => {
+// The Covered button IS the colour control: PRESS AND HOLD it to open the
+// colour wheel (white snow, grey ash, brown silt — or lava-orange, why not),
+// and the button wears the chosen colour. A plain tap just switches phase.
+const coverColorEl = document.getElementById('coverColor') as HTMLInputElement;
+const coveredBtn = phaseBtns.find((b) => b.dataset.phase === 'covered')!;
+const paintCoveredBtn = () => {
+  coveredBtn.style.background = coverColorEl.value;
+  // Dark text on light blankets (snow), light text on dark (silt, ash).
+  const c = new THREE.Color(coverColorEl.value);
+  coveredBtn.style.color = c.r * 0.299 + c.g * 0.587 + c.b * 0.114 > 0.55 ? '#182430' : '#eef2f6';
+};
+paintCoveredBtn();
+let holdTimer: ReturnType<typeof setTimeout> | null = null;
+let heldOpen = false;
+coveredBtn.addEventListener('pointerdown', () => {
+  heldOpen = false;
+  holdTimer = setTimeout(() => {
+    heldOpen = true;
+    coverColorEl.click(); // the native colour wheel
+  }, 450);
+});
+const cancelHold = () => { if (holdTimer) clearTimeout(holdTimer); holdTimer = null; };
+coveredBtn.addEventListener('pointerup', cancelHold);
+coveredBtn.addEventListener('pointerleave', cancelHold);
+coverColorEl.addEventListener('input', () => { paintCoveredBtn(); if (lifePhase === 'covered') refresh(); });
+for (const button of phaseBtns) button.addEventListener('click', (e) => {
+  if (button === coveredBtn && heldOpen) { e.preventDefault(); return; } // the hold owned this press
   lifePhase = button.dataset.phase as LifePhase;
   for (const peer of phaseBtns) peer.classList.toggle('active', peer === button);
-  coverKindEl.style.display = lifePhase === 'covered' ? 'block' : 'none';
   refresh();
 });
-coverKindEl.addEventListener('change', refresh);
 weatherEl?.addEventListener('change', applyWeather);
 // (The ¾/Top/Side buttons are gone — orbit does the viewing now.)
 window.addEventListener('resize', () => {

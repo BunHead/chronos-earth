@@ -155,11 +155,6 @@
           <button id="galleryBtn" title="Every model at a glance, with its review status">🖼️ Gallery — the whole fleet</button>
         </div>
       </details>
-      <label style="display:flex;align-items:center;gap:7px;cursor:pointer;margin-top:10px;">
-        <input id="terrain" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
-        Real satellite site + crosshair
-      </label>
-      <div id="siteLabel" class="site-note">Representative live site</div>
 
       <details>
         <summary>Time &amp; life</summary>
@@ -176,11 +171,7 @@
           <button data-phase="drowning">Drowning</button>
           <button data-phase="covered">Covered</button>
         </div>
-        <select id="coverKind" style="display:none;margin-top:7px;">
-          <option value="snow">❄️ Snow</option>
-          <option value="ash">🌋 Ash (Pompeii)</option>
-          <option value="mud">🟤 Mud / flood silt</option>
-        </select>
+        <input id="coverColor" type="color" value="#eef2f6" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none;" />
       </details>
       <details>
         <summary>Battles</summary>
@@ -230,6 +221,11 @@
         <div id="saveMsg"></div>
       </div>
       </details>
+      <label style="display:flex;align-items:center;gap:7px;cursor:pointer;margin-top:12px;">
+        <input id="terrain" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
+        Real satellite site + crosshair
+      </label>
+      <div id="siteLabel" class="site-note">Representative live site</div>
 
       <p class="hint">This is the same modeller that draws monuments in the app — here you can browse and (as maker) review every one.</p>
     </div>
