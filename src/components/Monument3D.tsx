@@ -1086,32 +1086,75 @@ export function buildModel(
     finial.position.y = 11.6;
     group.add(finial);
   } else if (model === 'lighthouse') {
-    // A tapering tower on the rocks, gallery and lamp at the top.
+    // A tapering tower on the rocks, gallery and lamp at the top. As a RUIN it
+    // builds its OWN form — the Pharos ended as a broad weathered STUMP later
+    // reused as the base of a coastal fort (the Mamluks raised the Qaitbay
+    // citadel on it), ringed by a rubble apron. It handles its own collapse.
     ground = '#6a6f63';
-    const tower = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.4, 2.3, 9.5, 14),
-      stoneLike({ color: '#d8d2c4' }),
-    );
-    tower.position.y = 4.75;
-    group.add(tower);
-    group.add(block(3.4, 0.5, 3.4, 0, 9.75, 0, '#8a8478')); // gallery
-    const lamp = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.9, 0.9, 1.5, 10),
-      new THREE.MeshStandardMaterial({
-        color: '#fff2c4',
-        emissive: '#ffca4a',
-        emissiveIntensity: 1.4,
-      }),
-    );
-    lamp.userData.noShadow = true;
-    lamp.position.y = 10.75;
-    group.add(lamp);
-    const cap = new THREE.Mesh(
-      new THREE.ConeGeometry(1.2, 1.1, 10),
-      stoneLike({ color: '#7c4a3a' }),
-    );
-    cap.position.y = 12.1;
-    group.add(cap);
+    if (!ruined) {
+      const tower = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.4, 2.3, 9.5, 14),
+        stoneLike({ color: '#d8d2c4' }),
+      );
+      tower.position.y = 4.75;
+      group.add(tower);
+      group.add(block(3.4, 0.5, 3.4, 0, 9.75, 0, '#8a8478')); // gallery
+      const lamp = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.9, 0.9, 1.5, 10),
+        new THREE.MeshStandardMaterial({
+          color: '#fff2c4',
+          emissive: '#ffca4a',
+          emissiveIntensity: 1.4,
+        }),
+      );
+      lamp.userData.noShadow = true;
+      lamp.position.y = 10.75;
+      group.add(lamp);
+      const cap = new THREE.Mesh(
+        new THREE.ConeGeometry(1.2, 1.1, 10),
+        stoneLike({ color: '#7c4a3a' }),
+      );
+      cap.position.y = 12.1;
+      group.add(cap);
+    } else {
+      group.userData.selfRuined = true;
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      // The broad, squat stump — the surviving foot of the great tower.
+      const stumpH = 3.4;
+      const stump = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.95, 2.42, stumpH, 16),
+        stoneLike({ color: '#c7c0b0' }),
+      );
+      stump.position.y = stumpH / 2;
+      group.add(stump);
+      for (let i = 0; i < 11; i++) { // jagged broken crown around the stump rim
+        const a = (i / 11) * Math.PI * 2;
+        const bh = 0.3 + rnd(i, 2) * 0.7;
+        group.add(block(0.6, bh, 0.55, Math.cos(a) * 1.85, stumpH + bh / 2 - 0.18, Math.sin(a) * 1.85, '#bcb4a4', -a));
+      }
+      // A low square fort raised on the stump crown — the medieval reuse.
+      const fortY = stumpH, fr = 1.6, fortC = '#a89e88';
+      for (const [dx, dz] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+        const isX = dx !== 0;
+        group.add(block(isX ? 0.5 : 2 * fr + 0.5, 1.5, isX ? 2 * fr + 0.5 : 0.5, dx * fr, fortY + 0.75, dz * fr, fortC));
+      }
+      for (let i = 0; i < 4; i++) { // corner merlons on the fort
+        const a = Math.PI / 4 + (i / 4) * Math.PI * 2;
+        group.add(block(0.55, 0.55, 0.55, Math.cos(a) * fr * 1.18, fortY + 1.6, Math.sin(a) * fr * 1.18, fortC));
+      }
+      // Rubble apron spilling around the foot of the stump.
+      for (let i = 0; i < 14; i++) {
+        const a = rnd(i, 7) * Math.PI * 2;
+        const rr = 2.6 + rnd(i, 8) * 1.7;
+        const bs = 0.42 + rnd(i, 9) * 0.7;
+        const b = block(bs, 0.3 + rnd(i, 3) * 0.35, bs * 0.85, Math.cos(a) * rr, 0.2, Math.sin(a) * rr, '#b0a794', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
+      }
+    }
   } else if (model === 'leaning-tower') {
     // The Leaning Tower of Pisa: a white marble campanile of eight stacked
     // arcaded galleries under a bell chamber — built from the base up, then
