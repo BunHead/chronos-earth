@@ -1,6 +1,12 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles.css';
+import { loadRejectedModels } from './lib/review';
+
+// Pull the Captain's Workshop review file so any archetype he has Rejected shows
+// its real photo instead of a wrong 3D model. Fire-and-forget: it resolves long
+// before a panel is ever opened, and a failure just leaves every model enabled.
+loadRejectedModels();
 
 // Note: we intentionally do NOT wrap the app in <React.StrictMode>. Strict mode
 // mounts every component twice in development, which forces CesiumJS to build,

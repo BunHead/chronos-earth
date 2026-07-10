@@ -3,6 +3,7 @@
  * PanelContent shape the InfoPanel renders.
  */
 import type { AncientSite, Battle, EventCategory, Fauna, PanelContent, PanelSection, TimelineEvent } from './types';
+import { isModelRejected } from './review';
 
 const SITE_KICKER: Record<AncientSite['category'], string> = {
   monument: 'Ancient monument',
@@ -142,7 +143,9 @@ export function siteToPanel(site: AncientSite): PanelContent {
       lat: site.lat,
       altitude: site.category === 'precursor-hypothesis' ? 3_000_000 : 1_200_000,
     },
-    monument3d: { model: resolveMonumentModel(site), title: site.name, lat: site.lat, lon: site.lon },
+    ...(isModelRejected(resolveMonumentModel(site))
+      ? {}
+      : { monument3d: { model: resolveMonumentModel(site), title: site.name, lat: site.lat, lon: site.lon } }),
   };
 }
 
@@ -219,7 +222,9 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     // Also the generic 'event' bucket — a live-fetched building (e.g. the
     // Leaning Tower) lands there when Wikidata's type-map misses it, but its
     // name still maps to an archetype.
-    ...((e.category === 'monument' || e.category === 'event') && monumentModelForName(e.name)
+    ...((e.category === 'monument' || e.category === 'event') &&
+    monumentModelForName(e.name) &&
+    !isModelRejected(monumentModelForName(e.name))
       ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon } }
       : {}),
   };

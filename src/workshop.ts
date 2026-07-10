@@ -10,6 +10,15 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { buildModel } from './components/Monument3D';
+import {
+  loadReview,
+  saveReview,
+  getToken,
+  setToken,
+  isMaker,
+  type ReviewData,
+  type ReviewStatus,
+} from './lib/review';
 
 // Friendly labels for every archetype the modeller can draw.
 const MODELS: Array<[string, string]> = [
@@ -173,3 +182,118 @@ function loop() {
   requestAnimationFrame(loop);
 }
 loop();
+
+// ─────────────────────────────────────────────────────────────────────────
+// Maker's mode — Approve / Allow / Reject + notes + rework queue (Stage A).
+// The controls only work with the Captain's GitHub token; anyone can read the
+// status badge, but only a token-holder can save (see lib/review.ts).
+// ─────────────────────────────────────────────────────────────────────────
+const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+const makerBar = $<HTMLDivElement>('makerBar');
+const makerLabel = $<HTMLSpanElement>('makerLabel');
+const makerToggle = $<HTMLAnchorElement>('makerToggle');
+const keyBox = $<HTMLDivElement>('keyBox');
+const ghToken = $<HTMLInputElement>('ghToken');
+const makerPane = $<HTMLDivElement>('maker');
+const badge = $<HTMLSpanElement>('statusBadge');
+const noteEl = $<HTMLTextAreaElement>('note');
+const focusEl = $<HTMLSelectElement>('focus');
+const saveMsg = $<HTMLDivElement>('saveMsg');
+const verdictBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.verdict button'));
+
+let reviewData: ReviewData = {};
+const BADGE_TEXT: Record<string, string> = {
+  approved: 'Approved',
+  allowed: 'Allowed for now',
+  rejected: 'Rejected — photo only',
+};
+
+function reflectMakerState() {
+  const on = isMaker();
+  makerBar.classList.toggle('on', on);
+  makerLabel.textContent = on ? 'Maker’s mode on' : 'Maker’s mode off';
+  makerToggle.textContent = on ? 'Key' : 'Enable';
+  makerPane.style.display = on ? 'block' : 'none';
+}
+
+function flash(msg: string, kind: 'ok' | 'err' | '' = '') {
+  saveMsg.textContent = msg;
+  saveMsg.className = kind;
+}
+
+// Show the badge (for everyone) + the current model's saved review (for maker).
+function renderReview() {
+  const model = sel.value;
+  const rec = reviewData[model] || {};
+  const st = rec.status;
+  badge.textContent = st ? BADGE_TEXT[st] : rec.rework ? 'Rework queued' : 'Unreviewed';
+  badge.className = st || '';
+  for (const b of verdictBtns) b.setAttribute('aria-pressed', String(b.dataset.v === st));
+  noteEl.value = rec.note || '';
+  focusEl.value = rec.focus || '';
+  flash('');
+}
+
+async function persist(model: string) {
+  flash('Saving…');
+  const res = await saveReview(reviewData);
+  flash(res.msg, res.ok ? 'ok' : 'err');
+  // Keep the badge in step even before the deploy round-trips.
+  if (res.ok && model === sel.value) renderReview();
+}
+
+for (const b of verdictBtns) {
+  b.addEventListener('click', () => {
+    const model = sel.value;
+    const v = b.dataset.v as ReviewStatus;
+    const rec = (reviewData[model] ||= {});
+    rec.status = rec.status === v ? undefined : v; // click again to clear
+    rec.ts = Date.now();
+    renderReview();
+    persist(model);
+  });
+}
+noteEl.addEventListener('change', () => {
+  const model = sel.value;
+  const rec = (reviewData[model] ||= {});
+  rec.note = noteEl.value.trim() || undefined;
+  rec.ts = Date.now();
+  persist(model);
+});
+$<HTMLButtonElement>('reworkBtn').addEventListener('click', () => {
+  const model = sel.value;
+  const rec = (reviewData[model] ||= {});
+  rec.rework = true;
+  rec.focus = focusEl.value || undefined;
+  rec.ts = Date.now();
+  renderReview();
+  persist(model);
+});
+
+// Key box: paste / save / clear the maker token.
+makerToggle.addEventListener('click', () => {
+  keyBox.style.display = keyBox.style.display === 'block' ? 'none' : 'block';
+  ghToken.value = getToken() || '';
+});
+$<HTMLButtonElement>('keySave').addEventListener('click', () => {
+  setToken(ghToken.value);
+  keyBox.style.display = 'none';
+  reflectMakerState();
+  renderReview();
+  flash(isMaker() ? 'Maker’s mode on.' : 'Key cleared.', 'ok');
+});
+$<HTMLButtonElement>('keyClear').addEventListener('click', () => {
+  setToken('');
+  ghToken.value = '';
+  keyBox.style.display = 'none';
+  reflectMakerState();
+});
+
+sel.addEventListener('change', renderReview);
+
+// Boot the review layer.
+reflectMakerState();
+loadReview().then((d) => {
+  reviewData = d;
+  renderReview();
+});
