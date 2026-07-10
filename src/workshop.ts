@@ -9,7 +9,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { buildModel } from './components/Monument3D';
+import { buildModel, ruinify } from './components/Monument3D';
 import {
   loadReview,
   saveReview,
@@ -101,13 +101,16 @@ const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
 let current: THREE.Group | null = null;
 let disc: THREE.Mesh | null = null;
 
-function show(model: string, title: string, stage: number) {
+function show(model: string, title: string, stage: number, ruined = false) {
   if (current) scene.remove(current);
   if (disc) scene.remove(disc);
   const st = STAGE[model];
   const sea = st?.kind === 'sea' ? stage : undefined;
   const build = st?.kind === 'build' ? stage : undefined;
-  const { group, ground } = buildModel(model, 3, title, sea, build);
+  const { group, ground } = buildModel(model, 3, title, sea, build, ruined);
+  // Models with their own ruin form (the Colosseum) handle it inside buildModel;
+  // the rest get the generic collapse, exactly as the app does.
+  if (ruined && !group.userData.selfRuined) ruinify(group);
   group.updateMatrixWorld(true);
   group.position.y -= boxOf(group).min.y;
   group.traverse((o) => {
@@ -150,6 +153,7 @@ const titleEl = document.getElementById('title') as HTMLInputElement;
 const extra = document.getElementById('extra') as HTMLDivElement;
 const slider = document.getElementById('slider') as HTMLInputElement;
 const slabel = document.getElementById('slabel') as HTMLLabelElement;
+const ruinEl = document.getElementById('ruin') as HTMLInputElement;
 
 function refresh() {
   const model = sel.value;
@@ -159,11 +163,12 @@ function refresh() {
     slabel.textContent = st.label;
     slider.max = String(st.max);
   }
-  show(model, titleEl.value, st ? +slider.value : 1);
+  show(model, titleEl.value, st ? +slider.value : 1, ruinEl.checked);
 }
 sel.addEventListener('change', refresh);
 titleEl.addEventListener('input', refresh);
-slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value));
+ruinEl.addEventListener('change', refresh);
+slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value, ruinEl.checked));
 document.querySelectorAll<HTMLButtonElement>('.row button').forEach((b) =>
   b.addEventListener('click', () => frame(b.dataset.a!)),
 );
