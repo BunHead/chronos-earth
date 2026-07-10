@@ -197,8 +197,12 @@ if (angle === 'top' || angle === 'plan') {
   cam.position.set(cx + r * 2.0, size.y * 0.5 + r * 0.05, cz);
   cam.lookAt(cx, size.y * 0.45, cz);
 } else {
-  cam.position.set(cx + r * 1.2, r * 0.9 + 2, cz + r * 1.2);
-  cam.lookAt(cx, hasGeo ? 2 : c.y * 0.6, cz);
+  // Tall models need the camera pulled back further than wide ones, or the
+  // torch/spire crops out of frame (Liberty's arm was the tell).
+  const tall = size.y > Math.max(size.x, size.z);
+  const k = tall ? 1.55 : 1.2;
+  cam.position.set(cx + r * k, r * (tall ? 0.75 : 0.9) + 2, cz + r * k);
+  cam.lookAt(cx, hasGeo ? 2 : c.y * (tall ? 0.75 : 0.6), cz);
 }
 
 // Render until the env/shadows settle AND (in geo mode) the satellite tile has

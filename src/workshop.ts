@@ -22,6 +22,7 @@ const MODELS: Array<[string, string]> = [
   ['mausoleum', 'Mausoleum at Halicarnassus'],
   ['colossus', 'Colossus of Rhodes'],
   ['pharos', 'Lighthouse of Alexandria'],
+  ['liberty', 'Statue of Liberty'],
   ['rings', 'Atlantis (the ringed city)'],
   ['stonehenge', 'Stonehenge'],
   ['tpillars', 'Göbekli Tepe pillars'],

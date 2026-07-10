@@ -79,6 +79,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
   westminster: { widthM: 265, facingDeg: 90 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
+  // Liberty Island: Fort Wood's star is ~100 m across; she faces ~SE (bearing
+  // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
+  liberty: { widthM: 100, facingDeg: 45 },
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

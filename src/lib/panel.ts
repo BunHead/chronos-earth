@@ -97,6 +97,7 @@ export function monumentModelForName(name: string): string | null {
   if (/london eye|millennium wheel/.test(n)) return 'london-eye';
   if (/buckingham/.test(n)) return 'buckingham';
   if (/palace of westminster|houses of parliament|big ben|elizabeth tower/.test(n)) return 'westminster';
+  if (/statue of liberty/.test(n)) return 'liberty';
   // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
   // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
   // "fort". Real castles/forts/palaces get the dedicated castle model.

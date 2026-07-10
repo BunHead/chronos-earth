@@ -689,14 +689,10 @@ export function buildModel(
     }
     group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
     group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
-    const roof = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.08, 2.5, 10.6, 3, 1),
-      stoneLike({ color: '#c9bfa8', flatShading: true }),
-    );
-    roof.rotation.z = Math.PI / 2;
-    roof.rotation.y = Math.PI / 2;
-    roof.position.y = 5.2;
-    group.add(roof);
+    // A proper low-pitched gable with pediments — the last survivor of the old
+    // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
+    // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
+    gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
   } else if (model === 'aqueduct') {
     // Two tiers of piers carrying a water channel across the valley.
     ground = '#7a7a55';
@@ -1273,6 +1269,53 @@ export function buildModel(
     flame.userData.noShadow = true;
     group.add(flame);
     bpart(0.7, 3.8, 0.8, -1.9, base + 6.2, 0); // left arm at rest
+  } else if (model === 'liberty') {
+    // The Statue of Liberty — weathered-copper Libertas on her granite pedestal
+    // over the star fort: robed figure, 7-ray crown, gilded torch held high in
+    // the right hand, the tablet of law in the left. (The Colossus's descendant
+    // — same pose, eighteen centuries on.)
+    ground = '#4a6a55';
+    const patina = new THREE.MeshStandardMaterial({ color: '#7fb09a', metalness: 0.12, roughness: 0.62 });
+    const granite = '#b9aa92';
+    // Fort Wood's star base — two offset slabs read as the 11-point star from above.
+    const starA = block(13, 1.2, 13, 0, 0.6, 0, '#9a917f');
+    const starB = block(13, 1.2, 13, 0, 0.6, 0, '#9a917f', Math.PI / 4);
+    group.add(starA);
+    group.add(starB);
+    group.add(block(6.4, 2.2, 6.4, 0, 2.3, 0, granite)); // pedestal lower
+    const ped = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.9, 4.6, 4), stoneLike({ color: granite }));
+    ped.rotation.y = Math.PI / 4; // tapering square shaft
+    ped.position.y = 5.6;
+    group.add(ped);
+    group.add(block(4.4, 0.7, 4.4, 0, 8.1, 0, '#cdbfa6')); // pedestal crown
+    const base = 8.45;
+    const lib = (m: THREE.Mesh) => { group.add(m); return m; };
+    // Robe — a gently tapering column with a flared hem, one knee breaking forward.
+    const robe = lib(new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.85, 5.6, 12), patina));
+    robe.position.set(0, base + 2.8, 0);
+    lib(new THREE.Mesh(new THREE.BoxGeometry(0.9, 2.4, 0.9), patina)).position.set(0.45, base + 1.5, 0.75); // striding knee fold
+    lib(new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.2, 1.6, 12), patina)).position.set(0, base + 6.3, 0); // chest
+    const head = lib(new THREE.Mesh(new THREE.SphereGeometry(0.62, 14, 12), patina));
+    head.position.set(0, base + 7.6, 0.1);
+    for (let i = 0; i < 7; i++) { // the seven rays of the diadem
+      const a = Math.PI * (0.12 + (0.76 * i) / 6); // fan across the brow
+      const ray = lib(new THREE.Mesh(new THREE.ConeGeometry(0.09, 1.0, 5), patina));
+      ray.position.set(Math.cos(a) * 0.72, base + 7.75 + Math.sin(a) * 0.62, 0.1);
+      ray.rotation.z = a - Math.PI / 2;
+    }
+    // Right arm straight up with the gilded torch.
+    const arm = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 3.4, 10), patina));
+    arm.position.set(1.05, base + 8.3, 0);
+    arm.rotation.z = -0.12;
+    lib(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.22, 0.7, 10), patina)).position.set(1.25, base + 10.1, 0); // torch cup
+    const flame = new THREE.Mesh(new THREE.SphereGeometry(0.45, 12, 10), new THREE.MeshStandardMaterial({ color: '#ffe9a8', emissive: '#e8b83a', emissiveIntensity: 1.2, metalness: 0.4, roughness: 0.3 }));
+    flame.position.set(1.25, base + 10.7, 0);
+    flame.userData.noShadow = true;
+    group.add(flame);
+    // Left arm cradling the tablet (JULY IV MDCCLXXVI).
+    const tab = lib(new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.9, 1.1), patina));
+    tab.position.set(-1.15, base + 5.9, 0.4);
+    tab.rotation.z = 0.28;
   } else if (model === 'pharos') {
     // The Lighthouse of Alexandria (Pharos) — three stacked stages: a tall
     // square base, an octagonal midsection, a round lantern with the ever-
