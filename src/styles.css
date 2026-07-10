@@ -1,3 +1,4 @@
+@import './sky-dial.css';
 /* ------------------------------------------------------------------ *
  * Chronos Earth — global styles. Clean, modern, dark.
  * ------------------------------------------------------------------ */
@@ -1216,88 +1217,7 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
   pointer-events: none;
 }
 
-/* ── SkyDial — the brass "weather control" (day/night ring + calendar) ── */
-.sky-dial {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 172px;
-  padding: 8px 10px 10px;
-  background: rgba(14, 18, 26, 0.66);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(201, 162, 75, 0.4);
-  border-radius: 12px;
-  color: #f0e6d2;
-  font-size: 11px;
-  user-select: none;
-  z-index: 5;
-}
-.sky-grip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin: -2px -4px 5px;
-  padding: 2px 0 4px;
-  font-size: 9.5px;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: #c9b98f;
-  cursor: move;
-  touch-action: none;
-  border-bottom: 1px solid rgba(201, 162, 75, 0.22);
-}
-.sky-grip span { font-size: 12px; color: #c9a24b; }
-.sky-ring {
-  width: 150px;
-  height: 150px;
-  display: block;
-  margin: 0 auto 4px;
-  cursor: grab;
-  touch-action: none;
-}
-.sky-ring:active { cursor: grabbing; }
-.ring-day { fill: #29597a; }
-.ring-night { fill: #0a1020; }
-.ring-band { fill: none; stroke: #c9a24b; stroke-width: 3; }
-.ring-bar { stroke: #b8912f; stroke-width: 1.4; opacity: 0.5; }
-.ring-tick { fill: #e8d9a8; opacity: 0.85; }
-.ring-hub { fill: #6e5518; stroke: #c9a24b; stroke-width: 1; }
-.ring-hub-plus { stroke: #e8d9a8; stroke-width: 1; }
-.ring-sun { fill: #ffd873; filter: drop-shadow(0 0 5px #ffcf5a); }
-.ring-sun.below { fill: #6a7690; filter: none; }
-.ring-moon { font-size: 15px; cursor: pointer; }
-.sky-moon { background: none; border: none; cursor: pointer; font-size: 14px; line-height: 1; padding: 0 2px; }
-
-.sky-readout { display: flex; align-items: center; gap: 6px; justify-content: center; margin-bottom: 4px; }
-.sky-play {
-  background: rgba(201, 162, 75, 0.18);
-  border: 1px solid rgba(201, 162, 75, 0.5);
-  color: #f0e6d2; border-radius: 6px; width: 22px; height: 20px; cursor: pointer; font-size: 10px;
-}
-.sky-play.on { background: rgba(201, 162, 75, 0.42); }
-.sky-time { font-weight: 700; letter-spacing: 0.5px; }
-.sky-alt { color: #c9b98f; font-size: 10px; }
-
-.sky-date { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 4px; }
-.sky-date button { background: none; border: none; color: #c9a24b; font-size: 16px; cursor: pointer; line-height: 1; padding: 0 4px; }
-.sky-date strong { min-width: 82px; text-align: center; font-size: 12px; }
-.sky-note { text-align: center; font-size: 10px; color: #ffd873; margin-bottom: 4px; font-style: italic; }
-
-.sky-marks { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
-.sky-mark {
-  display: flex; align-items: center; gap: 3px;
-  background: rgba(201, 162, 75, 0.12);
-  border: 1px solid rgba(201, 162, 75, 0.32);
-  color: #e8dcc0; border-radius: 6px; padding: 2px 5px; font-size: 9.5px; cursor: pointer;
-}
-.sky-mark.active { background: rgba(255, 216, 115, 0.28); border-color: #ffd873; color: #fff; }
-.sky-mark span { font-size: 10px; }
-
-@media (max-width: 760px) {
-  .sky-dial { width: 150px; right: 8px; bottom: 8px; }
-  .sky-ring { width: 128px; height: 128px; }
-}
+/* SkyDial styles live in sky-dial.css (shared with the Workshop). */
 
 .bv-svg {
   width: 100%;

@@ -109,21 +109,16 @@
         Real satellite site + crosshair
       </label>
       <div id="siteLabel" class="site-note">Representative live site</div>
-      <div class="control-grid">
-        <div>
-          <label for="weather">Weather</label>
-          <select id="weather">
-            <option value="clear">Clear</option>
-            <option value="cloud">Cloud</option>
-            <option value="rain">Rain</option>
-            <option value="snow">Snow</option>
-          </select>
-        </div>
-        <div>
-          <label for="sunHour">Sun <span id="sunReadout">10:00</span></label>
-          <input id="sunHour" type="range" min="0" max="24" step="0.25" value="10" />
-        </div>
-      </div>
+      <!-- Sun, moon, date and time live on the ship's own Weather & Sky dial
+           (bottom-right, same brass armillary as the app). The select below
+           covers precipitation until the dial grows its cloud/wind bars. -->
+      <label for="weather">Weather</label>
+      <select id="weather">
+        <option value="clear">Clear</option>
+        <option value="cloud">Cloud</option>
+        <option value="rain">Rain</option>
+        <option value="snow">Snow</option>
+      </select>
       <label for="figure">Scale figure (real size)</label>
       <select id="figure">
         <option value="">None</option>

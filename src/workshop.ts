@@ -9,6 +9,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
+import SkyDial from './components/SkyDial';
+import { sunDirection } from './lib/sun';
+import './sky-dial.css';
 import { buildModel, loadSatelliteGround, ruinify } from './components/Monument3D';
 import { computeFit, fitFor } from './lib/monumentFit';
 import {
@@ -287,18 +292,40 @@ function addTerrainAids() {
   scene.add(terrainAids);
 }
 
+// ── Weather & Sky — the ship's own control system ─────────────────────────
+// The same brass SkyDial the app's monument viewer uses, mounted bottom-right,
+// driving the same real solar model (lib/sun) at the selected monument's TRUE
+// latitude — so Stonehenge's midwinter sun sits low and Giza's noon stands
+// high, exactly as in the app. The weather select handles precipitation until
+// the dial grows its cloud/wind bars.
+const sky = { date: new Date(), solarHours: 10, auto: true, moonPhase: 0.5 };
+const DAY_SKY = new THREE.Color('#87add0');
+const DUSK_SKY = new THREE.Color('#b86a3e');
+const GREY_SKY = new THREE.Color('#687583');
+const NIGHT_SKY = new THREE.Color('#070b16');
+
 function applyWeather() {
   const weather = (document.getElementById('weather') as HTMLSelectElement)?.value || 'clear';
-  const hour = +(document.getElementById('sunHour') as HTMLInputElement)?.value || 10;
-  const angle = ((hour - 6) / 24) * Math.PI * 2;
-  const daylight = Math.max(0, Math.sin(angle));
-  sun.position.set(Math.cos(angle) * 55, Math.sin(angle) * 65, 24);
-  sun.intensity = 0.18 + daylight * (weather === 'clear' ? 2.0 : 1.15);
-  ambient.intensity = weather === 'clear' ? 0.45 + daylight * 0.7 : 0.5;
-  scene.background = new THREE.Color(
-    hour < 5 || hour > 20 ? '#09111f' : weather === 'clear' ? '#9fb4c8' : '#687583',
-  );
-  scene.fog = weather === 'clear' ? null : new THREE.Fog(weather === 'snow' ? 0xc8d1da : 0x697683, 80, 320);
+  const lat = LIVE_SITES[sel?.value]?.lat ?? 45;
+  const dir = sunDirection(sky.date, sky.solarHours, lat);
+  const s = dir.y; // sine of the sun's altitude: >0 day, <0 night
+  const clear = weather === 'clear';
+  sun.position.set(dir.x * 55, dir.y * 55, dir.z * 55);
+  sun.intensity = Math.max(0, s) * (clear ? 2.4 : 1.2);
+  sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
+  ambient.intensity = 0.3 + Math.max(0, s) * (clear ? 1.0 : 0.55);
+  // Sky: night below the horizon, a warm band near it, blue when high — the
+  // app's exact ramp, greyed over when the weather closes in.
+  const skyColor = new THREE.Color();
+  if (s < -0.18) skyColor.copy(NIGHT_SKY);
+  else if (s < 0.22) {
+    const k = (s + 0.18) / 0.4;
+    skyColor.copy(NIGHT_SKY).lerp(DUSK_SKY, Math.min(1, k * 1.6));
+    if (k > 0.62) skyColor.lerp(DAY_SKY, (k - 0.62) / 0.38);
+  } else skyColor.copy(DAY_SKY);
+  if (!clear) skyColor.lerp(GREY_SKY, 0.65);
+  scene.background = skyColor;
+  scene.fog = clear ? null : new THREE.Fog(weather === 'snow' ? 0xc8d1da : 0x697683, 80, 320);
   if (weatherFx) scene.remove(weatherFx);
   weatherFx = null;
   if (weather === 'rain' || weather === 'snow') {
@@ -462,8 +489,36 @@ const terrainEl = document.getElementById('terrain') as HTMLInputElement;
 const siteLabel = document.getElementById('siteLabel') as HTMLDivElement;
 const figureSel = document.getElementById('figure') as HTMLSelectElement;
 const weatherEl = document.getElementById('weather') as HTMLSelectElement;
-const sunHourEl = document.getElementById('sunHour') as HTMLInputElement;
-const sunReadout = document.getElementById('sunReadout') as HTMLSpanElement;
+
+// Mount the app's SkyDial as a floating overlay (it styles itself bottom-right
+// and carries its own drag grip). Re-rendered whenever the sky state or the
+// selected site (latitude, celestial dates) changes.
+const skyHost = document.createElement('div');
+document.body.appendChild(skyHost);
+const skyRoot = createRoot(skyHost);
+function renderSky() {
+  const site = LIVE_SITES[sel.value];
+  skyRoot.render(createElement(SkyDial, {
+    date: sky.date,
+    solarHours: sky.solarHours,
+    auto: sky.auto,
+    moonPhase: sky.moonPhase,
+    latitude: site?.lat ?? 45,
+    title: titleEl.value.trim() || site?.title || sel.value,
+    onChange: (next) => {
+      Object.assign(sky, next);
+      renderSky();
+      applyWeather();
+    },
+  }));
+}
+// Auto "watch a day pass" — the same gentle advance as the app's viewer.
+setInterval(() => {
+  if (!sky.auto) return;
+  sky.solarHours = (sky.solarHours + 0.03) % 24;
+  renderSky();
+  applyWeather();
+}, 80);
 const phaseBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('#phaseRow button'));
 
 function refresh() {
@@ -479,6 +534,10 @@ function refresh() {
     ? `${site.title} · ${site.lat.toFixed(3)}°, ${site.lon.toFixed(3)}°`
     : 'No representative site mapped yet';
   show(model, titleEl.value, st ? +slider.value : 1);
+  // The dial follows the site: its latitude bends the sun's path, and marquee
+  // names surface their own celestial dates (solstice alignments etc.).
+  renderSky();
+  applyWeather();
 }
 sel.addEventListener('change', refresh);
 titleEl.addEventListener('input', refresh);
@@ -491,13 +550,6 @@ for (const button of phaseBtns) button.addEventListener('click', () => {
   refresh();
 });
 weatherEl.addEventListener('change', applyWeather);
-sunHourEl.addEventListener('input', () => {
-  const hour = +sunHourEl.value;
-  const h = String(Math.floor(hour)).padStart(2, '0');
-  const m = String(Math.round((hour % 1) * 60)).padStart(2, '0');
-  sunReadout.textContent = `${h}:${m}`;
-  applyWeather();
-});
 document.querySelectorAll<HTMLButtonElement>('.row button').forEach((b) =>
   b.addEventListener('click', () => frame(b.dataset.a!)),
 );
@@ -508,8 +560,7 @@ window.addEventListener('resize', () => {
 });
 
 sel.value = 'giza';
-applyWeather();
-refresh();
+refresh(); // also boots the dial + sky
 
 function loop() {
   if (weatherFx) {
