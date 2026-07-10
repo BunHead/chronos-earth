@@ -489,67 +489,182 @@ export function buildModel(
   } else if (model === 'castle') {
     // A stylised medieval castle: a square curtain wall with crenellations,
     // round corner towers under conical roofs, a twin-towered gatehouse with a
-    // gateway, and a taller central keep. All in the weathered-stone material.
+    // REAL arched gateway you can see through, and a taller central keep. As a
+    // RUIN it builds its own form — a roofless shelled keep, broken curtain
+    // walls at varying heights and roofless tower stumps (an English-castle
+    // ruin, not a rubble heap), so it handles its own collapse.
     ground = '#5c6544';
-    const wallC = '#9a9184';
+    if (ruined) group.userData.selfRuined = true;
+    const wallC = ruined ? '#8a8175' : '#9a9184';
     const roofC = '#6a4a3a';
     const R = 7; // half-width of the curtain-wall square
     const wallH = 3.2;
     const wallT = 0.9;
-    // A row of merlons (the toothed battlement) marching along a wall top.
-    const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
-      const n = Math.max(2, Math.round(len / 1.2));
-      for (let i = 0; i <= n; i++) {
-        const t = -len / 2 + len * (i / n);
-        group.add(block(0.55, 0.7, 0.55, x0 + dx * t, wallH + 0.35, z0 + dz * t, wallC));
-      }
-    };
-    // North, east and west curtain walls (south wall is split for the gate).
-    group.add(block(2 * R, wallH, wallT, 0, wallH / 2, -R, wallC));
-    group.add(block(wallT, wallH, 2 * R, -R, wallH / 2, 0, wallC));
-    group.add(block(wallT, wallH, 2 * R, R, wallH / 2, 0, wallC));
-    merlons(0, -R, 1, 0, 2 * R);
-    merlons(-R, 0, 0, 1, 2 * R);
-    merlons(R, 0, 0, 1, 2 * R);
-    // South wall in two halves, leaving a gateway in the middle.
-    const gap = 3.2;
+    const gap = 3.2; // the gateway opening in the south wall
     const half = (2 * R - gap) / 2;
-    for (const s of [-1, 1] as const) {
-      const cx = s * (gap / 2 + half / 2);
-      group.add(block(half, wallH, wallT, cx, wallH / 2, R, wallC));
-      merlons(cx, R, 1, 0, half);
-    }
-    // Round corner towers with conical roofs.
-    const tower = (x: number, z: number, h: number, rad: number) => {
-      const t = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad * 1.12, h, 12), stoneMat(wallC));
-      t.position.set(x, h / 2, z);
-      group.add(t);
-      const roof = new THREE.Mesh(
-        new THREE.ConeGeometry(rad * 1.4, rad * 1.9, 12),
-        stoneLike({ color: roofC, flatShading: true }),
-      );
-      roof.position.set(x, h + rad * 0.95, z);
-      group.add(roof);
+    const gw = gap + 0.6; // gatehouse wall width (bites into the flanking walls)
+    const gd = wallT + 0.6; // gatehouse depth (projects proud of the curtain)
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
     };
-    for (const sx of [-1, 1] as const)
-      for (const sz of [-1, 1] as const) tower(sx * R, sz * R, wallH + 2.4, 1.2);
-    // Gatehouse: two shorter towers flanking the gateway, a lintel over the gate,
-    // and a dark doorway recessed into the wall.
-    for (const s of [-1, 1] as const) tower(s * (gap / 2 + 0.3), R, wallH + 1.2, 0.85);
-    group.add(block(gap + 1.6, 1.1, wallT + 0.3, 0, wallH + 0.15, R, wallC)); // lintel
-    group.add(block(gap - 1.0, wallH - 0.6, 0.4, 0, (wallH - 0.6) / 2, R + 0.35, '#3a332c')); // doorway
-    // The central keep — a tall square tower with its own battlement.
-    const keepH = 6.6;
-    group.add(block(3.6, keepH, 3.6, 0, keepH / 2, 0, wallC));
-    for (const [dx, dz, len] of [[1, 0, 3.6], [0, 1, 3.6]] as const) {
-      for (const off of [-1, 1] as const) {
-        const px = dz ? off * 1.8 : 0;
-        const pz = dx ? off * 1.8 : 0;
-        const n = 3;
+    // A gatehouse wall pierced by a genuine arched gateway (Shape + semicircle
+    // hole, extruded through the depth) — daylight passes into the courtyard.
+    const buildGate = (gh: number): { ghw: number; gspring: number } => {
+      const ghw = 0.95; // gateway half-width
+      const gspring = 1.9; // springline of the arch
+      const gs = new THREE.Shape();
+      gs.moveTo(-gw / 2, 0);
+      gs.lineTo(gw / 2, 0);
+      gs.lineTo(gw / 2, gh);
+      gs.lineTo(-gw / 2, gh);
+      gs.closePath();
+      const gp = new THREE.Path();
+      gp.moveTo(-ghw, 0);
+      gp.lineTo(-ghw, gspring);
+      gp.absarc(0, gspring, ghw, Math.PI, 0, true);
+      gp.lineTo(ghw, 0);
+      gp.closePath();
+      gs.holes.push(gp);
+      const gGeo = new THREE.ExtrudeGeometry(gs, { depth: gd, bevelEnabled: false, curveSegments: 18 });
+      gGeo.translate(0, 0, -gd / 2);
+      const gate = new THREE.Mesh(gGeo, stoneMat(wallC));
+      gate.position.set(0, 0, R);
+      group.add(gate);
+      return { ghw, gspring };
+    };
+
+    if (!ruined) {
+      // ---- Intact castle ----
+      // A row of merlons (the toothed battlement) marching along a wall top.
+      const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
+        const n = Math.max(2, Math.round(len / 1.2));
         for (let i = 0; i <= n; i++) {
           const t = -len / 2 + len * (i / n);
-          group.add(block(0.5, 0.6, 0.5, px + dx * t, keepH + 0.3, pz + dz * t, wallC));
+          group.add(block(0.55, 0.7, 0.55, x0 + dx * t, wallH + 0.35, z0 + dz * t, wallC));
         }
+      };
+      // North, east and west curtain walls (south wall is split for the gate).
+      group.add(block(2 * R, wallH, wallT, 0, wallH / 2, -R, wallC));
+      group.add(block(wallT, wallH, 2 * R, -R, wallH / 2, 0, wallC));
+      group.add(block(wallT, wallH, 2 * R, R, wallH / 2, 0, wallC));
+      merlons(0, -R, 1, 0, 2 * R);
+      merlons(-R, 0, 0, 1, 2 * R);
+      merlons(R, 0, 0, 1, 2 * R);
+      // South wall in two halves, leaving a gateway in the middle.
+      for (const s of [-1, 1] as const) {
+        const cx = s * (gap / 2 + half / 2);
+        group.add(block(half, wallH, wallT, cx, wallH / 2, R, wallC));
+        merlons(cx, R, 1, 0, half);
+      }
+      // Round corner towers with conical roofs.
+      const tower = (x: number, z: number, h: number, rad: number) => {
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad * 1.12, h, 12), stoneMat(wallC));
+        t.position.set(x, h / 2, z);
+        group.add(t);
+        const roof = new THREE.Mesh(
+          new THREE.ConeGeometry(rad * 1.4, rad * 1.9, 12),
+          stoneLike({ color: roofC, flatShading: true }),
+        );
+        roof.position.set(x, h + rad * 0.95, z);
+        group.add(roof);
+      };
+      for (const sx of [-1, 1] as const)
+        for (const sz of [-1, 1] as const) tower(sx * R, sz * R, wallH + 2.4, 1.2);
+      // Gatehouse: two towers flanking a real arched gateway, crenellated over.
+      for (const s of [-1, 1] as const) tower(s * (gap / 2 + 0.3), R, wallH + 1.2, 0.85);
+      const gh = wallH + 1.2;
+      const { ghw, gspring } = buildGate(gh);
+      for (let i = 0; i <= 3; i++) // gatehouse battlement
+        group.add(block(0.5, 0.55, gd, -gw / 2 + gw * (i / 3), gh + 0.28, R, wallC));
+      // A portcullis of iron bars set in the gateway mouth (still see-through).
+      const barMat = new THREE.MeshStandardMaterial({ color: '#33302b', roughness: 0.55, metalness: 0.45 });
+      const barTop = gspring + ghw * 0.55;
+      for (let i = 0; i < 5; i++)
+        group.add(matBlock(0.09, barTop, 0.09, -ghw * 0.78 + (ghw * 1.56) * (i / 4), barTop / 2, R + gd * 0.3, barMat));
+      for (let j = 0; j < 3; j++)
+        group.add(matBlock(ghw * 1.7, 0.09, 0.09, 0, 0.5 + j * (barTop / 3), R + gd * 0.3, barMat));
+      // The central keep — a tall square tower with its own battlement.
+      const keepH = 6.6;
+      group.add(block(3.6, keepH, 3.6, 0, keepH / 2, 0, wallC));
+      for (const [dx, dz, len] of [[1, 0, 3.6], [0, 1, 3.6]] as const) {
+        for (const off of [-1, 1] as const) {
+          const px = dz ? off * 1.8 : 0;
+          const pz = dx ? off * 1.8 : 0;
+          for (let i = 0; i <= 3; i++) {
+            const t = -len / 2 + len * (i / 3);
+            group.add(block(0.5, 0.6, 0.5, px + dx * t, keepH + 0.3, pz + dz * t, wallC));
+          }
+        }
+      }
+    } else {
+      // ---- Ruin: a shelled keep among broken curtain walls ----
+      // Broken curtain wall: short segments at deterministically varying heights,
+      // with occasional breaches gone entirely (centuries of quarrying).
+      const brokenWall = (cx: number, cz: number, dirX: number, dirZ: number, len: number, seed: number) => {
+        const n = Math.max(2, Math.round(len / 1.3));
+        const seg = len / n;
+        for (let i = 0; i < n; i++) {
+          const t = -len / 2 + seg * (i + 0.5);
+          const r = rnd(seed + i, 1);
+          if (r < 0.16) continue; // a breach — this stretch is gone
+          const hf = r < 0.44 ? 0.28 + rnd(seed + i, 2) * 0.22
+            : r < 0.76 ? 0.52 + rnd(seed + i, 3) * 0.28
+            : 0.82 + rnd(seed + i, 4) * 0.16;
+          const h = wallH * hf;
+          group.add(block(seg + 0.05, h, wallT, cx + dirX * t, h / 2, cz + dirZ * t, wallC));
+        }
+      };
+      brokenWall(0, -R, 1, 0, 2 * R, 10); // north
+      brokenWall(-R, 0, 0, 1, 2 * R, 30); // west
+      brokenWall(R, 0, 0, 1, 2 * R, 50); // east
+      for (const s of [-1, 1] as const) // south, flanking the gateway
+        brokenWall(s * (gap / 2 + half / 2), R, 1, 0, half, 70 + (s > 0 ? 20 : 0));
+      // Roofless tower stumps at the corners — the conical roofs are long gone.
+      const towerStump = (x: number, z: number, seed: number) => {
+        const ht = wallH * 0.8 + rnd(seed, 1) * 2.4;
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.32, ht, 12), stoneMat(wallC));
+        t.position.set(x, ht / 2, z);
+        group.add(t);
+        for (let k = 0; k < 3; k++) { // ragged broken crown
+          const a = (k / 3) * Math.PI * 2 + rnd(seed, k + 2);
+          const bh = 0.3 + rnd(seed, k + 5) * 0.6;
+          group.add(block(0.5, bh, 0.5, x + Math.cos(a) * 0.78, ht + bh / 2 - 0.12, z + Math.sin(a) * 0.78, wallC));
+        }
+      };
+      let ts = 0;
+      for (const sx of [-1, 1] as const) for (const sz of [-1, 1] as const) towerStump(sx * R, sz * R, 100 + ts++ * 7);
+      // The gatehouse survives as a broken arch — the pointed silhouette of a
+      // castle ruin — flanked by two low stumps.
+      buildGate(wallH + 0.3);
+      for (let k = 0; k < 3; k++) // jagged teeth on the broken gatehouse crown
+        group.add(block(0.45, 0.3 + rnd(k, 3) * 0.5, gd, -gw / 2 + gw * ((k + 0.5) / 3), wallH + 0.4 + rnd(k, 6) * 0.3, R, wallC));
+      // The keep survives as a roofless SHELL — four walls at varying heights,
+      // corner posts standing tallest, window voids gaping.
+      const keepH = 5.8, kh = 1.9, kt = 0.55;
+      const kHf = [1.0, 0.6, 0.82, 0.42]; // N, S, W, E survive to different heights
+      const kdefs: Array<[number, number, number, number, number]> = [
+        [0, -kh, 2 * kh, kt, 0], [0, kh, 2 * kh, kt, 1], [-kh, 0, kt, 2 * kh, 2], [kh, 0, kt, 2 * kh, 3],
+      ];
+      for (const [cx, cz, w, d, idx] of kdefs) {
+        const h = keepH * kHf[idx];
+        group.add(block(w, h, d, cx, h / 2, cz, wallC));
+      }
+      for (const sx of [-1, 1] as const) // corner posts of the keep
+        for (const sz of [-1, 1] as const) {
+          const ph = keepH * (sx * sz > 0 ? 1.04 : 0.66);
+          group.add(block(kt + 0.16, ph, kt + 0.16, sx * kh, ph / 2, sz * kh, wallC));
+        }
+      for (const wx of [-0.7, 0.7] as const) // window voids on the tall north wall
+        group.add(block(0.5, 0.85, kt + 0.08, wx, 3.1, -kh, '#2b2620'));
+      // Fallen masonry, half-buried close to the walls it fell from.
+      for (let i = 0; i < 11; i++) {
+        const a = rnd(i, 7) * Math.PI * 2;
+        const rr = R * 0.45 + rnd(i, 8) * R * 0.5;
+        const bs = 0.5 + rnd(i, 9) * 0.7;
+        const b = block(bs, 0.32 + rnd(i, 3) * 0.4, bs * 0.8, Math.cos(a) * rr, 0.24, Math.sin(a) * rr * 0.92, '#8f877a', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
       }
     }
   } else if (model === 'mansion') {
