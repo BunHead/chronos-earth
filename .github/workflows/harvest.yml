@@ -27,7 +27,11 @@ jobs:
         with:
           node-version: 22
       - name: Fetch new events from Wikidata (additive)
-        run: node scripts/fetch-wikidata-events.mjs
+        # Cap the fetch itself (a full sweep can outlast the job) — exit 124 is
+        # fine: the script writes incrementally, so whatever it gathered still
+        # gets committed below. The Captain's first button-run was cancelled at
+        # the job timeout WITH data in hand; never again.
+        run: timeout 55m node scripts/fetch-wikidata-events.mjs || [ $? -eq 124 ]
       - name: Rebuild the core index
         run: node scripts/build-core-index.mjs
       - name: Commit & push if the dataset grew
