@@ -489,67 +489,182 @@ export function buildModel(
   } else if (model === 'castle') {
     // A stylised medieval castle: a square curtain wall with crenellations,
     // round corner towers under conical roofs, a twin-towered gatehouse with a
-    // gateway, and a taller central keep. All in the weathered-stone material.
+    // REAL arched gateway you can see through, and a taller central keep. As a
+    // RUIN it builds its own form — a roofless shelled keep, broken curtain
+    // walls at varying heights and roofless tower stumps (an English-castle
+    // ruin, not a rubble heap), so it handles its own collapse.
     ground = '#5c6544';
-    const wallC = '#9a9184';
+    if (ruined) group.userData.selfRuined = true;
+    const wallC = ruined ? '#8a8175' : '#9a9184';
     const roofC = '#6a4a3a';
     const R = 7; // half-width of the curtain-wall square
     const wallH = 3.2;
     const wallT = 0.9;
-    // A row of merlons (the toothed battlement) marching along a wall top.
-    const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
-      const n = Math.max(2, Math.round(len / 1.2));
-      for (let i = 0; i <= n; i++) {
-        const t = -len / 2 + len * (i / n);
-        group.add(block(0.55, 0.7, 0.55, x0 + dx * t, wallH + 0.35, z0 + dz * t, wallC));
-      }
-    };
-    // North, east and west curtain walls (south wall is split for the gate).
-    group.add(block(2 * R, wallH, wallT, 0, wallH / 2, -R, wallC));
-    group.add(block(wallT, wallH, 2 * R, -R, wallH / 2, 0, wallC));
-    group.add(block(wallT, wallH, 2 * R, R, wallH / 2, 0, wallC));
-    merlons(0, -R, 1, 0, 2 * R);
-    merlons(-R, 0, 0, 1, 2 * R);
-    merlons(R, 0, 0, 1, 2 * R);
-    // South wall in two halves, leaving a gateway in the middle.
-    const gap = 3.2;
+    const gap = 3.2; // the gateway opening in the south wall
     const half = (2 * R - gap) / 2;
-    for (const s of [-1, 1] as const) {
-      const cx = s * (gap / 2 + half / 2);
-      group.add(block(half, wallH, wallT, cx, wallH / 2, R, wallC));
-      merlons(cx, R, 1, 0, half);
-    }
-    // Round corner towers with conical roofs.
-    const tower = (x: number, z: number, h: number, rad: number) => {
-      const t = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad * 1.12, h, 12), stoneMat(wallC));
-      t.position.set(x, h / 2, z);
-      group.add(t);
-      const roof = new THREE.Mesh(
-        new THREE.ConeGeometry(rad * 1.4, rad * 1.9, 12),
-        stoneLike({ color: roofC, flatShading: true }),
-      );
-      roof.position.set(x, h + rad * 0.95, z);
-      group.add(roof);
+    const gw = gap + 0.6; // gatehouse wall width (bites into the flanking walls)
+    const gd = wallT + 0.6; // gatehouse depth (projects proud of the curtain)
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
     };
-    for (const sx of [-1, 1] as const)
-      for (const sz of [-1, 1] as const) tower(sx * R, sz * R, wallH + 2.4, 1.2);
-    // Gatehouse: two shorter towers flanking the gateway, a lintel over the gate,
-    // and a dark doorway recessed into the wall.
-    for (const s of [-1, 1] as const) tower(s * (gap / 2 + 0.3), R, wallH + 1.2, 0.85);
-    group.add(block(gap + 1.6, 1.1, wallT + 0.3, 0, wallH + 0.15, R, wallC)); // lintel
-    group.add(block(gap - 1.0, wallH - 0.6, 0.4, 0, (wallH - 0.6) / 2, R + 0.35, '#3a332c')); // doorway
-    // The central keep — a tall square tower with its own battlement.
-    const keepH = 6.6;
-    group.add(block(3.6, keepH, 3.6, 0, keepH / 2, 0, wallC));
-    for (const [dx, dz, len] of [[1, 0, 3.6], [0, 1, 3.6]] as const) {
-      for (const off of [-1, 1] as const) {
-        const px = dz ? off * 1.8 : 0;
-        const pz = dx ? off * 1.8 : 0;
-        const n = 3;
+    // A gatehouse wall pierced by a genuine arched gateway (Shape + semicircle
+    // hole, extruded through the depth) — daylight passes into the courtyard.
+    const buildGate = (gh: number): { ghw: number; gspring: number } => {
+      const ghw = 0.95; // gateway half-width
+      const gspring = 1.9; // springline of the arch
+      const gs = new THREE.Shape();
+      gs.moveTo(-gw / 2, 0);
+      gs.lineTo(gw / 2, 0);
+      gs.lineTo(gw / 2, gh);
+      gs.lineTo(-gw / 2, gh);
+      gs.closePath();
+      const gp = new THREE.Path();
+      gp.moveTo(-ghw, 0);
+      gp.lineTo(-ghw, gspring);
+      gp.absarc(0, gspring, ghw, Math.PI, 0, true);
+      gp.lineTo(ghw, 0);
+      gp.closePath();
+      gs.holes.push(gp);
+      const gGeo = new THREE.ExtrudeGeometry(gs, { depth: gd, bevelEnabled: false, curveSegments: 18 });
+      gGeo.translate(0, 0, -gd / 2);
+      const gate = new THREE.Mesh(gGeo, stoneMat(wallC));
+      gate.position.set(0, 0, R);
+      group.add(gate);
+      return { ghw, gspring };
+    };
+
+    if (!ruined) {
+      // ---- Intact castle ----
+      // A row of merlons (the toothed battlement) marching along a wall top.
+      const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
+        const n = Math.max(2, Math.round(len / 1.2));
         for (let i = 0; i <= n; i++) {
           const t = -len / 2 + len * (i / n);
-          group.add(block(0.5, 0.6, 0.5, px + dx * t, keepH + 0.3, pz + dz * t, wallC));
+          group.add(block(0.55, 0.7, 0.55, x0 + dx * t, wallH + 0.35, z0 + dz * t, wallC));
         }
+      };
+      // North, east and west curtain walls (south wall is split for the gate).
+      group.add(block(2 * R, wallH, wallT, 0, wallH / 2, -R, wallC));
+      group.add(block(wallT, wallH, 2 * R, -R, wallH / 2, 0, wallC));
+      group.add(block(wallT, wallH, 2 * R, R, wallH / 2, 0, wallC));
+      merlons(0, -R, 1, 0, 2 * R);
+      merlons(-R, 0, 0, 1, 2 * R);
+      merlons(R, 0, 0, 1, 2 * R);
+      // South wall in two halves, leaving a gateway in the middle.
+      for (const s of [-1, 1] as const) {
+        const cx = s * (gap / 2 + half / 2);
+        group.add(block(half, wallH, wallT, cx, wallH / 2, R, wallC));
+        merlons(cx, R, 1, 0, half);
+      }
+      // Round corner towers with conical roofs.
+      const tower = (x: number, z: number, h: number, rad: number) => {
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(rad, rad * 1.12, h, 12), stoneMat(wallC));
+        t.position.set(x, h / 2, z);
+        group.add(t);
+        const roof = new THREE.Mesh(
+          new THREE.ConeGeometry(rad * 1.4, rad * 1.9, 12),
+          stoneLike({ color: roofC, flatShading: true }),
+        );
+        roof.position.set(x, h + rad * 0.95, z);
+        group.add(roof);
+      };
+      for (const sx of [-1, 1] as const)
+        for (const sz of [-1, 1] as const) tower(sx * R, sz * R, wallH + 2.4, 1.2);
+      // Gatehouse: two towers flanking a real arched gateway, crenellated over.
+      for (const s of [-1, 1] as const) tower(s * (gap / 2 + 0.3), R, wallH + 1.2, 0.85);
+      const gh = wallH + 1.2;
+      const { ghw, gspring } = buildGate(gh);
+      for (let i = 0; i <= 3; i++) // gatehouse battlement
+        group.add(block(0.5, 0.55, gd, -gw / 2 + gw * (i / 3), gh + 0.28, R, wallC));
+      // A portcullis of iron bars set in the gateway mouth (still see-through).
+      const barMat = new THREE.MeshStandardMaterial({ color: '#33302b', roughness: 0.55, metalness: 0.45 });
+      const barTop = gspring + ghw * 0.55;
+      for (let i = 0; i < 5; i++)
+        group.add(matBlock(0.09, barTop, 0.09, -ghw * 0.78 + (ghw * 1.56) * (i / 4), barTop / 2, R + gd * 0.3, barMat));
+      for (let j = 0; j < 3; j++)
+        group.add(matBlock(ghw * 1.7, 0.09, 0.09, 0, 0.5 + j * (barTop / 3), R + gd * 0.3, barMat));
+      // The central keep — a tall square tower with its own battlement.
+      const keepH = 6.6;
+      group.add(block(3.6, keepH, 3.6, 0, keepH / 2, 0, wallC));
+      for (const [dx, dz, len] of [[1, 0, 3.6], [0, 1, 3.6]] as const) {
+        for (const off of [-1, 1] as const) {
+          const px = dz ? off * 1.8 : 0;
+          const pz = dx ? off * 1.8 : 0;
+          for (let i = 0; i <= 3; i++) {
+            const t = -len / 2 + len * (i / 3);
+            group.add(block(0.5, 0.6, 0.5, px + dx * t, keepH + 0.3, pz + dz * t, wallC));
+          }
+        }
+      }
+    } else {
+      // ---- Ruin: a shelled keep among broken curtain walls ----
+      // Broken curtain wall: short segments at deterministically varying heights,
+      // with occasional breaches gone entirely (centuries of quarrying).
+      const brokenWall = (cx: number, cz: number, dirX: number, dirZ: number, len: number, seed: number) => {
+        const n = Math.max(2, Math.round(len / 1.3));
+        const seg = len / n;
+        for (let i = 0; i < n; i++) {
+          const t = -len / 2 + seg * (i + 0.5);
+          const r = rnd(seed + i, 1);
+          if (r < 0.16) continue; // a breach — this stretch is gone
+          const hf = r < 0.44 ? 0.28 + rnd(seed + i, 2) * 0.22
+            : r < 0.76 ? 0.52 + rnd(seed + i, 3) * 0.28
+            : 0.82 + rnd(seed + i, 4) * 0.16;
+          const h = wallH * hf;
+          group.add(block(seg + 0.05, h, wallT, cx + dirX * t, h / 2, cz + dirZ * t, wallC));
+        }
+      };
+      brokenWall(0, -R, 1, 0, 2 * R, 10); // north
+      brokenWall(-R, 0, 0, 1, 2 * R, 30); // west
+      brokenWall(R, 0, 0, 1, 2 * R, 50); // east
+      for (const s of [-1, 1] as const) // south, flanking the gateway
+        brokenWall(s * (gap / 2 + half / 2), R, 1, 0, half, 70 + (s > 0 ? 20 : 0));
+      // Roofless tower stumps at the corners — the conical roofs are long gone.
+      const towerStump = (x: number, z: number, seed: number) => {
+        const ht = wallH * 0.8 + rnd(seed, 1) * 2.4;
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.32, ht, 12), stoneMat(wallC));
+        t.position.set(x, ht / 2, z);
+        group.add(t);
+        for (let k = 0; k < 3; k++) { // ragged broken crown
+          const a = (k / 3) * Math.PI * 2 + rnd(seed, k + 2);
+          const bh = 0.3 + rnd(seed, k + 5) * 0.6;
+          group.add(block(0.5, bh, 0.5, x + Math.cos(a) * 0.78, ht + bh / 2 - 0.12, z + Math.sin(a) * 0.78, wallC));
+        }
+      };
+      let ts = 0;
+      for (const sx of [-1, 1] as const) for (const sz of [-1, 1] as const) towerStump(sx * R, sz * R, 100 + ts++ * 7);
+      // The gatehouse survives as a broken arch — the pointed silhouette of a
+      // castle ruin — flanked by two low stumps.
+      buildGate(wallH + 0.3);
+      for (let k = 0; k < 3; k++) // jagged teeth on the broken gatehouse crown
+        group.add(block(0.45, 0.3 + rnd(k, 3) * 0.5, gd, -gw / 2 + gw * ((k + 0.5) / 3), wallH + 0.4 + rnd(k, 6) * 0.3, R, wallC));
+      // The keep survives as a roofless SHELL — four walls at varying heights,
+      // corner posts standing tallest, window voids gaping.
+      const keepH = 5.8, kh = 1.9, kt = 0.55;
+      const kHf = [1.0, 0.6, 0.82, 0.42]; // N, S, W, E survive to different heights
+      const kdefs: Array<[number, number, number, number, number]> = [
+        [0, -kh, 2 * kh, kt, 0], [0, kh, 2 * kh, kt, 1], [-kh, 0, kt, 2 * kh, 2], [kh, 0, kt, 2 * kh, 3],
+      ];
+      for (const [cx, cz, w, d, idx] of kdefs) {
+        const h = keepH * kHf[idx];
+        group.add(block(w, h, d, cx, h / 2, cz, wallC));
+      }
+      for (const sx of [-1, 1] as const) // corner posts of the keep
+        for (const sz of [-1, 1] as const) {
+          const ph = keepH * (sx * sz > 0 ? 1.04 : 0.66);
+          group.add(block(kt + 0.16, ph, kt + 0.16, sx * kh, ph / 2, sz * kh, wallC));
+        }
+      for (const wx of [-0.7, 0.7] as const) // window voids on the tall north wall
+        group.add(block(0.5, 0.85, kt + 0.08, wx, 3.1, -kh, '#2b2620'));
+      // Fallen masonry, half-buried close to the walls it fell from.
+      for (let i = 0; i < 11; i++) {
+        const a = rnd(i, 7) * Math.PI * 2;
+        const rr = R * 0.45 + rnd(i, 8) * R * 0.5;
+        const bs = 0.5 + rnd(i, 9) * 0.7;
+        const b = block(bs, 0.32 + rnd(i, 3) * 0.4, bs * 0.8, Math.cos(a) * rr, 0.24, Math.sin(a) * rr * 0.92, '#8f877a', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
       }
     }
   } else if (model === 'mansion') {
@@ -624,109 +739,337 @@ export function buildModel(
     // A stylised gothic church: nave + transept, twin west towers, a slender
     // crossing flèche, buttresses and a rounded apse. Notre-Dame de Paris and
     // Amiens wear FLAT-topped square west towers; the rest (Cologne, Burgos,
-    // León…) get their spires.
+    // León…) get their spires. As a RUIN it builds its OWN roofless-abbey form
+    // (Tintern / Whitby): tall nave walls open to the sky, empty lancet
+    // windows, a great west window and broken tower stumps — no floating roof.
     ground = '#5a6247';
-    const wall = '#b8ad98';
+    if (ruined) group.userData.selfRuined = true;
+    const wall = ruined ? '#aca291' : '#b8ad98';
     const roof = '#6d6257';
-    const flatTowers = /notre-dame de paris|notre dame de paris|amiens/.test(title.toLowerCase());
-    group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
-    // A true gable roof over the nave — a triangular ridge running its length,
-    // NOT a tapering cone laid on its side.
-    const roofShape = new THREE.Shape();
-    roofShape.moveTo(-2.5, 0);
-    roofShape.lineTo(2.5, 0);
-    roofShape.lineTo(0, 2.3);
-    roofShape.lineTo(-2.5, 0);
-    const naveRoof = new THREE.Mesh(
-      new THREE.ExtrudeGeometry(roofShape, { depth: 14, bevelEnabled: false }),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    naveRoof.position.set(0, 5.2, -7);
-    group.add(naveRoof);
-    group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
-    // Twin west towers — flat-topped or spired depending on the cathedral.
-    for (const s of [-1, 1]) {
-      group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
-      if (flatTowers) {
-        group.add(block(2.5, 0.4, 2.5, s * 1.9, 7.8, 7.2, roof)); // parapet cornice
-      } else {
-        const spire = new THREE.Mesh(
-          new THREE.ConeGeometry(1.5, 3.6, 4),
-          stoneLike({ color: roof, flatShading: true }),
-        );
-        spire.position.set(s * 1.9, 9.4, 7.2);
-        spire.rotation.y = Math.PI / 4;
-        group.add(spire);
+    if (!ruined) {
+      const flatTowers = /notre-dame de paris|notre dame de paris|amiens/.test(title.toLowerCase());
+      group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
+      // A true gable roof over the nave — a triangular ridge running its length,
+      // NOT a tapering cone laid on its side.
+      const roofShape = new THREE.Shape();
+      roofShape.moveTo(-2.5, 0);
+      roofShape.lineTo(2.5, 0);
+      roofShape.lineTo(0, 2.3);
+      roofShape.lineTo(-2.5, 0);
+      const naveRoof = new THREE.Mesh(
+        new THREE.ExtrudeGeometry(roofShape, { depth: 14, bevelEnabled: false }),
+        stoneLike({ color: roof, flatShading: true }),
+      );
+      naveRoof.position.set(0, 5.2, -7);
+      group.add(naveRoof);
+      group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
+      // Twin west towers — flat-topped or spired depending on the cathedral.
+      for (const s of [-1, 1]) {
+        group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
+        if (flatTowers) {
+          group.add(block(2.5, 0.4, 2.5, s * 1.9, 7.8, 7.2, roof)); // parapet cornice
+        } else {
+          const spire = new THREE.Mesh(
+            new THREE.ConeGeometry(1.5, 3.6, 4),
+            stoneLike({ color: roof, flatShading: true }),
+          );
+          spire.position.set(s * 1.9, 9.2, 7.2); // base embedded in the tower top (no coplanar face)
+          spire.rotation.y = Math.PI / 4;
+          group.add(spire);
+        }
       }
-    }
-    // Crossing tower + a tall, slender flèche standing upright over it.
-    group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
-    const crossSpire = new THREE.Mesh(
-      new THREE.ConeGeometry(0.85, 6.2, 8),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    crossSpire.position.set(0, 11.5, -1.5);
-    group.add(crossSpire);
-    // Apse (rounded east end).
-    const apse = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
-      stoneLike({ color: wall }),
-    );
-    apse.rotation.y = Math.PI;
-    apse.position.set(0, 2.3, -7);
-    group.add(apse);
-    // Buttresses along the nave.
-    for (const s of [-1, 1]) {
-      for (let z = -4.5; z <= 4.5; z += 3) {
-        group.add(block(0.7, 3.4, 0.7, s * 2.9, 1.7, z, wall));
+      // Crossing tower + a tall, slender flèche standing upright over it.
+      group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
+      const crossSpire = new THREE.Mesh(
+        new THREE.ConeGeometry(0.85, 6.2, 8),
+        stoneLike({ color: roof, flatShading: true }),
+      );
+      crossSpire.position.set(0, 11.3, -1.5); // base embedded in the crossing-tower top
+      group.add(crossSpire);
+      // Apse (rounded east end).
+      const apse = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
+        stoneLike({ color: wall }),
+      );
+      apse.rotation.y = Math.PI;
+      apse.position.set(0, 2.3, -7);
+      group.add(apse);
+      // Buttresses along the nave — seated against the wall (no floating gap).
+      for (const s of [-1, 1]) {
+        for (let z = -4.5; z <= 4.5; z += 3) {
+          group.add(block(0.7, 3.4, 0.7, s * 2.6, 1.7, z, wall));
+        }
+      }
+    } else {
+      // ---- Roofless-abbey ruin ----
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      // A nave side wall standing roofless, pierced by a row of empty lancet
+      // (pointed gothic) windows — the abbey's signature open-to-the-sky wall.
+      const naveWallGeo = (H: number): THREE.ExtrudeGeometry => {
+        const L = 13.6, hw = 0.5, y0 = 1.2, sh = 1.5;
+        const s = new THREE.Shape();
+        s.moveTo(-L / 2, 0);
+        s.lineTo(L / 2, 0);
+        s.lineTo(L / 2, H);
+        s.lineTo(-L / 2, H);
+        s.closePath();
+        const bays = 6;
+        for (let i = 0; i < bays; i++) {
+          const cx = -L / 2 + L * ((i + 0.5) / bays);
+          const h = new THREE.Path();
+          h.moveTo(cx - hw, y0);
+          h.lineTo(cx - hw, y0 + sh);
+          h.lineTo(cx, y0 + sh + hw * 1.5); // pointed apex
+          h.lineTo(cx + hw, y0 + sh);
+          h.lineTo(cx + hw, y0);
+          h.closePath();
+          s.holes.push(h);
+        }
+        const g = new THREE.ExtrudeGeometry(s, { depth: 0.5, bevelEnabled: false });
+        g.translate(0, 0, -0.25);
+        return g;
+      };
+      for (const [sx, H] of [[-1, 5.0], [1, 4.2]] as const) { // one flank better-preserved
+        const w = new THREE.Mesh(naveWallGeo(H), stoneMat(wall));
+        w.rotation.y = Math.PI / 2;
+        w.position.set(sx * 2.3, 0, 0);
+        group.add(w);
+      }
+      // The great WEST WINDOW: a tall gable-end fragment with one empty pointed
+      // window — the abbey ruin's most iconic silhouette.
+      const westShape = new THREE.Shape();
+      const WW = 4.4, WH = 6.4;
+      westShape.moveTo(-WW / 2, 0);
+      westShape.lineTo(WW / 2, 0);
+      westShape.lineTo(WW / 2, WH - 1.3);
+      westShape.lineTo(0, WH); // gable peak
+      westShape.lineTo(-WW / 2, WH - 1.3);
+      westShape.closePath();
+      const whw = 1.15, wy0 = 1.1, wsh = 2.7;
+      const wHole = new THREE.Path();
+      wHole.moveTo(-whw, wy0);
+      wHole.lineTo(-whw, wy0 + wsh);
+      wHole.lineTo(0, wy0 + wsh + whw * 1.5);
+      wHole.lineTo(whw, wy0 + wsh);
+      wHole.lineTo(whw, wy0);
+      wHole.closePath();
+      westShape.holes.push(wHole);
+      const westGeo = new THREE.ExtrudeGeometry(westShape, { depth: 0.6, bevelEnabled: false });
+      westGeo.translate(0, 0, -0.3);
+      const westW = new THREE.Mesh(westGeo, stoneMat(wall));
+      westW.position.set(0, 0, 7);
+      group.add(westW);
+      // Broken west-tower stumps flanking the west front — asymmetric, roofless.
+      for (const [sx, ht] of [[-1, 6.2], [1, 3.8]] as const) {
+        group.add(block(2.2, ht, 2.2, sx * 2.7, ht / 2, 6.9, wall));
+        for (let k = 0; k < 3; k++) { // ragged crown
+          const bh = 0.35 + rnd(sx * 5 + k, 2) * 0.6;
+          group.add(block(0.6, bh, 0.6, sx * 2.7 + (rnd(sx * 5, k) - 0.5) * 1.4, ht + bh / 2 - 0.1, 6.9 + (rnd(sx * 5, k + 3) - 0.5) * 1.4, wall));
+        }
+      }
+      // Broken crossing-tower stump over the transept.
+      group.add(block(2.6, 5.4, 2.6, 0, 2.7, -1.5, wall));
+      for (let k = 0; k < 4; k++) {
+        const bh = 0.4 + rnd(k, 7) * 0.7;
+        group.add(block(0.7, bh, 0.7, (rnd(k, 1) - 0.5) * 2.2, 5.4 + bh / 2 - 0.1, -1.5 + (rnd(k, 4) - 0.5) * 2.2, wall));
+      }
+      // Transept survives as two broken end-wall fragments.
+      for (const sx of [-1, 1] as const)
+        group.add(block(0.5, 3.2 + rnd(sx + 2, 1) * 1.2, 3.4, sx * 4.9, (3.2 + rnd(sx + 2, 1) * 1.2) / 2, -1.5, wall));
+      // Apse: the rounded east end survives as a low roofless wall.
+      const apse = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.2, 2.24, 2.6, 10, 1, true, 0, Math.PI),
+        stoneMat(wall),
+      );
+      apse.rotation.y = Math.PI;
+      apse.position.set(0, 1.3, -7);
+      group.add(apse);
+      // Surviving nave buttresses (shortened) and fallen masonry near the walls.
+      for (const s of [-1, 1] as const)
+        for (let z = -4.5; z <= 4.5; z += 3)
+          group.add(block(0.7, 2.4 + rnd(z + s, 5) * 0.8, 0.7, s * 2.75, (2.4 + rnd(z + s, 5) * 0.8) / 2, z, wall));
+      for (let i = 0; i < 12; i++) {
+        const bx = (rnd(i, 7) - 0.5) * 8;
+        const bz = (rnd(i, 8) - 0.5) * 15;
+        const bs = 0.45 + rnd(i, 9) * 0.6;
+        const b = block(bs, 0.3 + rnd(i, 3) * 0.4, bs * 0.8, bx, 0.22, bz, '#948b78', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
       }
     }
   } else if (model === 'greek-temple') {
-    // The classical order: stylobate, a colonnade all round, architrave,
-    // and a pitched roof with pediments. Athens, our apologies.
+    // The classical order: stylobate, a colonnade all round, architrave, and a
+    // pitched roof with pediments. As a RUIN it builds its OWN form — the
+    // Parthenon TODAY: the colonnade still STANDING (drum columns, some broken,
+    // a few gone), the roof and pediment lost, the cella reduced to partial
+    // walls, surviving architrave over the best-preserved flank, and fallen
+    // drums strewn on the stylobate. It handles its own collapse.
     ground = '#8a8465';
-    const marble = '#d9d2c0';
-    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
-    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    if (ruined) group.userData.selfRuined = true;
+    const marble = ruined ? '#cec7b5' : '#d9d2c0';
     const colX = 4.6;
     const colZ = 2.3;
-    const col = (x: number, z: number) => {
-      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
-      c.position.set(x, 2.55, z);
-      weather(c, 0.02);
-      group.add(c);
-    };
-    for (let i = -4; i <= 4; i++) {
-      col((i / 4) * colX, colZ); // long sides
-      col((i / 4) * colX, -colZ);
+    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
+    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    if (!ruined) {
+      const col = (x: number, z: number) => {
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
+        c.position.set(x, 2.55, z);
+        weather(c, 0.02);
+        group.add(c);
+      };
+      for (let i = -4; i <= 4; i++) {
+        col((i / 4) * colX, colZ); // long sides
+        col((i / 4) * colX, -colZ);
+      }
+      for (const s of [-1, 1]) {
+        col(s * colX, 0.77); // short ends (corners already placed)
+        col(s * colX, -0.77);
+      }
+      group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
+      group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
+      // A proper low-pitched gable with pediments — the last survivor of the old
+      // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
+      // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
+      gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
+    } else {
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      const drumH = 0.53, baseY = 0.95, fullH = 3.2;
+      const drumGeo = new THREE.CylinderGeometry(0.3, 0.32, drumH * 0.98, 12);
+      // A fluted column as a STACK of drums — a broken one keeps a few, a lost
+      // one none. Preserved columns rise full and true to carry the architrave.
+      const placeColumn = (x: number, z: number, seed: number, preserve = false) => {
+        const r = rnd(seed, 1);
+        let hf: number;
+        if (preserve) hf = 1.0;
+        else if (r < 0.22) return; // this column is gone
+        else if (r < 0.5) hf = 0.3 + rnd(seed, 2) * 0.3; // broken stump
+        else hf = 0.82 + rnd(seed, 3) * 0.18; // near-full
+        const nd = Math.max(1, Math.round((fullH * hf) / drumH));
+        for (let d = 0; d < nd; d++) {
+          const c = new THREE.Mesh(drumGeo, stoneMat(marble));
+          const jx = preserve ? 0 : (rnd(seed, d + 6) - 0.5) * 0.05;
+          const jz = preserve ? 0 : (rnd(seed, d + 7) - 0.5) * 0.05;
+          c.position.set(x + jx, baseY + drumH * (d + 0.5), z + jz);
+          c.rotation.y = rnd(seed, d + 4) * 0.5;
+          group.add(c);
+        }
+      };
+      for (let i = -4; i <= 4; i++) {
+        placeColumn((i / 4) * colX, -colZ, 200 + i + 4, true); // preserved back colonnade
+        placeColumn((i / 4) * colX, colZ, 300 + i + 4); // weathered front colonnade
+      }
+      for (const s of [-1, 1] as const) {
+        placeColumn(s * colX, 0.77, 400 + s + 1); // short-end intermediates
+        placeColumn(s * colX, -0.77, 420 + s + 1);
+      }
+      // Surviving architrave (+ frieze course) riding the preserved back flank.
+      group.add(block(7.2, 0.5, 0.72, 0, 4.32, -colZ, marble));
+      group.add(block(0.72, 0.5, 1.5, -colX, 4.32, -colZ + 0.95, marble)); // short return at a corner
+      // The cella reduced to roofless, broken partial walls.
+      const cw = '#c9c1ad';
+      group.add(block(6.2, 1.8, 0.42, 0, baseY + 0.9, -1.1, cw));
+      group.add(block(6.2, 1.0, 0.42, 0, baseY + 0.5, 1.1, cw));
+      group.add(block(0.42, 1.5, 2.6, -3.1, baseY + 0.75, 0, cw));
+      // Pediment fragments — one leaning, one fallen flat on the stylobate.
+      const frag = new THREE.Shape();
+      frag.moveTo(-1.1, 0);
+      frag.lineTo(1.1, 0);
+      frag.lineTo(0.1, 0.95);
+      frag.closePath();
+      const fragGeo = new THREE.ExtrudeGeometry(frag, { depth: 0.42, bevelEnabled: false });
+      const f1 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      f1.position.set(2.4, 1.0, 2.4);
+      f1.rotation.set(0, 0.3, -0.55);
+      group.add(f1);
+      const f2 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      f2.rotation.set(-Math.PI / 2, 0, 0.4);
+      f2.position.set(-2.7, 1.06, 2.9);
+      group.add(f2);
+      // Fallen column drums lying on the stylobate and spilled onto the ground.
+      for (let k = 0; k < 7; k++) {
+        const a = rnd(k, 7) * Math.PI * 2;
+        const rr = 4.2 + rnd(k, 8) * 2.4;
+        const d = new THREE.Mesh(drumGeo, stoneMat(marble));
+        d.rotation.set(0, rnd(k, 9) * Math.PI, Math.PI / 2);
+        d.position.set(Math.cos(a) * rr, rr < 5.3 ? 1.12 : 0.34, Math.sin(a) * rr * 0.6);
+        group.add(d);
+      }
     }
-    for (const s of [-1, 1]) {
-      col(s * colX, 0.77); // short ends (corners already placed)
-      col(s * colX, -0.77);
-    }
-    group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
-    group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
-    // A proper low-pitched gable with pediments — the last survivor of the old
-    // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
-    // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
-    gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
   } else if (model === 'aqueduct') {
-    // Two tiers of piers carrying a water channel across the valley.
+    // Two superimposed arcades of REAL semicircular arches carrying a water
+    // channel across the valley (the Segovia / Pont du Gard look). Each bay is
+    // a THREE.Shape rectangle pierced by a rect+semicircle hole, extruded
+    // through the pier depth — ONE geometry per tier cloned along the straight
+    // span, so daylight passes through every opening. Piers stack tier-on-tier.
     ground = '#7a7a55';
-    const stone = '#c2a878';
-    for (let x = -12; x <= 12; x += 3) {
-      const p = block(1.1, 4.4, 1.5, x, 2.2, 0, stone);
-      weather(p, 0.05);
-      group.add(p);
+    const stoneA = '#cdb88d'; // brighter travertine (lower storey)
+    const stoneB = '#bda775'; // worn travertine (upper storey)
+    const band = '#a8926c'; // impost / string-course cornice
+    // A wall panel pierced by a genuine arch, extruded through the pier depth.
+    const aqArch = (w: number, h: number, hwFrac: number, springFrac: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hw = w * hwFrac;
+      const spring = h * springFrac;
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false, curveSegments: 20 });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+    const span = 26;
+    const bays = 8;
+    const bayW = span / bays; // 3.25 — pier-to-pier spacing
+    const panelW = bayW + 0.04; // overlap a whisker so no coincident pier faces
+    const x0 = -span / 2;
+    const depth = 1.6; // channel/pier thickness across the span
+    const H1 = 4.9; // lower arcade height
+    const H2 = 3.4; // upper arcade height
+    const bandH = 0.32;
+    const lowGeo = aqArch(panelW, H1, 0.3, 0.56, depth);
+    const topGeo = aqArch(panelW, H2, 0.3, 0.5, depth);
+    const matA = stoneLike({ color: stoneA });
+    const matB = stoneLike({ color: stoneB });
+    const y1 = H1 + bandH; // base of upper tier (sits on the string course)
+    for (let i = 0; i < bays; i++) {
+      const x = x0 + bayW * (i + 0.5);
+      const p1 = new THREE.Mesh(lowGeo, i % 2 ? matA : matB);
+      p1.position.set(x, 0, 0);
+      group.add(p1);
+      const p2 = new THREE.Mesh(topGeo, i % 2 ? matB : matA);
+      p2.position.set(x, y1, 0);
+      group.add(p2);
     }
-    group.add(block(27, 1.0, 1.7, 0, 4.9, 0, stone)); // lower spans
-    for (let x = -12; x <= 12; x += 3) {
-      const p = block(0.85, 3.2, 1.3, x, 7.0, 0, stone);
-      weather(p, 0.05);
-      group.add(p);
-    }
-    group.add(block(27, 0.9, 1.5, 0, 9.0, 0, stone)); // upper spans
-    group.add(block(27, 0.5, 1.0, 0, 9.7, 0, '#9a8a68')); // the channel itself
+    // String-course cornices banding each arcade (proud of the arch faces).
+    group.add(block(span + 0.3, bandH, depth + 0.24, 0, H1 + bandH / 2, 0, band)); // between tiers
+    const yTop = y1 + H2; // top of upper arcade
+    group.add(block(span + 0.3, bandH, depth + 0.24, 0, yTop + bandH / 2, 0, band)); // under the channel
+    // The water channel (specus) riding the crest: a floor slab, low kerb walls
+    // and a thin ribbon of water between them.
+    const chY = yTop + bandH;
+    group.add(block(span, 0.42, depth * 0.72, 0, chY + 0.21, 0, '#b7a37c')); // channel bed
+    for (const s of [-1, 1] as const)
+      group.add(block(span, 0.62, 0.2, 0, chY + 0.31, s * (depth * 0.36 - 0.1), '#c7b78f')); // kerb walls
+    const water = block(span - 0.4, 0.14, depth * 0.5, 0, chY + 0.5, 0, '#3f7d86');
+    (water.material as THREE.MeshStandardMaterial).map = null;
+    water.userData.noShadow = true;
+    group.add(water);
   } else if (model === 'pagoda') {
     // Five diminishing storeys, each under a wide dark roof slab.
     ground = '#5c6b42';
@@ -743,32 +1086,75 @@ export function buildModel(
     finial.position.y = 11.6;
     group.add(finial);
   } else if (model === 'lighthouse') {
-    // A tapering tower on the rocks, gallery and lamp at the top.
+    // A tapering tower on the rocks, gallery and lamp at the top. As a RUIN it
+    // builds its OWN form — the Pharos ended as a broad weathered STUMP later
+    // reused as the base of a coastal fort (the Mamluks raised the Qaitbay
+    // citadel on it), ringed by a rubble apron. It handles its own collapse.
     ground = '#6a6f63';
-    const tower = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.4, 2.3, 9.5, 14),
-      stoneLike({ color: '#d8d2c4' }),
-    );
-    tower.position.y = 4.75;
-    group.add(tower);
-    group.add(block(3.4, 0.5, 3.4, 0, 9.75, 0, '#8a8478')); // gallery
-    const lamp = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.9, 0.9, 1.5, 10),
-      new THREE.MeshStandardMaterial({
-        color: '#fff2c4',
-        emissive: '#ffca4a',
-        emissiveIntensity: 1.4,
-      }),
-    );
-    lamp.userData.noShadow = true;
-    lamp.position.y = 10.75;
-    group.add(lamp);
-    const cap = new THREE.Mesh(
-      new THREE.ConeGeometry(1.2, 1.1, 10),
-      stoneLike({ color: '#7c4a3a' }),
-    );
-    cap.position.y = 12.1;
-    group.add(cap);
+    if (!ruined) {
+      const tower = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.4, 2.3, 9.5, 14),
+        stoneLike({ color: '#d8d2c4' }),
+      );
+      tower.position.y = 4.75;
+      group.add(tower);
+      group.add(block(3.4, 0.5, 3.4, 0, 9.75, 0, '#8a8478')); // gallery
+      const lamp = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.9, 0.9, 1.5, 10),
+        new THREE.MeshStandardMaterial({
+          color: '#fff2c4',
+          emissive: '#ffca4a',
+          emissiveIntensity: 1.4,
+        }),
+      );
+      lamp.userData.noShadow = true;
+      lamp.position.y = 10.75;
+      group.add(lamp);
+      const cap = new THREE.Mesh(
+        new THREE.ConeGeometry(1.2, 1.1, 10),
+        stoneLike({ color: '#7c4a3a' }),
+      );
+      cap.position.y = 12.1;
+      group.add(cap);
+    } else {
+      group.userData.selfRuined = true;
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      // The broad, squat stump — the surviving foot of the great tower.
+      const stumpH = 3.4;
+      const stump = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.95, 2.42, stumpH, 16),
+        stoneLike({ color: '#c7c0b0' }),
+      );
+      stump.position.y = stumpH / 2;
+      group.add(stump);
+      for (let i = 0; i < 11; i++) { // jagged broken crown around the stump rim
+        const a = (i / 11) * Math.PI * 2;
+        const bh = 0.3 + rnd(i, 2) * 0.7;
+        group.add(block(0.6, bh, 0.55, Math.cos(a) * 1.85, stumpH + bh / 2 - 0.18, Math.sin(a) * 1.85, '#bcb4a4', -a));
+      }
+      // A low square fort raised on the stump crown — the medieval reuse.
+      const fortY = stumpH, fr = 1.6, fortC = '#a89e88';
+      for (const [dx, dz] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+        const isX = dx !== 0;
+        group.add(block(isX ? 0.5 : 2 * fr + 0.5, 1.5, isX ? 2 * fr + 0.5 : 0.5, dx * fr, fortY + 0.75, dz * fr, fortC));
+      }
+      for (let i = 0; i < 4; i++) { // corner merlons on the fort
+        const a = Math.PI / 4 + (i / 4) * Math.PI * 2;
+        group.add(block(0.55, 0.55, 0.55, Math.cos(a) * fr * 1.18, fortY + 1.6, Math.sin(a) * fr * 1.18, fortC));
+      }
+      // Rubble apron spilling around the foot of the stump.
+      for (let i = 0; i < 14; i++) {
+        const a = rnd(i, 7) * Math.PI * 2;
+        const rr = 2.6 + rnd(i, 8) * 1.7;
+        const bs = 0.42 + rnd(i, 9) * 0.7;
+        const b = block(bs, 0.3 + rnd(i, 3) * 0.35, bs * 0.85, Math.cos(a) * rr, 0.2, Math.sin(a) * rr, '#b0a794', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
+      }
+    }
   } else if (model === 'leaning-tower') {
     // The Leaning Tower of Pisa: a white marble campanile of eight stacked
     // arcaded galleries under a bell chamber — built from the base up, then
