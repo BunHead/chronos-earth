@@ -1,6 +1,10 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import * as Cesium from 'cesium';
-import 'cesium/Build/Cesium/Widgets/widgets.css';
+// NOTE: Cesium's widget CSS is NOT imported here. vite-plugin-cesium already
+// injects `<link href="cesium/Widgets/widgets.css">` into index.html, so
+// importing it again would bundle a second ~30 KB copy into the app's main
+// stylesheet (a duplicate download on every page load). Loading it only via the
+// plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { buildEventIndex } from '../lib/eventIndex';
