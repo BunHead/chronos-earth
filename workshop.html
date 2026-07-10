@@ -81,6 +81,37 @@
       #saveMsg { font-size: 11px; margin-top: 8px; min-height: 14px; opacity: .85; }
       #saveMsg.ok { color: #57e39b; }
       #saveMsg.err { color: #f0776b; }
+
+      /* ── Contact-sheet gallery ────────────────────────────────────── */
+      #gallery {
+        position: fixed; inset: 0; z-index: 20; display: none; overflow-y: auto;
+        background: rgba(10, 15, 22, 0.94); backdrop-filter: blur(6px);
+        padding: 26px 30px 40px; box-sizing: border-box;
+      }
+      #gallery.open { display: block; }
+      #gallery h2 { color: #eaf1f8; font-size: 17px; margin: 0 0 4px; }
+      #gallery p.gsub { color: #93a5b7; font-size: 12px; margin: 0 0 18px; }
+      #gallery .gclose {
+        position: fixed; top: 16px; right: 22px; z-index: 21;
+        background: #1b2a3a; color: #eaf1f8; border: 1px solid #3a4a5c;
+        border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+      }
+      #gGrid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 14px;
+      }
+      .gcard {
+        background: #141d28; border: 1px solid #2b3a4c; border-radius: 11px;
+        overflow: hidden; cursor: pointer; transition: transform .12s, border-color .12s;
+      }
+      .gcard:hover { transform: translateY(-2px); border-color: #6fb1ff; }
+      .gcard img { width: 100%; aspect-ratio: 7/5; object-fit: cover; display: block; background: #1c2836; }
+      .gcard .gmeta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 7px 9px 8px; }
+      .gcard .gname { color: #dde7f1; font-size: 11.5px; line-height: 1.25; }
+      .gbadge { flex: none; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: #26333f; color: #93a5b7; }
+      .gbadge.approved { background: #123a26; color: #57e39b; }
+      .gbadge.allowed { background: #3a3312; color: #e6c94e; }
+      .gbadge.rejected { background: #3a1717; color: #f0776b; }
+      .gbadge.rework { background: #1c2f4a; color: #7db4f5; }
     </style>
   </head>
   <body>
@@ -133,6 +164,9 @@
         <button data-a="top">Top</button>
         <button data-a="side">Side</button>
       </div>
+      <div class="row">
+        <button id="galleryBtn" title="Every model at a glance, with its review status">🖼️ Gallery — the whole fleet</button>
+      </div>
 
       <hr class="rule" />
       <!-- Maker's mode: hidden controls that only light up with the Captain's
@@ -176,6 +210,15 @@
       </div>
 
       <p class="hint">This is the same modeller that draws monuments in the app — here you can browse and (as maker) review every one.</p>
+    </div>
+
+    <!-- The contact sheet: every archetype rendered live, badged with its
+         review status. Click a card to open it in the viewer. -->
+    <div id="gallery">
+      <button class="gclose" id="galleryClose">✕ Close</button>
+      <h2>🖼️ The fleet — every model at a glance</h2>
+      <p class="gsub">Rendered live in your browser just now. Badges show your review verdicts; click any card to inspect it.</p>
+      <div id="gGrid"></div>
     </div>
     <script type="module" src="/src/workshop.ts"></script>
   </body>

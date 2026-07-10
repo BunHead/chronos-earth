@@ -562,6 +562,106 @@ window.addEventListener('resize', () => {
 sel.value = 'giza';
 refresh(); // also boots the dial + sky
 
+// ─────────────────────────────────────────────────────────────────────────
+// Contact-sheet gallery (Stage C): every archetype rendered to a thumbnail
+// live in the browser — no server, no pipeline. One small offscreen renderer
+// is reused card by card (sequentially, so the page never stutters), and each
+// card wears the model's review badge and opens it in the viewer on click.
+// ─────────────────────────────────────────────────────────────────────────
+const galleryEl = document.getElementById('gallery') as HTMLDivElement;
+const gGrid = document.getElementById('gGrid') as HTMLDivElement;
+const thumbCache = new Map<string, string>();
+let thumbRenderer: THREE.WebGLRenderer | null = null;
+let thumbEnv: THREE.Texture | null = null;
+
+function renderThumb(model: string): string {
+  if (thumbCache.has(model)) return thumbCache.get(model)!;
+  if (!thumbRenderer) {
+    thumbRenderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    thumbRenderer.setSize(196, 140);
+    thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
+    thumbRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const pm = new THREE.PMREMGenerator(thumbRenderer);
+    thumbEnv = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  }
+  const ts = new THREE.Scene();
+  ts.background = new THREE.Color('#9fb4c8');
+  ts.environment = thumbEnv;
+  ts.environmentIntensity = 0.35;
+  ts.add(new THREE.HemisphereLight(0xdfe9ff, 0x54513f, 1.1));
+  const tsun = new THREE.DirectionalLight(0xffffff, 1.8);
+  tsun.position.set(30, 42, 22);
+  ts.add(tsun);
+  const { group, ground } = buildModel(model, 3, LIVE_SITES[model]?.title || '');
+  group.updateMatrixWorld(true);
+  group.position.y -= boxOf(group).min.y;
+  ts.add(group);
+  const tdisc = new THREE.Mesh(new THREE.CircleGeometry(400, 48), new THREE.MeshStandardMaterial({ color: ground, roughness: 1 }));
+  tdisc.rotation.x = -Math.PI / 2;
+  ts.add(tdisc);
+  const box = boxOf(group);
+  const size = box.getSize(new THREE.Vector3());
+  const c = box.getCenter(new THREE.Vector3());
+  const r = Math.max(size.x, size.y, size.z) || 20;
+  const tall = size.y > Math.max(size.x, size.z);
+  const k = tall ? 1.6 : 1.25;
+  const tcam = new THREE.PerspectiveCamera(42, 196 / 140, 0.1, 6000);
+  tcam.position.set(c.x + r * k, r * (tall ? 0.8 : 0.95) + 2, c.z + r * k);
+  tcam.lookAt(c.x, c.y * (tall ? 0.75 : 0.6), c.z);
+  thumbRenderer.render(ts, tcam);
+  const url = thumbRenderer.domElement.toDataURL('image/jpeg', 0.85);
+  // Free the model's GPU memory — 28 models' worth adds up.
+  group.traverse((o) => {
+    if (o instanceof THREE.Mesh) {
+      o.geometry.dispose();
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose();
+    }
+  });
+  thumbCache.set(model, url);
+  return url;
+}
+
+function badgeFor(model: string): { cls: string; text: string } {
+  const rec = reviewData[model] || {};
+  if (rec.status) {
+    return {
+      cls: rec.status,
+      text: rec.status === 'approved' ? 'Approved' : rec.status === 'allowed' ? 'Allowed' : 'Rejected',
+    };
+  }
+  if (rec.rework) return { cls: 'rework', text: 'Rework queued' };
+  return { cls: '', text: 'Unreviewed' };
+}
+
+function openGallery() {
+  galleryEl.classList.add('open');
+  gGrid.innerHTML = '';
+  const queue = [...SORTED];
+  const step = () => {
+    const next = queue.shift();
+    if (!next || !galleryEl.classList.contains('open')) return;
+    const [model, label] = next;
+    const card = document.createElement('div');
+    card.className = 'gcard';
+    const badge = badgeFor(model);
+    card.innerHTML = `<img alt="${label}" /><div class="gmeta"><span class="gname">${label}</span><span class="gbadge ${badge.cls}">${badge.text}</span></div>`;
+    (card.querySelector('img') as HTMLImageElement).src = renderThumb(model);
+    card.addEventListener('click', () => {
+      galleryEl.classList.remove('open');
+      filterEl.value = '';
+      populate();
+      sel.value = model;
+      refresh();
+      renderReview();
+    });
+    gGrid.appendChild(card);
+    setTimeout(step, 16); // one card a frame — the page stays silky
+  };
+  step();
+}
+document.getElementById('galleryBtn')!.addEventListener('click', openGallery);
+document.getElementById('galleryClose')!.addEventListener('click', () => galleryEl.classList.remove('open'));
+
 function loop() {
   if (weatherFx) {
     const positions = weatherFx.geometry.getAttribute('position') as THREE.BufferAttribute;
