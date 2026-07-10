@@ -39,5 +39,8 @@ jobs:
             echo "No new events this run."
           else
             git commit -m "Data: automated nightly harvest (additive)"
+            # The branch may have moved during the long harvest (deploys, other
+            # harvesters) — rebase our data commit on top rather than failing.
+            git pull --rebase origin main
             git push
           fi
