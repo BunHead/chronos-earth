@@ -148,7 +148,7 @@ let phaseFx: THREE.Group | null = null;
 let terrainAids: THREE.Group | null = null;
 let weatherFx: THREE.Points | null = null;
 let terrainRequest = 0;
-type LifePhase = 'intact' | 'construction' | 'burning' | 'ruin' | 'drowning';
+type LifePhase = 'intact' | 'construction' | 'burning' | 'ruin' | 'drowning' | 'covered';
 let lifePhase: LifePhase = 'intact';
 
 // A real-world scale reference, built in METRES then scaled to the model's own
@@ -215,24 +215,100 @@ function makeFigure(kind: string): { group: THREE.Group; heightM: number } {
   return { group: g, heightM };
 }
 
-function addPhaseEffect(phase: LifePhase, box: THREE.Box3) {
+// A soft radial-gradient sprite — fire and smoke that look like fire and
+// smoke, not wizard hats (the cones' verdict was "Harry Potter").
+function glowSprite(inner: string, outer: string, blending: THREE.Blending): THREE.Sprite {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  const grad = g.createRadialGradient(32, 32, 2, 32, 32, 32);
+  grad.addColorStop(0, inner);
+  grad.addColorStop(1, outer);
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 64, 64);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, blending }));
+  sp.userData.noShadow = true;
+  return sp;
+}
+
+const rnd2 = (i: number, k = 0) => {
+  const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+  return s - Math.floor(s);
+};
+
+function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
   if (phaseFx) scene.remove(phaseFx);
   phaseFx = new THREE.Group();
+  const box = boxOf(target);
   const size = box.getSize(new THREE.Vector3());
   const centre = box.getCenter(new THREE.Vector3());
   if (phase === 'burning') {
-    for (let i = 0; i < 18; i++) {
-      const h = Math.max(0.8, size.y * (0.12 + Math.random() * 0.22));
-      const flame = new THREE.Mesh(
-        new THREE.ConeGeometry(h * 0.16, h, 7),
-        new THREE.MeshBasicMaterial({ color: i % 3 ? '#ff7a18' : '#ffd35a', transparent: true, opacity: 0.86 }),
-      );
-      flame.position.set(
-        centre.x + (Math.random() - 0.5) * size.x * 0.85,
-        box.max.y + h * 0.35,
-        centre.z + (Math.random() - 0.5) * size.z * 0.85,
-      );
+    // Fire ANCHORED to the building: flames sit on actual mesh tops (every
+    // few meshes, deterministically chosen), licking up from the structure —
+    // with smoke rolling above. The old free-floating cones hovered beside
+    // whatever the model was (Notre-Dame's fire missed Notre-Dame).
+    const meshes: THREE.Mesh[] = [];
+    target.traverse((o) => { if (o instanceof THREE.Mesh && !o.userData.noShadow) meshes.push(o); });
+    const step = Math.max(1, Math.floor(meshes.length / 22));
+    let fi = 0;
+    for (let i = 0; i < meshes.length; i += step) {
+      const m = meshes[i];
+      const mb = new THREE.Box3().setFromObject(m);
+      const mc = mb.getCenter(new THREE.Vector3());
+      const ms = mb.getSize(new THREE.Vector3());
+      const fs = Math.max(0.5, Math.min(ms.x, 3) * (0.8 + rnd2(fi) * 0.7));
+      const flame = glowSprite('rgba(255,235,160,1)', 'rgba(255,90,10,0)', THREE.AdditiveBlending);
+      flame.scale.set(fs, fs * (1.4 + rnd2(fi, 1) * 0.5), 1);
+      flame.position.set(mc.x + (rnd2(fi, 2) - 0.5) * ms.x * 0.4, mb.max.y + fs * 0.32, mc.z + (rnd2(fi, 3) - 0.5) * ms.z * 0.4);
+      flame.userData.flame = { base: fs, seed: fi };
       phaseFx.add(flame);
+      if (fi % 2 === 0) {
+        const smoke = glowSprite('rgba(70,66,62,0.55)', 'rgba(60,58,56,0)', THREE.NormalBlending);
+        const ss = fs * (1.8 + rnd2(fi, 4));
+        smoke.scale.set(ss, ss, 1);
+        smoke.position.set(mc.x + (rnd2(fi, 5) - 0.5) * 1.2, mb.max.y + fs * 1.3, mc.z);
+        phaseFx.add(smoke);
+      }
+      fi++;
+    }
+  } else if (phase === 'covered') {
+    // Buried by the sky or the earth: snow, volcanic ash (Pompeii) or flood
+    // silt. Every surface tints toward the blanket, drifts bank against the
+    // walls, and a ground sheet spreads around the site.
+    const kind = (document.getElementById('coverKind') as HTMLSelectElement)?.value || 'snow';
+    const tone = kind === 'snow' ? new THREE.Color('#eef2f6') : kind === 'ash' ? new THREE.Color('#8e8b86') : new THREE.Color('#7b6448');
+    const strength = kind === 'snow' ? 0.55 : 0.6;
+    target.traverse((o) => {
+      if (!(o instanceof THREE.Mesh) || o.userData.noShadow) return;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      const covered = mats.map((m) => {
+        const c = (m as THREE.MeshStandardMaterial).clone();
+        if (c.color) c.color.lerp(tone, strength);
+        c.roughness = 1;
+        return c;
+      });
+      o.material = Array.isArray(o.material) ? covered : covered[0];
+    });
+    const sheet = new THREE.Mesh(
+      new THREE.CircleGeometry(Math.max(size.x, size.z) * 0.9, 48),
+      new THREE.MeshStandardMaterial({ color: tone, roughness: 1, transparent: true, opacity: 0.85 }),
+    );
+    sheet.rotation.x = -Math.PI / 2;
+    sheet.position.set(centre.x, box.min.y + 0.04, centre.z);
+    sheet.userData.noShadow = true;
+    phaseFx.add(sheet);
+    for (let i = 0; i < 16; i++) { // drifts banked round the footprint
+      const a = i * 2.399;
+      const rr = Math.max(size.x, size.z) * (0.3 + rnd2(i) * 0.28);
+      const drift = new THREE.Mesh(
+        new THREE.SphereGeometry(0.5 + rnd2(i, 1) * 0.9, 8, 6),
+        new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }),
+      );
+      drift.scale.y = 0.3;
+      drift.position.set(centre.x + Math.cos(a) * rr, box.min.y + 0.1, centre.z + Math.sin(a) * rr);
+      phaseFx.add(drift);
     }
   } else if (phase === 'construction') {
     const scaffold = new THREE.MeshStandardMaterial({ color: '#c99b59', roughness: 0.9 });
@@ -300,6 +376,13 @@ function addTerrainAids() {
 // high, exactly as in the app. The weather select handles precipitation until
 // the dial grows its cloud/wind bars.
 const sky = { date: new Date(), solarHours: 10, auto: true, moonPhase: 0.5 };
+// The visible sun disc and moon (soft sprites on the far sky-dome).
+const sunDisc = glowSprite('rgba(255,255,244,1)', 'rgba(255,180,90,0)', THREE.AdditiveBlending);
+sunDisc.scale.set(34, 34, 1);
+scene.add(sunDisc);
+const moonDisc = glowSprite('rgba(232,236,244,0.95)', 'rgba(190,200,220,0)', THREE.NormalBlending);
+moonDisc.scale.set(18, 18, 1);
+scene.add(moonDisc);
 const DAY_SKY = new THREE.Color('#87add0');
 const DUSK_SKY = new THREE.Color('#b86a3e');
 const GREY_SKY = new THREE.Color('#687583');
@@ -315,6 +398,16 @@ function applyWeather() {
   sun.intensity = Math.max(0, s) * (clear ? 2.4 : 1.2);
   sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
   ambient.intensity = 0.3 + Math.max(0, s) * (clear ? 1.0 : 0.55);
+  // The VISIBLE sun and moon riding the sky-dome — the Stonehenge money shot
+  // works again: park the dial on a solstice sunrise and watch the disc clear
+  // the heel stone. The moon rides the same path, lagged by its phase.
+  sunDisc.position.set(dir.x * 210, dir.y * 210, dir.z * 210);
+  sunDisc.visible = s > -0.06 && clear;
+  const warmth = Math.max(0, Math.min(1, (0.32 - s) / 0.5));
+  (sunDisc.material as THREE.SpriteMaterial).color.setHSL(0.12 - warmth * 0.07, 0.85, 0.72);
+  const md = sunDirection(sky.date, (sky.solarHours + sky.moonPhase * 24) % 24, lat);
+  moonDisc.position.set(md.x * 208, md.y * 208, md.z * 208);
+  moonDisc.visible = md.y > -0.03;
   // Sky: night below the horizon, a warm band near it, blue when high — the
   // app's exact ramp, greyed over when the weather closes in.
   const skyColor = new THREE.Color();
@@ -346,6 +439,14 @@ function applyWeather() {
     }));
     scene.add(weatherFx);
   }
+}
+
+// Which transport belongs beside this monument — picked by place and period.
+function transportFor(model: string, site?: LiveSite): string {
+  if (['buckingham', 'westminster', 'london-eye', 'liberty'].includes(model)) return 'bus';
+  if (['pharos', 'lighthouse', 'colossus', 'rings'].includes(model)) return 'trireme';
+  if (site && site.lat > 10 && site.lat < 37 && site.lon > -18 && site.lon < 65) return 'camel';
+  return 'horse';
 }
 
 // The intact, fully-built footprint of each model — measured once and cached,
@@ -434,7 +535,7 @@ function show(model: string, title: string, stage: number) {
     terrainRequest++;
   }
 
-  addPhaseEffect(lifePhase, boxOf(group));
+  addPhaseEffect(lifePhase, group);
 
   // Scale figure — sized so 1 metre of it matches 1 metre of the real monument.
   if (figure) {
@@ -449,9 +550,20 @@ function show(model: string, title: string, stage: number) {
     const b = boxOf(group);
     const widthM = fitFor(displayTitle, model).widthM || nativeFootprint;
     const unitsPerMetre = (nativeFootprint / widthM) * group.scale.x;
-    const { group: fig } = makeFigure(kind);
+    // "Auto" (the default, per the Captain): ALWAYS a person, plus the local
+    // period transport — camel in the deserts, red bus for modern London,
+    // trireme at the ancient harbours, horse most everywhere else.
+    const kinds = kind === 'auto' ? ['person', transportFor(model, site)] : [kind];
+    const fig = new THREE.Group();
+    let offset = 0;
+    for (const k of kinds) {
+      const { group: f } = makeFigure(k);
+      f.position.x = offset;
+      fig.add(f);
+      offset += k === 'trireme' ? 40 : k === 'bus' ? 10 : 4; // metres apart
+    }
     fig.scale.setScalar(unitsPerMetre);
-    fig.position.set(b.max.x + nativeFootprint * group.scale.x * 0.06 + unitsPerMetre * 1.5, 0, 0);
+    fig.position.set(b.max.x + nativeFootprint * group.scale.x * 0.06 + unitsPerMetre * 2, 0, 0);
     scene.add(fig);
     figure = fig;
   }
@@ -579,15 +691,16 @@ titleEl.addEventListener('input', refresh);
 terrainEl.addEventListener('change', refresh);
 figureSel.addEventListener('change', refresh);
 slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value));
+const coverKindEl = document.getElementById('coverKind') as HTMLSelectElement;
 for (const button of phaseBtns) button.addEventListener('click', () => {
   lifePhase = button.dataset.phase as LifePhase;
   for (const peer of phaseBtns) peer.classList.toggle('active', peer === button);
+  coverKindEl.style.display = lifePhase === 'covered' ? 'block' : 'none';
   refresh();
 });
+coverKindEl.addEventListener('change', refresh);
 weatherEl?.addEventListener('change', applyWeather);
-document.querySelectorAll<HTMLButtonElement>('.row button').forEach((b) =>
-  b.addEventListener('click', () => frame(b.dataset.a!)),
-);
+// (The ¾/Top/Side buttons are gone — orbit does the viewing now.)
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -714,6 +827,16 @@ function loop() {
       if (weather === 'snow') positions.setX(i, positions.getX(i) + Math.sin(performance.now() * 0.001 + i) * 0.003);
     }
     positions.needsUpdate = true;
+  }
+  // Flames breathe — each sprite flickers around its base size.
+  if (phaseFx && lifePhase === 'burning') {
+    const ft = performance.now() / 1000;
+    for (const o of phaseFx.children) {
+      const f = (o as THREE.Sprite).userData.flame as { base: number; seed: number } | undefined;
+      if (!f) continue;
+      const fl = 0.75 + 0.35 * Math.abs(Math.sin(ft * 7 + f.seed) * Math.sin(ft * 11 + f.seed * 1.7));
+      o.scale.set(f.base * fl, f.base * fl * 1.55, 1);
+    }
   }
   controls.update();
   renderer.render(scene, camera);

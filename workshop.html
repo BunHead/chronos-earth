@@ -144,15 +144,18 @@
       </div>
       <p class="lead">Drag this window by its title bar. Drag the scene to spin, scroll to zoom.</p>
 
-      <details open>
+      <details>
         <summary>Monument</summary>
         <input id="filter" type="text" placeholder="🔍 Filter the list…" autocomplete="off" style="margin-bottom:6px;" />
         <select id="model" size="1"></select>
         <label for="title">Name (optional — tweaks a few models)</label>
         <input id="title" type="text" placeholder="e.g. Notre-Dame de Paris" />
+        <div class="row">
+          <button id="galleryBtn" title="Every model at a glance, with its review status">🖼️ Gallery — the whole fleet</button>
+        </div>
       </details>
 
-      <details open>
+      <details>
         <summary>Time &amp; life</summary>
         <div id="extra">
           <label id="slabel" for="slider">Stage</label>
@@ -165,10 +168,16 @@
           <button data-phase="burning">Burning</button>
           <button data-phase="ruin">Ruin</button>
           <button data-phase="drowning">Drowning</button>
+          <button data-phase="covered">Covered</button>
         </div>
+        <select id="coverKind" style="display:none;margin-top:7px;">
+          <option value="snow">❄️ Snow</option>
+          <option value="ash">🌋 Ash (Pompeii)</option>
+          <option value="mud">🟤 Mud / flood silt</option>
+        </select>
       </details>
 
-      <details open>
+      <details>
         <summary>Site &amp; view</summary>
         <label style="display:flex;align-items:center;gap:7px;cursor:pointer;margin-top:9px;">
           <input id="terrain" type="checkbox" style="width:auto;margin:0;accent-color:#6fb1ff;" />
@@ -179,6 +188,7 @@
              Sky dial, bottom-right — the same brass armillary as the app. -->
         <label for="figure">Scale figure (real size)</label>
         <select id="figure">
+          <option value="auto" selected>Auto — person + local transport</option>
           <option value="">None</option>
           <option value="person">🧍 Person · 1.8 m</option>
           <option value="camel">🐫 Camel · 2.2 m</option>
@@ -186,17 +196,9 @@
           <option value="bus">🚌 London bus · 4.4 m</option>
           <option value="trireme">⛵ Trireme · 37 m</option>
         </select>
-        <div class="row">
-          <button data-a="3q">¾ view</button>
-          <button data-a="top">Top</button>
-          <button data-a="side">Side</button>
-        </div>
-        <div class="row">
-          <button id="galleryBtn" title="Every model at a glance, with its review status">🖼️ Gallery — the whole fleet</button>
-        </div>
       </details>
 
-      <details open>
+      <details>
       <summary>Review — maker's mode</summary>
       <!-- Maker's mode: hidden controls that only light up with the Captain's
            GitHub token. Visitors just see the status badge, never the buttons. -->
