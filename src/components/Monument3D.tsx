@@ -797,34 +797,107 @@ export function buildModel(
       }
     }
   } else if (model === 'greek-temple') {
-    // The classical order: stylobate, a colonnade all round, architrave,
-    // and a pitched roof with pediments. Athens, our apologies.
+    // The classical order: stylobate, a colonnade all round, architrave, and a
+    // pitched roof with pediments. As a RUIN it builds its OWN form — the
+    // Parthenon TODAY: the colonnade still STANDING (drum columns, some broken,
+    // a few gone), the roof and pediment lost, the cella reduced to partial
+    // walls, surviving architrave over the best-preserved flank, and fallen
+    // drums strewn on the stylobate. It handles its own collapse.
     ground = '#8a8465';
-    const marble = '#d9d2c0';
-    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
-    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    if (ruined) group.userData.selfRuined = true;
+    const marble = ruined ? '#cec7b5' : '#d9d2c0';
     const colX = 4.6;
     const colZ = 2.3;
-    const col = (x: number, z: number) => {
-      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
-      c.position.set(x, 2.55, z);
-      weather(c, 0.02);
-      group.add(c);
-    };
-    for (let i = -4; i <= 4; i++) {
-      col((i / 4) * colX, colZ); // long sides
-      col((i / 4) * colX, -colZ);
+    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
+    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    if (!ruined) {
+      const col = (x: number, z: number) => {
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
+        c.position.set(x, 2.55, z);
+        weather(c, 0.02);
+        group.add(c);
+      };
+      for (let i = -4; i <= 4; i++) {
+        col((i / 4) * colX, colZ); // long sides
+        col((i / 4) * colX, -colZ);
+      }
+      for (const s of [-1, 1]) {
+        col(s * colX, 0.77); // short ends (corners already placed)
+        col(s * colX, -0.77);
+      }
+      group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
+      group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
+      // A proper low-pitched gable with pediments — the last survivor of the old
+      // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
+      // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
+      gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
+    } else {
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      const drumH = 0.53, baseY = 0.95, fullH = 3.2;
+      const drumGeo = new THREE.CylinderGeometry(0.3, 0.32, drumH * 0.98, 12);
+      // A fluted column as a STACK of drums — a broken one keeps a few, a lost
+      // one none. Preserved columns rise full and true to carry the architrave.
+      const placeColumn = (x: number, z: number, seed: number, preserve = false) => {
+        const r = rnd(seed, 1);
+        let hf: number;
+        if (preserve) hf = 1.0;
+        else if (r < 0.22) return; // this column is gone
+        else if (r < 0.5) hf = 0.3 + rnd(seed, 2) * 0.3; // broken stump
+        else hf = 0.82 + rnd(seed, 3) * 0.18; // near-full
+        const nd = Math.max(1, Math.round((fullH * hf) / drumH));
+        for (let d = 0; d < nd; d++) {
+          const c = new THREE.Mesh(drumGeo, stoneMat(marble));
+          const jx = preserve ? 0 : (rnd(seed, d + 6) - 0.5) * 0.05;
+          const jz = preserve ? 0 : (rnd(seed, d + 7) - 0.5) * 0.05;
+          c.position.set(x + jx, baseY + drumH * (d + 0.5), z + jz);
+          c.rotation.y = rnd(seed, d + 4) * 0.5;
+          group.add(c);
+        }
+      };
+      for (let i = -4; i <= 4; i++) {
+        placeColumn((i / 4) * colX, -colZ, 200 + i + 4, true); // preserved back colonnade
+        placeColumn((i / 4) * colX, colZ, 300 + i + 4); // weathered front colonnade
+      }
+      for (const s of [-1, 1] as const) {
+        placeColumn(s * colX, 0.77, 400 + s + 1); // short-end intermediates
+        placeColumn(s * colX, -0.77, 420 + s + 1);
+      }
+      // Surviving architrave (+ frieze course) riding the preserved back flank.
+      group.add(block(7.2, 0.5, 0.72, 0, 4.32, -colZ, marble));
+      group.add(block(0.72, 0.5, 1.5, -colX, 4.32, -colZ + 0.95, marble)); // short return at a corner
+      // The cella reduced to roofless, broken partial walls.
+      const cw = '#c9c1ad';
+      group.add(block(6.2, 1.8, 0.42, 0, baseY + 0.9, -1.1, cw));
+      group.add(block(6.2, 1.0, 0.42, 0, baseY + 0.5, 1.1, cw));
+      group.add(block(0.42, 1.5, 2.6, -3.1, baseY + 0.75, 0, cw));
+      // Pediment fragments — one leaning, one fallen flat on the stylobate.
+      const frag = new THREE.Shape();
+      frag.moveTo(-1.1, 0);
+      frag.lineTo(1.1, 0);
+      frag.lineTo(0.1, 0.95);
+      frag.closePath();
+      const fragGeo = new THREE.ExtrudeGeometry(frag, { depth: 0.42, bevelEnabled: false });
+      const f1 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      f1.position.set(2.4, 1.0, 2.4);
+      f1.rotation.set(0, 0.3, -0.55);
+      group.add(f1);
+      const f2 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      f2.rotation.set(-Math.PI / 2, 0, 0.4);
+      f2.position.set(-2.7, 1.06, 2.9);
+      group.add(f2);
+      // Fallen column drums lying on the stylobate and spilled onto the ground.
+      for (let k = 0; k < 7; k++) {
+        const a = rnd(k, 7) * Math.PI * 2;
+        const rr = 4.2 + rnd(k, 8) * 2.4;
+        const d = new THREE.Mesh(drumGeo, stoneMat(marble));
+        d.rotation.set(0, rnd(k, 9) * Math.PI, Math.PI / 2);
+        d.position.set(Math.cos(a) * rr, rr < 5.3 ? 1.12 : 0.34, Math.sin(a) * rr * 0.6);
+        group.add(d);
+      }
     }
-    for (const s of [-1, 1]) {
-      col(s * colX, 0.77); // short ends (corners already placed)
-      col(s * colX, -0.77);
-    }
-    group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
-    group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
-    // A proper low-pitched gable with pediments — the last survivor of the old
-    // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
-    // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
-    gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
   } else if (model === 'aqueduct') {
     // Two superimposed arcades of REAL semicircular arches carrying a water
     // channel across the valley (the Segovia / Pont du Gard look). Each bay is
