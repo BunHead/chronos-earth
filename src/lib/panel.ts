@@ -55,10 +55,8 @@ const NO_3D_NAMES = new Set([
   'church of our lady mary of zion',
   'church of cristo obrero y nuestra señora de lourdes',
   'angkor wat',
-  // TODO(colosseum): suppressed until a proper arched model exists — the boxy
-  // 'amphitheatre' can't do the arcades and its ruin is a rubble-jumble; the
-  // photo reads better. Mirrored in scripts/monument-archetype.mjs.
-  'colosseum',
+  // (Colosseum un-suppressed 2026-07-10: the amphitheatre model now has real
+  // see-through arches and builds its own broken-ring ruin form.)
   // Overnight cheap-AI (Haiku) verify pass, 2026-07-07 — wrong-family cases.
   'aachen cathedral',
   'speyer cathedral',

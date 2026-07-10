@@ -75,14 +75,16 @@ const boxOf = (obj: THREE.Object3D): THREE.Box3 => {
 };
 
 // Build the model and ground it (lowest point to y=0), exactly as the app does.
+const wantRuin = params.get('ruin') === '1';
 const { group, ground } = buildModel(
   model,
   3,
   title,
   seaParam != null ? +seaParam : undefined,
   buildParam != null ? +buildParam : undefined,
+  wantRuin,
 );
-if (params.get('ruin') === '1') ruinify(group); // preview the collapsed life-phase
+if (wantRuin && !group.userData.selfRuined) ruinify(group); // generic collapse for models without their own ruin form
 group.updateMatrixWorld(true);
 group.position.y -= boxOf(group).min.y;
 group.traverse((o) => {

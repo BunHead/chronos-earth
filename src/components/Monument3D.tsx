@@ -398,6 +398,11 @@ export function buildModel(
   title = '',
   seaLevel?: number,
   buildFrac?: number,
+  /** The life-phase says this monument is a ruin. Most models are wrecked by
+   * the generic ruinify() afterwards, but a model that builds its OWN ruin
+   * form (the Colosseum's broken ring) reads this and sets
+   * group.userData.selfRuined so callers skip the generic pass. */
+  ruined = false,
 ): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
@@ -799,42 +804,125 @@ export function buildModel(
     tower.rotation.z = 0.07;
     group.add(tower);
   } else if (model === 'amphitheatre') {
-    // A Roman amphitheatre (the Colosseum): an elliptical wall of stacked arched
-    // arcades wrapping a tiered seating bank and an oval arena.
+    // The Colosseum, with REAL arches: three tiers of see-through arched bays
+    // under a solid attic, wrapping the seating bank and arena. Intact (80 CE)
+    // it stands complete with a sand floor; as a RUIN it wears today's
+    // world-icon silhouette — the outer ring surviving on the north side only,
+    // stepping down jaggedly to the exposed inner wall, the arena floor gone
+    // and the hypogeum maze open to the sky. Handles its own ruin form.
+    group.userData.selfRuined = true;
     ground = '#7a6f52';
-    const stone = '#cbb48c';
+    const trav = '#d3c2a0'; // travertine
+    const travDark = '#c2ae87';
     const A = 7.4, B = 5.8;
-    const piers = 28, tiers = 3, tierH = 2.3, pierW = 0.5;
-    const pt = (r: number, ang: number): [number, number] => [Math.cos(ang) * A * r, Math.sin(ang) * B * r];
-    for (let i = 0; i < piers; i++) {
-      const ang = (i / piers) * Math.PI * 2;
-      const [x, z] = pt(1, ang);
-      for (let t = 0; t < tiers; t++) group.add(block(pierW, tierH, 0.7, x, tierH / 2 + t * tierH, z, stone, -ang));
-      // Lintel bridging this pier to the next — the top of each arch.
-      const angM = ((i + 0.5) / piers) * Math.PI * 2;
-      const [mx, mz] = pt(1, angM);
-      const [nx, nz] = pt(1, ((i + 1) / piers) * Math.PI * 2);
-      const gap = Math.hypot(nx - x, nz - z);
-      for (let t = 0; t < tiers; t++) group.add(block(0.4, 0.55, gap, mx, (t + 1) * tierH - 0.27, mz, stone, -angM));
-      // Attic storey (solid top band).
-      group.add(block(0.95, 1.0, 0.7, x, tiers * tierH + 0.5, z, '#c0aa82', -ang));
-    }
-    // Tiered seating bank, sloping down to the arena.
-    for (let s = 0; s < 4; s++) {
-      const r = 0.84 - s * 0.16;
-      const y = tiers * tierH * 0.62 - s * (tiers * tierH * 0.62 / 4) - 0.2;
-      for (let i = 0; i < 24; i++) {
-        const ang = (i / 24) * Math.PI * 2;
-        const [x, z] = pt(r, ang);
-        group.add(block(1.1, 0.4, 0.7, x, y, z, '#b8a271', -ang));
+    const BAYS = 28;
+    const TIER_H = 2.3;
+    const ATTIC_H = 1.6;
+    const bayW = 1.78; // bay spacing on the ellipse runs ~1.3–1.66, so this overlaps into a continuous arcade
+
+    // A wall panel pierced by a genuine arch (rect + semicircle hole), extruded.
+    const archPanel = (w: number, h: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hw = w * 0.27;
+      const spring = h * 0.5;
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth: 0.6, bevelEnabled: false });
+      g.translate(0, 0, -0.3);
+      return g;
+    };
+    const panelGeo = archPanel(bayW, TIER_H);
+    const innerGeo = archPanel(bayW * 0.82, TIER_H * 0.82);
+    const outerMat = stoneLike({ color: trav });
+    const altMat = stoneLike({ color: travDark });
+
+    // Outer-ring survival per bay: intact = full everywhere; ruined = full on
+    // one long arc (the real preserved side is the north — world −Z), then a
+    // jagged step-down to nothing.
+    const outerTiersAt = (t: number): number => {
+      if (!ruined) return 3;
+      const d = Math.abs(Math.atan2(Math.sin(t - Math.PI * 1.5), Math.cos(t - Math.PI * 1.5)));
+      if (d < Math.PI * 0.5) return 3;
+      if (d < Math.PI * 0.62) return 2;
+      if (d < Math.PI * 0.74) return 1;
+      return 0;
+    };
+
+    for (let i = 0; i < BAYS; i++) {
+      const t = ((i + 0.5) / BAYS) * Math.PI * 2;
+      const x = Math.cos(t) * A;
+      const z = Math.sin(t) * B;
+      // True ellipse tangent (a plain -t leaves wedge gaps near the long ends).
+      const ry = Math.atan2(-B * Math.cos(t), -A * Math.sin(t));
+      const nTiers = outerTiersAt(t);
+      for (let k = 0; k < nTiers; k++) {
+        const p = new THREE.Mesh(panelGeo, k % 2 ? altMat : outerMat);
+        p.position.set(x, k * TIER_H, z);
+        p.rotation.y = ry;
+        group.add(p);
+      }
+      if (nTiers === 3) {
+        const a = block(bayW, ATTIC_H, 0.55, x, 3 * TIER_H + ATTIC_H / 2, z, '#c8b58f', ry);
+        weather(a, 0.02);
+        group.add(a);
+        if (i % 2 === 0) group.add(block(0.34, 0.46, 0.62, x, 3 * TIER_H + ATTIC_H / 2 + 0.12, z, '#4a4234', ry)); // attic window
+      } else if (ruined && nTiers > 0) {
+        // Broken crest on the step-down bays.
+        const j = block(bayW * 0.8, 0.5, 0.5, x, nTiers * TIER_H + 0.18, z, travDark, ry);
+        j.rotation.z = i % 2 ? 0.14 : -0.11;
+        group.add(j);
+      }
+      // The inner (second) wall — lower and always present; it carries the
+      // building where the outer ring has fallen.
+      for (let k = 0; k < 2; k++) {
+        const p = new THREE.Mesh(innerGeo, k % 2 ? outerMat : altMat);
+        p.position.set(Math.cos(t) * A * 0.8, k * TIER_H * 0.82, Math.sin(t) * B * 0.8);
+        p.rotation.y = ry;
+        group.add(p);
       }
     }
-    // The oval arena floor.
-    const floor = new THREE.Mesh(new THREE.CircleGeometry(1, 40), stoneMat('#a89868'));
-    floor.scale.set(A * 0.3, B * 0.3, 1);
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.y = 0.05;
-    group.add(floor);
+    // Seating bank sloping to the arena.
+    for (let s2 = 0; s2 < 4; s2++) {
+      const r = 0.66 - s2 * 0.1;
+      const y = 2.5 - s2 * 0.55;
+      for (let i = 0; i < 24; i++) {
+        const t2 = ((i + 0.5) / 24) * Math.PI * 2;
+        group.add(block(1.15, 0.5, 0.85, Math.cos(t2) * A * r, y, Math.sin(t2) * B * r, '#c9b891', -t2));
+      }
+    }
+    // The arena: golden sand when intact; when ruined, the floor is gone and
+    // the HYPOGEUM'S maze of service walls lies open to the sky.
+    const arena = new THREE.Mesh(new THREE.CircleGeometry(1, 48), stoneMat(ruined ? '#8a7c60' : '#dcc48d'));
+    arena.scale.set(A * 0.42, B * 0.42, 1);
+    arena.rotation.x = -Math.PI / 2;
+    arena.position.y = ruined ? 0.03 : 0.32;
+    group.add(arena);
+    if (ruined) {
+      const wallC = '#9d8f74';
+      for (let i = 0; i < 7; i++) {
+        const w = block(A * 0.72, 0.5, 0.16, 0, 0.25, 0, wallC);
+        w.rotation.y = (i / 7) * Math.PI;
+        group.add(w);
+      }
+      for (const rr of [0.18, 0.3]) {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(1, 0.06, 6, 48), stoneMat(wallC));
+        ring.scale.set(A * rr, B * rr, 1);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = 0.25;
+        group.add(ring);
+      }
+      group.add(block(A * 0.5, 0.55, 0.24, 0, 0.28, 0, '#8d8069')); // central spine
+    }
   } else if (model === 'impact') {
     ground = '#3a3a42';
     const rim = new THREE.Mesh(
@@ -1705,8 +1793,8 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     const container = containerRef.current;
     if (!container) return;
 
-    const { group, ground } = buildModel(effModel, phase, title, phases?.[lifeIdx]?.sea, phases?.[lifeIdx]?.build);
-    if (ruined) ruinify(group);
+    const { group, ground } = buildModel(effModel, phase, title, phases?.[lifeIdx]?.sea, phases?.[lifeIdx]?.build, ruined);
+    if (ruined && !group.userData.selfRuined) ruinify(group);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#10151f');
