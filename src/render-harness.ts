@@ -12,7 +12,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { fitFor, computeFit } from './lib/monumentFit';
-import { buildModel, loadSatelliteGround } from './components/Monument3D';
+import { buildModel, loadSatelliteGround, ruinify } from './components/Monument3D';
 
 const params = new URLSearchParams(location.search);
 const model = params.get('model') || 'rings';
@@ -82,6 +82,7 @@ const { group, ground } = buildModel(
   seaParam != null ? +seaParam : undefined,
   buildParam != null ? +buildParam : undefined,
 );
+if (params.get('ruin') === '1') ruinify(group); // preview the collapsed life-phase
 group.updateMatrixWorld(true);
 group.position.y -= boxOf(group).min.y;
 group.traverse((o) => {
@@ -137,25 +138,27 @@ if (spinDeg) {
   group.position.y -= boxOf(group).min.y;
 }
 
-// An orientation key laid on the ground: a long RED arrow to NORTH (+Z) and a
-// short GREEN bar to EAST (+X), so every render carries an unambiguous compass —
-// no guessing which way the model faces.
+// An orientation key laid on the ground: a long RED arrow to NORTH and a short
+// GREEN bar to EAST, so every render carries an unambiguous compass. CALIBRATED
+// 2026-07-11 against real Westminster imagery: the satellite tile puts real
+// north at world −Z and real east at +X (the standard three.js map frame) — the
+// earlier +Z-north labelling was wrong and caused every "mirror" confusion.
 const site = boxOf(group).getSize(new THREE.Vector3());
 const keyR = hasGeo ? 40 : Math.max(site.x, site.z) * 0.6 + 3;
 const compass = new THREE.Group();
 const redMat = new THREE.MeshStandardMaterial({ color: '#e0483a' });
 const shaft = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.05, 1.0), redMat);
-shaft.position.z = 0.5;
+shaft.position.z = -0.5; // north = −Z
 compass.add(shaft);
 const head = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.36, 4), redMat);
-head.rotation.x = Math.PI / 2;
-head.position.z = 1.12;
+head.rotation.x = -Math.PI / 2;
+head.position.z = -1.12;
 compass.add(head);
 const east = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.05, 0.1), new THREE.MeshStandardMaterial({ color: '#3fae55' }));
-east.position.x = 0.36;
+east.position.x = 0.36; // east = +X
 compass.add(east);
 compass.scale.setScalar(keyR * 0.16);
-compass.position.set(-keyR * 0.78, 0.08, -keyR * 0.78);
+compass.position.set(keyR * 0.78, 0.08, keyR * 0.78);
 scene.add(compass);
 
 // Frame from the requested angle. In geo mode we frame the whole SITE (the
@@ -171,7 +174,8 @@ const cz = hasGeo ? 0 : c.z;
 
 const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 6000);
 if (angle === 'top' || angle === 'plan') {
-  cam.up.set(0, 0, 1); // NORTH (+Z) up on screen — a standard north-up plan
+  // TRUE north-up map: real north (−Z) up-screen, real east (+X) right-screen.
+  cam.up.set(0, 0, -1);
   cam.position.set(cx, Math.max(box.max.y, r) + r * 2.0, cz);
   cam.lookAt(cx, 0, cz);
 } else if (angle === 'side') {

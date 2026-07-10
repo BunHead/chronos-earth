@@ -73,10 +73,12 @@ const BY_MODEL: Record<string, MonumentFit> = {
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 30, facingDeg: 0 },
   giza: { widthM: 620, facingDeg: 0 }, // the whole plateau scene
-  // London landmarks — real footprints (m).
-  buckingham: { widthM: 108, facingDeg: 0 }, // the ~108 m East Front
-  westminster: { widthM: 265, facingDeg: 0 }, // the long Thames-side palace
-  'london-eye': { widthM: 130, facingDeg: 0 }, // ~120 m wheel
+  // London landmarks — real footprints (m). Facing numbers were READ off
+  // calibration plan-renders on real satellite terrain (world −Z = imagery
+  // north, +X = imagery east — confirmed at Westminster), not guessed.
+  buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
+  westminster: { widthM: 265, facingDeg: 90 }, // long axis along the Thames, Elizabeth Tower at the north end
+  'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

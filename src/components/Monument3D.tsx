@@ -294,17 +294,44 @@ function makeGlowTexture(stops: string[]): THREE.CanvasTexture {
 /** Break a built model into a ruin: remove ~a third of its stones, topple some
  * of the rest, and scatter fallen blocks. Used by any 'ruin' life-phase (the
  * Parthenon after the 1687 explosion). */
-function ruinify(group: THREE.Group) {
+export function ruinify(group: THREE.Group) {
   const doomed: THREE.Object3D[] = [];
+  // The "collapse line" scales with the monument: everything above roughly the
+  // lower quarter falls, so a tall tower keeps a recognisable stump while its
+  // upper stages lie as debris (a fixed line flattened the Pharos entirely).
+  const gb = new THREE.Box3().setFromObject(group);
+  const highLine = Math.max(2.5, (gb.max.y - Math.min(0, gb.min.y)) * 0.28);
   group.traverse((o) => {
-    if (o instanceof THREE.Mesh && !o.userData.noShadow) {
-      const r = Math.random();
-      if (r < 0.32) doomed.push(o);
-      else if (r < 0.58) {
-        o.rotation.z += (Math.random() - 0.5) * 0.5;
-        o.rotation.x += (Math.random() - 0.5) * 0.3;
-        o.position.y *= 0.82;
+    if (!(o instanceof THREE.Mesh)) return;
+    const high = o.position.y > highLine;
+    if (o.userData.noShadow) {
+      // Effects riding the structure (the Pharos fire) die with it; ground-level
+      // effects (Atlantis' sea) stay. Nothing noShadow may keep floating aloft.
+      if (high) doomed.push(o);
+      return;
+    }
+    const r = Math.random();
+    if (high) {
+      // NOTHING above the collapse line stays standing at full height: it is
+      // either gone or lies thrown on the ground as debris (the Lighthouse's
+      // lantern once floated in the sky where it used to stand).
+      if (r < 0.45) {
+        doomed.push(o);
+      } else {
+        const ang = Math.random() * Math.PI * 2;
+        const throwDist = 1.5 + o.position.y * (0.3 + Math.random() * 0.3);
+        o.position.x += Math.cos(ang) * throwDist;
+        o.position.z += Math.sin(ang) * throwDist;
+        o.rotation.z += (Math.random() - 0.5) * 1.6;
+        o.rotation.x += (Math.random() - 0.5) * 0.6;
+        o.position.y = 0.4 + Math.random() * 0.9;
       }
+    } else if (r < 0.32) {
+      doomed.push(o);
+    } else if (r < 0.58) {
+      o.rotation.z += (Math.random() - 0.5) * 0.5;
+      o.rotation.x += (Math.random() - 0.5) * 0.3;
+      o.position.y *= 0.82;
     }
   });
   for (const o of doomed) o.parent?.remove(o);
@@ -1502,38 +1529,81 @@ export function buildModel(
  * on the site into one texture for the ground disc.
  * ------------------------------------------------------------------ */
 export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void, zoom = 16) {
-  const z = zoom;
-  const n = 2 ** z;
-  const latR = (lat * Math.PI) / 180;
-  const xt = Math.floor(((lon + 180) / 360) * n);
-  const yt = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
+  // Esri has no imagery at high zoom for some rural/jungle sites (Tikal,
+  // Olympia): it returns a near-uniform "map data not yet available"
+  // placeholder WITH HTTP 200, so onerror never fires and the monument stood
+  // on a blank disc. Detect a near-featureless result by pixel variance and
+  // step the zoom down until real imagery appears (bottoming out at z12).
+  const MIN_ZOOM = 12;
+  const attempt = (z: number) => {
+    const n = 2 ** z;
+    const latR = (lat * Math.PI) / 180;
+    const xt = Math.floor(((lon + 180) / 360) * n);
+    const yt = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
 
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 768;
-  const ctx = canvas.getContext('2d')!;
-  let loaded = 0;
-  let failed = false;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 768;
+    const ctx = canvas.getContext('2d')!;
+    let loaded = 0;
+    let settled = false;
 
-  for (let dy = -1; dy <= 1; dy++) {
-    for (let dx = -1; dx <= 1; dx++) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
-        loaded++;
-        if (loaded === 9 && !failed) {
-          const tex = new THREE.CanvasTexture(canvas);
-          tex.colorSpace = THREE.SRGBColorSpace;
-          tex.anisotropy = 4;
-          onReady(tex);
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      let flat = false;
+      try {
+        // Luminance spread over a sparse sample — placeholder tiles are
+        // near-uniform; any real imagery (even open desert) varies far more.
+        const d = ctx.getImageData(0, 0, 768, 768).data;
+        let sum = 0;
+        let sum2 = 0;
+        let count = 0;
+        for (let y = 8; y < 768; y += 24) {
+          for (let x = 8; x < 768; x += 24) {
+            const i = (y * 768 + x) * 4;
+            const l = d[i] * 0.3 + d[i + 1] * 0.59 + d[i + 2] * 0.11;
+            sum += l;
+            sum2 += l * l;
+            count++;
+          }
         }
-      };
-      img.onerror = () => {
-        failed = true; // offline etc. — keep the flat-colour ground
-      };
-      img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${yt + dy}/${xt + dx}`;
+        const sd = Math.sqrt(Math.max(0, sum2 / count - (sum / count) ** 2));
+        flat = sd < 7;
+      } catch {
+        /* tainted canvas etc. — just use what we have */
+      }
+      if (flat && z > MIN_ZOOM) {
+        attempt(z - 1);
+        return;
+      }
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = 4;
+      onReady(tex);
+    };
+
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
+          loaded++;
+          if (loaded === 9) finish();
+        };
+        img.onerror = () => {
+          // A missing tile at this zoom — retry the whole patch a level out
+          // (offline still ends at MIN_ZOOM and keeps the flat-colour ground).
+          if (!settled && z > MIN_ZOOM) {
+            settled = true;
+            attempt(z - 1);
+          }
+        };
+        img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${yt + dy}/${xt + dx}`;
+      }
     }
-  }
+  };
+  attempt(zoom);
 }
 
 /**
@@ -1759,39 +1829,29 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       }
     });
 
-    // A visible NORTH marker — a red arrow + "N" at the model's north (+Z) edge.
-    // World +Z is the scene's north, and the satellite tile is drawn north-up, so
-    // this lets the direction be CHECKED against the real streets in the imagery
-    // instead of guessed. Kept for now as an orientation-calibration aid.
-    {
-      const nb = new THREE.Box3().setFromObject(group);
-      const ns = nb.getSize(new THREE.Vector3());
-      const s = Math.max(ns.x, ns.z, 6) * 0.5;
-      const nz = (Number.isFinite(nb.max.z) ? nb.max.z : 0) + s * 0.55 + 1;
-      const red = new THREE.MeshBasicMaterial({ color: '#ff2d20', depthTest: false, transparent: true });
-      const shaft = new THREE.Mesh(new THREE.BoxGeometry(s * 0.07, s * 0.07, s * 0.72), red);
-      shaft.position.set(0, 0.5, nz);
-      shaft.renderOrder = 998;
-      scene.add(shaft);
-      const nhead = new THREE.Mesh(new THREE.ConeGeometry(s * 0.17, s * 0.36, 4), red);
-      nhead.rotation.x = Math.PI / 2;
-      nhead.position.set(0, 0.5, nz + s * 0.5);
-      nhead.renderOrder = 998;
-      scene.add(nhead);
-      const nc = document.createElement('canvas');
-      nc.width = nc.height = 64;
-      const g2 = nc.getContext('2d')!;
-      g2.fillStyle = '#ff2d20';
-      g2.font = 'bold 54px system-ui, sans-serif';
-      g2.textAlign = 'center';
-      g2.textBaseline = 'middle';
-      g2.fillText('N', 32, 36);
-      const nSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(nc), depthTest: false, transparent: true }));
-      nSprite.scale.setScalar(s * 0.55);
-      nSprite.position.set(0, s * 0.7, nz + s * 0.6);
-      nSprite.renderOrder = 999;
-      scene.add(nSprite);
-    }
+    // A screen-corner COMPASS (DOM overlay, so nothing in the 3D scene can ever
+    // hide it — the earlier in-scene marker was never visible to the Captain).
+    // The needle tracks the camera as you orbit. CALIBRATED against real
+    // Westminster imagery: the satellite tile puts real north at world −Z and
+    // real east at +X, so the red needle points along −Z. On screen that is a
+    // rotation of exactly the camera's azimuthal angle — and east then sits 90°
+    // clockwise of north, like a real map compass.
+    container.style.position = 'relative';
+    const compassEl = document.createElement('div');
+    compassEl.title = 'Compass — red points true north on the satellite imagery';
+    compassEl.style.cssText =
+      'position:absolute;left:12px;bottom:44px;width:64px;height:64px;z-index:6;pointer-events:none;';
+    compassEl.innerHTML =
+      '<svg viewBox="-32 -32 64 64" width="64" height="64" style="display:block">' +
+      '<circle r="30" fill="rgba(10,16,24,0.72)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>' +
+      '<g class="m3d-rose">' +
+      '<polygon points="0,-25 6,2 -6,2" fill="#ff3b2d"/>' + // red needle → true north
+      '<polygon points="0,25 6,2 -6,2" fill="#c9d2da"/>' + // pale tail → south
+      '<rect x="14" y="-2" width="11" height="4" rx="1" fill="#37c55f"/>' + // green tick → east
+      '<text x="0" y="-13" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">N</text>' +
+      '</g></svg>';
+    container.appendChild(compassEl);
+    const roseEl = compassEl.querySelector('.m3d-rose') as SVGGElement;
 
     // A 'burning' life-phase (Nottingham's 1831 fire): flames licking the walls
     // and smoke rolling off, as children of the already-scaled building.
@@ -1945,6 +2005,8 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       }
 
       controls.update();
+      // Keep the compass needle on true north (−Z) as the camera orbits.
+      roseEl?.setAttribute('transform', `rotate(${THREE.MathUtils.radToDeg(controls.getAzimuthalAngle()).toFixed(1)})`);
       renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
     };
@@ -1971,6 +2033,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       fireSprites.forEach((f) => (f.s.material as THREE.Material).dispose());
       fireTextures.forEach((t) => t.dispose());
       if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
+      if (compassEl.parentNode === container) container.removeChild(compassEl);
     };
     // lifeIdx is included so a phase change ALWAYS rebuilds — Atlantis's phases
     // share the 'rings' model and differ only in sea level, which would otherwise

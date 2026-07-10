@@ -23,6 +23,7 @@ const build = process.env.BUILD_FRAC; // optional construction fraction (Giza st
 const lat = process.env.LAT; // optional real latitude — plan-first orientation
 const lon = process.env.LON; // optional real longitude
 const spin = process.env.SPIN; // optional known rotation (AI-orientation quiz)
+const ruin = process.env.RUIN; // optional RUIN=1 — preview the collapsed life-phase
 const BASE = `${process.env.RENDER_BASE || 'http://localhost:5173'}/render-harness.html`;
 const ANGLES = (process.env.ANGLES || '3q,top,side').split(',');
 
@@ -39,7 +40,7 @@ try {
   page.on('console', (m) => { if (m.type() === 'error') console.error('  [console]', m.text()); });
 
   for (const angle of ANGLES) {
-    const url = `${BASE}?model=${encodeURIComponent(model)}&angle=${angle}&title=${encodeURIComponent(title)}${sea != null ? `&sea=${sea}` : ''}${build != null ? `&build=${build}` : ''}${lat != null && lon != null ? `&lat=${lat}&lon=${lon}` : ''}${spin != null ? `&spin=${spin}` : ''}`;
+    const url = `${BASE}?model=${encodeURIComponent(model)}&angle=${angle}&title=${encodeURIComponent(title)}${sea != null ? `&sea=${sea}` : ''}${build != null ? `&build=${build}` : ''}${lat != null && lon != null ? `&lat=${lat}&lon=${lon}` : ''}${spin != null ? `&spin=${spin}` : ''}${ruin != null ? `&ruin=${ruin}` : ''}`;
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     await page.waitForFunction('window.__ready === true', { timeout: 25000 });
     const canvas = await page.$('canvas');

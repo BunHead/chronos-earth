@@ -36,7 +36,12 @@ const MAX_YEAR = new Date().getFullYear();
 const CONTINENTS = [
   { name: 'South America', west: '-82 -56', east: '-34 13' },
   { name: 'North America', west: '-170 7', east: '-50 84' },
-  { name: 'Europe', west: '-25 35', east: '45 72' },
+  // Europe is Wikidata's densest region — one big box always timed out on the
+  // query service (it starved every run). Four quarter-boxes each answer fast.
+  { name: 'Europe SW', west: '-25 35', east: '15 50' },
+  { name: 'Europe NW', west: '-25 50', east: '15 72' },
+  { name: 'Europe SE', west: '15 35', east: '45 50' },
+  { name: 'Europe NE', west: '15 50', east: '45 72' },
   { name: 'Africa', west: '-20 -36', east: '52 38' },
   { name: 'Asia', west: '40 -11', east: '150 78' },
   { name: 'Oceania', west: '110 -50', east: '180 0' },
