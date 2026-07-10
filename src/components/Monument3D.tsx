@@ -845,6 +845,21 @@ export function buildModel(
     const innerGeo = archPanel(bayW * 0.82, TIER_H * 0.82);
     const outerMat = stoneLike({ color: trav });
     const altMat = stoneLike({ color: travDark });
+    // Graft from the bake-off winner: brighter-to-worn storey grading, shaded
+    // cornice stone, and a deterministic per-bay jitter so the ragged crown is
+    // identical from every render angle.
+    const travLt = '#d8c7a2';
+    const travDk = '#a89170';
+    const tierMats = [stoneLike({ color: travLt }), outerMat, altMat];
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
+    };
+    // Low oval podium the whole monument stands on.
+    const podium = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.5, 64), stoneMat(travDk));
+    podium.scale.set(A + 0.4, 1, B + 0.4);
+    podium.position.y = 0.2;
+    group.add(podium);
 
     // Outer-ring survival per bay: intact = full everywhere; ruined = full on
     // one long arc (the real preserved side is the north — world −Z), then a
@@ -866,21 +881,28 @@ export function buildModel(
       const ry = Math.atan2(-B * Math.cos(t), -A * Math.sin(t));
       const nTiers = outerTiersAt(t);
       for (let k = 0; k < nTiers; k++) {
-        const p = new THREE.Mesh(panelGeo, k % 2 ? altMat : outerMat);
+        const p = new THREE.Mesh(panelGeo, tierMats[k]);
         p.position.set(x, k * TIER_H, z);
         p.rotation.y = ry;
         group.add(p);
+        // Cornice ledge banding the top of each storey (follows the ruin profile).
+        group.add(block(bayW + 0.06, 0.16, 0.78, x, (k + 1) * TIER_H, z, travDk, ry));
       }
       if (nTiers === 3) {
         const a = block(bayW, ATTIC_H, 0.55, x, 3 * TIER_H + ATTIC_H / 2, z, '#c8b58f', ry);
         weather(a, 0.02);
         group.add(a);
         if (i % 2 === 0) group.add(block(0.34, 0.46, 0.62, x, 3 * TIER_H + ATTIC_H / 2 + 0.12, z, '#4a4234', ry)); // attic window
+        group.add(block(bayW + 0.08, 0.2, 0.72, x, 3 * TIER_H + ATTIC_H, z, travDark, ry)); // crowning cornice
       } else if (ruined && nTiers > 0) {
-        // Broken crest on the step-down bays.
-        const j = block(bayW * 0.8, 0.5, 0.5, x, nTiers * TIER_H + 0.18, z, travDark, ry);
-        j.rotation.z = i % 2 ? 0.14 : -0.11;
-        group.add(j);
+        // Ragged broken crown — deterministically jittered rubble teeth.
+        for (let k = 0, nb = 1 + Math.floor(rnd(i, 1) * 2); k < nb; k++) {
+          const bh = 0.3 + rnd(i, k + 2) * 0.85;
+          const off = (rnd(i, k + 5) - 0.5) * bayW * 0.5;
+          const j = block(0.4 + rnd(i, k + 7) * 0.4, bh, 0.5, x + Math.cos(ry) * off, nTiers * TIER_H + bh / 2, z - Math.sin(ry) * off, travDark, ry);
+          weather(j, 0.12);
+          group.add(j);
+        }
       }
       // The inner (second) wall — lower and always present; it carries the
       // building where the outer ring has fallen.
@@ -889,6 +911,28 @@ export function buildModel(
         p.position.set(Math.cos(t) * A * 0.8, k * TIER_H * 0.82, Math.sin(t) * B * 0.8);
         p.rotation.y = ry;
         group.add(p);
+      }
+    }
+    // Engaged half-columns + blocky capitals on the piers between arches
+    // (Doric→Ionic→Corinthian, stylised) — the winner's flourish, only where
+    // the façade still stands.
+    const shaftGeo = new THREE.CylinderGeometry(0.15, 0.17, TIER_H * 0.9, 10);
+    for (let i = 0; i < BAYS; i++) {
+      const tB = (i / BAYS) * Math.PI * 2;
+      const ntPier = Math.max(
+        outerTiersAt((((i - 1 + BAYS) % BAYS) + 0.5) / BAYS * Math.PI * 2),
+        outerTiersAt(((i + 0.5) / BAYS) * Math.PI * 2),
+      );
+      const ex = Math.cos(tB);
+      const ez = Math.sin(tB);
+      const cx = ex * A + ex * 0.36;
+      const cz = ez * B + ez * 0.36;
+      const ryp = Math.atan2(-B * ex, -A * ez);
+      for (let k = 0; k < ntPier; k++) {
+        const sh = new THREE.Mesh(shaftGeo, tierMats[k]);
+        sh.position.set(cx, k * TIER_H + TIER_H * 0.5, cz);
+        group.add(sh);
+        group.add(block(0.32, 0.15, 0.28, cx, (k + 1) * TIER_H - 0.1, cz, travLt, ryp)); // capital
       }
     }
     // Seating bank sloping to the arena.
@@ -922,6 +966,27 @@ export function buildModel(
         group.add(ring);
       }
       group.add(block(A * 0.5, 0.55, 0.24, 0, 0.28, 0, '#8d8069')); // central spine
+      // The partial modern deck over the hypogeum's north half (as at the real
+      // site today), leaving the maze bared on the collapsed side.
+      const deckShape = new THREE.Shape();
+      deckShape.absellipse(0, 0, A * 0.42, B * 0.42, 0, Math.PI, false, 0);
+      deckShape.closePath();
+      const deck = new THREE.Mesh(
+        new THREE.ExtrudeGeometry(deckShape, { depth: 0.14, bevelEnabled: false, curveSegments: 36 }),
+        new THREE.MeshStandardMaterial({ color: '#7a5a34', roughness: 0.85, map: getStoneTexture() }),
+      );
+      deck.rotation.x = -Math.PI / 2;
+      deck.position.y = 0.62;
+      group.add(deck);
+      // Fallen travertine strewn where the outer ring collapsed (the south).
+      for (let k = 0; k < 12; k++) {
+        const a = Math.PI * 0.5 + (rnd(k, 9) - 0.5) * 2.0;
+        const rr = 1.03 + (rnd(k, 4) - 0.5) * 0.26;
+        const bs = 0.45 + rnd(k, 6) * 0.6;
+        const b = block(bs, 0.3 + rnd(k, 2) * 0.4, bs * 0.8, Math.cos(a) * A * rr, 0.3, Math.sin(a) * B * rr, travDark, rnd(k, 3) * Math.PI);
+        weather(b, 0.18);
+        group.add(b);
+      }
     }
   } else if (model === 'impact') {
     ground = '#3a3a42';
