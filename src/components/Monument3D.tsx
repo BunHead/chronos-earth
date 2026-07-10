@@ -739,61 +739,165 @@ export function buildModel(
     // A stylised gothic church: nave + transept, twin west towers, a slender
     // crossing flèche, buttresses and a rounded apse. Notre-Dame de Paris and
     // Amiens wear FLAT-topped square west towers; the rest (Cologne, Burgos,
-    // León…) get their spires.
+    // León…) get their spires. As a RUIN it builds its OWN roofless-abbey form
+    // (Tintern / Whitby): tall nave walls open to the sky, empty lancet
+    // windows, a great west window and broken tower stumps — no floating roof.
     ground = '#5a6247';
-    const wall = '#b8ad98';
+    if (ruined) group.userData.selfRuined = true;
+    const wall = ruined ? '#aca291' : '#b8ad98';
     const roof = '#6d6257';
-    const flatTowers = /notre-dame de paris|notre dame de paris|amiens/.test(title.toLowerCase());
-    group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
-    // A true gable roof over the nave — a triangular ridge running its length,
-    // NOT a tapering cone laid on its side.
-    const roofShape = new THREE.Shape();
-    roofShape.moveTo(-2.5, 0);
-    roofShape.lineTo(2.5, 0);
-    roofShape.lineTo(0, 2.3);
-    roofShape.lineTo(-2.5, 0);
-    const naveRoof = new THREE.Mesh(
-      new THREE.ExtrudeGeometry(roofShape, { depth: 14, bevelEnabled: false }),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    naveRoof.position.set(0, 5.2, -7);
-    group.add(naveRoof);
-    group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
-    // Twin west towers — flat-topped or spired depending on the cathedral.
-    for (const s of [-1, 1]) {
-      group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
-      if (flatTowers) {
-        group.add(block(2.5, 0.4, 2.5, s * 1.9, 7.8, 7.2, roof)); // parapet cornice
-      } else {
-        const spire = new THREE.Mesh(
-          new THREE.ConeGeometry(1.5, 3.6, 4),
-          stoneLike({ color: roof, flatShading: true }),
-        );
-        spire.position.set(s * 1.9, 9.4, 7.2);
-        spire.rotation.y = Math.PI / 4;
-        group.add(spire);
+    if (!ruined) {
+      const flatTowers = /notre-dame de paris|notre dame de paris|amiens/.test(title.toLowerCase());
+      group.add(block(4.6, 5.2, 14, 0, 2.6, 0, wall)); // nave
+      // A true gable roof over the nave — a triangular ridge running its length,
+      // NOT a tapering cone laid on its side.
+      const roofShape = new THREE.Shape();
+      roofShape.moveTo(-2.5, 0);
+      roofShape.lineTo(2.5, 0);
+      roofShape.lineTo(0, 2.3);
+      roofShape.lineTo(-2.5, 0);
+      const naveRoof = new THREE.Mesh(
+        new THREE.ExtrudeGeometry(roofShape, { depth: 14, bevelEnabled: false }),
+        stoneLike({ color: roof, flatShading: true }),
+      );
+      naveRoof.position.set(0, 5.2, -7);
+      group.add(naveRoof);
+      group.add(block(10, 4.6, 3.4, 0, 2.3, -1.5, wall)); // transept
+      // Twin west towers — flat-topped or spired depending on the cathedral.
+      for (const s of [-1, 1]) {
+        group.add(block(2.2, 7.6, 2.2, s * 1.9, 3.8, 7.2, wall));
+        if (flatTowers) {
+          group.add(block(2.5, 0.4, 2.5, s * 1.9, 7.8, 7.2, roof)); // parapet cornice
+        } else {
+          const spire = new THREE.Mesh(
+            new THREE.ConeGeometry(1.5, 3.6, 4),
+            stoneLike({ color: roof, flatShading: true }),
+          );
+          spire.position.set(s * 1.9, 9.2, 7.2); // base embedded in the tower top (no coplanar face)
+          spire.rotation.y = Math.PI / 4;
+          group.add(spire);
+        }
       }
-    }
-    // Crossing tower + a tall, slender flèche standing upright over it.
-    group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
-    const crossSpire = new THREE.Mesh(
-      new THREE.ConeGeometry(0.85, 6.2, 8),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    crossSpire.position.set(0, 11.5, -1.5);
-    group.add(crossSpire);
-    // Apse (rounded east end).
-    const apse = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
-      stoneLike({ color: wall }),
-    );
-    apse.rotation.y = Math.PI;
-    apse.position.set(0, 2.3, -7);
-    group.add(apse);
-    // Buttresses along the nave.
-    for (const s of [-1, 1]) {
-      for (let z = -4.5; z <= 4.5; z += 3) {
-        group.add(block(0.7, 3.4, 0.7, s * 2.9, 1.7, z, wall));
+      // Crossing tower + a tall, slender flèche standing upright over it.
+      group.add(block(2.6, 8.4, 2.6, 0, 4.2, -1.5, wall));
+      const crossSpire = new THREE.Mesh(
+        new THREE.ConeGeometry(0.85, 6.2, 8),
+        stoneLike({ color: roof, flatShading: true }),
+      );
+      crossSpire.position.set(0, 11.3, -1.5); // base embedded in the crossing-tower top
+      group.add(crossSpire);
+      // Apse (rounded east end).
+      const apse = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.2, 2.2, 4.6, 10, 1, false, 0, Math.PI),
+        stoneLike({ color: wall }),
+      );
+      apse.rotation.y = Math.PI;
+      apse.position.set(0, 2.3, -7);
+      group.add(apse);
+      // Buttresses along the nave — seated against the wall (no floating gap).
+      for (const s of [-1, 1]) {
+        for (let z = -4.5; z <= 4.5; z += 3) {
+          group.add(block(0.7, 3.4, 0.7, s * 2.6, 1.7, z, wall));
+        }
+      }
+    } else {
+      // ---- Roofless-abbey ruin ----
+      const rnd = (i: number, k = 0) => {
+        const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+        return s - Math.floor(s);
+      };
+      // A nave side wall standing roofless, pierced by a row of empty lancet
+      // (pointed gothic) windows — the abbey's signature open-to-the-sky wall.
+      const naveWallGeo = (H: number): THREE.ExtrudeGeometry => {
+        const L = 13.6, hw = 0.5, y0 = 1.2, sh = 1.5;
+        const s = new THREE.Shape();
+        s.moveTo(-L / 2, 0);
+        s.lineTo(L / 2, 0);
+        s.lineTo(L / 2, H);
+        s.lineTo(-L / 2, H);
+        s.closePath();
+        const bays = 6;
+        for (let i = 0; i < bays; i++) {
+          const cx = -L / 2 + L * ((i + 0.5) / bays);
+          const h = new THREE.Path();
+          h.moveTo(cx - hw, y0);
+          h.lineTo(cx - hw, y0 + sh);
+          h.lineTo(cx, y0 + sh + hw * 1.5); // pointed apex
+          h.lineTo(cx + hw, y0 + sh);
+          h.lineTo(cx + hw, y0);
+          h.closePath();
+          s.holes.push(h);
+        }
+        const g = new THREE.ExtrudeGeometry(s, { depth: 0.5, bevelEnabled: false });
+        g.translate(0, 0, -0.25);
+        return g;
+      };
+      for (const [sx, H] of [[-1, 5.0], [1, 4.2]] as const) { // one flank better-preserved
+        const w = new THREE.Mesh(naveWallGeo(H), stoneMat(wall));
+        w.rotation.y = Math.PI / 2;
+        w.position.set(sx * 2.3, 0, 0);
+        group.add(w);
+      }
+      // The great WEST WINDOW: a tall gable-end fragment with one empty pointed
+      // window — the abbey ruin's most iconic silhouette.
+      const westShape = new THREE.Shape();
+      const WW = 4.4, WH = 6.4;
+      westShape.moveTo(-WW / 2, 0);
+      westShape.lineTo(WW / 2, 0);
+      westShape.lineTo(WW / 2, WH - 1.3);
+      westShape.lineTo(0, WH); // gable peak
+      westShape.lineTo(-WW / 2, WH - 1.3);
+      westShape.closePath();
+      const whw = 1.15, wy0 = 1.1, wsh = 2.7;
+      const wHole = new THREE.Path();
+      wHole.moveTo(-whw, wy0);
+      wHole.lineTo(-whw, wy0 + wsh);
+      wHole.lineTo(0, wy0 + wsh + whw * 1.5);
+      wHole.lineTo(whw, wy0 + wsh);
+      wHole.lineTo(whw, wy0);
+      wHole.closePath();
+      westShape.holes.push(wHole);
+      const westGeo = new THREE.ExtrudeGeometry(westShape, { depth: 0.6, bevelEnabled: false });
+      westGeo.translate(0, 0, -0.3);
+      const westW = new THREE.Mesh(westGeo, stoneMat(wall));
+      westW.position.set(0, 0, 7);
+      group.add(westW);
+      // Broken west-tower stumps flanking the west front — asymmetric, roofless.
+      for (const [sx, ht] of [[-1, 6.2], [1, 3.8]] as const) {
+        group.add(block(2.2, ht, 2.2, sx * 2.7, ht / 2, 6.9, wall));
+        for (let k = 0; k < 3; k++) { // ragged crown
+          const bh = 0.35 + rnd(sx * 5 + k, 2) * 0.6;
+          group.add(block(0.6, bh, 0.6, sx * 2.7 + (rnd(sx * 5, k) - 0.5) * 1.4, ht + bh / 2 - 0.1, 6.9 + (rnd(sx * 5, k + 3) - 0.5) * 1.4, wall));
+        }
+      }
+      // Broken crossing-tower stump over the transept.
+      group.add(block(2.6, 5.4, 2.6, 0, 2.7, -1.5, wall));
+      for (let k = 0; k < 4; k++) {
+        const bh = 0.4 + rnd(k, 7) * 0.7;
+        group.add(block(0.7, bh, 0.7, (rnd(k, 1) - 0.5) * 2.2, 5.4 + bh / 2 - 0.1, -1.5 + (rnd(k, 4) - 0.5) * 2.2, wall));
+      }
+      // Transept survives as two broken end-wall fragments.
+      for (const sx of [-1, 1] as const)
+        group.add(block(0.5, 3.2 + rnd(sx + 2, 1) * 1.2, 3.4, sx * 4.9, (3.2 + rnd(sx + 2, 1) * 1.2) / 2, -1.5, wall));
+      // Apse: the rounded east end survives as a low roofless wall.
+      const apse = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.2, 2.24, 2.6, 10, 1, true, 0, Math.PI),
+        stoneMat(wall),
+      );
+      apse.rotation.y = Math.PI;
+      apse.position.set(0, 1.3, -7);
+      group.add(apse);
+      // Surviving nave buttresses (shortened) and fallen masonry near the walls.
+      for (const s of [-1, 1] as const)
+        for (let z = -4.5; z <= 4.5; z += 3)
+          group.add(block(0.7, 2.4 + rnd(z + s, 5) * 0.8, 0.7, s * 2.75, (2.4 + rnd(z + s, 5) * 0.8) / 2, z, wall));
+      for (let i = 0; i < 12; i++) {
+        const bx = (rnd(i, 7) - 0.5) * 8;
+        const bz = (rnd(i, 8) - 0.5) * 15;
+        const bs = 0.45 + rnd(i, 9) * 0.6;
+        const b = block(bs, 0.3 + rnd(i, 3) * 0.4, bs * 0.8, bx, 0.22, bz, '#948b78', rnd(i, 4) * Math.PI);
+        b.rotation.z = (rnd(i, 5) - 0.5) * 0.5;
+        group.add(b);
       }
     }
   } else if (model === 'greek-temple') {
