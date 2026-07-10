@@ -711,22 +711,73 @@ export function buildModel(
     // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
     gableRoof(group, 4.7, 5.3, 3.0, 1.5, '#c9bfa8');
   } else if (model === 'aqueduct') {
-    // Two tiers of piers carrying a water channel across the valley.
+    // Two superimposed arcades of REAL semicircular arches carrying a water
+    // channel across the valley (the Segovia / Pont du Gard look). Each bay is
+    // a THREE.Shape rectangle pierced by a rect+semicircle hole, extruded
+    // through the pier depth — ONE geometry per tier cloned along the straight
+    // span, so daylight passes through every opening. Piers stack tier-on-tier.
     ground = '#7a7a55';
-    const stone = '#c2a878';
-    for (let x = -12; x <= 12; x += 3) {
-      const p = block(1.1, 4.4, 1.5, x, 2.2, 0, stone);
-      weather(p, 0.05);
-      group.add(p);
+    const stoneA = '#cdb88d'; // brighter travertine (lower storey)
+    const stoneB = '#bda775'; // worn travertine (upper storey)
+    const band = '#a8926c'; // impost / string-course cornice
+    // A wall panel pierced by a genuine arch, extruded through the pier depth.
+    const aqArch = (w: number, h: number, hwFrac: number, springFrac: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hw = w * hwFrac;
+      const spring = h * springFrac;
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false, curveSegments: 20 });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+    const span = 26;
+    const bays = 8;
+    const bayW = span / bays; // 3.25 — pier-to-pier spacing
+    const panelW = bayW + 0.04; // overlap a whisker so no coincident pier faces
+    const x0 = -span / 2;
+    const depth = 1.6; // channel/pier thickness across the span
+    const H1 = 4.9; // lower arcade height
+    const H2 = 3.4; // upper arcade height
+    const bandH = 0.32;
+    const lowGeo = aqArch(panelW, H1, 0.3, 0.56, depth);
+    const topGeo = aqArch(panelW, H2, 0.3, 0.5, depth);
+    const matA = stoneLike({ color: stoneA });
+    const matB = stoneLike({ color: stoneB });
+    const y1 = H1 + bandH; // base of upper tier (sits on the string course)
+    for (let i = 0; i < bays; i++) {
+      const x = x0 + bayW * (i + 0.5);
+      const p1 = new THREE.Mesh(lowGeo, i % 2 ? matA : matB);
+      p1.position.set(x, 0, 0);
+      group.add(p1);
+      const p2 = new THREE.Mesh(topGeo, i % 2 ? matB : matA);
+      p2.position.set(x, y1, 0);
+      group.add(p2);
     }
-    group.add(block(27, 1.0, 1.7, 0, 4.9, 0, stone)); // lower spans
-    for (let x = -12; x <= 12; x += 3) {
-      const p = block(0.85, 3.2, 1.3, x, 7.0, 0, stone);
-      weather(p, 0.05);
-      group.add(p);
-    }
-    group.add(block(27, 0.9, 1.5, 0, 9.0, 0, stone)); // upper spans
-    group.add(block(27, 0.5, 1.0, 0, 9.7, 0, '#9a8a68')); // the channel itself
+    // String-course cornices banding each arcade (proud of the arch faces).
+    group.add(block(span + 0.3, bandH, depth + 0.24, 0, H1 + bandH / 2, 0, band)); // between tiers
+    const yTop = y1 + H2; // top of upper arcade
+    group.add(block(span + 0.3, bandH, depth + 0.24, 0, yTop + bandH / 2, 0, band)); // under the channel
+    // The water channel (specus) riding the crest: a floor slab, low kerb walls
+    // and a thin ribbon of water between them.
+    const chY = yTop + bandH;
+    group.add(block(span, 0.42, depth * 0.72, 0, chY + 0.21, 0, '#b7a37c')); // channel bed
+    for (const s of [-1, 1] as const)
+      group.add(block(span, 0.62, 0.2, 0, chY + 0.31, s * (depth * 0.36 - 0.1), '#c7b78f')); // kerb walls
+    const water = block(span - 0.4, 0.14, depth * 0.5, 0, chY + 0.5, 0, '#3f7d86');
+    (water.material as THREE.MeshStandardMaterial).map = null;
+    water.userData.noShadow = true;
+    group.add(water);
   } else if (model === 'pagoda') {
     // Five diminishing storeys, each under a wide dark roof slab.
     ground = '#5c6b42';
