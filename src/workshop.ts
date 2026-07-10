@@ -280,8 +280,11 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
     const kind = (document.getElementById('coverKind') as HTMLSelectElement)?.value || 'snow';
     const tone = kind === 'snow' ? new THREE.Color('#eef2f6') : kind === 'ash' ? new THREE.Color('#8e8b86') : new THREE.Color('#7b6448');
     const strength = kind === 'snow' ? 0.55 : 0.6;
+    const capMat = new THREE.MeshStandardMaterial({ color: tone, roughness: 1 });
+    const meshList: THREE.Mesh[] = [];
     target.traverse((o) => {
       if (!(o instanceof THREE.Mesh) || o.userData.noShadow) return;
+      meshList.push(o);
       const mats = Array.isArray(o.material) ? o.material : [o.material];
       const covered = mats.map((m) => {
         const c = (m as THREE.MeshStandardMaterial).clone();
@@ -291,6 +294,24 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       });
       o.material = Array.isArray(o.material) ? covered : covered[0];
     });
+    // The blanket LIES ON the building: a thin cap sits proud on every upward
+    // face, so roofs, ledges and tower tops visibly carry the fall — tinting
+    // alone read as "nothing on the surfaces" (the Captain's verdict).
+    let ci = 0;
+    for (const m of meshList) {
+      const mb = new THREE.Box3().setFromObject(m);
+      const ms = mb.getSize(new THREE.Vector3());
+      if (ms.x < 0.15 || ms.z < 0.15) continue; // nothing settles on spikes
+      const mc = mb.getCenter(new THREE.Vector3());
+      const cap = new THREE.Mesh(
+        new THREE.BoxGeometry(ms.x * 1.04, Math.max(0.06, ms.y * 0.05), ms.z * 1.04),
+        capMat,
+      );
+      cap.position.set(mc.x, mb.max.y + 0.03, mc.z);
+      cap.userData.noShadow = true;
+      phaseFx.add(cap);
+      if (++ci > 240) break; // plenty of coverage, bounded cost
+    }
     const sheet = new THREE.Mesh(
       new THREE.CircleGeometry(Math.max(size.x, size.z) * 0.9, 48),
       new THREE.MeshStandardMaterial({ color: tone, roughness: 1, transparent: true, opacity: 0.85 }),
@@ -542,7 +563,7 @@ function show(model: string, title: string, stage: number) {
     scene.remove(figure);
     figure = null;
   }
-  const kind = figureSel?.value;
+  const kind = 'auto';
   if (kind) {
     // Metres-per-unit comes from the PRISTINE footprint so the figure holds
     // its true size through every life phase (the terrain path scales the
@@ -631,7 +652,7 @@ const slider = document.getElementById('slider') as HTMLInputElement;
 const slabel = document.getElementById('slabel') as HTMLLabelElement;
 const terrainEl = document.getElementById('terrain') as HTMLInputElement;
 const siteLabel = document.getElementById('siteLabel') as HTMLDivElement;
-const figureSel = document.getElementById('figure') as HTMLSelectElement;
+// Scale figures are ALWAYS on (person + local transport) — no selector.
 // The weather select left the sidebar (the Captain's call) — precipitation
 // joins the Weather & Sky dial when it grows its cloud bars. Until then the
 // sky stays clear and this handle is null-safe.
@@ -689,7 +710,6 @@ function refresh() {
 sel.addEventListener('change', refresh);
 titleEl.addEventListener('input', refresh);
 terrainEl.addEventListener('change', refresh);
-figureSel.addEventListener('change', refresh);
 slider.addEventListener('input', () => show(sel.value, titleEl.value, +slider.value));
 const coverKindEl = document.getElementById('coverKind') as HTMLSelectElement;
 for (const button of phaseBtns) button.addEventListener('click', () => {
@@ -874,7 +894,11 @@ function reflectMakerState() {
   makerBar.classList.toggle('on', on);
   makerLabel.textContent = on ? 'Maker’s mode on' : 'Maker’s mode off';
   makerToggle.textContent = on ? 'Key' : 'Enable';
-  makerPane.style.display = on ? 'block' : 'none';
+  // Show the review controls even when locked (greyed, inert) — so the maker
+  // tools are DISCOVERABLE: the Captain kept asking where the notes box and
+  // "queue rework" button were. The key still gates every actual save.
+  makerPane.style.display = 'block';
+  makerPane.classList.toggle('locked', !on);
 }
 
 function flash(msg: string, kind: 'ok' | 'err' | '' = '') {
