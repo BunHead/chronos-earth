@@ -1027,45 +1027,107 @@ export function buildModel(
     // wall, with the royal canal cutting straight to the sea. Honest note: the
     // real Richat is a dry natural rock dome — this is the MYTH, flagged as such.
     ground = '#c8b98a';
+    // PLATO'S PALETTE (Critias): the ring walls were clad in metal — BRASS on
+    // the outermost, TIN on the middle, and ORICHALCUM on the citadel wall,
+    // which "sparkled like fire". The islanders quarried white, black and red
+    // stone from beneath the island, and buildings mixed all three.
     const waterMat = new THREE.MeshStandardMaterial({ color: '#2f74a4', roughness: 0.55, metalness: 0 });
     const landMat = stoneLike({ color: '#b3a473' });
-    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a', '#cdc3a4', '#9a7b4a'];
+    const BRASS = new THREE.MeshStandardMaterial({ color: '#b08a3e', metalness: 0.75, roughness: 0.38 });
+    const TIN = new THREE.MeshStandardMaterial({ color: '#c9cfd4', metalness: 0.78, roughness: 0.34 });
+    const ORICHALCUM = new THREE.MeshStandardMaterial({ color: '#d96b3a', metalness: 0.85, roughness: 0.26, emissive: '#5a1e08', emissiveIntensity: 0.25 });
+    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a', '#cdc3a4', '#9a7b4a', '#59544e', '#a4543c', '#e8e2d4'];
     const LAND_Y = 0.22, WATER_Y = 0.1;
+    // This scene owns its ruin: TODAY'S RICHAT — the drowned city silted into
+    // dry ghost-rings of bare rock, which is exactly what the satellite shows.
+    group.userData.selfRuined = true;
     const annulus = (inner: number, outer: number, y: number, mat: THREE.Material) => {
       const m = new THREE.Mesh(new THREE.RingGeometry(inner, outer, 80), mat);
       m.rotation.x = -Math.PI / 2;
       m.position.y = y;
       group.add(m);
     };
-    // Concentric rings of land and water, alternating outward.
+    if (ruined) {
+      // The myth's epilogue — and the real geology: concentric rock terraces,
+      // no water, no walls, no city. Ancient rumour, written in stone.
+      const dryA = stoneLike({ color: '#b9a87c' });
+      const dryB = stoneLike({ color: '#a3906a' });
+      annulus(0, 2.6, 0.3, dryA);
+      annulus(2.6, 3.6, 0.06, dryB);
+      annulus(3.6, 5.6, 0.24, dryA);
+      annulus(5.6, 6.9, 0.05, dryB);
+      annulus(6.9, 9.0, 0.18, dryA);
+      annulus(9.0, 10.4, 0.04, dryB);
+      for (let i = 0; i < 26; i++) { // scattered eroded remnants
+        const a = (i * 2.399) % (Math.PI * 2); // golden-angle scatter, deterministic
+        const rr = 2 + ((i * 0.61) % 1) * 8;
+        const b = block(0.4 + ((i * 0.37) % 1) * 0.5, 0.16, 0.3, Math.cos(a) * rr, 0.34, Math.sin(a) * rr, '#8f8266', -a);
+        weather(b, 0.2);
+        group.add(b);
+      }
+      return { group, ground };
+    }
+    // Concentric rings of land and water, alternating outward (Critias: "two
+    // of land and three of water", wheel within wheel).
     annulus(0, 2.6, LAND_Y, landMat);      // central island
     annulus(2.6, 3.6, WATER_Y, waterMat);  // ring of water
     annulus(3.6, 5.6, LAND_Y, landMat);    // ring of land
     annulus(5.6, 6.9, WATER_Y, waterMat);  // ring of water
     annulus(6.9, 9.0, LAND_Y, landMat);    // ring of land
     annulus(9.0, 10.4, WATER_Y, waterMat); // outer ring of water
-    // The great outer wall — with a gap to the SSW where the harbour opens.
-    // (Scene north = +Z, east = +X; the wall angle runs from +X toward +Z.)
-    const HB = 4.32; // harbour-mouth bearing (SSW)
+    // The great outer wall, CLAD IN BRASS — with a gap to the SSW where the
+    // harbour opens. (Local frame; facingDeg turns the built city so the
+    // harbour reads SW on the real Richat, as the Captain's map has it.)
+    const HB = 4.32; // harbour-mouth bearing
     const hx = Math.cos(HB), hz = Math.sin(HB);
     for (let i = 0; i < 96; i++) {
       const a = (i / 96) * Math.PI * 2;
       const d = Math.abs(a - HB);
       if (Math.min(d, Math.PI * 2 - d) < 0.26) continue; // harbour mouth
-      group.add(block(0.7, 1.0, 0.34, Math.cos(a) * 10.7, LAND_Y + 0.5, Math.sin(a) * 10.7, '#b0895a', -a));
+      const w = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.0, 0.34), BRASS);
+      w.position.set(Math.cos(a) * 10.7, LAND_Y + 0.5, Math.sin(a) * 10.7);
+      w.rotation.y = -a;
+      group.add(w);
+    }
+    // The TIN wall rings the middle land ring; the ORICHALCUM wall guards the
+    // citadel island — Plato's three metal circuits, innermost afire.
+    for (let i = 0; i < 72; i++) {
+      const a = (i / 72) * Math.PI * 2;
+      const t = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.7, 0.24), TIN);
+      t.position.set(Math.cos(a) * 5.45, LAND_Y + 0.35, Math.sin(a) * 5.45);
+      t.rotation.y = -a;
+      group.add(t);
+    }
+    for (let i = 0; i < 56; i++) {
+      const a = (i / 56) * Math.PI * 2;
+      const o = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.62, 0.2), ORICHALCUM);
+      o.position.set(Math.cos(a) * 2.52, LAND_Y + 0.31, Math.sin(a) * 2.52);
+      o.rotation.y = -a;
+      group.add(o);
     }
     // Buildings clustered on the two land rings (deterministic scatter).
     const houses = (R0: number, R1: number, count: number, seed: number) => {
       for (let i = 0; i < count; i++) {
         const a = (i / count) * Math.PI * 2 + ((i * 1.7 + seed) % 1) * 0.4;
         const rr = R0 + ((i * 0.37 + seed) % 1) * (R1 - R0);
-        const h = 0.45 + ((i * 0.53 + seed) % 1) * 0.9;
-        const w = 0.34 + ((i * 0.29) % 1) * 0.28;
+        const h = 0.4 + ((i * 0.53 + seed) % 1) * 0.62; // low and chunky — a city, not a pin-cushion
+        const w = 0.46 + ((i * 0.29) % 1) * 0.3;
         group.add(block(w, h, w * 1.2, Math.cos(a) * rr, LAND_Y + h / 2, Math.sin(a) * rr, roofCols[i % roofCols.length], -a));
       }
     };
     houses(3.9, 5.3, 60, 0.1);
-    houses(7.2, 8.7, 98, 0.6);
+    // The outer ring parts around Plato's HIPPODROME: "a race-course a stadium
+    // wide ... round the whole circumference" — a pale track between the housing.
+    houses(7.15, 7.85, 62, 0.6);
+    houses(8.5, 8.8, 36, 0.9);
+    const track = new THREE.Mesh(new THREE.RingGeometry(8.0, 8.38, 90), stoneMat('#d9c9a0'));
+    track.rotation.x = -Math.PI / 2;
+    track.position.y = LAND_Y + 0.02;
+    group.add(track);
+    for (let i = 0; i < 18; i++) { // turning posts round the course
+      const a = (i / 18) * Math.PI * 2;
+      group.add(block(0.07, 0.34, 0.07, Math.cos(a) * 8.19, LAND_Y + 0.19, Math.sin(a) * 8.19, '#efe8d2', -a));
+    }
     // A few taller landmark towers punctuate the skyline.
     for (let i = 0; i < 11; i++) {
       const a = (i / 11) * Math.PI * 2 + 0.35;
@@ -1083,16 +1145,47 @@ export function buildModel(
       const a = (i / 5) * Math.PI * 2 + 0.7;
       group.add(block(0.95, 0.95, 0.7, Math.cos(a) * 4.6, LAND_Y + 0.47, Math.sin(a) * 4.6, '#e2dabf', -a));
     }
-    // The central citadel — Poseidon's temple in its sacred enclosure: a low ring
-    // wall, a stepped marble platform, a full colonnade, a gabled roof and a
-    // gilded finial catching the sun.
+    // The central citadel — Poseidon's temple in its sacred precinct. Critias:
+    // the shrine of Cleito and Poseidon stood within an ENCLOSURE OF GOLD, the
+    // temple's exterior was coated in SILVER with pinnacles of GOLD, and hot
+    // and cold SPRINGS rose side by side on the island.
     for (let i = 0; i < 54; i++) {
       const a = (i / 54) * Math.PI * 2;
-      group.add(block(0.24, 0.55, 0.16, Math.cos(a) * 2.35, LAND_Y + 0.28, Math.sin(a) * 2.35, '#cabf95', -a));
+      const g2 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.5, 0.14), GOLD);
+      g2.position.set(Math.cos(a) * 2.3, LAND_Y + 0.25, Math.sin(a) * 2.3);
+      g2.rotation.y = -a;
+      group.add(g2);
     }
+    const SILVER = new THREE.MeshStandardMaterial({ color: '#dfe3e8', metalness: 0.82, roughness: 0.28 });
     group.add(block(2.0, 0.35, 2.0, 0, LAND_Y + 0.18, 0, '#cdbf98'));  // step 1
     group.add(block(1.6, 0.35, 1.6, 0, LAND_Y + 0.5, 0, '#d8cca6'));   // step 2
-    group.add(block(1.1, 1.5, 1.1, 0, LAND_Y + 1.4, 0, '#e6ddc2'));    // cella
+    const cella = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.5, 1.1), SILVER); // silver-coated shrine
+    cella.position.set(0, LAND_Y + 1.4, 0);
+    group.add(cella);
+    // Poseidon himself, in gold, trident raised, before his temple.
+    const psd = (w: number, h: number, d: number, x: number, y: number, z: number) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), GOLD);
+      m.position.set(x, y, z);
+      group.add(m);
+      return m;
+    };
+    const PX = 0, PZ = 1.62; // forecourt, facing the harbour axis
+    psd(0.34, 0.14, 0.34, PX, LAND_Y + 0.42, PZ); // plinth
+    psd(0.16, 0.42, 0.14, PX, LAND_Y + 0.72, PZ); // robed body
+    const phead = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), GOLD);
+    phead.position.set(PX, LAND_Y + 0.99, PZ);
+    group.add(phead);
+    const trident = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.62, 6), GOLD);
+    trident.position.set(PX + 0.12, LAND_Y + 0.88, PZ);
+    group.add(trident);
+    for (const tx of [-0.035, 0, 0.035]) psd(0.012, 0.1, 0.012, PX + 0.12 + tx, LAND_Y + 1.22, PZ); // the three tines
+    // The twin springs, hot and cold, side by side (one steams pale).
+    for (const [sx, sc] of [[-1.35, '#4f93bd'], [-1.05, '#cfe4ee']] as const) {
+      const pool = new THREE.Mesh(new THREE.CircleGeometry(0.16, 16), new THREE.MeshStandardMaterial({ color: sc, roughness: 0.3 }));
+      pool.rotation.x = -Math.PI / 2;
+      pool.position.set(sx, LAND_Y + 0.06, 0.9);
+      group.add(pool);
+    }
     for (let i = 0; i < 12; i++) {                                      // colonnade
       const a = (i / 12) * Math.PI * 2;
       group.add(block(0.14, 1.5, 0.14, Math.cos(a) * 0.86, LAND_Y + 1.35, Math.sin(a) * 0.86, '#efe8d2'));
@@ -1107,13 +1200,32 @@ export function buildModel(
     );
     finial.position.y = LAND_Y + 3.1;
     group.add(finial);
-    // The royal canal: bridges/causeways crossing each ring of water on one axis.
-    for (const ang of [0, Math.PI]) {
+    // The royal way: bridges crossing each water ring ON THE HARBOUR AXIS
+    // (Critias: bridges spanned the rings toward the sea-canal, with TOWERS
+    // AND GATES at every crossing), plus a cross-axis pair for the city's flow.
+    for (const ang of [HB, HB + Math.PI, HB + Math.PI / 2, HB - Math.PI / 2]) {
       const bx = Math.cos(ang), bz = Math.sin(ang);
       for (const [r0, r1] of [[2.6, 3.6], [5.6, 6.9], [9.0, 10.4]]) {
         const rm = (r0 + r1) / 2, len = r1 - r0 + 0.6;
         group.add(block(len, 0.3, 1.0, bx * rm, LAND_Y + 0.18, bz * rm, '#c9b98a', -ang));
+        // Gate-towers flanking each bridgehead on the outer bank.
+        for (const s of [-0.62, 0.62]) {
+          const gx = bx * (r1 + 0.25) + Math.cos(ang + Math.PI / 2) * s;
+          const gz = bz * (r1 + 0.25) + Math.sin(ang + Math.PI / 2) * s;
+          const tw = block(0.3, 0.85, 0.3, gx, LAND_Y + 0.43, gz, '#b39a6a', -ang);
+          group.add(tw);
+        }
       }
+    }
+    // The war-harbour: triremes moored in the outer water ring by the mouth —
+    // Plato's docks "full of triremes", in miniature.
+    for (let i = 0; i < 6; i++) {
+      const a = HB + (i - 2.5) * 0.22;
+      const rr = 9.7;
+      const bx2 = Math.cos(a) * rr, bz2 = Math.sin(a) * rr;
+      const hull = block(0.72, 0.09, 0.16, bx2, WATER_Y + 0.06, bz2, '#7a4e2c', -(a + Math.PI / 2));
+      group.add(hull);
+      group.add(block(0.02, 0.3, 0.02, bx2, WATER_Y + 0.26, bz2, '#5f3f22', -(a + Math.PI / 2))); // mast
     }
     // A harbour to the SSW where the royal canal meets the sea: the channel out
     // through the harbour mouth, a broad basin beyond the wall, and two jetties.
@@ -1136,55 +1248,104 @@ export function buildModel(
       const a = HB - 1.3 + (i / 19) * 2.6;
       group.add(block(0.5, 0.7, 0.3, hx * 14.4 + Math.cos(a) * 3.7, LAND_Y + 0.35, hz * 14.4 + Math.sin(a) * 3.7, '#a8825a', -a));
     }
-    // The real Richat geography to the NORTH (+Z): a shallow crescent — an 'upper
-    // eyelid' — with riverlets draining north from it, plus dry river beds fanning
-    // north and east. A thin flat strip between two points:
-    const strip = (x0: number, z0: number, x1: number, z1: number, w: number, col: string) => {
-      const dx = x1 - x0, dz = z1 - z0, len = Math.hypot(dx, dz);
-      group.add(block(len, 0.1, w, (x0 + x1) / 2, LAND_Y + 0.03, (z0 + z1) / 2, col, -Math.atan2(dz, dx)));
-    };
-    // The raised crescent 'eyelid' to the north — a low ridge, the water source,
-    // with falls on its southern face and riverlets draining SOUTH into the rings.
-    const ridge = new THREE.Mesh(new THREE.TorusGeometry(4.6, 0.7, 8, 48, Math.PI * 0.85), stoneLike({ color: '#9a8a63', flatShading: true }));
-    ridge.rotation.x = -Math.PI / 2;
-    ridge.rotation.z = -Math.PI * 0.925;
-    ridge.scale.set(1, 1, 0.5);
-    ridge.position.set(0, 0.7, 12.4);
-    group.add(ridge);
-    const dry = '#a3926a';
+    // THE CAPTAIN'S GEOGRAPHY, built as terrain that sits on the land — not
+    // props floating over it. To the local north: a raised rock PLATEAU whose
+    // flat top holds the dark ELEVATED SEA behind its natural dam face; the
+    // dam's south wall sheds WATERFALLS that run as thin sheets down into the
+    // outer ring. (One day the dam bursts — see the deluge below.)
+    const plateau = new THREE.Mesh(
+      new THREE.CylinderGeometry(8.6, 10.6, 1.15, 48),
+      stoneLike({ color: '#9a8a63', flatShading: true }),
+    );
+    plateau.scale.set(1.5, 1, 0.72);
+    plateau.position.set(0.6, 0.5, 17.6);
+    group.add(plateau);
+    // The dark water sits INSET in broad stone shoulders — a highland lake
+    // behind its dam, not a platter of water.
+    const highLake = new THREE.Mesh(
+      new THREE.CircleGeometry(5.2, 40),
+      new THREE.MeshStandardMaterial({ color: '#1f5d8c', roughness: 0.35 }),
+    );
+    highLake.rotation.x = -Math.PI / 2;
+    highLake.scale.set(1.62, 0.62, 1);
+    highLake.position.set(0.6, 1.09, 18.1);
+    highLake.userData.noShadow = true;
+    group.add(highLake);
     for (const wx of [-2.2, -0.75, 0.75, 2.2]) {
-      group.add(block(0.22, 1.1, 0.14, wx, LAND_Y + 0.55, 11.5, '#8fc0e2')); // waterfall
-      strip(wx, 11.4, wx * 0.7, 9.9, 0.4, dry);                              // riverlet draining south
+      // Falls down the dam face, then a flush glinting runnel to the ring.
+      group.add(block(0.26, 1.0, 0.1, wx + 0.5, 0.55, 11.6, '#8fc0e2'));
+      const runnel = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.3, 1.4),
+        new THREE.MeshStandardMaterial({ color: '#5f9cc4', roughness: 0.35 }),
+      );
+      runnel.rotation.x = -Math.PI / 2;
+      runnel.position.set(wx + 0.4, 0.06, 10.9);
+      runnel.userData.noShadow = true;
+      group.add(runnel);
     }
-    // Dry river beds fanning to the north-east and east.
-    strip(6.4, 8.4, 8.6, 11.2, 0.55, dry);
-    strip(8.6, 11.2, 9.6, 13.6, 0.5, dry);
-    strip(9.2, 4.6, 12.0, 5.6, 0.55, dry);
-    strip(12.0, 5.6, 14.4, 4.9, 0.5, dry);
-    strip(9.6, 1.2, 12.6, 1.6, 0.5, dry);
     // The raised sea / inland lake that made Atlantis a coastal city — a broad
     // translucent water plane lapping the island's outer rings. Flagged noShadow
     // so it neither casts a slab-shadow nor swells the fit (which would shrink the
     // city). The drowning sequence will later raise this level to swallow it all.
     // The COAST: open sea beyond the harbour to the SSW — the city is coastal,
     // while the dry Richat terrain shows everywhere else. Always present.
-    const coastMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.45, metalness: 0.06, transparent: true, opacity: 0.82 });
-    const coast = new THREE.Mesh(new THREE.CircleGeometry(17, 56), coastMat);
+    const coastMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.45, metalness: 0.06 });
+    const coast = new THREE.Mesh(new THREE.CircleGeometry(21, 64), coastMat);
     coast.rotation.x = -Math.PI / 2;
-    coast.position.set(hx * 25, WATER_Y, hz * 25);
+    coast.position.set(hx * 30, 0.04, hz * 30); // hugs the ground — a sea, not a saucer
     coast.renderOrder = 1;
     coast.userData.noShadow = true;
     group.add(coast);
-    // The DELUGE / drowning: a full sea plane rising over the whole city — only
-    // present once the flood has begun, so 'her height' keeps its dry coast.
+    const shore = new THREE.Mesh(new THREE.RingGeometry(21, 22.4, 64), stoneMat('#d3c49a'));
+    shore.rotation.x = -Math.PI / 2;
+    shore.position.set(hx * 30, 0.03, hz * 30); // the pale strand around the bay
+    shore.userData.noShadow = true;
+    group.add(shore);
+    // THE DELUGE — the Captain's story, not a bathtub: the natural dam behind
+    // the northern ridge bursts and the raised sea comes over the city AS A
+    // WAVE FROM THE NORTH-EAST, sweeping across the rings into the SW sea.
+    // The flood sheet starts as a lobe hugging the NE and advances toward the
+    // harbour as the level rises; a pale swell ridge marks its leading edge.
+    // (Local frame: the city is later rotated 180°, so world-NE = local
+    // (-x, +z) — the lobe starts at local (-1,+1) and drives toward (+1,-1).)
     if (seaLevel !== undefined && seaLevel > LAND_Y + 0.4) {
+      const t = Math.min(1, (seaLevel - (LAND_Y + 0.4)) / (3.5 - (LAND_Y + 0.4)));
+      // Flood lobe: centre starts deep in the local NE (-17, +17) and slides to
+      // the origin as the level rises, while the sheet grows to cover the city.
+      const lx = -17 * (1 - t);
+      const lz = 17 * (1 - t);
+      const radius = 20 + 36 * t;
       const floodMat = new THREE.MeshStandardMaterial({ color: '#356f96', roughness: 0.3, metalness: 0.08, transparent: true, opacity: 0.9 });
-      const flood = new THREE.Mesh(new THREE.CircleGeometry(52, 72), floodMat);
+      const flood = new THREE.Mesh(new THREE.CircleGeometry(radius, 72), floodMat);
       flood.rotation.x = -Math.PI / 2;
-      flood.position.y = seaLevel;
+      flood.position.set(lx, seaLevel, lz);
       flood.renderOrder = 2;
       flood.userData.noShadow = true;
       group.add(flood);
+      if (t < 0.96) {
+        // The breaking front — a low foaming roller hugging the flood's
+        // leading (harbour-ward) edge, perpendicular to the advance. Built in
+        // a parent group so the orientation maths stays unambiguous: the
+        // cylinder lies along the group's X, and the group turns local X onto
+        // the edge line.
+        const dirX = 0.7071, dirZ = -0.7071; // advance: toward the local SW
+        const roller = new THREE.Group();
+        const swell = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.5, 0.5, radius * 0.9, 10),
+          new THREE.MeshStandardMaterial({ color: '#cfe4ee', roughness: 0.4, transparent: true, opacity: 0.8 }),
+        );
+        swell.rotation.z = Math.PI / 2; // lie along the roller's X
+        swell.scale.y = 0.55; // squashed — a swell, not a pipe
+        roller.add(swell);
+        roller.rotation.y = -Math.PI / 4; // X → the NW–SE edge line
+        roller.position.set(lx + dirX * (radius - 0.6), seaLevel + 0.04, lz + dirZ * (radius - 0.6));
+        roller.traverse((o) => { o.userData.noShadow = true; });
+        group.add(roller);
+        // The burst dam: once the wave is loose, the ridge wears a torn gap.
+        const gap = block(2.6, 1.5, 1.2, 0.4, 0.6, 12.3, '#7c6f4f');
+        gap.rotation.y = 0.2;
+        group.add(gap);
+      }
     }
   } else if (model === 'hanging-gardens') {
     // The Hanging Gardens of Babylon — NOT a free-standing tower but planted
