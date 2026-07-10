@@ -43,6 +43,8 @@ letter — every rule here was paid for with a real failure.
   tier cloned per bay. Daylight must pass through the opening. Orient bays
   with the TRUE ellipse tangent `Math.atan2(-B*cos t, -A*sin t)` — a plain
   `-t` leaves wedge gaps at the long ends. Overlap panels a whisker.
+  STRAIGHT arcades (aqueducts, bridges) are the trivial case: panels face +Z,
+  `rotation.y = 0`, still overlap a whisker so pier faces never go coplanar.
 - **Gable roofs**: `gableRoof()` (two sloped slabs + pediments). NEVER the
   3-sided-cylinder cone trick — it balloons into a wedge that swallows
   colonnades (broke Zeus, Artemis and the Parthenon in turn).
@@ -73,6 +75,17 @@ letter — every rule here was paid for with a real failure.
   never collapsed).
 - Ask of every archetype: "what does the real one look like TODAY?" — that,
   not rubble, is the ruin.
+- Generic-ruin FAILURE SIGNATURES (render the ruin; if you see these, build a
+  self-ruin): a roof/cap surviving intact as ground debris ("tents on grass"),
+  floating high meshes, a whole tower tilted over in one piece, gallery slabs
+  hovering where their support vanished.
+
+## Agent field notes
+
+- Worktree node_modules junction: Git Bash's `cmd //c mklink /J` mangles the
+  paths. Use PowerShell: `New-Item -ItemType Junction -Path node_modules
+  -Target "D:\...\ChronosEarth\node_modules"`. If Vite's dep optimizer throws
+  ENOENT, recreate the junction and ensure its cache dir exists.
 
 ## Scene truths
 
