@@ -4,16 +4,34 @@
     <meta charset="utf-8" />
     <title>Chronos Earth — model render harness</title>
     <style>
+      /* The banner + progress bar are pure HTML/CSS so they paint the INSTANT
+         the window opens — no more anonymous white square while scripts load. */
       html, body { margin: 0; height: 100%; background: #aebfcf; }
       canvas { display: block; }
+      #banner {
+        position: fixed; top: 8px; left: 10px; right: 10px; z-index: 10;
+        pointer-events: none; font: 600 13px system-ui, sans-serif; color: #12222f;
+        background: rgba(255, 255, 255, 0.82); padding: 7px 12px 9px; border-radius: 8px;
+      }
+      #bar {
+        margin-top: 6px; height: 5px; border-radius: 3px; overflow: hidden;
+        background: rgba(18, 34, 47, 0.15);
+      }
+      #bar::after {
+        content: ''; display: block; height: 100%; width: 38%;
+        border-radius: 3px; background: #2f74a4;
+        animation: sweep 1.1s ease-in-out infinite alternate;
+      }
+      @keyframes sweep { from { margin-left: 0 } to { margin-left: 62% } }
     </style>
   </head>
   <body>
     <!-- Dev-only page: renders a single buildModel() archetype on a neutral
          ground for the AI modeller's render step (and for verifying models
          without loading the Cesium app). Query: ?model=rings&angle=3q|top|side -->
-    <div id="lbl" style="position:fixed;top:8px;left:10px;font:600 13px system-ui,sans-serif;color:#12222f;background:rgba(255,255,255,.78);padding:5px 11px;border-radius:6px;z-index:10;pointer-events:none">
-      🏛️ Chronos Earth · render harness (Claude is drawing a 3D model — safe to close)
+    <div id="banner">
+      <div id="lbl">🏛️ Chronos Earth · automated modeller — drawing a 3D model (safe to close)</div>
+      <div id="bar"></div>
     </div>
     <script type="module" src="/src/render-harness.ts"></script>
   </body>

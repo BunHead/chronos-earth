@@ -121,13 +121,28 @@ if (hasGeo) {
   sat.position.y = 0.02;
   sat.receiveShadow = true;
   scene.add(sat);
-  loadSatelliteGround(lat, lon, (tex) => {
+  loadSatelliteGround(lat, lon, (tex, shift) => {
     const m = sat.material as THREE.MeshStandardMaterial;
     m.map = tex;
     m.color.set('#ffffff');
     m.needsUpdate = true;
+    // Slide the imagery so the site's true lat/lon sits at the origin — where
+    // the model stands. Without this a site sat up to half a tile off.
+    sat.position.set(shift.x, 0.02, shift.z);
     satReady = true;
   }, fit.zoom);
+
+  // CHECKER AID — a crosshair at the scene origin (the site's true lat/lon).
+  // Position auditing becomes a yes/no read: "is the model on the crosshair,
+  // over the real footprint?" — no judgment required.
+  const crossMat = new THREE.MeshBasicMaterial({ color: '#ff2d20', depthTest: false, transparent: true, opacity: 0.9 });
+  for (const [w, d] of [[7, 0.28], [0.28, 7]] as const) {
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(w, 0.05, d), crossMat);
+    bar.position.y = 0.15;
+    bar.renderOrder = 999;
+    bar.userData.noShadow = true; // excluded from framing boxes
+    scene.add(bar);
+  }
 }
 
 // Apply the known quiz spin AFTER placement so the model turns but the compass
@@ -192,6 +207,11 @@ let f = 0;
 function loop() {
   renderer.render(scene, cam);
   if (f++ < 5 || (!satReady && f < 260)) requestAnimationFrame(loop);
-  else (window as unknown as { __ready?: boolean }).__ready = true;
+  else {
+    (window as unknown as { __ready?: boolean }).__ready = true;
+    // Swap the progress bar for a "done" note so the window reads finished.
+    document.getElementById('bar')?.remove();
+    if (label) label.textContent = `🏛️ Chronos Earth · modeller — "${model}" rendered ✓ (safe to close)`;
+  }
 }
 loop();

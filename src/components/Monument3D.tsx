@@ -1528,7 +1528,19 @@ export function buildModel(
  * Real terrain: stitch a 3×3 patch of Esri World Imagery tiles centred
  * on the site into one texture for the ground disc.
  * ------------------------------------------------------------------ */
-export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THREE.CanvasTexture) => void, zoom = 16) {
+/** Ground offset (scene units) that puts the requested lat/lon at the scene
+ * origin: the 3×3 tile patch is centred on the middle TILE, and a site can sit
+ * anywhere inside that tile — up to half a tile off-centre. Monuments looked
+ * displaced from their real footprints (the Captain caught the Parthenon
+ * standing beside itself) until the ground is shifted by this. */
+export interface GroundShift { x: number; z: number }
+
+export function loadSatelliteGround(
+  lat: number,
+  lon: number,
+  onReady: (tex: THREE.CanvasTexture, shift: GroundShift) => void,
+  zoom = 16,
+) {
   // Esri has no imagery at high zoom for some rural/jungle sites (Tikal,
   // Olympia): it returns a near-uniform "map data not yet available"
   // placeholder WITH HTTP 200, so onerror never fires and the monument stood
@@ -1538,8 +1550,14 @@ export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THR
   const attempt = (z: number) => {
     const n = 2 ** z;
     const latR = (lat * Math.PI) / 180;
-    const xt = Math.floor(((lon + 180) / 360) * n);
-    const yt = Math.floor(((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n);
+    const xf = ((lon + 180) / 360) * n; // continuous tile coords of the site
+    const yf = ((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2) * n;
+    const xt = Math.floor(xf);
+    const yt = Math.floor(yf);
+    // Where the site sits relative to the patch centre (the middle tile's
+    // centre), in scene units. Tile x grows east (+X); tile y grows south (+Z).
+    const unitsPerTile = 80 / 3;
+    const shift: GroundShift = { x: -(xf - (xt + 0.5)) * unitsPerTile, z: -(yf - (yt + 0.5)) * unitsPerTile };
 
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = 768;
@@ -1579,7 +1597,7 @@ export function loadSatelliteGround(lat: number, lon: number, onReady: (tex: THR
       const tex = new THREE.CanvasTexture(canvas);
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.anisotropy = 4;
-      onReady(tex);
+      onReady(tex, shift);
     };
 
     for (let dy = -1; dy <= 1; dy++) {
@@ -1877,14 +1895,18 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       for (let i = 0; i < 6; i++) addFx(smokeTex, 'smoke', (Math.random() - 0.5) * 9, 6.5 + Math.random() * 2, (Math.random() - 0.5) * 4, 4.5);
     }
 
-    // Drop in the real satellite ground once the tiles arrive.
+    // Drop in the real satellite ground once the tiles arrive. The shift slides
+    // the imagery so the monument's true lat/lon sits exactly under the model
+    // (the patch is tile-aligned, so unshifted sites stood up to half a tile
+    // from their real footprints — the Captain caught the Parthenon beside itself).
     let groundTex: THREE.CanvasTexture | null = null;
     if (lat !== undefined && lon !== undefined) {
-      loadSatelliteGround(lat, lon, (tex) => {
+      loadSatelliteGround(lat, lon, (tex, shift) => {
         groundTex = tex;
         groundMat.map = tex;
         groundMat.color.set('#d8d8d8');
         groundMat.needsUpdate = true;
+        groundMesh.position.set(shift.x, 0, shift.z);
       }, groundZoom);
     }
 
