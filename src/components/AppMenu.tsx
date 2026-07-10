@@ -47,6 +47,21 @@ export default function AppMenu({ tours, onStartTour, onAbout, reduceMotion, onR
           {view === 'root' && (
             <>
               <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
+              {/* The maker's tools: browse every 3D model, and run the automated
+                  Wikidata harvester on GitHub (free, no local setup) — the
+                  Captain's no-tokens-needed controls. */}
+              <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
+                🛠️ Model Workshop
+              </a>
+              <a
+                className="app-menu-item"
+                href="https://github.com/BunHead/chronos-earth/actions/workflows/harvest.yml"
+                target="_blank"
+                rel="noreferrer"
+                onClick={close}
+              >
+                🚜 Run the data harvester
+              </a>
               <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; sources</button>
               <button className="app-menu-item" onClick={() => setView('settings')}>⚙️ Settings <span className="app-menu-arrow">›</span></button>
             </>

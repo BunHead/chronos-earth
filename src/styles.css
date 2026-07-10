@@ -135,6 +135,7 @@ body {
   cursor: pointer;
 }
 .app-menu-item:hover { background: #1d2735; }
+a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items (Workshop, harvester) match the buttons */
 .app-menu-item.tour { align-items: flex-start; }
 .app-menu-item.tour small { display: block; color: var(--text-dim); font-size: 11px; }
 .app-menu-emoji { font-size: 18px; }

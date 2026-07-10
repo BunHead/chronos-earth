@@ -1,0 +1,43 @@
+# The AUTOMATED HARVESTER — grows the history dataset with no human (and no
+# AI tokens) involved. Runs nightly, or on demand from the Actions tab ("Run
+# workflow" button). It fetches new Wikidata events (additive union — it can
+# only ADD, never lose), rebuilds the index, and commits; the commit then
+# triggers the normal Pages deploy, so fresh data ships itself.
+name: Harvest history data
+
+on:
+  schedule:
+    - cron: '17 3 * * *' # nightly, 03:17 UTC (quiet hours for the query service)
+  workflow_dispatch: # the "Run workflow" button — the Captain's one-click harvest
+
+permissions:
+  contents: write
+
+concurrency:
+  group: harvest
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch new events from Wikidata (additive)
+        run: node scripts/fetch-wikidata-events.mjs
+      - name: Rebuild the core index
+        run: node scripts/build-core-index.mjs
+      - name: Commit & push if the dataset grew
+        run: |
+          git config user.name "chronos-harvester"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/data
+          if git diff --cached --quiet; then
+            echo "No new events this run."
+          else
+            git commit -m "Data: automated nightly harvest (additive)"
+            git push
+          fi
