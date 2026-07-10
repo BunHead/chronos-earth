@@ -1532,15 +1532,39 @@ export function buildModel(
     // caps, and Khafre keeping the famous casing remnant at his tip.
     group.userData.selfRuined = true;
     const frac = buildFrac ?? 1;
+    // Khufu's famous EIGHT faces: each side is very slightly concave (a crease
+    // down the centre, visible from the air in raking light — the Captain's
+    // photo). Built as a custom pyramid whose base-edge midpoints are pulled
+    // inward; flat shading turns each half-face at its own angle to the sun.
+    const concavePyramid = (half: number, h: number, inset: number): THREE.BufferGeometry => {
+      const A = [0, h, 0];
+      const corners = [
+        [half, 0, half], [half, 0, -half], [-half, 0, -half], [-half, 0, half],
+      ];
+      const pos: number[] = [];
+      for (let i = 0; i < 4; i++) {
+        const c1 = corners[i];
+        const c2 = corners[(i + 1) % 4];
+        const m = [((c1[0] + c2[0]) / 2) * (1 - inset), 0, ((c1[2] + c2[2]) / 2) * (1 - inset)];
+        pos.push(...c1, ...m, ...A, ...m, ...c2, ...A); // two half-faces per side
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      g.computeVertexNormals();
+      return g;
+    };
     // One pyramid, at a given completion (or as today's stripped ruin).
-    const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number, capRemnant = false) => {
+    const pyramid = (cx: number, cz: number, half: number, h: number, done: boolean, coreFrac: number, capRemnant = false, eightSided = false) => {
+      const bodyGeo = eightSided
+        ? concavePyramid(half, h, 0.055)
+        : undefined;
       if (done && ruined) {
         const bare = new THREE.Mesh(
-          new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
+          bodyGeo ?? new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
           stoneLike({ color: '#c3ad82', flatShading: true }),
         );
-        bare.rotation.y = Math.PI / 4;
-        bare.position.set(cx, h / 2, cz);
+        if (!bodyGeo) bare.rotation.y = Math.PI / 4;
+        bare.position.set(cx, bodyGeo ? 0 : h / 2, cz);
         group.add(bare);
         if (capRemnant) {
           // Khafre's surviving cap of smooth casing — the plateau's signature.
@@ -1555,16 +1579,19 @@ export function buildModel(
         }
       } else if (done) {
         const white = new THREE.Mesh(
-          new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
+          bodyGeo ?? new THREE.ConeGeometry(half * Math.SQRT2, h, 4),
           new THREE.MeshStandardMaterial({ color: '#efe9d8', roughness: 0.72, flatShading: true }),
         );
-        white.rotation.y = Math.PI / 4;
-        white.position.set(cx, h / 2, cz);
+        if (!bodyGeo) white.rotation.y = Math.PI / 4;
+        white.position.set(cx, bodyGeo ? 0 : h / 2, cz);
         group.add(white);
+        // The electrum cap sits PROUD of the casing (radius 15% over the
+        // surface line) so its faces never share a plane with the white stone
+        // beneath — coplanar faces were z-fighting into interlaced stripes.
         const capH = h * 0.13;
-        const cap = new THREE.Mesh(new THREE.ConeGeometry(half * Math.SQRT2 * 0.13, capH, 4), GOLD);
+        const cap = new THREE.Mesh(new THREE.ConeGeometry(half * Math.SQRT2 * 0.15, capH, 4), GOLD);
         cap.rotation.y = Math.PI / 4;
-        cap.position.set(cx, h - capH / 2, cz);
+        cap.position.set(cx, h - capH / 2 + 0.02, cz);
         group.add(cap);
       } else {
         const cf = Math.max(0, Math.min(1, coreFrac));
@@ -1590,9 +1617,51 @@ export function buildModel(
     // Khufu 230.3 × 146.5 m; Khafre 215.5 × 143.5 m;
     // Menkaure ~103.4 × 65.5 m. The earlier heights (especially Menkaure) were
     // dramatic guesses and made the family read almost evenly sized.
-    pyramid(0, 0, 5.0, 6.37, frac >= 0.55, (frac - 0.15) / 0.4); // Khufu — the Great Pyramid
+    pyramid(0, 0, 5.0, 6.37, frac >= 0.55, (frac - 0.15) / 0.4, false, true); // Khufu — the Great Pyramid, 8-faced
     pyramid(-14.2, 15.0, 4.68, 6.24, frac >= 0.8, (frac - 0.45) / 0.35, true); // Khafre (keeps his casing cap)
     pyramid(-25.0, 33.3, 2.25, 2.85, frac >= 0.98, (frac - 0.7) / 0.28); // Menkaure
+
+    // The AHRAMAT BRANCH — the lost Nile arm (identified 2024) that hugged the
+    // desert edge ~1 km east of the plateau while the pyramids rose, serving
+    // the valley-temple harbours. A meandering course, not a plank — and in
+    // the RUIN phase it is gone entirely, because it silted up: exactly why
+    // today's satellite imagery shows desert there.
+    if (!ruined) {
+      const bend = (z: number) => 38.5 + Math.sin(z * 0.11) * 2.6 + Math.sin(z * 0.031 + 1.7) * 1.8;
+      const riverPts: THREE.Vector3[] = [];
+      for (let z = -38; z <= 38; z += 4) riverPts.push(new THREE.Vector3(bend(z), 0, z)); // stays on the ground disc
+      const course = new THREE.CatmullRomCurve3(riverPts);
+      const water = new THREE.Mesh(
+        new THREE.TubeGeometry(course, 48, 2.1, 6, false),
+        new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.32, metalness: 0.05 }),
+      );
+      water.scale.y = 0.03; // a ribbon lying on the land, not a pipe
+      water.position.y = 0.05;
+      water.userData.noShadow = true; // never part of the fit box
+      group.add(water);
+      const banks = new THREE.Mesh(
+        new THREE.TubeGeometry(course, 48, 3.4, 6, false),
+        new THREE.MeshStandardMaterial({ color: '#7d8a56', roughness: 0.95 }),
+      );
+      banks.scale.y = 0.014; // the green floodplain fringe
+      banks.position.y = 0.03;
+      banks.userData.noShadow = true;
+      group.add(banks);
+      // The harbour canal cut west from the river to the Sphinx's valley temples.
+      const canal = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(bend(20), 0, 20),
+        new THREE.Vector3(28, 0, 19.5),
+        new THREE.Vector3(19.5, 0, 19),
+      ]);
+      const spur = new THREE.Mesh(
+        new THREE.TubeGeometry(canal, 16, 1.0, 6, false),
+        new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.32 }),
+      );
+      spur.scale.y = 0.05;
+      spur.position.y = 0.05;
+      spur.userData.noShadow = true;
+      group.add(spur);
+    }
     if (frac >= 0.82) { // the Great Sphinx, carved from the bedrock
       const sx = sphinxGroup();
       // TRUE size: 73 m nose-to-tail ≈ 3.17 units at this plateau's ~23 m/unit

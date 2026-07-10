@@ -62,9 +62,15 @@ const MOON_NAME = ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbo
  * and each site's own celestial dates. Temperature/cloud/wind dials (the cross
  * bars and centre hub, drawn here) arrive in later stages.
  */
+const LUNAR_DAYS = 29.530588; // one synodic month
+
 export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, title, onChange }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
+  // The moon is the MONTH hand: drag it round the ring and the calendar turns
+  // with it — one full revolution is one lunar cycle (~29.5 days). The sun
+  // stays the DAY hand. (A tap without movement still steps the phase.)
+  const dragMoon = useRef<{ last: number; moved: boolean } | null>(null);
 
   const cx = 80, cy = 80, R = 58;
   const theta = (solarHours - 6) * 15 * DEG; // CCW from +X (right = 06:00, top = noon)
@@ -84,16 +90,37 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
   const moonIdx = (((Math.round(mp * 8) % 8) + 8) % 8);
   const cycleMoon = () => onChange({ moonPhase: (mp + 0.125) % 1 });
 
-  const setFromPointer = (e: React.PointerEvent) => {
+  const pointerAngle = (e: React.PointerEvent): number => {
     const svg = svgRef.current;
-    if (!svg) return;
+    if (!svg) return 0;
     const rect = svg.getBoundingClientRect();
     const px = ((e.clientX - rect.left) / rect.width) * 160;
     const py = ((e.clientY - rect.top) / rect.height) * 160;
-    const ang = Math.atan2(cy - py, px - cx); // radians, CCW from +X
+    return Math.atan2(cy - py, px - cx); // radians, CCW from +X
+  };
+
+  const setFromPointer = (e: React.PointerEvent) => {
+    const ang = pointerAngle(e);
     let hours = 6 + (ang / DEG) / 15;
     hours = ((hours % 24) + 24) % 24;
     onChange({ solarHours: hours, auto: false });
+  };
+
+  const moonDragMove = (e: React.PointerEvent) => {
+    if (!dragMoon.current) return;
+    const ang = pointerAngle(e);
+    // Shortest signed step since the last event (wraps cleanly at ±π).
+    let d = ang - dragMoon.current.last;
+    if (d > Math.PI) d -= Math.PI * 2;
+    if (d < -Math.PI) d += Math.PI * 2;
+    dragMoon.current.last = ang;
+    if (Math.abs(d) > 0.005) dragMoon.current.moved = true;
+    const frac = d / (Math.PI * 2); // fraction of a lunar month
+    onChange({
+      date: new Date(date.getTime() + frac * LUNAR_DAYS * 86400_000),
+      moonPhase: ((mp + frac) % 1 + 1) % 1,
+      auto: false,
+    });
   };
 
   const stepDay = (delta: number) => {
@@ -120,8 +147,13 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
         viewBox="0 0 160 160"
         className={`sky-ring${daytime ? ' day' : ' night'}`}
         onPointerDown={(e) => { dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); setFromPointer(e); }}
-        onPointerMove={(e) => { if (dragging.current) setFromPointer(e); }}
-        onPointerUp={(e) => { dragging.current = false; e.currentTarget.releasePointerCapture?.(e.pointerId); }}
+        onPointerMove={(e) => { if (dragMoon.current) moonDragMove(e); else if (dragging.current) setFromPointer(e); }}
+        onPointerUp={(e) => {
+          if (dragMoon.current && !dragMoon.current.moved) cycleMoon(); // a tap still steps the phase
+          dragMoon.current = null;
+          dragging.current = false;
+          e.currentTarget.releasePointerCapture?.(e.pointerId);
+        }}
       >
         {/* sky fill: light above the horizon line, dark below */}
         <defs>
@@ -144,14 +176,19 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
         <line x1={cx} y1={cy - 4} x2={cx} y2={cy + 4} className="ring-hub-plus" />
         {/* the sun */}
         <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
-        {/* the moon — click to change its phase */}
+        {/* the moon — the month hand: drag it round the ring (one lap = one
+            lunar cycle, the calendar turns with it); a tap steps the phase */}
         <text
           x={moonX}
           y={moonY}
           className="ring-moon"
           textAnchor="middle"
           dominantBaseline="central"
-          onPointerDown={(e) => { e.stopPropagation(); cycleMoon(); }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            dragMoon.current = { last: pointerAngle(e), moved: false };
+            (e.currentTarget.ownerSVGElement ?? e.currentTarget).setPointerCapture?.(e.pointerId);
+          }}
         >
           {MOON_EMOJI[moonIdx]}
         </text>
