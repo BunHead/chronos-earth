@@ -303,7 +303,8 @@
             "url": "https://en.wikipedia.org/wiki/Ancient_Apocalypse"
           }
         ]
-      }
+      },
+      "fadeYear": -9600
     },
     {
       "id": "richat-structure",
@@ -344,7 +345,8 @@
             "url": "https://en.wikipedia.org/wiki/Location_hypotheses_of_Atlantis"
           }
         ]
-      }
+      },
+      "fadeYear": -8500
     },
     {
       "id": "hanging-gardens-babylon",

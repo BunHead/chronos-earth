@@ -28,6 +28,10 @@ export interface AncientSite {
   /** Signed calendar year; negative = BCE. The marker appears at/after this date. */
   builtYear: number;
   builtYearLabel: string;
+  /** Optional: the marker DISAPPEARS after this year — for one-off events
+   * (impacts, deluges) whose fall-out eventually stops being noticeable,
+   * unlike monuments that stand forever. */
+  fadeYear?: number;
   consensusSummary: string;
   significance: string;
   keyFacts: string[];

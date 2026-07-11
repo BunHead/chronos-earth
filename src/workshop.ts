@@ -14,6 +14,7 @@ import { createRoot } from 'react-dom/client';
 import SkyDial from './components/SkyDial';
 import { startDrag } from './lib/windowDrag';
 import { sunDirection } from './lib/sun';
+import { BRIGHT_STARS, localSiderealHours, starDirection } from './lib/stars';
 import './sky-dial.css';
 import { buildModel, loadSatelliteGround, ruinify } from './components/Monument3D';
 import { computeFit, fitFor } from './lib/monumentFit';
@@ -407,24 +408,42 @@ scene.add(sunDisc);
 const moonDisc = glowSprite('rgba(232,236,244,0.95)', 'rgba(190,200,220,0)', THREE.NormalBlending);
 moonDisc.scale.set(18, 18, 1);
 scene.add(moonDisc);
-// STARS — a night dome that fades in as the sun sinks. Deterministic scatter
-// for now; the real bright-star catalogue (Orion rising over Giza) is queued
-// as its own task and will replace these points with the true sky.
+// STARS — the REAL sky. The bright-star catalogue placed by sidereal time for
+// the site's latitude and the dial's date and hour: Orion rises over Giza
+// where Orion really rises, the Plough wheels round Polaris, the Southern
+// Cross only shows south of the tropics. Brightness rides magnitude, and
+// giants keep their colours (Betelgeuse burns orange).
+const STAR_R = 520;
 const starGeo = new THREE.BufferGeometry();
-{
-  const pts: number[] = [];
-  for (let i = 0; i < 900; i++) {
-    const az = rnd2(i, 11) * Math.PI * 2;
-    const alt = Math.asin(0.05 + rnd2(i, 12) * 0.95); // upper dome only
-    const r = 520;
-    pts.push(Math.cos(alt) * Math.cos(az) * r, Math.sin(alt) * r, Math.cos(alt) * Math.sin(az) * r);
-  }
-  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-}
-const starMat = new THREE.PointsMaterial({ color: '#dfe8ff', size: 1.7, sizeAttenuation: false, transparent: true, opacity: 0 });
+starGeo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(BRIGHT_STARS.length * 3), 3));
+starGeo.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(BRIGHT_STARS.length * 3), 3));
+const starMat = new THREE.PointsMaterial({ size: 2.4, sizeAttenuation: false, vertexColors: true, transparent: true, opacity: 0 });
 const starField = new THREE.Points(starGeo, starMat);
 starField.userData.noShadow = true;
+starField.frustumCulled = false; // positions churn; never let a stale bound cull the sky
 scene.add(starField);
+const starTint = new THREE.Color();
+function placeStars(latDeg: number) {
+  const lst = localSiderealHours(sky.date, sky.solarHours);
+  const pos = starGeo.getAttribute('position') as THREE.BufferAttribute;
+  const col = starGeo.getAttribute('color') as THREE.BufferAttribute;
+  for (let i = 0; i < BRIGHT_STARS.length; i++) {
+    const star = BRIGHT_STARS[i];
+    const d = starDirection(star, lst, latDeg);
+    if (!d) {
+      pos.setXYZ(i, 0, -1000, 0); // below the horizon — parked out of sight
+      col.setXYZ(i, 0, 0, 0);
+      continue;
+    }
+    pos.setXYZ(i, d.x * STAR_R, d.y * STAR_R, d.z * STAR_R);
+    // Brightness from magnitude: Sirius blazes, a mag-3 belt-neighbour glints.
+    const b = Math.min(1.25, Math.max(0.22, 1.05 - star.mag * 0.26));
+    starTint.set(star.c ?? '#eef2ff').multiplyScalar(b);
+    col.setXYZ(i, starTint.r, starTint.g, starTint.b);
+  }
+  pos.needsUpdate = true;
+  col.needsUpdate = true;
+}
 const DAY_SKY = new THREE.Color('#87add0');
 const DUSK_SKY = new THREE.Color('#b86a3e');
 const GREY_SKY = new THREE.Color('#687583');
@@ -457,8 +476,10 @@ function applyWeather() {
   const md = sunDirection(sky.date, (sky.solarHours + sky.moonPhase * 24) % 24, lat);
   moonDisc.position.set(md.x * 208, md.y * 208, md.z * 208);
   moonDisc.visible = md.y > -0.03;
-  // Stars fade up through dusk, hide under cloud.
-  starMat.opacity = Math.max(0, Math.min(0.9, -s * 5)) * (1 - cloud);
+  // The real sky, placed for this site and moment; fades up through dusk,
+  // hides under cloud.
+  placeStars(lat);
+  starMat.opacity = Math.max(0, Math.min(0.95, -s * 5)) * (1 - cloud);
   starField.visible = starMat.opacity > 0.02;
   // Sky: night below the horizon, a warm band near it, blue when high — the
   // app's exact ramp, greyed over when the weather closes in.

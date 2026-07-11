@@ -891,7 +891,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     for (const site of sites) {
       const entity = entitiesRef.current.get(site.id);
       if (!entity) continue;
-      setShownPop(entity, showSites && currentYearsBP <= yearToYearsBP(site.builtYear));
+      // One-off events (impacts, deluges) fade once their fall-out stops being
+      // noticeable; monuments stand forever. yearsBP shrinks toward the present,
+      // so "after fadeYear" means currentYearsBP < its BP value.
+      const born = currentYearsBP <= yearToYearsBP(site.builtYear);
+      const faded = site.fadeYear != null && currentYearsBP < yearToYearsBP(site.fadeYear);
+      setShownPop(entity, showSites && born && !faded);
     }
   }, [currentYearsBP, showSites, sites]);
 
