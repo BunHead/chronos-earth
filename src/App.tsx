@@ -14,6 +14,7 @@ import SearchBox from './components/SearchBox';
 import About from './components/About';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
+import WorkshopWindow from './components/WorkshopWindow';
 import CompareMode from './components/CompareMode';
 
 // Three.js-based; loaded on demand to keep the initial bundle small.
@@ -174,6 +175,8 @@ export default function App() {
     lon: number;
   } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  // The full Workshop, floating over the globe (embeds workshop.html).
+  const [showWorkshop, setShowWorkshop] = useState(false);
   // "Reduce motion" (in the ⋮ menu) sets a root attribute; CSS then stills the
   // app's transitions and animations for anyone who finds movement distracting.
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -514,6 +517,7 @@ export default function App() {
           onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
           onShare={() => void shareScene()}
           onAbout={() => setShowAbout(true)}
+          onWorkshopWindow={() => setShowWorkshop(true)}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
         />
@@ -562,6 +566,8 @@ export default function App() {
       />
 
       {showAbout && <About onClose={() => setShowAbout(false)} />}
+
+      {showWorkshop && <WorkshopWindow onClose={() => setShowWorkshop(false)} />}
 
       {toast && <div className="app-toast">{toast}</div>}
 

@@ -6,6 +6,7 @@ interface AppMenuProps {
   onStartTour: (t: Tour) => void;
   onShare: () => void;
   onAbout: () => void;
+  onWorkshopWindow: () => void;
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
 }
@@ -17,7 +18,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, reduceMotion, onReduceMotion }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, onWorkshopWindow, reduceMotion, onReduceMotion }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -62,8 +63,11 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, reduceMo
               {/* The maker's tools: browse every 3D model, and run the automated
                   Wikidata harvester on GitHub (free, no local setup) — the
                   Captain's no-tokens-needed controls. */}
+              <button className="app-menu-item" onClick={() => { close(); onWorkshopWindow(); }}>
+                🏛️ Workshop over the globe
+              </button>
               <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
-                🛠️ Model Workshop
+                🛠️ Model Workshop (own tab)
               </a>
               <a
                 className="app-menu-item"
