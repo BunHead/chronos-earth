@@ -109,6 +109,9 @@ function eventVisibleAt(ev: TimelineEvent, year: number): boolean {
 /** Imperative handle so other components (panel, search) can move the camera. */
 export interface GlobeHandle {
   flyTo: (lon: number, lat: number, altitude: number) => void;
+  /** Dive to a monument standing on the globe: oblique approach from the
+   * south, framed by the monument's real width in metres. */
+  flyToMonument: (lon: number, lat: number, widthM: number) => void;
   /** Freeze the current globe pixels for the Time Rift comparison overlay. */
   captureFrame: () => string | null;
 }
@@ -361,6 +364,19 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     });
   };
 
+  const flyToMonument = (lon: number, lat: number, widthM: number) => {
+    if (cameraLockedRef.current) return;
+    // Stand off to the south and look north-down at the site, close enough
+    // that the model fills the view but stays inside its reveal distance.
+    const dist = Math.min(60_000, Math.max(600, widthM * 5));
+    const offsetLat = lat - (dist * 0.9) / 111_000;
+    viewerRef.current?.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(lon, offsetLat, dist * 0.75),
+      orientation: { heading: 0, pitch: Cesium.Math.toRadians(-38), roll: 0 },
+      duration: 2.6,
+    });
+  };
+
   const captureFrame = (): string | null => {
     const viewer = viewerRef.current;
     if (!viewer || viewer.isDestroyed()) return null;
@@ -387,7 +403,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.terrainProvider = on ? t.provider : new Cesium.EllipsoidTerrainProvider();
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, captureFrame }));
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, captureFrame }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {

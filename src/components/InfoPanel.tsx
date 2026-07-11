@@ -233,7 +233,7 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
                 className="btn primary"
                 onClick={() => onViewMonument(content.monument3d!)}
               >
-                🧊 View in 3D
+                🌍 Visit on the globe
               </button>
             )}
             {content.fly && (

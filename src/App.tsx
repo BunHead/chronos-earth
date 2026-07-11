@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
 import {
   cellKeysForRect,
@@ -14,12 +14,10 @@ import SearchBox from './components/SearchBox';
 import About from './components/About';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
-import WorkshopWindow from './components/WorkshopWindow';
 import CompareMode from './components/CompareMode';
-
-// Three.js-based; loaded on demand to keep the initial bundle small.
-const Monument3D = lazy(() => import('./components/Monument3D'));
-import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
+import { ensurePlacement } from './lib/globeModels';
+import { fitFor } from './lib/monumentFit';
+import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
 import { fetchByName } from './lib/liveFetch';
@@ -168,15 +166,7 @@ export default function App() {
   const [battleViews, setBattleViews] = useState<Record<string, BattleViewData>>({});
   const [battleMaps, setBattleMaps] = useState<Record<string, BattleMapInfo>>({});
   const [activeBattleView, setActiveBattleView] = useState<string | null>(null);
-  const [activeMonument, setActiveMonument] = useState<{
-    model: string;
-    title: string;
-    lat: number;
-    lon: number;
-  } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
-  // The full Workshop, floating over the globe (embeds workshop.html).
-  const [showWorkshop, setShowWorkshop] = useState(false);
   // "Reduce motion" (in the ⋮ menu) sets a root attribute; CSS then stills the
   // app's transitions and animations for anyone who finds movement distracting.
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -309,6 +299,19 @@ export default function App() {
     setYearsBP(yearToYearsBP(battle.year));
     setPanel(battleToPanel(battle));
     globeRef.current?.flyTo(battle.lon, battle.lat, BATTLE_FLY_ALTITUDE);
+  };
+
+  // THE GLOBE IS THE VIEWER: no pop-up scene. Place the monument's model at
+  // its real site, make sure the timeline sits in an era where it stands,
+  // switch the Sites layer on, and dive the camera down to it.
+  const visitMonument = (m: NonNullable<PanelContent['monument3d']>) => {
+    setIsPlaying(false);
+    ensurePlacement(m);
+    setShowSites(true);
+    if (m.builtYear != null && yearsBP > yearToYearsBP(m.builtYear)) {
+      setYearsBP(yearToYearsBP(m.builtYear));
+    }
+    globeRef.current?.flyToMonument(m.lon, m.lat, fitFor(m.title, m.model).widthM);
   };
 
   // Search picks: jump to a site or an era.
@@ -456,7 +459,8 @@ export default function App() {
         }}
         onViewRegion={setViewRegion}
         onDive={(t) => {
-          // The dive: zooming right down onto a marker opens its 3D scene.
+          // The dive: zooming right down onto a marker — make sure the
+          // monument is standing there on the globe when you arrive.
           if (t.kind === 'battle') {
             if (battleViews[t.id]) setActiveBattleView(t.id);
             return;
@@ -464,12 +468,12 @@ export default function App() {
           if (t.kind === 'event') {
             const ev = events.find((e) => e.id === t.id);
             const m = ev && eventToPanel(ev).monument3d;
-            if (m) setActiveMonument(m);
+            if (m) ensurePlacement(m);
             return;
           }
           const site = sites.find((s) => s.id === t.id);
           const m = site && siteToPanel(site).monument3d;
-          if (m) setActiveMonument(m);
+          if (m) ensurePlacement(m);
         }}
       />
 
@@ -517,7 +521,6 @@ export default function App() {
           onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
           onShare={() => void shareScene()}
           onAbout={() => setShowAbout(true)}
-          onWorkshopWindow={() => setShowWorkshop(true)}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
         />
@@ -567,8 +570,6 @@ export default function App() {
 
       {showAbout && <About onClose={() => setShowAbout(false)} />}
 
-      {showWorkshop && <WorkshopWindow onClose={() => setShowWorkshop(false)} />}
-
       {toast && <div className="app-toast">{toast}</div>}
 
       <Tours
@@ -591,7 +592,7 @@ export default function App() {
         }}
         onFly={(c) => c.fly && globeRef.current?.flyTo(c.fly.lon, c.fly.lat, c.fly.altitude)}
         onZoomToBattle={(id) => setActiveBattleView(id)}
-        onViewMonument={setActiveMonument}
+        onViewMonument={visitMonument}
       />
 
       {activeBattleView &&
@@ -611,18 +612,6 @@ export default function App() {
           );
         })()}
 
-      {activeMonument && (
-        <Suspense fallback={null}>
-          <Monument3D
-            model={activeMonument.model}
-            title={activeMonument.title}
-            lat={activeMonument.lat}
-            lon={activeMonument.lon}
-            year={yearsBPToYear(yearsBP)}
-            onClose={() => setActiveMonument(null)}
-          />
-        </Suspense>
-      )}
 
       <Timeline
         yearsBP={yearsBP}

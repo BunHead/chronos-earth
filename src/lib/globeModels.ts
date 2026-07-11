@@ -57,46 +57,78 @@ const PLACEMENTS: Placement[] = [
 
 const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
 
-/** Create the monument entities (once, after the viewer exists). */
+// Kept module-level so any site — not just the curated fleet — can be placed
+// on the globe the moment the visitor asks to see it (`ensurePlacement`).
+let theViewer: Cesium.Viewer | null = null;
+let theManifest: Record<string, { footprint: number }> = {};
+// Last visibility gate, so a just-placed model obeys it immediately.
+let lastYearsBP = Number.NEGATIVE_INFINITY;
+let lastShowSites = true;
+
+function addPlacement(p: Placement): void {
+  const viewer = theViewer;
+  const info = theManifest[p.model];
+  if (!viewer || !info?.footprint) return;
+  const { widthM, facingDeg } = fitFor(p.title, p.model);
+  const scale = widthM / info.footprint;
+  const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL);
+  const position = Cesium.Cartesian3.fromDegrees(p.lon, p.lat);
+  const entity = viewer.entities.add({
+    id: `mon3d-${p.model}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`,
+    position,
+    orientation: new Cesium.ConstantProperty(
+      Cesium.Transforms.headingPitchRollQuaternion(position, new Cesium.HeadingPitchRoll(heading, 0, 0)),
+    ),
+    model: {
+      uri: `./models/${p.model}.glb`,
+      scale,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, REVEAL_DISTANCE),
+    },
+    show: false, // the timeline decides
+  });
+  entities.push({ entity, p });
+  gate(entity, p);
+}
+
+/** Create the curated monument entities (once, after the viewer exists). */
 export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
-  let manifest: Record<string, { footprint: number }> = {};
+  theViewer = viewer;
   try {
     const r = await fetch('./models/manifest.json');
     if (!r.ok) return; // no fleet exported — the globe just shows markers
-    manifest = await r.json();
+    theManifest = await r.json();
   } catch {
     return;
   }
-  for (const p of PLACEMENTS) {
-    const info = manifest[p.model];
-    if (!info?.footprint) continue;
-    const { widthM, facingDeg } = fitFor(p.title, p.model);
-    const scale = widthM / info.footprint;
-    const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL);
-    const position = Cesium.Cartesian3.fromDegrees(p.lon, p.lat);
-    const entity = viewer.entities.add({
-      id: `mon3d-${p.model}`,
-      position,
-      orientation: new Cesium.ConstantProperty(
-        Cesium.Transforms.headingPitchRollQuaternion(position, new Cesium.HeadingPitchRoll(heading, 0, 0)),
-      ),
-      model: {
-        uri: `./models/${p.model}.glb`,
-        scale,
-        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, REVEAL_DISTANCE),
-      },
-      show: false, // the timeline decides
-    });
-    entities.push({ entity, p });
-  }
+  for (const p of PLACEMENTS) addPlacement(p);
+}
+
+/**
+ * THE GLOBE IS THE VIEWER: place any site's archetype at its own coordinates
+ * (once), so "Visit on the globe" always has something standing there.
+ * Returns true when a model does (or already did) stand at this spot.
+ */
+export function ensurePlacement(t: { model: string; title: string; lat: number; lon: number; builtYear?: number }): boolean {
+  if (!theViewer || !theManifest[t.model]?.footprint) return false;
+  // Already standing here (curated or previously visited)? ~0.03° ≈ 3 km.
+  const existing = entities.find(
+    (e) => e.p.model === t.model && Math.abs(e.p.lat - t.lat) < 0.03 && Math.abs(e.p.lon - t.lon) < 0.03,
+  );
+  if (existing) return true;
+  addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear: t.builtYear ?? -3000 });
+  return true;
+}
+
+function gate(entity: Cesium.Entity, p: Placement): void {
+  const born = lastYearsBP <= yearToYearsBP(p.builtYear);
+  const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
+  entity.show = lastShowSites && born && !gone;
 }
 
 /** Timeline + layer gate — call whenever the year or the Sites toggle moves. */
 export function updateGlobeModelVisibility(currentYearsBP: number, showSites: boolean): void {
-  for (const { entity, p } of entities) {
-    const born = currentYearsBP <= yearToYearsBP(p.builtYear);
-    const gone = p.endYear != null && currentYearsBP < yearToYearsBP(p.endYear);
-    entity.show = showSites && born && !gone;
-  }
+  lastYearsBP = currentYearsBP;
+  lastShowSites = showSites;
+  for (const { entity, p } of entities) gate(entity, p);
 }

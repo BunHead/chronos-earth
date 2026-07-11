@@ -285,8 +285,9 @@ export interface PanelContent {
   commanders?: BattleCommander[];
   /** Belligerent names for the two sides of the face-off. */
   sideNames?: [string, string];
-  /** Monuments can offer a 3D model view (lat/lon pull real ground imagery). */
-  monument3d?: { model: string; title: string; lat: number; lon: number };
+  /** Monuments can be visited standing on the globe itself (builtYear lets
+   * the timeline nudge to an era where the monument exists). */
+  monument3d?: { model: string; title: string; lat: number; lon: number; builtYear?: number };
   /** Clickable "nearby in this era" rows for the on-the-fly place+time dossier. */
   related?: RelatedItem[];
   /** Skeleton-loaded events: the source event, so InfoPanel can lazy-fetch its

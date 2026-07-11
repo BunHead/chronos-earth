@@ -27,6 +27,25 @@ const FLEET = [
   ['leaning-tower', 'Leaning Tower of Pisa'],
   ['aqueduct', 'Pont du Gard'],
   ['rings', 'Atlantis'],
+  // The generic archetypes — so ANY harvested site can stand on the globe.
+  ['tpillars', 'Göbekli Tepe'],
+  ['pyramid', 'Pyramid'],
+  ['stepped-pyramid', 'Stepped Pyramid'],
+  ['sphinx', 'Great Sphinx'],
+  ['circle', 'Stone Circle'],
+  ['settlement', 'Ancient Settlement'],
+  ['castle', 'Castle'],
+  ['mansion', 'Mansion'],
+  ['temple-tower', 'Temple Tower'],
+  ['pagoda', 'Pagoda'],
+  ['lighthouse', 'Lighthouse'],
+  ['impact', 'Impact Crater'],
+  ['hanging-gardens', 'Hanging Gardens of Babylon'],
+  ['zeus-statue', 'Statue of Zeus at Olympia'],
+  ['artemis-temple', 'Temple of Artemis'],
+  ['mausoleum', 'Mausoleum at Halicarnassus'],
+  ['colossus', 'Colossus of Rhodes'],
+  ['pharos', 'Lighthouse of Alexandria'],
 ];
 
 await mkdir(OUT, { recursive: true });

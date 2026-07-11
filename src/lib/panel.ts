@@ -145,7 +145,7 @@ export function siteToPanel(site: AncientSite): PanelContent {
     },
     ...(isModelRejected(resolveMonumentModel(site))
       ? {}
-      : { monument3d: { model: resolveMonumentModel(site), title: site.name, lat: site.lat, lon: site.lon } }),
+      : { monument3d: { model: resolveMonumentModel(site), title: site.name, lat: site.lat, lon: site.lon, builtYear: site.builtYear } }),
   };
 }
 
@@ -226,7 +226,7 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     ...((e.category === 'monument' || e.category === 'event') &&
     monumentModelForName(e.name) &&
     !isModelRejected(monumentModelForName(e.name))
-      ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon } }
+      ? { monument3d: { model: monumentModelForName(e.name)!, title: e.name, lat: e.lat, lon: e.lon, builtYear: e.startYear } }
       : {}),
   };
 }
