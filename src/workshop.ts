@@ -914,7 +914,8 @@ function simReadouts() {
   (document.getElementById('simThickVal')!).textContent =
     th >= 1e6 ? (th / 1e6).toFixed(1) + 'M' : th >= 1e3 ? (th / 1e3).toFixed(1) + 'k' : th.toFixed(1);
   const pc = Math.pow(10, +simCountEl.value);
-  (document.getElementById('simCountVal')!).textContent = pc >= 1e3 ? (pc / 1e3).toFixed(1) + 'k' : String(Math.round(pc));
+  (document.getElementById('simCountVal')!).textContent =
+    pc >= 1e6 ? (pc / 1e6).toFixed(1) + 'M' : pc >= 1e3 ? (pc / 1e3).toFixed(1) + 'k' : String(Math.round(pc));
   const b = +simDirEl.value;
   (document.getElementById('simDirVal')!).textContent = `${b}° (${COMPASS8[Math.round(b / 45) % 8]})`;
   const v = +simSpeedEl.value;
@@ -973,7 +974,7 @@ function runCoverSim(seed?: number) {
   // Two independent dials: PARTICLES = rays fired (sampling resolution, to
   // ~360k), THICKNESS = the weight each ray carries (depth, to 1,000).
   const particles = Math.round(Math.pow(10, +simCountEl.value));
-  const raysN = Math.min(particles, 400_000);
+  const raysN = Math.min(particles, 10_000_000); // the Captain wants weather, not samples
   const weight = thickness;
   const N = Math.round(raysN * weight); // grains REPRESENTED
   // ACCUMULATION, not accumulation of instances (the Captain's ×100 answer):
@@ -982,7 +983,7 @@ function runCoverSim(seed?: number) {
   // bounded by touched surface CELLS, never by how much has fallen. A ×100
   // fall costs the same instances as ×1 — the drifts just get deeper.
   const CELL = blobR * 2.1;
-  const MAX_CELLS = 200_000; // ~13 MB of matrices at the ceiling — fine
+  const MAX_CELLS = 400_000; // ~26 MB of matrices at the ceiling — still cheap
   const cells = new Map<string, number>(); // cell key → instance index
   const cellCount: number[] = [];
   const cellPos: THREE.Vector3[] = [];
@@ -1018,7 +1019,9 @@ function runCoverSim(seed?: number) {
   };
   const step = () => {
     if (token !== simRunToken) return; // cleared or re-run — stand down
-    const chunk = Math.min(650, raysN - fired);
+    // Adaptive settle rate: mega-runs chew thousands of rays a frame so ten
+    // million grains land in tens of seconds, not tens of minutes.
+    const chunk = Math.min(Math.max(650, Math.round(raysN / 1500)), raysN - fired);
     for (let i = 0; i < chunk; i++) {
       fired++;
       const ox = centre.x + (rng() - 0.5) * spawnR * 2;
