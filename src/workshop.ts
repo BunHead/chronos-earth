@@ -964,9 +964,27 @@ function runCoverSim(seed?: number) {
   const centre = box.getCenter(new THREE.Vector3());
   const footprint = Math.max(size.x, size.z) || 10;
   const spawnR = footprint * 0.95 + 4;
-  const blobR = Math.max(0.02, footprint * 0.0015); // fine grains, not popcorn (Captain: ~10× smaller)
+  const blobR = Math.max(0.02, footprint * 0.0015); // fine grains, not popcorn
   const N = Math.round(3600 * thickness);
-  const mesh = new THREE.InstancedMesh(simBlobGeo, new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }), N);
+  // ACCUMULATION, not accumulation of instances (the Captain's ×100 answer):
+  // grains landing where snow already lies MERGE into the existing drift —
+  // volume grows with every grain (r ∝ ∛count, real physics), so memory is
+  // bounded by touched surface CELLS, never by how much has fallen. A ×100
+  // fall costs the same instances as ×1 — the drifts just get deeper.
+  const CELL = blobR * 2.1;
+  const MAX_CELLS = 60_000;
+  const cells = new Map<string, number>(); // cell key → instance index
+  const cellCount: number[] = [];
+  const cellPos: THREE.Vector3[] = [];
+  const cellQuat: THREE.Quaternion[] = [];
+  const cellNorm: THREE.Vector3[] = [];
+  const cellBase: number[] = [];
+  const maxInstances = Math.min(N, MAX_CELLS);
+  const mesh = new THREE.InstancedMesh(
+    simBlobGeo,
+    new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }),
+    maxInstances,
+  );
   mesh.count = 0;
   mesh.userData.noShadow = true;
   scene.add(mesh);
@@ -974,13 +992,22 @@ function runCoverSim(seed?: number) {
   const ray = new THREE.Raycaster();
   const up = new THREE.Vector3(0, 1, 0);
   const m4 = new THREE.Matrix4();
-  const q = new THREE.Quaternion();
   const n3 = new THREE.Matrix3();
   let fired = 0;
   let landed = 0;
+  const writeCell = (idx: number) => {
+    const depth = Math.cbrt(cellCount[idx]); // drift deepens with every grain
+    const r = cellBase[idx] * depth;
+    m4.compose(
+      cellPos[idx].clone().addScaledVector(cellNorm[idx], r * 0.18),
+      cellQuat[idx],
+      new THREE.Vector3(r, r * 0.38, r),
+    );
+    mesh.setMatrixAt(idx, m4);
+  };
   const step = () => {
     if (token !== simRunToken) return; // cleared or re-run — stand down
-    const chunk = Math.min(320, N - fired);
+    const chunk = Math.min(650, N - fired);
     for (let i = 0; i < chunk; i++) {
       fired++;
       const ox = centre.x + (rng() - 0.5) * spawnR * 2;
@@ -991,20 +1018,29 @@ function runCoverSim(seed?: number) {
       if (!hit || !hit.face) continue;
       const worldN = hit.face.normal.clone().applyMatrix3(n3.getNormalMatrix(hit.object.matrixWorld)).normalize();
       if (worldN.dot(against) < 0.35) continue; // this face sheds the fall
-      const r = blobR * (0.7 + rng() * 0.7);
-      q.setFromUnitVectors(up, worldN);
-      m4.compose(
-        hit.point.clone().addScaledVector(worldN, r * 0.18),
-        q,
-        new THREE.Vector3(r, r * 0.38, r),
-      );
-      mesh.setMatrixAt(landed++, m4);
+      landed++;
+      const key = `${Math.round(hit.point.x / CELL)},${Math.round(hit.point.y / CELL)},${Math.round(hit.point.z / CELL)}`;
+      const existing = cells.get(key);
+      if (existing !== undefined) {
+        cellCount[existing]++;
+        writeCell(existing); // the drift grows — no new memory
+        continue;
+      }
+      if (mesh.count >= maxInstances) continue; // capacity guard — merges still land
+      const idx = mesh.count;
+      cells.set(key, idx);
+      cellCount[idx] = 1;
+      cellPos[idx] = hit.point.clone();
+      cellQuat[idx] = new THREE.Quaternion().setFromUnitVectors(up, worldN);
+      cellNorm[idx] = worldN.clone();
+      cellBase[idx] = blobR * (0.7 + rng() * 0.7);
+      mesh.count = idx + 1;
+      writeCell(idx);
     }
-    mesh.count = landed;
     mesh.instanceMatrix.needsUpdate = true;
-    simMsg.textContent = `${fired.toLocaleString()} / ${N.toLocaleString()} fallen · ${landed.toLocaleString()} settled`;
+    simMsg.textContent = `${fired.toLocaleString()} / ${N.toLocaleString()} fallen · ${landed.toLocaleString()} settled in ${cells.size.toLocaleString()} drifts`;
     if (fired < N) requestAnimationFrame(step);
-    else simMsg.textContent = `Done — ${landed.toLocaleString()} of ${N.toLocaleString()} settled (seed ${theSeed}).`;
+    else simMsg.textContent = `Done — ${landed.toLocaleString()} grains in ${cells.size.toLocaleString()} drifts (seed ${theSeed}).`;
   };
   step();
 }
