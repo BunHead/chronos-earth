@@ -1668,26 +1668,38 @@ export function buildModel(
     // waterfalls sheet down the NE rim of the rings. The wave (below) erupts
     // from this same spot when the dam lets go.
     const NEx = -10.6, NEz = 14.8; // plateau centre, on the world-NE diagonal
-    const plateau = new THREE.Mesh(
-      new THREE.CylinderGeometry(8.6, 10.6, 1.15, 48),
-      stoneLike({ color: '#9a8a63', flatShading: true }),
-    );
-    plateau.scale.set(1.4, 1, 0.75);
-    plateau.rotation.y = Math.PI / 4; // long axis lies NW–SE, square to the city
-    plateau.position.set(NEx, 0.5, NEz);
-    group.add(plateau);
-    // The dark water sits INSET in broad stone shoulders — a highland lake
-    // behind its dam, not a platter of water.
-    const highLake = new THREE.Mesh(
-      new THREE.CircleGeometry(5.2, 40),
-      new THREE.MeshStandardMaterial({ color: '#1f5d8c', roughness: 0.35 }),
-    );
-    highLake.rotation.x = -Math.PI / 2;
-    highLake.rotation.z = Math.PI / 4;
-    highLake.scale.set(1.5, 0.66, 1);
-    highLake.position.set(NEx - 0.4, 1.09, NEz + 0.4);
-    highLake.userData.noShadow = true;
-    group.add(highLake);
+    // THE UPPER EYELID (the Captain's reading of his own map): not one mound
+    // but a raised ARC over the whole city — highland sweeping from the
+    // north-west brow round to the north-east dam, the city sitting in its
+    // basin beneath. Three overlapping shoulders make the lid; the dark
+    // elevated sea lies along its top. (Local frame: world-N = local +z,
+    // world-NE = local (-x,+z), world-NW = local (+x,+z).)
+    const lidStone = stoneLike({ color: '#9a8a63', flatShading: true });
+    const lid = (x: number, z: number, rTop: number, rBot: number, sx: number, sz: number, ry: number) => {
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, 1.15, 40), lidStone);
+      m.scale.set(sx, 1, sz);
+      m.rotation.y = ry;
+      m.position.set(x, 0.5, z);
+      group.add(m);
+    };
+    lid(NEx, NEz, 8.6, 10.6, 1.35, 0.72, Math.PI / 4); // the NE shoulder — the dam face
+    lid(1.5, 17.9, 8.2, 10.2, 1.5, 0.6, 0); // the due-north brow over the rings
+    lid(11.8, 13.6, 6.2, 8.0, 1.15, 0.62, -Math.PI / 5); // tapering NW tip of the lid
+    // The dark elevated sea runs ALONG the lid — one long high water sweeping
+    // from the north round to the north-east, held back by the dam.
+    const lakeMat = new THREE.MeshStandardMaterial({ color: '#1f5d8c', roughness: 0.35 });
+    for (const [lx2, lz2, ls, lr] of [
+      [NEx - 0.4, NEz + 0.6, 1.35, Math.PI / 4],
+      [1.2, 18.6, 1.5, 0],
+    ] as const) {
+      const pool = new THREE.Mesh(new THREE.CircleGeometry(5.2, 40), lakeMat);
+      pool.rotation.x = -Math.PI / 2;
+      pool.rotation.z = lr;
+      pool.scale.set(ls, 0.6, 1);
+      pool.position.set(lx2, 1.09, lz2);
+      pool.userData.noShadow = true;
+      group.add(pool);
+    }
     // Falls down the dam's city-facing (SW) wall, runnels glinting to the ring.
     for (const off of [-2.6, -0.9, 0.9, 2.6]) {
       // spread along the NW–SE face, each stepped toward the city

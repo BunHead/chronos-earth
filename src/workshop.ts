@@ -149,7 +149,18 @@ let phaseFx: THREE.Group | null = null;
 let terrainAids: THREE.Group | null = null;
 let weatherFx: THREE.Points | null = null;
 let terrainRequest = 0;
-let precip: 'rain' | 'snow' | null = null;
+let precip: 'rain' | 'snow' | 'fire' | null = null;
+let storm = 0; // 0..1 beyond the precipitation threshold — blizzard/deluge territory
+let autoFrost = 0; // 0..1 frost depth from temperature (≤ +2 °C)
+let appliedFrostBand = -1;
+let flashUntil = 0;
+let baseAmbient = 1.1; // applyWeather's value — the flash boosts FROM this, never accumulates
+let refreshQueued = false;
+function queueRefresh() {
+  if (refreshQueued) return;
+  refreshQueued = true;
+  setTimeout(() => { refreshQueued = false; refresh(); }, 0);
+}
 type LifePhase = 'intact' | 'construction' | 'burning' | 'ruin' | 'drowning' | 'covered';
 let lifePhase: LifePhase = 'intact';
 
@@ -276,13 +287,20 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       fi++;
     }
   } else if (phase === 'covered') {
-    // Buried by the sky or the earth: snow, volcanic ash (Pompeii) or flood
-    // silt. Every surface tints toward the blanket, drifts bank against the
-    // walls, and a ground sheet spreads around the site.
-    const kind = (document.getElementById('coverKind') as HTMLSelectElement)?.value || 'snow';
-    const tone = kind === 'snow' ? new THREE.Color('#eef2f6') : kind === 'ash' ? new THREE.Color('#8e8b86') : new THREE.Color('#7b6448');
-    const strength = kind === 'snow' ? 0.55 : 0.6;
+    // Buried by the sky or the earth. THE COLOUR COMES FROM THE COVERED
+    // BUTTON'S WHEEL (the old code still read a select that no longer exists —
+    // the Captain's "colour still not changing", found at last). When the
+    // covering arrives as AUTO-FROST (temperature at or below +2 °C with the
+    // phase on Intact), it is icy white and its DEPTH grows as the temperature
+    // falls. Water freezes to ice-blue either way.
+    const frost = lifePhase !== 'covered';
+    const depth = frost ? autoFrost : 1;
+    const tone = frost
+      ? new THREE.Color('#e9f3f9')
+      : new THREE.Color(coverColorEl?.value || '#eef2f6');
+    const strength = 0.35 + 0.4 * depth;
     const capMat = new THREE.MeshStandardMaterial({ color: tone, roughness: 1 });
+    const ICE = new THREE.Color('#a9dcec');
     const meshList: THREE.Mesh[] = [];
     target.traverse((o) => {
       if (!(o instanceof THREE.Mesh) || o.userData.noShadow) return;
@@ -290,7 +308,14 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       const mats = Array.isArray(o.material) ? o.material : [o.material];
       const covered = mats.map((m) => {
         const c = (m as THREE.MeshStandardMaterial).clone();
-        if (c.color) c.color.lerp(tone, strength);
+        if (c.color) {
+          const waterish = c.color.b > 0.35 && c.color.b > c.color.r * 1.35;
+          if (waterish) c.color.lerp(ICE, 0.45 + 0.45 * depth); // water turns to ice
+          else c.color.lerp(tone, strength);
+        }
+        // A whisper of self-colour so the blanket reads even on shadow faces
+        // (tint alone vanished into the texture — "colour doesn't change").
+        if (c.emissive) c.emissive.copy(tone).multiplyScalar(0.1 * depth);
         c.roughness = 1;
         return c;
       });
@@ -301,6 +326,7 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
     // pitched surfaces up to ~45° carry a snug shell (steeper, and cones,
     // shed their fall — physics, not decoration).
     const worldScale = target.scale.x || 1;
+    const depthK = 0.45 + 0.55 * depth; // blanket thickness follows the cold
     let ci = 0;
     for (const m of meshList) {
       const mb = new THREE.Box3().setFromObject(m);
@@ -312,17 +338,25 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       const tilt = Math.max(tiltX, tiltZ);
       if (tilt > Math.PI / 4 + 0.06) continue; // steeper than 45° sheds
       if (tilt > 0.08) {
-        // A pitched slab: the snow is a snug shell of the slab itself, riding
-        // its own slope — not a hovering plate.
+        // A pitched slab: the snow is a shell of the slab itself riding its
+        // own slope. THICKENED along its thin axis — a 3%-bigger thin plane
+        // is still the same plane, so v3's shell hid inside the roof.
         const shell = new THREE.Mesh(m.geometry, capMat);
         m.getWorldPosition(shell.position);
         m.getWorldQuaternion(shell.quaternion);
-        shell.scale.copy(m.getWorldScale(new THREE.Vector3())).multiplyScalar(1.03);
-        shell.position.y += 0.025 * worldScale;
+        const ws = m.getWorldScale(new THREE.Vector3());
+        const gb = new THREE.Box3().setFromBufferAttribute(
+          m.geometry.getAttribute('position') as THREE.BufferAttribute,
+        );
+        const gs = gb.getSize(new THREE.Vector3());
+        const thinAxis = gs.y <= gs.x && gs.y <= gs.z ? 'y' : gs.x <= gs.z ? 'x' : 'z';
+        shell.scale.set(ws.x * 1.04, ws.y * 1.04, ws.z * 1.04);
+        shell.scale[thinAxis] *= 1 + 1.1 * depthK; // snow depth follows the cold, proud of the slope
+        shell.position.y += 0.05 * worldScale;
         shell.userData.noShadow = true;
         phaseFx.add(shell);
       } else {
-        const capH = Math.max(0.05 * worldScale, ms.y * 0.045);
+        const capH = Math.max(0.05 * worldScale, ms.y * 0.045) * depthK;
         const cap = new THREE.Mesh(new THREE.BoxGeometry(ms.x * 1.03, capH, ms.z * 1.03), capMat);
         const mc = mb.getCenter(new THREE.Vector3());
         cap.position.set(mc.x, mb.max.y + capH * 0.35, mc.z); // seated, a whisker proud
@@ -333,7 +367,7 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
     }
     const sheet = new THREE.Mesh(
       new THREE.CircleGeometry(Math.max(size.x, size.z) * 0.9, 48),
-      new THREE.MeshStandardMaterial({ color: tone, roughness: 1, transparent: true, opacity: 0.85 }),
+      new THREE.MeshStandardMaterial({ color: tone, roughness: 1, transparent: true, opacity: 0.45 + 0.4 * depth }),
     );
     sheet.rotation.x = -Math.PI / 2;
     sheet.position.set(centre.x, box.min.y + 0.04, centre.z);
@@ -346,7 +380,7 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
     for (let i = 0; i < 16; i++) {
       const a = i * 2.399;
       const rr = footprint * (0.3 + rnd2(i) * 0.26);
-      const dr = footprint * (0.035 + rnd2(i, 1) * 0.05);
+      const dr = footprint * (0.035 + rnd2(i, 1) * 0.05) * depthK;
       const drift = new THREE.Mesh(new THREE.SphereGeometry(dr, 8, 6), capMat);
       drift.scale.y = 0.32;
       drift.position.set(centre.x + Math.cos(a) * rr, box.min.y + dr * 0.12, centre.z + Math.sin(a) * rr);
@@ -462,6 +496,13 @@ function placeStars(latDeg: number) {
   pos.needsUpdate = true;
   col.needsUpdate = true;
 }
+const bolt = new THREE.Line(
+  new THREE.BufferGeometry(),
+  new THREE.LineBasicMaterial({ color: '#eef4ff', transparent: true, opacity: 0.9 }),
+);
+bolt.visible = false;
+bolt.userData.noShadow = true;
+scene.add(bolt);
 const DAY_SKY = new THREE.Color('#87add0');
 const DUSK_SKY = new THREE.Color('#b86a3e');
 const GREY_SKY = new THREE.Color('#687583');
@@ -472,7 +513,15 @@ function applyWeather() {
   // temperature in °C — heavy cloud rains, and rain below freezing is SNOW.
   const cloud = sky.cloud;
   const clear = cloud < 0.35;
-  precip = cloud > 0.7 ? (sky.temperature <= 0 ? 'snow' : 'rain') : null;
+  precip = cloud > 0.7 ? (sky.temperature >= 38 ? 'fire' : sky.temperature <= 0 ? 'snow' : 'rain') : null;
+  storm = precip ? Math.min(1, (cloud - 0.7) / 0.3) : 0;
+  // Frost creeps in just above freezing and deepens as the mercury falls.
+  autoFrost = sky.temperature <= 2 ? Math.min(1, (2 - sky.temperature) / 20) : 0;
+  const frostBand = lifePhase === 'intact' ? Math.round(autoFrost * 8) : -1;
+  if (frostBand !== appliedFrostBand) {
+    appliedFrostBand = frostBand;
+    queueRefresh(); // rebuild so the frost blanket applies / deepens / thaws
+  }
   const lat = LIVE_SITES[sel?.value]?.lat ?? 45;
   const dir = sunDirection(sky.date, sky.solarHours, lat);
   const s = dir.y; // sine of the sun's altitude: >0 day, <0 night
@@ -482,7 +531,8 @@ function applyWeather() {
   // Night must actually be DARK: the ambient and the image-based environment
   // both follow the sun down (they were pinned bright, so 22:00 looked like a
   // pale afternoon and the stars had nothing to shine against).
-  ambient.intensity = 0.08 + Math.max(0, s) * (1.1 - cloud * 0.5);
+  baseAmbient = 0.08 + Math.max(0, s) * (1.1 - cloud * 0.5);
+  ambient.intensity = baseAmbient;
   scene.environmentIntensity = 0.04 + Math.max(0, s) * 0.33;
   // The VISIBLE sun and moon riding the sky-dome — the Stonehenge money shot
   // works again: park the dial on a solstice sunrise and watch the disc clear
@@ -515,8 +565,12 @@ function applyWeather() {
   if (weatherFx) scene.remove(weatherFx);
   weatherFx = null;
   if (precip) {
-    const positions = new Float32Array(420 * 3);
-    for (let i = 0; i < 420; i++) {
+    // Intensity rides the storm: a drizzle at the threshold, a BLIZZARD or a
+    // hammering thunderstorm at the far end of the bar — and at the top of
+    // the temperature bar, FIRE AND BRIMSTONE.
+    const count = Math.round(420 + storm * 1500);
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 140;
       positions[i * 3 + 1] = Math.random() * 90;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
@@ -524,10 +578,10 @@ function applyWeather() {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     weatherFx = new THREE.Points(geo, new THREE.PointsMaterial({
-      color: precip === 'rain' ? '#b6d4ed' : '#ffffff',
-      size: precip === 'rain' ? 0.3 : 0.75,
+      color: precip === 'rain' ? '#b6d4ed' : precip === 'fire' ? '#ff8a3a' : '#ffffff',
+      size: precip === 'rain' ? 0.3 : precip === 'fire' ? 0.6 : 0.75,
       transparent: true,
-      opacity: 0.72,
+      opacity: 0.6 + storm * 0.35,
     }));
     scene.add(weatherFx);
   }
@@ -627,7 +681,10 @@ function show(model: string, title: string, stage: number) {
     terrainRequest++;
   }
 
-  addPhaseEffect(lifePhase, group);
+  // Just above freezing the world frosts over BY ITSELF — the covering
+  // arrives uninvited and deepens as the temperature falls (autoFrost 0..1).
+  const effPhase: LifePhase = lifePhase === 'intact' && autoFrost > 0 ? 'covered' : lifePhase;
+  addPhaseEffect(effPhase, group);
 
   // Scale figure — sized so 1 metre of it matches 1 metre of the real monument.
   if (figure) {
@@ -967,14 +1024,39 @@ document.getElementById('panelGrip')!.addEventListener('pointerdown', (e) => {
 function loop() {
   if (weatherFx) {
     const positions = weatherFx.geometry.getAttribute('position') as THREE.BufferAttribute;
-    const weather = precip || 'rain';
+    // Fall speed rides the storm — a blizzard HOWLS, a thunderstorm hammers,
+    // embers tumble; snow and fire drift sideways as they fall.
+    const baseFall = precip === 'rain' ? 0.8 : precip === 'fire' ? 0.45 : 0.12;
+    const fall = baseFall * (1 + storm * 2.4);
+    const wobble = precip === 'rain' ? 0 : precip === 'fire' ? 0.012 : 0.003 * (1 + storm * 4);
     for (let i = 0; i < positions.count; i++) {
-      let y = positions.getY(i) - (weather === 'rain' ? 0.8 : 0.12);
+      let y = positions.getY(i) - fall;
       if (y < 0) y = 90;
       positions.setY(i, y);
-      if (weather === 'snow') positions.setX(i, positions.getX(i) + Math.sin(performance.now() * 0.001 + i) * 0.003);
+      if (wobble) positions.setX(i, positions.getX(i) + Math.sin(performance.now() * 0.001 + i) * wobble);
     }
     positions.needsUpdate = true;
+  }
+  // LIGHTNING — thunderstorm territory (heavy warm rain): a white flash and a
+  // jagged bolt for a few frames.
+  if (precip === 'rain' && storm > 0.45 && performance.now() > flashUntil && Math.random() < 0.008 * storm) {
+    flashUntil = performance.now() + 130;
+    const pts: THREE.Vector3[] = [];
+    let bx = (Math.random() - 0.5) * 70;
+    let bz = (Math.random() - 0.5) * 60;
+    for (let y = 85; y >= 0; y -= 12) {
+      pts.push(new THREE.Vector3(bx, y, bz));
+      bx += (Math.random() - 0.5) * 7;
+      bz += (Math.random() - 0.5) * 7;
+    }
+    bolt.geometry.dispose();
+    bolt.geometry = new THREE.BufferGeometry().setFromPoints(pts);
+  }
+  const flashing = performance.now() < flashUntil;
+  bolt.visible = flashing;
+  if (flashing) {
+    ambient.intensity += 2.6; // one frame of daylight-white shock
+    if (scene.background instanceof THREE.Color) scene.background.lerp(new THREE.Color('#dfe8f2'), 0.55);
   }
   // Flames breathe — each sprite flickers around its base size.
   if (phaseFx && lifePhase === 'burning') {
