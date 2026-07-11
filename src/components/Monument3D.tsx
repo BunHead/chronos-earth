@@ -1464,7 +1464,11 @@ export function buildModel(
     // The great outer wall, CLAD IN BRASS — with a gap to the SSW where the
     // harbour opens. (Local frame; facingDeg turns the built city so the
     // harbour reads SW on the real Richat, as the Captain's map has it.)
-    const HB = 4.32; // harbour-mouth bearing
+    // CALIBRATED 2026-07-11 on the north-up plan render: with the city's 180°
+    // facing, local angle 5.50 rad puts the harbour mouth and open sea at
+    // WORLD SOUTH-WEST (the old 4.32 left them due south — the Captain caught
+    // the skew against his map).
+    const HB = 5.5; // harbour-mouth bearing (local)
     const hx = Math.cos(HB), hz = Math.sin(HB);
     for (let i = 0; i < 96; i++) {
       const a = (i / 96) * Math.PI * 2;
@@ -1613,27 +1617,49 @@ export function buildModel(
       group.add(hull);
       group.add(block(0.02, 0.3, 0.02, bx2, WATER_Y + 0.26, bz2, '#5f3f22', -(a + Math.PI / 2))); // mast
     }
-    // A harbour to the SSW where the royal canal meets the sea: the channel out
-    // through the harbour mouth, a broad basin beyond the wall, and two jetties.
-    const chan = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.2, 2.2), waterMat);
-    chan.position.set(hx * 12.2, WATER_Y + 0.01, hz * 12.2);
+    // THE HARBOUR — a working port, not a smiley: the royal canal runs dead
+    // straight from the wall gap between two long stone MOLES that reach into
+    // the sea at a slight V, opening into an irregular basin merged with the
+    // coastline. Triremes lie moored along the moles. (The old perfect-arc
+    // breakwater + oval basin + twin jetties read as a grinning face.)
+    const along = (d: number) => [hx * d, hz * d] as const; // out the harbour axis
+    const sideX = Math.cos(HB + Math.PI / 2);
+    const sideZ = Math.sin(HB + Math.PI / 2);
+    const chan = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.2, 1.6), waterMat);
+    const [chX, chZ] = along(13.6);
+    chan.position.set(chX, WATER_Y + 0.01, chZ);
     chan.rotation.y = -HB;
     group.add(chan);
-    const basin = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 3.1, 0.22, 40), waterMat);
-    basin.scale.set(1.2, 1, 0.82);
-    basin.rotation.y = -HB;
-    basin.position.set(hx * 14.4, WATER_Y, hz * 14.4);
-    group.add(basin);
-    for (const off of [-1.9, 1.9]) {
-      const px = hx * 13.7 + Math.cos(HB + Math.PI / 2) * off;
-      const pz = hz * 13.7 + Math.sin(HB + Math.PI / 2) * off;
-      group.add(block(2.6, 0.32, 0.42, px, LAND_Y + 0.15, pz, '#ac845a', -HB));
+    // Basin: two overlapped flattened pools — an organic sheet, not an oval.
+    for (const [d, r, sq, off] of [
+      [16.8, 3.0, 0.72, 0.8],
+      [18.6, 2.3, 0.9, -1.2],
+    ] as const) {
+      const pool = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.2, 26), waterMat);
+      pool.scale.set(1.25, 1, sq);
+      pool.rotation.y = -HB + off * 0.3;
+      pool.position.set(along(d)[0] + sideX * off, WATER_Y, along(d)[1] + sideZ * off);
+      group.add(pool);
     }
-    // A breakwater curving around the seaward side of the basin.
-    for (let i = 0; i < 20; i++) {
-      const a = HB - 1.3 + (i / 19) * 2.6;
-      group.add(block(0.5, 0.7, 0.3, hx * 14.4 + Math.cos(a) * 3.7, LAND_Y + 0.35, hz * 14.4 + Math.sin(a) * 3.7, '#a8825a', -a));
+    // The two moles: straight runs of wall blocks flanking the channel, angled
+    // slightly apart, each ending in a squat light-tower.
+    for (const s of [-1, 1]) {
+      const mAng = HB + s * 0.16;
+      const mx = Math.cos(mAng), mz = Math.sin(mAng);
+      for (let d = 11.6; d <= 17.4; d += 0.62) {
+        group.add(block(0.55, 0.6, 0.34, mx * d + sideX * s * 1.35, LAND_Y + 0.3, mz * d + sideZ * s * 1.35, '#ac845a', -mAng));
+      }
+      group.add(block(0.6, 1.25, 0.6, mx * 17.8 + sideX * s * 1.35, LAND_Y + 0.62, mz * 17.8 + sideZ * s * 1.35, '#c2a06a', -mAng));
     }
+    // Boats! Triremes moored along the moles and one out in the roads —
+    // Plato's harbour "crowded with vessels", and a scale check in one glance.
+    const boat = (x: number, z: number, ang: number) => {
+      group.add(block(0.72, 0.09, 0.16, x, WATER_Y + 0.06, z, '#7a4e2c', -(ang + Math.PI / 2)));
+      group.add(block(0.02, 0.3, 0.02, x, WATER_Y + 0.26, z, '#5f3f22', -(ang + Math.PI / 2)));
+    };
+    boat(along(15.2)[0] + sideX * 1.0, along(15.2)[1] + sideZ * 1.0, HB);
+    boat(along(16.4)[0] - sideX * 1.05, along(16.4)[1] - sideZ * 1.05, HB + 0.2);
+    boat(along(19.4)[0] + sideX * 0.4, along(19.4)[1] + sideZ * 0.4, HB - 0.4);
     // THE CAPTAIN'S GEOGRAPHY, corrected to his map: the raised ground sits to
     // the NORTH-EAST (not due north — his annotated plan puts the dark
     // elevated sea on the NE, and the deluge must POUR FROM IT). Local frame:
@@ -1737,6 +1763,17 @@ export function buildModel(
         roller.position.set(lx + dirX * (radius - 0.6), seaLevel + 0.04, lz + dirZ * (radius - 0.6));
         roller.traverse((o) => { o.userData.noShadow = true; });
         group.add(roller);
+        // A lone trireme carried on the crest — swept from the harbour, riding
+        // the wave (and giving the deluge its scale in one glance).
+        const crestBoat = new THREE.Group();
+        const hull = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.09, 0.16), stoneMat('#7a4e2c'));
+        const mast = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.3, 0.02), stoneMat('#5f3f22'));
+        mast.position.y = 0.18;
+        crestBoat.add(hull, mast);
+        crestBoat.position.set(lx + dirX * (radius - 0.9), seaLevel + 0.36, lz + dirZ * (radius - 0.9) + 1.6);
+        crestBoat.rotation.set(0.32, -Math.PI / 4, 0.18); // pitched on the swell
+        crestBoat.traverse((o) => { o.userData.noShadow = true; });
+        group.add(crestBoat);
         // The burst dam: a torn gap in the plateau's city-facing wall — the
         // wave pours from HERE, the Captain's raised NE sea, not from thin air.
         const gap = block(2.8, 1.5, 1.2, -7.4, 0.6, 11.6, '#7c6f4f', Math.PI / 4);

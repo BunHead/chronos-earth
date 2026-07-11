@@ -296,24 +296,39 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
       });
       o.material = Array.isArray(o.material) ? covered : covered[0];
     });
-    // The blanket LIES ON the building: a thin cap sits proud on every upward
-    // face, so roofs, ledges and tower tops visibly carry the fall — tinting
-    // alone read as "nothing on the surfaces" (the Captain's verdict).
+    // The blanket LIES ON the building — flush, no hovering (the Captain's
+    // second verdict). Flat tops get a thin cap seated INTO the surface;
+    // pitched surfaces up to ~45° carry a snug shell (steeper, and cones,
+    // shed their fall — physics, not decoration).
+    const worldScale = target.scale.x || 1;
     let ci = 0;
     for (const m of meshList) {
       const mb = new THREE.Box3().setFromObject(m);
       const ms = mb.getSize(new THREE.Vector3());
-      if (ms.x < 0.15 || ms.z < 0.15) continue; // nothing settles on spikes
-      if (m.geometry.type.includes('Cone')) continue; // spires shed their fall
-      if (Math.abs(m.rotation.x) > 0.08 || Math.abs(m.rotation.z) > 0.08) continue; // pitched roofs shed too
-      const mc = mb.getCenter(new THREE.Vector3());
-      const cap = new THREE.Mesh(
-        new THREE.BoxGeometry(ms.x * 1.04, Math.max(0.06, ms.y * 0.05), ms.z * 1.04),
-        capMat,
-      );
-      cap.position.set(mc.x, mb.max.y + 0.03, mc.z);
-      cap.userData.noShadow = true;
-      phaseFx.add(cap);
+      if (ms.x < 0.12 * worldScale || ms.z < 0.12 * worldScale) continue; // nothing settles on spikes
+      if (m.geometry.type.includes('Cone')) continue; // spires shed
+      const tiltX = Math.abs(m.rotation.x);
+      const tiltZ = Math.abs(m.rotation.z);
+      const tilt = Math.max(tiltX, tiltZ);
+      if (tilt > Math.PI / 4 + 0.06) continue; // steeper than 45° sheds
+      if (tilt > 0.08) {
+        // A pitched slab: the snow is a snug shell of the slab itself, riding
+        // its own slope — not a hovering plate.
+        const shell = new THREE.Mesh(m.geometry, capMat);
+        m.getWorldPosition(shell.position);
+        m.getWorldQuaternion(shell.quaternion);
+        shell.scale.copy(m.getWorldScale(new THREE.Vector3())).multiplyScalar(1.03);
+        shell.position.y += 0.025 * worldScale;
+        shell.userData.noShadow = true;
+        phaseFx.add(shell);
+      } else {
+        const capH = Math.max(0.05 * worldScale, ms.y * 0.045);
+        const cap = new THREE.Mesh(new THREE.BoxGeometry(ms.x * 1.03, capH, ms.z * 1.03), capMat);
+        const mc = mb.getCenter(new THREE.Vector3());
+        cap.position.set(mc.x, mb.max.y + capH * 0.35, mc.z); // seated, a whisker proud
+        cap.userData.noShadow = true;
+        phaseFx.add(cap);
+      }
       if (++ci > 240) break; // plenty of coverage, bounded cost
     }
     const sheet = new THREE.Mesh(
@@ -324,15 +339,18 @@ function addPhaseEffect(phase: LifePhase, target: THREE.Group) {
     sheet.position.set(centre.x, box.min.y + 0.04, centre.z);
     sheet.userData.noShadow = true;
     phaseFx.add(sheet);
-    for (let i = 0; i < 16; i++) { // drifts banked round the footprint
+    // Drifts hug the walls at GROUND level, sized to the model — on real
+    // terrain the building is tiny, so absolute-sized drifts were hovering
+    // plates bigger than the cathedral (the Captain's screenshot).
+    const footprint = Math.max(size.x, size.z);
+    for (let i = 0; i < 16; i++) {
       const a = i * 2.399;
-      const rr = Math.max(size.x, size.z) * (0.3 + rnd2(i) * 0.28);
-      const drift = new THREE.Mesh(
-        new THREE.SphereGeometry(0.5 + rnd2(i, 1) * 0.9, 8, 6),
-        new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }),
-      );
-      drift.scale.y = 0.3;
-      drift.position.set(centre.x + Math.cos(a) * rr, box.min.y + 0.1, centre.z + Math.sin(a) * rr);
+      const rr = footprint * (0.3 + rnd2(i) * 0.26);
+      const dr = footprint * (0.035 + rnd2(i, 1) * 0.05);
+      const drift = new THREE.Mesh(new THREE.SphereGeometry(dr, 8, 6), capMat);
+      drift.scale.y = 0.32;
+      drift.position.set(centre.x + Math.cos(a) * rr, box.min.y + dr * 0.12, centre.z + Math.sin(a) * rr);
+      drift.userData.noShadow = true;
       phaseFx.add(drift);
     }
   } else if (phase === 'construction') {
@@ -790,7 +808,16 @@ coveredBtn.addEventListener('pointerdown', () => {
 const cancelHold = () => { if (holdTimer) clearTimeout(holdTimer); holdTimer = null; };
 coveredBtn.addEventListener('pointerup', cancelHold);
 coveredBtn.addEventListener('pointerleave', cancelHold);
-coverColorEl.addEventListener('input', () => { paintCoveredBtn(); if (lifePhase === 'covered') refresh(); });
+// Picking a colour APPLIES the covering — hold, choose, and the world wears
+// it (previously the button recoloured but the scene waited for another tap).
+const applyCoverColour = () => {
+  paintCoveredBtn();
+  lifePhase = 'covered';
+  for (const peer of phaseBtns) peer.classList.toggle('active', peer === coveredBtn);
+  refresh();
+};
+coverColorEl.addEventListener('input', applyCoverColour);
+coverColorEl.addEventListener('change', applyCoverColour); // some pickers only fire on close
 for (const button of phaseBtns) button.addEventListener('click', (e) => {
   if (button === coveredBtn && heldOpen) { e.preventDefault(); return; } // the hold owned this press
   lifePhase = button.dataset.phase as LifePhase;
