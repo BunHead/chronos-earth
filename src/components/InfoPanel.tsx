@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import MakerRow from './MakerRow';
 import type { ExternalLink, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
@@ -241,6 +242,12 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
               </button>
             )}
           </div>
+
+          {/* The maker's reins over the globe: review any monument or battle
+              right here — appears only when the Captain's key is present. */}
+          {(content.monument3d || content.battleId) && (
+            <MakerRow reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model} />
+          )}
 
           {wiki.thumb && (
             <img className="info-thumb" src={wiki.thumb} alt={content.title} loading="lazy" />
