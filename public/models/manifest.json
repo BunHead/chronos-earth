@@ -1,0 +1,50 @@
+{
+  "giza": {
+    "footprint": 45.223,
+    "kb": 93
+  },
+  "amphitheatre": {
+    "footprint": 15.843,
+    "kb": 722
+  },
+  "greek-temple": {
+    "footprint": 11.4,
+    "kb": 115
+  },
+  "stonehenge": {
+    "footprint": 25.173,
+    "kb": 335
+  },
+  "cathedral": {
+    "footprint": 17.65,
+    "kb": 57
+  },
+  "westminster": {
+    "footprint": 33.511,
+    "kb": 106
+  },
+  "buckingham": {
+    "footprint": 22.6,
+    "kb": 138
+  },
+  "london-eye": {
+    "footprint": 24.6,
+    "kb": 539
+  },
+  "liberty": {
+    "footprint": 18.385,
+    "kb": 79
+  },
+  "leaning-tower": {
+    "footprint": 7.008,
+    "kb": 398
+  },
+  "aqueduct": {
+    "footprint": 26.3,
+    "kb": 73
+  },
+  "rings": {
+    "footprint": 48.274,
+    "kb": 1225
+  }
+}

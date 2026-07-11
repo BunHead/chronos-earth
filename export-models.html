@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Chronos Earth — fleet exporter</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #1a2430; color: #cfe0ee; font-family: system-ui, sans-serif; }
+      #lbl { padding: 14px 18px; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <!-- Dev-only: builds one buildModel() archetype and exports it as binary
+         glTF (.glb) for the GLOBE — Stage E's bridge from the three.js
+         modeller to Cesium. Driven headless by scripts/export-models.mjs. -->
+    <div id="lbl">🌍 Chronos Earth · exporting the fleet for the globe…</div>
+    <script type="module" src="/src/export-models.ts"></script>
+  </body>
+</html>

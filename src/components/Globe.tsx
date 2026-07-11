@@ -7,6 +7,7 @@ import * as Cesium from 'cesium';
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
+import { loadGlobeModels, updateGlobeModelVisibility } from '../lib/globeModels';
 import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
@@ -774,6 +775,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
     viewerRef.current = viewer;
 
+    // STAGE E — the monuments stand on the Earth itself: the exported .glb
+    // fleet, clamped to the ground at true scale and calibrated bearing,
+    // revealed as you fly close. Fire-and-forget: no fleet manifest, no
+    // models — the globe simply keeps its markers.
+    void loadGlobeModels(viewer);
+
     return () => {
       tooltip.remove();
       window.clearTimeout(resizeTimer);
@@ -898,6 +905,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const faded = site.fadeYear != null && currentYearsBP < yearToYearsBP(site.fadeYear);
       setShownPop(entity, showSites && born && !faded);
     }
+    // The 3D fleet obeys the same clock and the same layer switch.
+    updateGlobeModelVisibility(currentYearsBP, showSites);
   }, [currentYearsBP, showSites, sites]);
 
   // --- Build battle markers whenever the battle list changes. ------------
