@@ -6,6 +6,10 @@ interface AppMenuProps {
   onStartTour: (t: Tour) => void;
   onShare: () => void;
   onAbout: () => void;
+  skyOpen: boolean;
+  onToggleSky: () => void;
+  compassOpen: boolean;
+  onToggleCompass: () => void;
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
 }
@@ -17,7 +21,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, reduceMotion, onReduceMotion }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, reduceMotion, onReduceMotion }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -59,6 +63,13 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, reduceMo
             <>
               <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
               <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
+              {/* The floating frames — movable windows over the globe. */}
+              <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
+                🌤️ Weather &amp; Sky {skyOpen ? '✓' : ''}
+              </button>
+              <button className="app-menu-item" onClick={() => { close(); onToggleCompass(); }}>
+                🧭 Compass {compassOpen ? '✓' : ''}
+              </button>
               {/* The maker's tools: browse every 3D model, and run the automated
                   Wikidata harvester on GitHub (free, no local setup) — the
                   Captain's no-tokens-needed controls. */}

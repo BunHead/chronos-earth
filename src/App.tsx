@@ -15,6 +15,8 @@ import About from './components/About';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
 import CompareMode from './components/CompareMode';
+import SkyDial from './components/SkyDial';
+import CompassFrame from './components/CompassFrame';
 import { ensurePlacement } from './lib/globeModels';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
@@ -167,6 +169,18 @@ export default function App() {
   const [battleMaps, setBattleMaps] = useState<Record<string, BattleMapInfo>>({});
   const [activeBattleView, setActiveBattleView] = useState<string | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  // The floating frames over the globe (⋯ menu toggles): Weather & Sky for
+  // everyone — it lights the REAL globe by the real sun — and the compass.
+  const [skyOpen, setSkyOpen] = useState(false);
+  const [compassOpen, setCompassOpen] = useState(false);
+  const [sky, setSky] = useState({
+    date: new Date(),
+    solarHours: 12,
+    auto: false,
+    moonPhase: 0.5,
+    temperature: 18,
+    cloud: 0.15,
+  });
   // "Reduce motion" (in the ⋮ menu) sets a root attribute; CSS then stills the
   // app's transitions and animations for anyone who finds movement distracting.
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -300,6 +314,27 @@ export default function App() {
     setPanel(battleToPanel(battle));
     globeRef.current?.flyTo(battle.lon, battle.lat, BATTLE_FLY_ALTITUDE);
   };
+
+  // The dial drives the REAL sun: solar time at the current view's longitude
+  // converts to UTC, and Cesium lights the day/night line accordingly.
+  useEffect(() => {
+    if (!skyOpen) {
+      globeRef.current?.setSunLighting(false);
+      return;
+    }
+    const lon = viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0;
+    globeRef.current?.setSunTime(sky.date, sky.solarHours, lon);
+  }, [skyOpen, sky.date, sky.solarHours, viewRegion]);
+
+  // The dial's play button: the day rolls on while it's unpaused.
+  useEffect(() => {
+    if (!skyOpen || !sky.auto) return;
+    const t = window.setInterval(
+      () => setSky((s) => ({ ...s, solarHours: (s.solarHours + 0.12) % 24 })),
+      250,
+    );
+    return () => window.clearInterval(t);
+  }, [skyOpen, sky.auto]);
 
   // THE GLOBE IS THE VIEWER: no pop-up scene. Place the monument's model at
   // its real site, make sure the timeline sits in an era where it stands,
@@ -521,6 +556,10 @@ export default function App() {
           onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
           onShare={() => void shareScene()}
           onAbout={() => setShowAbout(true)}
+          skyOpen={skyOpen}
+          onToggleSky={() => setSkyOpen((v) => !v)}
+          compassOpen={compassOpen}
+          onToggleCompass={() => setCompassOpen((v) => !v)}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
         />
@@ -569,6 +608,28 @@ export default function App() {
       />
 
       {showAbout && <About onClose={() => setShowAbout(false)} />}
+
+      {skyOpen && (
+        <SkyDial
+          date={sky.date}
+          solarHours={sky.solarHours}
+          auto={sky.auto}
+          moonPhase={sky.moonPhase}
+          temperature={sky.temperature}
+          cloud={sky.cloud}
+          latitude={viewRegion ? (viewRegion.s + viewRegion.n) / 2 : 51.5}
+          title="the globe"
+          onChange={(next) => setSky((s) => ({ ...s, ...next }))}
+        />
+      )}
+
+      {compassOpen && (
+        <CompassFrame
+          getHeading={() => globeRef.current?.getHeading() ?? 0}
+          onResetNorth={() => globeRef.current?.resetNorth()}
+          onClose={() => setCompassOpen(false)}
+        />
+      )}
 
       {toast && <div className="app-toast">{toast}</div>}
 

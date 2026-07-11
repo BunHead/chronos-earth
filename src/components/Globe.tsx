@@ -112,6 +112,13 @@ export interface GlobeHandle {
   /** Dive to a monument standing on the globe: oblique approach from the
    * south, framed by the monument's real width in metres. */
   flyToMonument: (lon: number, lat: number, widthM: number) => void;
+  /** Weather & Sky dial: light the globe by the real sun at this solar time
+   * (solar time at lonRef converts to UTC), or switch real lighting off. */
+  setSunTime: (date: Date, solarHours: number, lonRef: number) => void;
+  setSunLighting: (on: boolean) => void;
+  /** Compass: current camera heading in degrees, and a swing back to north. */
+  getHeading: () => number;
+  resetNorth: () => void;
   /** Freeze the current globe pixels for the Time Rift comparison overlay. */
   captureFrame: () => string | null;
 }
@@ -377,6 +384,43 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     });
   };
 
+  const setSunLighting = (on: boolean) => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return;
+    viewer.scene.globe.enableLighting = on;
+    viewer.scene.requestRender();
+  };
+
+  const setSunTime = (date: Date, solarHours: number, lonRef: number) => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return;
+    viewer.scene.globe.enableLighting = true;
+    // Solar time at the reference longitude → UTC: the sun is overhead at
+    // solar noon, and each 15° of longitude is an hour.
+    const utcMs =
+      Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) +
+      (solarHours - lonRef / 15) * 3_600_000;
+    viewer.clock.currentTime = Cesium.JulianDate.fromDate(new Date(utcMs));
+    viewer.clock.shouldAnimate = false;
+    viewer.scene.requestRender();
+  };
+
+  const getHeading = () => {
+    const viewer = viewerRef.current;
+    return viewer && !viewer.isDestroyed() ? Cesium.Math.toDegrees(viewer.camera.heading) : 0;
+  };
+
+  const resetNorth = () => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed() || cameraLockedRef.current) return;
+    const c = viewer.camera.positionCartographic;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromRadians(c.longitude, c.latitude, c.height),
+      orientation: { heading: 0, pitch: viewer.camera.pitch, roll: 0 },
+      duration: 0.8,
+    });
+  };
+
   const captureFrame = (): string | null => {
     const viewer = viewerRef.current;
     if (!viewer || viewer.isDestroyed()) return null;
@@ -403,7 +447,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.terrainProvider = on ? t.provider : new Cesium.EllipsoidTerrainProvider();
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, captureFrame }));
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, captureFrame }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {

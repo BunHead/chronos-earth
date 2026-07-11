@@ -2412,3 +2412,36 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
   border: 1px solid #3a4a5c; background: #0e1620; color: #eaf1f8; font-size: 11px;
 }
 .maker-msg { color: #9fb3c7; font-size: 10px; }
+
+/* ── Compass frame — a movable window over the globe (⋯ menu toggle) ───── */
+.compass-frame {
+  position: fixed; left: 16px; bottom: 130px; z-index: 30;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 0 10px 8px; border-radius: 12px;
+  background: rgba(11, 19, 28, 0.92); border: 1px solid #2c3d50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+.cf-grip {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; padding: 6px 2px; cursor: grab; user-select: none; touch-action: none;
+  font-size: 11px; font-weight: 700; color: #d9e4ef; letter-spacing: 0.03em;
+}
+.cf-close {
+  width: 20px; height: 20px; border-radius: 5px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 12px; line-height: 1;
+}
+.cf-rose {
+  position: relative; width: 74px; height: 74px; border-radius: 50%;
+  border: 2px solid #c9a24b; background: radial-gradient(circle, #10202f 55%, #0a141e);
+  cursor: pointer; transition: transform 0.25s ease-out;
+}
+.cf-n {
+  position: absolute; top: 3px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; font-weight: 800; color: #ff5a4e;
+}
+.cf-needle {
+  position: absolute; left: 50%; top: 50%; width: 4px; height: 27px;
+  transform: translate(-50%, -100%); transform-origin: 50% 100%;
+  background: linear-gradient(#ff5a4e, #ffd7d2); border-radius: 2px;
+}
+.cf-read { font-size: 11px; color: #9fb3c7; font-variant-numeric: tabular-nums; }

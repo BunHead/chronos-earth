@@ -2829,6 +2829,176 @@
           "wiki": "Christian de Castries"
         }
       ]
+    },
+    {
+      "id": "annexation-of-crimea",
+      "name": "Annexation of Crimea",
+      "year": 2014,
+      "dateLabel": "Feb–Mar 2014",
+      "lat": 45,
+      "lon": 34.1,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia"
+      },
+      "victor": "Russian occupation",
+      "outcome": "Russian forces seized the peninsula in a near-bloodless operation; the annexation is not internationally recognised.",
+      "significance": "Opened the Russo-Ukrainian war — the first forcible change of European borders since 1945, prelude to the 2022 full-scale invasion.",
+      "casualties": "Few direct casualties; thousands displaced",
+      "links": [
+        {
+          "label": "Wikipedia: Annexation of Crimea",
+          "url": "https://en.wikipedia.org/wiki/Annexation_of_Crimea_by_the_Russian_Federation"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oleksandr Turchynov",
+          "side": 1,
+          "wiki": "Oleksandr Turchynov"
+        },
+        {
+          "name": "Vladimir Putin",
+          "side": 2,
+          "wiki": "Vladimir Putin"
+        }
+      ]
+    },
+    {
+      "id": "battle-of-kyiv-2022",
+      "name": "Battle of Kyiv",
+      "year": 2022,
+      "dateLabel": "Feb–Apr 2022",
+      "lat": 50.45,
+      "lon": 30.52,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia"
+      },
+      "victor": "Ukrainian victory",
+      "outcome": "The Russian drive on the capital was fought to a standstill and withdrew after five weeks.",
+      "significance": "Saved the Ukrainian state in the opening weeks of the full-scale invasion and reshaped the whole war.",
+      "casualties": "Thousands on both sides; contested figures",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Kyiv (2022)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Kyiv_(2022)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oleksandr Syrskyi",
+          "side": 1,
+          "wiki": "Oleksandr Syrskyi"
+        },
+        {
+          "name": "Valery Gerasimov",
+          "side": 2,
+          "wiki": "Valery Gerasimov"
+        }
+      ]
+    },
+    {
+      "id": "siege-of-mariupol",
+      "name": "Siege of Mariupol",
+      "year": 2022,
+      "dateLabel": "Feb–May 2022",
+      "lat": 47.1,
+      "lon": 37.55,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia"
+      },
+      "victor": "Russian victory",
+      "outcome": "The port city fell after a three-month siege ending at the Azovstal steelworks; the city was largely destroyed.",
+      "significance": "One of the war's bloodiest sieges — a symbol of resistance and of the war's cost to civilians.",
+      "casualties": "Estimates exceed 20,000 civilians dead",
+      "links": [
+        {
+          "label": "Wikipedia: Siege of Mariupol",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Mariupol"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Denys Prokopenko",
+          "side": 1,
+          "wiki": "Denys Prokopenko"
+        },
+        {
+          "name": "Mikhail Mizintsev",
+          "side": 2,
+          "wiki": "Mikhail Mizintsev"
+        }
+      ]
+    },
+    {
+      "id": "battle-of-bakhmut",
+      "name": "Battle of Bakhmut",
+      "year": 2023,
+      "dateLabel": "2022–2023",
+      "lat": 48.594,
+      "lon": 38,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia (incl. Wagner Group)"
+      },
+      "victor": "Russian capture at enormous cost",
+      "outcome": "After ten months of attritional fighting the ruined city fell; both armies were bled severely.",
+      "significance": "The longest and bloodiest battle of the war — trench warfare on a scale Europe had not seen since 1945.",
+      "casualties": "Tens of thousands on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bakhmut",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bakhmut"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oleksandr Syrskyi",
+          "side": 1,
+          "wiki": "Oleksandr Syrskyi"
+        },
+        {
+          "name": "Yevgeny Prigozhin",
+          "side": 2,
+          "wiki": "Yevgeny Prigozhin"
+        }
+      ]
+    },
+    {
+      "id": "kherson-counteroffensive",
+      "name": "Kherson counteroffensive",
+      "year": 2022,
+      "dateLabel": "Aug–Nov 2022",
+      "lat": 46.64,
+      "lon": 32.61,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia"
+      },
+      "victor": "Ukrainian victory",
+      "outcome": "Russian forces abandoned the west bank of the Dnipro; Kherson was liberated on 11 November 2022.",
+      "significance": "The only regional capital taken by Russia in 2022 was recovered — a turning point of the year.",
+      "casualties": "Contested; heavy on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Kherson counteroffensive",
+          "url": "https://en.wikipedia.org/wiki/2022_Kherson_counteroffensive"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Andriy Kovalchuk",
+          "side": 1,
+          "wiki": "Andriy Kovalchuk"
+        },
+        {
+          "name": "Sergey Surovikin",
+          "side": 2,
+          "wiki": "Sergey Surovikin"
+        }
+      ]
     }
   ]
 }

@@ -43,7 +43,15 @@ const CONTINENTS = [
   { name: 'Europe SE', west: '15 35', east: '45 50' },
   { name: 'Europe NE', west: '15 50', east: '45 72' },
   { name: 'Africa', west: '-20 -36', east: '52 38' },
-  { name: 'Asia', west: '40 -11', east: '150 78' },
+  // Asia was one giant box — the subcontinent and the Pacific rim were being
+  // starved by its densest corners, exactly like Europe was. Quarter it, and
+  // give the western Pacific its own box (a box cannot cross the antimeridian;
+  // Hawaii and the far Pacific ride in the North America box).
+  { name: 'Asia SW (subcontinent)', west: '40 -11', east: '95 35' },
+  { name: 'Asia NW', west: '40 35', east: '95 78' },
+  { name: 'Asia SE', west: '95 -11', east: '150 35' },
+  { name: 'Asia NE', west: '95 35', east: '150 78' },
+  { name: 'Pacific West', west: '150 -50', east: '180 30' },
   { name: 'Oceania', west: '110 -50', east: '180 0' },
 ];
 
