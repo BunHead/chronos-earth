@@ -904,6 +904,7 @@ weatherEl?.addEventListener('change', applyWeather);
 // replays when you return. Colour rides the Covered wheel.
 // ─────────────────────────────────────────────────────────────────────────
 const simThickEl = document.getElementById('simThick') as HTMLInputElement;
+const simCountEl = document.getElementById('simCount') as HTMLInputElement;
 const simDirEl = document.getElementById('simDir') as HTMLInputElement;
 const simSpeedEl = document.getElementById('simSpeed') as HTMLInputElement;
 const simMsg = document.getElementById('simMsg') as HTMLDivElement;
@@ -912,12 +913,14 @@ function simReadouts() {
   const th = Math.pow(10, +simThickEl.value);
   (document.getElementById('simThickVal')!).textContent =
     th >= 1e6 ? (th / 1e6).toFixed(1) + 'M' : th >= 1e3 ? (th / 1e3).toFixed(1) + 'k' : th.toFixed(1);
+  const pc = Math.pow(10, +simCountEl.value);
+  (document.getElementById('simCountVal')!).textContent = pc >= 1e3 ? (pc / 1e3).toFixed(1) + 'k' : String(Math.round(pc));
   const b = +simDirEl.value;
   (document.getElementById('simDirVal')!).textContent = `${b}° (${COMPASS8[Math.round(b / 45) % 8]})`;
   const v = +simSpeedEl.value;
   (document.getElementById('simSpeedVal')!).textContent = v < 0.15 ? 'calm' : v < 0.45 ? 'breeze' : v < 0.75 ? 'strong' : 'gale';
 }
-for (const el of [simThickEl, simDirEl, simSpeedEl]) el.addEventListener('input', simReadouts);
+for (const el of [simThickEl, simCountEl, simDirEl, simSpeedEl]) el.addEventListener('input', simReadouts);
 simReadouts();
 
 function mulberry32(seed: number) {
@@ -967,26 +970,26 @@ function runCoverSim(seed?: number) {
   const footprint = Math.max(size.x, size.z) || 10;
   const spawnR = footprint * 0.95 + 4;
   const blobR = Math.max(0.02, footprint * 0.0015); // fine grains, not popcorn
-  const N = Math.round(3600 * thickness); // grains REPRESENTED
-  // A million-thickness fall would be billions of rays — so we SAMPLE: up to
-  // ~240k rays learn the landing pattern, and every ray carries the weight of
-  // the grains behind it. Depth is true; time and memory stay flat.
-  const raysN = Math.min(N, 240_000);
-  const weight = N / raysN;
+  // Two independent dials: PARTICLES = rays fired (sampling resolution, to
+  // ~360k), THICKNESS = the weight each ray carries (depth, to 1,000).
+  const particles = Math.round(Math.pow(10, +simCountEl.value));
+  const raysN = Math.min(particles, 400_000);
+  const weight = thickness;
+  const N = Math.round(raysN * weight); // grains REPRESENTED
   // ACCUMULATION, not accumulation of instances (the Captain's ×100 answer):
   // grains landing where snow already lies MERGE into the existing drift —
   // volume grows with every grain (r ∝ ∛count, real physics), so memory is
   // bounded by touched surface CELLS, never by how much has fallen. A ×100
   // fall costs the same instances as ×1 — the drifts just get deeper.
   const CELL = blobR * 2.1;
-  const MAX_CELLS = 60_000;
+  const MAX_CELLS = 200_000; // ~13 MB of matrices at the ceiling — fine
   const cells = new Map<string, number>(); // cell key → instance index
   const cellCount: number[] = [];
   const cellPos: THREE.Vector3[] = [];
   const cellQuat: THREE.Quaternion[] = [];
   const cellNorm: THREE.Vector3[] = [];
   const cellBase: number[] = [];
-  const maxInstances = Math.min(N, MAX_CELLS);
+  const maxInstances = Math.min(raysN, MAX_CELLS);
   const mesh = new THREE.InstancedMesh(
     simBlobGeo,
     new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }),
@@ -1059,6 +1062,7 @@ document.getElementById('simSave')!.addEventListener('click', () => {
   const saved = {
     seed: lastSimSeedFrom(simMsg.textContent) ?? ((Math.random() * 1e9) | 0),
     thickness: +simThickEl.value,
+    particles: +simCountEl.value,
     dir: +simDirEl.value,
     speed: +simSpeedEl.value,
     colour: coverColorEl?.value || '#eef2f6',
@@ -1079,8 +1083,9 @@ function restoreSimFall(model: string) {
   try {
     const raw = localStorage.getItem(`ce_simfall_${model}`);
     if (!raw) return;
-    const s = JSON.parse(raw) as { seed: number; thickness: number; dir: number; speed: number; colour: string };
+    const s = JSON.parse(raw) as { seed: number; thickness: number; particles?: number; dir: number; speed: number; colour: string };
     simThickEl.value = String(s.thickness);
+    if (s.particles != null) simCountEl.value = String(s.particles);
     simDirEl.value = String(s.dir);
     simSpeedEl.value = String(s.speed);
     if (coverColorEl) coverColorEl.value = s.colour;
