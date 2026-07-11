@@ -1005,7 +1005,8 @@ function runCoverSim(seed?: number) {
   const m4 = new THREE.Matrix4();
   const n3 = new THREE.Matrix3();
   let fired = 0;
-  let landed = 0;
+  let fallenW = 0; // grains represented, weighted
+  let landedW = 0;
   const writeCell = (idx: number) => {
     const g = Math.cbrt(cellCount[idx] * weight); // TRUE depth of the fall this cell represents
     const rH = Math.min(cellBase[idx] * g, CELL * 3.1); // spread until neighbours knit into a blanket…
@@ -1022,28 +1023,41 @@ function runCoverSim(seed?: number) {
     // Adaptive settle rate: mega-runs chew thousands of rays a frame so ten
     // million grains land in tens of seconds, not tens of minutes.
     const chunk = Math.min(Math.max(650, Math.round(raysN / 1500)), raysN - fired);
+    // Gustiness: every grain falls on its OWN slightly-perturbed vector, so
+    // the lee shadow feathers into a ragged natural edge instead of a stencil
+    // line. Turbulence grows a little with wind speed.
+    const spread = 0.12 + speed * 0.2;
     for (let i = 0; i < chunk; i++) {
       fired++;
+      // Each grain carries a RANDOM weight up to the thickness limit — depth
+      // varies drift to drift instead of laying down one uniform carpet.
+      const w = weight * (0.15 + 0.85 * rng());
+      fallenW += w;
       const ox = centre.x + (rng() - 0.5) * spawnR * 2;
       const oz = centre.z + (rng() - 0.5) * spawnR * 2;
-      const origin = new THREE.Vector3(ox, box.max.y + 6, oz).addScaledVector(fall, -30);
-      ray.set(origin, fall);
+      const jdir = new THREE.Vector3(
+        fall.x + (rng() - 0.5) * spread,
+        fall.y,
+        fall.z + (rng() - 0.5) * spread,
+      ).normalize();
+      const origin = new THREE.Vector3(ox, box.max.y + 6, oz).addScaledVector(jdir, -30);
+      ray.set(origin, jdir);
       const hit = ray.intersectObjects(targets, false)[0];
       if (!hit || !hit.face) continue;
       const worldN = hit.face.normal.clone().applyMatrix3(n3.getNormalMatrix(hit.object.matrixWorld)).normalize();
       if (worldN.dot(against) < 0.35) continue; // this face sheds the fall
-      landed++;
+      landedW += w;
       const key = `${Math.round(hit.point.x / CELL)},${Math.round(hit.point.y / CELL)},${Math.round(hit.point.z / CELL)}`;
       const existing = cells.get(key);
       if (existing !== undefined) {
-        cellCount[existing]++;
-        writeCell(existing); // the drift grows — no new memory
+        cellCount[existing] += w / weight; // weighted growth — no new memory
+        writeCell(existing);
         continue;
       }
       if (mesh.count >= maxInstances) continue; // capacity guard — merges still land
       const idx = mesh.count;
       cells.set(key, idx);
-      cellCount[idx] = 1;
+      cellCount[idx] = w / weight;
       cellPos[idx] = hit.point.clone();
       cellQuat[idx] = new THREE.Quaternion().setFromUnitVectors(up, worldN);
       cellNorm[idx] = worldN.clone();
@@ -1052,9 +1066,9 @@ function runCoverSim(seed?: number) {
       writeCell(idx);
     }
     mesh.instanceMatrix.needsUpdate = true;
-    simMsg.textContent = `${Math.round(fired * weight).toLocaleString()} / ${N.toLocaleString()} fallen · ${cells.size.toLocaleString()} drifts`;
+    simMsg.textContent = `${Math.round(fallenW).toLocaleString()} / ${N.toLocaleString()} fallen · ${cells.size.toLocaleString()} drifts`;
     if (fired < raysN) requestAnimationFrame(step);
-    else simMsg.textContent = `Done — ${Math.round(landed * weight).toLocaleString()} grains in ${cells.size.toLocaleString()} drifts (seed ${theSeed}).`;
+    else simMsg.textContent = `Done — ${Math.round(landedW).toLocaleString()} grains in ${cells.size.toLocaleString()} drifts (seed ${theSeed}).`;
   };
   step();
 }
