@@ -47,9 +47,30 @@ export interface SkyDialProps {
   solarHours: number;
   auto: boolean;
   moonPhase: number; // 0 = new, 0.5 = full, wraps at 1
+  /** Air temperature, °C — the vertical centre slider (red hot, white at 0°, blue below). */
+  temperature: number;
+  /** Cloud cover 0..1 — the horizontal centre slider (clear right, pea soup left). */
+  cloud: number;
   latitude: number;
   title: string;
-  onChange: (next: { date?: Date; solarHours?: number; auto?: boolean; moonPhase?: number }) => void;
+  onChange: (next: { date?: Date; solarHours?: number; auto?: boolean; moonPhase?: number; temperature?: number; cloud?: number }) => void;
+}
+
+// Temperature slider range (°C): +40 at the top of the bar, −20 at the bottom,
+// so the white "freezing" stop sits at two-thirds up.
+const T_MAX = 40;
+const T_MIN = -20;
+
+/** The knob's own colour: red when hot, white at freezing, blue below. */
+function tempColour(t: number): string {
+  if (t >= 0) {
+    const k = Math.min(1, t / T_MAX);
+    const c = Math.round(255 - k * 180);
+    return `rgb(255,${c},${Math.round(255 - k * 200)})`;
+  }
+  const k = Math.min(1, -t / -T_MIN);
+  const c = Math.round(255 - k * 140);
+  return `rgb(${Math.round(255 - k * 181)},${c},255)`;
 }
 
 // New → waxing → full → waning, eight steps round the cycle.
@@ -64,13 +85,17 @@ const MOON_NAME = ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbo
  */
 const LUNAR_DAYS = 29.530588; // one synodic month
 
-export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, title, onChange }: SkyDialProps) {
+export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, title, onChange }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
   // The moon is the MONTH hand: drag it round the ring and the calendar turns
   // with it — one full revolution is one lunar cycle (~29.5 days). The sun
   // stays the DAY hand. (A tap without movement still steps the phase.)
   const dragMoon = useRef<{ last: number; moved: boolean } | null>(null);
+  // The centre cross-bars are the WEATHER controls the armillary always
+  // promised: vertical = temperature, horizontal = cloud cover.
+  const dragTemp = useRef(false);
+  const dragCloud = useRef(false);
 
   const cx = 80, cy = 80, R = 58;
   const theta = (solarHours - 6) * 15 * DEG; // CCW from +X (right = 06:00, top = noon)
@@ -90,13 +115,33 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
   const moonIdx = (((Math.round(mp * 8) % 8) + 8) % 8);
   const cycleMoon = () => onChange({ moonPhase: (mp + 0.125) % 1 });
 
-  const pointerAngle = (e: React.PointerEvent): number => {
+  const pointerXY = (e: React.PointerEvent): { px: number; py: number } => {
     const svg = svgRef.current;
-    if (!svg) return 0;
+    if (!svg) return { px: cx, py: cy };
     const rect = svg.getBoundingClientRect();
-    const px = ((e.clientX - rect.left) / rect.width) * 160;
-    const py = ((e.clientY - rect.top) / rect.height) * 160;
+    return {
+      px: ((e.clientX - rect.left) / rect.width) * 160,
+      py: ((e.clientY - rect.top) / rect.height) * 160,
+    };
+  };
+
+  const pointerAngle = (e: React.PointerEvent): number => {
+    const { px, py } = pointerXY(e);
     return Math.atan2(cy - py, px - cx); // radians, CCW from +X
+  };
+
+  // The weather bars: half-length of each track, knob positions from values.
+  const BAR = R - 15;
+  const tempY = cy + BAR - ((Math.min(T_MAX, Math.max(T_MIN, temperature)) - T_MIN) / (T_MAX - T_MIN)) * BAR * 2;
+  const cloudX = cx + BAR - Math.min(1, Math.max(0, cloud)) * BAR * 2; // right = clear
+  const setTempFromPointer = (e: React.PointerEvent) => {
+    const { py } = pointerXY(e);
+    const k = Math.min(1, Math.max(0, (cy + BAR - py) / (BAR * 2)));
+    onChange({ temperature: Math.round(T_MIN + k * (T_MAX - T_MIN)) });
+  };
+  const setCloudFromPointer = (e: React.PointerEvent) => {
+    const { px } = pointerXY(e);
+    onChange({ cloud: Math.min(1, Math.max(0, (cx + BAR - px) / (BAR * 2))) });
   };
 
   const setFromPointer = (e: React.PointerEvent) => {
@@ -146,34 +191,80 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
         ref={svgRef}
         viewBox="0 0 160 160"
         className={`sky-ring${daytime ? ' day' : ' night'}`}
-        onPointerDown={(e) => { dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); setFromPointer(e); }}
-        onPointerMove={(e) => { if (dragMoon.current) moonDragMove(e); else if (dragging.current) setFromPointer(e); }}
+        onPointerDown={(e) => {
+          // Grabs near the weather bars own the drag; the ring owns the sun.
+          const { px, py } = pointerXY(e);
+          const nearTemp = Math.abs(px - cx) < 9 && Math.abs(py - cy) < BAR + 6;
+          const nearCloud = Math.abs(py - cy) < 9 && Math.abs(px - cx) < BAR + 6;
+          e.currentTarget.setPointerCapture(e.pointerId);
+          if (nearTemp && !nearCloud) { dragTemp.current = true; setTempFromPointer(e); return; }
+          if (nearCloud) { dragCloud.current = true; setCloudFromPointer(e); return; }
+          dragging.current = true;
+          setFromPointer(e);
+        }}
+        onPointerMove={(e) => {
+          if (dragTemp.current) setTempFromPointer(e);
+          else if (dragCloud.current) setCloudFromPointer(e);
+          else if (dragMoon.current) moonDragMove(e);
+          else if (dragging.current) setFromPointer(e);
+        }}
         onPointerUp={(e) => {
           if (dragMoon.current && !dragMoon.current.moved) cycleMoon(); // a tap still steps the phase
           dragMoon.current = null;
           dragging.current = false;
+          dragTemp.current = false;
+          dragCloud.current = false;
           e.currentTarget.releasePointerCapture?.(e.pointerId);
         }}
       >
         {/* sky fill: light above the horizon line, dark below */}
         <defs>
           <clipPath id="ringClip"><circle cx={cx} cy={cy} r={R} /></clipPath>
+          <linearGradient id="tempGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ff4a30" />
+            <stop offset="66.7%" stopColor="#ffffff" />
+            <stop offset="100%" stopColor="#4a86e8" />
+          </linearGradient>
+          <linearGradient id="cloudGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#8b939b" />
+            <stop offset="100%" stopColor="#cfe4f6" />
+          </linearGradient>
         </defs>
         <g clipPath="url(#ringClip)">
           <rect x="0" y="0" width="160" height={cy} className="ring-day" />
           <rect x="0" y={cy} width="160" height={cy} className="ring-night" />
         </g>
-        {/* armillary: outer ring + decorative temperature/cloud bars + hub */}
+        {/* armillary: outer ring + the WORKING weather bars + hub */}
         <circle cx={cx} cy={cy} r={R} className="ring-band" />
-        <line x1={cx} y1={cy - R} x2={cx} y2={cy + R} className="ring-bar" />
-        <line x1={cx - R} y1={cy} x2={cx + R} y2={cy} className="ring-bar" />
         {[6, 12, 18, 0].map((hr) => {
           const a = (hr - 6) * 15 * DEG;
           return <circle key={hr} cx={cx + R * Math.cos(a)} cy={cy - R * Math.sin(a)} r="1.6" className="ring-tick" />;
         })}
-        <circle cx={cx} cy={cy} r="7" className="ring-hub" />
-        <line x1={cx - 4} y1={cy} x2={cx + 4} y2={cy} className="ring-hub-plus" />
-        <line x1={cx} y1={cy - 4} x2={cx} y2={cy + 4} className="ring-hub-plus" />
+        {/* temperature — the vertical bar: red hot, white at freezing, blue below */}
+        <line x1={cx} y1={cy - BAR} x2={cx} y2={cy + BAR} stroke="url(#tempGrad)" strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+        <circle
+          cx={cx}
+          cy={tempY}
+          r="5.4"
+          fill={tempColour(temperature)}
+          stroke="#0e141d"
+          strokeWidth="1.4"
+        >
+          <title>{`${Math.round(temperature)} °C — drag up for heat, down past white into frost`}</title>
+        </circle>
+        {/* cloud — the horizontal bar: clear on the right, pea soup on the left */}
+        <line x1={cx - BAR} y1={cy} x2={cx + BAR} y2={cy} stroke="url(#cloudGrad)" strokeWidth="4" strokeLinecap="round" opacity="0.9" />
+        <circle
+          cx={cloudX}
+          cy={cy}
+          r="5.4"
+          fill={`rgb(${Math.round(232 - cloud * 90)},${Math.round(238 - cloud * 88)},${Math.round(244 - cloud * 80)})`}
+          stroke="#0e141d"
+          strokeWidth="1.4"
+        >
+          <title>{`Cloud ${Math.round(cloud * 100)}% — clear right, pea soup left`}</title>
+        </circle>
+        <circle cx={cx} cy={cy} r="6" className="ring-hub" opacity="0.85" />
         {/* the sun */}
         <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
         {/* the moon — the month hand: drag it round the ring (one lap = one
@@ -207,6 +298,12 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, latitude, t
         <button className="sky-moon" onClick={cycleMoon} title={`${MOON_NAME[moonIdx]} — click for the next phase`}>
           {MOON_EMOJI[moonIdx]}
         </button>
+      </div>
+
+      <div className="sky-weather-line">
+        <span style={{ color: tempColour(temperature) }}>◆</span> {Math.round(temperature)} °C
+        <span className="sky-weather-sep">·</span>
+        ☁ {cloud < 0.12 ? 'clear' : cloud < 0.4 ? 'scattered' : cloud < 0.72 ? 'overcast' : 'pea soup'}
       </div>
 
       <div className="sky-date">

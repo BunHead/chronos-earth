@@ -10,7 +10,7 @@ import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
-interface SkyState { date: Date; solarHours: number; auto: boolean; moonPhase: number; }
+interface SkyState { date: Date; solarHours: number; auto: boolean; moonPhase: number; temperature: number; cloud: number; }
 
 /** Compass bearing (° from N) at which the sun clears the horizon on the summer
  * solstice for a latitude — the axis Stonehenge and its Heel Stone point to. */
@@ -1634,17 +1634,21 @@ export function buildModel(
       const a = HB - 1.3 + (i / 19) * 2.6;
       group.add(block(0.5, 0.7, 0.3, hx * 14.4 + Math.cos(a) * 3.7, LAND_Y + 0.35, hz * 14.4 + Math.sin(a) * 3.7, '#a8825a', -a));
     }
-    // THE CAPTAIN'S GEOGRAPHY, built as terrain that sits on the land — not
-    // props floating over it. To the local north: a raised rock PLATEAU whose
-    // flat top holds the dark ELEVATED SEA behind its natural dam face; the
-    // dam's south wall sheds WATERFALLS that run as thin sheets down into the
-    // outer ring. (One day the dam bursts — see the deluge below.)
+    // THE CAPTAIN'S GEOGRAPHY, corrected to his map: the raised ground sits to
+    // the NORTH-EAST (not due north — his annotated plan puts the dark
+    // elevated sea on the NE, and the deluge must POUR FROM IT). Local frame:
+    // the city is later turned 180°, so world-NE = local (-x, +z); the plateau
+    // rides that diagonal, its dam face looks SW at the city, and the
+    // waterfalls sheet down the NE rim of the rings. The wave (below) erupts
+    // from this same spot when the dam lets go.
+    const NEx = -10.6, NEz = 14.8; // plateau centre, on the world-NE diagonal
     const plateau = new THREE.Mesh(
       new THREE.CylinderGeometry(8.6, 10.6, 1.15, 48),
       stoneLike({ color: '#9a8a63', flatShading: true }),
     );
-    plateau.scale.set(1.5, 1, 0.72);
-    plateau.position.set(0.6, 0.5, 17.6);
+    plateau.scale.set(1.4, 1, 0.75);
+    plateau.rotation.y = Math.PI / 4; // long axis lies NW–SE, square to the city
+    plateau.position.set(NEx, 0.5, NEz);
     group.add(plateau);
     // The dark water sits INSET in broad stone shoulders — a highland lake
     // behind its dam, not a platter of water.
@@ -1653,19 +1657,25 @@ export function buildModel(
       new THREE.MeshStandardMaterial({ color: '#1f5d8c', roughness: 0.35 }),
     );
     highLake.rotation.x = -Math.PI / 2;
-    highLake.scale.set(1.62, 0.62, 1);
-    highLake.position.set(0.6, 1.09, 18.1);
+    highLake.rotation.z = Math.PI / 4;
+    highLake.scale.set(1.5, 0.66, 1);
+    highLake.position.set(NEx - 0.4, 1.09, NEz + 0.4);
     highLake.userData.noShadow = true;
     group.add(highLake);
-    for (const wx of [-2.2, -0.75, 0.75, 2.2]) {
-      // Falls down the dam face, then a flush glinting runnel to the ring.
-      group.add(block(0.26, 1.0, 0.1, wx + 0.5, 0.55, 11.6, '#8fc0e2'));
+    // Falls down the dam's city-facing (SW) wall, runnels glinting to the ring.
+    for (const off of [-2.6, -0.9, 0.9, 2.6]) {
+      // spread along the NW–SE face, each stepped toward the city
+      const fx = NEx + off * 0.7071 + 4.6 * 0.7071;
+      const fz = NEz + off * -0.7071 - 4.6 * 0.7071;
+      const fall = block(0.26, 1.0, 0.1, fx, 0.55, fz, '#8fc0e2', Math.PI / 4);
+      group.add(fall);
       const runnel = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.3, 1.4),
+        new THREE.PlaneGeometry(0.3, 1.6),
         new THREE.MeshStandardMaterial({ color: '#5f9cc4', roughness: 0.35 }),
       );
       runnel.rotation.x = -Math.PI / 2;
-      runnel.position.set(wx + 0.4, 0.06, 10.9);
+      runnel.rotation.z = Math.PI / 4; // flowing SW toward the rings
+      runnel.position.set(fx + 0.75, 0.06, fz - 0.75);
       runnel.userData.noShadow = true;
       group.add(runnel);
     }
@@ -1727,10 +1737,20 @@ export function buildModel(
         roller.position.set(lx + dirX * (radius - 0.6), seaLevel + 0.04, lz + dirZ * (radius - 0.6));
         roller.traverse((o) => { o.userData.noShadow = true; });
         group.add(roller);
-        // The burst dam: once the wave is loose, the ridge wears a torn gap.
-        const gap = block(2.6, 1.5, 1.2, 0.4, 0.6, 12.3, '#7c6f4f');
-        gap.rotation.y = 0.2;
+        // The burst dam: a torn gap in the plateau's city-facing wall — the
+        // wave pours from HERE, the Captain's raised NE sea, not from thin air.
+        const gap = block(2.8, 1.5, 1.2, -7.4, 0.6, 11.6, '#7c6f4f', Math.PI / 4);
         group.add(gap);
+        // White water spilling through the breach toward the city.
+        const spill = new THREE.Mesh(
+          new THREE.PlaneGeometry(2.2, 3.4),
+          new THREE.MeshStandardMaterial({ color: '#bcd9ea', roughness: 0.3, transparent: true, opacity: 0.85 }),
+        );
+        spill.rotation.x = -Math.PI / 2;
+        spill.rotation.z = Math.PI / 4;
+        spill.position.set(-6.2, 0.12, 10.4);
+        spill.userData.noShadow = true;
+        group.add(spill);
       }
     }
   } else if (model === 'hanging-gardens') {
@@ -2501,7 +2521,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
 
   // Sky/sun state, driven by the SkyDial. Opens on today, mid-morning, gently
   // auto-advancing so the day still passes on its own until you grab the dial.
-  const [sky, setSky] = useState<SkyState>(() => ({ date: new Date(), solarHours: 9, auto: true, moonPhase: 0.5 }));
+  const [sky, setSky] = useState<SkyState>(() => ({ date: new Date(), solarHours: 9, auto: true, moonPhase: 0.5, temperature: 18, cloud: 0.1 }));
   const skyRef = useRef<SkyState>(sky);
   const latVal = lat ?? 45;
   useEffect(() => { skyRef.current = sky; }, [sky]);
@@ -2834,9 +2854,10 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       // Scene frame matches the satellite ground: east +X, up +Y, north +Z.
       const sx = dir.x, sy = dir.y, sz = dir.z;
       sun.position.set(sx * 40, sy * 40, sz * 40);
-      sun.intensity = Math.max(0, s) * 2.4;
+      const cl = skyRef.current.cloud ?? 0;
+      sun.intensity = Math.max(0, s) * 2.4 * (1 - cl * 0.65);
       sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
-      hemi.intensity = 0.3 + Math.max(0, s) * 1.0;
+      hemi.intensity = (0.3 + Math.max(0, s) * 1.0) * (1 - cl * 0.35);
       // The visible sun rides a far sky-dome along the same bearing.
       sunSprite.position.set(sx * 180, sy * 180, sz * 180);
       sunSprite.visible = s > -0.06;
@@ -2862,6 +2883,7 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
         skyColor.copy(NIGHT_SKY).lerp(DUSK_SKY, Math.min(1, k * 1.6));
         if (k > 0.62) skyColor.lerp(DAY_SKY, (k - 0.62) / 0.38);
       } else skyColor.copy(DAY_SKY);
+      skyColor.lerp(new THREE.Color(0x69747f), cl * 0.7); // cloud greys the sky
       (scene.background as THREE.Color).copy(skyColor);
       scene.fog!.color.copy(skyColor);
 
@@ -2972,6 +2994,8 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
             solarHours={sky.solarHours}
             auto={sky.auto}
             moonPhase={sky.moonPhase}
+            temperature={sky.temperature}
+            cloud={sky.cloud}
             latitude={latVal}
             title={title}
             onChange={(next) => setSky((s) => ({ ...s, ...next }))}

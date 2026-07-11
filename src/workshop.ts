@@ -148,6 +148,7 @@ let phaseFx: THREE.Group | null = null;
 let terrainAids: THREE.Group | null = null;
 let weatherFx: THREE.Points | null = null;
 let terrainRequest = 0;
+let precip: 'rain' | 'snow' | null = null;
 type LifePhase = 'intact' | 'construction' | 'burning' | 'ruin' | 'drowning' | 'covered';
 let lifePhase: LifePhase = 'intact';
 
@@ -398,7 +399,7 @@ function addTerrainAids() {
 // latitude — so Stonehenge's midwinter sun sits low and Giza's noon stands
 // high, exactly as in the app. The weather select handles precipitation until
 // the dial grows its cloud/wind bars.
-const sky = { date: new Date(), solarHours: 10, auto: true, moonPhase: 0.5 };
+const sky = { date: new Date(), solarHours: 10, auto: true, moonPhase: 0.5, temperature: 18, cloud: 0.1 };
 // The visible sun disc and moon (soft sprites on the far sky-dome).
 const sunDisc = glowSprite('rgba(255,255,244,1)', 'rgba(255,180,90,0)', THREE.AdditiveBlending);
 sunDisc.scale.set(34, 34, 1);
@@ -430,18 +431,21 @@ const GREY_SKY = new THREE.Color('#687583');
 const NIGHT_SKY = new THREE.Color('#070b16');
 
 function applyWeather() {
-  const weather = (document.getElementById('weather') as HTMLSelectElement)?.value || 'clear';
+  // The dial rules the weather now: cloud cover 0..1 (pea soup at 1) and
+  // temperature in °C — heavy cloud rains, and rain below freezing is SNOW.
+  const cloud = sky.cloud;
+  const clear = cloud < 0.35;
+  precip = cloud > 0.7 ? (sky.temperature <= 0 ? 'snow' : 'rain') : null;
   const lat = LIVE_SITES[sel?.value]?.lat ?? 45;
   const dir = sunDirection(sky.date, sky.solarHours, lat);
   const s = dir.y; // sine of the sun's altitude: >0 day, <0 night
-  const clear = weather === 'clear';
   sun.position.set(dir.x * 55, dir.y * 55, dir.z * 55);
-  sun.intensity = Math.max(0, s) * (clear ? 2.4 : 1.2);
+  sun.intensity = Math.max(0, s) * 2.4 * (1 - cloud * 0.68);
   sun.color.setHSL(0.085, Math.min(1, Math.max(0, 0.9 - s)), 0.62 + 0.3 * Math.max(0, s));
   // Night must actually be DARK: the ambient and the image-based environment
   // both follow the sun down (they were pinned bright, so 22:00 looked like a
   // pale afternoon and the stars had nothing to shine against).
-  ambient.intensity = 0.08 + Math.max(0, s) * (clear ? 1.1 : 0.6);
+  ambient.intensity = 0.08 + Math.max(0, s) * (1.1 - cloud * 0.5);
   scene.environmentIntensity = 0.04 + Math.max(0, s) * 0.33;
   // The VISIBLE sun and moon riding the sky-dome — the Stonehenge money shot
   // works again: park the dial on a solstice sunrise and watch the disc clear
@@ -454,7 +458,7 @@ function applyWeather() {
   moonDisc.position.set(md.x * 208, md.y * 208, md.z * 208);
   moonDisc.visible = md.y > -0.03;
   // Stars fade up through dusk, hide under cloud.
-  starMat.opacity = clear ? Math.max(0, Math.min(0.9, -s * 5)) : 0;
+  starMat.opacity = Math.max(0, Math.min(0.9, -s * 5)) * (1 - cloud);
   starField.visible = starMat.opacity > 0.02;
   // Sky: night below the horizon, a warm band near it, blue when high — the
   // app's exact ramp, greyed over when the weather closes in.
@@ -465,12 +469,13 @@ function applyWeather() {
     skyColor.copy(NIGHT_SKY).lerp(DUSK_SKY, Math.min(1, k * 1.6));
     if (k > 0.62) skyColor.lerp(DAY_SKY, (k - 0.62) / 0.38);
   } else skyColor.copy(DAY_SKY);
-  if (!clear) skyColor.lerp(GREY_SKY, 0.65);
+  skyColor.lerp(GREY_SKY, cloud * 0.85);
   scene.background = skyColor;
-  scene.fog = clear ? null : new THREE.Fog(weather === 'snow' ? 0xc8d1da : 0x697683, 80, 320);
+  // Fog thickens with the cloud: none when clear, a true pea-souper at 1.
+  scene.fog = clear ? null : new THREE.Fog(precip === 'snow' ? 0xc8d1da : 0x697683, 110 - cloud * 92, 460 - cloud * 330);
   if (weatherFx) scene.remove(weatherFx);
   weatherFx = null;
-  if (weather === 'rain' || weather === 'snow') {
+  if (precip) {
     const positions = new Float32Array(420 * 3);
     for (let i = 0; i < 420; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 140;
@@ -480,8 +485,8 @@ function applyWeather() {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     weatherFx = new THREE.Points(geo, new THREE.PointsMaterial({
-      color: weather === 'rain' ? '#b6d4ed' : '#ffffff',
-      size: weather === 'rain' ? 0.3 : 0.75,
+      color: precip === 'rain' ? '#b6d4ed' : '#ffffff',
+      size: precip === 'rain' ? 0.3 : 0.75,
       transparent: true,
       opacity: 0.72,
     }));
@@ -698,6 +703,8 @@ function renderSky() {
     solarHours: sky.solarHours,
     auto: sky.auto,
     moonPhase: sky.moonPhase,
+    temperature: sky.temperature,
+    cloud: sky.cloud,
     latitude: site?.lat ?? 45,
     title: titleEl.value.trim() || site?.title || sel.value,
     onChange: (next) => {
@@ -880,6 +887,29 @@ function openGallery() {
 document.getElementById('galleryBtn')!.addEventListener('click', openGallery);
 document.getElementById('galleryClose')!.addEventListener('click', () => galleryEl.classList.remove('open'));
 
+// THE COMPASS — the app viewer's rose, as its own draggable window. The
+// needle tracks the camera: red always points TRUE NORTH (world −Z on the
+// calibrated satellite frame), the green tick east. The Captain's alignment
+// referee, now on hand in the Workshop at all times.
+const compassWin = document.createElement('div');
+compassWin.id = 'wshopCompassWin';
+compassWin.title = 'Compass — red points true north; drag to move';
+compassWin.style.cssText = 'position:fixed;left:14px;bottom:14px;width:74px;height:74px;z-index:11;cursor:move;touch-action:none;';
+compassWin.innerHTML =
+  '<svg viewBox="-32 -32 64 64" width="74" height="74" style="display:block">' +
+  '<circle r="30" fill="rgba(10,16,24,0.78)" stroke="rgba(201,162,75,0.55)" stroke-width="1.5"/>' +
+  '<g class="wshop-rose">' +
+  '<polygon points="0,-25 6,2 -6,2" fill="#ff3b2d"/>' +
+  '<polygon points="0,25 6,2 -6,2" fill="#c9d2da"/>' +
+  '<rect x="14" y="-2" width="11" height="4" rx="1" fill="#37c55f"/>' +
+  '<text x="0" y="-13" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="system-ui,sans-serif">N</text>' +
+  '</g></svg>';
+document.body.appendChild(compassWin);
+const roseEl = compassWin.querySelector('.wshop-rose') as SVGGElement;
+compassWin.addEventListener('pointerdown', (e) => {
+  startDrag(e as unknown as Parameters<typeof startDrag>[0], '#wshopCompassWin');
+});
+
 // The Workshop window drags by its title bar — the same grab-and-move the
 // app's floating windows use (native PointerEvent shares the React shape).
 document.getElementById('panelGrip')!.addEventListener('pointerdown', (e) => {
@@ -889,7 +919,7 @@ document.getElementById('panelGrip')!.addEventListener('pointerdown', (e) => {
 function loop() {
   if (weatherFx) {
     const positions = weatherFx.geometry.getAttribute('position') as THREE.BufferAttribute;
-    const weather = weatherEl?.value || 'clear';
+    const weather = precip || 'rain';
     for (let i = 0; i < positions.count; i++) {
       let y = positions.getY(i) - (weather === 'rain' ? 0.8 : 0.12);
       if (y < 0) y = 90;
@@ -909,6 +939,8 @@ function loop() {
     }
   }
   controls.update();
+  // The compass needle counter-rotates with the camera so red stays on true north.
+  roseEl.setAttribute('transform', `rotate(${THREE.MathUtils.radToDeg(controls.getAzimuthalAngle()).toFixed(1)})`);
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 }
