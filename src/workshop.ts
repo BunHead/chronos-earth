@@ -909,7 +909,9 @@ const simSpeedEl = document.getElementById('simSpeed') as HTMLInputElement;
 const simMsg = document.getElementById('simMsg') as HTMLDivElement;
 const COMPASS8 = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 function simReadouts() {
-  (document.getElementById('simThickVal')!).textContent = (+simThickEl.value).toFixed(1);
+  const th = Math.pow(10, +simThickEl.value);
+  (document.getElementById('simThickVal')!).textContent =
+    th >= 1e6 ? (th / 1e6).toFixed(1) + 'M' : th >= 1e3 ? (th / 1e3).toFixed(1) + 'k' : th.toFixed(1);
   const b = +simDirEl.value;
   (document.getElementById('simDirVal')!).textContent = `${b}° (${COMPASS8[Math.round(b / 45) % 8]})`;
   const v = +simSpeedEl.value;
@@ -948,7 +950,7 @@ function runCoverSim(seed?: number) {
   const token = simRunToken;
   const theSeed = seed ?? ((Math.random() * 1e9) | 0);
   const rng = mulberry32(theSeed);
-  const thickness = +simThickEl.value;
+  const thickness = Math.pow(10, +simThickEl.value); // log slider: 0.2 … 1,000,000
   const windFrom = (+simDirEl.value * Math.PI) / 180;
   const speed = +simSpeedEl.value;
   const tone = new THREE.Color(coverColorEl?.value || '#eef2f6');
@@ -965,7 +967,12 @@ function runCoverSim(seed?: number) {
   const footprint = Math.max(size.x, size.z) || 10;
   const spawnR = footprint * 0.95 + 4;
   const blobR = Math.max(0.02, footprint * 0.0015); // fine grains, not popcorn
-  const N = Math.round(3600 * thickness);
+  const N = Math.round(3600 * thickness); // grains REPRESENTED
+  // A million-thickness fall would be billions of rays — so we SAMPLE: up to
+  // ~240k rays learn the landing pattern, and every ray carries the weight of
+  // the grains behind it. Depth is true; time and memory stay flat.
+  const raysN = Math.min(N, 240_000);
+  const weight = N / raysN;
   // ACCUMULATION, not accumulation of instances (the Captain's ×100 answer):
   // grains landing where snow already lies MERGE into the existing drift —
   // volume grows with every grain (r ∝ ∛count, real physics), so memory is
@@ -996,18 +1003,19 @@ function runCoverSim(seed?: number) {
   let fired = 0;
   let landed = 0;
   const writeCell = (idx: number) => {
-    const depth = Math.cbrt(cellCount[idx]); // drift deepens with every grain
-    const r = cellBase[idx] * depth;
+    const g = Math.cbrt(cellCount[idx] * weight); // TRUE depth of the fall this cell represents
+    const rH = Math.min(cellBase[idx] * g, CELL * 3.1); // spread until neighbours knit into a blanket…
+    const rV = Math.min(cellBase[idx] * g * 0.38, footprint * 0.12); // …then the blanket DEEPENS
     m4.compose(
-      cellPos[idx].clone().addScaledVector(cellNorm[idx], r * 0.18),
+      cellPos[idx].clone().addScaledVector(cellNorm[idx], rV * 0.45),
       cellQuat[idx],
-      new THREE.Vector3(r, r * 0.38, r),
+      new THREE.Vector3(rH, rV, rH),
     );
     mesh.setMatrixAt(idx, m4);
   };
   const step = () => {
     if (token !== simRunToken) return; // cleared or re-run — stand down
-    const chunk = Math.min(650, N - fired);
+    const chunk = Math.min(650, raysN - fired);
     for (let i = 0; i < chunk; i++) {
       fired++;
       const ox = centre.x + (rng() - 0.5) * spawnR * 2;
@@ -1038,9 +1046,9 @@ function runCoverSim(seed?: number) {
       writeCell(idx);
     }
     mesh.instanceMatrix.needsUpdate = true;
-    simMsg.textContent = `${fired.toLocaleString()} / ${N.toLocaleString()} fallen · ${landed.toLocaleString()} settled in ${cells.size.toLocaleString()} drifts`;
-    if (fired < N) requestAnimationFrame(step);
-    else simMsg.textContent = `Done — ${landed.toLocaleString()} grains in ${cells.size.toLocaleString()} drifts (seed ${theSeed}).`;
+    simMsg.textContent = `${Math.round(fired * weight).toLocaleString()} / ${N.toLocaleString()} fallen · ${cells.size.toLocaleString()} drifts`;
+    if (fired < raysN) requestAnimationFrame(step);
+    else simMsg.textContent = `Done — ${Math.round(landed * weight).toLocaleString()} grains in ${cells.size.toLocaleString()} drifts (seed ${theSeed}).`;
   };
   step();
 }
