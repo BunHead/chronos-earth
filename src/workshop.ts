@@ -615,6 +615,7 @@ function pristineFootprint(model: string, title: string): number {
 }
 
 let lastFramedKey = '';
+let lastSimModel = ''; // saved falls replay only when the SUBJECT changes
 
 function show(model: string, title: string, stage: number) {
   if (current) scene.remove(current);
@@ -718,6 +719,10 @@ function show(model: string, title: string, stage: number) {
   }
   // Reframe the camera only when the SUBJECT changes — stepping through life
   // phases keeps your viewpoint planted instead of lurching every click.
+  if (model !== lastSimModel) {
+    lastSimModel = model;
+    restoreSimFall(model);
+  }
   const frameKey = `${model}|${terrainEl.checked}`;
   if (frameKey !== lastFramedKey) {
     lastFramedKey = frameKey;
@@ -883,6 +888,160 @@ for (const button of phaseBtns) button.addEventListener('click', (e) => {
 });
 weatherEl?.addEventListener('change', applyWeather);
 // (The ¾/Top/Side buttons are gone — orbit does the viewing now.)
+
+// ─────────────────────────────────────────────────────────────────────────
+// THE COVERING SIMULATOR — the Captain's toy. Particles fall along a
+// wind-tilted vector and are RAYCAST against the actual model: deposits grow
+// only where a surface faces the fall, so flat tops load up, 45° roofs catch
+// their share, steep faces and lee walls stay bare, and the building throws a
+// real "snow shadow" on the ground downwind — physics, not angle rules.
+// Deterministic per seed; Save keeps params+seed per model and the fall
+// replays when you return. Colour rides the Covered wheel.
+// ─────────────────────────────────────────────────────────────────────────
+const simThickEl = document.getElementById('simThick') as HTMLInputElement;
+const simDirEl = document.getElementById('simDir') as HTMLInputElement;
+const simSpeedEl = document.getElementById('simSpeed') as HTMLInputElement;
+const simMsg = document.getElementById('simMsg') as HTMLDivElement;
+const COMPASS8 = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+function simReadouts() {
+  (document.getElementById('simThickVal')!).textContent = (+simThickEl.value).toFixed(1);
+  const b = +simDirEl.value;
+  (document.getElementById('simDirVal')!).textContent = `${b}° (${COMPASS8[Math.round(b / 45) % 8]})`;
+  const v = +simSpeedEl.value;
+  (document.getElementById('simSpeedVal')!).textContent = v < 0.15 ? 'calm' : v < 0.45 ? 'breeze' : v < 0.75 ? 'strong' : 'gale';
+}
+for (const el of [simThickEl, simDirEl, simSpeedEl]) el.addEventListener('input', simReadouts);
+simReadouts();
+
+function mulberry32(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+let simDeposits: THREE.InstancedMesh | null = null;
+let simRunToken = 0;
+const simBlobGeo = new THREE.SphereGeometry(1, 7, 5);
+
+function clearSim() {
+  simRunToken++;
+  if (simDeposits) {
+    scene.remove(simDeposits);
+    (simDeposits.material as THREE.Material).dispose();
+    simDeposits = null;
+  }
+  simMsg.textContent = '';
+}
+
+function runCoverSim(seed?: number) {
+  if (!current) return;
+  clearSim();
+  const token = simRunToken;
+  const theSeed = seed ?? ((Math.random() * 1e9) | 0);
+  const rng = mulberry32(theSeed);
+  const thickness = +simThickEl.value;
+  const windFrom = (+simDirEl.value * Math.PI) / 180;
+  const speed = +simSpeedEl.value;
+  const tone = new THREE.Color(coverColorEl?.value || '#eef2f6');
+  // Wind FROM bearing B blows TOWARD the opposite point (world: north = −Z).
+  const toward = new THREE.Vector3(-Math.sin(windFrom), 0, Math.cos(windFrom));
+  const fall = toward.multiplyScalar(speed * 0.95).add(new THREE.Vector3(0, -1, 0)).normalize();
+  const against = fall.clone().negate();
+  const targets: THREE.Object3D[] = [];
+  current.traverse((o) => { if (o instanceof THREE.Mesh && !o.userData.noShadow) targets.push(o); });
+  if (disc) targets.push(disc);
+  const box = boxOf(current);
+  const size = box.getSize(new THREE.Vector3());
+  const centre = box.getCenter(new THREE.Vector3());
+  const footprint = Math.max(size.x, size.z) || 10;
+  const spawnR = footprint * 0.95 + 4;
+  const blobR = Math.max(0.06, footprint * 0.014);
+  const N = Math.round(2400 * thickness);
+  const mesh = new THREE.InstancedMesh(simBlobGeo, new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }), N);
+  mesh.count = 0;
+  mesh.userData.noShadow = true;
+  scene.add(mesh);
+  simDeposits = mesh;
+  const ray = new THREE.Raycaster();
+  const up = new THREE.Vector3(0, 1, 0);
+  const m4 = new THREE.Matrix4();
+  const q = new THREE.Quaternion();
+  const n3 = new THREE.Matrix3();
+  let fired = 0;
+  let landed = 0;
+  const step = () => {
+    if (token !== simRunToken) return; // cleared or re-run — stand down
+    const chunk = Math.min(320, N - fired);
+    for (let i = 0; i < chunk; i++) {
+      fired++;
+      const ox = centre.x + (rng() - 0.5) * spawnR * 2;
+      const oz = centre.z + (rng() - 0.5) * spawnR * 2;
+      const origin = new THREE.Vector3(ox, box.max.y + 6, oz).addScaledVector(fall, -30);
+      ray.set(origin, fall);
+      const hit = ray.intersectObjects(targets, false)[0];
+      if (!hit || !hit.face) continue;
+      const worldN = hit.face.normal.clone().applyMatrix3(n3.getNormalMatrix(hit.object.matrixWorld)).normalize();
+      if (worldN.dot(against) < 0.35) continue; // this face sheds the fall
+      const r = blobR * (0.7 + rng() * 0.7);
+      q.setFromUnitVectors(up, worldN);
+      m4.compose(
+        hit.point.clone().addScaledVector(worldN, r * 0.18),
+        q,
+        new THREE.Vector3(r, r * 0.38, r),
+      );
+      mesh.setMatrixAt(landed++, m4);
+    }
+    mesh.count = landed;
+    mesh.instanceMatrix.needsUpdate = true;
+    simMsg.textContent = `${fired.toLocaleString()} / ${N.toLocaleString()} fallen · ${landed.toLocaleString()} settled`;
+    if (fired < N) requestAnimationFrame(step);
+    else simMsg.textContent = `Done — ${landed.toLocaleString()} of ${N.toLocaleString()} settled (seed ${theSeed}).`;
+  };
+  step();
+}
+
+document.getElementById('simRun')!.addEventListener('click', () => runCoverSim());
+document.getElementById('simClear')!.addEventListener('click', clearSim);
+document.getElementById('simSave')!.addEventListener('click', () => {
+  const saved = {
+    seed: lastSimSeedFrom(simMsg.textContent) ?? ((Math.random() * 1e9) | 0),
+    thickness: +simThickEl.value,
+    dir: +simDirEl.value,
+    speed: +simSpeedEl.value,
+    colour: coverColorEl?.value || '#eef2f6',
+  };
+  try {
+    localStorage.setItem(`ce_simfall_${sel.value}`, JSON.stringify(saved));
+    simMsg.textContent = 'Saved — this fall replays whenever you return to this model.';
+  } catch {
+    simMsg.textContent = 'Could not save (storage blocked).';
+  }
+});
+function lastSimSeedFrom(text: string | null): number | null {
+  const m = /seed (\d+)/.exec(text ?? '');
+  return m ? +m[1] : null;
+}
+/** Replay a saved fall for the current model (called when the model changes). */
+function restoreSimFall(model: string) {
+  try {
+    const raw = localStorage.getItem(`ce_simfall_${model}`);
+    if (!raw) return;
+    const s = JSON.parse(raw) as { seed: number; thickness: number; dir: number; speed: number; colour: string };
+    simThickEl.value = String(s.thickness);
+    simDirEl.value = String(s.dir);
+    simSpeedEl.value = String(s.speed);
+    if (coverColorEl) coverColorEl.value = s.colour;
+    simReadouts();
+    runCoverSim(s.seed);
+    simMsg.textContent = 'Saved fall restored…';
+  } catch {
+    /* corrupt save — ignore */
+  }
+}
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
