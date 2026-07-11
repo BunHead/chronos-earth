@@ -3,7 +3,7 @@
  * PanelContent shape the InfoPanel renders.
  */
 import type { AncientSite, Battle, EventCategory, Fauna, PanelContent, PanelSection, TimelineEvent } from './types';
-import { isModelRejected } from './review';
+import { isBattleRejected, isModelRejected } from './review';
 
 const SITE_KICKER: Record<AncientSite['category'], string> = {
   monument: 'Ancient monument',
@@ -173,8 +173,9 @@ export function battleToPanel(battle: Battle): PanelContent {
     links: battle.links,
     fly: { lon: battle.lon, lat: battle.lat, altitude: BATTLE_FLY_ALTITUDE },
     // Every battle opens a battlefield now — hand-crafted where we have one,
-    // auto-generated otherwise (see lib/synthBattle.ts).
-    battleId: battle.id,
+    // auto-generated otherwise (see lib/synthBattle.ts) — unless the Captain
+    // has Rejected this battle's choreography in the Workshop.
+    ...(isBattleRejected(battle.id) ? {} : { battleId: battle.id }),
   };
 }
 

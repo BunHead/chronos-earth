@@ -12,6 +12,9 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 import SkyDial from './components/SkyDial';
+import Battle3D from './components/Battle3D';
+import { synthesizeBattleView } from './lib/synthBattle';
+import type { Battle, BattleView } from './lib/types';
 import { startDrag } from './lib/windowDrag';
 import { sunDirection } from './lib/sun';
 import { BRIGHT_STARS, localSiderealHours, starDirection } from './lib/stars';
@@ -1172,6 +1175,151 @@ document.body.appendChild(compassWin);
 const roseEl = compassWin.querySelector('.wshop-rose') as SVGGElement;
 compassWin.addEventListener('pointerdown', (e) => {
   startDrag(e as unknown as Parameters<typeof startDrag>[0], '#wshopCompassWin');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+// THE BATTLES WING (Stage D). Pick any curated battle, open its battlefield
+// in a floating window — hand-crafted choreography where one exists, the
+// synthesizer otherwise — step the phases, and (as maker) review it with the
+// same Approve / Allow / Reject / notes / queue as the monuments. Reviews
+// live in the same file under "battle:{id}"; a Rejected battle loses its 3D
+// button in the app. ~800 auto-generated battlefields, finally reviewable.
+// ─────────────────────────────────────────────────────────────────────────
+const bFilter = document.getElementById('bFilter') as HTMLInputElement;
+const bSel = document.getElementById('bSel') as HTMLSelectElement;
+const bPhaseRow = document.getElementById('bPhaseRow') as HTMLDivElement;
+const bPhaseLabel = document.getElementById('bPhaseLabel') as HTMLSpanElement;
+const bBadge = document.getElementById('bBadge') as HTMLSpanElement;
+const bNote = document.getElementById('bNote') as HTMLTextAreaElement;
+const bMsg = document.getElementById('bMsg') as HTMLDivElement;
+const battleWin = document.getElementById('battleWin') as HTMLDivElement;
+const battleHost = document.getElementById('battleHost') as HTMLDivElement;
+const battleTitle = document.getElementById('battleTitle') as HTMLSpanElement;
+
+let battles: Battle[] = [];
+let battleViews: Record<string, BattleView> = {};
+let battlePhase = 0;
+let battleOpenId: string | null = null;
+const battleRoot = createRoot(battleHost);
+
+fetch('./data/battles.json')
+  .then((r) => r.json())
+  .then((d) => {
+    battles = (d.battles ?? d) as Battle[];
+    populateBattles();
+  })
+  .catch(() => { bMsg.textContent = 'Battle data failed to load.'; });
+fetch('./data/battle-views.json')
+  .then((r) => r.json())
+  .then((d) => { battleViews = (d.views ?? d) as Record<string, BattleView>; })
+  .catch(() => { /* the synthesizer covers everything */ });
+
+function populateBattles(filter = '') {
+  const f = filter.trim().toLowerCase();
+  const prev = bSel.value;
+  bSel.innerHTML = '';
+  for (const b of [...battles].sort((a, z) => a.name.localeCompare(z.name))) {
+    if (f && !b.name.toLowerCase().includes(f)) continue;
+    const o = document.createElement('option');
+    o.value = b.id;
+    o.textContent = `${b.name} · ${b.dateLabel}`;
+    bSel.appendChild(o);
+  }
+  if ([...bSel.options].some((o) => o.value === prev)) bSel.value = prev;
+}
+bFilter.addEventListener('input', () => populateBattles(bFilter.value));
+
+function currentBattleView(): { battle: Battle; view: BattleView } | null {
+  const battle = battles.find((b) => b.id === bSel.value);
+  if (!battle) return null;
+  const view = battleViews[battle.id] ?? synthesizeBattleView(battle);
+  return { battle, view };
+}
+
+function renderBattle() {
+  const cur = currentBattleView();
+  if (!cur) return;
+  const { battle, view } = cur;
+  battlePhase = Math.max(0, Math.min(battlePhase, view.phases.length - 1));
+  battleRoot.render(createElement(Battle3D, {
+    view,
+    phase: battlePhase,
+    showGround: true,
+    lat: battle.lat,
+    lon: battle.lon,
+  }));
+  battleTitle.textContent = `${battle.name} — ${battle.dateLabel}`;
+  const ph = view.phases[battlePhase];
+  bPhaseLabel.textContent = `Phase ${battlePhase + 1}/${view.phases.length} · ${ph?.name ?? ''}`;
+  bPhaseRow.style.display = 'flex';
+}
+
+document.getElementById('bOpen')!.addEventListener('click', () => {
+  if (!bSel.value) return;
+  battleOpenId = bSel.value;
+  battlePhase = 0;
+  battleWin.classList.add('open');
+  renderBattle();
+  renderBattleReview();
+});
+document.getElementById('battleClose')!.addEventListener('click', () => {
+  battleWin.classList.remove('open');
+  battleRoot.render(null); // unmount so the scene tears down properly
+  battleOpenId = null;
+});
+document.getElementById('bPrev')!.addEventListener('click', () => { battlePhase--; renderBattle(); });
+document.getElementById('bNext')!.addEventListener('click', () => { battlePhase++; renderBattle(); });
+bSel.addEventListener('change', () => {
+  battlePhase = 0;
+  if (battleOpenId) { battleOpenId = bSel.value; renderBattle(); }
+  renderBattleReview();
+});
+document.getElementById('battleGrip')!.addEventListener('pointerdown', (e) => {
+  startDrag(e as unknown as Parameters<typeof startDrag>[0], '#battleWin');
+});
+
+// ── battle review — same store, "battle:{id}" keys ────────────────────────
+const bVerdictBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('#bVerdict button'));
+const battleKey = () => `battle:${bSel.value}`;
+
+function renderBattleReview() {
+  if (!bSel.value) return;
+  const rec = reviewData[battleKey()] || {};
+  bBadge.textContent = rec.status
+    ? rec.status === 'approved' ? 'Approved' : rec.status === 'allowed' ? 'Allowed for now' : 'Rejected — no 3D button'
+    : rec.rework ? 'Rework queued' : 'Unreviewed';
+  bBadge.className = `gbadge ${rec.status ?? (rec.rework ? 'rework' : '')}`;
+  for (const b of bVerdictBtns) b.setAttribute('aria-pressed', String(b.dataset.v === rec.status));
+  bNote.value = rec.note || '';
+}
+
+async function persistBattle() {
+  bMsg.textContent = 'Saving…';
+  const res = await saveReview(reviewData);
+  bMsg.textContent = res.msg;
+}
+
+for (const b of bVerdictBtns) {
+  b.addEventListener('click', () => {
+    const rec = (reviewData[battleKey()] ||= {});
+    rec.status = rec.status === b.dataset.v ? undefined : (b.dataset.v as ReviewStatus);
+    rec.ts = Date.now();
+    renderBattleReview();
+    persistBattle();
+  });
+}
+bNote.addEventListener('change', () => {
+  const rec = (reviewData[battleKey()] ||= {});
+  rec.note = bNote.value.trim() || undefined;
+  rec.ts = Date.now();
+  persistBattle();
+});
+document.getElementById('bQueue')!.addEventListener('click', () => {
+  const rec = (reviewData[battleKey()] ||= {});
+  rec.rework = true;
+  rec.ts = Date.now();
+  renderBattleReview();
+  persistBattle();
 });
 
 // The Workshop window drags by its title bar — the same grab-and-move the

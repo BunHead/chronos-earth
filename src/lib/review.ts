@@ -135,19 +135,29 @@ export async function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: 
 // ── app-side rejection (data-driven NO_3D) ─────────────────────────────────
 // A model the Captain has Rejected shows the real photo instead of a wrong 3D,
 // exactly like the hand-maintained NO_3D_NAMES list — but chosen from the
-// Workshop, no code change. The set starts empty (so the parity tests, which
-// never call the loader, see the pure name→model logic unchanged).
+// Workshop, no code change. Battle reviews live in the SAME file under
+// "battle:{id}" keys; a Rejected battle loses its 3D-battlefield button.
+// The sets start empty (so the parity tests, which never call the loader,
+// see the pure name→model logic unchanged).
 const rejectedModels = new Set<string>();
+const rejectedBattles = new Set<string>();
 
-/** Fetch the review file and mark every Rejected archetype for suppression. */
+/** Fetch the review file and mark every Rejected item for suppression. */
 export async function loadRejectedModels(): Promise<void> {
   const data = await loadReview();
   rejectedModels.clear();
-  for (const [model, rec] of Object.entries(data)) {
-    if (rec.status === 'rejected') rejectedModels.add(model);
+  rejectedBattles.clear();
+  for (const [key, rec] of Object.entries(data)) {
+    if (rec.status !== 'rejected') continue;
+    if (key.startsWith('battle:')) rejectedBattles.add(key.slice(7));
+    else rejectedModels.add(key);
   }
 }
 
 export function isModelRejected(model: string | null | undefined): boolean {
   return !!model && rejectedModels.has(model);
+}
+
+export function isBattleRejected(id: string | null | undefined): boolean {
+  return !!id && rejectedBattles.has(id);
 }
