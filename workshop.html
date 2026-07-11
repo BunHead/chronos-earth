@@ -180,6 +180,31 @@
       </details>
 
       <details>
+        <summary>Battles</summary>
+        <input id="bFilter" type="text" placeholder="🔍 Filter battles…" autocomplete="off" style="margin:8px 0 6px;" />
+        <select id="bSel" size="1"></select>
+        <div class="row">
+          <button id="bOpen">⚔️ Open battlefield</button>
+        </div>
+        <div class="row" id="bPhaseRow" style="display:none;">
+          <button id="bPrev">⏮</button>
+          <span id="bPhaseLabel" style="flex:2;align-self:center;text-align:center;font-size:11px;color:#b9cadb;"></span>
+          <button id="bNext">⏭</button>
+        </div>
+        <div id="bReview" class="locked" style="margin-top:9px;">
+          <span id="bBadge" class="gbadge">Unreviewed</span>
+          <div class="verdict" id="bVerdict">
+            <button class="approve" data-v="approved" aria-pressed="false">Approve</button>
+            <button class="allow" data-v="allowed" aria-pressed="false">Allow</button>
+            <button class="reject" data-v="rejected" aria-pressed="false">Reject</button>
+          </div>
+          <textarea id="bNote" rows="2" placeholder="e.g. cavalry should flank from the ridge"></textarea>
+          <div class="row"><button id="bQueue">Queue rework</button></div>
+          <div id="bMsg" class="site-note" style="min-height:13px;"></div>
+        </div>
+      </details>
+
+      <details>
         <summary>Time &amp; life</summary>
         <div id="extra">
           <label id="slabel" for="slider">Stage</label>
@@ -214,30 +239,7 @@
         <div id="simMsg" class="site-note" style="min-height:14px;"></div>
       </details>
 
-      <details>
-        <summary>Battles</summary>
-        <input id="bFilter" type="text" placeholder="🔍 Filter battles…" autocomplete="off" style="margin:8px 0 6px;" />
-        <select id="bSel" size="1"></select>
-        <div class="row">
-          <button id="bOpen">⚔️ Open battlefield</button>
-        </div>
-        <div class="row" id="bPhaseRow" style="display:none;">
-          <button id="bPrev">⏮</button>
-          <span id="bPhaseLabel" style="flex:2;align-self:center;text-align:center;font-size:11px;color:#b9cadb;"></span>
-          <button id="bNext">⏭</button>
-        </div>
-        <div id="bReview" class="locked" style="margin-top:9px;">
-          <span id="bBadge" class="gbadge">Unreviewed</span>
-          <div class="verdict" id="bVerdict">
-            <button class="approve" data-v="approved" aria-pressed="false">Approve</button>
-            <button class="allow" data-v="allowed" aria-pressed="false">Allow</button>
-            <button class="reject" data-v="rejected" aria-pressed="false">Reject</button>
-          </div>
-          <textarea id="bNote" rows="2" placeholder="e.g. cavalry should flank from the ridge"></textarea>
-          <div class="row"><button id="bQueue">Queue rework</button></div>
-          <div id="bMsg" class="site-note" style="min-height:13px;"></div>
-        </div>
-      </details>
+      
 
 
       <details>

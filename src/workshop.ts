@@ -815,6 +815,7 @@ function renderSky() {
       Object.assign(sky, next);
       renderSky();
       applyWeather();
+      syncBattleLight();
     },
   }));
 }
@@ -824,6 +825,7 @@ setInterval(() => {
   sky.solarHours = (sky.solarHours + 0.03) % 24;
   renderSky();
   applyWeather();
+  syncBattleLight(); // dawn breaks over the battlefield too
 }, 80);
 const phaseBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('#phaseRow button'));
 
@@ -962,8 +964,8 @@ function runCoverSim(seed?: number) {
   const centre = box.getCenter(new THREE.Vector3());
   const footprint = Math.max(size.x, size.z) || 10;
   const spawnR = footprint * 0.95 + 4;
-  const blobR = Math.max(0.06, footprint * 0.014);
-  const N = Math.round(2400 * thickness);
+  const blobR = Math.max(0.02, footprint * 0.0015); // fine grains, not popcorn (Captain: ~10× smaller)
+  const N = Math.round(3600 * thickness);
   const mesh = new THREE.InstancedMesh(simBlobGeo, new THREE.MeshStandardMaterial({ color: tone, roughness: 1 }), N);
   mesh.count = 0;
   mesh.userData.noShadow = true;
@@ -1236,22 +1238,41 @@ function currentBattleView(): { battle: Battle; view: BattleView } | null {
   return { battle, view };
 }
 
+function battleTimeBand(): 'dawn' | 'day' | 'dusk' | 'night' {
+  const h = sky.solarHours;
+  if (h < 5.5 || h > 20.5) return 'night';
+  if (h < 8) return 'dawn';
+  if (h > 17.5) return 'dusk';
+  return 'day';
+}
+let lastBattleBand: string = '';
+
 function renderBattle() {
   const cur = currentBattleView();
   if (!cur) return;
   const { battle, view } = cur;
   battlePhase = Math.max(0, Math.min(battlePhase, view.phases.length - 1));
+  lastBattleBand = battleTimeBand();
   battleRoot.render(createElement(Battle3D, {
     view,
     phase: battlePhase,
     showGround: true,
     lat: battle.lat,
     lon: battle.lon,
+    // The dial's clock lights the battlefield: dawn breaks, dusk falls, night
+    // closes in — re-rendered only when the BAND changes, never per tick.
+    timeOfDay: lastBattleBand as 'dawn' | 'day' | 'dusk' | 'night',
   }));
   battleTitle.textContent = `${battle.name} — ${battle.dateLabel}`;
   const ph = view.phases[battlePhase];
   bPhaseLabel.textContent = `Phase ${battlePhase + 1}/${view.phases.length} · ${ph?.name ?? ''}`;
   bPhaseRow.style.display = 'flex';
+}
+
+/** Re-light an open battlefield when the dial crosses a time band — bands,
+ * never ticks, so the heavy battle scene only rebuilds at dawn/dusk/night. */
+function syncBattleLight() {
+  if (battleOpenId && battleTimeBand() !== lastBattleBand) renderBattle();
 }
 
 document.getElementById('bOpen')!.addEventListener('click', () => {
