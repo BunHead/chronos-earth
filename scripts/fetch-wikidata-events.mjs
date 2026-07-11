@@ -188,6 +188,58 @@ async function main() {
     await writeFile(FILE, JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }));
   }
 
+  // WORLD SWEEP — the Captain's order: the TOP 3 MONUMENTS OF EVERY COUNTRY.
+  // One global query (famous monuments/heritage sites with a country and a
+  // date, ranked by sitelinks), grouped per country client-side, keeping each
+  // country's three most famous. Feeds both the map and the modeller pipeline
+  // (names flow through the same archetype classifier as everything else).
+  process.stdout.write('\n=== world: top 3 monuments per country ===\n');
+  try {
+    const rows = await runQuery(`SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki ?country WHERE {
+  VALUES ?mtype { wd:Q4989906 wd:Q839954 wd:Q570116 wd:Q12518 wd:Q16970 wd:Q23413 wd:Q9259 }
+  { ?item wdt:P31 ?mtype . } UNION { ?item wdt:P1435 wd:Q9259 . }
+  ?item wdt:P17 ?country ; wdt:P625 ?coord ; wdt:P571 ?date ; wikibase:sitelinks ?sl .
+  FILTER(?sl >= 20)
+  OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+} ORDER BY DESC(?sl) LIMIT 3000`);
+    const perCountry = new Map();
+    let added = 0;
+    for (const r of rows) {
+      try {
+        const qid = r.item?.value?.split('/').pop();
+        const country = r.country?.value ?? '';
+        if (!qid || !country) continue;
+        const taken = perCountry.get(country) ?? 0;
+        if (taken >= 3 && !byId.has(qid)) continue; // three per country is the order
+        const name = r.itemLabel?.value ?? '';
+        if (!name || /^Q\d+$/.test(name)) continue;
+        const coord = parseCoord(r.coord?.value ?? '');
+        const year = parseYear(r.date?.value ?? '');
+        if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
+        perCountry.set(country, taken + 1);
+        if (byId.has(qid)) continue;
+        byId.set(qid, {
+          id: qid.toLowerCase(),
+          name,
+          startYear: year,
+          lat: +coord.lat.toFixed(4),
+          lon: +coord.lon.toFixed(4),
+          category: 'monument',
+          wikidataId: qid,
+          ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
+          notability: parseInt(r.sl?.value ?? '0', 10) || 0,
+        });
+        added++;
+      } catch {
+        /* skip malformed rows */
+      }
+    }
+    console.log(`  world monuments  +${added} across ${perCountry.size} countries (total ${byId.size})`);
+  } catch (e) {
+    console.error(`  world monuments: failed (${e.message})`);
+  }
+
   // The union can never shrink below what was already on file, so it's always
   // safe to write — even a half-finished or partly-failed run leaves the dataset
   // bigger, never broken. No more "not writing to be safe".
