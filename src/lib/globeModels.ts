@@ -84,6 +84,20 @@ function addPlacement(p: Placement): void {
       scale,
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, REVEAL_DISTANCE),
+      // Monuments sleep at night: glTF models carry their own light, so
+      // when the Weather & Sky dial darkens the real globe they would
+      // otherwise glow against black ground ("raised into the heavens" —
+      // the Captain, 2026-07-12). Dim them by local solar time whenever
+      // real sun lighting is on.
+      color: new Cesium.CallbackProperty(() => {
+        const v = theViewer;
+        if (!v || !v.scene.globe.enableLighting) return Cesium.Color.WHITE;
+        const d = Cesium.JulianDate.toDate(v.clock.currentTime);
+        const solar = (d.getUTCHours() + d.getUTCMinutes() / 60 + p.lon / 15 + 24) % 24;
+        const day = Math.max(0, Math.min(1, (Math.cos(((solar - 12) / 12) * Math.PI) + 0.3) / 0.9));
+        const k = 0.12 + 0.88 * day;
+        return new Cesium.Color(k, k, k, 1);
+      }, false) as unknown as Cesium.Property,
     },
     show: false, // the timeline decides
   });

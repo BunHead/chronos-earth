@@ -24,6 +24,15 @@ const FIELD_M = 3000;
 /** How long a phase movement takes on screen (ms). */
 const ANIM_MS = 1600;
 
+/** Effects shrink as you pull back so the terrain always stays readable
+ * (the Captain's D-Day was disappearing under its own smoke). */
+function fxScaleByDistance(): Cesium.NearFarScalar {
+  return new Cesium.NearFarScalar(1_500, 1, 18_000, 0.3);
+}
+function fxFadeByDistance(): Cesium.NearFarScalar {
+  return new Cesium.NearFarScalar(9_000, 1, 30_000, 0);
+}
+
 /* ---- sprite artwork (tiny canvases, built lazily so tests never touch DOM) ---- */
 
 function glowCanvas(inner: string, outer: string): HTMLCanvasElement {
@@ -162,6 +171,7 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        scaleByDistance: new Cesium.NearFarScalar(2_000, 1, 25_000, 0.55),
       },
       label: {
         text: u.label,
@@ -195,13 +205,15 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
         image: sprite(u.shape === 'ship' ? 'wake' : u.shape === 'plane' ? 'smoke' : 'dust'),
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        scaleByDistance: fxScaleByDistance(),
+        translucencyByDistance: fxFadeByDistance(),
         scale: new Cesium.CallbackProperty(() => {
           const p = moveProgress(track);
-          return p >= 1 ? 0 : 0.7 + p * 1.3;
+          return p >= 1 ? 0 : 0.45 + p * 0.7;
         }, false) as unknown as Cesium.Property,
         color: new Cesium.CallbackProperty(() => {
           const p = moveProgress(track);
-          return Cesium.Color.WHITE.withAlpha(p >= 1 ? 0 : 0.75 * (1 - p * 0.6));
+          return Cesium.Color.WHITE.withAlpha(p >= 1 ? 0 : 0.55 * (1 - p * 0.6));
         }, false) as unknown as Cesium.Property,
       },
     });
@@ -255,12 +267,14 @@ export function setGlobeBattlePhase(view: BattleView, idx: number): void {
           image: sprite('fire'),
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          scaleByDistance: fxScaleByDistance(),
+          translucencyByDistance: fxFadeByDistance(),
           scale: new Cesium.CallbackProperty(
-            () => 0.9 + 0.35 * Math.sin(performance.now() / 90 + seed),
+            () => 0.45 + 0.15 * Math.sin(performance.now() / 90 + seed),
             false,
           ) as unknown as Cesium.Property,
           color: new Cesium.CallbackProperty(
-            () => Cesium.Color.WHITE.withAlpha(0.65 + 0.3 * Math.sin(performance.now() / 130 + seed * 2)),
+            () => Cesium.Color.WHITE.withAlpha(0.55 + 0.25 * Math.sin(performance.now() / 130 + seed * 2)),
             false,
           ) as unknown as Cesium.Property,
         },
@@ -271,13 +285,15 @@ export function setGlobeBattlePhase(view: BattleView, idx: number): void {
           image: sprite('smoke'),
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          pixelOffset: new Cesium.Cartesian2(6, -18),
+          pixelOffset: new Cesium.Cartesian2(5, -12),
+          scaleByDistance: fxScaleByDistance(),
+          translucencyByDistance: fxFadeByDistance(),
           scale: new Cesium.CallbackProperty(
-            () => 1.6 + 0.5 * Math.sin(performance.now() / 700 + seed),
+            () => 0.8 + 0.25 * Math.sin(performance.now() / 700 + seed),
             false,
           ) as unknown as Cesium.Property,
           color: new Cesium.CallbackProperty(
-            () => Cesium.Color.WHITE.withAlpha(0.35 + 0.15 * Math.sin(performance.now() / 900 + seed)),
+            () => Cesium.Color.WHITE.withAlpha(0.2 + 0.1 * Math.sin(performance.now() / 900 + seed)),
             false,
           ) as unknown as Cesium.Property,
         },

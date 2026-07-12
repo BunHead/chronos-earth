@@ -17,6 +17,7 @@ import AppMenu from './components/AppMenu';
 import CompareMode from './components/CompareMode';
 import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
+import WeatherOverlay from './components/WeatherOverlay';
 import { ensurePlacement } from './lib/globeModels';
 import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
@@ -634,6 +635,7 @@ export default function App() {
       {showAbout && <About onClose={() => setShowAbout(false)} />}
 
       {skyOpen && (
+        <div className="app-sky">
         <SkyDial
           date={sky.date}
           solarHours={sky.solarHours}
@@ -643,9 +645,35 @@ export default function App() {
           cloud={sky.cloud}
           latitude={viewRegion ? (viewRegion.s + viewRegion.n) / 2 : 51.5}
           title="the globe"
-          onChange={(next) => setSky((s) => ({ ...s, ...next }))}
+          onChange={(next) => {
+            setSky((s) => ({ ...s, ...next }));
+            // The sun commands the field: dragging time forward or back
+            // marches the battle to the phase that hour belongs to.
+            if (globeBattle && next.solarHours != null) {
+              const idx = Math.max(
+                0,
+                Math.min(
+                  globeBattle.view.phases.length - 1,
+                  Math.round((next.solarHours - 9.5) / 1.5),
+                ),
+              );
+              if (idx !== globeBattle.phase) {
+                setGlobeBattlePhase(globeBattle.view, idx);
+                setGlobeBattle({ ...globeBattle, phase: idx });
+              }
+            }
+          }}
         />
+        </div>
       )}
+
+      {/* The dial's weather, painted over the air when you're down low. */}
+      <WeatherOverlay
+        temperature={sky.temperature}
+        cloud={sky.cloud}
+        active={skyOpen && !!viewRegion && viewRegion.n - viewRegion.s < 4}
+        reduceMotion={reduceMotion}
+      />
 
       {compassOpen && (
         <CompassFrame

@@ -2446,6 +2446,18 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
 }
 .cf-read { font-size: 11px; color: #9fb3c7; font-variant-numeric: tabular-nums; }
 
+/* ── The dial's weather painted over the globe (screen-space canvas) ──── */
+.weather-overlay {
+  position: fixed; inset: 0; z-index: 24; pointer-events: none;
+}
+
+/* ── Weather & Sky's home in the main app: top-left, clear of the info
+   panel (which owns the right edge). Still draggable anywhere. ────────── */
+.app-sky {
+  position: fixed; left: 20px; top: 120px; z-index: 32;
+}
+.app-sky .sky-dial { position: relative; right: auto; top: auto; bottom: auto; }
+
 /* ── Battle HUD — the story strip for battles fought on the globe ─────── */
 .battle-hud {
   position: fixed; left: 50%; bottom: 150px; transform: translateX(-50%);

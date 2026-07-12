@@ -25,8 +25,8 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'sphinx', widthM: 73, facingDeg: 90 }, // the Sphinx faces due east
   { match: 'colosseum', widthM: 190 },
   { match: 'parthenon', widthM: 70, facingDeg: 0 }, // long axis E–W on the Acropolis; model long axis=local X, so θ=0 lays it E–W (facing 90 wrongly ran it N–S)
-  { match: 'notre-dame', widthM: 130, facingDeg: 270 }, // twin-tower west front (model +Z) faces west; θ=180−270. facing 90 wrongly pointed towers east
-  { match: 'notre dame', widthM: 130, facingDeg: 270 }, // twin-tower west front (model +Z) faces west; θ=180−270. facing 90 wrongly pointed towers east
+  { match: 'notre-dame', widthM: 130, facingDeg: 240 }, // Captain's globe eyeball 2026-07-12: 270 sat ~30° anticlockwise of the real footprint on the Île de la Cité — turned 30° clockwise
+  { match: 'notre dame', widthM: 130, facingDeg: 240 }, // Captain's globe eyeball 2026-07-12: matches the hyphenated entry above
   { match: 'hagia sophia', widthM: 82 },
   { match: 'pantheon', widthM: 44 },
   { match: 'taj mahal', widthM: 95 },

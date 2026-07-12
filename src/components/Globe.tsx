@@ -374,19 +374,28 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const flyToMonument = (lon: number, lat: number, widthM: number) => {
     const viewer = viewerRef.current;
     if (cameraLockedRef.current || !viewer) return;
-    // Dress the ground as early as possible: preload neighbouring tiles,
-    // keep more of them cached for revisits, and give the approach a beat
-    // longer so imagery streams in DURING the dive instead of after landing.
+    // Dress the ground as early as possible: preload neighbouring tiles and
+    // keep more of them cached so revisits arrive fully dressed.
     viewer.scene.globe.preloadSiblings = true;
     viewer.scene.globe.tileCacheSize = 400;
     // Stand off to the south and look north-down at the site, close enough
     // that the model fills the view but stays inside its reveal distance.
     const dist = Math.min(60_000, Math.max(600, widthM * 5));
     const offsetLat = lat - (dist * 0.9) / 111_000;
+    // TWO-STAGE DIVE: sprint to a spot high above the target first — the
+    // camera is over the destination within a second, so its imagery starts
+    // streaming immediately — then make the slow oblique descent onto
+    // ground that is already dressing itself.
     viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(lon, offsetLat, dist * 0.75),
-      orientation: { heading: 0, pitch: Cesium.Math.toRadians(-38), roll: 0 },
-      duration: 3.4,
+      destination: Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(dist * 8, 60_000)),
+      duration: 1.3,
+      complete: () => {
+        viewer.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(lon, offsetLat, dist * 0.75),
+          orientation: { heading: 0, pitch: Cesium.Math.toRadians(-38), roll: 0 },
+          duration: 2.4,
+        });
+      },
     });
   };
 
