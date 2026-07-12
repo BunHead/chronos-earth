@@ -21,7 +21,7 @@ import {
   type ReviewData,
   type ReviewStatus,
 } from '../lib/review';
-import { applyLiveTransform, transformKey } from '../lib/globeModels';
+import { applyLiveTransform, placementKeyFor } from '../lib/globeModels';
 
 // One shared copy of the review file per app session.
 let shared: ReviewData | null = null;
@@ -128,7 +128,7 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
           place={place}
           onStatus={setMsg}
           persist={(t) => {
-            const key = transformKey(place.model, place.lat, place.lon);
+            const key = placementKeyFor(place.model, place.lat, place.lon);
             const trim = Object.keys(t).length ? t : undefined;
             // Always keep this device's copy so the alignment survives reload.
             saveLocalTransform(key, trim);
@@ -162,7 +162,7 @@ function AdjustReins({
   persist: (t: ModelTransform) => void;
   onStatus: (s: string) => void;
 }) {
-  const key = transformKey(place.model, place.lat, place.lon);
+  const key = placementKeyFor(place.model, place.lat, place.lon);
   // Seed the pad from THIS DEVICE's saved trim first (local maker mode saves
   // there), then the published one — so reopening a monument shows the trim
   // you actually saved, and a new nudge builds on it instead of from zero.

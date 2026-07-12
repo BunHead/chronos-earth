@@ -157,7 +157,21 @@ export async function loadReview(): Promise<ReviewData> {
 
 // ── write (maker only) ─────────────────────────────────────────────────────
 /** Commit the whole review file to the repo via the GitHub contents API. */
-export async function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: string }> {
+// Saving several monuments in quick succession used to race: each PUT needs
+// the file's current blob SHA, and two overlapping saves would both fetch the
+// SAME sha, so the second PUT was rejected ("is at X but expected Y"). We
+// SERIALIZE saves through one promise chain — each waits for the previous to
+// land before fetching a fresh sha — and retry once if GitHub still 409s
+// (its contents-GET can lag a beat behind a just-made commit).
+let saveChain: Promise<unknown> = Promise.resolve();
+
+export function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: string }> {
+  const run = saveChain.then(() => doSaveReview(data));
+  saveChain = run.catch(() => {}); // a failure must not break the chain
+  return run;
+}
+
+async function doSaveReview(data: ReviewData): Promise<{ ok: boolean; msg: string }> {
   const token = getToken();
   if (!token) return { ok: false, msg: 'No maker token set.' };
   const gate = await validateMakerToken(token);
@@ -167,26 +181,27 @@ export async function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: 
     Authorization: `Bearer ${token}`,
     Accept: 'application/vnd.github+json',
   };
-  // The contents API needs the current file's blob SHA to replace it.
-  let sha: string | undefined;
-  try {
-    const cur = await fetch(`${api}?ref=main&b=${Date.now()}`, { headers, cache: 'no-store' });
-    if (cur.ok) sha = (await cur.json()).sha;
-  } catch {
-    /* first write — no existing file */
-  }
   const json = JSON.stringify(data, null, 2) + '\n';
-  const body = {
-    message: 'Workshop: update model review',
-    content: btoa(unescape(encodeURIComponent(json))), // UTF-8-safe base64
-    branch: 'main',
-    ...(sha ? { sha } : {}),
+  const content = btoa(unescape(encodeURIComponent(json))); // UTF-8-safe base64
+
+  const fetchSha = async (): Promise<string | undefined> => {
+    try {
+      const cur = await fetch(`${api}?ref=main&b=${Date.now()}`, { headers, cache: 'no-store' });
+      return cur.ok ? (await cur.json()).sha : undefined;
+    } catch {
+      return undefined; // first write — no existing file
+    }
   };
+
+  const put = async (sha: string | undefined): Promise<Response> => {
+    const body = { message: 'Workshop: update model review', content, branch: 'main', ...(sha ? { sha } : {}) };
+    return fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
+  };
+
   try {
-    const res = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
+    let res = await put(await fetchSha());
+    if (!res.ok && res.status === 409) res = await put(await fetchSha()); // stale sha — retry once
     if (res.ok) return { ok: true, msg: 'Saved ✓ — live in ~1 min after deploy.' };
-    // A fine-grained PAT that can READ the repo but wasn't given Contents:
-    // WRITE fails the PUT with 403 "Resource not accessible…". Name the fix.
     if (res.status === 403) {
       return { ok: false, msg: 'Kept on this device. To publish: your GitHub token needs Contents → Read AND write.' };
     }

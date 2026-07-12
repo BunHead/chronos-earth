@@ -20,17 +20,19 @@ interface SeaLevelFrameProps {
 }
 
 /** Slider position 0..1000 → metres. Piecewise: half the travel for the
- * shallow, story-rich −300..+100 band; half for the deep drain. */
+ * shallow, story-rich −300..+250 band; half for the deep drain. The +250
+ * ceiling drowns coasts far enough to test the Atlantis-on-the-coast idea. */
 export function sliderToSea(pos: number): number {
-  if (pos >= 500) return Math.round(100 - ((1000 - pos) / 500) * 400); // +100..−300
+  if (pos >= 500) return Math.round(250 - ((1000 - pos) / 500) * 550); // +250..−300
   return Math.round(-300 - ((500 - pos) / 500) * 7700); // −300..−8000
 }
 export function seaToSlider(seaM: number): number {
-  if (seaM >= -300) return Math.round(1000 - ((100 - seaM) / 400) * 500);
+  if (seaM >= -300) return Math.round(1000 - ((250 - seaM) / 550) * 500);
   return Math.round(500 - ((-300 - seaM) / 7700) * 500);
 }
 
 const STORY: Array<[number, string]> = [
+  [250, 'all the ice melts and more — deep drowning'],
   [100, 'meltwater world — coasts drowned'],
   [6, 'the Eemian high stand'],
   [0, 'today'],

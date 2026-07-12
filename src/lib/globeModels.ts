@@ -128,11 +128,26 @@ function seat(entity: Cesium.Entity, p: Placement): void {
 
 /** Live preview of a trim (maker's Adjust panel) — not persisted here. */
 export function applyLiveTransform(model: string, lat: number, lon: number, t: ModelTransform): void {
-  transforms[transformKey(model, lat, lon)] = t;
   const found = entities.find(
     (e) => e.p.model === model && Math.abs(e.p.lat - lat) < 0.03 && Math.abs(e.p.lon - lon) < 0.03,
   );
+  // Key by the PLACEMENT's own coords, not the caller's (event) coords —
+  // seat() reads the key from p.lat/p.lon, and floating-point rounding can
+  // make the two disagree in the 3rd decimal (Tower Bridge: 51.5055 → .505
+  // but the event's 51.505556 → .506), which silently stranded the trim.
+  const p = found ? found.p : { model, lat, lon };
+  transforms[transformKey(p.model, p.lat, p.lon)] = t;
   if (found) seat(found.entity, found.p);
+}
+
+/** The review/local key for a monument's saved trim — always the
+ * PLACEMENT's key when one is standing, so save and apply agree. */
+export function placementKeyFor(model: string, lat: number, lon: number): string {
+  const found = entities.find(
+    (e) => e.p.model === model && Math.abs(e.p.lat - lat) < 0.03 && Math.abs(e.p.lon - lon) < 0.03,
+  );
+  const p = found ? found.p : { model, lat, lon };
+  return transformKey(p.model, p.lat, p.lon);
 }
 
 /** Terrain provider changed (era crossed the paleo line): every clamped

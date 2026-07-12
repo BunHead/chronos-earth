@@ -49,7 +49,8 @@ describe('sea level slider mapping', () => {
   });
 
   it('gives the shallow story band half the travel', () => {
-    expect(seaToSlider(0)).toBeGreaterThan(800); // today sits near the top
+    expect(seaToSlider(0)).toBeGreaterThan(700); // today sits in the upper band
+    expect(seaToSlider(250)).toBe(1000); // the +250 ceiling
     expect(seaToSlider(-300)).toBe(500); // the hinge
   });
 });
