@@ -129,7 +129,9 @@
   },
   "leaning-tower": {
     "status": "allowed",
-    "ts": 1783891621723,
-    "note": "More Detail"
+    "ts": 1783891625719,
+    "note": "More Detail",
+    "rework": true,
+    "focus": "detail"
   }
 }
