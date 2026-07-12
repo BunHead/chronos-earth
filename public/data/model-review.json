@@ -84,7 +84,9 @@
   },
   "impact": {
     "status": "rejected",
-    "ts": 1783890633864,
-    "note": "Needs over time sequence, at least 3 frames comet, impact, aftermath."
+    "ts": 1783890644473,
+    "note": "Needs over time sequence, at least 3 frames comet, impact, aftermath.",
+    "rework": true,
+    "focus": "bakeoff"
   }
 }
