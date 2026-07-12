@@ -45,7 +45,9 @@
   },
   "liberty": {
     "note": "Way more detail on the statue",
-    "ts": 1783885032781,
-    "status": "allowed"
+    "ts": 1783885061061,
+    "status": "allowed",
+    "rework": true,
+    "focus": "detail"
   }
 }
