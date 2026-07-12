@@ -1218,19 +1218,34 @@ function badgeFor(model: string): { cls: string; text: string } {
     };
   }
   if (rec.rework) return { cls: 'rework', text: 'Rework queued' };
-  return { cls: '', text: 'Unreviewed' };
+  return { cls: 'needs', text: '⚠ Needs approval' };
+}
+
+/** A model the Captain has never ruled on (no status, not queued) — the ones
+ * the gallery lifts to the front and glows gold. */
+function needsApproval(model: string): boolean {
+  const rec = reviewData[model] || {};
+  return !rec.status && !rec.rework;
 }
 
 function openGallery() {
   galleryEl.classList.add('open');
   gGrid.innerHTML = '';
-  const queue = [...SORTED];
+  // Never-reviewed models sort to the FRONT so the Captain sees at a glance
+  // what still needs his eye; a count badge in the header tallies them.
+  const queue = [...SORTED].sort((a, b) => Number(needsApproval(b[0])) - Number(needsApproval(a[0])));
+  const pending = SORTED.filter(([m]) => needsApproval(m)).length;
+  const countEl = document.getElementById('gCount');
+  if (countEl) {
+    countEl.textContent = pending ? `${pending} need approval` : 'all reviewed ✓';
+    countEl.classList.toggle('clear', pending === 0);
+  }
   const step = () => {
     const next = queue.shift();
     if (!next || !galleryEl.classList.contains('open')) return;
     const [model, label] = next;
     const card = document.createElement('div');
-    card.className = 'gcard';
+    card.className = needsApproval(model) ? 'gcard needs' : 'gcard';
     const badge = badgeFor(model);
     card.innerHTML = `<img alt="${label}" /><div class="gmeta"><span class="gname">${label}</span><span class="gbadge ${badge.cls}">${badge.text}</span></div>`;
     (card.querySelector('img') as HTMLImageElement).src = renderThumb(model);

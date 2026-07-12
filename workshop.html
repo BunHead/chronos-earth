@@ -158,6 +158,14 @@
       .gbadge.allowed { background: #3a3312; color: #e6c94e; }
       .gbadge.rejected { background: #3a1717; color: #f0776b; }
       .gbadge.rework { background: #1c2f4a; color: #7db4f5; }
+      /* A never-reviewed model needs the Captain's eye — it glows. */
+      .gbadge.needs { background: #4a2f0c; color: #ffbf5c; }
+      .gcard.needs { border-color: #c9a24b; box-shadow: 0 0 0 1px rgba(201,162,75,0.4); }
+      #gallery .gcount {
+        display: inline-block; margin-left: 10px; font-size: 12px; font-weight: 700;
+        color: #ffbf5c; background: #4a2f0c; padding: 2px 10px; border-radius: 999px; vertical-align: middle;
+      }
+      #gallery .gcount.clear { color: #57e39b; background: #123a26; }
     </style>
   </head>
   <body>
@@ -303,8 +311,8 @@
          review status. Click a card to open it in the viewer. -->
     <div id="gallery">
       <button class="gclose" id="galleryClose">✕ Close</button>
-      <h2>🖼️ The fleet — every model at a glance</h2>
-      <p class="gsub">Rendered live in your browser just now. Badges show your review verdicts; click any card to inspect it.</p>
+      <h2>🖼️ The fleet — every model at a glance<span class="gcount" id="gCount"></span></h2>
+      <p class="gsub">Rendered live in your browser just now. Models never reviewed glow gold and sort first — click any card to inspect and rule on it.</p>
       <div id="gGrid"></div>
     </div>
     <script type="module" src="/src/workshop.ts"></script>
