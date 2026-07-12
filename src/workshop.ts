@@ -49,7 +49,7 @@ const MODELS: Array<[string, string]> = [
   ['tpillars', 'Göbekli Tepe pillars'],
   ['stepped-pyramid', 'Stepped pyramid (Mesoamerican)'],
   ['greek-temple', 'Greek temple'],
-  ['cathedral', 'Gothic cathedral'],
+  ['cathedral', 'Notre-Dame (Gothic cathedral)'],
   ['castle', 'Castle'],
   ['mansion', 'Palladian mansion'],
   ['temple-tower', 'Asian spired temple'],
