@@ -30,5 +30,17 @@
       "upM": -8
     },
     "ts": 1783884257676
+  },
+  "buckingham": {
+    "note": "Only the front done, with fountain in the wrong place, looks to be the wrong colour",
+    "ts": 1783884385982
+  },
+  "place:buckingham@51.501,-0.142": {
+    "transform": {
+      "headingDeg": -32.5,
+      "northM": -10,
+      "scale": 1.158
+    },
+    "ts": 1783884386132
   }
 }
