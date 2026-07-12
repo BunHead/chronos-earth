@@ -43,11 +43,29 @@
     },
     "ts": 1783884386132
   },
+  "battle:battle-of-bakhmut": {},
+  "giza": {},
   "liberty": {
     "note": "Way more detail on the statue",
-    "ts": 1783885061061,
-    "status": "allowed",
-    "rework": true,
-    "focus": "detail"
+    "ts": 1783884988395,
+    "status": "allowed"
+  },
+  "place:liberty@40.689,-74.044": {
+    "transform": {
+      "headingDeg": 12.5,
+      "northM": 10
+    },
+    "ts": 1783884990977
+  },
+  "colossus": {
+    "note": "Detail of statue, he was meant to stand astride the harbor mouth (I believe)",
+    "ts": 1783885182437
+  },
+  "place:colossus@36.451,28.228": {
+    "transform": {
+      "eastM": -140,
+      "scale": 1.982
+    },
+    "ts": 1783885182572
   }
 }
