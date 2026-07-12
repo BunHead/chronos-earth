@@ -4073,6 +4073,135 @@
           ]
         }
       ]
+    },
+    "annexation-of-crimea": {
+      "id": "annexation-of-crimea",
+      "title": "Annexation of Crimea",
+      "subtitle": "Feb–Mar 2014 — a seizure without a pitched battle",
+      "sides": {
+        "a": {
+          "name": "Ukraine",
+          "color": "#3b7ad9"
+        },
+        "b": {
+          "name": "Russia (unmarked troops)",
+          "color": "#7a7f85"
+        }
+      },
+      "phases": [
+        {
+          "name": "The little green men",
+          "narration": "Soldiers in unmarked green uniforms appear overnight at the Crimean parliament, airports and crossroads. Not a shot is fired — no one will say whose they are."
+        },
+        {
+          "name": "Bases blockaded",
+          "narration": "Ukrainian garrisons wake to find themselves surrounded and sealed in. Weeks of tense standoffs at the gates — sieges of patience, not battles."
+        },
+        {
+          "name": "The referendum",
+          "narration": "A vote on joining Russia is staged under armed occupation. Most of the world calls it illegitimate; Moscow calls it the will of the people."
+        },
+        {
+          "name": "Annexation declared",
+          "narration": "Russia formally absorbs the peninsula. Ukrainian forces withdraw to the mainland. The annexation is recognised by almost no one — and the war it opened has never ended."
+        }
+      ],
+      "units": [
+        {
+          "id": "ru-fleet-marines",
+          "side": "b",
+          "label": "Black Sea Fleet marines",
+          "pos": [
+            [
+              38,
+              52
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              44,
+              38
+            ],
+            [
+              45,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "ru-unmarked",
+          "side": "b",
+          "label": "Unmarked troops",
+          "size": 1.2,
+          "pos": [
+            [
+              62,
+              55
+            ],
+            [
+              55,
+              40
+            ],
+            [
+              52,
+              34
+            ],
+            [
+              50,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "ua-garrison",
+          "side": "a",
+          "label": "Ukrainian garrison (blockaded)",
+          "pos": [
+            [
+              48,
+              28
+            ],
+            [
+              48,
+              28
+            ],
+            [
+              48,
+              28
+            ],
+            [
+              48,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "ua-navy",
+          "side": "a",
+          "label": "Ukrainian navy (sealed in port)",
+          "shape": "ship",
+          "pos": [
+            [
+              26,
+              50
+            ],
+            [
+              26,
+              50
+            ],
+            [
+              26,
+              50
+            ],
+            [
+              26,
+              50
+            ]
+          ]
+        }
+      ]
     }
   }
 }

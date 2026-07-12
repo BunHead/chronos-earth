@@ -52,6 +52,24 @@ group.traverse((o) => {
 });
 for (const o of doomed) o.parent?.remove(o);
 
+// Debug telemetry for the harness: how much of the build survived the strip.
+{
+  let meshes = 0;
+  let transparent = 0;
+  group.traverse((o) => {
+    if (o instanceof THREE.Mesh) {
+      meshes++;
+      const m = o.material as THREE.Material;
+      if (m.transparent) transparent++;
+    }
+  });
+  (window as unknown as { __exportStats?: object }).__exportStats = {
+    meshes,
+    transparent,
+    stripped: doomed.length,
+  };
+}
+
 new GLTFExporter().parse(
   group,
   (result) => {
