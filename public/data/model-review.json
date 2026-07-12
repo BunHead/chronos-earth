@@ -19,5 +19,16 @@
       "scale": 1.63
     },
     "ts": 1783884017622
+  },
+  "london-eye": {
+    "note": "2 Arms from the bank should meet in the centre of the ring",
+    "ts": 1783884257520
+  },
+  "place:london-eye@51.503,-0.120": {
+    "transform": {
+      "headingDeg": 7.5,
+      "upM": -8
+    },
+    "ts": 1783884257676
   }
 }
