@@ -2138,75 +2138,319 @@ export function buildModel(
       }
     }
   } else if (model === 'hanging-gardens') {
-    // The Hanging Gardens of Babylon — NOT a free-standing tower but planted
-    // terraces banked against a raised palace-citadel, greenery spilling down
-    // vaulted galleries to a great reflecting pool, fed by an aqueduct. (After
-    // the classic reconstruction; its very existence — and whether it stood at
-    // Babylon or, per Dalley, at Nineveh — is debated.)
+    // The Hanging Gardens of Babylon — the CLASSIC reconstruction: a walled
+    // palace-garden, NOT a lone ziggurat. A massive glazed mud-brick perimeter
+    // WALL — crenellated, ribbed with buttress pilasters, cornered by towers and
+    // pierced by a monumental arched GATE on the front (+Z) — encloses the star
+    // of the wonder: ascending VAULTED terraces, each planted level carried on an
+    // arcade of stone arches (the Greek accounts' technique), lush greenery
+    // spilling over every arch front, whole groves massed on the topmost
+    // plateaus that rise clear above the ramparts. A curved arcaded terrace
+    // banks up one side; a still irrigation pool lies inset at the base (the
+    // screw-lifted water that fed the beds); and low flat-roofed palace blocks
+    // sit at the rear. (Its very existence — and whether it stood at Babylon or,
+    // per Dalley, at Nineveh — is debated.)
     ground = '#c9ac72';
-    const brick = '#c39a63';
-    const brickAlt = '#b58a52';
+    if (ruined) group.userData.selfRuined = true;
+    const brick = ruined ? '#a89069' : '#c6a266'; // glazed mud-brick, tan-ochre
+    const brickHi = ruined ? '#b69c72' : '#d8ba78'; // brighter glazed course
+    const brickLo = ruined ? '#8e7a58' : '#b0864e'; // shadowed brick
     const leaf = '#4f7d3a';
-    const leafAlt = '#66934a';
-    const bush = (x: number, y: number, z: number, r: number, col: string) => {
+    const leafHi = '#69964c';
+    const leafDk = '#3c6130';
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
+    };
+    // A squashed green canopy mass.
+    const canopy = (x: number, y: number, z: number, r: number, col: string) => {
       const m = new THREE.Mesh(
         new THREE.SphereGeometry(r, 8, 6),
         new THREE.MeshStandardMaterial({ color: col, roughness: 1, flatShading: true }),
       );
       m.position.set(x, y, z);
-      m.scale.y = 0.72;
+      m.scale.y = 0.7;
       group.add(m);
     };
-    // A great reflecting pool / river across the front (+Z).
-    const pool = new THREE.Mesh(
-      new THREE.PlaneGeometry(34, 14),
-      new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.28, metalness: 0.06 }),
-    );
-    pool.rotation.x = -Math.PI / 2;
-    pool.position.set(-1, 0.05, 12);
-    pool.userData.noShadow = true;
-    group.add(pool);
-    group.add(block(30, 1.6, 1.0, -1, 0.8, 5.6, brickAlt)); // quay wall along the pool
-    // Planted terraces banked against the hill — each higher terrace set FURTHER
-    // BACK into the slope, rising to the palace, not a symmetric tower.
-    const tiers = 6;
-    const stepUp = 1.5;
-    const stepBack = 1.9;
-    for (let t = 0; t < tiers; t++) {
-      const y = 1.4 + t * stepUp;
-      const z = 3.5 - t * stepBack;
-      const w = 20 - t * 0.8;
-      const bed = block(w, stepUp, 3.0, 0, y, z, t % 2 ? brickAlt : brick);
-      weather(bed, 0.02);
-      group.add(bed);
-      const piers = Math.round(w / 2.6);
-      for (let i = 0; i <= piers; i++) {
-        const px = -w / 2 + i * (w / piers);
-        group.add(block(0.55, stepUp * 1.15, 0.55, px, y - 0.15, z + 1.55, brickAlt)); // vaulted gallery piers
+    // A tree: trunk + a clustered three-lobe crown, standing on surface y0.
+    const treeAt = (x: number, z: number, y0: number, h: number, r: number) => {
+      group.add(block(0.5, h, 0.5, x, y0 + h / 2, z, '#6b4a2c'));
+      canopy(x, y0 + h + r * 0.35, z, r, leafHi);
+      canopy(x + r * 0.45, y0 + h + r * 0.05, z - r * 0.35, r * 0.72, leaf);
+      canopy(x - r * 0.4, y0 + h + r * 0.15, z + r * 0.35, r * 0.75, leafDk);
+    };
+    // A rectangular panel pierced by a real round-arched opening (see-through).
+    const archPanel = (w: number, h: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hw = Math.min(w * 0.32, (h - 0.35) * 0.55);
+      const spring = Math.min(h * 0.42, h - hw - 0.2);
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0.25);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0.25);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false, curveSegments: 16 });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+
+    // ---------------- Outer perimeter WALL ----------------
+    const WX = 21; // half-width in X
+    const zF = 20; // gated front (+Z)
+    const zB = -20; // back
+    const wallH = ruined ? 5.4 : 8.6;
+    const wallT = 1.8;
+    const gap = 6.4; // gate opening in the front wall
+    // A toothed battlement marching along a wall top (skipped/ragged in ruin).
+    const merlons = (x0: number, z0: number, dx: number, dz: number, len: number) => {
+      const n = Math.max(2, Math.round(len / 1.7));
+      for (let i = 0; i <= n; i++) {
+        const t = -len / 2 + len * (i / n);
+        group.add(block(0.85, 0.85, wallT + 0.1, x0 + dx * t, wallH + 0.42, z0 + dz * t, brickHi));
       }
-      const n = Math.round(w / 1.5);
+    };
+    // Buttress pilasters ribbing an outer wall face.
+    const pilasters = (x0: number, z0: number, dx: number, dz: number, len: number, ox: number, oz: number) => {
+      const n = Math.max(2, Math.round(len / 4.2));
+      for (let i = 0; i <= n; i++) {
+        const t = -len / 2 + len * (i / n);
+        group.add(block(1.5, wallH * 0.94, 1.1, x0 + dx * t + ox, wallH * 0.47, z0 + dz * t + oz, brickLo));
+      }
+    };
+    // A broken stretch of wall for the ruin — varying heights, occasional breach.
+    const brokenWall = (cx: number, cz: number, dx: number, dz: number, len: number, w: number, d: number, seed: number) => {
+      const n = Math.max(2, Math.round(len / 2.4));
+      const seg = len / n;
       for (let i = 0; i < n; i++) {
-        const bx = -w / 2 + 0.8 + i * ((w - 1.6) / (n - 1));
-        bush(bx, y + stepUp / 2 + 0.45, z - 0.3, 0.75, i % 2 ? leaf : leafAlt);
-        if (i % 2) group.add(block(0.45, stepUp * 0.95, 0.22, bx, y, z + 1.65, leaf)); // vines over the edge
+        const t = -len / 2 + seg * (i + 0.5);
+        const r = rnd(seed + i, 1);
+        if (r < 0.14) continue; // a breach — quarried away
+        const hf = r < 0.5 ? 0.42 + rnd(seed + i, 2) * 0.24 : 0.7 + rnd(seed + i, 3) * 0.28;
+        const h = wallH * hf;
+        const bw = dx ? seg + 0.06 : w;
+        const bd = dz ? seg + 0.06 : d;
+        group.add(block(bw, h, bd, cx + dx * t, h / 2, cz + dz * t, brick));
       }
-      if (t < 3) {
-        for (const sx of [-1, 1] as const) {
-          const tx = sx * w * 0.32;
-          group.add(block(0.4, 2.4, 0.4, tx, y + stepUp / 2 + 1.2, z, '#6b4a2c'));
-          bush(tx, y + stepUp / 2 + 2.8, z, 1.15, leafAlt);
+    };
+
+    if (!ruined) {
+      // Solid curtain walls: back, two sides, and a front split around the gate.
+      group.add(block(2 * WX, wallH, wallT, 0, wallH / 2, zB, brick)); // back
+      group.add(block(wallT, wallH, zF - zB, -WX, wallH / 2, 0, brick)); // west
+      group.add(block(wallT, wallH, zF - zB, WX, wallH / 2, 0, brick)); // east
+      const half = (2 * WX - gap) / 2;
+      for (const s of [-1, 1] as const)
+        group.add(block(half, wallH, wallT, s * (gap / 2 + half / 2), wallH / 2, zF, brick));
+      merlons(0, zB, 1, 0, 2 * WX);
+      merlons(-WX, 0, 0, 1, zF - zB);
+      merlons(WX, 0, 0, 1, zF - zB);
+      for (const s of [-1, 1] as const) merlons(s * (gap / 2 + half / 2), zF, 1, 0, half);
+      pilasters(0, zB, 1, 0, 2 * WX, 0, -0.9); // buttresses proud of the outer faces
+      pilasters(-WX, 0, 0, 1, zF - zB, -0.9, 0);
+      pilasters(WX, 0, 0, 1, zF - zB, 0.9, 0);
+    } else {
+      brokenWall(0, zB, 1, 0, 2 * WX, wallT, wallT, 10);
+      brokenWall(-WX, 0, 0, 1, zF - zB, wallT, wallT, 30);
+      brokenWall(WX, 0, 0, 1, zF - zB, wallT, wallT, 50);
+      const half = (2 * WX - gap) / 2;
+      for (const s of [-1, 1] as const)
+        brokenWall(s * (gap / 2 + half / 2), zF, 1, 0, half, wallT, wallT, 70 + (s > 0 ? 17 : 0));
+    }
+
+    // Square towers — flat-topped and crenellated (Babylonian, not conical).
+    const tower = (x: number, z: number, w: number, h: number, seed: number) => {
+      if (!ruined) {
+        group.add(block(w, h, w, x, h / 2, z, brick));
+        group.add(block(w + 0.5, 0.5, w + 0.5, x, h + 0.25, z, brickHi)); // cornice
+        for (const [dx, dz] of [[1, 0], [0, 1]] as const)
+          for (let i = 0; i < 3; i++)
+            group.add(block(0.7, 0.8, 0.7, x + dx * (-w / 2 + (i * w) / 2), h + 0.9, z + dz * (-w / 2 + (i * w) / 2), brickHi));
+      } else {
+        const ht = h * (0.55 + rnd(seed, 1) * 0.3);
+        group.add(block(w, ht, w, x, ht / 2, z, brick));
+        for (let k = 0; k < 3; k++) {
+          const a = (k / 3) * Math.PI * 2 + rnd(seed, k + 2);
+          const bh = 0.4 + rnd(seed, k + 5) * 0.7;
+          group.add(block(0.7, bh, 0.7, x + Math.cos(a) * w * 0.32, ht + bh / 2 - 0.15, z + Math.sin(a) * w * 0.32, brick));
         }
       }
+    };
+    let ts = 0;
+    for (const sx of [-1, 1] as const)
+      for (const sz of [-1, 1] as const) tower(sx * WX, sz * zF, 3.2, wallH + 2.2, 100 + ts++ * 9);
+
+    // The monumental arched GATE on the front, flanked by two taller towers.
+    const gh = wallH + (ruined ? 0.4 : 1.6);
+    const gw = gap + 1.4;
+    const gd = wallT + 1.2;
+    const gs = new THREE.Shape();
+    gs.moveTo(-gw / 2, 0);
+    gs.lineTo(gw / 2, 0);
+    gs.lineTo(gw / 2, gh);
+    gs.lineTo(-gw / 2, gh);
+    gs.closePath();
+    const ghw = 2.5;
+    const gspring = 3.2;
+    const gp = new THREE.Path();
+    gp.moveTo(-ghw, 0);
+    gp.lineTo(-ghw, gspring);
+    gp.absarc(0, gspring, ghw, Math.PI, 0, true);
+    gp.lineTo(ghw, 0);
+    gp.closePath();
+    gs.holes.push(gp);
+    const gGeo = new THREE.ExtrudeGeometry(gs, { depth: gd, bevelEnabled: false, curveSegments: 20 });
+    gGeo.translate(0, 0, -gd / 2);
+    const gate = new THREE.Mesh(gGeo, stoneMat(brick));
+    gate.position.set(0, 0, zF);
+    group.add(gate);
+    if (!ruined) {
+      for (let i = 0; i <= 4; i++)
+        group.add(block(0.7, 0.8, gd, -gw / 2 + gw * (i / 4), gh + 0.42, zF, brickHi)); // gate battlement
+      group.add(block(gw + 0.6, 0.6, gd + 0.4, 0, gspring + ghw + 0.3, zF, brickHi)); // arch label course
+      for (const s of [-1, 1] as const) tower(s * (gap / 2 + 1.3), zF, 2.8, wallH + 3.4, 200 + (s > 0 ? 5 : 0));
+    } else {
+      for (let k = 0; k < 4; k++)
+        group.add(block(0.6, 0.4 + rnd(k, 3) * 0.6, gd, -gw / 2 + gw * ((k + 0.5) / 4), gh + 0.3 + rnd(k, 6) * 0.4, zF, brick));
+      for (const s of [-1, 1] as const) tower(s * (gap / 2 + 1.3), zF, 2.8, wallH + 2.0, 200 + (s > 0 ? 5 : 0));
     }
-    // The palace-citadel crowning the hill at the back.
-    const palY = 1.4 + tiers * stepUp;
-    const palZ = 3.5 - tiers * stepBack;
-    group.add(block(12, 4.5, 5, 0, palY + 2.25, palZ - 1, brick));
-    group.add(block(13, 0.6, 6, 0, palY + 4.7, palZ - 1, brickAlt)); // parapet
-    for (let i = 0; i < 6; i++) group.add(block(0.5, 3.2, 0.5, -4.5 + i * 1.8, palY + 1.6, palZ + 1.5, brickAlt)); // colonnade
-    // An aqueduct striding in from the right to feed the top terrace.
-    for (let i = 0; i < 6; i++) group.add(block(0.8, palY, 0.8, 12 + i * 2.4, palY / 2, palZ + 1, brickAlt));
-    group.add(block(14.4, 0.9, 1.2, 19, palY + 0.45, palZ + 1, brick)); // the water channel on top
+
+    // ---------------- The terraced gardens (the star) ----------------
+    const T = 5;
+    const stepUp = 2.2;
+    const stepBack = 3.5;
+    const front0 = 11; // front z of the lowest terrace
+    const backZ = -16; // beds tuck back to here (under the palace)
+    const yTop = (t: number) => 2.4 + t * stepUp;
+    for (let t = 0; t < T; t++) {
+      const fz = front0 - t * stepBack;
+      const topY = ruined ? yTop(t) * 0.72 : yTop(t);
+      const baseY = t === 0 ? 0 : (ruined ? yTop(t - 1) * 0.72 : yTop(t - 1));
+      const band = topY - baseY;
+      const w = 26 - t * 3;
+      // Solid retaining bed (front face at fz, extends back under the next terrace).
+      const bedDepth = fz - backZ;
+      const bed = block(w, topY, bedDepth, 0, topY / 2, (fz + backZ) / 2, t % 2 ? brick : brickLo);
+      weather(bed, 0.015);
+      group.add(bed);
+      // Glazed-brick coping along the terrace front edge.
+      group.add(block(w + 0.3, 0.5, 0.8, 0, topY - 0.25, fz + 0.15, brickHi));
+      // The vaulted arcade carrying this level — real arches, faces +Z, whisker overlap.
+      const bays = Math.max(3, Math.round(w / 3.4));
+      const panelW = w / bays + 0.06;
+      const archGeo = archPanel(panelW, band, 1.15);
+      for (let i = 0; i < bays; i++) {
+        const px = -w / 2 + (i + 0.5) * (w / bays);
+        const m = new THREE.Mesh(archGeo, stoneMat(t % 2 ? brickLo : brick));
+        m.position.set(px, baseY, fz + 0.05);
+        group.add(m);
+      }
+      if (!ruined) {
+        const bayStep = w / bays;
+        // Vines trail over the PIERS between the arches, so the arched galleries
+        // stay legible — the vaulted terraces must read as the star.
+        for (let i = 0; i <= bays; i++) {
+          const px = -w / 2 + i * bayStep;
+          group.add(block(0.55, band * 0.6, 0.24, px, topY - band * 0.28, fz + 0.42, leafDk));
+        }
+        // A trimmed fringe of foliage along the coping edge (sits on top, clear of
+        // the openings), and slender cascades in alternate arch mouths.
+        for (let i = 0; i < bays; i++) {
+          const px = -w / 2 + (i + 0.5) * bayStep;
+          if (i % 2) {
+            canopy(px, topY + 0.2, fz + 0.1, 0.5, leaf);
+            group.add(block(0.34, band * 0.5, 0.2, px, topY - band * 0.34, fz + 0.55, leaf)); // light hanging vine
+          }
+        }
+        // Planting on the terrace's exposed top strip, set back from the front edge
+        // so the arcade below stays clear.
+        const stripZ = fz - stepBack * 0.72;
+        const nb = Math.max(3, Math.round(w / 3.0));
+        for (let i = 0; i < nb; i++) {
+          const bx = -w / 2 + 1.4 + i * ((w - 2.8) / (nb - 1));
+          canopy(bx, topY + 0.5, stripZ, 0.75 + rnd(t * 10 + i, 4) * 0.3, i % 2 ? leafHi : leaf);
+        }
+        // Groves mass on the UPPER terraces, rising clear above the ramparts;
+        // the lower terraces are left as clean arcades with only shrubs.
+        if (t >= 3) {
+          const nt = t === T - 1 ? 5 : 3;
+          for (let i = 0; i < nt; i++) {
+            const tx = -w / 2 + 2.4 + i * ((w - 4.8) / Math.max(1, nt - 1));
+            treeAt(tx, fz - stepBack * (0.45 + 0.35 * (i % 2)), topY, 1.8 + rnd(t + i, 7) * 0.8, 1.5 + rnd(t + i, 2) * 0.5);
+          }
+        }
+      } else if (t >= 2) {
+        // A few dead, weathered stumps on the ruined upper terraces.
+        for (let i = 0; i < 2; i++)
+          group.add(block(0.45, 1.0 + rnd(t + i, 3) * 0.6, 0.45, -w / 3 + i * ((2 * w) / 3), topY + 0.6, fz - stepBack * 0.5, '#6f5d43'));
+      }
+    }
+    // The topmost planted plateau (behind the last terrace, up to the back wall).
+    if (!ruined) {
+      const plY = yTop(T - 1);
+      for (let i = 0; i < 4; i++) {
+        const tx = -8 + i * 5.3;
+        treeAt(tx, backZ + 3 + (i % 2) * 2, plY, 2.2 + rnd(i, 6) * 0.7, 1.7 + rnd(i, 3) * 0.5);
+      }
+      for (let i = 0; i < 6; i++) canopy(-9 + i * 3.6, plY + 0.5, backZ + 1.5, 1.0, i % 2 ? leaf : leafHi);
+    }
+
+    // ---------------- Curved arcaded terrace banking up the east side ----------------
+    const ccx = 15;
+    const ccz = -6;
+    for (let ring = 0; ring < 3; ring++) {
+      const rad = 8.5 - ring * 2.2;
+      const ringH = 2.0 + ring * 1.9;
+      const nSeg = 7;
+      for (let i = 0; i < nSeg; i++) {
+        const a = Math.PI * 0.62 + (i / (nSeg - 1)) * Math.PI * 0.66; // arc opening toward the courtyard
+        const bx = ccx + Math.cos(a) * rad;
+        const bz = ccz + Math.sin(a) * rad;
+        group.add(block(2.1, ringH, 1.4, bx, ringH / 2, bz, ring % 2 ? brick : brickLo, -a + Math.PI / 2));
+        if (!ruined) canopy(bx, ringH + 0.4, bz, 0.9, i % 2 ? leaf : leafHi);
+      }
+    }
+    if (!ruined) treeAt(ccx, ccz, 5.9, 2.0, 1.5);
+
+    // ---------------- Low flat-roofed palace blocks at the rear (west) ----------------
+    const pcx = -12;
+    const pcz = -13;
+    if (!ruined) {
+      group.add(block(8, 3.4, 7, pcx, 1.7, pcz, brick)); // lower storey
+      group.add(block(8.6, 0.5, 7.6, pcx, 3.6, pcz, brickHi)); // flat-roof parapet
+      group.add(block(5.2, 2.6, 4.8, pcx, 3.85 + 1.3, pcz, brickLo)); // ziggurat-stepped upper storey
+      group.add(block(5.6, 0.4, 5.2, pcx, 3.85 + 2.6 + 0.2, pcx < 0 ? pcz : pcz, brickHi));
+      for (let i = 0; i < 5; i++) // a shaded colonnade on the palace front
+        group.add(block(0.5, 2.6, 0.5, pcx - 3 + i * 1.5, 1.3, pcz + 3.8, brickLo));
+      group.add(block(8, 0.4, 0.6, pcx, 2.7, pcz + 3.9, brickHi)); // colonnade lintel
+    } else {
+      group.add(block(8, 2.0, 7, pcx, 1.0, pcz, brick)); // palace reduced to low stumps
+      group.add(block(4.6, 1.3, 4.2, pcx + 1, 2.4, pcz, brick));
+      for (let i = 0; i < 3; i++)
+        group.add(block(0.5, 1.2 + rnd(i, 8) * 0.7, 0.5, pcx - 2.5 + i * 2.4, 0.7, pcz + 3.6, brick));
+    }
+
+    // ---------------- The irrigation pool, inset flush at the base ----------------
+    if (!ruined) {
+      const pool = new THREE.Mesh(
+        new THREE.PlaneGeometry(26, 4.6),
+        new THREE.MeshStandardMaterial({ color: '#3f8f8c', roughness: 0.22, metalness: 0.08 }),
+      );
+      pool.rotation.x = -Math.PI / 2;
+      pool.position.set(0, 0.04, 15);
+      pool.userData.noShadow = true;
+      group.add(pool);
+      group.add(block(27, 0.5, 0.7, 0, 0.2, 12.5, brickLo)); // near coping
+      group.add(block(27, 0.5, 0.7, 0, 0.2, 17.4, brickLo)); // far coping
+    } else {
+      group.add(block(26, 0.4, 4.6, 0, 0.15, 15, '#7d6a4c')); // dry, silted channel
+    }
   } else if (model === 'zeus-statue') {
     // The Statue of Zeus at Olympia — Phidias's ~12 m gold-and-ivory
     // (chryselephantine) figure of Zeus enthroned, so vast that were he to
