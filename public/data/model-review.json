@@ -1,7 +1,10 @@
 {
   "stonehenge": {},
   "amphitheatre": {},
-  "opera-house": {},
+  "opera-house": {
+    "note": "billowing open sails not collapsed,",
+    "ts": 1783888467128
+  },
   "tower-bridge": {
     "status": "allowed",
     "ts": 1783886193533,
@@ -63,5 +66,6 @@
       "scale": 0.823
     },
     "ts": 1783886201863
-  }
+  },
+  "battle:battle-of-bakhmut": {}
 }
