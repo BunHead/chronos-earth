@@ -22,12 +22,17 @@ const title = params.get('title') || '';
 // globe): the model's own self-ruin where it builds one, else the generic
 // aged-not-exploded pass.
 const ruin = params.get('ruin') === '1';
+// &frac=0.3 exports a CONSTRUCTION STAGE (building-over-time on the globe):
+// buildModel raises the monument partway. null = fully built.
+const fracParam = params.get('frac');
+const buildFrac = fracParam != null ? +fracParam : undefined;
 
 const lbl = document.getElementById('lbl')!;
-lbl.textContent = `🌍 Chronos Earth · exporting "${model}"${ruin ? ' (ruin)' : ''}…`;
+lbl.textContent = `🌍 Chronos Earth · exporting "${model}"${ruin ? ' (ruin)' : buildFrac != null ? ` (${Math.round(buildFrac * 100)}%)` : ''}…`;
 
-// Fully built — the same build the fit tables measure (ruined when asked).
-const { group } = buildModel(model, 3, title, undefined, undefined, ruin);
+// Fully built — the same build the fit tables measure (ruined when asked,
+// or a partial construction stage when a build fraction is given).
+const { group } = buildModel(model, 3, title, undefined, buildFrac, ruin);
 if (ruin && !group.userData.selfRuined) ruinify(group);
 group.updateMatrixWorld(true);
 

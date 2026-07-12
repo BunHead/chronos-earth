@@ -18,7 +18,7 @@
  */
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
-import { yearToYearsBP } from './timeScale';
+import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
@@ -39,6 +39,10 @@ interface Placement {
   /** Optional signed year it becomes the ruin we know — from then on the
    * timeline shows the exported `{model}-ruin.glb` instead. */
   ruinYear?: number;
+  /** Years of CONSTRUCTION before builtYear — the monument rises course by
+   * course over this span, swapping through exported `{model}-b30/-b60/-b90`
+   * stages before standing complete at builtYear. */
+  buildYears?: number;
 }
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
@@ -46,7 +50,7 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: when the monument became the ruin we know — the casing goes
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.
-  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356 },
+  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80 },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500 },
@@ -221,16 +225,29 @@ export function getViewer(): Cesium.Viewer | null {
 }
 
 function gate(entity: Cesium.Entity, p: Placement): void {
-  const born = lastYearsBP <= yearToYearsBP(p.builtYear);
+  // BUILDING OVER TIME: it rises during the [builtYear − buildYears, builtYear]
+  // span. currentYear is in that window → show the nearest construction stage.
+  const curYear = yearsBPToYear(lastYearsBP);
+  const buildStart = p.builtYear - (p.buildYears ?? 0);
+  const rising = p.buildYears ? curYear >= buildStart && curYear < p.builtYear : false;
+
+  const born = rising || lastYearsBP <= yearToYearsBP(p.builtYear);
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
   entity.show = lastShowSites && born && !gone;
-  // Life phases: past its ruin date, the ruin model stands instead.
-  if (p.ruinYear != null && entity.model && theManifest[`${p.model}-ruin`]?.footprint) {
-    const ruined = lastYearsBP <= yearToYearsBP(p.ruinYear);
-    const uri = `./models/${p.model}${ruined ? '-ruin' : ''}.glb`;
-    const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
-    if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+
+  if (!entity.model) return;
+  let suffix = '';
+  if (rising) {
+    // Fraction built so far → the nearest exported stage (30 / 60 / 90).
+    const frac = (curYear - buildStart) / (p.builtYear - buildStart);
+    const stage = frac < 0.45 ? 30 : frac < 0.75 ? 60 : 90;
+    if (theManifest[`${p.model}-b${stage}`]?.footprint) suffix = `-b${stage}`;
+  } else if (p.ruinYear != null && lastYearsBP <= yearToYearsBP(p.ruinYear) && theManifest[`${p.model}-ruin`]?.footprint) {
+    suffix = '-ruin';
   }
+  const uri = `./models/${p.model}${suffix}.glb`;
+  const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
+  if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
 }
 
 /** Timeline + layer gate — call whenever the year or the Sites toggle moves. */

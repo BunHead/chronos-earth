@@ -68,6 +68,12 @@ const RUINS = [
   ['stonehenge', 'Stonehenge'],
 ];
 
+// Construction stages — building-over-time. Only monuments whose buildModel
+// honours a build fraction (currently giza). Each → {model}-b30/-b60/-b90.
+const BUILD_STAGES = [
+  ['giza', 'Giza Pyramids', [30, 60, 90]],
+];
+
 await mkdir(OUT, { recursive: true });
 const browser = await puppeteer.launch({
   headless: 'new',
@@ -75,14 +81,16 @@ const browser = await puppeteer.launch({
 });
 const manifest = {};
 const JOBS = [
-  ...FLEET.map(([model, title]) => [model, title, model]),
-  ...RUINS.map(([model, title]) => [model, title, `${model}-ruin`]),
+  ...FLEET.map(([model, title]) => [model, title, model, '']),
+  ...RUINS.map(([model, title]) => [model, title, `${model}-ruin`, '&ruin=1']),
+  ...BUILD_STAGES.flatMap(([model, title, stages]) =>
+    stages.map((s) => [model, title, `${model}-b${s}`, `&frac=${s / 100}`]),
+  ),
 ];
 try {
-  for (const [model, title, outName] of JOBS) {
+  for (const [model, title, outName, extra] of JOBS) {
     const page = await browser.newPage();
-    const ruinParam = outName.endsWith('-ruin') ? '&ruin=1' : '';
-    await page.goto(`${BASE}?model=${encodeURIComponent(model)}&title=${encodeURIComponent(title)}${ruinParam}`, {
+    await page.goto(`${BASE}?model=${encodeURIComponent(model)}&title=${encodeURIComponent(title)}${extra}`, {
       waitUntil: 'networkidle0',
     });
     await page.waitForFunction('window.__glb || window.__glbError', { timeout: 60_000 });

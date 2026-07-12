@@ -1,7 +1,7 @@
 {
   "giza": {
     "footprint": 45.223,
-    "kb": 93
+    "kb": 94
   },
   "amphitheatre": {
     "footprint": 15.843,
@@ -12,8 +12,8 @@
     "kb": 115
   },
   "stonehenge": {
-    "footprint": 25.178,
-    "kb": 334
+    "footprint": 25.204,
+    "kb": 335
   },
   "cathedral": {
     "footprint": 17.924,
@@ -33,7 +33,7 @@
   },
   "liberty": {
     "footprint": 18.385,
-    "kb": 79
+    "kb": 80
   },
   "leaning-tower": {
     "footprint": 7.008,
@@ -45,10 +45,10 @@
   },
   "rings": {
     "footprint": 48.274,
-    "kb": 1226
+    "kb": 1225
   },
   "tpillars": {
-    "footprint": 17.526,
+    "footprint": 17.599,
     "kb": 103
   },
   "pyramid": {
@@ -56,7 +56,7 @@
     "kb": 29
   },
   "stepped-pyramid": {
-    "footprint": 12.757,
+    "footprint": 12.982,
     "kb": 46
   },
   "sphinx": {
@@ -64,11 +64,11 @@
     "kb": 46
   },
   "circle": {
-    "footprint": 7.153,
-    "kb": 44
+    "footprint": 7.156,
+    "kb": 45
   },
   "settlement": {
-    "footprint": 10.578,
+    "footprint": 10.492,
     "kb": 68
   },
   "castle": {
@@ -97,7 +97,7 @@
   },
   "hanging-gardens": {
     "footprint": 42.2,
-    "kb": 489
+    "kb": 490
   },
   "zeus-statue": {
     "footprint": 11,
@@ -141,7 +141,7 @@
   },
   "tower-of-london": {
     "footprint": 13.54,
-    "kb": 222
+    "kb": 221
   },
   "shard": {
     "footprint": 6.007,
@@ -151,24 +151,36 @@
     "footprint": 6.387,
     "kb": 710
   },
+  "opera-house": {
+    "footprint": 49.8,
+    "kb": 654
+  },
   "giza-ruin": {
     "footprint": 45.223,
     "kb": 54
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
-    "kb": 649
+    "kb": 650
   },
   "greek-temple-ruin": {
     "footprint": 11.938,
-    "kb": 58
+    "kb": 59
   },
   "stonehenge-ruin": {
-    "footprint": 25.172,
-    "kb": 313
+    "footprint": 25.196,
+    "kb": 331
   },
-  "opera-house": {
-    "footprint": 49.8,
-    "kb": 654
+  "giza-b30": {
+    "footprint": 14,
+    "kb": 66
+  },
+  "giza-b60": {
+    "footprint": 28.424,
+    "kb": 70
+  },
+  "giza-b90": {
+    "footprint": 42.973,
+    "kb": 99
   }
 }
