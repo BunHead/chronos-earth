@@ -52,7 +52,9 @@
   },
   "colossus": {
     "status": "allowed",
-    "ts": 1783885225026,
-    "note": "More detail in statue, he was meant to stand astride the harbor mouth"
+    "ts": 1783885231278,
+    "note": "More detail in statue, he was meant to stand astride the harbor mouth",
+    "rework": true,
+    "focus": "detail"
   }
 }
