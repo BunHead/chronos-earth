@@ -62,6 +62,11 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'the shard', widthM: 55 }, // rotationally near-symmetric — facing immaterial
   { match: '30 st mary axe', widthM: 50 },
   { match: 'gherkin', widthM: 50 },
+  // Sydney Opera House on Bennelong Point (southern hemisphere). Facing READ off
+  // the geo plan-render on the real footprint 2026-07-12: the sails open to the
+  // harbour (~NNE) so the Monumental Steps / front (+Z) face the land ~SSW.
+  { match: 'sydney opera', widthM: 185, facingDeg: 205 },
+  { match: 'opera house', widthM: 185, facingDeg: 205 },
 ];
 
 // Per-archetype fallback: a typical real footprint (m) and a default facing.
@@ -112,6 +117,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // Liberty Island: Fort Wood's star is ~100 m across; she faces ~SE (bearing
   // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
   liberty: { widthM: 100, facingDeg: 45 },
+  'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

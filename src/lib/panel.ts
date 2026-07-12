@@ -105,6 +105,10 @@ export function monumentModelForName(name: string): string | null {
   if (/tower of london|white tower/.test(n)) return 'tower-of-london';
   if (/the shard|shard london/.test(n)) return 'shard';
   if (/gherkin|30 st mary axe/.test(n)) return 'gherkin';
+  // Sydney Opera House — SYDNEY-specific: the sails are unmistakably Sydney's, so
+  // a bare "opera house" (London's neoclassical Royal Opera House, Vienna's, …)
+  // must NOT be dressed in them — it gets no 3D, per "prefer none to a wrong one".
+  if (/sydney opera/.test(n)) return 'opera-house';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before

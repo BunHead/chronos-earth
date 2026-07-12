@@ -414,6 +414,100 @@ function sphinxGroup(): THREE.Group {
   return g;
 }
 
+/**
+ * One precast "sail" shell of the Sydney Opera House — a thin doubly-curved
+ * white vault. Utzon cut every shell from ONE sphere; we approximate that with
+ * a pointed-arch cross-section (a Gothic point at the ridge) swept from a tall
+ * open MOUTH at the shell's local −Z end, up over a ridge peak, and down to a
+ * low pointed TOE at its +Z end — the cross-section narrowing and the ridge
+ * falling as it goes. Returned as a ribbed sheet (surface + a ridge cap + fan
+ * ribs, all raised a whisker proud) so it reads as an interlocking shell, not a
+ * smooth blob. `glass` fills the mouth with the amber curtain wall.
+ */
+function operaShell(
+  L: number,
+  W0: number,
+  H0: number,
+  tile: THREE.Material,
+  glass = false,
+): THREE.Group {
+  const g = new THREE.Group();
+  const peakT = 0.22; // ridge peaks a little BEHIND the mouth lip → it billows
+  const ridgeShape = (t: number) =>
+    t < peakT
+      ? 0.82 + 0.18 * (t / peakT)
+      : Math.pow(Math.cos(((t - peakT) / (1 - peakT)) * (Math.PI / 2)), 0.9);
+  // A point on the shell surface. t: 0=mouth → 1=toe; a: −1..1 across the arch.
+  const pt = (t: number, a: number): THREE.Vector3 => {
+    const w = W0 * Math.pow(1 - t, 0.62); // widest at the mouth, staying full toward the toe
+    const h = H0 * ridgeShape(t);
+    const x = a * w;
+    const y = h * (1 - Math.pow(Math.abs(a), 0.52)); // fuller shoulders, still a sharp ridge point
+    return new THREE.Vector3(x, y, t * L);
+  };
+  const nT = 28;
+  const nS = 26;
+  const rowLen = nS + 1;
+  const pos: number[] = [];
+  for (let i = 0; i <= nT; i++) {
+    const t = i / nT;
+    for (let j = 0; j <= nS; j++) pos.push(...pt(t, -1 + (2 * j) / nS).toArray());
+  }
+  const idx: number[] = [];
+  for (let i = 0; i < nT; i++) {
+    for (let j = 0; j < nS; j++) {
+      const p0 = i * rowLen + j;
+      idx.push(p0, p0 + rowLen, p0 + 1, p0 + 1, p0 + rowLen, p0 + rowLen + 1);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setIndex(idx);
+  geo.computeVertexNormals();
+  g.add(new THREE.Mesh(geo, tile));
+
+  // Ridge cap — a brighter tube along the ridge line, catching the light.
+  // The thin ridge/rib tubes are decorative trim on the surface. Flag them
+  // noShadow so (a) they never inflate the fit box the shell surface already
+  // defines, and (b) when the generic ruin removes the shell above the collapse
+  // line these hair-thin curves go with it instead of floating as stray wires.
+  const capMat = new THREE.MeshStandardMaterial({ color: '#fbfaf6', roughness: 0.28, metalness: 0.04 });
+  const ridgePts: THREE.Vector3[] = [];
+  for (let i = 0; i <= nT; i++) ridgePts.push(pt(i / nT, 0));
+  const cap = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(ridgePts), 24, 0.14, 6, false), capMat);
+  cap.userData.noShadow = true;
+  g.add(cap);
+  // Fan ribs across the sail at a few stations — the segmented precast look.
+  const ribMat = new THREE.MeshStandardMaterial({ color: '#dcdcd6', roughness: 0.45, metalness: 0.03 });
+  for (const t of [0.06, 0.24, 0.46, 0.7]) {
+    const arc: THREE.Vector3[] = [];
+    for (let j = 0; j <= nS; j++) arc.push(pt(t, -1 + (2 * j) / nS));
+    const rib = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(arc), 22, 0.09, 5, false), ribMat);
+    rib.userData.noShadow = true;
+    g.add(rib);
+  }
+  // The amber glass curtain wall closing the mouth, under the biggest shells.
+  if (glass) {
+    const t = 0.05;
+    const shp = new THREE.Shape();
+    for (let j = 0; j <= nS; j++) {
+      const p = pt(t, -1 + (2 * j) / nS);
+      if (j === 0) shp.moveTo(p.x, p.y);
+      else shp.lineTo(p.x, p.y);
+    }
+    shp.lineTo(pt(t, -1).x, 0);
+    const gg = new THREE.ShapeGeometry(shp);
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: '#c9a86a', roughness: 0.2, metalness: 0.15, transparent: true, opacity: 0.55, side: THREE.DoubleSide,
+    });
+    const gm = new THREE.Mesh(gg, glassMat);
+    gm.position.z = t * L;
+    gm.userData.noShadow = true; // glazing: no shadow, and no floating panes in the ruin
+    g.add(gm);
+  }
+  return g;
+}
+
 export function buildModel(
   model: string,
   phase = 3,
@@ -3397,6 +3491,68 @@ export function buildModel(
     const collar = new THREE.Mesh(new THREE.CylinderGeometry(1.95, 2.0, 0.6, 48), steel);
     collar.position.y = 0.3;
     group.add(collar);
+  } else if (model === 'opera-house') {
+    // The Sydney Opera House — Utzon's precast "sails" on Bennelong Point. Two
+    // main clusters of interlocking white spherical-section shells step DOWN in
+    // size along a shared axis (Concert Hall + Joan Sutherland Theatre), each on
+    // a raised granite podium, with a smaller separate shell set (the Bennelong
+    // restaurant) to one side. The grand Monumental Steps are on the land-facing
+    // front (+Z); the sails open toward the harbour (−Z). Water is the globe's.
+    ground = '#5b7f8c';
+    // Warm pink Tarana granite — SMOOTH (no stone map, which reads as brown wood).
+    const gran = new THREE.MeshStandardMaterial({ color: '#c6b0a6', roughness: 0.72, metalness: 0.02 });
+    const granDk = new THREE.MeshStandardMaterial({ color: '#a08a80', roughness: 0.78, metalness: 0.02 });
+    const granLt = new THREE.MeshStandardMaterial({ color: '#d3c1b7', roughness: 0.66, metalness: 0.02 });
+    // Two tile tones alternate per shell so each sail reads separately.
+    const tileA = new THREE.MeshStandardMaterial({ color: '#eef0ea', roughness: 0.33, metalness: 0.05, side: THREE.DoubleSide });
+    const tileB = new THREE.MeshStandardMaterial({ color: '#e2e6df', roughness: 0.4, metalness: 0.04, side: THREE.DoubleSide });
+    const tileFor = (i: number) => (i % 2 ? tileB : tileA);
+
+    // --- The peninsula plinth + stepped podium platform. ---
+    group.add(matBlock(33, 1.2, 47, 0, 0.6, -3, granDk)); // low plinth skirting the point
+    group.add(matBlock(29.5, 2.3, 40, 0, 1.75, -4, gran)); // main podium platform
+    const podTop = 2.9; // top of the main platform
+    group.add(matBlock(24.5, 1.3, 30, 0, podTop + 0.65, -6, granLt)); // raised inner podium the halls stand on
+    const base = podTop + 1.3; // shells spring from here
+    // The grand Monumental Steps, full width, cascading to the water on the front.
+    const nSteps = 9;
+    for (let s = 0; s < nSteps; s++) {
+      const f = s / nSteps;
+      const y = podTop * (1 - f);
+      const z = 16 + s * 0.85;
+      group.add(matBlock(29.5 - s * 0.4, podTop / nSteps + 0.12, 1.0, 0, y - podTop / (2 * nSteps) + 0.1, z, s % 2 ? gran : granLt));
+    }
+
+    // --- A cluster of sails: shells stepping down in size toward the land (+Z). ---
+    type Sail = { mz: number; L: number; W: number; H: number; glass?: boolean };
+    const cluster = (cx: number, rotY: number, sails: Sail[]) => {
+      sails.forEach((sh, i) => {
+        const s = operaShell(sh.L, sh.W, sh.H, tileFor(i), sh.glass);
+        s.position.set(cx, base, sh.mz);
+        s.rotation.y = rotY;
+        group.add(s);
+      });
+    };
+    // Concert Hall — the taller western cluster.
+    cluster(-7, -0.06, [
+      { mz: -19, L: 17, W: 7.6, H: 13.2, glass: true },
+      { mz: -13.5, L: 15, W: 6.6, H: 11, glass: true },
+      { mz: -8.5, L: 12.5, W: 5.5, H: 8.6 },
+      { mz: -4, L: 9.5, W: 4.3, H: 5.8 },
+    ]);
+    // Joan Sutherland Theatre — the slightly smaller eastern cluster, staggered.
+    cluster(6.8, 0.06, [
+      { mz: -16, L: 14.5, W: 6.4, H: 10.8, glass: true },
+      { mz: -11, L: 12.5, W: 5.4, H: 8.7 },
+      { mz: -6.5, L: 10.5, W: 4.4, H: 6.3 },
+    ]);
+    // The Bennelong restaurant — a small separate shell set off to one side (east),
+    // toward the land end, its own little cluster of sails opening to the harbour.
+    cluster(12, 0.18, [
+      { mz: -2, L: 7.5, W: 3.2, H: 4.6 },
+      { mz: 1.5, L: 6, W: 2.6, H: 3.4 },
+      { mz: 4.5, L: 4.5, W: 2.0, H: 2.4 },
+    ]);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

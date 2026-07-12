@@ -78,6 +78,8 @@ export const VALID_MODELS = [
   // London landmarks.
   'buckingham', 'westminster', 'london-eye',
   'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
+  // Sydney.
+  'opera-house',
   // New York.
   'liberty',
   // Paris.
@@ -128,6 +130,7 @@ const KEYWORD_RULES = [
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },
+  { rule: 'Sydney Opera House keyword (Sydney-specific — not a generic opera house)', model: 'opera-house', re: /sydney opera/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },
   { rule: 'Arc de Triomphe keyword (not the Carrousel arch)', model: 'arc-triomphe', re: /arc de triomphe(?! du carrousel)/ },
