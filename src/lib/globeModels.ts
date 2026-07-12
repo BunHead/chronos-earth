@@ -51,6 +51,12 @@ const PLACEMENTS: Placement[] = [
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500 },
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
+  // The Paris trio — all of Paris standing together from 1989 onward.
+  { model: 'eiffel', title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945, builtYear: 1889 },
+  { model: 'arc-triomphe', title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295, builtYear: 1836 },
+  // The model includes Pei's glass pyramid, so it stands from the pyramid's
+  // year — an 1800s Louvre without it would be the honest earlier form.
+  { model: 'louvre', title: 'Louvre', lat: 48.8606, lon: 2.3376, builtYear: 1989 },
   { model: 'westminster', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860 },
   { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },

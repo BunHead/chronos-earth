@@ -724,6 +724,7 @@ export class BordersController {
         if (frame.orange?.layer) frame.orange.layer.show = false;
       }
       if (this.redLayer) this.redLayer.show = false;
+      if (this.detailLayer) this.detailLayer.show = false;
       this.labels.show = false;
       this.activeYear = undefined;
       return;

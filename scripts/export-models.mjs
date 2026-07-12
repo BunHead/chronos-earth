@@ -46,6 +46,10 @@ const FLEET = [
   ['mausoleum', 'Mausoleum at Halicarnassus'],
   ['colossus', 'Colossus of Rhodes'],
   ['pharos', 'Lighthouse of Alexandria'],
+  // The Paris trio.
+  ['eiffel', 'Eiffel Tower'],
+  ['arc-triomphe', 'Arc de Triomphe'],
+  ['louvre', 'Louvre'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,

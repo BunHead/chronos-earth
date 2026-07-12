@@ -233,6 +233,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   eventsRef.current = events;
   /** More markers reveal themselves as the camera descends. */
   const [zoomTier, setZoomTier] = useState(0);
+  // Below ~400 km the world-scale paintings (borders fill, rivers, ice-age
+  // seas, campaign strokes — all coarse full-globe textures) smear across
+  // the ground and hide the terrain. They retire close-up.
+  const [closeUp, setCloseUp] = useState(false);
   /** What the camera can see (degrees), so zooming into a region fills THAT
    * region with markers instead of spending the quota worldwide. */
   const [viewRect, setViewRect] = useState<{ w: number; s: number; e: number; n: number } | null>(
@@ -635,6 +639,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const carto = viewer.camera.positionCartographic;
       setZoomTier(zoomTierFor(carto.height));
 
+      // World-scale paintings (shifting rivers, ice-age seas) retire when
+      // you fly close — their coarse strokes would smear over the ground.
+      const worldScale = carto.height > 700_000;
+      riversRef.current?.setZoomVisible(worldScale);
+      seaRef.current?.setZoomVisible(worldScale);
+      setCloseUp(carto.height < 400_000);
+
       // Live-fetched markers pack up once the camera leaves their region
       // (drifted far away, or pulled back to orbit).
       const anchor = liveAnchorRef.current;
@@ -902,12 +913,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     const year = yearsBPToYear(currentYearsBP);
     applyTerrain(ma < PALEO_MA);
     paleoRef.current?.update(ma, modernLayersRef.current);
-    seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA);
-    riversRef.current?.update(year, showRivers && ma < PALEO_MA);
-    bordersRef.current?.update(year, showBorders, ma >= PALEO_MA);
-    campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA);
+    seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA && !closeUp);
+    riversRef.current?.update(year, showRivers && ma < PALEO_MA && !closeUp);
+    bordersRef.current?.update(year, showBorders && !closeUp, ma >= PALEO_MA);
+    campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA && !closeUp);
     faunaRef.current?.update(ma, showFauna);
-  }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel, showRivers]);
+  }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel, showRivers, closeUp]);
 
   // Flag artwork inside borders on/off — and auto-hidden once you zoom in past a
   // whole-continent view. Flags label the broad picture; from tier 2 (below

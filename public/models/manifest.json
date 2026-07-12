@@ -12,7 +12,7 @@
     "kb": 115
   },
   "stonehenge": {
-    "footprint": 25.203,
+    "footprint": 25.187,
     "kb": 335
   },
   "cathedral": {
@@ -41,14 +41,14 @@
   },
   "aqueduct": {
     "footprint": 26.3,
-    "kb": 73
+    "kb": 72
   },
   "rings": {
     "footprint": 48.274,
     "kb": 1225
   },
   "tpillars": {
-    "footprint": 17.581,
+    "footprint": 17.603,
     "kb": 102
   },
   "pyramid": {
@@ -56,19 +56,19 @@
     "kb": 29
   },
   "stepped-pyramid": {
-    "footprint": 12.911,
-    "kb": 46
+    "footprint": 12.755,
+    "kb": 45
   },
   "sphinx": {
     "footprint": 13.95,
     "kb": 46
   },
   "circle": {
-    "footprint": 7.078,
-    "kb": 44
+    "footprint": 7.128,
+    "kb": 45
   },
   "settlement": {
-    "footprint": 10.552,
+    "footprint": 10.586,
     "kb": 68
   },
   "castle": {
@@ -77,7 +77,7 @@
   },
   "mansion": {
     "footprint": 20,
-    "kb": 80
+    "kb": 79
   },
   "temple-tower": {
     "footprint": 12,
@@ -97,11 +97,11 @@
   },
   "hanging-gardens": {
     "footprint": 42.2,
-    "kb": 490
+    "kb": 489
   },
   "zeus-statue": {
     "footprint": 11,
-    "kb": 86
+    "kb": 87
   },
   "artemis-temple": {
     "footprint": 16,
@@ -119,9 +119,21 @@
     "footprint": 9.051,
     "kb": 64
   },
+  "eiffel": {
+    "footprint": 12.45,
+    "kb": 807
+  },
+  "arc-triomphe": {
+    "footprint": 9.44,
+    "kb": 115
+  },
+  "louvre": {
+    "footprint": 35.372,
+    "kb": 792
+  },
   "giza-ruin": {
     "footprint": 45.223,
-    "kb": 53
+    "kb": 54
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
@@ -129,10 +141,10 @@
   },
   "greek-temple-ruin": {
     "footprint": 11.938,
-    "kb": 58
+    "kb": 59
   },
   "stonehenge-ruin": {
-    "footprint": 25.634,
-    "kb": 336
+    "footprint": 22.6,
+    "kb": 327
   }
 }

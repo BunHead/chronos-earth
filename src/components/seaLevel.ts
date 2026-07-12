@@ -334,7 +334,7 @@ export class SeaLevelController {
       alpha = flood * 0.5;
     }
     if (key === this.lastKey && this.shown) {
-      this.shown.alpha = alpha; this.shown.show = alpha > 0;
+      this.shown.alpha = alpha; this.shown.show = alpha > 0 && this.zoomVisible;
       return;
     }
     this.lastKey = key;
@@ -349,9 +349,18 @@ export class SeaLevelController {
       return;
     }
     for (const [k, l] of this.layers) if (k !== key) l.show = false;
-    layer.alpha = alpha; layer.show = true;
+    layer.alpha = alpha; layer.show = this.zoomVisible;
     this.viewer.imageryLayers.raiseToTop(layer);
     this.shown = layer;
+  }
+
+  // World-scale ice-and-flood painting: hide when the camera is close
+  // enough that its coarse texels would smear across the whole view.
+  private zoomVisible = true;
+  setZoomVisible(v: boolean): void {
+    if (v === this.zoomVisible) return;
+    this.zoomVisible = v;
+    if (this.shown) this.shown.show = v && this.shown.alpha > 0;
   }
 
   dispose(): void {

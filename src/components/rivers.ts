@@ -204,9 +204,20 @@ export class RiversController {
       void this.ensure(sig, indices).then(() => { this.lastSig = ''; this.update(year, enabled); });
       return;
     }
-    for (const [k, l] of this.layers) l.show = k === sig;
+    for (const [k, l] of this.layers) l.show = k === sig && this.zoomVisible;
     this.viewer.imageryLayers.raiseToTop(layer);
     this.shown = layer;
+  }
+
+  // The overlay is a WORLD-SCALE painting (one texel ≈ 19 km): zoomed into
+  // a site, its river stroke smears ~100 km wide and drowns the ground (the
+  // Captain's blue-under-Giza). Hide it up close — the real imagery shows
+  // the real river there.
+  private zoomVisible = true;
+  setZoomVisible(v: boolean): void {
+    if (v === this.zoomVisible) return;
+    this.zoomVisible = v;
+    if (this.shown) this.shown.show = v;
   }
 
   dispose(): void {
