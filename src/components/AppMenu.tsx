@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Tour } from '../lib/types';
+import { getLocalMaker, setLocalMaker } from '../lib/review';
 
 interface AppMenuProps {
   tours: Tour[];
@@ -108,7 +109,18 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 <input type="checkbox" checked={reduceMotion} onChange={(e) => onReduceMotion(e.target.checked)} />
                 <span>Reduce motion</span>
               </label>
-              <div className="app-menu-note">Themes &amp; more accessibility options coming soon.</div>
+              <label className="app-menu-item toggle">
+                <input
+                  type="checkbox"
+                  defaultChecked={getLocalMaker()}
+                  onChange={(e) => { setLocalMaker(e.target.checked); location.reload(); }}
+                />
+                <span>🔧 Maker tools (this device)</span>
+              </label>
+              <div className="app-menu-note">
+                Maker tools let you move, turn, scale and lift monuments on the globe. Saved on this
+                device; add your GitHub key in the Workshop to publish for everyone.
+              </div>
             </>
           )}
         </div>

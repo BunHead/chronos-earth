@@ -19,7 +19,7 @@
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
 import { yearToYearsBP } from './timeScale';
-import { loadReview, type ModelTransform } from './review';
+import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -173,7 +173,8 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   } catch {
     return;
   }
-  // The maker's saved placement trims ride in the review file.
+  // The maker's saved placement trims ride in the review file (published for
+  // everyone)…
   try {
     const review = await loadReview();
     for (const [key, rec] of Object.entries(review)) {
@@ -182,6 +183,8 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   } catch {
     /* trims are optional */
   }
+  // …and this device's own local tweaks win on top (maker mode, no key).
+  Object.assign(transforms, loadLocalTransforms());
   for (const p of PLACEMENTS) addPlacement(p);
 }
 
@@ -190,15 +193,19 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
  * (once), so "Visit on the globe" always has something standing there.
  * Returns true when a model does (or already did) stand at this spot.
  */
-export function ensurePlacement(t: { model: string; title: string; lat: number; lon: number; builtYear?: number }): boolean {
-  if (!theViewer || !theManifest[t.model]?.footprint) return false;
+export function ensurePlacement(t: { model: string; title: string; lat: number; lon: number; builtYear?: number }): number | null {
+  if (!theViewer || !theManifest[t.model]?.footprint) return null;
   // Already standing here (curated or previously visited)? ~0.03° ≈ 3 km.
+  // Return ITS build year — a curated placement's year (e.g. the Eye's 2000)
+  // wins over the event's looser date (1999), so the dive nudges to a year
+  // where the model is actually born, not a hair before it.
   const existing = entities.find(
     (e) => e.p.model === t.model && Math.abs(e.p.lat - t.lat) < 0.03 && Math.abs(e.p.lon - t.lon) < 0.03,
   );
-  if (existing) return true;
-  addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear: t.builtYear ?? -3000 });
-  return true;
+  if (existing) return existing.p.builtYear;
+  const builtYear = t.builtYear ?? -3000;
+  addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear });
+  return builtYear;
 }
 
 /** The live Cesium viewer, for other on-globe stages (battles). */

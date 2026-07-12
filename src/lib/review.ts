@@ -17,6 +17,7 @@ const OWNER = 'BunHead';
 const REPO = 'chronos-earth';
 const FILE_PATH = 'public/data/model-review.json';
 const TOKEN_KEY = 'ce_maker_token';
+const LOCAL_MAKER_KEY = 'ce_maker_local';
 let validatedToken: string | null = null;
 
 export type ReviewStatus = 'approved' | 'allowed' | 'rejected';
@@ -68,6 +69,48 @@ export function setToken(t: string): void {
 export function isMaker(): boolean {
   const token = getToken();
   return !!token && token === validatedToken;
+}
+
+/**
+ * "Maker tools on this device" — the Captain's own switch (⋯ menu). It
+ * unlocks the globe placement reins WITHOUT a GitHub key: he can move,
+ * turn, scale and lift monuments and his tweaks persist on this device.
+ * Publishing them for every visitor still needs the key (saveReview).
+ */
+export function getLocalMaker(): boolean {
+  try {
+    return localStorage.getItem(LOCAL_MAKER_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+export function setLocalMaker(on: boolean): void {
+  try {
+    if (on) localStorage.setItem(LOCAL_MAKER_KEY, '1');
+    else localStorage.removeItem(LOCAL_MAKER_KEY);
+  } catch {
+    /* storage blocked — the switch just can't stick */
+  }
+}
+
+// ── device-local placement trims (no key needed) ────────────────────────────
+const LOCAL_PLACE_KEY = 'ce_local_place';
+export function loadLocalTransforms(): Record<string, ModelTransform> {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_PLACE_KEY) ?? '{}') as Record<string, ModelTransform>;
+  } catch {
+    return {};
+  }
+}
+export function saveLocalTransform(key: string, t: ModelTransform | undefined): void {
+  try {
+    const all = loadLocalTransforms();
+    if (t && Object.keys(t).length) all[key] = t;
+    else delete all[key];
+    localStorage.setItem(LOCAL_PLACE_KEY, JSON.stringify(all));
+  } catch {
+    /* storage blocked */
+  }
 }
 
 /**

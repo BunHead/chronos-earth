@@ -340,10 +340,13 @@ export default function App() {
   // switch the Sites layer on, and dive the camera down to it.
   const visitMonument = (m: NonNullable<PanelContent['monument3d']>) => {
     setIsPlaying(false);
-    ensurePlacement(m);
+    // Nudge to the year the model is ACTUALLY born on the globe (a curated
+    // placement's build year, not the event's looser date) so it stands the
+    // instant you arrive — the Eye no longer waits a year to appear.
+    const placedYear = ensurePlacement(m) ?? m.builtYear;
     setShowSites(true);
-    if (m.builtYear != null && yearsBP > yearToYearsBP(m.builtYear)) {
-      setYearsBP(yearToYearsBP(m.builtYear));
+    if (placedYear != null && yearsBP > yearToYearsBP(placedYear)) {
+      setYearsBP(yearToYearsBP(placedYear));
     }
     globeRef.current?.flyToMonument(m.lon, m.lat, fitFor(m.title, m.model).widthM);
   };

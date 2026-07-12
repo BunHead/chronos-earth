@@ -11,9 +11,11 @@
 import { useEffect, useState } from 'react';
 import {
   getToken,
+  getLocalMaker,
   validateMakerToken,
   loadReview,
   saveReview,
+  saveLocalTransform,
   type ModelTransform,
   type ReviewData,
   type ReviewStatus,
@@ -44,16 +46,23 @@ interface MakerRowProps {
 
 export default function MakerRow({ reviewKey, place }: MakerRowProps) {
   const [unlocked, setUnlocked] = useState(false);
+  // Local maker mode (⋯ menu switch): the reins work with no GitHub key,
+  // saving to this device. `keyed` means a validated key — only then can
+  // review verdicts and placements be PUBLISHED for every visitor.
+  const [keyed, setKeyed] = useState(false);
   const [, bump] = useState(0);
   const [msg, setMsg] = useState('');
   const [adjusting, setAdjusting] = useState(false);
 
   useEffect(() => {
     let alive = true;
+    const local = getLocalMaker();
+    if (local) void sharedReview().then(() => { if (alive) setUnlocked(true); });
     if (!getToken()) return;
     validateMakerToken().then(async (r) => {
       if (!alive || !r.ok) return;
       await sharedReview();
+      setKeyed(true);
       setUnlocked(true);
     });
     return () => { alive = false; };
@@ -119,10 +128,18 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
           onStatus={setMsg}
           persist={(t) => {
             const key = transformKey(place.model, place.lat, place.lon);
-            const r = (shared![key] ??= {});
-            r.transform = Object.keys(t).length ? t : undefined;
-            r.ts = Date.now();
-            void persist();
+            const trim = Object.keys(t).length ? t : undefined;
+            // Always keep this device's copy so the alignment survives reload.
+            saveLocalTransform(key, trim);
+            if (keyed) {
+              // With a key, ALSO publish it for every visitor via the repo.
+              const r = (shared![key] ??= {});
+              r.transform = trim;
+              r.ts = Date.now();
+              void persist();
+            } else {
+              setMsg('Saved on this device. Add your key to publish for everyone.');
+            }
           }}
         />
       )}
