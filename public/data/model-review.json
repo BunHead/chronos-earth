@@ -72,5 +72,11 @@
     "status": "allowed",
     "ts": 1783889425163,
     "note": "Raised area to the north should form one continuous raised area that forms an upper eyelid curved shape following the top half circle of the city. From the raised area waterfalls fall to the basins floor and flow into the cannals circling the city"
+  },
+  "place:rings@21.124,-11.396": {
+    "transform": {
+      "scale": 21.629
+    },
+    "ts": 1783889456673
   }
 }
