@@ -247,6 +247,9 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
               right here — appears only when the Captain's key is present. */}
           {(content.monument3d || content.battleId) && (
             <MakerRow
+              // Key per site so the reins RESET when you move to another
+              // monument — their state must not follow the old model.
+              key={content.battleId ? `battle:${content.battleId}` : `${content.monument3d!.model}@${content.monument3d!.lat},${content.monument3d!.lon}`}
               reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model}
               place={
                 content.monument3d
