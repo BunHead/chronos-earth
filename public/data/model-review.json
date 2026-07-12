@@ -92,5 +92,9 @@
     "note": "Needs over time sequence, at least 3 frames comet, impact, aftermath.",
     "rework": true,
     "focus": "bakeoff"
+  },
+  "westminster": {
+    "status": "allowed",
+    "ts": 1783890740160
   }
 }
