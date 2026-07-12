@@ -108,7 +108,9 @@
   },
   "eiffel": {
     "status": "allowed",
-    "ts": 1783891427455,
-    "note": "Continue adding detail"
+    "ts": 1783891430851,
+    "note": "Continue adding detail",
+    "rework": true,
+    "focus": "detail"
   }
 }
