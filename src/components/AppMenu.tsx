@@ -11,6 +11,8 @@ interface AppMenuProps {
   onToggleSky: () => void;
   compassOpen: boolean;
   onToggleCompass: () => void;
+  seaOpen: boolean;
+  onToggleSea: () => void;
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
 }
@@ -22,7 +24,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, reduceMotion, onReduceMotion }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -70,6 +72,9 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
               </button>
               <button className="app-menu-item" onClick={() => { close(); onToggleCompass(); }}>
                 🧭 Compass {compassOpen ? '✓' : ''}
+              </button>
+              <button className="app-menu-item" onClick={() => { close(); onToggleSea(); }}>
+                🌊 Sea level {seaOpen ? '✓' : ''}
               </button>
               {/* The maker's tools: browse every 3D model, and run the automated
                   Wikidata harvester on GitHub (free, no local setup) — the

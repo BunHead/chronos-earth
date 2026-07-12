@@ -2497,6 +2497,35 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
 }
 .app-sky .sky-dial { position: relative; right: auto; top: auto; bottom: auto; }
 
+/* ── Sea level frame — the Captain's hand on the world's water ─────────── */
+.sea-frame {
+  position: fixed; left: 16px; bottom: 300px; z-index: 30; width: 240px;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 0 12px 10px; border-radius: 12px;
+  background: rgba(11, 19, 28, 0.92); border: 1px solid #2c3d50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+.sf-grip {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 0 3px; cursor: grab; user-select: none; touch-action: none;
+  font-size: 12px; font-weight: 700; color: #d9e4ef; letter-spacing: 0.02em;
+}
+.sf-close {
+  width: 20px; height: 20px; border-radius: 5px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 12px; line-height: 1;
+}
+.sf-read { display: flex; align-items: baseline; gap: 8px; }
+.sf-read b { font-size: 16px; color: #7fd0ff; font-variant-numeric: tabular-nums; }
+.sf-read small { font-size: 10px; color: #9fb3c7; }
+.sea-frame input[type='range'] { width: 100%; accent-color: #3f83a8; }
+.sf-actions { display: flex; gap: 6px; }
+.sf-actions button {
+  flex: 1; padding: 5px 4px; border-radius: 6px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 11px;
+}
+.sf-actions button:hover { background: #24466b; border-color: #6fb1ff; }
+.sf-note { font-size: 9px; color: #7d8fa3; }
+
 /* ── Battle HUD — the story strip for battles fought on the globe ─────── */
 .battle-hud {
   position: fixed; left: 50%; bottom: 150px; transform: translateX(-50%);

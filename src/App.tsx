@@ -18,6 +18,7 @@ import CompareMode from './components/CompareMode';
 import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
 import WeatherOverlay from './components/WeatherOverlay';
+import SeaLevelFrame from './components/SeaLevelFrame';
 import { ensurePlacement } from './lib/globeModels';
 import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
@@ -175,6 +176,7 @@ export default function App() {
   // everyone — it lights the REAL globe by the real sun — and the compass.
   const [skyOpen, setSkyOpen] = useState(false);
   const [compassOpen, setCompassOpen] = useState(false);
+  const [seaOpen, setSeaOpen] = useState(false);
   const [sky, setSky] = useState({
     date: new Date(),
     solarHours: 12,
@@ -588,6 +590,13 @@ export default function App() {
           onToggleSky={() => setSkyOpen((v) => !v)}
           compassOpen={compassOpen}
           onToggleCompass={() => setCompassOpen((v) => !v)}
+          seaOpen={seaOpen}
+          onToggleSea={() => {
+            setSeaOpen((v) => {
+              if (v) globeRef.current?.setManualSea(null); // closing hands the water back
+              return !v;
+            });
+          }}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
         />
@@ -677,6 +686,13 @@ export default function App() {
         active={skyOpen && !!viewRegion && viewRegion.n - viewRegion.s < 4}
         reduceMotion={reduceMotion}
       />
+
+      {seaOpen && (
+        <SeaLevelFrame
+          onSea={(m) => globeRef.current?.setManualSea(m)}
+          onClose={() => setSeaOpen(false)}
+        />
+      )}
 
       {compassOpen && (
         <CompassFrame

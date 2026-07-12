@@ -13,6 +13,7 @@ import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
 import { SeaLevelController } from './seaLevel';
+import { OceanDrainController } from './oceanDrain';
 import { RiversController } from './rivers';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
@@ -119,6 +120,8 @@ export interface GlobeHandle {
   /** Compass: current camera heading in degrees, and a swing back to north. */
   getHeading: () => number;
   resetNorth: () => void;
+  /** Sea level frame: manual sea in metres vs today (null = engine off). */
+  setManualSea: (seaM: number | null) => void;
   /** Freeze the current globe pixels for the Time Rift comparison overlay. */
   captureFrame: () => string | null;
 }
@@ -183,6 +186,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   cameraLockedRef.current = cameraLocked;
   const paleoRef = useRef<PaleoController | null>(null);
   const seaRef = useRef<SeaLevelController | null>(null);
+  const oceanRef = useRef<OceanDrainController | null>(null);
+  // While the manual Sea level frame is active it owns the water — the
+  // timeline's ice-age overlay stands down until the frame lets go.
+  const manualSeaActiveRef = useRef(false);
   const riversRef = useRef<RiversController | null>(null);
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
@@ -469,7 +476,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     reseatAll();
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, captureFrame }));
+  // The Sea level frame's hand on the water: metres vs today, null = off.
+  const setManualSea = (seaM: number | null) => {
+    oceanRef.current?.update(seaM);
+    // The manual sea replaces the ice-age overlay while it holds the tiller.
+    manualSeaActiveRef.current = seaM !== null && seaM !== 0;
+  };
+
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {
@@ -595,6 +609,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
     paleoRef.current = new PaleoController(viewer, import.meta.env.BASE_URL);
     seaRef.current = new SeaLevelController(viewer);
+    oceanRef.current = new OceanDrainController(viewer);
     riversRef.current = new RiversController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
     fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
@@ -644,6 +659,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const worldScale = carto.height > 700_000;
       riversRef.current?.setZoomVisible(worldScale);
       seaRef.current?.setZoomVisible(worldScale);
+      oceanRef.current?.setZoomVisible(carto.height > 300_000);
       setCloseUp(carto.height < 400_000);
 
       // Live-fetched markers pack up once the camera leaves their region
@@ -889,6 +905,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       faunaRef.current = null;
       paleoRef.current?.dispose();
       seaRef.current?.dispose();
+      oceanRef.current?.dispose();
       riversRef.current?.dispose();
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
@@ -913,7 +930,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     const year = yearsBPToYear(currentYearsBP);
     applyTerrain(ma < PALEO_MA);
     paleoRef.current?.update(ma, modernLayersRef.current);
-    seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA && !closeUp);
+    seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA && !closeUp && !manualSeaActiveRef.current);
     riversRef.current?.update(year, showRivers && ma < PALEO_MA && !closeUp);
     bordersRef.current?.update(year, showBorders && !closeUp, ma >= PALEO_MA);
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA && !closeUp);

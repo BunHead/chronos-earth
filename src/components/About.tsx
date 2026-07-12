@@ -48,6 +48,11 @@ export default function About({ onClose }: AboutProps) {
               (used here with no account or token).
             </li>
             <li>
+              <b>Sea level &amp; ocean floor:</b> elevation and bathymetry from{' '}
+              <a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/" target="_blank" rel="noopener noreferrer">NASA Blue Marble Next Generation</a>{' '}
+              (GEBCO-derived, public domain), fused into a bundled raster — approximate at coastal detail.
+            </li>
+            <li>
               <b>Ancient sites &amp; battles:</b> a curated dataset written for this project, with links to{' '}
               <a href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer">Wikipedia</a>{' '}
               and other sources for each entry.
