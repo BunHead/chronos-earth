@@ -66,6 +66,7 @@ const PLACEMENTS: Placement[] = [
   { model: 'tower-of-london', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1097 },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
+  { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },

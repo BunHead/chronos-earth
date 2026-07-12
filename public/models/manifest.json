@@ -166,5 +166,9 @@
   "stonehenge-ruin": {
     "footprint": 25.172,
     "kb": 313
+  },
+  "opera-house": {
+    "footprint": 49.8,
+    "kb": 654
   }
 }

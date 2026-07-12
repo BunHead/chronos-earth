@@ -56,6 +56,7 @@ const FLEET = [
   ['tower-of-london', 'Tower of London'],
   ['shard', 'The Shard'],
   ['gherkin', '30 St Mary Axe (The Gherkin)'],
+  ['opera-house', 'Sydney Opera House'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
