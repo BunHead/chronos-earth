@@ -441,47 +441,71 @@ function sphinxGroup(): THREE.Group {
 }
 
 /**
- * One precast "sail" shell of the Sydney Opera House — a thin doubly-curved
- * white vault. Utzon cut every shell from ONE sphere; we approximate that with
- * a pointed-arch cross-section (a Gothic point at the ridge) swept from a tall
- * open MOUTH at the shell's local −Z end, up over a ridge peak, and down to a
- * low pointed TOE at its +Z end — the cross-section narrowing and the ridge
- * falling as it goes. Returned as a ribbed sheet (surface + a ridge cap + fan
- * ribs, all raised a whisker proud) so it reads as an interlocking shell, not a
- * smooth blob. `glass` fills the mouth with the amber curtain wall.
+ * One precast "sail" shell of the Sydney Opera House — a BILLOWING, near-vertical
+ * spherical-section sail, exactly as Utzon cut every shell from the surface of
+ * ONE sphere. We take a triangular PETAL off a unit sphere: a fine point at the
+ * APEX (top), the two curved side edges sweeping down and OUT as ridges to a
+ * wide, tall open MOUTH at the base. The surface between billows convex — a
+ * full-bellied wind-filled sail — because it is literally a slice of a sphere.
+ * The whole petal leans forward so the mouth opens tall toward the harbour
+ * (local −Z) while the tiled belly faces the land (+Z). We then scale the petal
+ * to the target `width`/`height`/`depth`, so a cluster can step big → small.
+ * Ridge caps run up both soaring side edges; rib bands cross the belly; `glass`
+ * hangs the amber curtain wall in the mouth.
  */
 function operaShell(
-  L: number,
-  W0: number,
-  H0: number,
+  width: number,
+  height: number,
+  depth: number,
   tile: THREE.Material,
   glass = false,
 ): THREE.Group {
   const g = new THREE.Group();
-  const peakT = 0.22; // ridge peaks a little BEHIND the mouth lip → it billows
-  const ridgeShape = (t: number) =>
-    t < peakT
-      ? 0.82 + 0.18 * (t / peakT)
-      : Math.pow(Math.cos(((t - peakT) / (1 - peakT)) * (Math.PI / 2)), 0.9);
-  // A point on the shell surface. t: 0=mouth → 1=toe; a: −1..1 across the arch.
-  const pt = (t: number, a: number): THREE.Vector3 => {
-    const w = W0 * Math.pow(1 - t, 0.62); // widest at the mouth, staying full toward the toe
-    const h = H0 * ridgeShape(t);
-    const x = a * w;
-    const y = h * (1 - Math.pow(Math.abs(a), 0.52)); // fuller shoulders, still a sharp ridge point
-    return new THREE.Vector3(x, y, t * L);
+  const betaMax = 1.2; // base half-angle down from the apex → a tall, slender petal
+  const thetaMax = 1.02; // azimuth half-width across the sphere → the mouth's spread
+  const lean = 0.34; // the whole sail leans forward, so it soars rather than sits
+  const nU = 28; // apex → base
+  const nV = 26; // rim to rim across
+  // Raw point on the unit-sphere petal, apex at +Y, belly bulging toward +Z.
+  const raw = (u: number, v: number): [number, number, number] => {
+    const beta = u * betaMax;
+    const theta = v * thetaMax;
+    const sb = Math.sin(beta);
+    const x = sb * Math.sin(theta);
+    const y = Math.cos(beta);
+    const z = sb * Math.cos(theta);
+    const cl = Math.cos(lean);
+    const sl = Math.sin(lean);
+    return [x, y * cl - z * sl, y * sl + z * cl];
   };
-  const nT = 28;
-  const nS = 26;
-  const rowLen = nS + 1;
+  // Fit the raw petal's bounding box, then non-uniformly scale to the target
+  // envelope and lift so the sail springs from y=0.
+  let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9, minZ = 1e9, maxZ = -1e9;
+  for (let i = 0; i <= nU; i++) {
+    for (let j = 0; j <= nV; j++) {
+      const [x, y, z] = raw(i / nU, -1 + (2 * j) / nV);
+      if (x < minX) minX = x; if (x > maxX) maxX = x;
+      if (y < minY) minY = y; if (y > maxY) maxY = y;
+      if (z < minZ) minZ = z; if (z > maxZ) maxZ = z;
+    }
+  }
+  const sx = width / (maxX - minX);
+  const sy = height / (maxY - minY);
+  const sz = depth / (maxZ - minZ);
+  const cx = (minX + maxX) / 2;
+  const cz = (minZ + maxZ) / 2;
+  const P = (u: number, v: number): THREE.Vector3 => {
+    const [x, y, z] = raw(u, v);
+    return new THREE.Vector3((x - cx) * sx, (y - minY) * sy, (z - cz) * sz);
+  };
+  const rowLen = nV + 1;
   const pos: number[] = [];
-  for (let i = 0; i <= nT; i++) {
-    const t = i / nT;
-    for (let j = 0; j <= nS; j++) pos.push(...pt(t, -1 + (2 * j) / nS).toArray());
+  for (let i = 0; i <= nU; i++) {
+    for (let j = 0; j <= nV; j++) pos.push(...P(i / nU, -1 + (2 * j) / nV).toArray());
   }
   const idx: number[] = [];
-  for (let i = 0; i < nT; i++) {
-    for (let j = 0; j < nS; j++) {
+  for (let i = 0; i < nU; i++) {
+    for (let j = 0; j < nV; j++) {
       const p0 = i * rowLen + j;
       idx.push(p0, p0 + rowLen, p0 + 1, p0 + 1, p0 + rowLen, p0 + rowLen + 1);
     }
@@ -492,42 +516,47 @@ function operaShell(
   geo.computeVertexNormals();
   g.add(new THREE.Mesh(geo, tile));
 
-  // Ridge cap — a brighter tube along the ridge line, catching the light.
+  // Ridge caps — a brighter tube up EACH soaring side edge, meeting at the apex.
   // The thin ridge/rib tubes are decorative trim on the surface. Flag them
   // noShadow so (a) they never inflate the fit box the shell surface already
   // defines, and (b) when the generic ruin removes the shell above the collapse
   // line these hair-thin curves go with it instead of floating as stray wires.
   const capMat = new THREE.MeshStandardMaterial({ color: '#fbfaf6', roughness: 0.28, metalness: 0.04 });
-  const ridgePts: THREE.Vector3[] = [];
-  for (let i = 0; i <= nT; i++) ridgePts.push(pt(i / nT, 0));
-  const cap = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(ridgePts), 24, 0.14, 6, false), capMat);
-  cap.userData.noShadow = true;
-  g.add(cap);
-  // Fan ribs across the sail at a few stations — the segmented precast look.
+  for (const edge of [-1, 1]) {
+    const rp: THREE.Vector3[] = [];
+    for (let i = 0; i <= nU; i++) rp.push(P(i / nU, edge));
+    const cap = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rp), 24, 0.16, 6, false), capMat);
+    cap.userData.noShadow = true;
+    g.add(cap);
+  }
+  // Rib bands across the belly at a few stations — the segmented precast look.
   const ribMat = new THREE.MeshStandardMaterial({ color: '#dcdcd6', roughness: 0.45, metalness: 0.03 });
-  for (const t of [0.06, 0.24, 0.46, 0.7]) {
+  for (const u of [0.34, 0.56, 0.78, 0.96]) {
     const arc: THREE.Vector3[] = [];
-    for (let j = 0; j <= nS; j++) arc.push(pt(t, -1 + (2 * j) / nS));
-    const rib = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(arc), 22, 0.09, 5, false), ribMat);
+    for (let j = 0; j <= nV; j++) arc.push(P(u, -1 + (2 * j) / nV));
+    const rib = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(arc), 22, 0.1, 5, false), ribMat);
     rib.userData.noShadow = true;
     g.add(rib);
   }
-  // The amber glass curtain wall closing the mouth, under the biggest shells.
+  // The amber glass curtain wall hung in the mouth, under the biggest shells.
   if (glass) {
-    const t = 0.05;
     const shp = new THREE.Shape();
-    for (let j = 0; j <= nS; j++) {
-      const p = pt(t, -1 + (2 * j) / nS);
+    let mz = 0, mn = 0;
+    for (let j = 0; j <= nV; j++) {
+      const p = P(1, -1 + (2 * j) / nV);
+      mz += p.z; mn++;
       if (j === 0) shp.moveTo(p.x, p.y);
       else shp.lineTo(p.x, p.y);
     }
-    shp.lineTo(pt(t, -1).x, 0);
+    shp.lineTo(P(1, 1).x, 0);
+    shp.lineTo(P(1, -1).x, 0);
+    shp.closePath();
     const gg = new THREE.ShapeGeometry(shp);
     const glassMat = new THREE.MeshStandardMaterial({
       color: '#c9a86a', roughness: 0.2, metalness: 0.15, transparent: true, opacity: 0.55, side: THREE.DoubleSide,
     });
     const gm = new THREE.Mesh(gg, glassMat);
-    gm.position.z = t * L;
+    gm.position.z = mz / mn;
     gm.userData.noShadow = true; // glazing: no shadow, and no floating panes in the ruin
     g.add(gm);
   }
@@ -3786,11 +3815,13 @@ export function buildModel(
     const tileB = new THREE.MeshStandardMaterial({ color: '#e2e6df', roughness: 0.4, metalness: 0.04, side: THREE.DoubleSide });
     const tileFor = (i: number) => (i % 2 ? tileB : tileA);
 
-    // --- The peninsula plinth + stepped podium platform. ---
-    group.add(matBlock(33, 1.2, 47, 0, 0.6, -3, granDk)); // low plinth skirting the point
-    group.add(matBlock(29.5, 2.3, 40, 0, 1.75, -4, gran)); // main podium platform
+    // --- The peninsula plinth + stepped podium platform. The main platform's
+    // REAR face is pulled forward to z=-20, leaving the low plinth as an open
+    // harbour terrace behind it for the podium colonnade to stand on. ---
+    group.add(matBlock(33, 1.2, 47, 0, 0.6, -3, granDk)); // low plinth skirting the point (rear terrace to z≈-26)
+    group.add(matBlock(29.5, 2.3, 36, 0, 1.75, -2, gran)); // main podium platform, rear face at z=-20
     const podTop = 2.9; // top of the main platform
-    group.add(matBlock(24.5, 1.3, 30, 0, podTop + 0.65, -6, granLt)); // raised inner podium the halls stand on
+    group.add(matBlock(24.5, 1.3, 28, 0, podTop + 0.65, -5, granLt)); // raised inner podium the halls stand on
     const base = podTop + 1.3; // shells spring from here
     // The grand Monumental Steps, full width, cascading to the water on the front.
     const nSteps = 9;
@@ -3801,36 +3832,80 @@ export function buildModel(
       group.add(matBlock(29.5 - s * 0.4, podTop / nSteps + 0.12, 1.0, 0, y - podTop / (2 * nSteps) + 0.1, z, s % 2 ? gran : granLt));
     }
 
-    // --- A cluster of sails: shells stepping down in size toward the land (+Z). ---
-    type Sail = { mz: number; L: number; W: number; H: number; glass?: boolean };
+    // --- A cluster of sails: shells stepping down in size toward the land (+Z),
+    // each a full-bellied spherical petal soaring to a fine apex. width = mouth
+    // spread, height = apex, depth = how far the belly billows along the axis. ---
+    type Sail = { mz: number; width: number; height: number; depth: number; glass?: boolean };
     const cluster = (cx: number, rotY: number, sails: Sail[]) => {
       sails.forEach((sh, i) => {
-        const s = operaShell(sh.L, sh.W, sh.H, tileFor(i), sh.glass);
+        const s = operaShell(sh.width, sh.height, sh.depth, tileFor(i), sh.glass);
         s.position.set(cx, base, sh.mz);
         s.rotation.y = rotY;
         group.add(s);
       });
     };
-    // Concert Hall — the taller western cluster.
+    // Concert Hall — the taller western cluster. (Depths kept shallow enough that
+    // the rearmost mouth clears z≈-21, leaving the harbour terrace free.)
     cluster(-7, -0.06, [
-      { mz: -19, L: 17, W: 7.6, H: 13.2, glass: true },
-      { mz: -13.5, L: 15, W: 6.6, H: 11, glass: true },
-      { mz: -8.5, L: 12.5, W: 5.5, H: 8.6 },
-      { mz: -4, L: 9.5, W: 4.3, H: 5.8 },
+      { mz: -15.5, width: 15.5, height: 16.5, depth: 11, glass: true },
+      { mz: -11, width: 13.5, height: 13.5, depth: 10, glass: true },
+      { mz: -7, width: 11.2, height: 10.2, depth: 9 },
+      { mz: -3, width: 8.8, height: 6.8, depth: 7.5 },
     ]);
     // Joan Sutherland Theatre — the slightly smaller eastern cluster, staggered.
     cluster(6.8, 0.06, [
-      { mz: -16, L: 14.5, W: 6.4, H: 10.8, glass: true },
-      { mz: -11, L: 12.5, W: 5.4, H: 8.7 },
-      { mz: -6.5, L: 10.5, W: 4.4, H: 6.3 },
+      { mz: -13, width: 13.2, height: 13.5, depth: 10.5, glass: true },
+      { mz: -9, width: 11.2, height: 10.6, depth: 9.5 },
+      { mz: -5, width: 8.8, height: 7.4, depth: 8 },
     ]);
     // The Bennelong restaurant — a small separate shell set off to one side (east),
     // toward the land end, its own little cluster of sails opening to the harbour.
     cluster(12, 0.18, [
-      { mz: -2, L: 7.5, W: 3.2, H: 4.6 },
-      { mz: 1.5, L: 6, W: 2.6, H: 3.4 },
-      { mz: 4.5, L: 4.5, W: 2.0, H: 2.4 },
+      { mz: -1.5, width: 6.6, height: 6, depth: 6.5 },
+      { mz: 2, width: 5.4, height: 4.4, depth: 5 },
+      { mz: 5, width: 4.2, height: 3.0, depth: 4 },
     ]);
+
+    // --- The monumental podium colonnade: an arcade of real arches along the
+    // podium's REAR harbour terrace (the far −Z edge, behind the sails). The
+    // arches stand FREE on the plinth terrace, a deep open loggia between them
+    // and the pulled-back podium wall, so daylight falls through every opening —
+    // extruded arch holes, not flat boxes (the aqueduct/amphitheatre technique). ---
+    const opArch = (w: number, h: number, hwFrac: number, springFrac: number, dep: number): THREE.ExtrudeGeometry => {
+      const sp = new THREE.Shape();
+      sp.moveTo(-w / 2, 0);
+      sp.lineTo(w / 2, 0);
+      sp.lineTo(w / 2, h);
+      sp.lineTo(-w / 2, h);
+      sp.closePath();
+      const hw = w * hwFrac;
+      const spring = h * springFrac;
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      sp.holes.push(hole);
+      const eg = new THREE.ExtrudeGeometry(sp, { depth: dep, bevelEnabled: false, curveSegments: 18 });
+      eg.translate(0, 0, -dep / 2);
+      return eg;
+    };
+    const arcSpan = 27;
+    const arcBays = 9;
+    const arcBayW = arcSpan / arcBays;
+    const arcH = 5.0;
+    const arcY = 1.2; // stands on the plinth terrace
+    const arcZ = -24; // out at the harbour edge, a deep loggia in front of the podium wall
+    const arcGeo = opArch(arcBayW + 0.05, arcH, 0.4, 0.5, 1.7);
+    for (let i = 0; i < arcBays; i++) {
+      const ax = -arcSpan / 2 + arcBayW * (i + 0.5);
+      const p = new THREE.Mesh(arcGeo, i % 2 ? gran : granLt);
+      p.position.set(ax, arcY, arcZ);
+      group.add(p);
+    }
+    // A slim cornice capping the colonnade, tying the bays into one arcade.
+    group.add(matBlock(arcSpan + 1.4, 0.55, 2.1, 0, arcY + arcH + 0.25, arcZ, granDk));
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
