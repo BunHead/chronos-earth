@@ -122,6 +122,7 @@
   },
   "giza": {
     "status": "allowed",
-    "ts": 1783891479394
+    "ts": 1783891502549,
+    "note": "Extend nile, lower Sphinx"
   }
 }
