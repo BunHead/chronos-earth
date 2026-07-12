@@ -195,14 +195,16 @@ export default function App() {
   const [newVersion, setNewVersion] = useState(false);
 
   useEffect(() => {
-    let baseline: number | null = null;
+    // The build baked into THIS running code. If the server's version.json
+    // reports a different build, the tab is stale — even if it loaded old
+    // bytes to begin with (the case a "changed-while-open" check would miss).
+    const running = typeof __BUILD_ID__ === 'number' ? __BUILD_ID__ : 0;
     const check = () =>
       fetch(`${import.meta.env.BASE_URL}version.json`, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
         .then((j: { build?: number } | null) => {
           if (!j?.build) return;
-          if (baseline === null) baseline = j.build;
-          else if (j.build !== baseline) setNewVersion(true);
+          if (running && j.build !== running) setNewVersion(true);
         })
         .catch(() => {
           /* offline or dev — no toast */

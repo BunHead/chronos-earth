@@ -84,6 +84,13 @@ export default function About({ onClose }: AboutProps) {
 
           <h3 className="info-h3">Built with</h3>
           <ul className="facts">
+            <li>
+              <b>Version:</b>{' '}
+              <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                {typeof __BUILD_LABEL__ === 'string' ? __BUILD_LABEL__ : 'dev'}
+              </span>{' '}
+              — if the deployed site differs, a refresh prompt appears.
+            </li>
             <li>CesiumJS (3D globe) · Three.js (3D battle scenes)</li>
             <li>React · TypeScript · Vite</li>
             <li>

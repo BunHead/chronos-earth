@@ -2,6 +2,17 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import cesium from 'vite-plugin-cesium';
+import { readFileSync } from 'node:fs';
+
+// The build id + readable label the stamper wrote just before this runs
+// (npm build: stamp-version → tsc → vite build). Baked into the bundle so the
+// running code KNOWS its own version and can spot when it has gone stale.
+let VERSION = { build: 0, label: 'dev' };
+try {
+  VERSION = JSON.parse(readFileSync('public/version.json', 'utf8'));
+} catch {
+  /* dev, or first build — fall back to the dev label */
+}
 
 // vite-plugin-cesium injects `<script src="cesium/Cesium.js">` into the <head>
 // as a *blocking* classic script. Cesium is ~5.8 MB (1.7 MB gzipped), so the
@@ -27,6 +38,10 @@ function deferCesiumScript(): Plugin {
 // GitHub Pages need when the site lives in a subfolder.
 export default defineConfig(({ command }) => ({
   base: './',
+  define: {
+    __BUILD_ID__: JSON.stringify(VERSION.build),
+    __BUILD_LABEL__: JSON.stringify(VERSION.label),
+  },
   plugins: [react(), cesium(), deferCesiumScript()],
   // Strip console.* and debugger statements from production builds only — dev
   // keeps them for debugging. Trims the app bundle and avoids console noise on

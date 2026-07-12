@@ -135,6 +135,10 @@
     {
       "year": 2014,
       "file": "borders_2014.geojson"
+    },
+    {
+      "year": 2022,
+      "file": "borders_2022.geojson"
     }
   ]
 }
