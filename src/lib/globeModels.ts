@@ -51,9 +51,9 @@ const PLACEMENTS: Placement[] = [
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.
   { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80 },
-  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349 },
+  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
-  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500 },
+  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500, buildYears: 400 },
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
   // The Paris trio — all of Paris standing together from 1989 onward.
   { model: 'eiffel', title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945, builtYear: 1889 },

@@ -72,6 +72,8 @@ const RUINS = [
 // honours a build fraction (currently giza). Each → {model}-b30/-b60/-b90.
 const BUILD_STAGES = [
   ['giza', 'Giza Pyramids', [30, 60, 90]],
+  ['stonehenge', 'Stonehenge', [30, 60, 90]],
+  ['amphitheatre', 'Colosseum', [30, 60, 90]],
 ];
 
 await mkdir(OUT, { recursive: true });
