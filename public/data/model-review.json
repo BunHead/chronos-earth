@@ -139,5 +139,9 @@
     "ts": 1783891646352,
     "rework": true,
     "focus": "detail"
+  },
+  "stepped-pyramid": {
+    "status": "allowed",
+    "ts": 1783891685349
   }
 }
