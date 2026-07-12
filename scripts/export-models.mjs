@@ -50,6 +50,12 @@ const FLEET = [
   ['eiffel', 'Eiffel Tower'],
   ['arc-triomphe', 'Arc de Triomphe'],
   ['louvre', 'Louvre'],
+  // The London expansion.
+  ['tower-bridge', 'Tower Bridge'],
+  ['st-pauls', "St Paul's Cathedral"],
+  ['tower-of-london', 'Tower of London'],
+  ['shard', 'The Shard'],
+  ['gherkin', '30 St Mary Axe (The Gherkin)'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,

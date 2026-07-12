@@ -2413,19 +2413,41 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
 }
 .maker-msg { color: #9fb3c7; font-size: 10px; }
 .maker-adjust {
-  width: 100%; display: flex; flex-direction: column; gap: 4px;
-  padding: 6px 4px 2px; border-top: 1px dashed rgba(201, 162, 75, 0.35);
+  width: 100%; display: flex; flex-direction: column; gap: 8px;
+  padding: 8px 4px 2px; border-top: 1px dashed rgba(201, 162, 75, 0.35);
 }
-.adj-row { display: flex; align-items: center; gap: 6px; font-size: 11px; }
-.adj-label { width: 38px; color: #c9a24b; font-weight: 700; }
-.adj-read { min-width: 52px; text-align: center; color: #d9e4ef; font-variant-numeric: tabular-nums; }
-.adj-row button {
-  width: 26px; height: 22px; border-radius: 6px; border: 1px solid #3a4a5c;
-  background: #16222e; color: #eaf1f8; cursor: pointer; line-height: 1;
+.adj-pad {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;
+  align-items: stretch;
 }
-.adj-actions { display: flex; justify-content: space-between; gap: 6px; margin-top: 4px; }
+.adj-pad button { cursor: pointer; border: 1px solid #3a4a5c; background: #16222e; color: #eaf1f8; }
+.adj-dir {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 8px; padding: 8px 0; font-size: 15px; line-height: 1; gap: 2px;
+}
+.adj-dir small { font-size: 9px; color: #9fb3c7; letter-spacing: 0.04em; }
+.adj-dir:hover { background: #24466b; border-color: #6fb1ff; }
+.adj-hub {
+  display: flex; align-items: center; justify-content: center;
+  color: #c9a24b; font-size: 16px; opacity: 0.7;
+}
+.adj-corner {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; border-radius: 8px; padding: 4px 2px; text-align: center;
+}
+.adj-corner.turnbtn { font-size: 16px; line-height: 1; }
+.adj-corner.turnbtn:hover { background: #24466b; border-color: #6fb1ff; }
+.adj-clabel { font-size: 9px; color: #c9a24b; font-weight: 700; letter-spacing: 0.03em; }
+.adj-cbtns { display: flex; gap: 3px; }
+.adj-cbtns button {
+  width: 22px; height: 20px; border-radius: 5px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 12px; line-height: 1;
+}
+.adj-cbtns button:hover { background: #24466b; border-color: #6fb1ff; }
+.adj-cread { font-size: 9px; color: #d9e4ef; font-variant-numeric: tabular-nums; }
+.adj-actions { display: flex; justify-content: space-between; gap: 6px; }
 .adj-actions button {
-  padding: 4px 8px; border-radius: 6px; border: 1px solid #3a4a5c;
+  padding: 5px 10px; border-radius: 6px; border: 1px solid #3a4a5c;
   background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 11px;
 }
 .adj-save { border-color: #c9a24b !important; }

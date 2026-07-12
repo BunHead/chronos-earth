@@ -177,22 +177,39 @@ function AdjustReins({
     onStatus('adjusting — 💾 to keep');
   };
 
-  const row = (label: string, minus: () => void, plus: () => void, readout: string) => (
-    <div className="adj-row">
-      <span className="adj-label">{label}</span>
-      <button onClick={minus}>−</button>
-      <span className="adj-read">{readout}</span>
-      <button onClick={plus}>＋</button>
+  // A compass pad (the Captain's layout): move N/S/E/W around a centre +,
+  // turn on the two TOP corners (NW left, NE right), height at SW, scale at
+  // SE. Corner steppers show their live readout beneath.
+  const stepCorner = (label: string, down: () => void, up: () => void, readout: string, cls: string) => (
+    <div className={`adj-corner ${cls}`}>
+      <span className="adj-clabel">{label}</span>
+      <div className="adj-cbtns">
+        <button onClick={down} aria-label={`${label} down`}>−</button>
+        <button onClick={up} aria-label={`${label} up`}>＋</button>
+      </div>
+      <span className="adj-cread">{readout}</span>
     </div>
   );
 
   return (
     <div className="maker-adjust">
-      {row('turn', () => change({ headingDeg: -2.5 }), () => change({ headingDeg: 2.5 }), `${t.headingDeg ?? 0}°`)}
-      {row('north', () => change({ northM: -10 }), () => change({ northM: 10 }), `${t.northM ?? 0} m`)}
-      {row('east', () => change({ eastM: -10 }), () => change({ eastM: 10 }), `${t.eastM ?? 0} m`)}
-      {row('size', () => change({ scale: 1 / 1.05 }), () => change({ scale: 1.05 }), `×${t.scale ?? 1}`)}
-      {row('lift', () => change({ upM: -2 }), () => change({ upM: 2 }), `${t.upM ?? 0} m`)}
+      <div className="adj-pad">
+        <button className="adj-corner nw turnbtn" onClick={() => change({ headingDeg: -2.5 })} aria-label="turn left">
+          <span className="adj-clabel">turn</span>⟲<span className="adj-cread">{t.headingDeg ?? 0}°</span>
+        </button>
+        <button className="adj-dir n" onClick={() => change({ northM: 10 })} aria-label="move north">▲<small>N</small></button>
+        <button className="adj-corner ne turnbtn" onClick={() => change({ headingDeg: 2.5 })} aria-label="turn right">
+          <span className="adj-clabel">turn</span>⟳<span className="adj-cread">{t.headingDeg ?? 0}°</span>
+        </button>
+
+        <button className="adj-dir w" onClick={() => change({ eastM: -10 })} aria-label="move west">◀<small>W</small></button>
+        <div className="adj-hub">✛</div>
+        <button className="adj-dir e" onClick={() => change({ eastM: 10 })} aria-label="move east">▶<small>E</small></button>
+
+        {stepCorner('height', () => change({ upM: -2 }), () => change({ upM: 2 }), `${t.upM ?? 0} m`, 'sw')}
+        <button className="adj-dir s" onClick={() => change({ northM: -10 })} aria-label="move south">▼<small>S</small></button>
+        {stepCorner('scale', () => change({ scale: 1 / 1.05 }), () => change({ scale: 1.05 }), `×${t.scale ?? 1}`, 'se')}
+      </div>
       <div className="adj-actions">
         <button
           onClick={() => {

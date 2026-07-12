@@ -60,6 +60,12 @@ const PLACEMENTS: Placement[] = [
   { model: 'westminster', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860 },
   { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
+  // The London expansion.
+  { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
+  { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
+  { model: 'tower-of-london', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1097 },
+  { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
+  { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },

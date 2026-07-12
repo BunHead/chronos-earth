@@ -12,20 +12,20 @@
     "kb": 115
   },
   "stonehenge": {
-    "footprint": 25.187,
-    "kb": 335
+    "footprint": 25.178,
+    "kb": 334
   },
   "cathedral": {
     "footprint": 17.924,
     "kb": 427
   },
   "westminster": {
-    "footprint": 33.511,
-    "kb": 106
+    "footprint": 38.351,
+    "kb": 207
   },
   "buckingham": {
-    "footprint": 22.6,
-    "kb": 138
+    "footprint": 30.5,
+    "kb": 287
   },
   "london-eye": {
     "footprint": 24.6,
@@ -45,35 +45,35 @@
   },
   "rings": {
     "footprint": 48.274,
-    "kb": 1225
+    "kb": 1226
   },
   "tpillars": {
-    "footprint": 17.603,
-    "kb": 102
+    "footprint": 17.526,
+    "kb": 103
   },
   "pyramid": {
     "footprint": 30,
     "kb": 29
   },
   "stepped-pyramid": {
-    "footprint": 12.755,
-    "kb": 45
+    "footprint": 12.757,
+    "kb": 46
   },
   "sphinx": {
     "footprint": 13.95,
     "kb": 46
   },
   "circle": {
-    "footprint": 7.128,
-    "kb": 45
+    "footprint": 7.153,
+    "kb": 44
   },
   "settlement": {
-    "footprint": 10.586,
+    "footprint": 10.578,
     "kb": 68
   },
   "castle": {
     "footprint": 17.36,
-    "kb": 229
+    "kb": 230
   },
   "mansion": {
     "footprint": 20,
@@ -129,7 +129,27 @@
   },
   "louvre": {
     "footprint": 35.372,
-    "kb": 792
+    "kb": 793
+  },
+  "tower-bridge": {
+    "footprint": 30.2,
+    "kb": 165
+  },
+  "st-pauls": {
+    "footprint": 15.3,
+    "kb": 326
+  },
+  "tower-of-london": {
+    "footprint": 13.54,
+    "kb": 222
+  },
+  "shard": {
+    "footprint": 6.007,
+    "kb": 351
+  },
+  "gherkin": {
+    "footprint": 6.387,
+    "kb": 710
   },
   "giza-ruin": {
     "footprint": 45.223,
@@ -137,14 +157,14 @@
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
-    "kb": 650
+    "kb": 649
   },
   "greek-temple-ruin": {
     "footprint": 11.938,
-    "kb": 59
+    "kb": 58
   },
   "stonehenge-ruin": {
-    "footprint": 22.6,
-    "kb": 327
+    "footprint": 25.172,
+    "kb": 313
   }
 }

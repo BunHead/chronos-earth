@@ -185,6 +185,11 @@ export async function saveReview(data: ReviewData): Promise<{ ok: boolean; msg: 
   try {
     const res = await fetch(api, { method: 'PUT', headers, body: JSON.stringify(body) });
     if (res.ok) return { ok: true, msg: 'Saved ✓ — live in ~1 min after deploy.' };
+    // A fine-grained PAT that can READ the repo but wasn't given Contents:
+    // WRITE fails the PUT with 403 "Resource not accessible…". Name the fix.
+    if (res.status === 403) {
+      return { ok: false, msg: 'Kept on this device. To publish: your GitHub token needs Contents → Read AND write.' };
+    }
     const err = await res.json().catch(() => ({}) as { message?: string });
     return { ok: false, msg: err.message || `Save failed (HTTP ${res.status}).` };
   } catch (e) {
