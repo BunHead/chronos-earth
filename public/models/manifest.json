@@ -12,7 +12,7 @@
     "kb": 115
   },
   "stonehenge": {
-    "footprint": 25.178,
+    "footprint": 25.203,
     "kb": 335
   },
   "cathedral": {
@@ -33,7 +33,7 @@
   },
   "liberty": {
     "footprint": 18.385,
-    "kb": 80
+    "kb": 79
   },
   "leaning-tower": {
     "footprint": 7.008,
@@ -41,34 +41,34 @@
   },
   "aqueduct": {
     "footprint": 26.3,
-    "kb": 72
+    "kb": 73
   },
   "rings": {
     "footprint": 48.274,
-    "kb": 1226
+    "kb": 1225
   },
   "tpillars": {
-    "footprint": 17.527,
-    "kb": 103
+    "footprint": 17.581,
+    "kb": 102
   },
   "pyramid": {
     "footprint": 30,
     "kb": 29
   },
   "stepped-pyramid": {
-    "footprint": 12.793,
-    "kb": 45
+    "footprint": 12.911,
+    "kb": 46
   },
   "sphinx": {
     "footprint": 13.95,
     "kb": 46
   },
   "circle": {
-    "footprint": 7.144,
-    "kb": 45
+    "footprint": 7.078,
+    "kb": 44
   },
   "settlement": {
-    "footprint": 10.541,
+    "footprint": 10.552,
     "kb": 68
   },
   "castle": {
@@ -77,15 +77,15 @@
   },
   "mansion": {
     "footprint": 20,
-    "kb": 79
+    "kb": 80
   },
   "temple-tower": {
     "footprint": 12,
-    "kb": 86
+    "kb": 87
   },
   "pagoda": {
     "footprint": 7.6,
-    "kb": 44
+    "kb": 43
   },
   "lighthouse": {
     "footprint": 4.6,
@@ -97,7 +97,7 @@
   },
   "hanging-gardens": {
     "footprint": 42.2,
-    "kb": 489
+    "kb": 490
   },
   "zeus-statue": {
     "footprint": 11,
@@ -117,6 +117,22 @@
   },
   "pharos": {
     "footprint": 9.051,
-    "kb": 63
+    "kb": 64
+  },
+  "giza-ruin": {
+    "footprint": 45.223,
+    "kb": 53
+  },
+  "amphitheatre-ruin": {
+    "footprint": 15.843,
+    "kb": 650
+  },
+  "greek-temple-ruin": {
+    "footprint": 11.938,
+    "kb": 58
+  },
+  "stonehenge-ruin": {
+    "footprint": 25.634,
+    "kb": 336
   }
 }

@@ -48,16 +48,30 @@ const FLEET = [
   ['pharos', 'Lighthouse of Alexandria'],
 ];
 
+// Ruin variants — only for monuments that genuinely stand as ruins today,
+// so the timeline can swap them at their historical ruin date.
+const RUINS = [
+  ['giza', 'Giza Pyramids'],
+  ['amphitheatre', 'Colosseum'],
+  ['greek-temple', 'Parthenon'],
+  ['stonehenge', 'Stonehenge'],
+];
+
 await mkdir(OUT, { recursive: true });
 const browser = await puppeteer.launch({
   headless: 'new',
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--no-sandbox', '--disable-dev-shm-usage'],
 });
 const manifest = {};
+const JOBS = [
+  ...FLEET.map(([model, title]) => [model, title, model]),
+  ...RUINS.map(([model, title]) => [model, title, `${model}-ruin`]),
+];
 try {
-  for (const [model, title] of FLEET) {
+  for (const [model, title, outName] of JOBS) {
     const page = await browser.newPage();
-    await page.goto(`${BASE}?model=${encodeURIComponent(model)}&title=${encodeURIComponent(title)}`, {
+    const ruinParam = outName.endsWith('-ruin') ? '&ruin=1' : '';
+    await page.goto(`${BASE}?model=${encodeURIComponent(model)}&title=${encodeURIComponent(title)}${ruinParam}`, {
       waitUntil: 'networkidle0',
     });
     await page.waitForFunction('window.__glb || window.__glbError', { timeout: 60_000 });
@@ -70,9 +84,9 @@ try {
     const b64 = await page.evaluate('window.__glb');
     const footprint = await page.evaluate('window.__footprint');
     const buf = Buffer.from(b64, 'base64');
-    await writeFile(join(OUT, `${model}.glb`), buf);
-    manifest[model] = { footprint: +(+footprint).toFixed(3), kb: Math.round(buf.length / 1024) };
-    console.log(`${model.padEnd(14)} ${String(Math.round(buf.length / 1024)).padStart(5)} KB  footprint ${(+footprint).toFixed(1)}u`);
+    await writeFile(join(OUT, `${outName}.glb`), buf);
+    manifest[outName] = { footprint: +(+footprint).toFixed(3), kb: Math.round(buf.length / 1024) };
+    console.log(`${outName.padEnd(20)} ${String(Math.round(buf.length / 1024)).padStart(5)} KB  footprint ${(+footprint).toFixed(1)}u`);
     await page.close();
   }
 } finally {

@@ -35,14 +35,20 @@ interface Placement {
   builtYear: number;
   /** Optional signed year it leaves the world (Atlantis drowns). */
   endYear?: number;
+  /** Optional signed year it becomes the ruin we know — from then on the
+   * timeline shows the exported `{model}-ruin.glb` instead. */
+  ruinYear?: number;
 }
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
 const PLACEMENTS: Placement[] = [
-  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560 },
-  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80 },
-  { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438 },
-  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500 },
+  // ruinYear: when the monument became the ruin we know — the casing goes
+  // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
+  // the Venetian shell guts the Parthenon, the sarsens topple.
+  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356 },
+  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349 },
+  { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
+  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500 },
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
   { model: 'westminster', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860 },
   { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
@@ -143,6 +149,13 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   const born = lastYearsBP <= yearToYearsBP(p.builtYear);
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
   entity.show = lastShowSites && born && !gone;
+  // Life phases: past its ruin date, the ruin model stands instead.
+  if (p.ruinYear != null && entity.model && theManifest[`${p.model}-ruin`]?.footprint) {
+    const ruined = lastYearsBP <= yearToYearsBP(p.ruinYear);
+    const uri = `./models/${p.model}${ruined ? '-ruin' : ''}.glb`;
+    const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
+    if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+  }
 }
 
 /** Timeline + layer gate — call whenever the year or the Sites toggle moves. */

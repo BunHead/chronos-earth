@@ -13,17 +13,22 @@
  */
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
-import { buildModel } from './components/Monument3D';
+import { buildModel, ruinify } from './components/Monument3D';
 
 const params = new URLSearchParams(location.search);
 const model = params.get('model') || 'stonehenge';
 const title = params.get('title') || '';
+// &ruin=1 exports the monument's RUIN form (for timeline phase swaps on the
+// globe): the model's own self-ruin where it builds one, else the generic
+// aged-not-exploded pass.
+const ruin = params.get('ruin') === '1';
 
 const lbl = document.getElementById('lbl')!;
-lbl.textContent = `🌍 Chronos Earth · exporting "${model}"…`;
+lbl.textContent = `🌍 Chronos Earth · exporting "${model}"${ruin ? ' (ruin)' : ''}…`;
 
-// Pristine, intact, fully built — the same build the fit tables measure.
-const { group } = buildModel(model, 3, title);
+// Fully built — the same build the fit tables measure (ruined when asked).
+const { group } = buildModel(model, 3, title, undefined, undefined, ruin);
+if (ruin && !group.userData.selfRuined) ruinify(group);
 group.updateMatrixWorld(true);
 
 // Footprint over structure only (noShadow effects — seas, glows — excluded),
