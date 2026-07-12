@@ -112,5 +112,9 @@
     "note": "Continue adding detail",
     "rework": true,
     "focus": "detail"
+  },
+  "arc-triomphe": {
+    "status": "allowed",
+    "ts": 1783891442042
   }
 }
