@@ -43,18 +43,9 @@
     },
     "ts": 1783884386132
   },
-  "battle:battle-of-bakhmut": {},
-  "giza": {},
   "liberty": {
     "note": "Way more detail on the statue",
-    "ts": 1783884988395,
+    "ts": 1783885032781,
     "status": "allowed"
-  },
-  "place:liberty@40.689,-74.044": {
-    "transform": {
-      "headingDeg": 12.5,
-      "northM": 10
-    },
-    "ts": 1783884990977
   }
 }
