@@ -208,10 +208,15 @@ function tPillar(): THREE.Group {
  *   phase 3 (c. 2400 BCE) — the great sarsen circle with its lintel ring, the
  *                           five-trilithon horseshoe and the central Altar Stone.
  */
-function buildStonehenge(group: THREE.Group, phase = 3) {
+function buildStonehenge(group: THREE.Group, phase = 3, frac = 1) {
   const R = 6.5;
   const N = 30;
   const tangent = (a: number): [number, number] => [-Math.sin(a), Math.cos(a)];
+  // `frac` (0..1) drives the RAISING of the stones over time. The earthwork and
+  // bluestones go up first; the great sarsen uprights are then raised one after
+  // another; lintels are levered onto the circle and the trilithons capped last
+  // of all. At frac 1 every stone stands — identical to the finished monument.
+  const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
   // --- Phase 1: the encircling earthwork bank, Aubrey holes and Heel Stone. ---
   const bank = new THREE.Mesh(
@@ -234,7 +239,11 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
 
   // --- Phase 2: the bluestone ring goes up inside the bank. ---
   if (phase >= 2) {
+    // The bluestones are among the first stones raised; they are all standing by
+    // ~frac 0.35, well before the great sarsens are complete.
+    const blueBuilt = frac >= 1 ? 18 : Math.round(18 * clamp01((frac - 0.02) / 0.33));
     for (let i = 0; i < 18; i++) {
+      if (i >= blueBuilt) continue; // not yet raised at this build-fraction
       const a = (i / 18) * Math.PI * 2 + 0.1;
       if (Math.abs(a - Math.PI / 2) < 0.35) continue; // keep the NE entrance open
       const b = block(0.32, 0.8 + Math.random() * 0.4, 0.32, Math.cos(a) * 4.7, 0.5, Math.sin(a) * 4.7, '#6e7480', -a);
@@ -247,19 +256,30 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
   // Stones are proportioned to reality (~4.1 m tall, ~2.1 m wide, ~1.1 m thick
   // against a 33 m ring) so the gaps open up and you can see between them.
   if (phase >= 3) {
+    // The sarsen circle uprights are raised one by one (all standing by ~0.65);
+    // the ring lintels are only levered on from ~0.35, completing near frac 1 —
+    // and a lintel needs BOTH its uprights already standing.
+    const upBuilt = frac >= 1 ? N : Math.round(N * clamp01((frac - 0.05) / 0.6));
+    const linBuilt = frac >= 1 ? N : Math.round(N * clamp01((frac - 0.35) / 0.55));
     for (let i = 0; i < N; i++) {
       const a = (i / N) * Math.PI * 2;
-      const up = block(0.83, 1.6, 0.45, Math.cos(a) * R, 0.8, Math.sin(a) * R, STONE, -a);
-      weather(up);
-      group.add(up);
+      if (i < upBuilt) {
+        const up = block(0.83, 1.6, 0.45, Math.cos(a) * R, 0.8, Math.sin(a) * R, STONE, -a);
+        weather(up);
+        group.add(up);
+      }
       // Lintel bridging this upright to the next (continuous ring).
       const am = ((i + 0.5) / N) * Math.PI * 2;
-      const lin = block(0.43, 0.3, 1.3, Math.cos(am) * R, 1.75, Math.sin(am) * R, '#948d82', -am);
-      weather(lin, 0.04);
-      group.add(lin);
+      if (i < linBuilt && i < upBuilt && (i + 1) % N < upBuilt) {
+        const lin = block(0.43, 0.3, 1.3, Math.cos(am) * R, 1.75, Math.sin(am) * R, '#948d82', -am);
+        weather(lin, 0.04);
+        group.add(lin);
+      }
     }
 
     // Trilithon horseshoe — opening faces +z (the solstice axis); back tallest.
+    // The five great uprights rise across ~0.2–0.7; their capping lintels are
+    // the very last stones set, from ~0.72 to frac 1.
     const stations = [
       { a: (130 * Math.PI) / 180, h: 2.3 },
       { a: (200 * Math.PI) / 180, h: 2.6 },
@@ -267,23 +287,29 @@ function buildStonehenge(group: THREE.Group, phase = 3) {
       { a: (340 * Math.PI) / 180, h: 2.6 },
       { a: (50 * Math.PI) / 180, h: 2.3 },
     ];
-    for (const { a, h } of stations) {
+    const triUp = frac >= 1 ? stations.length : Math.round(stations.length * clamp01((frac - 0.2) / 0.5));
+    const triCap = frac >= 1 ? stations.length : Math.round(stations.length * clamp01((frac - 0.72) / 0.28));
+    stations.forEach(({ a, h }, si) => {
       const r = 3.3;
       const cx = Math.cos(a) * r;
       const cz = Math.sin(a) * r;
       const [tx, tz] = tangent(a);
-      for (const s of [-1, 1]) {
-        const up = block(0.85, h, 0.5, cx + tx * s * 0.95, h / 2, cz + tz * s * 0.95, STONE, -a);
-        weather(up, 0.05);
-        group.add(up);
+      if (si < triUp) {
+        for (const s of [-1, 1]) {
+          const up = block(0.85, h, 0.5, cx + tx * s * 0.95, h / 2, cz + tz * s * 0.95, STONE, -a);
+          weather(up, 0.05);
+          group.add(up);
+        }
       }
-      const lin = block(0.6, 0.35, 2.0, cx, h + 0.18, cz, '#948d82', -a);
-      weather(lin, 0.03);
-      group.add(lin);
-    }
+      if (si < triCap && si < triUp) {
+        const lin = block(0.6, 0.35, 2.0, cx, h + 0.18, cz, '#948d82', -a);
+        weather(lin, 0.03);
+        group.add(lin);
+      }
+    });
 
-    // Altar Stone (recumbent slab at the centre).
-    group.add(block(1.6, 0.3, 0.5, 0, 0.15, 0.6, '#7d7468', 0.3));
+    // Altar Stone (recumbent slab at the centre) — placed once the horseshoe rises.
+    if (frac >= 0.55) group.add(block(1.6, 0.3, 0.5, 0, 0.15, 0.6, '#7d7468', 0.3));
   }
 }
 
@@ -537,7 +563,7 @@ export function buildModel(
     const c1 = tPillar(); c1.position.set(-1.2, 0, 0); group.add(c1);
     const c2 = tPillar(); c2.position.set(1.2, 0, 0); group.add(c2);
   } else if (model === 'stonehenge') {
-    buildStonehenge(group, phase);
+    buildStonehenge(group, phase, buildFrac);
   } else if (model === 'pyramid') {
     ground = '#c9b487';
     const pyr = (w: number, h: number, x: number, z: number) => {
@@ -1511,6 +1537,13 @@ export function buildModel(
     // and the hypogeum maze open to the sky. Handles its own ruin form.
     group.userData.selfRuined = true;
     ground = '#7a6f52';
+    // `buildFrac` (0..1) raises the amphitheatre TIER BY TIER: the elliptical
+    // foundation and ground arcade first, then the 2nd and 3rd arched storeys,
+    // and finally the solid attic — the finished Colosseum at frac 1. It only
+    // shapes the intact build; the ruin keeps its own fixed surviving profile.
+    const frac = buildFrac ?? 1;
+    const builtTiers = ruined ? 3 : frac >= 0.7 ? 3 : frac >= 0.35 ? 2 : 1;
+    const hasAttic = ruined || frac >= 0.92;
     const trav = '#d3c2a0'; // travertine
     const travDark = '#c2ae87';
     const A = 7.4, B = 5.8;
@@ -1564,7 +1597,7 @@ export function buildModel(
     // one long arc (the real preserved side is the north — world −Z), then a
     // jagged step-down to nothing.
     const outerTiersAt = (t: number): number => {
-      if (!ruined) return 3;
+      if (!ruined) return builtTiers;
       const d = Math.abs(Math.atan2(Math.sin(t - Math.PI * 1.5), Math.cos(t - Math.PI * 1.5)));
       if (d < Math.PI * 0.5) return 3;
       if (d < Math.PI * 0.62) return 2;
@@ -1587,7 +1620,7 @@ export function buildModel(
         // Cornice ledge banding the top of each storey (follows the ruin profile).
         group.add(block(bayW + 0.06, 0.16, 0.78, x, (k + 1) * TIER_H, z, travDk, ry));
       }
-      if (nTiers === 3) {
+      if (nTiers === 3 && hasAttic) {
         const a = block(bayW, ATTIC_H, 0.55, x, 3 * TIER_H + ATTIC_H / 2, z, '#c8b58f', ry);
         weather(a, 0.02);
         group.add(a);
@@ -1604,8 +1637,9 @@ export function buildModel(
         }
       }
       // The inner (second) wall — lower and always present; it carries the
-      // building where the outer ring has fallen.
-      for (let k = 0; k < 2; k++) {
+      // building where the outer ring has fallen. During construction it never
+      // out-rises the outer arcade (so a half-built ring reads honestly).
+      for (let k = 0; k < Math.min(2, builtTiers); k++) {
         const p = new THREE.Mesh(innerGeo, k % 2 ? outerMat : altMat);
         p.position.set(Math.cos(t) * A * 0.8, k * TIER_H * 0.82, Math.sin(t) * B * 0.8);
         p.rotation.y = ry;
