@@ -372,15 +372,21 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   };
 
   const flyToMonument = (lon: number, lat: number, widthM: number) => {
-    if (cameraLockedRef.current) return;
+    const viewer = viewerRef.current;
+    if (cameraLockedRef.current || !viewer) return;
+    // Dress the ground as early as possible: preload neighbouring tiles,
+    // keep more of them cached for revisits, and give the approach a beat
+    // longer so imagery streams in DURING the dive instead of after landing.
+    viewer.scene.globe.preloadSiblings = true;
+    viewer.scene.globe.tileCacheSize = 400;
     // Stand off to the south and look north-down at the site, close enough
     // that the model fills the view but stays inside its reveal distance.
     const dist = Math.min(60_000, Math.max(600, widthM * 5));
     const offsetLat = lat - (dist * 0.9) / 111_000;
-    viewerRef.current?.camera.flyTo({
+    viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(lon, offsetLat, dist * 0.75),
       orientation: { heading: 0, pitch: Cesium.Math.toRadians(-38), roll: 0 },
-      duration: 2.6,
+      duration: 3.4,
     });
   };
 

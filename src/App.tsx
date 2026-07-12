@@ -19,6 +19,7 @@ import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
 import { ensurePlacement } from './lib/globeModels';
 import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
+import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
@@ -357,6 +358,18 @@ export default function App() {
     if (fly) globeRef.current?.flyToMonument(battle.lon, battle.lat, 900);
     showBattleOnGlobe(battle.lat, battle.lon, view);
     setGlobeBattle({ id, view, phase: 0 });
+    // The sky over the field is the sky of the day: the dial opens set to
+    // the battle's real season, a morning sun, and a temperature that fits
+    // the latitude and month. Each phase then wears the day on.
+    const date = parseBattleDate(battle.dateLabel) ?? new Date(Date.UTC(2026, 6, 15));
+    setSky((s) => ({
+      ...s,
+      date,
+      solarHours: 9.5,
+      auto: false,
+      temperature: seasonalTemperature(battle.lat, date),
+    }));
+    setSkyOpen(true);
   };
 
   // Search picks: jump to a site or an era.
@@ -673,6 +686,11 @@ export default function App() {
           phase={globeBattle.phase}
           onPhase={(i) => {
             setGlobeBattlePhase(globeBattle.view, i);
+            // The day wears on with the fighting — stepping forward moves
+            // the sun; the dial (and the real day/night line) follow.
+            if (i > globeBattle.phase) {
+              setSky((s) => ({ ...s, solarHours: (s.solarHours + 1.5) % 24 }));
+            }
             setGlobeBattle({ ...globeBattle, phase: i });
           }}
           onClose={() => {
