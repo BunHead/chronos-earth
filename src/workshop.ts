@@ -896,6 +896,10 @@ for (const button of phaseBtns) button.addEventListener('click', (e) => {
   lifePhase = button.dataset.phase as LifePhase;
   for (const peer of phaseBtns) peer.classList.toggle('active', peer === button);
   refresh();
+  // The Captain's saved fall IS the covered look: pressing Covered replays
+  // the covering sim saved for this model — its drifts AND its colour — on
+  // top of the covered surface tint. No save yet → the plain tint.
+  if (button === coveredBtn) restoreSimFall(sel.value);
 });
 weatherEl?.addEventListener('change', applyWeather);
 // (The ¾/Top/Side buttons are gone — orbit does the viewing now.)
