@@ -58,6 +58,9 @@ const MODELS: Array<[string, string]> = [
   ['lighthouse', 'Lighthouse'],
   ['leaning-tower', 'Leaning Tower of Pisa'],
   ['amphitheatre', 'Colosseum (Roman amphitheatre)'],
+  ['eiffel', 'Eiffel Tower'],
+  ['arc-triomphe', 'Arc de Triomphe'],
+  ['louvre', 'Louvre (with the glass pyramid)'],
   ['circle', 'Stone circle'],
   ['settlement', 'Neolithic settlement'],
   ['megalith', 'Generic megalith'],
@@ -92,6 +95,9 @@ const LIVE_SITES: Record<string, LiveSite> = {
   lighthouse: { title: 'Eddystone Lighthouse', lat: 50.18, lon: -4.27 },
   'leaning-tower': { title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966 },
   amphitheatre: { title: 'Colosseum', lat: 41.8902, lon: 12.4922 },
+  eiffel: { title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945 },
+  'arc-triomphe': { title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295 },
+  louvre: { title: 'Louvre', lat: 48.8606, lon: 2.3376 },
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
   settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
   megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },
@@ -592,7 +598,7 @@ function applyWeather() {
 
 // Which transport belongs beside this monument — picked by place and period.
 function transportFor(model: string, site?: LiveSite): string {
-  if (['buckingham', 'westminster', 'london-eye', 'liberty'].includes(model)) return 'bus';
+  if (['buckingham', 'westminster', 'london-eye', 'liberty', 'eiffel', 'arc-triomphe', 'louvre'].includes(model)) return 'bus';
   if (['pharos', 'lighthouse', 'colossus', 'rings'].includes(model)) return 'trireme';
   if (site && site.lat > 10 && site.lat < 37 && site.lon > -18 && site.lon < 65) return 'camel';
   return 'horse';

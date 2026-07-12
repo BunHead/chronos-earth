@@ -97,6 +97,12 @@ export function monumentModelForName(name: string): string | null {
   if (/buckingham/.test(n)) return 'buckingham';
   if (/palace of westminster|houses of parliament|big ben|elizabeth tower/.test(n)) return 'westminster';
   if (/statue of liberty/.test(n)) return 'liberty';
+  // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
+  // restaurant" replica must stay 3D-less), and the Louvre is matched before
+  // the generic palace bucket claims "Louvre Palace" for the castle model.
+  if (/^(the )?(eiffel tower|tour eiffel)$/.test(n)) return 'eiffel';
+  if (/arc de triomphe(?! du carrousel)/.test(n)) return 'arc-triomphe';
+  if (/palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/.test(n)) return 'louvre';
   // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
   // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
   // "fort". Real castles/forts/palaces get the dedicated castle model.

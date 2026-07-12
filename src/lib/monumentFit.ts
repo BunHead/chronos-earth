@@ -27,6 +27,17 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'parthenon', widthM: 70, facingDeg: 0 }, // long axis E–W on the Acropolis; model long axis=local X, so θ=0 lays it E–W (facing 90 wrongly ran it N–S)
   { match: 'notre-dame', widthM: 130, facingDeg: 242.5 }, // Captain's globe eyeball 2026-07-12: 30° clockwise from 270 overshot by 2–3°, eased back
   { match: 'notre dame', widthM: 130, facingDeg: 242.5 }, // Captain's globe eyeball 2026-07-12: matches the hyphenated entry above
+  // The Paris trio. Bearings READ off geo calibration plan-renders 2026-07-12:
+  // the Eiffel Tower's faces look NW to the Trocadéro, piers at the cardinal
+  // corners (B≈315 → θ=180−315≡225 — confirmed against the Champ-de-Mars axis);
+  // the Arc's front faces SE down the Champs-Élysées (B≈115 → θ=65, long axis
+  // 25/205 matches the real footprint); the Louvre's court opens west to the
+  // Tuileries with the wings dipping ~7° south of east along the Seine
+  // (opening B≈277.5 → θ=262.5 — plain 270 sat visibly untilted on the imagery).
+  { match: 'eiffel', widthM: 125, facingDeg: 225 },
+  { match: 'arc de triomphe', widthM: 45, facingDeg: 65 },
+  { match: 'arc-triomphe', widthM: 45, facingDeg: 65 },
+  { match: 'louvre', widthM: 300, facingDeg: 262.5 },
   { match: 'hagia sophia', widthM: 82 },
   { match: 'pantheon', widthM: 44 },
   { match: 'taj mahal', widthM: 95 },
@@ -79,6 +90,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
   westminster: { widthM: 265, facingDeg: 90 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
+  // The Paris trio — same bearings as their KNOWN rows above.
+  eiffel: { widthM: 125, facingDeg: 225 },
+  'arc-triomphe': { widthM: 45, facingDeg: 65 },
+  louvre: { widthM: 300, facingDeg: 262.5 },
   // Liberty Island: Fort Wood's star is ~100 m across; she faces ~SE (bearing
   // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
   liberty: { widthM: 100, facingDeg: 45 },

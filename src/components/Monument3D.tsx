@@ -174,6 +174,16 @@ function matBlock(w: number, h: number, d: number, x: number, y: number, z: numb
   return m;
 }
 
+/** A thin box member stretched between two points — the workhorse of open
+ * ironwork (the Eiffel lattice, the Louvre pyramid's glazing ribs). */
+function strut(a: THREE.Vector3, b: THREE.Vector3, t: number, mat: THREE.Material): THREE.Mesh {
+  const d = new THREE.Vector3().subVectors(b, a);
+  const m = new THREE.Mesh(new THREE.BoxGeometry(t, d.length(), t), mat);
+  m.position.copy(a).addScaledVector(d, 0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize());
+  return m;
+}
+
 /** Slight per-stone irregularity so nothing looks machine-cut. */
 function weather(mesh: THREE.Object3D, amount = 0.07) {
   mesh.scale.multiplyScalar(1 - amount / 2 + Math.random() * amount);
@@ -2616,6 +2626,308 @@ export function buildModel(
       group.add(leg);
     }
     group.add(block(11, 0.6, 3.5, 0, 0.3, -3.4, '#9aa0a6')); // base beam
+  } else if (model === 'eiffel') {
+    // The Eiffel Tower — four curved lattice piers rising off a 125 m square,
+    // through two visible platform decks, merging into one tapering lattice
+    // shaft under the top gallery and antenna. The ironwork is SUGGESTED with
+    // thin crossed box members so daylight passes straight through — an open,
+    // see-through frame, never solid walls. 1 unit ≈ 10 m: 12.5 across at the
+    // feet, ~31.5 to the antenna tip. The piers sit at the diagonal corners,
+    // so the tower's flat faces look down ±X/±Z (as the real faces look to
+    // the Trocadéro and the Champ-de-Mars).
+    ground = '#5f6b4a';
+    const iron = new THREE.MeshStandardMaterial({ color: '#6b5233', metalness: 0.45, roughness: 0.55 });
+    const ironDk = new THREE.MeshStandardMaterial({ color: '#57432a', metalness: 0.45, roughness: 0.6 });
+    /** One storey of open lattice between two square cross-sections: corner
+     * chords, a horizontal ring at the top, and an X of diagonals per face. */
+    const latticeStage = (
+      lo: { y: number; c: [number, number]; half: number },
+      hi: { y: number; c: [number, number]; half: number },
+      t: number,
+    ) => {
+      const corner = (l: typeof lo, sx: number, sz: number) =>
+        new THREE.Vector3(l.c[0] + sx * l.half, l.y, l.c[1] + sz * l.half);
+      const S: Array<[number, number]> = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+      for (let i = 0; i < 4; i++) {
+        const [sx, sz] = S[i];
+        const [nx, nz] = S[(i + 1) % 4];
+        group.add(strut(corner(lo, sx, sz), corner(hi, sx, sz), t, iron)); // corner chord
+        group.add(strut(corner(hi, sx, sz), corner(hi, nx, nz), t * 0.85, ironDk)); // top ring
+        group.add(strut(corner(lo, sx, sz), corner(hi, nx, nz), t * 0.6, ironDk)); // crossed
+        group.add(strut(corner(lo, nx, nz), corner(hi, sx, sz), t * 0.6, ironDk)); //   diagonals
+      }
+    };
+    // Pier centre-spread (w) and pier cross-section side (a) at hand-set
+    // control levels read off the real curve — decks at 57 m and 115 m.
+    const legLevels: Array<{ y: number; w: number; a: number }> = [
+      { y: 0, w: 5.0, a: 2.3 },
+      { y: 2.1, w: 4.15, a: 1.95 },
+      { y: 4.1, w: 3.3, a: 1.65 },
+      { y: 5.7, w: 2.7, a: 1.4 }, // first deck
+      { y: 8.6, w: 2.1, a: 1.05 },
+      { y: 11.5, w: 1.6, a: 0.8 }, // second deck
+    ];
+    for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {
+      for (let i = 0; i + 1 < legLevels.length; i++) {
+        const lo = legLevels[i];
+        const hi = legLevels[i + 1];
+        latticeStage(
+          { y: lo.y, c: [sx * lo.w, sz * lo.w], half: lo.a / 2 },
+          { y: hi.y, c: [sx * hi.w, sz * hi.w], half: hi.a / 2 },
+          0.15,
+        );
+      }
+    }
+    // Above the second deck the four piers merge into one tapering shaft.
+    const shaftLevels: Array<{ y: number; half: number }> = [
+      { y: 11.5, half: 1.9 }, { y: 15, half: 1.5 }, { y: 18.5, half: 1.15 },
+      { y: 22, half: 0.85 }, { y: 25, half: 0.62 }, { y: 27.6, half: 0.48 },
+    ];
+    for (let i = 0; i + 1 < shaftLevels.length; i++) {
+      const lo = shaftLevels[i];
+      const hi = shaftLevels[i + 1];
+      latticeStage({ y: lo.y, c: [0, 0], half: lo.half }, { y: hi.y, c: [0, 0], half: hi.half }, 0.13);
+    }
+    // The decorative base arch swung between each pair of piers, its crown
+    // kissing the underside of the first deck.
+    const archGeo = new THREE.TorusGeometry(2.75, 0.14, 8, 28, Math.PI);
+    for (const [px, pz, ry] of [[0, 3.85, 0], [0, -3.85, 0], [3.85, 0, Math.PI / 2], [-3.85, 0, Math.PI / 2]] as const) {
+      const arc = new THREE.Mesh(archGeo, iron);
+      arc.position.set(px, 2.5, pz);
+      arc.rotation.y = ry;
+      group.add(arc);
+    }
+    // The two public decks: platform slab, a wider under-gallery lip, railings.
+    const deck = (y: number, half: number) => {
+      group.add(matBlock(2 * half, 0.3, 2 * half, 0, y + 0.15, 0, ironDk));
+      group.add(matBlock(2 * half + 0.5, 0.14, 2 * half + 0.5, 0, y - 0.09, 0, iron));
+      for (const s of [-1, 1] as const) {
+        group.add(matBlock(2 * half, 0.2, 0.06, 0, y + 0.4, s * (half - 0.03), iron));
+        group.add(matBlock(0.06, 0.2, 2 * half, s * (half - 0.03), y + 0.4, 0, iron));
+      }
+    };
+    deck(5.7, 3.6);
+    deck(11.5, 2.1);
+    // Top gallery, cupola and the antenna to ~315 m.
+    group.add(matBlock(1.7, 0.26, 1.7, 0, 27.73, 0, ironDk));
+    group.add(matBlock(1.95, 0.12, 1.95, 0, 27.5, 0, iron));
+    group.add(matBlock(1.0, 0.85, 1.0, 0, 28.28, 0, iron));
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.17, 2.3, 8), ironDk);
+    mast.position.set(0, 29.8, 0);
+    group.add(mast);
+    const tip = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.75, 8), ironDk);
+    tip.position.set(0, 31.15, 0);
+    group.add(tip);
+  } else if (model === 'arc-triomphe') {
+    // The Arc de Triomphe — one colossal Lutetian-limestone block pierced by
+    // the great axial arch (a real extruded-profile opening, daylight through)
+    // and by the smaller transverse arch through the flanks, under a sculpted
+    // frieze and the attic storey. 1 unit ≈ 5 m: 9 wide, 4.4 deep, ~10 tall.
+    // Model +Z is a great-arch face — the fit turns it down the Champs-Élysées.
+    ground = '#7d7a6c';
+    const lime = '#cdc3a9';
+    const limeLo = '#bfb499';
+    const limeHi = '#d9d1bb';
+    const H = 7.5; // main cornice line (~37.5 m)
+    const gHW = 1.46; // great arch half-width (14.6 m wide)
+    const gSpring = 4.39; // its spring line (crown at 5.85 ≈ 29 m)
+    const tHW = 0.84; // transverse arch half-width (8.4 m)
+    const tSpring = 2.9; // its spring (crown 3.74 ≈ 18.7 m)
+    // A wall slab pierced by a round-headed arch, extruded and centred.
+    const archSlab = (w: number, h: number, hw: number, spring: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false, curveSegments: 16 });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+    // Front and back faces each carry the great arch.
+    const faceGeo = archSlab(9, H, gHW, gSpring, 1.36);
+    for (const s of [-1, 1] as const) {
+      const f = new THREE.Mesh(faceGeo, stoneMat(lime));
+      f.position.z = s * 1.52;
+      group.add(f);
+    }
+    // The middle slab spans the transverse tunnel: solid only above the
+    // tunnel ceiling, with the great arch's crown carved up into it.
+    const mid = new THREE.Shape();
+    mid.moveTo(-4.5, tSpring + 0.05);
+    mid.lineTo(-gHW, tSpring + 0.05);
+    mid.lineTo(-gHW, gSpring);
+    mid.absarc(0, gSpring, gHW, Math.PI, 0, true);
+    mid.lineTo(gHW, tSpring + 0.05);
+    mid.lineTo(4.5, tSpring + 0.05);
+    mid.lineTo(4.5, H);
+    mid.lineTo(-4.5, H);
+    mid.closePath();
+    const midGeo = new THREE.ExtrudeGeometry(mid, { depth: 1.7, bevelEnabled: false, curveSegments: 16 });
+    midGeo.translate(0, 0, -0.85);
+    group.add(new THREE.Mesh(midGeo, stoneMat(limeLo)));
+    // Side façades, slightly proud, carrying the semicircular transverse arch.
+    const sideGeo = archSlab(4.32, 4.7, tHW, tSpring, 0.5);
+    for (const s of [-1, 1] as const) {
+      const f = new THREE.Mesh(sideGeo, stoneMat(lime));
+      f.rotation.y = s * (Math.PI / 2);
+      f.position.x = s * 4.31;
+      group.add(f);
+    }
+    // Sculpted-relief hints: the four great pedestal groups flanking the arch
+    // (La Marseillaise and her sisters) as proud panels, and the frieze band.
+    for (const sz of [-1, 1] as const)
+      for (const sx of [-1, 1] as const)
+        group.add(block(1.7, 3.2, 0.1, sx * 2.95, 2.6, sz * 2.26, limeHi));
+    // Frieze band and attic storey — extruded (not boxes) so their stone
+    // grain matches the façades instead of stretching into wood-plank scale.
+    const slabRect = (w: number, h: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+    const frieze = new THREE.Mesh(slabRect(9.14, 0.6, 4.54), stoneMat(limeLo));
+    frieze.position.y = 6.75; // sculpted frieze band
+    group.add(frieze);
+    // Cornice, attic storey with its ring of shields, crowning cornice.
+    group.add(block(9.44, 0.34, 4.84, 0, H + 0.17, 0, limeHi));
+    const attic = new THREE.Mesh(slabRect(8.7, 1.75, 4.1), stoneMat(lime));
+    attic.position.y = H + 0.34;
+    group.add(attic);
+    for (let i = 0; i < 9; i++)
+      for (const s of [-1, 1] as const)
+        group.add(block(0.42, 0.42, 0.08, -3.5 + i * 0.875, H + 1.35, s * 2.1, limeHi));
+    group.add(block(8.9, 0.22, 4.3, 0, H + 2.09 + 0.11, 0, limeHi));
+  } else if (model === 'louvre') {
+    // The Louvre — three long classical stone ranges (regular window bays
+    // under slate mansard roofs, punctuated by taller square pavilions)
+    // forming a U around the Cour Napoléon, with I. M. Pei's translucent
+    // glass pyramid — edge ribs and all — centred in the court, attended by
+    // its three pyramidlets. 1 unit ≈ 10 m; the U opens toward +Z (the fit
+    // turns that side west, to the Tuileries).
+    ground = '#8f8874';
+    const stone = '#c9bfa4';
+    const stoneLo = '#b9ae92';
+    const trim = '#d7cfb8';
+    const slate = '#7a8087';
+    const win = '#46463d';
+    const slateMat = stoneLike({ color: slate, flatShading: true });
+    /** A long palace range running along local Z: stone body, two rows of
+     * window bays down both faces, and a slate mansard roof. */
+    const rangeGroup = (len: number): THREE.Group => {
+      const g = new THREE.Group();
+      const W = 3.2;
+      const RH = 2.0;
+      g.add(block(W, RH, len, 0, RH / 2, 0, stone));
+      const tz = new THREE.Shape(); // mansard: steep trapezoid cross-section
+      tz.moveTo(-W / 2 - 0.09, 0);
+      tz.lineTo(W / 2 + 0.09, 0);
+      tz.lineTo(W / 2 - 0.85, 0.85);
+      tz.lineTo(-W / 2 + 0.85, 0.85);
+      tz.closePath();
+      const roof = new THREE.Mesh(new THREE.ExtrudeGeometry(tz, { depth: len, bevelEnabled: false }), slateMat);
+      roof.position.set(0, RH, -len / 2);
+      g.add(roof);
+      const nBays = Math.floor(len / 1.1);
+      for (let i = 0; i < nBays; i++) {
+        const z = -len / 2 + (i + 0.5) * (len / nBays);
+        for (const s of [-1, 1] as const) {
+          g.add(block(0.08, 0.78, 0.34, s * (W / 2 + 0.01), 0.72, z, win)); // tall ground-floor bay
+          g.add(block(0.08, 0.48, 0.3, s * (W / 2 + 0.01), 1.56, z, win)); // upper row
+        }
+      }
+      // Pale string course between the floors, and the eaves cornice line.
+      g.add(block(W + 0.05, 0.09, len, 0, 1.22, 0, trim));
+      g.add(block(W + 0.08, 0.1, len, 0, RH - 0.02, 0, trim));
+      return g;
+    };
+    /** A taller square pavilion with a steep truncated mansard — the Louvre's
+     * signature punctuation marks along the wings. */
+    const pavilion = (hBoost = 0): THREE.Group => {
+      const g = new THREE.Group();
+      const S = 4.0;
+      const PH = 2.5 + hBoost;
+      g.add(block(S, PH, S, 0, PH / 2, 0, stoneLo));
+      for (const s of [-1, 1] as const)
+        for (const yy of [0.9, PH - 0.6]) {
+          g.add(block(0.08, 1.0, 1.6, s * (S / 2 + 0.01), yy, 0, win));
+          g.add(block(1.6, 1.0, 0.08, 0, yy, s * (S / 2 + 0.01), win));
+        }
+      const r = new THREE.Mesh(new THREE.CylinderGeometry(S * 0.3, S * 0.74, 1.4, 4), slateMat);
+      r.rotation.y = Math.PI / 4;
+      r.position.y = PH + 0.7;
+      g.add(r);
+      g.add(block(S * 0.36, 0.12, S * 0.36, 0, PH + 1.46, 0, trim)); // proud crest platform
+      return g;
+    };
+    const place = (g: THREE.Group, x: number, z: number, ry = 0) => {
+      g.position.set(x, 0, z);
+      g.rotation.y = ry;
+      group.add(g);
+    };
+    // The U: two court arms running along Z, closed by the east range at −Z.
+    const armX = 13.4;
+    place(rangeGroup(26.8), -armX, 1.6);
+    place(rangeGroup(26.8), armX, 1.6);
+    place(rangeGroup(30), 0, -13.4, Math.PI / 2); // east (closed) range
+    // Pavilions: the far arm ends, the two junction corners, mid-arm pairs,
+    // and the taller Pavillon de l'Horloge at the centre of the east range.
+    for (const sx of [-1, 1] as const) {
+      place(pavilion(), sx * armX, 13.6);
+      place(pavilion(), sx * armX, -13.4);
+      place(pavilion(), sx * armX, 0.5);
+      place(pavilion(0.3), sx * 6.8, -13.4);
+    }
+    place(pavilion(0.7), 0, -13.4);
+    // Court paving — a smooth pale plaza slab the pyramid stands on (plain
+    // material: the stone canvas at this size reads as rubble, not paving).
+    const plazaMat = new THREE.MeshStandardMaterial({ color: '#c7bfab', roughness: 0.95 });
+    group.add(matBlock(22.8, 0.06, 25.2, 0, 0.03, 1.2, plazaMat));
+    // I. M. Pei's glass pyramid (35 m square, 21.6 m high) + edge ribs.
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: '#b8d4e6', metalness: 0.25, roughness: 0.15, transparent: true, opacity: 0.5,
+    });
+    const ribMat = new THREE.MeshStandardMaterial({ color: '#e8eef2', metalness: 0.7, roughness: 0.3 });
+    const glassPyramid = (side: number, h: number, x: number, z: number, ribs: boolean) => {
+      const p = new THREE.Mesh(new THREE.ConeGeometry(side / Math.SQRT2, h, 4), glassMat);
+      p.rotation.y = Math.PI / 4;
+      p.position.set(x, h / 2 + 0.06, z);
+      group.add(p);
+      if (!ribs) return;
+      const apex = new THREE.Vector3(x, h + 0.06, z);
+      const C: Array<[number, number]> = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+      for (let i = 0; i < 4; i++) {
+        const [sx, sz] = C[i];
+        const [nx, nz] = C[(i + 1) % 4];
+        const c0 = new THREE.Vector3(x + sx * side / 2, 0.06, z + sz * side / 2);
+        const c1 = new THREE.Vector3(x + nx * side / 2, 0.06, z + nz * side / 2);
+        group.add(strut(c0, apex, 0.06, ribMat)); // corner rib to the apex
+        group.add(strut(c0, c1, 0.05, ribMat)); // base frame
+        for (const f of [0.36, 0.68]) { // horizontal glazing bars
+          const q0 = c0.clone().lerp(apex, f);
+          const q1 = c1.clone().lerp(apex, f);
+          group.add(strut(q0, q1, 0.04, ribMat));
+        }
+      }
+    };
+    glassPyramid(3.54, 2.16, 0, 0.5, true);
+    glassPyramid(0.7, 0.45, -3.2, 0.5, false); // the three pyramidlets
+    glassPyramid(0.7, 0.45, 3.2, 0.5, false);
+    glassPyramid(0.7, 0.45, 0, -2.6, false);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

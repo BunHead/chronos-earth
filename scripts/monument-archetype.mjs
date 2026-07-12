@@ -79,6 +79,8 @@ export const VALID_MODELS = [
   'buckingham', 'westminster', 'london-eye',
   // New York.
   'liberty',
+  // Paris.
+  'eiffel', 'arc-triomphe', 'louvre',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -121,6 +123,9 @@ const KEYWORD_RULES = [
   { rule: 'Buckingham Palace keyword', model: 'buckingham', re: /buckingham/ },
   { rule: 'Palace of Westminster / Big Ben keyword', model: 'westminster', re: /palace of westminster|houses of parliament|big ben|elizabeth tower/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
+  { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },
+  { rule: 'Arc de Triomphe keyword (not the Carrousel arch)', model: 'arc-triomphe', re: /arc de triomphe(?! du carrousel)/ },
+  { rule: 'Louvre keyword (before the palace/castle bucket)', model: 'louvre', re: /palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/ },
   { rule: 'castle/fort/palace keyword (word-boundaried)', model: 'castle', re: /\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/ },
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },
