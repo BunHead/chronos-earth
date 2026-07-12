@@ -119,5 +119,9 @@
     "note": "Continue adding detail",
     "rework": true,
     "focus": "detail"
+  },
+  "giza": {
+    "status": "allowed",
+    "ts": 1783891479394
   }
 }
