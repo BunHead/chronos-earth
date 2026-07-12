@@ -16,6 +16,7 @@ import {
   loadReview,
   saveReview,
   saveLocalTransform,
+  loadLocalTransforms,
   type ModelTransform,
   type ReviewData,
   type ReviewStatus,
@@ -162,7 +163,13 @@ function AdjustReins({
   onStatus: (s: string) => void;
 }) {
   const key = transformKey(place.model, place.lat, place.lon);
-  const [t, setT] = useState<ModelTransform>(() => ({ ...(shared?.[key]?.transform ?? {}) }));
+  // Seed the pad from THIS DEVICE's saved trim first (local maker mode saves
+  // there), then the published one — so reopening a monument shows the trim
+  // you actually saved, and a new nudge builds on it instead of from zero.
+  const [t, setT] = useState<ModelTransform>(() => ({
+    ...(shared?.[key]?.transform ?? {}),
+    ...(loadLocalTransforms()[key] ?? {}),
+  }));
 
   const change = (delta: Partial<ModelTransform>) => {
     const next: ModelTransform = { ...t };
