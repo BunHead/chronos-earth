@@ -6,5 +6,18 @@
     "status": "allowed",
     "ts": 1783883687295,
     "note": "Needs more detail"
+  },
+  "tower-of-london": {
+    "note": "Ball on towers need redoing, wall doesn't seem to match plan of  building",
+    "ts": 1783884017513
+  },
+  "place:tower-of-london@51.508,-0.076": {
+    "transform": {
+      "headingDeg": -65,
+      "eastM": -10,
+      "northM": -10,
+      "scale": 1.63
+    },
+    "ts": 1783884017622
   }
 }
