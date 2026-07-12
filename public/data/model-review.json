@@ -122,7 +122,9 @@
   },
   "giza": {
     "status": "allowed",
-    "ts": 1783891593624,
-    "note": "Extend nile, lower Sphinx as it sits lower on the terrain on the globe. Temple at shoreline and course-way and perimeter wall need including"
+    "ts": 1783891598373,
+    "note": "Extend nile, lower Sphinx as it sits lower on the terrain on the globe. Temple at shoreline and course-way and perimeter wall need including",
+    "rework": true,
+    "focus": "detail"
   }
 }
