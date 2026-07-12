@@ -491,6 +491,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     });
 
     viewer.scene.globe.enableLighting = false;
+    // Bare globe (imagery not yet streamed) reads as DESERT, not ocean —
+    // Cesium's default blue base was hiding the ground under Giza whenever
+    // tiles lagged, and blue-under-pyramids reads as "sea", not "loading".
+    viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#8a7d63');
     if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = true;
     if (viewer.scene.fog) viewer.scene.fog.enabled = true;
     (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = 'none';

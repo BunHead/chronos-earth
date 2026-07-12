@@ -167,7 +167,12 @@ export class PaleoController {
     const active = ma >= ACTIVE_MA;
     // Hide modern Earth imagery in deep time so the paleo-continents show.
     for (const layer of modernLayers ?? []) layer.show = !active;
-    this.viewer.scene.globe.baseColor = active ? OCEAN_COLOR : Cesium.Color.BLACK;
+    // Modern eras: bare (still-streaming) globe reads as DESERT, not black —
+    // black under half-loaded imagery read as "sea hiding the terrain"
+    // (the Captain's blue-under-Giza). Deep time keeps the paleo ocean.
+    this.viewer.scene.globe.baseColor = active
+      ? OCEAN_COLOR
+      : Cesium.Color.fromCssColorString('#8a7d63');
 
     if (!active) {
       for (const layer of this.layers.values()) layer.show = false;
