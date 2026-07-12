@@ -2445,3 +2445,36 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
   background: linear-gradient(#ff5a4e, #ffd7d2); border-radius: 2px;
 }
 .cf-read { font-size: 11px; color: #9fb3c7; font-variant-numeric: tabular-nums; }
+
+/* ── Battle HUD — the story strip for battles fought on the globe ─────── */
+.battle-hud {
+  position: fixed; left: 50%; bottom: 150px; transform: translateX(-50%);
+  z-index: 30; width: min(520px, calc(100vw - 24px));
+  padding: 0 14px 12px; border-radius: 12px;
+  background: rgba(11, 19, 28, 0.94); border: 1px solid #2c3d50;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5); color: #eaf1f8;
+}
+.bh-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0 4px; cursor: grab; user-select: none; touch-action: none;
+}
+.bh-title { font-size: 14px; font-weight: 800; letter-spacing: 0.01em; }
+.bh-close {
+  width: 22px; height: 22px; border-radius: 6px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 13px; line-height: 1;
+}
+.bh-sub { font-size: 11px; color: #9fb3c7; margin-bottom: 6px; }
+.bh-sides { display: flex; gap: 16px; font-size: 11px; color: #d9e4ef; margin-bottom: 8px; }
+.bh-sides i {
+  display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+  margin-right: 5px; vertical-align: -1px; border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.bh-phase { display: flex; align-items: center; gap: 8px; }
+.bh-phase button {
+  min-width: 28px; height: 26px; border-radius: 7px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 14px; line-height: 1;
+}
+.bh-phase button:disabled { opacity: 0.35; cursor: default; }
+.bh-phase .bh-play { border-color: #c9a24b; }
+.bh-phase-name { flex: 1; font-size: 12px; font-weight: 700; }
+.bh-narration { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; color: #d9e4ef; }

@@ -120,6 +120,11 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
   return true;
 }
 
+/** The live Cesium viewer, for other on-globe stages (battles). */
+export function getViewer(): Cesium.Viewer | null {
+  return theViewer;
+}
+
 function gate(entity: Cesium.Entity, p: Placement): void {
   const born = lastYearsBP <= yearToYearsBP(p.builtYear);
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);

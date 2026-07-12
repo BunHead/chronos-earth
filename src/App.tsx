@@ -9,7 +9,7 @@ import {
 import Timeline from './components/Timeline';
 import InfoPanel from './components/InfoPanel';
 import LayersPanel from './components/LayersPanel';
-import BattleView from './components/BattleView';
+import BattleHud from './components/BattleHud';
 import SearchBox from './components/SearchBox';
 import About from './components/About';
 import Tours from './components/Tours';
@@ -18,10 +18,11 @@ import CompareMode from './components/CompareMode';
 import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
 import { ensurePlacement } from './lib/globeModels';
+import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
-import { loadAncientSites, loadBattles, loadBattleViews, loadBattleMaps, loadTours, loadEvents, loadFauna } from './lib/data';
+import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna } from './lib/data';
 import { fetchByName } from './lib/liveFetch';
 import { loadLiveCache, addToLiveCache } from './lib/liveCache';
 import { initPortraits } from './lib/portraits';
@@ -31,7 +32,6 @@ import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneSt
 import type {
   AncientSite,
   Battle,
-  BattleMapInfo,
   BattleView as BattleViewData,
   Fauna,
   PanelContent,
@@ -166,8 +166,8 @@ export default function App() {
     window.setTimeout(() => setToast((t) => (t === msg ? null : t)), 3600);
   };
   const [battleViews, setBattleViews] = useState<Record<string, BattleViewData>>({});
-  const [battleMaps, setBattleMaps] = useState<Record<string, BattleMapInfo>>({});
-  const [activeBattleView, setActiveBattleView] = useState<string | null>(null);
+  // A battle currently staged ON the globe (armies standing at the real site).
+  const [globeBattle, setGlobeBattle] = useState<{ id: string; view: BattleViewData; phase: number } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
   // The floating frames over the globe (⋯ menu toggles): Weather & Sky for
   // everyone — it lights the REAL globe by the real sun — and the compass.
@@ -297,9 +297,6 @@ export default function App() {
     loadBattleViews()
       .then(setBattleViews)
       .catch((err) => console.error('Could not load battle views:', err));
-    loadBattleMaps()
-      .then(setBattleMaps)
-      .catch((err) => console.error('Could not load battle maps:', err));
     loadTours()
       .then(setTours)
       .catch((err) => console.error('Could not load tours:', err));
@@ -347,6 +344,19 @@ export default function App() {
       setYearsBP(yearToYearsBP(m.builtYear));
     }
     globeRef.current?.flyToMonument(m.lon, m.lat, fitFor(m.title, m.model).widthM);
+  };
+
+  // THE GLOBE IS THE BATTLEFIELD: nudge the timeline to the day, dive to
+  // the real ground, and raise the armies where they actually fought.
+  const visitBattle = (id: string, fly = true) => {
+    const battle = battles.find((b) => b.id === id);
+    if (!battle) return;
+    const view = battleViews[id] ?? synthesizeBattleView(battle);
+    setIsPlaying(false);
+    setYearsBP(yearToYearsBP(battle.year));
+    if (fly) globeRef.current?.flyToMonument(battle.lon, battle.lat, 900);
+    showBattleOnGlobe(battle.lat, battle.lon, view);
+    setGlobeBattle({ id, view, phase: 0 });
   };
 
   // Search picks: jump to a site or an era.
@@ -497,7 +507,8 @@ export default function App() {
           // The dive: zooming right down onto a marker — make sure the
           // monument is standing there on the globe when you arrive.
           if (t.kind === 'battle') {
-            if (battleViews[t.id]) setActiveBattleView(t.id);
+            // Already diving by hand — raise the armies without a camera fight.
+            if (globeBattle?.id !== t.id) visitBattle(t.id, false);
             return;
           }
           if (t.kind === 'event') {
@@ -652,26 +663,24 @@ export default function App() {
           setFocusEventId(null);
         }}
         onFly={(c) => c.fly && globeRef.current?.flyTo(c.fly.lon, c.fly.lat, c.fly.altitude)}
-        onZoomToBattle={(id) => setActiveBattleView(id)}
+        onZoomToBattle={visitBattle}
         onViewMonument={visitMonument}
       />
 
-      {activeBattleView &&
-        (() => {
-          const battle = battles.find((b) => b.id === activeBattleView);
-          // Hand-crafted views win; every other battle gets a synthesised one.
-          const view =
-            battleViews[activeBattleView] ?? (battle ? synthesizeBattleView(battle) : undefined);
-          if (!view) return null;
-          return (
-            <BattleView
-              view={view}
-              battle={battle}
-              mapInfo={battleMaps[activeBattleView]}
-              onClose={() => setActiveBattleView(null)}
-            />
-          );
-        })()}
+      {globeBattle && (
+        <BattleHud
+          view={globeBattle.view}
+          phase={globeBattle.phase}
+          onPhase={(i) => {
+            setGlobeBattlePhase(globeBattle.view, i);
+            setGlobeBattle({ ...globeBattle, phase: i });
+          }}
+          onClose={() => {
+            endGlobeBattle();
+            setGlobeBattle(null);
+          }}
+        />
+      )}
 
 
       <Timeline
