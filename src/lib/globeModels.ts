@@ -19,6 +19,7 @@
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
 import { yearToYearsBP } from './timeScale';
+import { loadReview, type ModelTransform } from './review';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -71,23 +72,67 @@ let theManifest: Record<string, { footprint: number }> = {};
 let lastYearsBP = Number.NEGATIVE_INFINITY;
 let lastShowSites = true;
 
+// The Captain's hand-tuned placement trims, loaded from the review file and
+// keyed per site — his eyeball is the calibration instrument.
+let transforms: Record<string, ModelTransform> = {};
+
+/** Review-file key for one monument's placement trim. */
+export function transformKey(model: string, lat: number, lon: number): string {
+  return `place:${model}@${lat.toFixed(3)},${lon.toFixed(3)}`;
+}
+
+/**
+ * Seat (or re-seat) a monument on the globe: computed placement plus the
+ * maker's trim — nudges in metres, extra heading, scale multiplier, and a
+ * lift for terrain that swallows an edge. Also the cure for stale ground
+ * clamps: re-assigning the position forces Cesium to re-clamp.
+ */
+function seat(entity: Cesium.Entity, p: Placement): void {
+  const info = theManifest[p.model];
+  if (!entity.model || !info?.footprint) return;
+  const t = transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
+  const { widthM, facingDeg } = fitFor(p.title, p.model);
+  const mPerDeg = 111_320;
+  const lat = p.lat + (t.northM ?? 0) / mPerDeg;
+  const lon = p.lon + (t.eastM ?? 0) / (mPerDeg * Math.cos((p.lat * Math.PI) / 180));
+  const up = t.upM ?? 0;
+  const position = Cesium.Cartesian3.fromDegrees(lon, lat, up);
+  entity.position = new Cesium.ConstantPositionProperty(position);
+  const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL + (t.headingDeg ?? 0));
+  entity.orientation = new Cesium.ConstantProperty(
+    Cesium.Transforms.headingPitchRollQuaternion(position, new Cesium.HeadingPitchRoll(heading, 0, 0)),
+  );
+  entity.model.scale = new Cesium.ConstantProperty((widthM / info.footprint) * (t.scale ?? 1));
+  entity.model.heightReference = new Cesium.ConstantProperty(
+    up !== 0 ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.CLAMP_TO_GROUND,
+  );
+  theViewer?.scene.requestRender();
+}
+
+/** Live preview of a trim (maker's Adjust panel) — not persisted here. */
+export function applyLiveTransform(model: string, lat: number, lon: number, t: ModelTransform): void {
+  transforms[transformKey(model, lat, lon)] = t;
+  const found = entities.find(
+    (e) => e.p.model === model && Math.abs(e.p.lat - lat) < 0.03 && Math.abs(e.p.lon - lon) < 0.03,
+  );
+  if (found) seat(found.entity, found.p);
+}
+
+/** Terrain provider changed (era crossed the paleo line): every clamped
+ * model must re-seat, or it floats at the OLD ground's height. */
+export function reseatAll(): void {
+  for (const { entity, p } of entities) seat(entity, p);
+}
+
 function addPlacement(p: Placement): void {
   const viewer = theViewer;
   const info = theManifest[p.model];
   if (!viewer || !info?.footprint) return;
-  const { widthM, facingDeg } = fitFor(p.title, p.model);
-  const scale = widthM / info.footprint;
-  const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL);
-  const position = Cesium.Cartesian3.fromDegrees(p.lon, p.lat);
   const entity = viewer.entities.add({
     id: `mon3d-${p.model}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`,
-    position,
-    orientation: new Cesium.ConstantProperty(
-      Cesium.Transforms.headingPitchRollQuaternion(position, new Cesium.HeadingPitchRoll(heading, 0, 0)),
-    ),
+    position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
     model: {
       uri: `./models/${p.model}.glb`,
-      scale,
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, REVEAL_DISTANCE),
       // Monuments sleep at night: glTF models carry their own light, so
@@ -108,6 +153,7 @@ function addPlacement(p: Placement): void {
     show: false, // the timeline decides
   });
   entities.push({ entity, p });
+  seat(entity, p);
   gate(entity, p);
 }
 
@@ -120,6 +166,15 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
     theManifest = await r.json();
   } catch {
     return;
+  }
+  // The maker's saved placement trims ride in the review file.
+  try {
+    const review = await loadReview();
+    for (const [key, rec] of Object.entries(review)) {
+      if (key.startsWith('place:') && rec.transform) transforms[key] = rec.transform;
+    }
+  } catch {
+    /* trims are optional */
   }
   for (const p of PLACEMENTS) addPlacement(p);
 }

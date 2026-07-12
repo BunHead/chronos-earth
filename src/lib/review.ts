@@ -21,11 +21,28 @@ let validatedToken: string | null = null;
 
 export type ReviewStatus = 'approved' | 'allowed' | 'rejected';
 
+/** The maker's hand-tuned placement for one monument ON THE GLOBE — the
+ * Captain's eyeball is the calibration instrument, these are his reins.
+ * All fields are deltas on the computed placement. */
+export interface ModelTransform {
+  /** Extra heading, degrees clockwise seen from above. */
+  headingDeg?: number;
+  /** Scale multiplier (1 = as computed from the fit table). */
+  scale?: number;
+  /** Nudge east/north in metres. */
+  eastM?: number;
+  northM?: number;
+  /** Lift above the clamped ground in metres (rescues terrain swallowing). */
+  upM?: number;
+}
+
 export interface ReviewRecord {
   status?: ReviewStatus;
   note?: string;
   rework?: boolean; // Captain flagged it for a rework / bake-off
   focus?: string; // what to focus the rework on (roof / colour / …)
+  /** Globe placement trim, keyed per site (see globeModels.transformKey). */
+  transform?: ModelTransform;
   ts?: number; // last change, ms epoch
 }
 

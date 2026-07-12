@@ -7,7 +7,7 @@ import * as Cesium from 'cesium';
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
-import { loadGlobeModels, updateGlobeModelVisibility } from '../lib/globeModels';
+import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
@@ -460,6 +460,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     if (!viewer || viewer.isDestroyed() || !t.provider || t.active === on) return;
     t.active = on;
     viewer.terrainProvider = on ? t.provider : new Cesium.EllipsoidTerrainProvider();
+    // The ground just moved — re-seat every monument or they keep the OLD
+    // ground's height and float ("raised into the heavens", daylight cut).
+    reseatAll();
   };
 
   useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, captureFrame }));

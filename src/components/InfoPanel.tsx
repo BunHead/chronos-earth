@@ -246,7 +246,14 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
           {/* The maker's reins over the globe: review any monument or battle
               right here — appears only when the Captain's key is present. */}
           {(content.monument3d || content.battleId) && (
-            <MakerRow reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model} />
+            <MakerRow
+              reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model}
+              place={
+                content.monument3d
+                  ? { model: content.monument3d.model, lat: content.monument3d.lat, lon: content.monument3d.lon }
+                  : undefined
+              }
+            />
           )}
 
           {wiki.thumb && (
