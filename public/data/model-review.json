@@ -2,7 +2,9 @@
   "stonehenge": {},
   "amphitheatre": {
     "note": "This has a time line effect, yes?",
-    "ts": 1783891390912
+    "ts": 1783891391985,
+    "status": "allowed",
+    "rework": true
   },
   "tower-bridge": {
     "status": "allowed",
