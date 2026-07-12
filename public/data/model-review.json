@@ -36,7 +36,8 @@
   },
   "buckingham": {
     "note": "Only the front done, with fountain in the wrong place, looks to be the wrong colour",
-    "ts": 1783884385982
+    "ts": 1783891355706,
+    "status": "allowed"
   },
   "place:buckingham@51.501,-0.142": {
     "transform": {
