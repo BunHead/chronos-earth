@@ -4202,6 +4202,854 @@
           ]
         }
       ]
+    },
+    "salamis": {
+      "id": "salamis",
+      "title": "Battle of Salamis",
+      "subtitle": "480 BCE — the narrows save Greece",
+      "sides": {
+        "a": {
+          "name": "Greek allies (Themistocles)",
+          "color": "#3b7ad9"
+        },
+        "b": {
+          "name": "Persia (Xerxes)",
+          "color": "#b0413e"
+        }
+      },
+      "loser": "b",
+      "severity": 1.1,
+      "phases": [
+        {
+          "name": "The trap is baited",
+          "narration": "Themistocles sends Xerxes a secret message: the Greeks mean to flee. The Persian fleet rows into the narrow strait by night to seal it — exactly where numbers count for nothing."
+        },
+        {
+          "name": "Into the narrows",
+          "narration": "At dawn the Phoenician vanguard pushes up the strait. Hull crowds against hull; the great fleet can no longer manoeuvre.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                50
+              ],
+              "to": [
+                45,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Greek line strikes",
+          "narration": "The Greeks back water — then ram. Bronze beaks stave in the jammed Persian hulls; admiral Ariabignes falls; Artemisia escapes by sinking a ship of her own side.",
+          "arrows": [
+            {
+              "from": [
+                43,
+                28
+              ],
+              "to": [
+                47,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                37,
+                22
+              ],
+              "to": [
+                46,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Rout under the king's eyes",
+          "narration": "The Persians break south, fouling their own oncoming rear squadrons. Xerxes watches it all from a throne on Mount Aigaleo — and soon turns for home."
+        }
+      ],
+      "units": [
+        {
+          "id": "greek-main",
+          "side": "a",
+          "label": "Allied fleet (Themistocles)",
+          "shape": "ship",
+          "size": 1.2,
+          "pos": [
+            [
+              40,
+              20
+            ],
+            [
+              42,
+              26
+            ],
+            [
+              45,
+              33
+            ],
+            [
+              42,
+              29
+            ]
+          ]
+        },
+        {
+          "id": "greek-wing",
+          "side": "a",
+          "label": "Corinthian squadron",
+          "shape": "ship",
+          "pos": [
+            [
+              36,
+              14
+            ],
+            [
+              30,
+              9
+            ],
+            [
+              37,
+              21
+            ],
+            [
+              36,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "persian-van",
+          "side": "b",
+          "label": "Phoenician vanguard",
+          "shape": "ship",
+          "pos": [
+            [
+              52,
+              58
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              46,
+              32
+            ],
+            [
+              50,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "persian-main",
+          "side": "b",
+          "label": "Persian main fleet",
+          "shape": "ship",
+          "size": 1.3,
+          "pos": [
+            [
+              58,
+              66
+            ],
+            [
+              54,
+              54
+            ],
+            [
+              51,
+              45
+            ],
+            [
+              58,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "persian-egypt",
+          "side": "b",
+          "label": "Egyptian squadron (west channel)",
+          "shape": "ship",
+          "pos": [
+            [
+              20,
+              62
+            ],
+            [
+              20,
+              58
+            ],
+            [
+              22,
+              56
+            ],
+            [
+              26,
+              64
+            ]
+          ]
+        }
+      ]
+    },
+    "fall-of-constantinople": {
+      "id": "fall-of-constantinople",
+      "title": "Fall of Constantinople",
+      "subtitle": "6 April – 29 May 1453 — the last day of Byzantium",
+      "sides": {
+        "a": {
+          "name": "Byzantines (Constantine XI)",
+          "color": "#5b3fae"
+        },
+        "b": {
+          "name": "Ottomans (Mehmed II)",
+          "color": "#c23b22"
+        }
+      },
+      "loser": "a",
+      "severity": 1.2,
+      "phases": [
+        {
+          "name": "The siege lines close",
+          "narration": "Mehmed's host entrenches before the Theodosian walls and the great bombard begins its work — stone balls of half a tonne against walls that had stood a thousand years.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                37
+              ],
+              "to": [
+                53,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Ships over the hills",
+          "narration": "Denied the Golden Horn by the great chain, Mehmed drags seventy ships overland on greased timbers behind Galata — and launches them inside the harbour. The defenders must now man every wall at once."
+        },
+        {
+          "name": "Assaults repelled",
+          "narration": "Wave after wave breaks on the stockades patching the Lycus valley breach. Giustiniani's Genoese hold; mines are counter-mined; the city endures.",
+          "arrows": [
+            {
+              "from": [
+                41,
+                38
+              ],
+              "to": [
+                52,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The final assault",
+          "narration": "Before dawn on 29 May: irregulars first, then Anatolians, then the Janissaries. Giustiniani falls wounded and is carried off; a postern gate, the Kerkoporta, is found unbarred.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                37
+              ],
+              "to": [
+                54,
+                35
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                40
+              ],
+              "to": [
+                53,
+                37
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The city falls",
+          "narration": "Constantine XI dies fighting at the walls, his body never surely found. Eleven centuries of Byzantium end; Mehmed rides to Hagia Sophia and turns it to a mosque."
+        }
+      ],
+      "units": [
+        {
+          "id": "byz-walls",
+          "side": "a",
+          "label": "Wall garrison (Giustiniani)",
+          "size": 1.1,
+          "pos": [
+            [
+              55,
+              35
+            ],
+            [
+              55,
+              35
+            ],
+            [
+              55,
+              35
+            ],
+            [
+              55,
+              35
+            ],
+            [
+              58,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "byz-horn",
+          "side": "a",
+          "label": "Harbour squadron at the chain",
+          "shape": "ship",
+          "pos": [
+            [
+              62,
+              18
+            ],
+            [
+              62,
+              18
+            ],
+            [
+              60,
+              20
+            ],
+            [
+              60,
+              20
+            ],
+            [
+              60,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "ott-cannon",
+          "side": "b",
+          "label": "The great bombard",
+          "shape": "vehicle",
+          "pos": [
+            [
+              40,
+              38
+            ],
+            [
+              44,
+              37
+            ],
+            [
+              44,
+              37
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              46,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "ott-army",
+          "side": "b",
+          "label": "Ottoman host",
+          "size": 1.4,
+          "pos": [
+            [
+              35,
+              40
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              42,
+              37
+            ],
+            [
+              52,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "ott-jan",
+          "side": "b",
+          "label": "Janissaries",
+          "pos": [
+            [
+              33,
+              45
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              53,
+              37
+            ]
+          ]
+        },
+        {
+          "id": "ott-fleet",
+          "side": "b",
+          "label": "Fleet dragged overland",
+          "shape": "ship",
+          "pos": [
+            [
+              40,
+              6
+            ],
+            [
+              40,
+              6
+            ],
+            [
+              52,
+              13
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              57,
+              18
+            ]
+          ]
+        }
+      ]
+    },
+    "red-cliffs": {
+      "id": "red-cliffs",
+      "title": "Battle of Red Cliffs",
+      "subtitle": "Winter 208–209 CE — fire on the Yangtze",
+      "sides": {
+        "a": {
+          "name": "Sun–Liu alliance (Zhou Yu)",
+          "color": "#2e8b57"
+        },
+        "b": {
+          "name": "Cao Cao",
+          "color": "#8b2e2e"
+        }
+      },
+      "loser": "b",
+      "severity": 1.15,
+      "phases": [
+        {
+          "name": "Stalemate on the river",
+          "narration": "Cao Cao's northern host, wracked by sickness and unused to water, chains its ships together for steadiness on the winter Yangtze — a floating fortress, and a single target."
+        },
+        {
+          "name": "The feigned defection",
+          "narration": "Veteran general Huang Gai sends word he will defect. His squadron stands out for the northern fleet — decks stacked with kindling, oil and dry reeds under the surrender flags."
+        },
+        {
+          "name": "Fire on the wind",
+          "narration": "The southeast wind rises. Lit and abandoned at the last moment, the fire ships drive into the chained fleet — flame leaps hull to hull and into the shore camps.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                34
+              ],
+              "to": [
+                45,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Huarong road",
+          "narration": "Cao Cao burns what the fire spared and flees overland through the marshes, his army dissolving in the mud. The south is lost to him — the Three Kingdoms begin here.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                26
+              ],
+              "to": [
+                37,
+                13
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "cao-fleet",
+          "side": "b",
+          "label": "Cao Cao's chained fleet",
+          "shape": "ship",
+          "size": 1.4,
+          "pos": [
+            [
+              45,
+              22
+            ],
+            [
+              45,
+              22
+            ],
+            [
+              45,
+              20
+            ],
+            [
+              40,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "cao-army",
+          "side": "b",
+          "label": "Northern army (shore camps)",
+          "size": 1.2,
+          "pos": [
+            [
+              55,
+              15
+            ],
+            [
+              55,
+              15
+            ],
+            [
+              55,
+              14
+            ],
+            [
+              30,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "allied-fleet",
+          "side": "a",
+          "label": "Zhou Yu's fleet",
+          "shape": "ship",
+          "size": 1.1,
+          "pos": [
+            [
+              50,
+              55
+            ],
+            [
+              48,
+              45
+            ],
+            [
+              46,
+              34
+            ],
+            [
+              44,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "fire-ships",
+          "side": "a",
+          "label": "Huang Gai's fire ships",
+          "shape": "ship",
+          "pos": [
+            [
+              52,
+              50
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              46,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "liu-bei",
+          "side": "a",
+          "label": "Liu Bei's army",
+          "pos": [
+            [
+              65,
+              55
+            ],
+            [
+              62,
+              50
+            ],
+            [
+              58,
+              40
+            ],
+            [
+              45,
+              18
+            ]
+          ]
+        }
+      ]
+    },
+    "battle-of-britain": {
+      "id": "battle-of-britain",
+      "title": "Battle of Britain",
+      "subtitle": "Jul–Oct 1940 — the first battle fought entirely in the air",
+      "sides": {
+        "a": {
+          "name": "RAF Fighter Command (Dowding)",
+          "color": "#3b6ea5"
+        },
+        "b": {
+          "name": "Luftwaffe (Göring)",
+          "color": "#4a4a4a"
+        }
+      },
+      "loser": "b",
+      "severity": 0.95,
+      "phases": [
+        {
+          "name": "Kanalkampf",
+          "narration": "July: probing attacks on Channel convoys and the ports. Dowding husbands his squadrons — the radar chain watches everything that crosses the water.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                55
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The hardest days",
+          "narration": "August: the airfields and radar stations are hammered day after day. Fighter Command bends near breaking — pilots fly four sorties a day and sleep where they land.",
+          "arrows": [
+            {
+              "from": [
+                55,
+                42
+              ],
+              "to": [
+                47,
+                28
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                33,
+                48
+              ],
+              "to": [
+                42,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The switch to London",
+          "narration": "7 September: the Luftwaffe turns on the capital. Terror for Londoners — and an unintended reprieve for the broken airfields, which Park uses to rebuild.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                30
+              ],
+              "to": [
+                46,
+                18
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Battle of Britain Day",
+          "narration": "15 September: two massed raids are met and broken by every squadron 11 and 12 Group can field. Two days later Hitler postpones the invasion indefinitely. 'Never was so much owed by so many to so few.'",
+          "arrows": [
+            {
+              "from": [
+                46,
+                22
+              ],
+              "to": [
+                52,
+                26
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                16
+              ],
+              "to": [
+                50,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "raf-11",
+          "side": "a",
+          "label": "11 Group — Spitfires & Hurricanes",
+          "shape": "plane",
+          "size": 1.1,
+          "pos": [
+            [
+              45,
+              25
+            ],
+            [
+              48,
+              30
+            ],
+            [
+              46,
+              22
+            ],
+            [
+              48,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "raf-12",
+          "side": "a",
+          "label": "12 Group — the Big Wing",
+          "shape": "plane",
+          "pos": [
+            [
+              40,
+              10
+            ],
+            [
+              42,
+              14
+            ],
+            [
+              44,
+              16
+            ],
+            [
+              45,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "lw-2",
+          "side": "b",
+          "label": "Luftflotte 2 (Kesselring)",
+          "shape": "plane",
+          "size": 1.3,
+          "pos": [
+            [
+              60,
+              60
+            ],
+            [
+              55,
+              42
+            ],
+            [
+              52,
+              20
+            ],
+            [
+              58,
+              45
+            ]
+          ]
+        },
+        {
+          "id": "lw-3",
+          "side": "b",
+          "label": "Luftflotte 3 (Sperrle)",
+          "shape": "plane",
+          "size": 1.1,
+          "pos": [
+            [
+              30,
+              62
+            ],
+            [
+              32,
+              48
+            ],
+            [
+              38,
+              24
+            ],
+            [
+              35,
+              50
+            ]
+          ]
+        }
+      ]
     }
   }
 }
