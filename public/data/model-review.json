@@ -67,5 +67,13 @@
     },
     "ts": 1783886201863
   },
-  "battle:battle-of-bakhmut": {}
+  "battle:battle-of-bakhmut": {},
+  "place:opera-house@-33.857,151.215": {
+    "transform": {
+      "headingDeg": -140,
+      "northM": -50,
+      "eastM": -30
+    },
+    "ts": 1783888511945
+  }
 }
