@@ -142,7 +142,9 @@
   },
   "stepped-pyramid": {
     "status": "allowed",
-    "ts": 1783891737652,
-    "note": "Should be the same on each side, with a snake running down the staircase sides"
+    "ts": 1783891740484,
+    "note": "Should be the same on each side, with a snake running down the staircase sides",
+    "rework": true,
+    "focus": "detail"
   }
 }
