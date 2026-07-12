@@ -52,6 +52,16 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
   { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
   { match: 'richat', widthM: 2500 }, // ~40 km across, but the stylised rings sit at this scale
+  // London expansion — real footprints (m); facings READ off geo plan-renders
+  // on the real satellite imagery 2026-07-12 (world −Z = north, +X = east).
+  { match: 'tower bridge', widthM: 260, facingDeg: 90 }, // span crosses the Thames ~N–S
+  { match: "st paul", widthM: 75, facingDeg: 245 }, // west front to the WSW, nave ENE–WSW
+  { match: "st. paul", widthM: 75, facingDeg: 245 },
+  { match: 'tower of london', widthM: 36, facingDeg: 20 }, // the White Tower, slightly off-cardinal
+  { match: 'white tower', widthM: 36, facingDeg: 20 },
+  { match: 'the shard', widthM: 55 }, // rotationally near-symmetric — facing immaterial
+  { match: '30 st mary axe', widthM: 50 },
+  { match: 'gherkin', widthM: 50 },
 ];
 
 // Per-archetype fallback: a typical real footprint (m) and a default facing.
@@ -90,6 +100,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
   westminster: { widthM: 265, facingDeg: 90 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
+  'tower-bridge': { widthM: 260, facingDeg: 90 }, // deck spans the Thames ~N–S
+  'st-pauls': { widthM: 75, facingDeg: 245 }, // west front to the WSW
+  'tower-of-london': { widthM: 36, facingDeg: 20 }, // White Tower, slightly off-cardinal
+  shard: { widthM: 55, facingDeg: 0 }, // rotationally symmetric
+  gherkin: { widthM: 50, facingDeg: 0 },
   // The Paris trio — same bearings as their KNOWN rows above.
   eiffel: { widthM: 125, facingDeg: 225 },
   'arc-triomphe': { widthM: 45, facingDeg: 65 },

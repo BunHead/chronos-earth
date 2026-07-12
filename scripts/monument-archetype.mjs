@@ -77,6 +77,7 @@ export const VALID_MODELS = [
   'hanging-gardens', 'zeus-statue', 'artemis-temple', 'mausoleum', 'colossus', 'pharos', 'giza',
   // London landmarks.
   'buckingham', 'westminster', 'london-eye',
+  'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
   // New York.
   'liberty',
   // Paris.
@@ -122,6 +123,11 @@ const KEYWORD_RULES = [
   { rule: 'London Eye keyword', model: 'london-eye', re: /london eye|millennium wheel/ },
   { rule: 'Buckingham Palace keyword', model: 'buckingham', re: /buckingham/ },
   { rule: 'Palace of Westminster / Big Ben keyword', model: 'westminster', re: /palace of westminster|houses of parliament|big ben|elizabeth tower/ },
+  { rule: 'Tower Bridge keyword', model: 'tower-bridge', re: /tower bridge/ },
+  { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
+  { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
+  { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
+  { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },
   { rule: 'Arc de Triomphe keyword (not the Carrousel arch)', model: 'arc-triomphe', re: /arc de triomphe(?! du carrousel)/ },

@@ -2499,89 +2499,172 @@ export function buildModel(
       group.add(sx);
     }
   } else if (model === 'buckingham') {
-    // Buckingham Palace — the famous East Front: a long Neoclassical facade in
-    // Portland stone, three ranks of windows, the central balcony, the forecourt
-    // railings, and the Victoria Memorial standing before the gates.
-    ground = '#3f5138';
-    const stone = '#cdbfa6';
-    const trim = '#ddd2bb';
-    const win = '#2f3742';
-    const W = 22;
-    const H = 5.2;
+    // Buckingham Palace — the symmetrical East Front (Aston Webb's 1913
+    // Portland-stone refacing, the facade the crowds see): a long three-storey
+    // range of regular window bays, slightly projecting end pavilions and a
+    // central projecting bay crowned by a triangular pediment over the famous
+    // balcony, behind forecourt railings with the Victoria Memorial before the
+    // gates. Front = local +Z = the East Front (the fit turns +Z to face east).
+    ground = '#41562f';
+    // Pale Portland stone, graded subtly down the storeys so the ranks read apart.
+    const gLo = '#ddd2b9'; // rusticated ground floor
+    const gMid = '#ebe1cb'; // principal (first) floor
+    const gTop = '#e2d8c1'; // attic storey
+    const trim = '#f2ebd9'; // cornices, balustrade, dressings
+    const roofC = '#82858d'; // grey lead roof behind the balustrade
+    const win = '#2b333d';
+    const W = 30; // the long East Front (footprint maps to ~108 m)
+    const s1 = 2.1, s2 = 2.3, s3 = 1.7; // storey heights
     const D = 6;
-    group.add(block(W, H, D, 0, H / 2, 0, stone)); // main range
-    group.add(block(6, H + 0.7, D + 0.8, 0, (H + 0.7) / 2, 0.4, trim)); // central projecting bay
-    group.add(block(W + 0.6, 0.6, D + 0.6, 0, H + 0.3, 0, trim)); // cornice
-    group.add(block(W - 1, 1.0, D - 1, 0, H + 0.9, 0, '#9aa0a6')); // attic/roof
-    for (let row = 0; row < 3; row++) {
-      for (let i = 0; i < 11; i++) {
-        const wx = -W / 2 + 1.4 + i * ((W - 2.8) / 10);
-        group.add(block(0.8, 1.2, 0.15, wx, 1.3 + row * 1.5, D / 2 + 0.02, win));
+    const eaves = s1 + s2 + s3;
+    // A projecting bay (end pavilions + centre) — its own stone body proud of
+    // the main range, with a cornice, so the facade has real relief.
+    const bayFace = (cx: number, bw: number, proj: number) => {
+      const z = proj / 2;
+      group.add(block(bw, eaves, D + proj, cx, eaves / 2, z, gMid));
+      group.add(block(bw + 0.4, 0.34, D + proj + 0.4, cx, eaves + 0.17, z, trim)); // its cornice
+      return D / 2 + proj + 0.02; // the front plane of this bay's windows
+    };
+    // Window bays across a face plane, over the three storeys.
+    const bays = (x0: number, x1: number, n: number, zFace: number, ww = 0.85) => {
+      for (let i = 0; i < n; i++) {
+        const wx = x0 + (i + 0.5) * ((x1 - x0) / n);
+        group.add(block(ww, 1.15, 0.14, wx, 0.95, zFace, win)); // ground
+        group.add(block(ww, 1.3, 0.14, wx, s1 + 0.95, zFace, win)); // first (tall)
+        group.add(block(ww, 0.95, 0.14, wx, s1 + s2 + 0.75, zFace, win)); // attic
       }
+    };
+    // The three storeys of the long main range.
+    group.add(block(W, s1, D, 0, s1 / 2, 0, gLo));
+    group.add(block(W, 0.26, D + 0.28, 0, s1 + 0.13, 0, trim)); // ground string course
+    group.add(block(W, s2, D, 0, s1 + s2 / 2, 0, gMid));
+    group.add(block(W, s3, D, 0, s1 + s2 + s3 / 2, 0, gTop));
+    group.add(block(W + 0.5, 0.4, D + 0.5, 0, eaves + 0.2, 0, trim)); // main cornice
+    group.add(block(W - 2.5, 1.1, D - 1.8, 0, eaves + 0.55, 0, roofC)); // lead roof mass
+    // Balustraded parapet along the roofline.
+    for (let i = 0; i <= 32; i++) {
+      const bx = -W / 2 + i * (W / 32);
+      group.add(block(0.15, 0.5, 0.15, bx, eaves + 0.6, D / 2 - 0.1, trim));
     }
-    group.add(block(1.7, 2.4, 0.2, 0, 1.2, 0.4 + (D + 0.8) / 2 + 0.01, '#3a2f26')); // central door
-    group.add(block(3.4, 0.3, 0.7, 0, 3.6, 0.4 + (D + 0.8) / 2 + 0.2, trim)); // balcony
-    // Forecourt railings with a gap for the gates.
-    for (let i = 0; i <= 20; i++) {
-      const gx = -W / 2 + i * (W / 20);
-      if (Math.abs(gx) < 1.8) continue;
-      group.add(block(0.1, 1.5, 0.1, gx, 0.75, D / 2 + 4, '#1c1c1c'));
+    // Window bays down the long range (skip the centre and ends — bays sit there).
+    const zMain = D / 2 + 0.02;
+    bays(-W / 2 + 0.9, -6.5, 6, zMain);
+    bays(6.5, W / 2 - 0.9, 6, zMain);
+    // Projecting end pavilions.
+    const pw = 3.6, pProj = 0.7;
+    for (const sx of [-1, 1] as const) {
+      const zf = bayFace(sx * (W / 2 - pw / 2), pw, pProj);
+      bays(sx * (W / 2 - pw / 2) - pw / 2 + 0.5, sx * (W / 2 - pw / 2) + pw / 2 - 0.5, 2, zf);
     }
-    group.add(block(W, 0.2, 0.2, 0, 1.5, D / 2 + 4, '#1c1c1c')); // rail top
-    // The Victoria Memorial — white plinth, gold Winged Victory.
-    group.add(block(2.8, 1.8, 2.8, 0, 0.9, D / 2 + 7.5, trim));
+    // Central projecting bay with pediment + balcony + the great door.
+    const cbw = 6.4, cProj = 0.9;
+    const czf = bayFace(0, cbw, cProj);
+    bays(-cbw / 2 + 0.7, cbw / 2 - 0.7, 3, czf);
+    group.add(block(1.8, 2.5, 0.24, 0, 1.25, czf, '#33291f')); // central doorway
+    group.add(block(3.6, 0.28, 0.8, 0, s1 + 0.35, D / 2 + cProj + 0.35, trim)); // balcony slab
+    for (let i = 0; i <= 8; i++) group.add(block(0.1, 0.5, 0.1, -1.7 + i * 0.425, s1 + 0.7, D / 2 + cProj + 0.62, trim)); // balustrade
+    // The triangular pediment crowning the central bay.
+    const pedShape = new THREE.Shape();
+    pedShape.moveTo(-cbw / 2, 0); pedShape.lineTo(cbw / 2, 0); pedShape.lineTo(0, 1.9); pedShape.closePath();
+    const pedMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(pedShape, { depth: 0.6, bevelEnabled: false }), stoneMat(trim));
+    pedMesh.position.set(0, eaves + 0.35, D / 2 + cProj - 0.6);
+    group.add(pedMesh);
+    // Forecourt railings with a central gate gap and stone gate piers.
+    const railZ = D / 2 + 5;
+    for (let i = 0; i <= 30; i++) {
+      const gx = -W / 2 + i * (W / 30);
+      if (Math.abs(gx) < 2.2) continue;
+      group.add(block(0.1, 1.6, 0.1, gx, 0.8, railZ, '#20242a'));
+    }
+    group.add(block(W, 0.16, 0.14, 0, 1.55, railZ, '#20242a')); // rail top
+    for (const sx of [-1, 1] as const) group.add(block(0.7, 2.2, 0.7, sx * 2.4, 1.1, railZ, gTop)); // gate piers
+    // The Victoria Memorial — white plinth, column, gold Winged Victory.
+    group.add(block(2.8, 1.7, 2.8, 0, 0.85, railZ + 3.4, trim));
     const vcol = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 2.0, 12), stoneLike({ color: trim }));
-    vcol.position.set(0, 2.8, D / 2 + 7.5);
+    vcol.position.set(0, 2.7, railZ + 3.4);
     group.add(vcol);
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
-    vic.position.set(0, 4.0, D / 2 + 7.5);
+    vic.position.set(0, 3.9, railZ + 3.4);
     group.add(vic);
   } else if (model === 'westminster') {
-    // The Palace of Westminster — the Houses of Parliament: a long Gothic Revival
-    // range along the Thames, the Elizabeth Tower (Big Ben) at one end with its
-    // four clock faces, the great square Victoria Tower at the other, and a
-    // central lantern spire between them.
+    // The Palace of Westminster (Houses of Parliament) — Barry & Pugin's long
+    // Perpendicular-Gothic river frontage: the slender Elizabeth Tower (Big Ben)
+    // with its four clock faces and crocketed spire at the NORTH end (+X), the
+    // massive square Victoria Tower with its iron cresting at the south (−X), the
+    // octagonal Central Tower spire between them, and a pinnacled, buttressed
+    // frontage the whole length. Front = local +Z = the river (east) front.
     ground = '#3f5138';
-    const stone = '#c9b483';
-    const trim = '#b9a473';
-    const roof = '#41525c';
-    // (No stylised river — the real Thames is in the satellite imagery.)
-    group.add(block(26, 5, 6, 0, 2.5, 0, stone)); // long main range
-    group.add(block(26.4, 0.6, 6.4, 0, 5.2, 0, trim));
-    for (let i = 0; i < 13; i++) {
-      const x = -12 + i * 2;
-      group.add(block(0.5, 1.6, 0.5, x, 5.9, 0, trim)); // roofline pinnacles
-      group.add(block(0.7, 2.4, 0.15, x + 0.5, 2.5, 3.02, '#2f3742')); // tall Gothic windows
+    const stone = '#cbb684'; // honey Anston limestone
+    const stoneLo = '#c0aa78';
+    const trim = '#b6a06e';
+    const roof = '#465862';
+    const glass = '#2f3742';
+    const gold = '#d8c37a';
+    const front = 3; // +Z river-front plane
+    // The long main range, two storeys with a pierced parapet.
+    group.add(block(28, 5.4, 6, 0, 2.7, 0, stone));
+    group.add(block(28.4, 0.5, 6.5, 0, 5.55, 0, trim)); // eaves band
+    // Tall Gothic window bays and buttress pinnacles the length of the frontage.
+    for (let i = 0; i < 15; i++) {
+      const x = -13.1 + i * 1.87;
+      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim)); // buttress pinnacle
+      group.add(block(0.85, 3.4, 0.16, x + 0.93, 2.6, front + 0.02, glass)); // tall traceried window
+      group.add(block(0.85, 1.1, 0.18, x + 0.93, 4.55, front + 0.03, stoneLo)); // window head panel
     }
-    // Elizabeth Tower (Big Ben) at the +X end.
-    const bx = 13.8;
-    group.add(block(3, 13, 3, bx, 6.5, 1.5, stone));
-    const face = (dx: number, dz: number, ry: number) => {
-      const f = block(1.7, 1.7, 0.16, bx + dx, 10.6, 1.5 + dz, '#efe9d2', ry);
-      group.add(f);
-      group.add(block(0.5, 0.08, 0.2, bx + dx, 10.6, 1.5 + dz, '#1c1c1c', ry)); // clock hand hint
+    // A lower second rank set back, so the frontage has depth.
+    group.add(block(24, 3.2, 5, 0, 1.6, -2.4, stoneLo));
+    // — Elizabeth Tower (Big Ben) at the +X (north) end: slender, ~96 m. —
+    const bx = 15.4, bz = 1.0, bw = 2.6;
+    group.add(block(bw + 0.4, 1.0, bw + 0.4, bx, 0.5, bz, stoneLo)); // base plinth
+    group.add(block(bw, 13.5, bw, bx, 7.2, bz, stone)); // slender shaft
+    for (let i = 1; i <= 3; i++) group.add(block(bw + 0.15, 0.25, bw + 0.15, bx, 3 + i * 2.8, bz, trim)); // string courses
+    // The four clock faces high on the shaft.
+    const clockY = 12.4;
+    const clockFace = (dx: number, dz: number, ry: number) => {
+      group.add(block(1.7, 1.7, 0.14, bx + dx, clockY, bz + dz, '#f2ecd6', ry)); // white dial
+      group.add(block(1.9, 1.9, 0.1, bx + dx, clockY, bz + dz - Math.sign(dz || 0) * 0.02, gold, ry)); // gilt surround (behind)
+      group.add(block(0.6, 0.09, 0.16, bx + dx, clockY + 0.1, bz + dz + 0.06, '#1c1c1c', ry)); // hands
+      group.add(block(0.09, 0.5, 0.16, bx + dx, clockY - 0.05, bz + dz + 0.06, '#1c1c1c', ry));
     };
-    face(0, 1.55, 0);
-    face(0, -1.55, 0);
-    face(1.55, 0, Math.PI / 2);
-    face(-1.55, 0, Math.PI / 2);
-    group.add(block(3.2, 1.2, 3.2, bx, 13.4, 1.5, trim)); // belfry stage
-    const espire = new THREE.Mesh(new THREE.ConeGeometry(2.2, 4.2, 4), stoneLike({ color: roof, flatShading: true }));
+    clockFace(0, bw / 2 + 0.02, 0);
+    clockFace(0, -bw / 2 - 0.02, 0);
+    clockFace(bw / 2 + 0.02, 0, Math.PI / 2);
+    clockFace(-bw / 2 - 0.02, 0, Math.PI / 2);
+    group.add(block(bw + 0.5, 1.4, bw + 0.5, bx, 14.4, bz, stoneLo)); // belfry stage
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner pinnacles
+      group.add(block(0.4, 2.0, 0.4, bx + cx * (bw / 2 + 0.1), 15.6, bz + cz * (bw / 2 + 0.1), trim));
+    const espire = new THREE.Mesh(new THREE.ConeGeometry(1.85, 4.6, 4), stoneLike({ color: roof, flatShading: true }));
     espire.rotation.y = Math.PI / 4;
-    espire.position.set(bx, 16.1, 1.5);
+    espire.position.set(bx, 17.5, bz);
     group.add(espire);
-    // Victoria Tower at the -X end — taller and broader, with a square top.
-    const vx = -13.8;
-    group.add(block(5, 15, 5, vx, 7.5, -0.3, stone));
-    group.add(block(5.6, 1.2, 5.6, vx, 15.4, -0.3, trim));
-    for (const cx of [-1, 1] as const) {
-      for (const cz of [-1, 1] as const) group.add(block(0.7, 2.4, 0.7, vx + cx * 2.2, 16.4, -0.3 + cz * 2.2, trim));
-    }
-    // Central lantern tower + spire.
-    group.add(block(2.8, 4, 2.8, 0, 6, -1, stone));
-    const cs = new THREE.Mesh(new THREE.ConeGeometry(1.6, 5.2, 8), stoneLike({ color: roof, flatShading: true }));
-    cs.position.set(0, 10.6, -1);
+    const efin = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 8), GOLD);
+    efin.position.set(bx, 20.0, bz); // finial
+    group.add(efin);
+    // — Victoria Tower at the −X (south) end: massive, square, ~98 m. —
+    const vx = -15.6, vz = 0.2, vw = 5.4;
+    group.add(block(vw + 0.6, 1.2, vw + 0.6, vx, 0.6, vz, stoneLo)); // base
+    group.add(block(vw, 15.5, vw, vx, 8.35, vz, stone)); // great shaft
+    for (let i = 1; i <= 4; i++) group.add(block(vw + 0.2, 0.3, vw + 0.2, vx, 2.5 + i * 2.9, vz, trim)); // string courses
+    for (let i = 0; i < 3; i++) group.add(block(1.0, 2.2, 0.14, vx, 4 + i * 3.4, vz + vw / 2 + 0.02, glass)); // stacked windows
+    group.add(block(vw + 0.5, 1.0, vw + 0.5, vx, 16.3, vz, stoneLo)); // parapet stage
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner turrets
+      group.add(block(0.85, 2.6, 0.85, vx + cx * (vw / 2 + 0.1), 17.6, vz + cz * (vw / 2 + 0.1), trim));
+    const vroof = new THREE.Mesh(new THREE.ConeGeometry(vw * 0.62, 2.6, 4), stoneLike({ color: roof, flatShading: true }));
+    vroof.rotation.y = Math.PI / 4;
+    vroof.position.set(vx, 18.1, vz);
+    group.add(vroof);
+    group.add(block(0.16, 3.0, 0.16, vx, 20.5, vz, '#3a3a3a')); // flagpole
+    // — Central Tower: the octagonal lantern spire over the central lobby. —
+    group.add(block(4, 6.2, 4, 0, 3.1, -1, stoneLo));
+    for (const [dx, dz] of [[1.6, 0], [-1.6, 0], [0, 1.6], [0, -1.6]] as const)
+      group.add(block(0.9, 2.6, 0.16, dx, 4.6, -1 + dz + Math.sign(dz) * 0.02, glass, dx !== 0 ? Math.PI / 2 : 0));
+    group.add(block(4.4, 0.5, 4.4, 0, 6.3, -1, trim));
+    const cs = new THREE.Mesh(new THREE.ConeGeometry(2.1, 6.4, 8), stoneLike({ color: roof, flatShading: true }));
+    cs.position.set(0, 9.7, -1);
     group.add(cs);
+    const cfin = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), GOLD);
+    cfin.position.set(0, 13.1, -1);
+    group.add(cfin);
   } else if (model === 'london-eye') {
     // The London Eye — a giant cantilevered observation wheel: a steel rim on
     // spokes, glass passenger capsules around it, held out over the Thames on an
@@ -2928,6 +3011,392 @@ export function buildModel(
     glassPyramid(0.7, 0.45, -3.2, 0.5, false); // the three pyramidlets
     glassPyramid(0.7, 0.45, 3.2, 0.5, false);
     glassPyramid(0.7, 0.45, 0, -2.6, false);
+  } else if (model === 'tower-bridge') {
+    // Tower Bridge — the two neo-Gothic towers standing in the river, the central
+    // roadway between them (the twin bascule leaves), the two high-level walkways
+    // linking the tower tops, and the suspension chains sweeping from each tower
+    // to its bank abutment. Deck runs along local X (the fit lays it across the
+    // Thames); front = local +Z (the broadside you photograph).
+    ground = '#3f5138';
+    const gran = '#a7a091'; // Cornish granite piers
+    const dress = '#cfc7b6'; // Portland-stone dressings
+    const towerRoof = '#4f6f77'; // the famous blue-grey pointed roofs
+    const deckC = '#464b53';
+    const road = '#3a3f47';
+    const chainMat = new THREE.MeshStandardMaterial({ color: '#8f98a6', metalness: 0.6, roughness: 0.4 });
+    const towerX = 6; // half-distance between the two towers
+    const bankX = 14; // bank abutments
+    const deckY = 3.0;
+    const roadHalfZ = 1.4; // roadway half-width in Z
+    const chainZ = 1.7; // chains run just outside the deck edges
+    // A faint river band under the whole bridge (the real Thames is in the
+    // imagery on terrain; this keeps the neutral workshop view from floating).
+    const river = new THREE.Mesh(
+      new THREE.CircleGeometry(bankX + 4, 48),
+      new THREE.MeshStandardMaterial({ color: '#2f6f93', roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.7 }),
+    );
+    river.rotation.x = -Math.PI / 2;
+    river.position.y = 0.05;
+    river.scale.z = 0.5; // the river runs across the span
+    river.userData.noShadow = true;
+    group.add(river);
+    // The deck: side spans from bank to tower, and the central bascule span.
+    group.add(block(bankX * 2, 0.4, roadHalfZ * 2 + 0.5, 0, deckY, 0, deckC));
+    group.add(block(bankX * 2, 0.12, roadHalfZ * 2, 0, deckY + 0.26, 0, road));
+    for (const s of [-1, 1] as const) {
+      // — a main tower straddling the roadway (piers on both ±Z sides). —
+      const tx = s * towerX;
+      const pierZ = roadHalfZ + 0.9;
+      for (const pz of [pierZ, -pierZ]) {
+        group.add(block(2.6, deckY + 2.4, 1.6, tx, (deckY + 2.4) / 2, pz, gran)); // pier up past the deck
+      }
+      const bodyY0 = deckY + 2.4;
+      const bodyH = 4.2;
+      group.add(block(3.0, bodyH, pierZ * 2 + 1.6, tx, bodyY0 + bodyH / 2, 0, dress)); // upper body over the arch
+      // Tall gothic window slots on the +Z/−Z faces.
+      for (const fz of [1, -1] as const)
+        for (const dz of [-0.8, 0.8])
+          group.add(block(0.7, 2.6, 0.14, tx + dz, bodyY0 + bodyH / 2, fz * (pierZ + 0.85), '#2f3742'));
+      const topY = bodyY0 + bodyH;
+      // Steep pyramidal roof + four corner turrets with their own conical caps.
+      const roofMat = stoneLike({ color: towerRoof, flatShading: true });
+      const roofCone = new THREE.Mesh(new THREE.ConeGeometry(2.4, 3.2, 4), roofMat);
+      roofCone.rotation.y = Math.PI / 4;
+      roofCone.position.set(tx, topY + 1.6, 0);
+      group.add(roofCone);
+      for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
+        const turr = block(0.8, 1.6, 0.8, tx + cx * 1.2, topY + 0.8, cz * (pierZ + 0.4), dress);
+        group.add(turr);
+        const cap = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.3, 6), roofMat);
+        cap.position.set(tx + cx * 1.2, topY + 2.2, cz * (pierZ + 0.4));
+        group.add(cap);
+      }
+      // — suspension chains: tower top → sagging mid → bank abutment. —
+      for (const cz of [chainZ, -chainZ]) {
+        const A = new THREE.Vector3(tx, topY - 0.4, cz);
+        const B = new THREE.Vector3(s * 10, deckY + 1.3, cz);
+        const C = new THREE.Vector3(s * bankX, deckY + 2.6, cz);
+        group.add(strut(A, B, 0.22, chainMat));
+        group.add(strut(B, C, 0.22, chainMat));
+        // vertical hangers down to the deck
+        for (let k = 1; k <= 4; k++) {
+          const f = k / 5;
+          const p = A.clone().lerp(B, f);
+          group.add(strut(p, new THREE.Vector3(p.x, deckY + 0.3, cz), 0.06, chainMat));
+        }
+      }
+      // Bank abutment tower.
+      group.add(block(2.2, deckY + 3.2, roadHalfZ * 2 + 1.4, s * bankX, (deckY + 3.2) / 2, 0, gran));
+    }
+    // — two high-level walkways linking the tower tops. —
+    const walkY = deckY + 2.4 + 4.2 - 0.6;
+    for (const wz of [0.9, -0.9]) {
+      group.add(block(towerX * 2, 0.5, 1.0, 0, walkY, wz, dress));
+      for (let i = 0; i <= 6; i++) group.add(block(0.1, 1.1, 0.1, -towerX + i * (towerX * 2 / 6), walkY + 0.8, wz, '#2f3742')); // glazing posts
+    }
+    group.add(block(towerX * 2, 0.3, 2.6, 0, walkY + 1.4, 0, towerRoof)); // walkway roof
+  } else if (model === 'st-pauls') {
+    // St Paul's Cathedral — Wren's masterpiece: the great lead dome on a
+    // colonnaded drum crowned by the golden-ball lantern, the twin baroque west
+    // towers and the columned west portico with its pediment, over a cruciform
+    // body. Nave runs along local Z; front = local +Z = the west front.
+    ground = '#54604a';
+    const stone = '#dcd6c8';
+    const stoneSh = '#ccc6b8';
+    const lead = '#8b95a2';
+    const trim = '#e8e2d4';
+    const win = '#39404a';
+    const bodyH = 4.4;
+    // Cruciform body: long nave/choir along Z, transepts along X at the crossing.
+    group.add(block(5.4, bodyH, 12.5, 0, bodyH / 2, -0.8, stone)); // nave + choir
+    group.add(block(11.5, bodyH, 4.6, 0, bodyH / 2, -1.0, stoneSh)); // transepts
+    group.add(block(5.8, 0.4, 12.9, 0, bodyH + 0.2, -0.8, trim)); // nave balustrade
+    group.add(block(11.9, 0.4, 5.0, 0, bodyH + 0.2, -1.0, trim));
+    // Aisle windows down the flanks.
+    for (let i = 0; i < 6; i++) {
+      const z = -6.4 + i * 2.2;
+      for (const sx of [-1, 1] as const) group.add(block(0.14, 2.2, 0.7, sx * 2.72, 2.4, z, win));
+    }
+    // Semicircular transept porticoes (north & south).
+    for (const sx of [-1, 1] as const) {
+      const porch = new THREE.Mesh(new THREE.CylinderGeometry(1.9, 1.9, 3.2, 16, 1, false, -Math.PI / 2, Math.PI), stoneLike({ color: stone }));
+      porch.position.set(sx * 5.75, 1.6, -1.0);
+      porch.rotation.y = sx > 0 ? 0 : Math.PI;
+      group.add(porch);
+    }
+    // — the west front: twin towers + a two-storey columned portico. —
+    const wz = 5.0;
+    // Portico: paired columns under a pediment, projecting at +Z.
+    group.add(block(6.2, 3.4, 1.2, 0, 1.7, wz + 0.7, stoneSh));
+    for (const cx of [-2.2, -1.3, 1.3, 2.2]) {
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.34, 3.2, 12), stoneLike({ color: trim }));
+      col.position.set(cx, 1.6, wz + 1.5);
+      group.add(col);
+    }
+    const pedS = new THREE.Shape();
+    pedS.moveTo(-3.2, 0); pedS.lineTo(3.2, 0); pedS.lineTo(0, 1.4); pedS.closePath();
+    const ped = new THREE.Mesh(new THREE.ExtrudeGeometry(pedS, { depth: 1.0, bevelEnabled: false }), stoneMat(trim));
+    ped.position.set(0, 3.5, wz + 0.4);
+    group.add(ped);
+    // Twin baroque towers flanking the front.
+    for (const sx of [-1, 1] as const) {
+      const txp = sx * 3.6;
+      group.add(block(2.4, 6.2, 2.4, txp, 3.1, wz - 0.4, stone)); // square base
+      group.add(block(2.7, 0.4, 2.7, txp, 6.3, wz - 0.4, trim));
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 2.6, 12), stoneLike({ color: stoneSh }));
+      upper.position.set(txp, 7.7, wz - 0.4);
+      group.add(upper); // circular upper stage
+      for (let c = 0; c < 8; c++) { // a little peristyle round the upper stage
+        const a = (c / 8) * Math.PI * 2;
+        const pc = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 2.4, 6), stoneLike({ color: trim }));
+        pc.position.set(txp + Math.cos(a) * 1.02, 7.7, wz - 0.4 + Math.sin(a) * 1.02);
+        group.add(pc);
+      }
+      // Baroque lead cupola (a dome, not a spike) with a gilt pineapple finial.
+      const cap = new THREE.Mesh(
+        new THREE.SphereGeometry(1.0, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+        new THREE.MeshStandardMaterial({ color: lead, roughness: 0.5, metalness: 0.2 }),
+      );
+      cap.scale.y = 1.25;
+      cap.position.set(txp, 9.1, wz - 0.4);
+      group.add(cap);
+      const fin = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), GOLD);
+      fin.position.set(txp, 10.5, wz - 0.4);
+      group.add(fin);
+      group.add(block(0.1, 0.6, 0.1, txp, 11.0, wz - 0.4, '#d4af37')); // finial spike
+    }
+    // — the dome over the crossing (z ≈ −1). —
+    const domeCx = 0, domeCz = -1.0;
+    // Drum with a peristyle of columns.
+    const drum = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 3.1, 2.4, 32), stoneLike({ color: stone }));
+    drum.position.set(domeCx, bodyH + 1.2, domeCz);
+    group.add(drum);
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * Math.PI * 2;
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 2.4, 8), stoneLike({ color: trim }));
+      col.position.set(domeCx + Math.cos(a) * 3.45, bodyH + 1.2, domeCz + Math.sin(a) * 3.45);
+      group.add(col);
+    }
+    group.add(block(7.4, 0.4, 7.4, domeCx, bodyH + 2.6, domeCz, trim)); // colonnade entablature (square-ish cap)
+    const ring = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.6, 0.6, 32), stoneLike({ color: trim }));
+    ring.position.set(domeCx, bodyH + 2.7, domeCz);
+    group.add(ring);
+    // The lead dome.
+    const dome = new THREE.Mesh(
+      new THREE.SphereGeometry(3.1, 32, 20, 0, Math.PI * 2, 0, Math.PI / 2),
+      new THREE.MeshStandardMaterial({ color: lead, roughness: 0.5, metalness: 0.2 }),
+    );
+    dome.position.set(domeCx, bodyH + 3.0, domeCz);
+    group.add(dome);
+    // Golden-ball lantern + cross.
+    const lanternBase = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 1.4, 12), stoneLike({ color: trim }));
+    lanternBase.position.set(domeCx, bodyH + 6.4, domeCz);
+    group.add(lanternBase);
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1.4, 6), stoneLike({ color: trim }));
+      col.position.set(domeCx + Math.cos(a) * 0.9, bodyH + 6.4, domeCz + Math.sin(a) * 0.9);
+      group.add(col);
+    }
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.55, 14, 12), GOLD);
+    ball.position.set(domeCx, bodyH + 7.6, domeCz);
+    group.add(ball);
+    group.add(block(0.12, 0.9, 0.12, domeCx, bodyH + 8.4, domeCz, '#d4af37'));
+    group.add(block(0.5, 0.12, 0.12, domeCx, bodyH + 8.3, domeCz, '#d4af37'));
+  } else if (model === 'tower-of-london') {
+    // The Tower of London — the White Tower keep: a square Norman keep with
+    // clasped corner turrets (three square, the north-east one round), lead ogee
+    // cupolas with golden vanes, battlemented parapets, Norman pilaster strips,
+    // and a length of battlemented curtain wall before it. Front = local +Z.
+    ground = '#5a6348';
+    const stone = '#d9d7cc'; // the whitewashed "White" Tower
+    const stoneSh = '#c9c7bc';
+    const roofLead = '#8b95a2';
+    const win = '#39404a';
+    const KW = 6.2, KD = 5.6, KH = 4.9;
+    group.add(block(KW, KH, KD, 0, KH / 2, 0, stone)); // the keep
+    group.add(block(KW + 0.3, 0.4, KD + 0.3, 0, 0.2, 0, stoneSh)); // splayed plinth
+    // Norman pilaster strips + windows on the faces.
+    for (const [fx, fz, ry] of [[0, 1, 0], [0, -1, 0], [1, 0, Math.PI / 2], [-1, 0, Math.PI / 2]] as const) {
+      const face = fz !== 0 ? KD : KW;
+      for (let i = -1; i <= 1; i++) {
+        const off = i * (face * 0.3);
+        const px = fx !== 0 ? fx * (KW / 2 + 0.06) : off;
+        const pz = fz !== 0 ? fz * (KD / 2 + 0.06) : off;
+        group.add(block(0.3, KH - 0.4, 0.14, px, KH / 2, pz, stoneSh, ry)); // pilaster strip
+        group.add(block(0.5, 0.9, 0.12, px, KH - 1.3, pz, win, ry)); // upper window
+      }
+    }
+    // Battlemented parapet (crenellations) round the keep top.
+    const merlon = (x: number, z: number) => group.add(block(0.55, 0.7, 0.55, x, KH + 0.35, z, stoneSh));
+    for (let i = 0; i <= 10; i++) { const x = -KW / 2 + i * (KW / 10); if (i % 2 === 0) { merlon(x, KD / 2); merlon(x, -KD / 2); } }
+    for (let i = 0; i <= 9; i++) { const z = -KD / 2 + i * (KD / 9); if (i % 2 === 0) { merlon(KW / 2, z); merlon(-KW / 2, z); } }
+    // Four corner turrets — three square, the NE (+X,+Z) one round.
+    const turrTop = KH + 2.4;
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
+      const tx = cx * (KW / 2 - 0.1), tz = cz * (KD / 2 - 0.1);
+      const round = cx > 0 && cz > 0; // the round NE turret
+      if (round) {
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.0, turrTop, 16), stoneLike({ color: stone }));
+        t.position.set(tx, turrTop / 2, tz);
+        group.add(t);
+      } else {
+        group.add(block(1.7, turrTop, 1.7, tx, turrTop / 2, tz, stone));
+      }
+      // Bulbous lead ogee cupola (an onion dome, not a cone) + golden weathervane.
+      const cupMat = new THREE.MeshStandardMaterial({ color: roofLead, roughness: 0.5, metalness: 0.2 });
+      const cup = new THREE.Mesh(new THREE.SphereGeometry(round ? 1.0 : 1.05, 16, 12), cupMat);
+      cup.scale.set(1, 1.35, 1);
+      cup.position.set(tx, turrTop + 0.6, tz);
+      group.add(cup);
+      const nib = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 12), cupMat); // the little ogee point
+      nib.position.set(tx, turrTop + 1.9, tz);
+      group.add(nib);
+      const vane = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), GOLD);
+      vane.position.set(tx, turrTop + 2.45, tz);
+      group.add(vane);
+      group.add(block(0.06, 0.7, 0.06, tx, turrTop + 2.85, tz, '#d4af37'));
+    }
+    // A length of battlemented curtain wall before the keep, with a corner tower.
+    const wallZ = KD / 2 + 3.5;
+    group.add(block(KW + 5, 2.4, 0.9, 0, 1.2, wallZ, stoneSh));
+    for (let i = 0; i <= 14; i++) { if (i % 2 === 0) group.add(block(0.6, 0.7, 0.9, -(KW + 5) / 2 + i * ((KW + 5) / 14), 2.75, wallZ, stone)); }
+    for (const sx of [-1, 1] as const) {
+      const wt = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.2, 3.4, 14), stoneLike({ color: stone }));
+      wt.position.set(sx * (KW + 5) / 2, 1.7, wallZ);
+      group.add(wt);
+      const wc = new THREE.Mesh(new THREE.ConeGeometry(1.2, 1.6, 14), stoneLike({ color: roofLead, flatShading: true }));
+      wc.position.set(sx * (KW + 5) / 2, 4.2, wallZ);
+      group.add(wc);
+    }
+  } else if (model === 'shard') {
+    // The Shard — Renzo Piano's tapering glass spire: eight sloping glass facets
+    // ("shards") leaning inward and rising to STAGGERED tips that don't meet,
+    // leaving the fractured open top. Pale-blue glass, fine horizontal glazing.
+    // Rotationally near-symmetric; front = local +Z.
+    ground = '#59606a';
+    const glassMat = new THREE.MeshStandardMaterial({
+      color: '#b9d3e6', metalness: 0.35, roughness: 0.12, transparent: true, opacity: 0.62, side: THREE.DoubleSide,
+    });
+    const glassMat2 = new THREE.MeshStandardMaterial({
+      color: '#a9c6dd', metalness: 0.35, roughness: 0.12, transparent: true, opacity: 0.62, side: THREE.DoubleSide,
+    });
+    const mullion = new THREE.MeshStandardMaterial({ color: '#dfe8ef', metalness: 0.5, roughness: 0.35 });
+    const N = 8;
+    const rB = 2.8; // base radius
+    // Base perimeter, slightly irregular so the plan reads as the Shard's.
+    const baseP: THREE.Vector3[] = [];
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * Math.PI * 2 + 0.2;
+      const r = rB * (0.9 + 0.18 * ((i % 2) === 0 ? 1 : 0));
+      baseP.push(new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r));
+    }
+    const topH = [30, 23.5, 28, 22, 29.5, 24.5, 26.5, 21.5]; // strongly staggered — the tips never meet
+    const kTop = 0.17; // how far the tips pull toward the centre (leaves the open, fractured top)
+    const quad = (a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3, mat: THREE.Material) => {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
+        a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z,
+        a.x, a.y, a.z, c.x, c.y, c.z, d.x, d.y, d.z,
+      ]), 3));
+      g.computeVertexNormals();
+      return new THREE.Mesh(g, mat);
+    };
+    for (let i = 0; i < N; i++) {
+      const b0 = baseP[i];
+      const b1 = baseP[(i + 1) % N];
+      const h0 = topH[i], h1 = topH[(i + 1) % N];
+      const t0 = new THREE.Vector3(b0.x * kTop, h0, b0.z * kTop);
+      const t1 = new THREE.Vector3(b1.x * kTop, h1, b1.z * kTop);
+      group.add(quad(b0, b1, t1, t0, i % 2 ? glassMat2 : glassMat)); // the sloping facet
+      // Leaning corner mullions.
+      group.add(strut(b0, t0, 0.08, mullion));
+      // Horizontal glazing floor-lines up the facet.
+      const floors = 22;
+      for (let f = 1; f < floors; f++) {
+        const fr = f / floors;
+        const p0 = b0.clone().lerp(t0, fr);
+        const p1 = b1.clone().lerp(t1, fr);
+        group.add(strut(p0, p1, 0.035, mullion));
+      }
+    }
+  } else if (model === 'gherkin') {
+    // 30 St Mary Axe (the Gherkin) — the bullet-shaped diagrid tower: a curved
+    // profile bulging widest above mid-height and tapering to a rounded glass
+    // apex, wrapped in the spiralling diamond diagrid with its six dark helical
+    // light-wells. Rotationally symmetric; front = local +Z.
+    ground = '#5b626c';
+    const H = 21; // height in units
+    // The bullet profile: radius as a function of height fraction.
+    const prof: THREE.Vector2[] = [
+      new THREE.Vector2(1.9, 0),
+      new THREE.Vector2(2.5, 2.2),
+      new THREE.Vector2(2.95, 6),
+      new THREE.Vector2(3.05, 10.5),
+      new THREE.Vector2(2.85, 14),
+      new THREE.Vector2(2.2, 17.5),
+      new THREE.Vector2(1.2, 19.8),
+      new THREE.Vector2(0.35, 20.7),
+      new THREE.Vector2(0.001, H),
+    ];
+    const radiusAt = (y: number) => {
+      for (let i = 0; i < prof.length - 1; i++) {
+        if (y >= prof[i].y && y <= prof[i + 1].y) {
+          const f = (y - prof[i].y) / (prof[i + 1].y - prof[i].y || 1);
+          return prof[i].x + (prof[i + 1].x - prof[i].x) * f;
+        }
+      }
+      return 0.01;
+    };
+    // The glass skin (lathe of the profile).
+    const skin = new THREE.Mesh(
+      new THREE.LatheGeometry(prof, 48),
+      new THREE.MeshStandardMaterial({ color: '#9fc0b4', metalness: 0.35, roughness: 0.14, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+    );
+    group.add(skin);
+    // The apex lens (the glass dome cap with its bar).
+    const lens = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 10), new THREE.MeshStandardMaterial({ color: '#cfe0da', metalness: 0.3, roughness: 0.1, transparent: true, opacity: 0.7 }));
+    lens.scale.y = 0.5;
+    lens.position.y = H - 0.1;
+    group.add(lens);
+    // The diagrid: two families of helices crossing to form diamonds.
+    const steel = new THREE.MeshStandardMaterial({ color: '#7f8894', metalness: 0.6, roughness: 0.4 });
+    const dark = new THREE.MeshStandardMaterial({ color: '#3a4650', metalness: 0.3, roughness: 0.5 });
+    const nHel = 16;
+    const segs = 9;
+    const turns = 0.7; // fraction of a full turn over the height
+    const yTop = 20.4; // diagrid stops just below the apex
+    for (let h = 0; h < nHel; h++) {
+      const a0 = (h / nHel) * Math.PI * 2;
+      for (const dir of [1, -1] as const) {
+        for (let s = 0; s < segs; s++) {
+          const y0 = (s / segs) * yTop, y1 = ((s + 1) / segs) * yTop;
+          const an0 = a0 + dir * (y0 / H) * turns * Math.PI * 2;
+          const an1 = a0 + dir * (y1 / H) * turns * Math.PI * 2;
+          const r0 = radiusAt(y0) + 0.05, r1 = radiusAt(y1) + 0.05;
+          const p0 = new THREE.Vector3(Math.cos(an0) * r0, y0, Math.sin(an0) * r0);
+          const p1 = new THREE.Vector3(Math.cos(an1) * r1, y1, Math.sin(an1) * r1);
+          group.add(strut(p0, p1, 0.07, steel));
+        }
+      }
+    }
+    // Six dark spiralling light-wells twisting up the face.
+    for (let h = 0; h < 6; h++) {
+      const a0 = (h / 6) * Math.PI * 2;
+      for (let s = 0; s < segs; s++) {
+        const y0 = (s / segs) * yTop, y1 = ((s + 1) / segs) * yTop;
+        const an0 = a0 + (y0 / H) * turns * Math.PI * 2;
+        const an1 = a0 + (y1 / H) * turns * Math.PI * 2;
+        const r0 = radiusAt(y0) + 0.09, r1 = radiusAt(y1) + 0.09;
+        const p0 = new THREE.Vector3(Math.cos(an0) * r0, y0, Math.sin(an0) * r0);
+        const p1 = new THREE.Vector3(Math.cos(an1) * r1, y1, Math.sin(an1) * r1);
+        group.add(strut(p0, p1, 0.28, dark));
+      }
+    }
+    // A slim base collar where it meets the plaza.
+    const collar = new THREE.Mesh(new THREE.CylinderGeometry(1.95, 2.0, 0.6, 48), steel);
+    collar.position.y = 0.3;
+    group.add(collar);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

@@ -61,6 +61,11 @@ const MODELS: Array<[string, string]> = [
   ['eiffel', 'Eiffel Tower'],
   ['arc-triomphe', 'Arc de Triomphe'],
   ['louvre', 'Louvre (with the glass pyramid)'],
+  ['tower-bridge', 'Tower Bridge'],
+  ['st-pauls', "St Paul's Cathedral"],
+  ['tower-of-london', 'Tower of London (White Tower)'],
+  ['shard', 'The Shard'],
+  ['gherkin', '30 St Mary Axe (the Gherkin)'],
   ['circle', 'Stone circle'],
   ['settlement', 'Neolithic settlement'],
   ['megalith', 'Generic megalith'],
@@ -98,6 +103,11 @@ const LIVE_SITES: Record<string, LiveSite> = {
   eiffel: { title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945 },
   'arc-triomphe': { title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295 },
   louvre: { title: 'Louvre', lat: 48.8606, lon: 2.3376 },
+  'tower-bridge': { title: 'Tower Bridge', lat: 51.5055, lon: -0.0754 },
+  'st-pauls': { title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984 },
+  'tower-of-london': { title: 'Tower of London', lat: 51.5081, lon: -0.0759 },
+  shard: { title: 'The Shard', lat: 51.5045, lon: -0.0865 },
+  gherkin: { title: '30 St Mary Axe (the Gherkin)', lat: 51.5145, lon: -0.0803 },
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
   settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
   megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },
@@ -598,7 +608,7 @@ function applyWeather() {
 
 // Which transport belongs beside this monument — picked by place and period.
 function transportFor(model: string, site?: LiveSite): string {
-  if (['buckingham', 'westminster', 'london-eye', 'liberty', 'eiffel', 'arc-triomphe', 'louvre'].includes(model)) return 'bus';
+  if (['buckingham', 'westminster', 'london-eye', 'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin', 'liberty', 'eiffel', 'arc-triomphe', 'louvre'].includes(model)) return 'bus';
   if (['pharos', 'lighthouse', 'colossus', 'rings'].includes(model)) return 'trireme';
   if (site && site.lat > 10 && site.lat < 37 && site.lon > -18 && site.lon < 65) return 'camel';
   return 'horse';

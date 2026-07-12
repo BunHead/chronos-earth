@@ -96,6 +96,15 @@ export function monumentModelForName(name: string): string | null {
   if (/london eye|millennium wheel/.test(n)) return 'london-eye';
   if (/buckingham/.test(n)) return 'buckingham';
   if (/palace of westminster|houses of parliament|big ben|elizabeth tower/.test(n)) return 'westminster';
+  // More London landmarks — matched before the generic castle/cathedral buckets
+  // (so "St Paul's Cathedral" gets the dome, not the twin-tower Gothic model, and
+  // "Tower of London" gets the keep, not swept up as a generic "tower"). Placed
+  // so "Tower Bridge" can't collide with "Tower of London" or "London Bridge".
+  if (/tower bridge/.test(n)) return 'tower-bridge';
+  if (/st\.? paul/.test(n)) return 'st-pauls';
+  if (/tower of london|white tower/.test(n)) return 'tower-of-london';
+  if (/the shard|shard london/.test(n)) return 'shard';
+  if (/gherkin|30 st mary axe/.test(n)) return 'gherkin';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before
