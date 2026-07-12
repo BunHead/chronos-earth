@@ -56,5 +56,12 @@
     "note": "More detail in statue, he was meant to stand astride the harbor mouth",
     "rework": true,
     "focus": "detail"
+  },
+  "place:tower-bridge@51.505,-0.075": {
+    "transform": {
+      "headingDeg": 20,
+      "scale": 0.823
+    },
+    "ts": 1783886201863
   }
 }
