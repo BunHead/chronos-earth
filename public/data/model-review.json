@@ -1,10 +1,7 @@
 {
   "stonehenge": {},
   "amphitheatre": {},
-  "opera-house": {
-    "note": "billowing open sails not collapsed, add arches at the back",
-    "ts": 1783888510693
-  },
+  "opera-house": {},
   "tower-bridge": {
     "status": "allowed",
     "ts": 1783886193533,
@@ -67,13 +64,8 @@
     },
     "ts": 1783886201863
   },
-  "battle:battle-of-bakhmut": {},
-  "place:opera-house@-33.857,151.215": {
-    "transform": {
-      "headingDeg": -140,
-      "northM": -50,
-      "eastM": -30
-    },
-    "ts": 1783888511945
+  "cathedral": {
+    "status": "approved",
+    "ts": 1783889072012
   }
 }
