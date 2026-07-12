@@ -136,6 +136,8 @@
   },
   "pharos": {
     "status": "allowed",
-    "ts": 1783891637847
+    "ts": 1783891646352,
+    "rework": true,
+    "focus": "detail"
   }
 }
