@@ -28,3 +28,6 @@ Clone/
 scratch-render/
 render-out/
 hg-out/
+
+# One-off re-export scratch scripts (use ONLY= filter on export-models.mjs instead)
+_exp.tmp.*
