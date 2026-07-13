@@ -281,7 +281,8 @@
           "side": 2,
           "wiki": "Pompey"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "actium",
@@ -1626,7 +1627,8 @@
           "side": 2,
           "wiki": "Erich von Manstein"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "d-day",
@@ -2125,7 +2127,8 @@
           "side": 2,
           "wiki": "Philip VI of France"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "grunwald",
@@ -2676,7 +2679,8 @@
           "wiki": "Husband E. Kimmel"
         }
       ],
-      "timeOfDay": "dawn"
+      "timeOfDay": "dawn",
+      "hasBattleView": true
     },
     {
       "id": "leyte-gulf",

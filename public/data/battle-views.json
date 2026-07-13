@@ -5050,6 +5050,1346 @@
           ]
         }
       ]
+    },
+    "pharsalus": {
+      "title": "Battle of Pharsalus",
+      "subtitle": "48 BCE — Caesar breaks Pompey in Rome’s civil war",
+      "sides": {
+        "a": {
+          "name": "Populares (Caesar)",
+          "color": "#c0392b"
+        },
+        "b": {
+          "name": "Optimates (Pompey)",
+          "color": "#2e6fb0"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              35
+            ],
+            [
+              8,
+              67
+            ]
+          ],
+          "label": "River Enipeus"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment",
+          "narration": "Both armies form the traditional three lines, each anchoring a flank on the River Enipeus to the west. Outnumbered, Caesar hides a fourth line of cohorts behind his right, where Pompey has massed nearly all his cavalry under Labienus to sweep round and envelop him."
+        },
+        {
+          "name": "The lines meet",
+          "narration": "Caesar’s infantry advance, pause to regroup, then charge home. In the centre the two masses of legionaries lock together and Pompey’s line holds.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                42
+              ],
+              "to": [
+                50,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Labienus’s cavalry charge",
+          "narration": "Pompey’s massed cavalry charges Caesar’s outnumbered horsemen on the eastern flank and drives them back, wheeling to fall on Caesar’s rear.",
+          "arrows": [
+            {
+              "from": [
+                72,
+                24
+              ],
+              "to": [
+                70,
+                42
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The fourth line strikes",
+          "narration": "Caesar springs his hidden fourth line, whose men thrust their pila up at the riders’ faces. The cavalry panics and flees to the hills, baring Pompey’s left. Caesar’s veteran third line rolls it up; Pompey loses heart, quits the field, and flees to Egypt.",
+          "arrows": [
+            {
+              "from": [
+                74,
+                44
+              ],
+              "to": [
+                74,
+                26
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                66,
+                40
+              ],
+              "to": [
+                58,
+                28
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "caesar-antony",
+          "side": "a",
+          "label": "Antony (left, on river)",
+          "pos": [
+            [
+              34,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              36,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "caesar-inf",
+          "side": "a",
+          "label": "Caesarian centre",
+          "size": 1.2,
+          "pos": [
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              50,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "caesar-x",
+          "side": "a",
+          "label": "X legion (Caesar, right)",
+          "pos": [
+            [
+              64,
+              46
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              64,
+              40
+            ],
+            [
+              58,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "caesar-cav",
+          "side": "a",
+          "label": "Caesarian cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              70,
+              48
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              72,
+              54
+            ],
+            [
+              70,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "caesar-4th",
+          "side": "a",
+          "label": "Hidden fourth line",
+          "size": 0.9,
+          "pos": [
+            [
+              76,
+              56
+            ],
+            [
+              76,
+              54
+            ],
+            [
+              74,
+              46
+            ],
+            [
+              74,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "pomp-right",
+          "side": "b",
+          "label": "Pompeian right (on river)",
+          "pos": [
+            [
+              34,
+              20
+            ],
+            [
+              34,
+              20
+            ],
+            [
+              34,
+              24
+            ],
+            [
+              34,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "pomp-inf",
+          "side": "b",
+          "label": "Pompeian centre",
+          "size": 1.4,
+          "pos": [
+            [
+              50,
+              20
+            ],
+            [
+              50,
+              22
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              52,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "pomp-left",
+          "side": "b",
+          "label": "Pompeian left",
+          "pos": [
+            [
+              66,
+              20
+            ],
+            [
+              66,
+              22
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              74,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "pomp-cav",
+          "side": "b",
+          "label": "Labienus’s cavalry",
+          "shape": "cavalry",
+          "size": 1.2,
+          "pos": [
+            [
+              74,
+              16
+            ],
+            [
+              74,
+              22
+            ],
+            [
+              70,
+              42
+            ],
+            [
+              82,
+              10
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1
+    },
+    "crecy": {
+      "title": "Battle of Crécy",
+      "subtitle": "26 August 1346 — the longbow shatters French chivalry",
+      "sides": {
+        "a": {
+          "name": "England (Edward III)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "France (Philip VI)",
+          "color": "#c0392b"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 20,
+          "w": 74,
+          "h": 6,
+          "label": "Slope above Crécy"
+        },
+        {
+          "type": "town",
+          "x": 16,
+          "y": 26,
+          "r": 3,
+          "label": "Crécy"
+        },
+        {
+          "type": "town",
+          "x": 84,
+          "y": 24,
+          "r": 3,
+          "label": "Wadicourt"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment",
+          "narration": "Edward III dismounts his men-at-arms in three divisions on a gentle slope between Crécy and Wadicourt, longbowmen thrown forward on the wings behind dug pits. The Black Prince holds the forward division. The French host arrives late in the day, strung out and disordered."
+        },
+        {
+          "name": "The Genoese are broken",
+          "narration": "Philip sends his Genoese crossbowmen forward first, but without their pavises and slowed by mud they are outranged and outshot. Cut down in minutes, they break and flee back into the advancing French line.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                52
+              ],
+              "to": [
+                50,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                32,
+                30
+              ],
+              "to": [
+                48,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                68,
+                30
+              ],
+              "to": [
+                52,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The cavalry charges",
+          "narration": "Enraged, the French knights charge uphill through their own fleeing crossbowmen, into mud and an arrow storm — as many as fifteen or sixteen charges through the evening. Each loses its momentum before it reaches the line; the Black Prince’s division is hard-pressed but holds.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                54
+              ],
+              "to": [
+                42,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                54
+              ],
+              "to": [
+                58,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                32,
+                30
+              ],
+              "to": [
+                46,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                68,
+                30
+              ],
+              "to": [
+                54,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The French melt away",
+          "narration": "Every charge shatters against the stakes, pits and arrows. The blind King John of Bohemia is killed after tying his bridle to his knights’; Alençon and Lorraine fall too. Philip, an arrow in his jaw and two horses killed under him, flees into the night.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                58
+              ],
+              "to": [
+                26,
+                66
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "en-reserve",
+          "side": "a",
+          "label": "Edward III & reserve",
+          "pos": [
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              50,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "en-prince",
+          "side": "a",
+          "label": "The Black Prince’s division",
+          "size": 1.1,
+          "pos": [
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              50,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "en-bow-l",
+          "side": "a",
+          "label": "Longbowmen (Crécy wing)",
+          "pos": [
+            [
+              28,
+              30
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              36,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "en-bow-r",
+          "side": "a",
+          "label": "Longbowmen (Wadicourt wing)",
+          "pos": [
+            [
+              72,
+              30
+            ],
+            [
+              68,
+              32
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              64,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "fr-genoese",
+          "side": "b",
+          "label": "Genoese crossbowmen",
+          "pos": [
+            [
+              50,
+              52
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              50,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "fr-cav-l",
+          "side": "b",
+          "label": "French knights",
+          "shape": "cavalry",
+          "size": 1.3,
+          "pos": [
+            [
+              40,
+              60
+            ],
+            [
+              40,
+              56
+            ],
+            [
+              42,
+              36
+            ],
+            [
+              40,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "fr-cav-r",
+          "side": "b",
+          "label": "French knights",
+          "shape": "cavalry",
+          "size": 1.3,
+          "pos": [
+            [
+              62,
+              60
+            ],
+            [
+              62,
+              56
+            ],
+            [
+              58,
+              36
+            ],
+            [
+              64,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "fr-philip",
+          "side": "b",
+          "label": "Philip VI & rearguard",
+          "pos": [
+            [
+              50,
+              64
+            ],
+            [
+              50,
+              62
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              26,
+              66
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "kursk": {
+      "title": "Battle of Kursk",
+      "subtitle": "July–August 1943 — the German offensive that broke on Soviet defences",
+      "sides": {
+        "a": {
+          "name": "Soviet Union (Zhukov)",
+          "color": "#c0392b"
+        },
+        "b": {
+          "name": "Germany (Manstein / Model)",
+          "color": "#5d6d7e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 32,
+          "y": 34,
+          "r": 5,
+          "label": "Kursk"
+        },
+        {
+          "type": "town",
+          "x": 55,
+          "y": 8,
+          "r": 3,
+          "label": "Orel"
+        },
+        {
+          "type": "town",
+          "x": 55,
+          "y": 63,
+          "r": 3,
+          "label": "Belgorod"
+        },
+        {
+          "type": "town",
+          "x": 56,
+          "y": 44,
+          "r": 3,
+          "label": "Prokhorovka"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The salient & Operation Citadel",
+          "narration": "The front bulges deep to the west around Kursk. Germany plans a double envelopment — Model’s 9th Army striking south from Orel, Hoth’s 4th Panzer Army and Kempf striking north from Belgorod — to pinch off the salient. The Soviets have dug six defensive belts nearly 300 km deep and laid close to a million mines."
+        },
+        {
+          "name": "The northern pincer stalls",
+          "narration": "Model attacks south on 5 July but grinds into dense minefields and anti-tank fronts. After bloody fighting around Ponyri and Olkhovatka the northern pincer makes only limited gains and halts.",
+          "arrows": [
+            {
+              "from": [
+                55,
+                14
+              ],
+              "to": [
+                48,
+                24
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The southern pincer drives deep",
+          "narration": "Hoth’s panzers, more heavily armoured, push far deeper through the Voronezh Front’s defences, grinding north-east toward the rail town of Prokhorovka with Kempf guarding the eastern flank.",
+          "arrows": [
+            {
+              "from": [
+                55,
+                56
+              ],
+              "to": [
+                53,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                65,
+                56
+              ],
+              "to": [
+                61,
+                48
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Prokhorovka",
+          "narration": "On 12 July hundreds of tanks collide in the open fields at Prokhorovka as the Soviet 5th Guards Tank Army throws itself head-on at the panzer spearhead. Both sides bleed heavily and the German advance is fought to a standstill.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                48
+              ],
+              "to": [
+                55,
+                45
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                53,
+                46
+              ],
+              "to": [
+                58,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Soviet counteroffensives",
+          "narration": "With Citadel stalled, the Soviets unleash Operation Kutuzov against Orel and Operation Rumyantsev toward Belgorod and Kharkov. The Germans are levered back off the salient — the first time a great German summer offensive is halted, and the initiative in the east passes to the USSR for good.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                16
+              ],
+              "to": [
+                57,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                50
+              ],
+              "to": [
+                56,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "sov-north",
+          "side": "a",
+          "label": "Central Front (Rokossovsky)",
+          "pos": [
+            [
+              45,
+              26
+            ],
+            [
+              45,
+              24
+            ],
+            [
+              45,
+              24
+            ],
+            [
+              45,
+              24
+            ],
+            [
+              45,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "sov-south",
+          "side": "a",
+          "label": "Voronezh Front (Vatutin)",
+          "pos": [
+            [
+              48,
+              42
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "sov-tanks",
+          "side": "a",
+          "label": "5th Guards Tank Army",
+          "shape": "vehicle",
+          "size": 1.1,
+          "pos": [
+            [
+              62,
+              50
+            ],
+            [
+              62,
+              48
+            ],
+            [
+              62,
+              46
+            ],
+            [
+              56,
+              45
+            ],
+            [
+              58,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "sov-kutuzov",
+          "side": "a",
+          "label": "Kutuzov (toward Orel)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              72,
+              12
+            ],
+            [
+              72,
+              12
+            ],
+            [
+              72,
+              12
+            ],
+            [
+              72,
+              12
+            ],
+            [
+              57,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "sov-rumyantsev",
+          "side": "a",
+          "label": "Rumyantsev (toward Belgorod)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              64,
+              52
+            ],
+            [
+              64,
+              52
+            ],
+            [
+              64,
+              52
+            ],
+            [
+              62,
+              50
+            ],
+            [
+              56,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "ger-9th",
+          "side": "b",
+          "label": "9th Army (Model)",
+          "shape": "vehicle",
+          "size": 1.1,
+          "pos": [
+            [
+              55,
+              10
+            ],
+            [
+              54,
+              16
+            ],
+            [
+              50,
+              22
+            ],
+            [
+              50,
+              22
+            ],
+            [
+              56,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "ger-4pz",
+          "side": "b",
+          "label": "4th Panzer Army (Hoth)",
+          "shape": "vehicle",
+          "size": 1.2,
+          "pos": [
+            [
+              55,
+              60
+            ],
+            [
+              55,
+              58
+            ],
+            [
+              54,
+              50
+            ],
+            [
+              54,
+              46
+            ],
+            [
+              58,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "ger-kempf",
+          "side": "b",
+          "label": "Army Detachment Kempf",
+          "shape": "vehicle",
+          "pos": [
+            [
+              65,
+              60
+            ],
+            [
+              65,
+              58
+            ],
+            [
+              63,
+              52
+            ],
+            [
+              62,
+              50
+            ],
+            [
+              66,
+              58
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 0.85
+    },
+    "pearl-harbor": {
+      "title": "Attack on Pearl Harbor",
+      "subtitle": "7 December 1941 — the surprise strike that brought America into the war",
+      "sides": {
+        "a": {
+          "name": "Empire of Japan (Nagumo)",
+          "color": "#c0392b"
+        },
+        "b": {
+          "name": "United States (Kimmel)",
+          "color": "#2e6fb0"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 9,
+          "w": 100,
+          "h": 18,
+          "label": "Pacific Ocean"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 42,
+          "r": 3,
+          "label": "Ford Island"
+        },
+        {
+          "type": "town",
+          "x": 38,
+          "y": 50,
+          "r": 2,
+          "label": "Hickam Field"
+        },
+        {
+          "type": "town",
+          "x": 26,
+          "y": 46,
+          "r": 2,
+          "label": "Wheeler Field"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Approach at dawn",
+          "narration": "Nagumo’s six-carrier strike force lies undetected north of Oahu and launches its aircraft before sunrise. In the harbour the Pacific Fleet lies at anchor, ammunition locked and planes parked wingtip to wingtip — and, crucially, its own aircraft carriers are away at sea."
+        },
+        {
+          "name": "First wave",
+          "narration": "At 07:48 the first wave of some 183 aircraft falls on an unwarned harbour. Shallow-running torpedoes and armour-piercing bombs tear into Battleship Row: the Arizona blows up and the Oklahoma rolls over, while dive-bombers wreck the airfields.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                18
+              ],
+              "to": [
+                54,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                20
+              ],
+              "to": [
+                36,
+                48
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Second wave",
+          "narration": "Around 08:50 a second wave of some 170 aircraft renews the assault on ships and airfields — but now the defenders are awake, and a storm of anti-aircraft fire meets it and downs more of the attackers.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                16
+              ],
+              "to": [
+                50,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                16
+              ],
+              "to": [
+                58,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                36
+              ],
+              "to": [
+                52,
+                20
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The strike force turns away",
+          "narration": "Eight battleships are sunk or crippled and over 2,400 Americans are dead. But the absent carriers survive, and Nagumo declines a third strike against the fuel tanks and repair yards — leaving intact the base from which the Pacific war would be won."
+        }
+      ],
+      "units": [
+        {
+          "id": "jp-carriers",
+          "side": "a",
+          "label": "Kido Butai (6 carriers)",
+          "shape": "ship",
+          "size": 1.3,
+          "pos": [
+            [
+              50,
+              8
+            ],
+            [
+              50,
+              8
+            ],
+            [
+              50,
+              8
+            ],
+            [
+              50,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "jp-wave1",
+          "side": "a",
+          "label": "First wave (~183 aircraft)",
+          "shape": "plane",
+          "size": 1.2,
+          "pos": [
+            [
+              50,
+              14
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              50,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "jp-wave2",
+          "side": "a",
+          "label": "Second wave (~170 aircraft)",
+          "shape": "plane",
+          "size": 1.1,
+          "pos": [
+            [
+              50,
+              10
+            ],
+            [
+              50,
+              12
+            ],
+            [
+              52,
+              34
+            ],
+            [
+              50,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "us-battleships",
+          "side": "b",
+          "label": "Battleship Row",
+          "shape": "ship",
+          "size": 1.3,
+          "pos": [
+            [
+              56,
+              44
+            ],
+            [
+              56,
+              44
+            ],
+            [
+              56,
+              45
+            ],
+            [
+              57,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "us-harbor",
+          "side": "b",
+          "label": "Harbour ships & AA",
+          "pos": [
+            [
+              60,
+              38
+            ],
+            [
+              60,
+              38
+            ],
+            [
+              60,
+              37
+            ],
+            [
+              60,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "us-airfields",
+          "side": "b",
+          "label": "Airfields",
+          "shape": "plane",
+          "size": 0.8,
+          "pos": [
+            [
+              36,
+              50
+            ],
+            [
+              36,
+              50
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              34,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "us-carriers",
+          "side": "b",
+          "label": "Carriers (at sea, absent)",
+          "shape": "ship",
+          "pos": [
+            [
+              88,
+              28
+            ],
+            [
+              88,
+              30
+            ],
+            [
+              90,
+              30
+            ],
+            [
+              92,
+              28
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.1
     }
   }
 }
