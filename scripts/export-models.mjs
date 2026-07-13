@@ -7,7 +7,7 @@
 //
 //   RENDER_BASE=http://localhost:5173 node scripts/export-models.mjs
 import puppeteer from 'puppeteer';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const BASE = (process.env.RENDER_BASE ?? 'http://localhost:5173') + '/export-models.html';
@@ -81,14 +81,21 @@ const browser = await puppeteer.launch({
   headless: 'new',
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--no-sandbox', '--disable-dev-shm-usage'],
 });
-const manifest = {};
-const JOBS = [
+// Seed from the existing manifest so a partial (ONLY=…) run keeps every other
+// model's footprint instead of blanking it.
+const manifest = await readFile(join(OUT, 'manifest.json'), 'utf8').then(JSON.parse).catch(() => ({}));
+const ALL_JOBS = [
   ...FLEET.map(([model, title]) => [model, title, model, '']),
   ...RUINS.map(([model, title]) => [model, title, `${model}-ruin`, '&ruin=1']),
   ...BUILD_STAGES.flatMap(([model, title, stages]) =>
     stages.map((s) => [model, title, `${model}-b${s}`, `&frac=${s / 100}`]),
   ),
 ];
+// ONLY=london-eye,giza re-exports just those archetypes (all their stages/ruins);
+// omit to export the whole fleet. Manifest merges with the existing one so a
+// partial run doesn't drop other models' footprints.
+const ONLY = (process.env.ONLY ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+const JOBS = ONLY.length ? ALL_JOBS.filter(([model]) => ONLY.includes(model)) : ALL_JOBS;
 try {
   for (const [model, title, outName, extra] of JOBS) {
     const page = await browser.newPage();

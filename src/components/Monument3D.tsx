@@ -3849,8 +3849,17 @@ export function buildModel(
     const merlon = (x: number, z: number) => group.add(block(0.55, 0.7, 0.55, x, KH + 0.35, z, stoneSh));
     for (let i = 0; i <= 10; i++) { const x = -KW / 2 + i * (KW / 10); if (i % 2 === 0) { merlon(x, KD / 2); merlon(x, -KD / 2); } }
     for (let i = 0; i <= 9; i++) { const z = -KD / 2 + i * (KD / 9); if (i % 2 === 0) { merlon(KW / 2, z); merlon(-KW / 2, z); } }
-    // Four corner turrets — three square, the NE (+X,+Z) one round.
+    // Four corner turrets — three square, the NE (+X,+Z) one round — each capped
+    // with a lead OGEE cupola (an onion dome tapering to a gilded weathervane).
     const turrTop = KH + 2.4;
+    const leadMat = new THREE.MeshStandardMaterial({ color: roofLead, roughness: 0.5, metalness: 0.2 });
+    // The ogee profile: swell out low, then an S-curve drawing in to the finial —
+    // the true bulbous lead cupola, revolved once and cloned onto each turret.
+    const ogeeGeo = new THREE.LatheGeometry(
+      ([[0.5, 0], [0.73, 0.2], [0.8, 0.48], [0.65, 0.88], [0.42, 1.22], [0.22, 1.55], [0.08, 1.85], [0, 2.02]] as const)
+        .map(([x, y]) => new THREE.Vector2(x, y)),
+      20,
+    );
     for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
       const tx = cx * (KW / 2 - 0.1), tz = cz * (KD / 2 - 0.1);
       const round = cx > 0 && cz > 0; // the round NE turret
@@ -3861,32 +3870,49 @@ export function buildModel(
       } else {
         group.add(block(1.7, turrTop, 1.7, tx, turrTop / 2, tz, stone));
       }
-      // Bulbous lead ogee cupola (an onion dome, not a cone) + golden weathervane.
-      const cupMat = new THREE.MeshStandardMaterial({ color: roofLead, roughness: 0.5, metalness: 0.2 });
-      const cup = new THREE.Mesh(new THREE.SphereGeometry(round ? 1.0 : 1.05, 16, 12), cupMat);
-      cup.scale.set(1, 1.35, 1);
-      cup.position.set(tx, turrTop + 0.6, tz);
+      const sc = round ? 1.02 : 1.14;
+      const cup = new THREE.Mesh(ogeeGeo, leadMat);
+      cup.scale.setScalar(sc);
+      cup.position.set(tx, turrTop, tz);
       group.add(cup);
-      const nib = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.9, 12), cupMat); // the little ogee point
-      nib.position.set(tx, turrTop + 1.9, tz);
-      group.add(nib);
-      const vane = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), GOLD);
-      vane.position.set(tx, turrTop + 2.45, tz);
+      const finial = new THREE.Mesh(new THREE.SphereGeometry(0.15, 10, 8), GOLD); // gilded ball
+      finial.position.set(tx, turrTop + 2.02 * sc + 0.12, tz);
+      group.add(finial);
+      group.add(block(0.05, 0.55, 0.05, tx, turrTop + 2.02 * sc + 0.5, tz, '#d4af37')); // vane rod
+      const vane = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.46), GOLD); // weathervane
+      vane.position.set(tx, turrTop + 2.02 * sc + 0.55, tz + 0.1);
       group.add(vane);
-      group.add(block(0.06, 0.7, 0.06, tx, turrTop + 2.85, tz, '#d4af37'));
     }
-    // A length of battlemented curtain wall before the keep, with a corner tower.
-    const wallZ = KD / 2 + 3.5;
-    group.add(block(KW + 5, 2.4, 0.9, 0, 1.2, wallZ, stoneSh));
-    for (let i = 0; i <= 14; i++) { if (i % 2 === 0) group.add(block(0.6, 0.7, 0.9, -(KW + 5) / 2 + i * ((KW + 5) / 14), 2.75, wallZ, stone)); }
-    for (const sx of [-1, 1] as const) {
-      const wt = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.2, 3.4, 14), stoneLike({ color: stone }));
-      wt.position.set(sx * (KW + 5) / 2, 1.7, wallZ);
-      group.add(wt);
-      const wc = new THREE.Mesh(new THREE.ConeGeometry(1.2, 1.6, 14), stoneLike({ color: roofLead, flatShading: true }));
-      wc.position.set(sx * (KW + 5) / 2, 4.2, wallZ);
-      group.add(wc);
+    // --- The curtain wall: a battlemented ward CIRCUIT enclosing the keep (the
+    //     concentric fortress plan), round drum towers at the four corners and a
+    //     twin-towered gatehouse on the +Z front — not a lone screen wall. ---
+    const wx = KW / 2 + 2.5, wz = KD / 2 + 2.5; // ward half-extents
+    const wallH = 2.6;
+    group.add(block(2 * wx, wallH, 0.7, 0, wallH / 2, wz, stoneSh));   // south front (+Z)
+    group.add(block(2 * wx, wallH, 0.7, 0, wallH / 2, -wz, stoneSh));  // north (−Z)
+    group.add(block(0.7, wallH, 2 * wz, wx, wallH / 2, 0, stoneSh));   // east (+X)
+    group.add(block(0.7, wallH, 2 * wz, -wx, wallH / 2, 0, stoneSh));  // west (−X)
+    const merlonW = (x: number, z: number) => group.add(block(0.5, 0.55, 0.5, x, wallH + 0.28, z, stone));
+    const nx = Math.round((2 * wx) / 0.9), nz = Math.round((2 * wz) / 0.9);
+    for (let i = 0; i <= nx; i++) if (i % 2 === 0) { const x = -wx + (i * 2 * wx) / nx; merlonW(x, wz); merlonW(x, -wz); }
+    for (let i = 0; i <= nz; i++) if (i % 2 === 0) { const z = -wz + (i * 2 * wz) / nz; merlonW(wx, z); merlonW(-wx, z); }
+    for (const sx of [-1, 1] as const) for (const sz of [-1, 1] as const) { // corner drum towers
+      const t = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.15, wallH + 1.5, 14), stoneLike({ color: stone }));
+      t.position.set(sx * wx, (wallH + 1.5) / 2, sz * wz);
+      group.add(t);
+      const cone = new THREE.Mesh(new THREE.ConeGeometry(1.25, 1.5, 14), stoneLike({ color: roofLead, flatShading: true }));
+      cone.position.set(sx * wx, wallH + 1.5 + 0.75, sz * wz);
+      group.add(cone);
     }
+    for (const sx of [-1, 1] as const) { // twin-towered gatehouse astride the south entrance
+      const g = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.92, wallH + 1.1, 14), stoneLike({ color: stone }));
+      g.position.set(sx * 1.6, (wallH + 1.1) / 2, wz);
+      group.add(g);
+      const gc = new THREE.Mesh(new THREE.ConeGeometry(1.0, 1.3, 14), stoneLike({ color: roofLead, flatShading: true }));
+      gc.position.set(sx * 1.6, wallH + 1.1 + 0.65, wz);
+      group.add(gc);
+    }
+    group.add(block(1.1, 1.7, 0.55, 0, 0.85, wz, win)); // the gate arch (dark opening)
   } else if (model === 'shard') {
     // The Shard — Renzo Piano's tapering glass spire: eight sloping glass facets
     // ("shards") leaning inward and rising to STAGGERED tips that don't meet,
