@@ -499,6 +499,7 @@ export default function App() {
 
   return (
     <div className={`app${timeRift ? ' compare-active' : ''}`}>
+      <a className="skip-link" href="#chronos-search">Skip to search</a>
       <Globe
         ref={globeRef}
         currentYearsBP={heavyYearsBP}
@@ -578,7 +579,7 @@ export default function App() {
         </div>
       )}
 
-      <div className="brand">
+      <div className="brand" role="banner">
         <div className="brand-text">
           <h1>Chronos Earth</h1>
           <p>250 million years of history · drag the timeline to travel</p>

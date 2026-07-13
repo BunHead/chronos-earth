@@ -115,9 +115,11 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   };
 
   return (
-    <div className="search-box">
+    <div className="search-box" role="search">
       <input
+        id="chronos-search"
         type="search"
+        aria-label="Search people, places, battles and eras"
         placeholder="🔍 Search people, places, battles, eras…"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
