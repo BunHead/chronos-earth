@@ -2800,11 +2800,11 @@ export function buildModel(
       link.rotation.set(Math.PI / 2, 0, i * 0.5);
     }
 
-    // --- Mantle drawn diagonally across the torso from the left shoulder. ---
+    // --- Mantle drawn diagonally across the torso from the left shoulder (+X). ---
     const mantle = lib(new THREE.Mesh(new THREE.BoxGeometry(0.3, 2.6, 1.9), patinaDk));
-    mantle.position.set(-0.35, base + 5.6, 0.15);
-    mantle.rotation.z = 0.34;
-    mantle.rotation.y = 0.2;
+    mantle.position.set(0.35, base + 5.6, 0.15);
+    mantle.rotation.z = -0.34;
+    mantle.rotation.y = -0.2;
 
     // --- Torso, shoulders, neck, head. ---
     lib(seg(0.95, 1.2, 1.7, patina, 14)).position.set(0, base + 6.0, 0); // bodice
@@ -2838,47 +2838,47 @@ export function buildModel(
       lib(spanTo(seg(0.14, 0.02, p0.distanceTo(p1), patinaLt, 6), p0, p1));
     }
 
-    // --- Right arm raised, gripping the torch. ---
-    const rSh = new THREE.Vector3(0.9, base + 6.7, 0.05);
+    // --- Her RIGHT arm (−X) raised, gripping the torch. ---
+    const rSh = new THREE.Vector3(-0.9, base + 6.7, 0.05);
     lib(new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), patina)).position.copy(rSh);
     if (!ruined) {
-      const rEl = new THREE.Vector3(1.35, base + 8.4, 0.0);
-      const rHand = new THREE.Vector3(1.32, base + 10.3, 0.0);
+      const rEl = new THREE.Vector3(-1.35, base + 8.4, 0.0);
+      const rHand = new THREE.Vector3(-1.32, base + 10.3, 0.0);
       boneAB(rSh, rEl, 0.34, 0.3, patina);  // upper arm
       lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(rEl); // elbow
       boneAB(rEl, rHand, 0.28, 0.24, patina); // forearm
       lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(rHand); // hand grip
-      lib(seg(0.17, 0.2, 1.1, patinaLt, 10)).position.set(1.33, base + 10.9, 0); // torch handle
-      lib(new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.08, 8, 14), GOLD_DK)).position.set(1.33, base + 11.35, 0); // knop
+      lib(seg(0.17, 0.2, 1.1, patinaLt, 10)).position.set(-1.33, base + 10.9, 0); // torch handle
+      lib(new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.08, 8, 14), GOLD_DK)).position.set(-1.33, base + 11.35, 0); // knop
       const cup = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.26, 0.7, 14), GOLD)); // gilded cup
-      cup.position.set(1.33, base + 11.75, 0);
+      cup.position.set(-1.33, base + 11.75, 0);
       const flameMat = new THREE.MeshStandardMaterial({ color: '#ffe9a8', emissive: '#e8b83a', emissiveIntensity: 1.3, metalness: 0.55, roughness: 0.28 });
       const flame = new THREE.Mesh(new THREE.SphereGeometry(0.5, 14, 12), flameMat);
       flame.scale.set(0.85, 1.5, 0.85);
-      flame.position.set(1.33, base + 12.45, 0);
+      flame.position.set(-1.33, base + 12.45, 0);
       flame.userData.noShadow = true;
       group.add(flame);
       const flameTip = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.7, 10), flameMat);
-      flameTip.position.set(1.33, base + 13.05, 0);
+      flameTip.position.set(-1.33, base + 13.05, 0);
       flameTip.userData.noShadow = true;
       group.add(flameTip);
     } else {
       // The upraised arm has broken away at the shoulder; a jagged stub remains
       // and the dulled torch lies fallen on the fort below.
-      const stub = boneAB(rSh, new THREE.Vector3(1.28, base + 7.75, 0.05), 0.34, 0.2, patinaDk);
+      const stub = boneAB(rSh, new THREE.Vector3(-1.28, base + 7.75, 0.05), 0.34, 0.2, patinaDk);
       stub.rotation.x += 0.15;
       const fallen = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.24, 0.65, 12), GOLD_DK)); // fallen cup
-      fallen.position.set(2.9, 0.4, 1.7);
+      fallen.position.set(-2.9, 0.4, 1.7);
       fallen.rotation.set(0.4, 0.3, 1.2);
       const handle = lib(seg(0.16, 0.18, 1.0, patinaDk, 8)); // broken handle lying beside it
-      handle.position.set(3.5, 0.24, 1.35);
+      handle.position.set(-3.5, 0.24, 1.35);
       handle.rotation.set(0, 0.5, Math.PI / 2);
     }
 
-    // --- Left arm bent across the body, cradling the tablet of law. ---
-    const lSh = new THREE.Vector3(-0.9, base + 6.7, 0.05);
-    const lEl = new THREE.Vector3(-1.15, base + 5.1, 0.25);
-    const lHand = new THREE.Vector3(-0.7, base + 5.85, 0.85);
+    // --- Her LEFT arm (+X) bent across the body, cradling the tablet of law. ---
+    const lSh = new THREE.Vector3(0.9, base + 6.7, 0.05);
+    const lEl = new THREE.Vector3(1.15, base + 5.1, 0.25);
+    const lHand = new THREE.Vector3(0.7, base + 5.85, 0.85);
     lib(new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), patina)).position.copy(lSh);
     boneAB(lSh, lEl, 0.34, 0.3, patina);  // upper arm down the side
     lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(lEl); // elbow
@@ -2894,8 +2894,8 @@ export function buildModel(
       linev.position.set(0, 0.6 - i * 0.4, 0.18);
       tablet.add(linev);
     }
-    tablet.position.set(-0.95, base + 5.55, 0.78);
-    tablet.rotation.set(ruined ? -0.42 : -0.3, 0.18, ruined ? 0.24 : 0.14);
+    tablet.position.set(0.95, base + 5.55, 0.78);
+    tablet.rotation.set(ruined ? -0.42 : -0.3, -0.18, ruined ? -0.24 : -0.14);
     group.add(tablet);
     if (ruined) {
       // Copper plates sprung from the seams lie half-buried around the fort.

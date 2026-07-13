@@ -57,7 +57,7 @@
     "note": "Way more detail on the statue, believe the book and torch are in the wrong hands",
     "ts": 1783934434259,
     "status": "allowed",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "colossus": {
