@@ -2659,18 +2659,25 @@ export function buildModel(
     group.add(flame);
     bpart(0.7, 3.8, 0.8, -1.9, base + 6.2, 0); // left arm at rest
   } else if (model === 'liberty') {
-    // The Statue of Liberty — weathered-copper Libertas on her granite pedestal
-    // over the star fort: robed figure, 7-ray crown, gilded torch held high in
-    // the right hand, the tablet of law in the left. (The Colossus's descendant
-    // — same pose, eighteen centuries on.)
+    // The Statue of Liberty — weathered-copper Libertas striding forward on her
+    // granite pedestal above Fort Wood's star: a deeply draped robe with the
+    // belted overfold and a mantle drawn across the body, a seven-ray diadem over
+    // a calm face, the gilded torch thrust up in the right hand, the tabula ansata
+    // cradled in the left, and the broken shackle of tyranny underfoot. (The
+    // Colossus's descendant — the same upright pose, eighteen centuries on.)
     ground = '#4a6a55';
-    const patina = new THREE.MeshStandardMaterial({ color: '#7fb09a', metalness: 0.12, roughness: 0.62 });
-    const granite = '#b9aa92';
-    // Fort Wood's star base — two offset slabs read as the 11-point star from above.
-    const starA = block(13, 1.2, 13, 0, 0.6, 0, '#9a917f');
-    const starB = block(13, 1.2, 13, 0, 0.6, 0, '#9a917f', Math.PI / 4);
-    group.add(starA);
-    group.add(starB);
+    // She is copper, not stone — she doesn't crumble to a bald plinth. In the
+    // ruin phase she still stands, darkly verdigrised, the raised torch-arm
+    // snapped away, the diadem broken, fallen plates at her feet — so build the
+    // ruin here (selfRuined) rather than let the generic quarrying erase her.
+    const patina = new THREE.MeshStandardMaterial({ color: ruined ? '#5e8271' : '#7fb09a', metalness: 0.12, roughness: ruined ? 0.82 : 0.62 });
+    const patinaLt = new THREE.MeshStandardMaterial({ color: ruined ? '#6f9585' : '#95c1ad', metalness: 0.12, roughness: ruined ? 0.78 : 0.58 });
+    const patinaDk = new THREE.MeshStandardMaterial({ color: ruined ? '#49685a' : '#5f9a83', metalness: 0.12, roughness: ruined ? 0.88 : 0.68 });
+    const granite = ruined ? '#a89a83' : '#b9aa92';
+    if (ruined) group.userData.selfRuined = true;
+    // Fort Wood's star base — two offset slabs read as the star from above.
+    group.add(block(13, 1.2, 13, 0, 0.6, 0, '#9a917f'));
+    group.add(block(13, 1.2, 13, 0, 0.6, 0, '#9a917f', Math.PI / 4));
     group.add(block(6.4, 2.2, 6.4, 0, 2.3, 0, granite)); // pedestal lower
     const ped = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.9, 4.6, 4), stoneLike({ color: granite }));
     ped.rotation.y = Math.PI / 4; // tapering square shaft
@@ -2679,32 +2686,152 @@ export function buildModel(
     group.add(block(4.4, 0.7, 4.4, 0, 8.1, 0, '#cdbfa6')); // pedestal crown
     const base = 8.45;
     const lib = (m: THREE.Mesh) => { group.add(m); return m; };
-    // Robe — a gently tapering column with a flared hem, one knee breaking forward.
-    const robe = lib(new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.85, 5.6, 12), patina));
-    robe.position.set(0, base + 2.8, 0);
-    lib(new THREE.Mesh(new THREE.BoxGeometry(0.9, 2.4, 0.9), patina)).position.set(0.45, base + 1.5, 0.75); // striding knee fold
-    lib(new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.2, 1.6, 12), patina)).position.set(0, base + 6.3, 0); // chest
-    const head = lib(new THREE.Mesh(new THREE.SphereGeometry(0.62, 14, 12), patina));
-    head.position.set(0, base + 7.6, 0.1);
-    for (let i = 0; i < 7; i++) { // the seven rays of the diadem
-      const a = Math.PI * (0.12 + (0.76 * i) / 6); // fan across the brow
-      const ray = lib(new THREE.Mesh(new THREE.ConeGeometry(0.09, 1.0, 5), patina));
-      ray.position.set(Math.cos(a) * 0.72, base + 7.75 + Math.sin(a) * 0.62, 0.1);
-      ray.rotation.z = a - Math.PI / 2;
+    // Local helpers: a tapered limb segment, and a bone spanning two points.
+    const seg = (r1: number, r2: number, len: number, mat: THREE.Material, radial = 10) =>
+      new THREE.Mesh(new THREE.CylinderGeometry(r1, r2, len, radial), mat);
+    const spanTo = (mesh: THREE.Mesh, a: THREE.Vector3, b: THREE.Vector3) => {
+      const d = new THREE.Vector3().subVectors(b, a);
+      mesh.position.copy(a).addScaledVector(d, 0.5);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize());
+      return mesh;
+    };
+    const boneAB = (a: THREE.Vector3, b: THREE.Vector3, r1: number, r2: number, mat: THREE.Material) =>
+      lib(spanTo(seg(r1, r2, a.distanceTo(b), mat), a, b));
+
+    // --- Robe: a flared, deeply draped column blousing over the belted waist. ---
+    lib(seg(1.95, 1.55, 3.0, patina, 18)).position.set(0, base + 1.5, 0); // skirt
+    lib(seg(1.5, 1.15, 2.4, patina, 16)).position.set(0, base + 4.2, 0);  // upper robe
+    const overfold = lib(seg(1.62, 1.28, 0.95, patinaLt, 18));            // belted overfold, proud
+    overfold.position.set(0, base + 4.55, 0);
+    const knee = lib(new THREE.Mesh(new THREE.SphereGeometry(0.85, 12, 10), patina)); // striding knee
+    knee.scale.set(1, 1.5, 0.8);
+    knee.position.set(0.35, base + 1.7, 1.1);
+    // Deep vertical drapery folds running the height of the skirt.
+    const foldN = 16;
+    for (let i = 0; i < foldN; i++) {
+      const a = (i / foldN) * Math.PI * 2 + 0.15;
+      const p0 = new THREE.Vector3(Math.cos(a) * 1.9, base + 0.25, Math.sin(a) * 1.9);
+      const p1 = new THREE.Vector3(Math.cos(a) * 1.25, base + 4.7, Math.sin(a) * 1.25);
+      lib(spanTo(seg(0.1, 0.2, p0.distanceTo(p1), i % 2 ? patinaLt : patina, 6), p0, p1));
     }
-    // Right arm straight up with the gilded torch.
-    const arm = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 3.4, 10), patina));
-    arm.position.set(1.05, base + 8.3, 0);
-    arm.rotation.z = -0.12;
-    lib(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.22, 0.7, 10), patina)).position.set(1.25, base + 10.1, 0); // torch cup
-    const flame = new THREE.Mesh(new THREE.SphereGeometry(0.45, 12, 10), new THREE.MeshStandardMaterial({ color: '#ffe9a8', emissive: '#e8b83a', emissiveIntensity: 1.2, metalness: 0.4, roughness: 0.3 }));
-    flame.position.set(1.25, base + 10.7, 0);
-    flame.userData.noShadow = true;
-    group.add(flame);
-    // Left arm cradling the tablet (JULY IV MDCCLXXVI).
-    const tab = lib(new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.9, 1.1), patina));
-    tab.position.set(-1.15, base + 5.9, 0.4);
-    tab.rotation.z = 0.28;
+    const hem = lib(new THREE.Mesh(new THREE.CylinderGeometry(2.05, 2.0, 0.5, 20), patinaDk)); // hem lip
+    hem.position.set(0, base + 0.25, 0);
+    // Sandalled toes peeking from the hem, and the broken shackle underfoot.
+    for (const s of [-1, 1]) lib(new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.28, 0.8), patinaLt)).position.set(s * 0.45, base + 0.16, 1.5);
+    for (let i = 0; i < 4; i++) {
+      const link = lib(new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.07, 6, 10), patinaDk));
+      link.position.set(-0.2 + i * 0.35, base + 0.12, 2.0 + (i % 2) * 0.15);
+      link.rotation.set(Math.PI / 2, 0, i * 0.5);
+    }
+
+    // --- Mantle drawn diagonally across the torso from the left shoulder. ---
+    const mantle = lib(new THREE.Mesh(new THREE.BoxGeometry(0.3, 2.6, 1.9), patinaDk));
+    mantle.position.set(-0.35, base + 5.6, 0.15);
+    mantle.rotation.z = 0.34;
+    mantle.rotation.y = 0.2;
+
+    // --- Torso, shoulders, neck, head. ---
+    lib(seg(0.95, 1.2, 1.7, patina, 14)).position.set(0, base + 6.0, 0); // bodice
+    const shoulders = lib(new THREE.Mesh(new THREE.SphereGeometry(1.02, 14, 10), patina));
+    shoulders.scale.set(1.15, 0.55, 0.85);
+    shoulders.position.set(0, base + 6.85, 0);
+    lib(seg(0.42, 0.5, 0.7, patina, 12)).position.set(0, base + 7.2, 0.05); // neck
+    const head = lib(new THREE.Mesh(new THREE.SphereGeometry(0.62, 16, 14), patinaLt));
+    head.scale.set(0.9, 1.08, 0.95);
+    head.position.set(0, base + 7.95, 0.06);
+    if (ruined) head.rotation.z = 0.12; // bowed with age
+    const hair = lib(new THREE.Mesh(new THREE.SphereGeometry(0.6, 12, 10), patina)); // hair mass
+    hair.scale.set(0.95, 0.8, 0.7);
+    hair.position.set(0, base + 8.05, -0.28);
+    const nose = lib(new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.34, 6), patinaLt));
+    nose.rotation.x = Math.PI / 2;
+    nose.position.set(0, base + 7.9, 0.62);
+
+    // --- The seven-ray diadem: a band plus spikes fanned about the front. ---
+    const band = lib(new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.1, 8, 22), patina));
+    band.rotation.x = Math.PI / 2;
+    band.position.set(0, base + 8.3, 0.05);
+    for (let i = 0; i < 7; i++) {
+      if (ruined && i % 2 === 0) continue; // most rays snapped off
+      const az = (-1 + (2 * i) / 6) * 2.15; // fan ±123° about +Z (front)
+      const up = 0.42;
+      const dir = new THREE.Vector3(Math.sin(az) * Math.cos(up), Math.sin(up), Math.cos(az) * Math.cos(up)).normalize();
+      const c = new THREE.Vector3(0, base + 8.35, 0.05);
+      const p0 = c.clone().addScaledVector(dir, 0.6);
+      const p1 = c.clone().addScaledVector(dir, ruined ? 1.1 : 1.7); // stubs when ruined
+      lib(spanTo(seg(0.14, 0.02, p0.distanceTo(p1), patinaLt, 6), p0, p1));
+    }
+
+    // --- Right arm raised, gripping the torch. ---
+    const rSh = new THREE.Vector3(0.9, base + 6.7, 0.05);
+    lib(new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), patina)).position.copy(rSh);
+    if (!ruined) {
+      const rEl = new THREE.Vector3(1.35, base + 8.4, 0.0);
+      const rHand = new THREE.Vector3(1.32, base + 10.3, 0.0);
+      boneAB(rSh, rEl, 0.34, 0.3, patina);  // upper arm
+      lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(rEl); // elbow
+      boneAB(rEl, rHand, 0.28, 0.24, patina); // forearm
+      lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(rHand); // hand grip
+      lib(seg(0.17, 0.2, 1.1, patinaLt, 10)).position.set(1.33, base + 10.9, 0); // torch handle
+      lib(new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.08, 8, 14), GOLD_DK)).position.set(1.33, base + 11.35, 0); // knop
+      const cup = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.26, 0.7, 14), GOLD)); // gilded cup
+      cup.position.set(1.33, base + 11.75, 0);
+      const flameMat = new THREE.MeshStandardMaterial({ color: '#ffe9a8', emissive: '#e8b83a', emissiveIntensity: 1.3, metalness: 0.55, roughness: 0.28 });
+      const flame = new THREE.Mesh(new THREE.SphereGeometry(0.5, 14, 12), flameMat);
+      flame.scale.set(0.85, 1.5, 0.85);
+      flame.position.set(1.33, base + 12.45, 0);
+      flame.userData.noShadow = true;
+      group.add(flame);
+      const flameTip = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.7, 10), flameMat);
+      flameTip.position.set(1.33, base + 13.05, 0);
+      flameTip.userData.noShadow = true;
+      group.add(flameTip);
+    } else {
+      // The upraised arm has broken away at the shoulder; a jagged stub remains
+      // and the dulled torch lies fallen on the fort below.
+      const stub = boneAB(rSh, new THREE.Vector3(1.28, base + 7.75, 0.05), 0.34, 0.2, patinaDk);
+      stub.rotation.x += 0.15;
+      const fallen = lib(new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.24, 0.65, 12), GOLD_DK)); // fallen cup
+      fallen.position.set(2.9, 0.4, 1.7);
+      fallen.rotation.set(0.4, 0.3, 1.2);
+      const handle = lib(seg(0.16, 0.18, 1.0, patinaDk, 8)); // broken handle lying beside it
+      handle.position.set(3.5, 0.24, 1.35);
+      handle.rotation.set(0, 0.5, Math.PI / 2);
+    }
+
+    // --- Left arm bent across the body, cradling the tablet of law. ---
+    const lSh = new THREE.Vector3(-0.9, base + 6.7, 0.05);
+    const lEl = new THREE.Vector3(-1.15, base + 5.1, 0.25);
+    const lHand = new THREE.Vector3(-0.7, base + 5.85, 0.85);
+    lib(new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), patina)).position.copy(lSh);
+    boneAB(lSh, lEl, 0.34, 0.3, patina);  // upper arm down the side
+    lib(new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), patina)).position.copy(lEl); // elbow
+    boneAB(lEl, lHand, 0.28, 0.24, patina); // forearm across the body
+    // The tabula ansata (JULY IV MDCCLXXVI) leaning against the hip.
+    const tablet = new THREE.Group();
+    tablet.add(new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.2, 0.32), patinaLt));
+    const bord = new THREE.Mesh(new THREE.BoxGeometry(1.62, 2.32, 0.2), patina);
+    bord.position.z = -0.1;
+    tablet.add(bord);
+    for (let i = 0; i < 4; i++) {
+      const linev = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.08, 0.05), patinaDk);
+      linev.position.set(0, 0.6 - i * 0.4, 0.18);
+      tablet.add(linev);
+    }
+    tablet.position.set(-0.95, base + 5.55, 0.78);
+    tablet.rotation.set(ruined ? -0.42 : -0.3, 0.18, ruined ? 0.24 : 0.14);
+    group.add(tablet);
+    if (ruined) {
+      // Copper plates sprung from the seams lie half-buried around the fort.
+      const spots: Array<[number, number, number]> = [
+        [2.4, 1.9, 0.4], [-2.5, 1.2, 2.1], [1.7, -2.2, 3.3], [-1.9, -1.6, 5.0], [2.7, -0.7, 1.2],
+      ];
+      spots.forEach(([x, z, r], i) => {
+        const frag = lib(new THREE.Mesh(new THREE.BoxGeometry(0.5 + (i % 3) * 0.22, 0.16, 0.72), i % 2 ? patinaDk : patina));
+        frag.position.set(x, 0.2, z);
+        frag.rotation.set(0.22 * (i % 2 ? 1 : -1), r, 0.16 * ((i % 3) - 1));
+      });
+    }
   } else if (model === 'pharos') {
     // The Lighthouse of Alexandria (Pharos) — three stacked stages: a tall
     // square base, an octagonal midsection, a round lantern with the ever-

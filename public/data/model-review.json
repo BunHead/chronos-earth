@@ -57,7 +57,7 @@
     "note": "Way more detail on the statue",
     "ts": 1783885061061,
     "status": "allowed",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "colossus": {
