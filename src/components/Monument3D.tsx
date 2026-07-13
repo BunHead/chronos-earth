@@ -3304,15 +3304,29 @@ export function buildModel(
     }
     wheel.position.set(0, cy, 0);
     group.add(wheel);
-    // A-frame support raking back from the base to the hub.
-    for (const s of [-1, 1] as const) {
-      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.42, cy + 3, 10), steelMat);
-      leg.position.set(s * 3.5, cy / 2, -3);
-      leg.rotation.x = 0.32;
-      leg.rotation.z = -s * 0.22;
-      group.add(leg);
-    }
-    group.add(block(11, 0.6, 3.5, 0, 0.3, -3.4, '#9aa0a6')); // base beam
+    // --- Two legs rake up from the land-side foundation and MEET at the wheel's
+    //     central spindle (the A-frame), with backstays tying the hub down
+    //     behind — the real Eye's cantilever, held from one bank. ---
+    const tube = (a: THREE.Vector3, b: THREE.Vector3, r: number) => {
+      const d = new THREE.Vector3().subVectors(b, a);
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, d.length(), 10), steelMat);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize());
+      group.add(m);
+      return m;
+    };
+    const spindle = new THREE.Vector3(0, cy, -0.2); // the hub — centre of the ring
+    const footL = new THREE.Vector3(-4.6, 0.5, -4.8);
+    const footR = new THREE.Vector3(4.6, 0.5, -4.8);
+    tube(footL, spindle, 0.36); // the two arms, converging on the hub
+    tube(footR, spindle, 0.36);
+    tube(footL, footR, 0.18); // horizontal tie across the feet
+    const backL = new THREE.Vector3(-2.2, 0.5, -7.2);
+    const backR = new THREE.Vector3(2.2, 0.5, -7.2);
+    tube(spindle, backL, 0.13); // backstay tension members
+    tube(spindle, backR, 0.13);
+    for (const f of [footL, footR, backL, backR]) group.add(block(1.5, 0.9, 1.5, f.x, 0.45, f.z, '#9aa0a6')); // foundation pads
+    group.add(block(10.4, 0.5, 1.8, 0, 0.28, -5.4, '#8f959b')); // capping beam
   } else if (model === 'eiffel') {
     // The Eiffel Tower — four curved lattice piers rising off a 125 m square,
     // through two visible platform decks, merging into one tapering lattice
