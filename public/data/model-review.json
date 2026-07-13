@@ -64,7 +64,7 @@
     "status": "allowed",
     "ts": 1783885231278,
     "note": "More detail in statue, he was meant to stand astride the harbor mouth",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "place:tower-bridge@51.505,-0.075": {
