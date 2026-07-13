@@ -23,3 +23,8 @@ render-out-*/
 quiz/
 calib/
 Clone/
+
+# Modeller render scratch (agent worktrees / routine output)
+scratch-render/
+render-out/
+hg-out/
