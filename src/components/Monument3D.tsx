@@ -2669,16 +2669,16 @@ export function buildModel(
       group.add(block(0.35, 0.35, 0.5, hx, apex + 1.4, 1.3, marble)); // head/neck
     }
   } else if (model === 'colossus') {
-    // The Colossus of Rhodes — the ~33 m bronze sun-god Helios astride the mouth
-    // of Mandraki harbour: a heroic wide stance, a chlamys cloak over one arm,
-    // the radiate crown of the sun on his brow, one hand shading his gaze out to
-    // sea and the other raising the beacon aloft to guide the ships in beneath.
-    ground = '#8a8f7a';
+    // The Colossus of Rhodes — the ~33 m bronze sun-god Helios, a bearded man,
+    // standing ASTRIDE the mouth of Mandraki harbour with a foot planted on each
+    // stone mole and the ships passing in through the channel beneath him; the
+    // radiate crown of the sun on his brow, one flat hand shading his gaze out to
+    // sea and the other raising the beacon aloft.
+    ground = '#4f6f79';
     const marble = '#ddd6c6';
-    group.add(block(6, 1.6, 6, 0, 0.8, 0, marble)); // plinth
-    group.add(block(4.6, 0.5, 4.6, 0, 1.85, 0, '#cfc7b5'));
-    const base = 2.1;
     const bronzeDk = new THREE.MeshStandardMaterial({ color: '#8a561f', metalness: 0.72, roughness: 0.46 });
+    const waterMat = new THREE.MeshStandardMaterial({ color: '#2f6f86', roughness: 0.3, metalness: 0.1 });
+    const pierX = 2.2; // the two harbour moles he straddles
     // Local helpers: a tapered limb segment, a bone spanning two points, a joint.
     const seg = (r1: number, r2: number, len: number, mat: THREE.Material = BRONZE, radial = 12) =>
       new THREE.Mesh(new THREE.CylinderGeometry(r1, r2, len, radial), mat);
@@ -2698,96 +2698,118 @@ export function buildModel(
       return m;
     };
 
-    // --- Legs: a wide, straddling stance, the left foot advanced. ---
-    for (const s of [-1, 1]) {
-      const fwd = s < 0 ? 0.55 : -0.1; // left (−X) foot strides forward
-      const foot = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.42, 1.7), BRONZE);
-      foot.position.set(s * 1.55, base + 0.2, fwd + 0.35);
+    // --- The harbour mouth: two stone moles with the ship-channel between. ---
+    for (const s of [-1, 1] as const) {
+      group.add(block(1.8, 1.6, 5.4, s * pierX, 0.8, 0, marble));       // the mole
+      group.add(block(1.4, 0.4, 5.0, s * pierX, 1.75, 0, '#cfc7b5'));   // capping
+    }
+    const chan = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.3, 5.6), waterMat);
+    chan.position.set(0, 0.32, 0);
+    chan.userData.noShadow = true;
+    group.add(chan);
+    // A little galley slipping in through the mouth beneath him.
+    const hull = seg(0.16, 0.5, 1.7, bronzeDk, 8);
+    hull.rotation.x = Math.PI / 2;
+    hull.position.set(0, 0.55, 1.2);
+    group.add(hull);
+    group.add(block(0.06, 1.1, 0.06, 0, 1.1, 1.2, '#5a4a38')); // mast
+    const base = 2.1; // deck height of the moles — his feet stand here
+
+    // --- Legs: planted WIDE, a foot on each mole, straddling the channel. ---
+    for (const s of [-1, 1] as const) {
+      const foot = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.5, 2.0), BRONZE);
+      foot.position.set(s * pierX, base + 0.05, 0.35);
       group.add(foot);
-      const ankle = new THREE.Vector3(s * 1.5, base + 0.5, fwd);
-      const knee = new THREE.Vector3(s * 1.25, base + 2.5, fwd + 0.15);
-      const hip = new THREE.Vector3(s * 0.72, base + 4.4, 0);
-      bone(ankle, knee, 0.5, 0.62, BRONZE);  // calf
-      ball(0.55, knee.x, knee.y, knee.z);    // knee
-      bone(knee, hip, 0.82, 0.62, BRONZE);   // thigh
+      const ankle = new THREE.Vector3(s * (pierX - 0.05), base + 0.55, 0.15);
+      const knee = new THREE.Vector3(s * 1.78, base + 2.7, 0.25);
+      const hip = new THREE.Vector3(s * 0.78, base + 4.7, 0);
+      bone(ankle, knee, 0.54, 0.68, BRONZE);  // calf
+      ball(0.6, knee.x, knee.y, knee.z);       // knee
+      bone(knee, hip, 0.9, 0.66, BRONZE);      // thigh
     }
     // Pelvis and a short draped loincloth swagged across the hips.
-    ball(1.2, 0, base + 4.5, 0).scale.set(1.3, 0.8, 0.9);
-    const kilt = seg(1.35, 1.15, 1.3, bronzeDk, 16);
-    kilt.position.set(0, base + 4.7, 0.1);
+    ball(1.25, 0, base + 4.8, 0).scale.set(1.35, 0.85, 0.9);
+    const kilt = seg(1.4, 1.18, 1.3, bronzeDk, 16);
+    kilt.position.set(0, base + 5.0, 0.1);
     for (let i = 0; i < 9; i++) { // fold ridges on the loincloth
       const a = (i / 9) * Math.PI - 0.2;
-      const p0 = new THREE.Vector3(Math.cos(a) * 1.3, base + 4.1, 0.15 + Math.sin(a) * 1.1);
-      const p1 = new THREE.Vector3(Math.cos(a) * 1.15, base + 5.25, 0.1 + Math.sin(a) * 0.95);
+      const p0 = new THREE.Vector3(Math.cos(a) * 1.35, base + 4.4, 0.15 + Math.sin(a) * 1.1);
+      const p1 = new THREE.Vector3(Math.cos(a) * 1.2, base + 5.55, 0.1 + Math.sin(a) * 0.95);
       bone(p0, p1, 0.09, 0.14, bronzeDk);
     }
 
-    // --- Torso: abdomen tapering to a broad chest, with the pectorals read. ---
-    bone(new THREE.Vector3(0, base + 5.0, 0), new THREE.Vector3(0, base + 6.4, 0), 1.05, 1.28, BRONZE); // belly→chest
-    for (const s of [-1, 1]) ball(0.55, s * 0.55, base + 6.6, 0.75).scale.set(1, 0.8, 0.7); // pectorals
-    ball(1.3, 0, base + 6.9, 0).scale.set(1.35, 0.6, 0.85); // shoulder yoke
+    // --- Torso: a broad, muscular male trunk — deep chest, wide shoulders. ---
+    bone(new THREE.Vector3(0, base + 5.3, 0), new THREE.Vector3(0, base + 6.8, 0), 1.1, 1.4, BRONZE); // belly→chest
+    for (const s of [-1, 1] as const) ball(0.62, s * 0.6, base + 7.0, 0.82).scale.set(1.05, 0.85, 0.7); // pectorals
+    for (const s of [-1, 1] as const) ball(0.32, s * 0.38, base + 5.9, 0.92).scale.set(1, 0.9, 0.6); // abdominals
+    ball(1.55, 0, base + 7.3, 0).scale.set(1.55, 0.6, 0.9); // broad shoulder yoke
 
-    // --- Neck and head with flowing hair and a radiate crown. ---
-    bone(new THREE.Vector3(0, base + 7.3, 0), new THREE.Vector3(0, base + 8.15, 0.02), 0.42, 0.5, BRONZE);
-    const head = ball(0.92, 0, base + 8.75, 0.06);
+    // --- Neck, head, a full beard and flowing hair under the radiate crown. ---
+    bone(new THREE.Vector3(0, base + 7.7, 0), new THREE.Vector3(0, base + 8.5, 0.02), 0.46, 0.54, BRONZE);
+    const head = ball(0.92, 0, base + 9.1, 0.06);
     head.scale.set(0.92, 1.05, 0.96);
-    ball(0.9, 0, base + 8.9, -0.32, bronzeDk).scale.set(1, 0.95, 0.75); // hair mass
+    ball(0.92, 0, base + 9.25, -0.32, bronzeDk).scale.set(1, 0.98, 0.75); // hair mass
+    const beard = ball(0.6, 0, base + 8.55, 0.66, bronzeDk); // full beard — unmistakably a man
+    beard.scale.set(0.92, 1.15, 0.72);
     const nose = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.42, 6), BRONZE);
     nose.rotation.x = Math.PI / 2;
-    nose.position.set(0, base + 8.7, 0.92);
+    nose.position.set(0, base + 9.05, 0.92);
     group.add(nose);
     for (let i = 0; i < 9; i++) { // the sun's rays crowning his brow
-      const az = (-1 + (2 * i) / 8) * 2.0; // fan about the front
+      const az = (-1 + (2 * i) / 8) * 2.0;
       const up = 0.6;
       const dir = new THREE.Vector3(Math.sin(az) * Math.cos(up), Math.sin(up), Math.cos(az) * Math.cos(up)).normalize();
-      const c = new THREE.Vector3(0, base + 9.15, 0.05);
+      const c = new THREE.Vector3(0, base + 9.5, 0.05);
       spanTo(seg(0.16, 0.02, 1.5, BRONZE_LT, 6), c.clone().addScaledVector(dir, 0.85), c.clone().addScaledVector(dir, 2.35));
     }
 
     // --- Right arm (+X) raised, lifting the beacon aloft. ---
-    const rSh = new THREE.Vector3(1.15, base + 7.1, 0.05);
-    const rEl = new THREE.Vector3(1.85, base + 8.7, 0.1);
-    const rHand = new THREE.Vector3(1.95, base + 10.4, 0.1);
-    ball(0.5, rSh.x, rSh.y, rSh.z);
-    bone(rSh, rEl, 0.42, 0.34, BRONZE);
-    ball(0.36, rEl.x, rEl.y, rEl.z);
-    bone(rEl, rHand, 0.34, 0.3, BRONZE);
-    ball(0.34, rHand.x, rHand.y, rHand.z);
-    const tripod = seg(0.68, 0.34, 0.7, BRONZE_LT, 14); // beacon bowl
-    tripod.position.set(1.98, base + 10.95, 0.1);
+    const rSh = new THREE.Vector3(1.4, base + 7.4, 0.05);
+    const rEl = new THREE.Vector3(2.05, base + 9.0, 0.1);
+    const rHand = new THREE.Vector3(2.1, base + 10.8, 0.1);
+    ball(0.52, rSh.x, rSh.y, rSh.z);
+    bone(rSh, rEl, 0.44, 0.36, BRONZE);
+    ball(0.38, rEl.x, rEl.y, rEl.z);
+    bone(rEl, rHand, 0.36, 0.32, BRONZE);
+    ball(0.36, rHand.x, rHand.y, rHand.z);
+    const tripod = seg(0.7, 0.36, 0.7, BRONZE_LT, 14); // beacon bowl
+    tripod.position.set(2.12, base + 11.35, 0.1);
     group.add(tripod);
-    const flame = new THREE.Mesh(new THREE.SphereGeometry(0.62, 14, 12), new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.9 }));
+    const flame = new THREE.Mesh(new THREE.SphereGeometry(0.64, 14, 12), new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.9 }));
     flame.scale.set(0.85, 1.5, 0.85);
-    flame.position.set(1.98, base + 11.75, 0.1);
+    flame.position.set(2.12, base + 12.2, 0.1);
     flame.userData.noShadow = true;
     group.add(flame);
 
-    // --- Left arm (−X) raised to shade his eyes, gazing out to sea; the
-    //     chlamys cloak falls from that shoulder down his back. ---
-    const lSh = new THREE.Vector3(-1.15, base + 7.1, 0.05);
-    const lEl = new THREE.Vector3(-1.7, base + 7.9, 0.55);
-    const lHand = new THREE.Vector3(-0.75, base + 8.5, 0.7);
-    ball(0.5, lSh.x, lSh.y, lSh.z);
-    bone(lSh, lEl, 0.42, 0.34, BRONZE);
-    ball(0.36, lEl.x, lEl.y, lEl.z);
-    bone(lEl, lHand, 0.34, 0.3, BRONZE);
-    ball(0.3, lHand.x, lHand.y, lHand.z);
+    // --- Left arm (−X) raised so the flat hand shades the brow ABOVE the eyes,
+    //     gazing out to sea (a clear visor gesture, not a hand at the face). ---
+    const lSh = new THREE.Vector3(-1.4, base + 7.4, 0.05);
+    const lEl = new THREE.Vector3(-1.95, base + 8.7, 0.45);
+    const lHand = new THREE.Vector3(-0.55, base + 9.95, 0.85); // high over the brow
+    ball(0.52, lSh.x, lSh.y, lSh.z);
+    bone(lSh, lEl, 0.44, 0.36, BRONZE);
+    ball(0.38, lEl.x, lEl.y, lEl.z);
+    bone(lEl, lHand, 0.36, 0.32, BRONZE);
+    const palm = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.2, 0.6), BRONZE); // flat shading hand
+    palm.position.copy(lHand);
+    palm.rotation.z = 0.18;
+    group.add(palm);
     // The chlamys: pinned at the left shoulder and hanging as a cape across the
     // back — a thin sheet in the X-Y plane so it reads as cloth, not a plank.
-    const cloak = new THREE.Mesh(new THREE.BoxGeometry(2.1, 3.9, 0.22), bronzeDk);
-    cloak.position.set(-0.35, base + 5.3, -0.92);
+    const cloak = new THREE.Mesh(new THREE.BoxGeometry(2.2, 4.1, 0.22), bronzeDk);
+    cloak.position.set(-0.35, base + 5.6, -0.95);
     cloak.rotation.x = -0.12;
     cloak.rotation.z = 0.08;
     group.add(cloak);
     for (let i = 0; i < 5; i++) { // vertical folds down the cape
       const x = -1.25 + i * 0.5;
-      const ridge = seg(0.07, 0.11, 3.7, BRONZE, 5);
-      ridge.position.set(x, base + 5.3, -0.82 - Math.abs(i - 2) * 0.05);
+      const ridge = seg(0.07, 0.11, 3.9, BRONZE, 5);
+      ridge.position.set(x, base + 5.6, -0.85 - Math.abs(i - 2) * 0.05);
       ridge.rotation.x = -0.12;
       group.add(ridge);
     }
-    const swag = seg(0.42, 0.2, 1.2, bronzeDk, 10); // gathered fold on the shoulder
-    swag.position.set(-1.2, base + 6.7, -0.2);
+    const swag = seg(0.44, 0.2, 1.2, bronzeDk, 10); // gathered fold on the shoulder
+    swag.position.set(-1.35, base + 7.0, -0.2);
     swag.rotation.z = 0.5;
     group.add(swag);
   } else if (model === 'liberty') {
