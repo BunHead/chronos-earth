@@ -40,8 +40,8 @@
     "ts": 1783884257676
   },
   "buckingham": {
-    "note": "Fountain and gate not in line with plan/global map. needs more windows and detail adding to the inner court. with an arched tunnel under the Romanesque balcony, where they appear on state occasions",
-    "ts": 1784100420430,
+    "note": "Fountain and gate not in line with plan/global map. needs more windows and detail adding to the inner court. with an arched tunnel under the Romanesque balcony, where they appear on state occasions. The back is larger and the roof more complex",
+    "ts": 1784101698053,
     "status": "allowed",
     "rework": true
   },
@@ -152,12 +152,5 @@
     "ts": 1784101381032,
     "rework": true,
     "focus": "detail"
-  },
-  "place:westminster@51.499,-0.125": {
-    "transform": {
-      "headingDeg": 7.5,
-      "eastM": 20
-    },
-    "ts": 1784101638905
   }
 }
