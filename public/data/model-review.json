@@ -152,5 +152,12 @@
     "ts": 1784101381032,
     "rework": true,
     "focus": "detail"
+  },
+  "place:westminster@51.499,-0.125": {
+    "transform": {
+      "headingDeg": 7.5,
+      "eastM": 20
+    },
+    "ts": 1784101638905
   }
 }
