@@ -149,6 +149,8 @@
   },
   "louvre": {
     "status": "allowed",
-    "ts": 1784101373623
+    "ts": 1784101381032,
+    "rework": true,
+    "focus": "detail"
   }
 }
