@@ -1,5 +1,8 @@
 {
-  "stonehenge": {},
+  "stonehenge": {
+    "status": "allowed",
+    "ts": 1784124134017
+  },
   "amphitheatre": {
     "note": "This has a time line effect, yes?",
     "ts": 1783891391985,
@@ -91,8 +94,7 @@
   "opera-house": {
     "status": "allowed",
     "ts": 1784123725506,
-    "note": "🛠 Rework: the FRONT ARCADE/colonnade reads as a misplaced aqueduct — remove it. The real Sydney Opera House podium has NO arches on its front: it is a solid stepped granite platform the white sail-shells rise straight out of. Keep the shells as the hero. Arches belong only UNDER the podium (the concourse), never as a front facade.",
-    "rework": true
+    "note": "🔩"
   },
   "impact": {
     "status": "allowed",
