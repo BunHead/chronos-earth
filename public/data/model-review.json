@@ -19,7 +19,7 @@
     "note": "Look at plan of castle, whilst the keep is much better, don't believe the outer wall is so close, or a square",
     "ts": 1784098107256,
     "status": "allowed",
-    "rework": true,
+    "rework": false,
     "focus": "bakeoff"
   },
   "place:tower-of-london@51.508,-0.076": {
