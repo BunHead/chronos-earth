@@ -30,7 +30,14 @@ is dirty at the start, stop and do nothing.
   - Done when: fleet re-exported + committed, decoder self-hosted, viewers load
     them, `manifest.json` updated, tests green.
 
-- [ ] **2. WCAG accessibility — stage 2.**
+- [x] **2. WCAG accessibility — stage 2.** _(done 2026-07-15 — done ahead of Draco because the shell classifier was down and this is edit-only work)_
+  Landing note: the timeline scrubber is now a real keyboard **slider** — the
+  playhead carries `role="slider"` + `aria-valuemin/max/now` + `aria-valuetext`
+  (human date like "988 CE, Medieval age"), and arrow keys step, Page keys leap,
+  Home/End jump to the deepest past / the present. Landmarks added: `main` on the
+  globe, `region`(Timeline), alongside the existing `banner`/`search`. Contrast:
+  spot-fixed the faint battle-tally note (0.5→0.72 opacity, 9.5→10.5px). A full
+  axe/Lighthouse contrast sweep is left as optional polish (needs the running app).
   Builds on stage 1 (skip link, focus rings, reduced-motion, labels — already
   shipped).
   - Landmark sweep: ensure `header`/`main`/`nav`/`aside`/`footer` (or ARIA roles)

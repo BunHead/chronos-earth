@@ -1333,7 +1333,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }
   }, [currentYearsBP, events]);
 
-  return <div className="globe" ref={containerRef} />;
+  return <div className="globe" ref={containerRef} role="main" aria-label="Interactive history globe" />;
 });
 
 export default Globe;

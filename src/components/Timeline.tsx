@@ -680,20 +680,44 @@ export default function Timeline({
   );
 
   // Transport step: linear within a zoomed window, logarithmic at full zoom.
+  // `factor` scales the nudge — 1 for a normal step, larger for a Page-key leap.
   const stepTime = useCallback(
-    (olderDir: number) => {
+    (olderDir: number, factor = 1) => {
       if (zoomedIn) {
-        onChange(clamp(yearsBP + olderDir * span * STEP_FRACTION, 0, OLDEST_BP));
+        onChange(clamp(yearsBP + olderDir * span * STEP_FRACTION * factor, 0, OLDEST_BP));
       } else {
-        const newPos = clamp(yearsBPToPos(yearsBP) - olderDir * STEP, 0, 1);
+        const newPos = clamp(yearsBPToPos(yearsBP) - olderDir * STEP * factor, 0, 1);
         onChange(posToYearsBP(newPos));
       }
     },
     [zoomedIn, yearsBP, span, onChange],
   );
 
+  // Keyboard scrubbing for the timeline slider (the playhead is the thumb).
+  // Left/Down = older (back in time, toward the left), Right/Up = younger; Page
+  // keys leap; Home = the oldest edge, End = the present.
+  const onPlayheadKey = useCallback(
+    (e: React.KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft': case 'ArrowDown': e.preventDefault(); stepTime(1); break;
+        case 'ArrowRight': case 'ArrowUp': e.preventDefault(); stepTime(-1); break;
+        case 'PageDown': e.preventDefault(); stepTime(1, 8); break;
+        case 'PageUp': e.preventDefault(); stepTime(-1, 8); break;
+        case 'Home': e.preventDefault(); onChange(OLDEST_BP); break;
+        case 'End': e.preventDefault(); onChange(0); break;
+        default: return;
+      }
+    },
+    [stepTime, onChange],
+  );
+  const valueText = `${formatTime(yearsBP)}${era ? `, ${era.name} ${era.kind === 'geological' ? 'era' : 'age'}` : ''}`;
+
   return (
-    <div className={`timeline${zoomedIn && !collapsed ? ' zoomed' : ''}${collapsed ? ' collapsed' : ''}`}>
+    <div
+      className={`timeline${zoomedIn && !collapsed ? ' zoomed' : ''}${collapsed ? ' collapsed' : ''}`}
+      role="region"
+      aria-label="Timeline"
+    >
       <div
         className="timeline-grip"
         title="Drag to resize · double-click to hide/show"
@@ -836,7 +860,18 @@ export default function Timeline({
           )}
 
           <div className="playline" style={{ left: `${pos * 100}%` }} />
-          <div className={isPlaying ? 'playhead playing' : 'playhead'} style={{ left: `${pos * 100}%` }} />
+          <div
+            className={isPlaying ? 'playhead playing' : 'playhead'}
+            style={{ left: `${pos * 100}%` }}
+            role="slider"
+            tabIndex={0}
+            aria-label="Timeline — arrow keys travel through time, Home for the deepest past, End for the present"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(pos * 100)}
+            aria-valuetext={valueText}
+            onKeyDown={onPlayheadKey}
+          />
           {compareLeftBP !== undefined && (
             <div
               className="compare-anchor"
