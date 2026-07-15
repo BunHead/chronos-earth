@@ -24,12 +24,12 @@
   },
   "place:tower-of-london@51.508,-0.076": {
     "transform": {
+      "headingDeg": -65,
       "eastM": -10,
       "northM": -10,
-      "scale": 3.922,
-      "headingDeg": 40
+      "scale": 1.63
     },
-    "ts": 1784130457560
+    "ts": 1783884017622
   },
   "london-eye": {
     "ts": 1784098170190,
@@ -60,13 +60,13 @@
   "liberty": {
     "ts": 1784098309229,
     "status": "allowed",
-    "rework": false,
+    "rework": true,
     "focus": "detail"
   },
   "colossus": {
     "status": "allowed",
-    "ts": 1784098279899,
-    "note": "Was the statue a woman, why does it look like their picking the nose??? Astride the harbor mouth, one foot on either shore",
+    "ts": 1784131193478,
+    "note": "Work on the character, more detail in poss and clothing",
     "rework": false,
     "focus": "bakeoff"
   },
@@ -168,9 +168,8 @@
   },
   "place:stonehenge@51.179,-1.826": {
     "transform": {
-      "headingDeg": -132.5,
-      "northM": -10
+      "headingDeg": -122.5
     },
-    "ts": 1784130277040
+    "ts": 1784124158943
   }
 }
