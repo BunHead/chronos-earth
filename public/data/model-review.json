@@ -153,5 +153,13 @@
     "ts": 1784101381032,
     "rework": true,
     "focus": "detail"
+  },
+  "place:opera-house@-33.857,151.215": {
+    "transform": {
+      "headingDeg": -140,
+      "northM": -50,
+      "eastM": -30
+    },
+    "ts": 1784123737402
   }
 }
