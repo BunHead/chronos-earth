@@ -34,6 +34,11 @@ jobs:
         run: timeout 55m node scripts/fetch-wikidata-events.mjs || [ $? -eq 124 ]
       - name: Rebuild the core index
         run: node scripts/build-core-index.mjs
+      - name: Lint the data (report only — never lose a night's harvest)
+        # Warn-only: surfaces bad ids/coords/dates/categories in the log without
+        # discarding the whole additive harvest over one bad row. Run `npm run
+        # lint:data` locally (no --warn) to fail hard when cleaning up.
+        run: node scripts/lint-data.mjs --warn
       - name: Commit & push if the dataset grew
         run: |
           git config user.name "chronos-harvester"

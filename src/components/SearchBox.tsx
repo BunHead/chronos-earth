@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
-import { ERAS, type Era } from '../lib/timeScale';
+import { ERAS, parseYear, type Era } from '../lib/timeScale';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -13,6 +13,8 @@ interface SearchBoxProps {
   onPickEra: (era: Era) => void;
   onPickEvent: (event: TimelineEvent) => void;
   onPickFauna: (fauna: Fauna) => void;
+  /** Jump the timeline to a typed year/date (e.g. "1969", "44 BCE", "14 July 1789"). */
+  onPickYear: (year: number) => void;
   /** Fetch a place we don't have from the web (Wikidata) and add it live. */
   onWebSearch: (query: string) => void;
 }
@@ -45,7 +47,7 @@ interface Result {
  * A single search field that finds battles, ancient sites and eras by name and
  * jumps the app to them.
  */
-export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onWebSearch }: SearchBoxProps) {
+export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
 
@@ -54,6 +56,28 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     if (q.length < 2) return [];
     const out: Result[] = [];
     const taken = new Set<string>(); // normalised names already listed (dedup curated vs imported)
+
+    // A typed date/year jumps the timeline — and surfaces what happened that year.
+    const year = parseYear(query);
+    if (year !== null) {
+      out.push({
+        key: 'year-jump',
+        label: `Go to ${yearLabel(year)}`,
+        sub: 'Jump the timeline to this year',
+        badge: '🗓️ Date',
+        run: () => onPickYear(year),
+      });
+      for (const b of battles) {
+        if (b.year === year) {
+          taken.add(norm(b.name));
+          out.push({ key: `by-${b.id}`, label: b.name, sub: b.dateLabel, badge: '⚔️ Battle', run: () => onPickBattle(b) });
+        }
+      }
+      for (const e of events.filter((ev) => ev.startYear === year && !taken.has(norm(ev.name))).slice(0, 6)) {
+        out.push({ key: `evy-${e.id}`, label: e.name, sub: yearLabel(e.startYear), badge: EVENT_BADGE[e.category] ?? 'Event', run: () => onPickEvent(e) });
+      }
+      return out.slice(0, 9);
+    }
 
     for (const b of battles) {
       if (b.name.toLowerCase().includes(q)) {
@@ -99,7 +123,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       }
     }
     return out.slice(0, 9);
-  }, [query, battles, sites, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna]);
+  }, [query, battles, sites, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear]);
 
   const pick = (r: Result) => {
     r.run();

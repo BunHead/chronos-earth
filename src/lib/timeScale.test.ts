@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   OLDEST_BP,
   PRESENT_YEAR,
+  parseYear,
   yearsBPToPos,
   posToYearsBP,
   yearsBPToYear,
@@ -185,5 +186,39 @@ describe('niceTicks', () => {
       expect(t.yearsBP).toBeGreaterThanOrEqual(win.centerBP - win.span / 2 - 1e-6);
       expect(t.yearsBP).toBeLessThanOrEqual(win.centerBP + win.span / 2 + 1e-6);
     }
+  });
+});
+
+describe('parseYear', () => {
+  it('reads bare calendar years', () => {
+    expect(parseYear('1969')).toBe(1969);
+    expect(parseYear('  1066  ')).toBe(1066);
+  });
+
+  it('reads BCE / BC (and a leading minus) as negative years', () => {
+    expect(parseYear('44 BCE')).toBe(-44);
+    expect(parseYear('44 bc')).toBe(-44);
+    expect(parseYear('3000 B.C.')).toBe(-3000);
+    expect(parseYear('-44')).toBe(-44);
+  });
+
+  it('reads CE / AD as positive years', () => {
+    expect(parseYear('80 AD')).toBe(80);
+    expect(parseYear('1969 CE')).toBe(1969);
+  });
+
+  it('extracts the year from ISO and month-name dates', () => {
+    expect(parseYear('1789-07-14')).toBe(1789);
+    expect(parseYear('14 July 1789')).toBe(1789);
+    expect(parseYear('July 1789')).toBe(1789);
+    expect(parseYear('4th July 1776')).toBe(1776);
+  });
+
+  it('rejects non-dates and out-of-range years', () => {
+    expect(parseYear('5 models')).toBeNull();
+    expect(parseYear('hello')).toBeNull();
+    expect(parseYear('')).toBeNull();
+    expect(parseYear('3000')).toBeNull(); // bare future year
+    expect(parseYear(String(OLDEST_BP + PRESENT_YEAR + 1) + ' bce')).toBeNull();
   });
 });

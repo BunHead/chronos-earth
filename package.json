@@ -13,6 +13,7 @@
     "refresh-data": "node scripts/refresh-data.mjs",
     "build:core": "node scripts/build-core-index.mjs",
     "harvest": "node scripts/harvest-world.mjs",
+    "lint:data": "node scripts/lint-data.mjs",
     "audit": "node scripts/audit.mjs",
     "verify-3d": "node scripts/verify-3d.mjs",
     "render": "node scripts/render-model.mjs",

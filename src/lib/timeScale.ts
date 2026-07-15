@@ -95,6 +95,47 @@ export function formatTime(yearsBP: number): string {
   return `${year} CE`;
 }
 
+const MONTH_RE =
+  /\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sep(t(ember)?)?|oct(ober)?|nov(ember)?|dec(ember)?)\b/g;
+
+/**
+ * Parse a free-typed date or year into a signed calendar year (negative = BCE),
+ * or null if the text isn't date-like. This is what lets the search box jump
+ * the timeline when you type a date.
+ *
+ * Accepts bare years ("1969"), a leading-minus or era for BCE ("-44", "44 BCE",
+ * "300 BC"), CE/AD ("80 AD", "1969 CE"), ISO dates ("1789-07-14") and month-name
+ * dates ("14 July 1789", "July 1789"). Month and day are ignored — the app's
+ * data is year-granular — but the year is extracted. Non-dates ("5 models",
+ * "hello") and out-of-range years return null so the box doesn't offer nonsense.
+ */
+export function parseYear(raw: string): number | null {
+  const s = raw.trim().toLowerCase();
+  if (!s) return null;
+  const bce = /\bb\.?\s?c\.?e?\b/.test(s) || /^-\s*\d/.test(s);
+  // Strip era words, month names, ordinal suffixes and date punctuation; what
+  // remains must be digits only — that guards "5 models" from reading as a year.
+  const residue = s
+    .replace(/\bb\.?\s?c\.?e?\b/g, ' ')
+    .replace(/\b(c\.?e|a\.?d)\b/g, ' ')
+    .replace(MONTH_RE, ' ')
+    .replace(/(\d+)(st|nd|rd|th)\b/g, '$1')
+    .replace(/[-/,.]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!/^[\d ]+$/.test(residue) || !/\d/.test(residue)) return null;
+  // The year is the longest run of digits, so "14 July 1789" and "1789-07-14"
+  // both land on 1789 regardless of where the year sits.
+  const nums = residue.match(/\d+/g) as string[];
+  let year = nums[0];
+  for (const n of nums) if (n.length > year.length) year = n;
+  const val = Number(year);
+  if (!Number.isFinite(val) || val < 1) return null;
+  const signed = bce ? -val : val;
+  if (signed > PRESENT_YEAR || signed < -OLDEST_BP) return null;
+  return signed;
+}
+
 /**
  * An "era" is a labelled span of time. We include both geological periods
  * (deep time) and human historical eras. Boundaries are in years BP.

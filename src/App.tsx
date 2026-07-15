@@ -395,6 +395,16 @@ export default function App() {
     setYearsBP((era.startBP + era.endBP) / 2);
   };
 
+  // Type a date/year in the search box and land on it. For historical years we
+  // also drop into a tighter linear window so the year is legible, not lost in
+  // the deep-time overview.
+  const handlePickYear = (year: number) => {
+    setIsPlaying(false);
+    setPanel(null);
+    setYearsBP(yearToYearsBP(year));
+    if (year > -12000) setZoomIdx(1); // ~1,000-year window
+  };
+
   // Search picks from the imported world: jump the timeline, fly there, open the panel.
   const handlePickEvent = (e: TimelineEvent) => {
     setIsPlaying(false);
@@ -614,6 +624,7 @@ export default function App() {
         onPickSite={handlePickSite}
         onPickEra={handlePickEra}
         onPickEvent={handlePickEvent}
+        onPickYear={handlePickYear}
         onPickFauna={handlePickFauna}
         onWebSearch={handleWebSearch}
       />
