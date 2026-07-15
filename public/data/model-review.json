@@ -1,7 +1,8 @@
 {
   "stonehenge": {
     "status": "allowed",
-    "ts": 1784124134017
+    "ts": 1784124158818,
+    "note": "syze/scale looks to be on the sma;; side"
   },
   "amphitheatre": {
     "note": "This has a time line effect, yes?",
