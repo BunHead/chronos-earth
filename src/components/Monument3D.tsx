@@ -3261,18 +3261,36 @@ export function buildModel(
     const glass = '#2f3742';
     const gold = '#d8c37a';
     const front = 3; // +Z river-front plane
-    // The long main range, two storeys with a pierced parapet.
-    group.add(block(28, 5.4, 6, 0, 2.7, 0, stone));
-    group.add(block(28.4, 0.5, 6.5, 0, 5.55, 0, trim)); // eaves band
-    // Tall Gothic window bays and buttress pinnacles the length of the frontage.
+    const H = 5.4;        // main range height
+    const backZ = -11;    // the palace runs back to here
+    const midZ = backZ / 2;
+    const depth = Math.abs(backZ) + 3.4;
+    // --- The palace is a full rectangular pile enclosing THREE inner courts:
+    //     the river-front range, a back range, two end ranges, and two internal
+    //     cross-ranges that divide the interior into three courtyards. ---
+    const wing = (x: number, z: number, w: number, d: number, h: number, col = stone) => {
+      group.add(block(w, h, d, x, h / 2, z, col));
+      group.add(block(w + 0.3, 0.45, d + 0.3, x, h + 0.2, z, trim)); // eaves band
+      group.add(block(w - 0.7, 1.0, d - 0.7, x, h + 0.7, z, roof));   // slate roof mass
+    };
+    wing(0, 0, 28, 3.6, H);                 // river-front range (+Z)
+    wing(0, backZ, 28, 3.4, H - 0.4);       // back range (−X spine)
+    wing(-13.2, midZ, 3.4, depth, H - 0.4); // south end range (−X)
+    wing(13.2, midZ, 3.4, depth, H - 0.4);  // north end range (+X)
+    for (const cx of [-4.7, 4.7]) wing(cx, midZ, 3.0, depth - 1.5, H - 0.6); // two cross-ranges → 3 courts
+    // The river front reads as THREE tiers, the upper two double-height: two
+    // string courses band the face, with tall traceried windows above the first.
+    for (const sy of [1.4, 3.4]) group.add(block(28.2, 0.28, 0.24, 0, sy, front + 0.03, trim));
     for (let i = 0; i < 15; i++) {
       const x = -13.1 + i * 1.87;
-      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim)); // buttress pinnacle
-      group.add(block(0.85, 3.4, 0.16, x + 0.93, 2.6, front + 0.02, glass)); // tall traceried window
-      group.add(block(0.85, 1.1, 0.18, x + 0.93, 4.55, front + 0.03, stoneLo)); // window head panel
+      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim));      // buttress pinnacle
+      group.add(block(0.8, 1.7, 0.16, x + 0.93, 2.35, front + 0.05, glass)); // 2nd tier window (double height)
+      group.add(block(0.8, 1.4, 0.16, x + 0.93, 4.3, front + 0.05, glass));  // 3rd tier window (double height)
     }
-    // A lower second rank set back, so the frontage has depth.
-    group.add(block(24, 3.2, 5, 0, 1.6, -2.4, stoneLo));
+    // The river terrace / dock running the length of the front, with mooring posts.
+    group.add(block(29, 0.7, 2.6, 0, 0.35, front + 1.7, stoneLo)); // terrace deck
+    group.add(block(29, 0.5, 0.4, 0, 0.5, front + 2.9, trim));     // embankment lip
+    for (let i = -3; i <= 3; i++) group.add(block(0.28, 1.0, 0.28, i * 4, 0.5, front + 2.75, '#3a3a3a')); // mooring bollards
     // — Elizabeth Tower (Big Ben) at the +X (north) end: slender, ~96 m. —
     const bx = 15.4, bz = 1.0, bw = 2.6;
     group.add(block(bw + 0.4, 1.0, bw + 0.4, bx, 0.5, bz, stoneLo)); // base plinth
@@ -3325,6 +3343,24 @@ export function buildModel(
     const cfin = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), GOLD);
     cfin.position.set(0, 13.1, -1);
     group.add(cfin);
+    // --- The six smaller towers around the courts (with Big Ben, Victoria and
+    //     the Central Tower these make up the palace's family of towers). ---
+    const minorTower = (x: number, z: number, w: number, h: number) => {
+      group.add(block(w, h, w, x, h / 2, z, stone));
+      group.add(block(w + 0.3, 0.4, w + 0.3, x, h + 0.2, z, trim));
+      for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner pinnacles
+        group.add(block(0.3, 1.3, 0.3, x + cx * (w / 2 + 0.05), h + 0.7, z + cz * (w / 2 + 0.05), trim));
+      const sp = new THREE.Mesh(new THREE.ConeGeometry(w * 0.72, 2.4, 4), stoneLike({ color: roof, flatShading: true }));
+      sp.rotation.y = Math.PI / 4; sp.position.set(x, h + 1.6, z);
+      group.add(sp);
+      const fin = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), GOLD);
+      fin.position.set(x, h + 3.0, z);
+      group.add(fin);
+    };
+    minorTower(-13.2, backZ, 2.4, 8.5);  // back south-west turret
+    minorTower(13.2, backZ, 2.4, 8.5);   // back north-west turret
+    minorTower(0, backZ, 2.6, 7.5);      // back centre turret
+    for (const cx of [-4.7, 4.7]) minorTower(cx, front - 0.3, 2.0, 7.0); // the two courtyard-gate turrets
   } else if (model === 'london-eye') {
     // The London Eye — a giant cantilevered observation wheel: a steel rim on
     // spokes, glass passenger capsules around it, held out over the Thames on an
