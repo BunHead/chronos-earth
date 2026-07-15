@@ -146,5 +146,9 @@
     "note": "Should be the same on each side, with a snake running down the staircase sides",
     "rework": true,
     "focus": "detail"
+  },
+  "louvre": {
+    "status": "allowed",
+    "ts": 1784101373623
   }
 }
