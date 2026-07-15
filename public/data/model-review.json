@@ -96,7 +96,7 @@
     "status": "rejected",
     "ts": 1783890644473,
     "note": "Needs over time sequence, at least 3 frames comet, impact, aftermath.",
-    "rework": true,
+    "rework": false,
     "focus": "bakeoff"
   },
   "westminster": {

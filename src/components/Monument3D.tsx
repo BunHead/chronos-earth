@@ -1751,25 +1751,81 @@ export function buildModel(
       }
     }
   } else if (model === 'impact') {
+    // An impact event told as a SEQUENCE over time (buildFrac drives the frame):
+    //   frac < 0.4  — the COMET incoming, a fireball on a blazing trail;
+    //   0.4–0.75    — the IMPACT itself, a white flash, ejecta rays, shock ring;
+    //   ≥ 0.75/none — the AFTERMATH, the settled crater with its central peak.
     ground = '#3a3a42';
-    const rim = new THREE.Mesh(
-      new THREE.TorusGeometry(7, 1.4, 12, 40),
-      stoneLike({ color: '#55524d' }),
-    );
-    rim.rotation.x = -Math.PI / 2;
-    rim.position.y = 0.4;
-    group.add(rim);
-    const comet = new THREE.Mesh(
-      new THREE.SphereGeometry(1.1, 20, 20),
-      new THREE.MeshStandardMaterial({ color: '#ffd27a', emissive: '#ff9b3d', emissiveIntensity: 1.6 }),
-    );
-    comet.position.set(-9, 11, -6);
-    comet.userData.noShadow = true;
-    group.add(comet);
-    const trail = block(0.6, 0.6, 10, -12, 14, -9, '#ffba66');
-    trail.rotation.set(0.5, 0.4, 0.2);
-    trail.userData.noShadow = true;
-    group.add(trail);
+    const f = buildFrac ?? 1;
+    const glow = (c: string, e: string, ei: number) =>
+      new THREE.MeshStandardMaterial({ color: c, emissive: e, emissiveIntensity: ei });
+    // A fireball travelling toward ground zero along this unit heading.
+    const dir = new THREE.Vector3(8, -12, 5).normalize();
+    if (f < 0.4) {
+      // --- COMET: the bolide plunging toward the already-scorched ground zero.
+      //     Kept shadow-casting so the render harness frames it in view. ---
+      const scorch = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, 0.16, 40), stoneLike({ color: '#33323a' }));
+      scorch.position.y = 0.06;
+      group.add(scorch);
+      const target = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.5, 8, 32), stoneLike({ color: '#26262d' }));
+      target.rotation.x = -Math.PI / 2; target.position.y = 0.16;
+      group.add(target);
+      const src = new THREE.Vector3().copy(dir).multiplyScalar(-9); // on the line into origin
+      const comet = new THREE.Mesh(new THREE.SphereGeometry(1.2, 20, 20), glow('#fff1c4', '#ff9b3d', 2.0));
+      comet.position.copy(src);
+      group.add(comet);
+      // A long tapered trail streaming back UP the flight path (opposite dir).
+      const trail = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 1.15, 12, 14), glow('#ff8a2e', '#ff6a12', 1.5));
+      trail.position.copy(src).addScaledVector(dir, -6);
+      trail.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().negate());
+      trail.material.transparent = true; trail.material.opacity = 0.82;
+      trail.userData.noShadow = true;
+      group.add(trail);
+    } else if (f < 0.75) {
+      // --- IMPACT: the flash, ejecta thrown out, a dust shock-ring, raw crater. ---
+      const core = new THREE.Mesh(new THREE.SphereGeometry(2.6, 20, 16), glow('#ffffff', '#ffd27a', 3.0));
+      core.position.y = 1.2; core.userData.noShadow = true;
+      group.add(core);
+      const fire = new THREE.Mesh(new THREE.SphereGeometry(3.6, 20, 16), glow('#ffb14a', '#ff7a1e', 2.2));
+      fire.position.y = 1.4; fire.scale.set(1, 0.8, 1); fire.userData.noShadow = true;
+      fire.material.transparent = true; fire.material.opacity = 0.75;
+      group.add(fire);
+      for (let i = 0; i < 12; i++) { // ejecta rays flung out and up
+        const a = (i / 12) * Math.PI * 2;
+        const ray = new THREE.Mesh(new THREE.ConeGeometry(0.35, 5.5, 6), glow('#ff9b3d', '#ff6a12', 1.6));
+        const out = new THREE.Vector3(Math.cos(a), 0, Math.sin(a));
+        const tip = out.clone().multiplyScalar(6).add(new THREE.Vector3(0, 4.5, 0));
+        ray.position.copy(tip).multiplyScalar(0.5).add(new THREE.Vector3(0, 0.5, 0));
+        ray.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tip.clone().normalize());
+        ray.userData.noShadow = true;
+        group.add(ray);
+      }
+      const shock = new THREE.Mesh(new THREE.TorusGeometry(7.3, 0.7, 10, 40), stoneLike({ color: '#6b6862' }));
+      shock.rotation.x = -Math.PI / 2; shock.position.y = 0.3;
+      group.add(shock);
+      const raw = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 3.4, 1.1, 32), stoneLike({ color: '#4a473f' }));
+      raw.position.y = -0.2; // gouged bowl
+      group.add(raw);
+    } else {
+      // --- AFTERMATH: the settled complex crater — raised rim, sunk floor, the
+      //     central uplift peak, and an ejecta blanket strewn beyond the rim. ---
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(7, 1.4, 12, 40), stoneLike({ color: '#55524d' }));
+      rim.rotation.x = -Math.PI / 2; rim.position.y = 0.4;
+      group.add(rim);
+      const floor = new THREE.Mesh(new THREE.CylinderGeometry(6.2, 4.6, 0.8, 40), stoneLike({ color: '#403d37' }));
+      floor.position.y = -0.1;
+      group.add(floor);
+      const peak = new THREE.Mesh(new THREE.ConeGeometry(1.6, 2.2, 12), stoneLike({ color: '#615c53', flatShading: true }));
+      peak.position.y = 0.9;
+      group.add(peak);
+      for (let i = 0; i < 16; i++) { // ejecta blanket hugging the rim (deterministic)
+        const a = (i / 16) * Math.PI * 2;
+        const rr = 7.4 + (i % 4) * 0.2;
+        const b = block(0.55 + (i % 3) * 0.22, 0.4 + (i % 2) * 0.3, 0.55 + (i % 4) * 0.18, Math.cos(a) * rr, 0.2, Math.sin(a) * rr, i % 2 ? '#5c584f' : '#6a655b', a);
+        b.rotation.z = ((i % 3) - 1) * 0.25;
+        group.add(b);
+      }
+    }
   } else if (model === 'rings') {
     // Plato's ATLANTIS as the ringed CITY of legend (Critias): a central citadel
     // on its island, wrapped by concentric rings of WATER and LAND — the land

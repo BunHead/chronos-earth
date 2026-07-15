@@ -74,6 +74,9 @@ const BUILD_STAGES = [
   ['giza', 'Giza Pyramids', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
+  // The impact event as a sequence: b25 = comet incoming, b60 = the impact
+  // flash; the base impact.glb is the settled-crater aftermath.
+  ['impact', 'Impact Crater', [25, 60]],
 ];
 
 await mkdir(OUT, { recursive: true });

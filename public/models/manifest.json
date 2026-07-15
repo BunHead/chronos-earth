@@ -93,7 +93,7 @@
   },
   "impact": {
     "footprint": 16.8,
-    "kb": 69
+    "kb": 90
   },
   "hanging-gardens": {
     "footprint": 45.9,
@@ -206,5 +206,13 @@
   "amphitheatre-b90": {
     "footprint": 15.843,
     "kb": 588
+  },
+  "impact-b25": {
+    "footprint": 16,
+    "kb": 70
+  },
+  "impact-b60": {
+    "footprint": 16,
+    "kb": 111
   }
 }
