@@ -43,7 +43,7 @@
     "note": "Only the front done, with fountain in the wrong place, looks to be the wrong colour",
     "ts": 1783891360942,
     "status": "allowed",
-    "rework": true
+    "rework": false
   },
   "place:buckingham@51.501,-0.142": {
     "transform": {

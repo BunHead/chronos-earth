@@ -3166,12 +3166,13 @@ export function buildModel(
     // balcony, behind forecourt railings with the Victoria Memorial before the
     // gates. Front = local +Z = the East Front (the fit turns +Z to face east).
     ground = '#41562f';
-    // Pale Portland stone, graded subtly down the storeys so the ranks read apart.
-    const gLo = '#ddd2b9'; // rusticated ground floor
-    const gMid = '#ebe1cb'; // principal (first) floor
-    const gTop = '#e2d8c1'; // attic storey
-    const trim = '#f2ebd9'; // cornices, balustrade, dressings
-    const roofC = '#82858d'; // grey lead roof behind the balustrade
+    // Pale, cool Portland stone (not cream) — a touch of blue-grey to fight the
+    // warm procedural texture; graded subtly down the storeys.
+    const gLo = '#9aa6a8'; // rusticated ground floor
+    const gMid = '#abb6b6'; // principal (first) floor
+    const gTop = '#a2adad'; // attic storey
+    const trim = '#c2ccc9'; // cornices, balustrade, dressings
+    const roofC = '#6b6f79'; // grey lead roof behind the balustrade
     const win = '#2b333d';
     const W = 30; // the long East Front (footprint maps to ~108 m)
     const s1 = 2.1, s2 = 2.3, s3 = 1.7; // storey heights
@@ -3229,6 +3230,18 @@ export function buildModel(
     const pedMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(pedShape, { depth: 0.6, bevelEnabled: false }), stoneMat(trim));
     pedMesh.position.set(0, eaves + 0.35, D / 2 + cProj - 0.6);
     group.add(pedMesh);
+    // --- The three further ranges that close the QUADRANGLE behind the East
+    //     Front, around the central courtyard (the palace is a hollow square). ---
+    const backZ = -16;
+    const wingMass = (x: number, z: number, w: number, d: number) => {
+      group.add(block(w, s1, d, x, s1 / 2, z, gLo));
+      group.add(block(w, s2, d, x, s1 + s2 / 2, z, gMid));
+      group.add(block(w, s3, d, x, s1 + s2 + s3 / 2, z, gTop));
+      group.add(block(w + 0.4, 0.36, d + 0.4, x, eaves + 0.18, z, trim)); // cornice
+      group.add(block(w - 1.2, 1.0, d - 1.2, x, eaves + 0.6, z, roofC));   // lead roof
+    };
+    wingMass(0, backZ, W - 5, 4);                    // west (back) range
+    for (const sx of [-1, 1] as const) wingMass(sx * (W / 2 - 2.5), (backZ + 2) / 2, 5, Math.abs(backZ) + D); // side wings
     // Forecourt railings with a central gate gap and stone gate piers.
     const railZ = D / 2 + 5;
     for (let i = 0; i <= 30; i++) {
@@ -3238,13 +3251,22 @@ export function buildModel(
     }
     group.add(block(W, 0.16, 0.14, 0, 1.55, railZ, '#20242a')); // rail top
     for (const sx of [-1, 1] as const) group.add(block(0.7, 2.2, 0.7, sx * 2.4, 1.1, railZ, gTop)); // gate piers
-    // The Victoria Memorial — white plinth, column, gold Winged Victory.
-    group.add(block(2.8, 1.7, 2.8, 0, 0.85, railZ + 3.4, trim));
-    const vcol = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.42, 2.0, 12), stoneLike({ color: trim }));
-    vcol.position.set(0, 2.7, railZ + 3.4);
+    // The Victoria Memorial, centred on the axis in its circular roundabout: a
+    // fountain basin ringing the white marble plinth, column and gilded Victory.
+    const memZ = railZ + 1.8;
+    const basin = new THREE.Mesh(new THREE.CylinderGeometry(2.9, 3.1, 0.6, 28), stoneLike({ color: trim }));
+    basin.position.set(0, 0.3, memZ);
+    group.add(basin);
+    const water = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 0.5, 28), new THREE.MeshStandardMaterial({ color: '#3f6f86', roughness: 0.3, metalness: 0.1 }));
+    water.position.set(0, 0.42, memZ);
+    water.userData.noShadow = true;
+    group.add(water);
+    group.add(block(2.2, 1.7, 2.2, 0, 0.85, memZ, trim)); // marble plinth
+    const vcol = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.44, 2.2, 12), stoneLike({ color: trim }));
+    vcol.position.set(0, 2.8, memZ);
     group.add(vcol);
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
-    vic.position.set(0, 3.9, railZ + 3.4);
+    vic.position.set(0, 4.1, memZ);
     group.add(vic);
   } else if (model === 'westminster') {
     // The Palace of Westminster (Houses of Parliament) — Barry & Pugin's long
