@@ -41,6 +41,12 @@ const BATTLE_ACTIVE_YEARS = 3;
  * then brightens over the final decades — so it warns of an *imminent* shift
  * rather than glowing for the whole (often centuries-long) snapshot span. */
 const ORANGE_WARN_YEARS = 80;
+/** The "changing soon" orange only means *imminent* when the next snapshot is
+ * within reach. Ancient/medieval frames sit centuries apart, so the diff is
+ * hundreds of years of accumulated change — it washed the whole continent
+ * orange (e.g. 700→1000 CE at 988). Beyond this floor→ceil gap, skip it: clean
+ * fills read truer than a misleading warning. */
+const ORANGE_MAX_GAP_YEARS = 150;
 /** How far from a battle or front line a border still counts as "at war". */
 const WAR_RADIUS_KM = 260;
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
@@ -515,6 +521,10 @@ export class BordersController {
     const a = this.cache.get(floorYear);
     const b = this.cache.get(ceilYear);
     if (!a || !b || floorYear === ceilYear) return;
+    if (ceilYear - floorYear > ORANGE_MAX_GAP_YEARS) {
+      a.orange = { vsYear: ceilYear }; // gap too wide for an "imminent" hint — skip the layer
+      return;
+    }
     if (a.orange?.vsYear === ceilYear || this.orangeBuilding.has(floorYear)) return;
     this.orangeBuilding.add(floorYear);
     try {
@@ -597,6 +607,9 @@ export class BordersController {
     year: number,
   ): { warn: number; warnBucket: number; hasOrange: boolean } {
     if (ceilYear === floorYear) return { warn: 0, warnBucket: 0, hasOrange: false };
+    // Snapshots centuries apart can't warn of an *imminent* change — suppress
+    // the wash so clean fills show (matches ensureOrange skipping the layer).
+    if (ceilYear - floorYear > ORANGE_MAX_GAP_YEARS) return { warn: 0, warnBucket: 0, hasOrange: false };
     const lead = ceilYear - year;
     const warn = Cesium.Math.clamp((ORANGE_WARN_YEARS - lead) / ORANGE_WARN_YEARS, 0, 1);
     const o = this.cache.get(floorYear)?.orange;
