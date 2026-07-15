@@ -168,9 +168,9 @@
   },
   "place:stonehenge@51.179,-1.826": {
     "transform": {
-      "headingDeg": -122.5,
+      "headingDeg": -132.5,
       "northM": -10
     },
-    "ts": 1784130259156
+    "ts": 1784130277040
   }
 }
