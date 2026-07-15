@@ -54,9 +54,9 @@
     "ts": 1783884386132
   },
   "liberty": {
-    "ts": 1784098309073,
+    "ts": 1784098309229,
     "status": "allowed",
-    "rework": false,
+    "rework": true,
     "focus": "detail"
   },
   "colossus": {
