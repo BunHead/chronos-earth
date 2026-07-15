@@ -62,10 +62,10 @@
   },
   "colossus": {
     "status": "allowed",
-    "ts": 1784098275363,
+    "ts": 1784098279899,
     "note": "Was the statue a woman, why does it look like their picking the nose??? Astride the harbor mouth, one foot on either shore",
     "rework": true,
-    "focus": "detail"
+    "focus": "bakeoff"
   },
   "place:tower-bridge@51.505,-0.075": {
     "transform": {
