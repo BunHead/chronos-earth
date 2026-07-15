@@ -124,6 +124,9 @@ export interface GlobeHandle {
   setManualSea: (seaM: number | null) => void;
   /** Freeze the current globe pixels for the Time Rift comparison overlay. */
   captureFrame: () => string | null;
+  /** Recompute the open "on the map" dossier for the current year so its ruling
+   * polity + flag follow the timeline instead of freezing at the clicked year. */
+  rebuildDossier: (lat: number, lon: number) => PanelContent;
 }
 
 interface GlobeProps {
@@ -483,7 +486,36 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     manualSeaActiveRef.current = seaM !== null && seaM !== 0;
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame }));
+  // Rebuild the "on the map" place+time dossier for the CURRENT timeline year.
+  // The click handler below builds it once at click time; App calls this as the
+  // years scrub so the ruling polity, its flag and the era's nearby events
+  // follow history — otherwise the flag "sticks" at whatever year you clicked.
+  // Local only (no live Wikidata fetch — that stays on the fresh click). Mirrors
+  // the click handler's dossier build; keep the two in step.
+  const rebuildDossier = (lat: number, lon: number): PanelContent => {
+    const year = Math.round(yearsBPToYear(yearsBPRef.current));
+    const hit = bordersRef.current?.hitTest(lon, lat);
+    const box = eventsRef.current.filter(
+      (e) => !dupEventIdsRef.current.has(e.id) && Math.abs(e.lat - lat) < 7 && Math.abs(e.lon - lon) < 9,
+    );
+    const candidates = hit
+      ? box.filter((e) => bordersRef.current?.hitTest(e.lon, e.lat)?.name === hit.name)
+      : box.filter((e) => Math.abs(e.startYear - year) <= 150);
+    const nearby = candidates
+      .sort((a, b) => {
+        const dt = Math.abs(a.startYear - year) - Math.abs(b.startYear - year);
+        return dt !== 0 ? dt : (b.notability ?? 0) - (a.notability ?? 0);
+      })
+      .slice(0, 7);
+    const openEvent = (ev: TimelineEvent) => {
+      onSelectRef.current(eventToPanel(ev));
+      onSeekRef.current(yearToYearsBP(ev.startYear));
+      flyTo(ev.lon, ev.lat, 600_000);
+    };
+    return placeDossierPanel(lat, lon, year, hit?.name, nearby, openEvent);
+  };
+
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {

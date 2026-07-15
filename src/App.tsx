@@ -163,6 +163,8 @@ export default function App() {
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
   const [campaignLabel, setCampaignLabel] = useState<string | null>(null);
   const [panel, setPanel] = useState<PanelContent | null>(null);
+  const panelRef = useRef(panel);
+  panelRef.current = panel;
   const [toast, setToast] = useState<string | null>(null);
   const showToast = (msg: string) => {
     setToast(msg);
@@ -280,6 +282,36 @@ export default function App() {
   useEffect(() => {
     yearsBPRef.current = yearsBP;
   }, [yearsBP]);
+
+  // Keep an open "on the map" dossier honest as the timeline moves: rebuild it
+  // for the new year so the ruling polity and its flag follow history instead of
+  // freezing at the year you clicked. Gated on the current panel (read via ref so
+  // this fires only on year change, never in a setPanel loop); closing the panel
+  // or opening another one naturally stops the updates. Throttled year keeps it
+  // cheap during playback.
+  useEffect(() => {
+    const p = panelRef.current;
+    if (!p || !p.fly || !p.kicker?.startsWith('On the map')) return;
+    const { lat, lon } = p.fly;
+    const apply = () => {
+      const cur = panelRef.current;
+      // Only if it's still the same open dossier (user hasn't closed/moved on).
+      if (!cur || !cur.fly || !cur.kicker?.startsWith('On the map')) return null;
+      if (cur.fly.lat !== lat || cur.fly.lon !== lon) return null;
+      const next = globeRef.current?.rebuildDossier(lat, lon);
+      if (next) setPanel(next);
+      return next ?? null;
+    };
+    const next = apply();
+    // Border frames for a freshly-scrubbed year load async — if the polity
+    // wasn't cached yet the rebuild comes back flagless; try once more shortly so
+    // the flag isn't left blank after the timeline settles. (Superseded by the
+    // next scrub via the cleanup.)
+    if (next && !next.flag) {
+      const t = window.setTimeout(apply, 500);
+      return () => window.clearTimeout(t);
+    }
+  }, [heavyYearsBP]);
 
   useEffect(() => {
     loadAncientSites()
