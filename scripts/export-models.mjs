@@ -77,6 +77,10 @@ const BUILD_STAGES = [
   // The impact event as a sequence: b25 = comet incoming, b60 = the impact
   // flash; the base impact.glb is the settled-crater aftermath.
   ['impact', 'Impact Crater', [25, 60]],
+  // The Tower of London as dated fortress phases: b15 timber corner-fort,
+  // b35 the White Tower alone, b55 the inner ward, b80 the concentric outer
+  // ward + wet moat; the base glb is the modern drained-moat plan.
+  ['tower-of-london', 'Tower of London', [15, 35, 55, 80]],
 ];
 
 await mkdir(OUT, { recursive: true });

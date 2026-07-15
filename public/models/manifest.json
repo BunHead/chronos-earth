@@ -140,8 +140,8 @@
     "kb": 326
   },
   "tower-of-london": {
-    "footprint": 15.54,
-    "kb": 284
+    "footprint": 29.3,
+    "kb": 469
   },
   "shard": {
     "footprint": 6.007,
@@ -214,5 +214,21 @@
   "impact-b60": {
     "footprint": 16,
     "kb": 111
+  },
+  "tower-of-london-b15": {
+    "footprint": 27.6,
+    "kb": 83
+  },
+  "tower-of-london-b35": {
+    "footprint": 27.6,
+    "kb": 316
+  },
+  "tower-of-london-b55": {
+    "footprint": 27.6,
+    "kb": 305
+  },
+  "tower-of-london-b80": {
+    "footprint": 29.3,
+    "kb": 474
   }
 }

@@ -3979,114 +3979,144 @@ export function buildModel(
     group.add(block(0.12, 0.9, 0.12, domeCx, bodyH + 8.4, domeCz, '#d4af37'));
     group.add(block(0.5, 0.12, 0.12, domeCx, bodyH + 8.3, domeCz, '#d4af37'));
   } else if (model === 'tower-of-london') {
-    // The Tower of London — the White Tower keep: a square Norman keep with
-    // clasped corner turrets (three square, the north-east one round), lead ogee
-    // cupolas with golden vanes, battlemented parapets, Norman pilaster strips,
-    // and a length of battlemented curtain wall before it. Front = local +Z.
-    ground = '#5a6348';
-    const stone = '#d9d7cc'; // the whitewashed "White" Tower
-    const stoneSh = '#c9c7bc';
-    const roofLead = '#8b95a2';
-    const win = '#39404a';
-    const KW = 6.2, KD = 5.6, KH = 4.9;
-    group.add(block(KW, KH, KD, 0, KH / 2, 0, stone)); // the keep
-    group.add(block(KW + 0.3, 0.4, KD + 0.3, 0, 0.2, 0, stoneSh)); // splayed plinth
-    // Norman pilaster strips + windows on the faces.
-    for (const [fx, fz, ry] of [[0, 1, 0], [0, -1, 0], [1, 0, Math.PI / 2], [-1, 0, Math.PI / 2]] as const) {
-      const face = fz !== 0 ? KD : KW;
-      for (let i = -1; i <= 1; i++) {
-        const off = i * (face * 0.3);
-        const px = fx !== 0 ? fx * (KW / 2 + 0.06) : off;
-        const pz = fz !== 0 ? fz * (KD / 2 + 0.06) : off;
-        group.add(block(0.3, KH - 0.4, 0.14, px, KH / 2, pz, stoneSh, ry)); // pilaster strip
-        group.add(block(0.5, 0.9, 0.12, px, KH - 1.3, pz, win, ry)); // upper window
+    // The Tower of London as the CONCENTRIC FORTRESS, told as the dated phases
+    // the timeline swaps (buildFrac): (1) c.1070 a timber corner-fort in the
+    // angle of the Roman city wall; (2) c.1100 the White Tower keep alone;
+    // (3) c.1240 the stone INNER ward wraps it (Henry III); (4) c.1285 the OUTER
+    // ward, the water-filled MOAT, the river water-gate and the western barbican
+    // make it concentric (Edward I); (5) 1843+ the moat is drained to grass —
+    // today's plan the satellite shows. River (Thames) on the +Z (south) side.
+    ground = '#6f7d54';
+    const stone = '#d9d7cc', stoneSh = '#c9c7bc', roofLead = '#8b95a2', win = '#39404a';
+    const timberCol = '#6b4f34', earthCol = '#7a6a49', romanCol = '#b7a98c';
+    const waterMat = new THREE.MeshStandardMaterial({ color: '#3a5f70', roughness: 0.35, metalness: 0.12 });
+    const f = buildFrac ?? 1;
+    const P = f < 0.18 ? 1 : f < 0.42 ? 2 : f < 0.66 ? 3 : f < 0.88 ? 4 : 5;
+
+    // The island the fortress stands on, and the Thames along the south (+Z).
+    const island = new THREE.Mesh(new THREE.CylinderGeometry(13.8, 13.8, 0.35, 16), stoneMat(earthCol));
+    island.scale.set(1, 1, 0.95);
+    island.position.y = 0.17;
+    group.add(island);
+    const river = new THREE.Mesh(new THREE.BoxGeometry(46, 0.24, 16), waterMat);
+    river.position.set(-1, 0.12, 22);
+    river.userData.noShadow = true;
+    group.add(river);
+
+    // A curtain wall + a drum tower at each vertex of a polygon plan.
+    const curtain = (poly: Array<[number, number]>, wallH: number, wallT: number, towerR: number, coneH: number, wallCol = stoneSh) => {
+      for (let i = 0; i < poly.length; i++) {
+        const [ax, az] = poly[i]; const [bx, bz] = poly[(i + 1) % poly.length];
+        const dx = bx - ax, dz = bz - az, len = Math.hypot(dx, dz), ang = -Math.atan2(dz, dx);
+        const w = new THREE.Mesh(new THREE.BoxGeometry(len, wallH, wallT), stoneMat(wallCol));
+        w.position.set((ax + bx) / 2, wallH / 2, (az + bz) / 2); w.rotation.y = ang;
+        group.add(w);
+        const n = Math.max(2, Math.round(len / 1.0)); // crenellations
+        for (let k = 0; k <= n; k++) if (k % 2 === 0) group.add(block(0.42, 0.42, wallT + 0.06, ax + dx * (k / n), wallH + 0.24, az + dz * (k / n), stone, ang));
       }
-    }
-    // Battlemented parapet (crenellations) round the keep top.
-    const merlon = (x: number, z: number) => group.add(block(0.55, 0.7, 0.55, x, KH + 0.35, z, stoneSh));
-    for (let i = 0; i <= 10; i++) { const x = -KW / 2 + i * (KW / 10); if (i % 2 === 0) { merlon(x, KD / 2); merlon(x, -KD / 2); } }
-    for (let i = 0; i <= 9; i++) { const z = -KD / 2 + i * (KD / 9); if (i % 2 === 0) { merlon(KW / 2, z); merlon(-KW / 2, z); } }
-    // Four corner turrets — three square, the NE (+X,+Z) one round — each capped
-    // with a lead OGEE cupola (an onion dome tapering to a gilded weathervane).
-    const turrTop = KH + 2.4;
-    const leadMat = new THREE.MeshStandardMaterial({ color: roofLead, roughness: 0.5, metalness: 0.2 });
-    // The ogee profile: swell out low, then an S-curve drawing in to the finial —
-    // the true bulbous lead cupola, revolved once and cloned onto each turret.
-    const ogeeGeo = new THREE.LatheGeometry(
-      ([[0.5, 0], [0.73, 0.2], [0.8, 0.48], [0.65, 0.88], [0.42, 1.22], [0.22, 1.55], [0.08, 1.85], [0, 2.02]] as const)
-        .map(([x, y]) => new THREE.Vector2(x, y)),
-      20,
-    );
-    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
-      const tx = cx * (KW / 2 - 0.1), tz = cz * (KD / 2 - 0.1);
-      const round = cx > 0 && cz > 0; // the round NE turret
-      if (round) {
-        const t = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.0, turrTop, 16), stoneLike({ color: stone }));
-        t.position.set(tx, turrTop / 2, tz);
-        group.add(t);
-      } else {
-        group.add(block(1.7, turrTop, 1.7, tx, turrTop / 2, tz, stone));
+      for (const [vx, vz] of poly) {
+        const t = new THREE.Mesh(new THREE.CylinderGeometry(towerR, towerR * 1.08, wallH + 1.2, 12), stoneLike({ color: stone }));
+        t.position.set(vx, (wallH + 1.2) / 2, vz); group.add(t);
+        const c = new THREE.Mesh(new THREE.ConeGeometry(towerR * 1.18, coneH, 12), stoneLike({ color: roofLead, flatShading: true }));
+        c.position.set(vx, wallH + 1.2 + coneH / 2, vz); group.add(c);
       }
-      const sc = round ? 1.02 : 1.14;
-      const cup = new THREE.Mesh(ogeeGeo, leadMat);
-      cup.scale.setScalar(sc);
-      cup.position.set(tx, turrTop, tz);
-      group.add(cup);
-      const finial = new THREE.Mesh(new THREE.SphereGeometry(0.15, 10, 8), GOLD); // gilded ball
-      finial.position.set(tx, turrTop + 2.02 * sc + 0.12, tz);
-      group.add(finial);
-      group.add(block(0.05, 0.55, 0.05, tx, turrTop + 2.02 * sc + 0.5, tz, '#d4af37')); // vane rod
-      const vane = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.46), GOLD); // weathervane
-      vane.position.set(tx, turrTop + 2.02 * sc + 0.55, tz + 0.1);
-      group.add(vane);
-    }
-    // --- The curtain wall: NOT a tight square but a larger IRREGULAR circuit
-    //     standing well off the keep — a long straight side to the river and the
-    //     landward sides canting in, a drum tower at every angle, and a twin-
-    //     towered gatehouse on the river front. ---
-    const wallH = 2.6;
-    const ward: Array<[number, number]> = [
-      [-5.9, 6.0],   // SW river corner
-      [6.1, 5.7],    // SE river corner
-      [6.7, -0.9],   // E
-      [3.9, -6.1],   // NE
-      [-4.4, -6.3],  // NW
-      [-6.5, -0.5],  // W
+    };
+    const inner: Array<[number, number]> = [
+      [-7.2, 6.0], [-1.0, 6.6], [7.0, 5.8], [7.8, -1.2], [4.6, -6.6], [-1.2, -7.0], [-5.8, -6.4], [-8.0, -0.6],
     ];
-    for (let i = 0; i < ward.length; i++) {
-      const [ax, az] = ward[i];
-      const [bx, bz] = ward[(i + 1) % ward.length];
-      const dx = bx - ax, dz = bz - az;
-      const len = Math.hypot(dx, dz);
-      const ang = -Math.atan2(dz, dx); // align the wall box's +X with the edge
-      const wall = new THREE.Mesh(new THREE.BoxGeometry(len, wallH, 0.65), stoneMat(stoneSh));
-      wall.position.set((ax + bx) / 2, wallH / 2, (az + bz) / 2);
-      wall.rotation.y = ang;
-      group.add(wall);
-      const n = Math.max(2, Math.round(len / 0.95)); // crenellations along the top
-      for (let k = 0; k <= n; k++) if (k % 2 === 0) {
-        const t = k / n;
-        group.add(block(0.45, 0.5, 0.55, ax + dx * t, wallH + 0.28, az + dz * t, stone, ang));
+    const outer: Array<[number, number]> = [
+      [-11.2, 9.8], [-1.0, 10.6], [11.0, 9.4], [12.0, -1.4], [7.4, -10.6], [-1.4, -11.0], [-8.8, -10.2], [-12.4, -0.8],
+    ];
+
+    // ---- The White Tower keep (from Phase 2 on) ----
+    if (P >= 2) {
+      const KW = 6.2, KD = 5.6, KH = 4.9;
+      group.add(block(KW, KH, KD, 0, KH / 2, 0, stone)); // the keep
+      group.add(block(KW + 0.3, 0.4, KD + 0.3, 0, 0.2, 0, stoneSh)); // splayed plinth
+      for (const [fx, fz, ry] of [[0, 1, 0], [0, -1, 0], [1, 0, Math.PI / 2], [-1, 0, Math.PI / 2]] as const) {
+        const face = fz !== 0 ? KD : KW;
+        for (let i = -1; i <= 1; i++) {
+          const off = i * (face * 0.3);
+          const px = fx !== 0 ? fx * (KW / 2 + 0.06) : off;
+          const pz = fz !== 0 ? fz * (KD / 2 + 0.06) : off;
+          group.add(block(0.3, KH - 0.4, 0.14, px, KH / 2, pz, stoneSh, ry)); // pilaster strip
+          group.add(block(0.5, 0.9, 0.12, px, KH - 1.3, pz, win, ry)); // upper window
+        }
+      }
+      const merlon = (x: number, z: number) => group.add(block(0.55, 0.7, 0.55, x, KH + 0.35, z, stoneSh));
+      for (let i = 0; i <= 10; i++) { const x = -KW / 2 + i * (KW / 10); if (i % 2 === 0) { merlon(x, KD / 2); merlon(x, -KD / 2); } }
+      for (let i = 0; i <= 9; i++) { const z = -KD / 2 + i * (KD / 9); if (i % 2 === 0) { merlon(KW / 2, z); merlon(-KW / 2, z); } }
+      const turrTop = KH + 2.4;
+      const leadMat = new THREE.MeshStandardMaterial({ color: roofLead, roughness: 0.5, metalness: 0.2 });
+      const ogeeGeo = new THREE.LatheGeometry(
+        ([[0.5, 0], [0.73, 0.2], [0.8, 0.48], [0.65, 0.88], [0.42, 1.22], [0.22, 1.55], [0.08, 1.85], [0, 2.02]] as const)
+          .map(([x, y]) => new THREE.Vector2(x, y)),
+        20,
+      );
+      for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
+        const tx = cx * (KW / 2 - 0.1), tz = cz * (KD / 2 - 0.1);
+        const round = cx > 0 && cz > 0; // the round NE turret
+        if (round) {
+          const t = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.0, turrTop, 16), stoneLike({ color: stone }));
+          t.position.set(tx, turrTop / 2, tz); group.add(t);
+        } else {
+          group.add(block(1.7, turrTop, 1.7, tx, turrTop / 2, tz, stone));
+        }
+        const sc = round ? 1.02 : 1.14;
+        const cup = new THREE.Mesh(ogeeGeo, leadMat);
+        cup.scale.setScalar(sc); cup.position.set(tx, turrTop, tz); group.add(cup);
+        const finial = new THREE.Mesh(new THREE.SphereGeometry(0.15, 10, 8), GOLD);
+        finial.position.set(tx, turrTop + 2.02 * sc + 0.12, tz); group.add(finial);
+        group.add(block(0.05, 0.55, 0.05, tx, turrTop + 2.02 * sc + 0.5, tz, '#d4af37')); // vane rod
+        const vane = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.3, 0.46), GOLD);
+        vane.position.set(tx, turrTop + 2.02 * sc + 0.55, tz + 0.1); group.add(vane);
       }
     }
-    for (const [vx, vz] of ward) { // a drum tower at every angle of the wall
-      const t = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.1, wallH + 1.5, 14), stoneLike({ color: stone }));
-      t.position.set(vx, (wallH + 1.5) / 2, vz);
-      group.add(t);
-      const cone = new THREE.Mesh(new THREE.ConeGeometry(1.2, 1.5, 14), stoneLike({ color: roofLead, flatShading: true }));
-      cone.position.set(vx, wallH + 1.5 + 0.75, vz);
-      group.add(cone);
+
+    if (P === 1) {
+      // ---- c.1070: a timber-and-earth fort in the angle of the Roman wall ----
+      group.add(block(13, 2.1, 0.8, 0.5, 1.05, 6.2, romanCol));  // Roman city wall — south
+      group.add(block(0.8, 2.1, 11, 6.6, 1.05, 0.6, romanCol));  // Roman city wall — east
+      const pal = (x: number, z: number) => group.add(block(0.34, 1.7, 0.34, x, 0.85, z, timberCol));
+      for (let i = 0; i <= 13; i++) pal(-6.5 + i, -6.0);          // timber palisade — north
+      for (let i = 0; i <= 11; i++) pal(-6.5, -6.0 + i);          // timber palisade — west
+      group.add(block(4, 2.2, 3, 1.8, 1.1, 1.4, timberCol));      // the timber hall
+      group.add(block(4.5, 0.6, 3.5, 1.8, 2.5, 1.4, '#553d26'));  // its roof
+    } else if (P === 2) {
+      // ---- c.1100: the White Tower alone within a timber palisade bailey ----
+      const palRing: Array<[number, number]> = [[-5, 5], [5, 5], [5.6, -0.5], [4, -5.2], [-4, -5.2], [-5.6, -0.5]];
+      for (let i = 0; i < palRing.length; i++) {
+        const [ax, az] = palRing[i]; const [bx, bz] = palRing[(i + 1) % palRing.length];
+        const dx = bx - ax, dz = bz - az, steps = Math.max(2, Math.round(Math.hypot(dx, dz) / 0.5));
+        for (let k = 0; k <= steps; k++) group.add(block(0.3, 1.6, 0.3, ax + dx * (k / steps), 0.8, az + dz * (k / steps), timberCol));
+      }
     }
-    const gateZ = 5.85; // twin-towered gatehouse on the long river front
-    for (const sx of [-1, 1] as const) {
-      const g = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.9, wallH + 1.1, 14), stoneLike({ color: stone }));
-      g.position.set(sx * 1.5, (wallH + 1.1) / 2, gateZ);
-      group.add(g);
-      const gc = new THREE.Mesh(new THREE.ConeGeometry(0.98, 1.3, 14), stoneLike({ color: roofLead, flatShading: true }));
-      gc.position.set(sx * 1.5, wallH + 1.1 + 0.65, gateZ);
-      group.add(gc);
+
+    if (P >= 3) {
+      // ---- c.1240: the stone INNER ward (Henry III) wraps the keep ----
+      curtain(inner, 3.2, 0.7, 1.0, 1.5);
+      for (const sx of [-1, 1] as const) { // an inner gatehouse on the river side
+        const g = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.95, 4.4, 12), stoneLike({ color: stone }));
+        g.position.set(sx * 1.6, 2.2, 6.3); group.add(g);
+      }
+      group.add(block(1.4, 2.4, 0.6, 0, 1.2, 6.6, win)); // inner gate arch
     }
-    group.add(block(1.1, 1.7, 0.55, 0, 0.85, gateZ, win)); // the gate arch (dark opening)
+
+    if (P >= 4) {
+      // ---- c.1285: the OUTER ward, the MOAT, the water-gate and barbican ----
+      curtain(outer, 2.5, 0.65, 0.95, 1.3);
+      if (P === 4) { // the moat runs with water until it is drained (Phase 5)
+        const moat = new THREE.Mesh(new THREE.RingGeometry(11.6, 13.4, 44), waterMat);
+        moat.rotation.x = -Math.PI / 2; moat.position.y = 0.34;
+        moat.userData.noShadow = true; group.add(moat);
+      }
+      group.add(block(1.6, 1.8, 0.7, 0, 0.9, 10.2, win)); // river water-gate (Traitors' Gate)
+      group.add(block(3.4, 0.5, 1.8, -13, 0.4, 0, stoneSh)); // western barbican causeway
+      const lion = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.2, 3.4, 12), stoneLike({ color: stone }));
+      lion.position.set(-14.2, 1.7, 0); group.add(lion); // the Lion Tower / Middle Tower
+      const lc = new THREE.Mesh(new THREE.ConeGeometry(1.3, 1.5, 12), stoneLike({ color: roofLead, flatShading: true }));
+      lc.position.set(-14.2, 4.15, 0); group.add(lc);
+    }
   } else if (model === 'shard') {
     // The Shard — Renzo Piano's tapering glass spire: eight sloping glass facets
     // ("shards") leaning inward and rising to STAGGERED tips that don't meet,

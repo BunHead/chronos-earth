@@ -107,7 +107,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
   'tower-bridge': { widthM: 260, facingDeg: 90 }, // deck spans the Thames ~N–S
   'st-pauls': { widthM: 75, facingDeg: 245 }, // west front to the WSW
-  'tower-of-london': { widthM: 36, facingDeg: 20 }, // White Tower, slightly off-cardinal
+  'tower-of-london': { widthM: 170, facingDeg: 20 }, // the whole moated fortress (~170 m); keeps the White Tower ~36 m
   shard: { widthM: 55, facingDeg: 0 }, // rotationally symmetric
   gherkin: { widthM: 50, facingDeg: 0 },
   // The Paris trio — same bearings as their KNOWN rows above.
