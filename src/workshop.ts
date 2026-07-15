@@ -126,6 +126,11 @@ const LIVE_SITES: Record<string, LiveSite> = {
 const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' }> = {
   rings: { label: 'Sea level — drag to drown Atlantis', max: 3.5, kind: 'sea' },
   giza: { label: 'Construction stage', max: 1, kind: 'build' },
+  // The impact is a SEQUENCE, not a building — the same build-fraction slider
+  // steps its three frames (buildModel reads frac: <0.4 comet incoming, mid
+  // the impact flash, 1 the settled crater). Matches export-models' impact-b25 /
+  // -b60 / base, so the workshop previews exactly what the globe timeline plays.
+  impact: { label: 'Impact — drag: comet · flash · crater', max: 1, kind: 'build' },
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
