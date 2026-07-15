@@ -15,7 +15,15 @@ is dirty at the start, stop and do nothing.
 
 ---
 
-- [ ] **1. Draco-compress the model fleet.**
+- [x] **1. Draco-compress the model fleet.** _(done 2026-07-15)_
+  Landing note: `scripts/export-models.mjs` now runs each exported glb through
+  gltf-pipeline's `processGlb` with `dracoOptions` (compressionLevel 7), with a
+  safe fallback to the raw glb if compression ever throws. Whole fleet re-exported:
+  58 models, ~18 MB → ~11 MB (opera-house 755→171 KB, london-eye 556→165 KB).
+  Cesium decodes Draco natively via its bundled decoder — no CDN, zero cost — and
+  no viewer wiring was needed (the glbs are Cesium-only; Three.js builds
+  procedurally). Verified live: Cesium `Model.fromGltfAsync` parsed the compressed
+  glbs (incl. the two largest) without error. gltf-pipeline added as a devDependency.
   Shrink the ~50 `.glb` files (500–570 KB each) with Draco geometry compression.
   - Enable Draco in the export path (`src/export-models.ts` / `export-models.html`
     via three's `DRACOExporter`, or post-process the exported `.glb` with

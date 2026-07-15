@@ -9,6 +9,8 @@
 import puppeteer from 'puppeteer';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import gltfPipeline from 'gltf-pipeline';
+const { processGlb } = gltfPipeline;
 
 const BASE = (process.env.RENDER_BASE ?? 'http://localhost:5173') + '/export-models.html';
 const OUT = 'public/models';
@@ -118,10 +120,20 @@ try {
     }
     const b64 = await page.evaluate('window.__glb');
     const footprint = await page.evaluate('window.__footprint');
-    const buf = Buffer.from(b64, 'base64');
-    await writeFile(join(OUT, `${outName}.glb`), buf);
-    manifest[outName] = { footprint: +(+footprint).toFixed(3), kb: Math.round(buf.length / 1024) };
-    console.log(`${outName.padEnd(20)} ${String(Math.round(buf.length / 1024)).padStart(5)} KB  footprint ${(+footprint).toFixed(1)}u`);
+    const raw = Buffer.from(b64, 'base64');
+    // Draco-compress the geometry — Cesium decodes it natively (its bundled
+    // decoder, no CDN, zero cost), so the globe just loads a much smaller file.
+    // Fall back to the raw glb if compression ever throws, so a model is never lost.
+    let out = raw;
+    try {
+      const { glb } = await processGlb(raw, { dracoOptions: { compressionLevel: 7 } });
+      if (glb && glb.length) out = Buffer.from(glb);
+    } catch (e) {
+      console.error(`${outName}: Draco failed (${e.message}) — writing uncompressed`);
+    }
+    await writeFile(join(OUT, `${outName}.glb`), out);
+    manifest[outName] = { footprint: +(+footprint).toFixed(3), kb: Math.round(out.length / 1024) };
+    console.log(`${outName.padEnd(20)} ${String(Math.round(raw.length / 1024)).padStart(5)}→${String(Math.round(out.length / 1024)).padStart(5)} KB  footprint ${(+footprint).toFixed(1)}u`);
     await page.close();
   }
 } finally {

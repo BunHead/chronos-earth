@@ -1,234 +1,234 @@
 {
   "giza": {
     "footprint": 45.223,
-    "kb": 93
+    "kb": 55
   },
   "amphitheatre": {
     "footprint": 15.843,
-    "kb": 722
+    "kb": 485
   },
   "greek-temple": {
     "footprint": 11.4,
-    "kb": 115
+    "kb": 70
   },
   "stonehenge": {
-    "footprint": 25.191,
-    "kb": 334
+    "footprint": 25.171,
+    "kb": 215
   },
   "cathedral": {
     "footprint": 17.924,
-    "kb": 427
+    "kb": 247
   },
   "westminster": {
     "footprint": 38.351,
-    "kb": 332
+    "kb": 221
   },
   "buckingham": {
     "footprint": 31.1,
-    "kb": 327
+    "kb": 213
   },
   "london-eye": {
     "footprint": 24.6,
-    "kb": 556
+    "kb": 165
   },
   "liberty": {
     "footprint": 18.385,
-    "kb": 322
+    "kb": 161
   },
   "leaning-tower": {
     "footprint": 7.008,
-    "kb": 399
+    "kb": 176
   },
   "aqueduct": {
     "footprint": 26.3,
-    "kb": 72
+    "kb": 40
   },
   "rings": {
     "footprint": 48.274,
-    "kb": 1226
+    "kb": 787
   },
   "tpillars": {
-    "footprint": 17.537,
-    "kb": 103
+    "footprint": 17.613,
+    "kb": 77
   },
   "pyramid": {
     "footprint": 30,
-    "kb": 29
+    "kb": 28
   },
   "stepped-pyramid": {
-    "footprint": 12.936,
-    "kb": 46
+    "footprint": 12.825,
+    "kb": 39
   },
   "sphinx": {
     "footprint": 13.95,
-    "kb": 46
+    "kb": 39
   },
   "circle": {
-    "footprint": 7.113,
-    "kb": 44
+    "footprint": 7.123,
+    "kb": 38
   },
   "settlement": {
-    "footprint": 10.533,
-    "kb": 68
+    "footprint": 10.505,
+    "kb": 52
   },
   "castle": {
     "footprint": 17.36,
-    "kb": 229
+    "kb": 140
   },
   "mansion": {
     "footprint": 20,
-    "kb": 80
+    "kb": 57
   },
   "temple-tower": {
     "footprint": 12,
-    "kb": 87
+    "kb": 61
   },
   "pagoda": {
     "footprint": 7.6,
-    "kb": 43
+    "kb": 36
   },
   "lighthouse": {
     "footprint": 4.6,
-    "kb": 35
+    "kb": 29
   },
   "impact": {
     "footprint": 16.8,
-    "kb": 90
+    "kb": 52
   },
   "hanging-gardens": {
     "footprint": 45.9,
-    "kb": 1053
+    "kb": 579
   },
   "zeus-statue": {
     "footprint": 11,
-    "kb": 87
+    "kb": 56
   },
   "artemis-temple": {
     "footprint": 16,
-    "kb": 482
+    "kb": 284
   },
   "mausoleum": {
     "footprint": 11,
-    "kb": 138
+    "kb": 86
   },
   "colossus": {
     "footprint": 6.2,
-    "kb": 313
+    "kb": 130
   },
   "pharos": {
     "footprint": 9.051,
-    "kb": 63
+    "kb": 45
   },
   "eiffel": {
     "footprint": 12.45,
-    "kb": 807
+    "kb": 527
   },
   "arc-triomphe": {
     "footprint": 9.44,
-    "kb": 115
+    "kb": 59
   },
   "louvre": {
     "footprint": 35.372,
-    "kb": 793
+    "kb": 525
   },
   "tower-bridge": {
     "footprint": 30.2,
-    "kb": 165
+    "kb": 115
   },
   "st-pauls": {
     "footprint": 15.3,
-    "kb": 326
+    "kb": 162
   },
   "tower-of-london": {
     "footprint": 29.3,
-    "kb": 469
+    "kb": 281
   },
   "shard": {
     "footprint": 6.007,
-    "kb": 351
+    "kb": 237
   },
   "gherkin": {
     "footprint": 6.387,
-    "kb": 710
+    "kb": 455
   },
   "opera-house": {
     "footprint": 49.8,
-    "kb": 755
+    "kb": 171
   },
   "giza-ruin": {
     "footprint": 45.223,
-    "kb": 54
+    "kb": 45
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
-    "kb": 649
+    "kb": 405
   },
   "greek-temple-ruin": {
     "footprint": 11.938,
-    "kb": 58
+    "kb": 52
   },
   "stonehenge-ruin": {
-    "footprint": 25.167,
-    "kb": 329
+    "footprint": 26.069,
+    "kb": 223
   },
   "giza-b30": {
     "footprint": 14,
-    "kb": 66
+    "kb": 36
   },
   "giza-b60": {
     "footprint": 28.424,
-    "kb": 71
+    "kb": 39
   },
   "giza-b90": {
     "footprint": 42.973,
-    "kb": 99
+    "kb": 59
   },
   "stonehenge-b30": {
-    "footprint": 25.196,
-    "kb": 211
+    "footprint": 25.17,
+    "kb": 131
   },
   "stonehenge-b60": {
-    "footprint": 25.185,
-    "kb": 287
+    "footprint": 25.181,
+    "kb": 183
   },
   "stonehenge-b90": {
-    "footprint": 25.199,
-    "kb": 331
+    "footprint": 25.18,
+    "kb": 212
   },
   "amphitheatre-b30": {
     "footprint": 15.843,
-    "kb": 360
+    "kb": 232
   },
   "amphitheatre-b60": {
     "footprint": 15.843,
-    "kb": 477
+    "kb": 316
   },
   "amphitheatre-b90": {
     "footprint": 15.843,
-    "kb": 588
+    "kb": 394
   },
   "impact-b25": {
     "footprint": 16,
-    "kb": 70
+    "kb": 35
   },
   "impact-b60": {
     "footprint": 16,
-    "kb": 111
+    "kb": 56
   },
   "tower-of-london-b15": {
     "footprint": 27.6,
-    "kb": 83
+    "kb": 61
   },
   "tower-of-london-b35": {
     "footprint": 27.6,
-    "kb": 316
+    "kb": 202
   },
   "tower-of-london-b55": {
     "footprint": 27.6,
-    "kb": 305
+    "kb": 185
   },
   "tower-of-london-b80": {
     "footprint": 29.3,
-    "kb": 474
+    "kb": 283
   }
 }
