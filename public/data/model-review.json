@@ -90,7 +90,8 @@
   },
   "opera-house": {
     "status": "allowed",
-    "ts": 1783890339816
+    "ts": 1784123725506,
+    "note": "🔩"
   },
   "impact": {
     "status": "allowed",
