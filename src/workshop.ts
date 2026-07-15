@@ -131,6 +131,10 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // the impact flash, 1 the settled crater). Matches export-models' impact-b25 /
   // -b60 / base, so the workshop previews exactly what the globe timeline plays.
   impact: { label: 'Impact — drag: comet · flash · crater', max: 1, kind: 'build' },
+  // The Tower of London's five reigns: timber corner-fort → White Tower → inner
+  // ward → concentric castle + wet moat → the modern drained-moat plan. The
+  // globe swaps its -b15/-b35/-b55/-b80 stages by date (see globeModels STAGE_TABLE).
+  'tower-of-london': { label: 'Fortress phases — fort · keep · wards · moat', max: 1, kind: 'build' },
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });

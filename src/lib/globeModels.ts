@@ -20,6 +20,7 @@ import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
+import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -239,27 +240,30 @@ export function getViewer(): Cesium.Viewer | null {
   return theViewer;
 }
 
-function gate(entity: Cesium.Entity, p: Placement): void {
-  // BUILDING OVER TIME: it rises during the [builtYear − buildYears, builtYear]
-  // span. currentYear is in that window → show the nearest construction stage.
-  const curYear = yearsBPToYear(lastYearsBP);
-  const buildStart = p.builtYear - (p.buildYears ?? 0);
-  const rising = p.buildYears ? curYear >= buildStart && curYear < p.builtYear : false;
+// Register the regular build-window monuments (giza, stonehenge, amphitheatre)
+// into the shared STAGE_TABLE from their own builtYear/buildYears, so every
+// additive-phase model — the hand-listed irregular ones (Tower of London) and
+// these — resolves through the one stageFor() lookup in ./stageTable.
+for (const s of PLACEMENTS) {
+  if (!s.buildYears || STAGE_TABLE[s.model]) continue;
+  STAGE_TABLE[s.model] = buildStages(s.builtYear, s.buildYears);
+}
 
-  const born = rising || lastYearsBP <= yearToYearsBP(p.builtYear);
+function gate(entity: Cesium.Entity, p: Placement): void {
+  const curYear = yearsBPToYear(lastYearsBP);
+  const { suffix: staged, bornYear } = stageFor(p.model, p.builtYear, curYear);
+  // Only ever point at a stage glb we actually exported; else fall back to base.
+  let suffix = staged && theManifest[`${p.model}${staged}`]?.footprint ? staged : '';
+  // The ruin we know overrides once its date arrives.
+  if (p.ruinYear != null && curYear >= p.ruinYear && theManifest[`${p.model}-ruin`]?.footprint) {
+    suffix = '-ruin';
+  }
+
+  const born = curYear >= bornYear;
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
   entity.show = lastShowSites && born && !gone;
 
   if (!entity.model) return;
-  let suffix = '';
-  if (rising) {
-    // Fraction built so far → the nearest exported stage (30 / 60 / 90).
-    const frac = (curYear - buildStart) / (p.builtYear - buildStart);
-    const stage = frac < 0.45 ? 30 : frac < 0.75 ? 60 : 90;
-    if (theManifest[`${p.model}-b${stage}`]?.footprint) suffix = `-b${stage}`;
-  } else if (p.ruinYear != null && lastYearsBP <= yearToYearsBP(p.ruinYear) && theManifest[`${p.model}-ruin`]?.footprint) {
-    suffix = '-ruin';
-  }
   const uri = `./models/${p.model}${suffix}.glb`;
   const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
   if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
