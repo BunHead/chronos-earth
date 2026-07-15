@@ -2838,6 +2838,27 @@ export function buildModel(
     ped.position.y = 5.6;
     group.add(ped);
     group.add(block(4.4, 0.7, 4.4, 0, 8.1, 0, '#cdbfa6')); // pedestal crown
+    // --- Richard Morris Hunt's ornate pedestal: a string course, recessed
+    //     granite panels on each face, corner pylons, and the colonnaded
+    //     observation loggia just under the crown, with the bronze door below. ---
+    const dress = '#cdbfa6';
+    group.add(block(6.9, 0.32, 6.9, 0, 3.4, 0, dress)); // string course over the base
+    for (const [px, pz, ry] of [[0, 1, 0], [0, -1, 0], [1, 0, Math.PI / 2], [-1, 0, Math.PI / 2]] as const) {
+      group.add(block(1.5, 2.6, 0.16, px * 1.72, 5.5, pz * 1.72, '#8f836b', ry)); // recessed panel
+    }
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner pylons up the shaft
+      group.add(block(0.62, 4.4, 0.62, cx * 1.66, 5.55, cz * 1.66, dress, Math.PI / 4));
+    group.add(block(4.9, 0.34, 4.9, 0, 6.98, 0, dress)); // loggia balcony deck
+    for (const [ax, az] of [[0, 1], [0, -1], [1, 0], [-1, 0]] as const) { // the colonnade
+      for (let i = -1; i <= 1; i++) {
+        const along = i * 1.45;
+        const col = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.15, 0.62, 8), stoneLike({ color: dress }));
+        col.position.set(ax !== 0 ? ax * 2.2 : along, 7.45, az !== 0 ? az * 2.2 : along);
+        group.add(col);
+      }
+    }
+    group.add(block(4.6, 0.22, 4.6, 0, 7.85, 0, dress)); // architrave over the colonnade
+    group.add(block(0.9, 1.5, 0.3, 0, 1.55, 3.25, '#2a2620')); // the bronze door at the base
     const base = 8.45;
     const lib = (m: THREE.Mesh) => { group.add(m); return m; };
     // Local helpers: a tapered limb segment, and a bone spanning two points.
