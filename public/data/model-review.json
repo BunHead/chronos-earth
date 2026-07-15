@@ -65,10 +65,10 @@
   },
   "colossus": {
     "status": "allowed",
-    "ts": 1784131193478,
+    "ts": 1784131196201,
     "note": "Work on the character, more detail in poss and clothing",
-    "rework": false,
-    "focus": "bakeoff"
+    "rework": true,
+    "focus": "detail"
   },
   "place:tower-bridge@51.505,-0.075": {
     "transform": {
