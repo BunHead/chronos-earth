@@ -154,26 +154,90 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
   return null;
 }
 
-/** (Re)render one site's plan — removes its old entities, adds the new. An
- * empty/undefined plan simply clears the site. Returns entity count. */
+/** Push an edited part's values into its EXISTING entity — no remove/re-add.
+ * Recreating an entity makes Cesium re-measure the ground beneath it against
+ * whatever terrain detail happens to be loaded, which sent the Captain's west
+ * towers floating when he drew the east wall. A persistent entity keeps its
+ * settled ground height and tracks terrain refinement properly. */
+function updateEntity(e: Cesium.Entity, part: SitePart): void {
+  if (part.type === 'box' && part.lat != null && part.lon != null && e.box) {
+    const h = part.heightM ?? 12;
+    const pos = Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2);
+    e.position = new Cesium.ConstantPositionProperty(pos);
+    e.orientation = new Cesium.ConstantProperty(
+      Cesium.Transforms.headingPitchRollQuaternion(
+        Cesium.Cartesian3.fromDegrees(part.lon, part.lat),
+        new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(part.rotationDeg ?? 0), 0, 0),
+      ),
+    );
+    e.box.dimensions = new Cesium.ConstantProperty(
+      new Cesium.Cartesian3(part.widthM ?? 20, part.lengthM ?? 20, h),
+    );
+    e.box.material = new Cesium.ColorMaterialProperty(color(part.color, '#d8d2c4'));
+  } else if (part.type === 'cylinder' && part.lat != null && part.lon != null && e.cylinder) {
+    const h = part.heightM ?? 14;
+    e.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2));
+    e.cylinder.length = new Cesium.ConstantProperty(h);
+    e.cylinder.topRadius = new Cesium.ConstantProperty(part.radiusM ?? 6);
+    e.cylinder.bottomRadius = new Cesium.ConstantProperty(part.radiusM ?? 6);
+    e.cylinder.material = new Cesium.ColorMaterialProperty(color(part.color, '#cfc9bb'));
+  } else if (part.type === 'wall' && part.verts && e.corridor) {
+    e.corridor.positions = new Cesium.ConstantProperty(
+      part.verts.map(([la, lo]) => Cesium.Cartesian3.fromDegrees(lo, la)),
+    );
+    e.corridor.width = new Cesium.ConstantProperty(part.thicknessM ?? 3);
+    e.corridor.extrudedHeight = new Cesium.ConstantProperty(part.heightM ?? 8);
+    e.corridor.material = new Cesium.ColorMaterialProperty(color(part.color, '#b8b2a4'));
+  } else if ((part.type === 'platform' || part.type === 'water') && part.verts && e.polygon) {
+    const isWater = part.type === 'water';
+    e.polygon.hierarchy = new Cesium.ConstantProperty(
+      new Cesium.PolygonHierarchy(part.verts.map(([la, lo]) => Cesium.Cartesian3.fromDegrees(lo, la))),
+    );
+    e.polygon.material = new Cesium.ColorMaterialProperty(
+      isWater ? color(part.color, '#3f6f9e', 0.75) : color(part.color, '#a89f8d'),
+    );
+    if (!isWater) e.polygon.extrudedHeight = new Cesium.ConstantProperty(part.heightM ?? 2);
+  }
+}
+
+/** (Re)render one site's plan by DIFFING against what stands: untouched parts
+ * keep their entities (and their settled ground heights — see updateEntity's
+ * note), edited parts update in place, new parts are created, deleted parts
+ * removed. An empty/undefined plan clears the site. Returns entity count. */
 export function renderSitePlan(key: string, plan: SitePlan | undefined): number {
   const viewer = theViewer;
   if (!viewer || viewer.isDestroyed()) return 0;
   const prev = sites.get(key);
-  if (prev) for (const e of prev.entities) viewer.entities.remove(e);
-  sites.delete(key);
+  const prevEntities = prev?.entities ?? [];
+  const prevParts = prev?.plan.parts ?? [];
   if (!plan || !plan.parts.length) {
+    for (const e of prevEntities) viewer.entities.remove(e);
+    sites.delete(key);
     viewer.scene.requestRender();
     return 0;
   }
   const entities: Cesium.Entity[] = [];
   plan.parts.forEach((part, idx) => {
+    const old = prevEntities[idx] as Cesium.Entity | undefined;
+    const oldPart = prevParts[idx];
+    const wantId = `siteplan|${key}|${idx}`;
+    if (old && oldPart && String(old.id) === wantId && oldPart.type === part.type) {
+      // Same slot, same kind. Untouched parts (same object) need nothing at
+      // all; edited ones update their existing entity in place.
+      if (oldPart !== part) updateEntity(old, part);
+      old.show = lastShow && partStandsAt(part, lastYear);
+      entities.push(old);
+      return;
+    }
+    if (old) viewer.entities.remove(old); // slot changed kind (or ids shifted after a delete)
     const e = partEntity(key, idx, part);
     if (!e) return;
     e.show = lastShow && partStandsAt(part, lastYear);
     viewer.entities.add(e);
     entities.push(e);
   });
+  // Parts deleted from the end: their entities go too.
+  for (let i = plan.parts.length; i < prevEntities.length; i++) viewer.entities.remove(prevEntities[i]);
   sites.set(key, { plan, entities });
   viewer.scene.requestRender();
   return entities.length;
