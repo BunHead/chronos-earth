@@ -147,8 +147,8 @@
   },
   "stepped-pyramid": {
     "status": "allowed",
-    "ts": 1783891740484,
-    "note": "Should be the same on each side, with a snake running down the staircase sides",
+    "ts": 1784194390067,
+    "note": "Structure at top is quite plain, more detail and actual steps, not going by the human scale model, currently would be too large",
     "rework": false,
     "focus": "detail"
   },
