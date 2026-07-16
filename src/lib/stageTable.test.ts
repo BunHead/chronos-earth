@@ -22,14 +22,16 @@ describe('stageFor — Tower of London, five reigns by absolute date', () => {
 
 describe('stageFor — impact, relative to its own event year', () => {
   const Y = -66_000_000;
-  it('plays comet → flash → crater around the strike, then the crater persists', () => {
-    expect(stageFor('impact', Y, Y - 2).suffix).toBe('-b25'); // comet incoming
-    expect(stageFor('impact', Y, Y - 1).suffix).toBe('-b60'); // the flash
-    expect(stageFor('impact', Y, Y).suffix).toBe('');         // settled crater
+  it('plays comet far → near → flash → fresh crater → settled around the strike', () => {
+    expect(stageFor('impact', Y, Y - 3).suffix).toBe('-b15'); // comet far
+    expect(stageFor('impact', Y, Y - 2).suffix).toBe('-b30'); // comet near
+    expect(stageFor('impact', Y, Y - 1).suffix).toBe('-b50'); // the flash
+    expect(stageFor('impact', Y, Y).suffix).toBe('-b72');     // fresh raw crater
+    expect(stageFor('impact', Y, Y + 1).suffix).toBe('');     // settled crater
     expect(stageFor('impact', Y, Y + 5000).suffix).toBe('');  // still the crater
   });
-  it('is born two years before the strike', () => {
-    expect(stageFor('impact', Y, Y - 2).bornYear).toBe(Y - 2);
+  it('is born three years before the strike', () => {
+    expect(stageFor('impact', Y, Y - 3).bornYear).toBe(Y - 3);
   });
 });
 

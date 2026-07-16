@@ -37,9 +37,11 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
 // dates. The impact crater plays comet → flash → crater around its event year.
 export const REL_STAGE_TABLE: Record<string, RelStage[]> = {
   impact: [
-    { offset: -2, suffix: '-b25' }, // the comet, incoming
-    { offset: -1, suffix: '-b60' }, // the impact flash
-    { offset: 0, suffix: '' },      // the settled crater, ever after
+    { offset: -3, suffix: '-b15' }, // the comet, far
+    { offset: -2, suffix: '-b30' }, // the comet, near
+    { offset: -1, suffix: '-b50' }, // the impact flash
+    { offset: 0, suffix: '-b72' },  // the fresh raw crater
+    { offset: 1, suffix: '' },      // the settled crater, ever after
   ],
 };
 
