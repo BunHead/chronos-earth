@@ -21,6 +21,7 @@ import { fitFor } from './monumentFit';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
+import { isBuilderActive } from './sitePlanRender';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -174,13 +175,17 @@ function addPlacement(p: Placement): void {
       // the Captain, 2026-07-12). Dim them by local solar time whenever
       // real sun lighting is on.
       color: new Cesium.CallbackProperty(() => {
+        // While the site builder is open the exported model turns GHOST —
+        // translucent, so the Captain can trace the real satellite footprint
+        // underneath instead of the model's own roof.
+        const ghost = isBuilderActive() ? 0.25 : 1;
         const v = theViewer;
-        if (!v || !v.scene.globe.enableLighting) return Cesium.Color.WHITE;
+        if (!v || !v.scene.globe.enableLighting) return Cesium.Color.WHITE.withAlpha(ghost);
         const d = Cesium.JulianDate.toDate(v.clock.currentTime);
         const solar = (d.getUTCHours() + d.getUTCMinutes() / 60 + p.lon / 15 + 24) % 24;
         const day = Math.max(0, Math.min(1, (Math.cos(((solar - 12) / 12) * Math.PI) + 0.3) / 0.9));
         const k = 0.12 + 0.88 * day;
-        return new Cesium.Color(k, k, k, 1);
+        return new Cesium.Color(k, k, k, ghost);
       }, false) as unknown as Cesium.Property,
     },
     show: false, // the timeline decides

@@ -21,6 +21,7 @@ import {
   allVerts,
   clampPart,
   movePart,
+  movePartTo,
   snapVert,
   type SitePart,
   type SitePartType,
@@ -28,6 +29,7 @@ import {
 } from '../lib/sitePlan';
 import {
   currentSitePlan,
+  currentTimelineYear,
   loadLocalSitePlans,
   pickedSitePart,
   renderSitePlan,
@@ -46,7 +48,11 @@ interface SiteBuilderProps {
   onStatus: (msg: string) => void;
 }
 
-type Mode = { kind: 'idle' } | { kind: 'place'; type: 'box' | 'cylinder' } | { kind: 'trace'; type: 'wall' | 'platform' | 'water' };
+type Mode =
+  | { kind: 'idle' }
+  | { kind: 'place'; type: 'box' | 'cylinder' }
+  | { kind: 'trace'; type: 'wall' | 'platform' | 'water' }
+  | { kind: 'movehere' }; // next ground click repositions the selected part
 
 const TRACED = new Set(['wall', 'platform', 'water']);
 
@@ -67,6 +73,8 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
   modeRef.current = mode;
   const traceRef = useRef(trace);
   traceRef.current = trace;
+  const selectedRef = useRef(selected);
+  selectedRef.current = selected;
 
   /** Apply + live-render a new plan (the single write path). */
   const commit = (next: SitePlan) => {
@@ -133,13 +141,29 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
       const lat = Cesium.Math.toDegrees(carto.latitude);
       const lon = Cesium.Math.toDegrees(carto.longitude);
 
+      if (m.kind === 'movehere') {
+        const idx = selectedRef.current;
+        const part = idx != null ? planRef.current.parts[idx] : undefined;
+        if (idx != null && part) {
+          const parts = planRef.current.parts.slice();
+          parts[idx] = movePartTo(part, [lat, lon]);
+          commit({ ...planRef.current, parts });
+          onStatus('moved ✓');
+        }
+        setMode({ kind: 'idle' });
+        return;
+      }
+
       if (m.kind === 'place') {
-        const part = clampPart({ ...PART_DEFAULTS[m.type], type: m.type, lat, lon });
+        // Record the drawing moment: a part composed at 1097 CE belongs to
+        // 1097 CE (clear "from yr" in the edit panel to make it timeless).
+        const fromYear = Math.round(currentTimelineYear());
+        const part = clampPart({ ...PART_DEFAULTS[m.type], type: m.type, lat, lon, fromYear });
         const next = { ...planRef.current, parts: [...planRef.current.parts, part] };
         commit(next);
         setSelected(next.parts.length - 1);
         setMode({ kind: 'idle' });
-        onStatus(`${PART_NAMES[m.type]} placed — drag it true with the pad`);
+        onStatus(`${PART_NAMES[m.type]} placed at ${fromYear} — drag it true with the pad`);
         return;
       }
 
@@ -167,7 +191,9 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
       onStatus(`need at least ${min} points`);
       return;
     }
-    const part = clampPart({ ...PART_DEFAULTS[m.type], type: m.type, verts: trace });
+    // Traced parts record the drawing moment too (see the place path).
+    const fromYear = Math.round(currentTimelineYear());
+    const part = clampPart({ ...PART_DEFAULTS[m.type], type: m.type, verts: trace, fromYear });
     const next = { ...plan, parts: [...plan.parts, part] };
     commit(next);
     setSelected(next.parts.length - 1);
@@ -183,6 +209,31 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
     setMode({ kind: 'idle' });
     onStatus('trace cancelled');
   };
+
+  const undoPoint = () => {
+    const next = traceRef.current.slice(0, -1);
+    setTrace(next);
+    drawPreview(next);
+    onStatus(next.length ? `${next.length} point${next.length === 1 ? '' : 's'}` : 'trace empty — click to start');
+  };
+
+  // Keyboard: Escape backs out of any mode, Enter finishes a trace. Typing in
+  // a field (name, years) is left alone.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (e.key === 'Escape') {
+        if (modeRef.current.kind === 'trace') cancelTrace();
+        else if (modeRef.current.kind !== 'idle') { setMode({ kind: 'idle' }); onStatus('cancelled'); }
+        else setSelected(null);
+      }
+      if (e.key === 'Enter' && modeRef.current.kind === 'trace') finishTrace();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const editSelected = (edit: (p: SitePart) => SitePart) => {
     if (selected == null || !plan.parts[selected]) return;
@@ -240,7 +291,7 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
         {(Object.keys(PART_NAMES) as SitePartType[]).map((t) => (
           <button
             key={t}
-            className={(mode.kind !== 'idle' && mode.type === t) ? 'on' : ''}
+            className={((mode.kind === 'place' || mode.kind === 'trace') && mode.type === t) ? 'on' : ''}
             onClick={() => pickMode(t)}
           >
             {t === 'box' ? '▢' : t === 'cylinder' ? '◯' : t === 'wall' ? '─' : t === 'platform' ? '▬' : '≈'} {PART_NAMES[t]}
@@ -252,6 +303,7 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
         <div className="sb-tracebar">
           <span>{trace.length} pts</span>
           <button className="sb-ok" onClick={finishTrace}>✓ finish</button>
+          <button onClick={undoPoint} disabled={!trace.length}>↩ undo point</button>
           <button onClick={cancelTrace}>✕ cancel</button>
         </div>
       )}
@@ -337,6 +389,16 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
                 }}
               />
             </label>
+            <button
+              className={mode.kind === 'movehere' ? 'on' : ''}
+              title="then click the ground — the part jumps there"
+              onClick={() => {
+                setMode(mode.kind === 'movehere' ? { kind: 'idle' } : { kind: 'movehere' });
+                onStatus(mode.kind === 'movehere' ? '' : 'click the ground to move it there');
+              }}
+            >
+              📍 move here
+            </button>
             <button onClick={duplicateSelected} title="duplicate this part">⧉</button>
             <button onClick={removeSelected} title="delete this part">🗑</button>
           </div>

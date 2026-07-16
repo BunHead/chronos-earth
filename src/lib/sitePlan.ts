@@ -91,9 +91,16 @@ export function metresToDegrees(lat: number, eastM: number, northM: number): { d
 
 /** Ground distance in metres between two lat/lon points (small-scale planar). */
 export function distanceM(a: [number, number], b: [number, number]): number {
-  const dNorth = (b[0] - a[0]) * EARTH_M_PER_DEG_LAT;
-  const dEast = (b[1] - a[1]) * EARTH_M_PER_DEG_LAT * Math.cos((((a[0] + b[0]) / 2) * Math.PI) / 180);
-  return Math.hypot(dNorth, dEast);
+  const { eastM, northM } = offsetM(a, b);
+  return Math.hypot(northM, eastM);
+}
+
+/** The metre offset (east, north) that carries `a` onto `b` — the inverse of
+ * metresToDegrees, used to reposition a part onto a clicked ground point. */
+export function offsetM(a: [number, number], b: [number, number]): { eastM: number; northM: number } {
+  const northM = (b[0] - a[0]) * EARTH_M_PER_DEG_LAT;
+  const eastM = (b[1] - a[1]) * EARTH_M_PER_DEG_LAT * Math.cos((((a[0] + b[0]) / 2) * Math.PI) / 180);
+  return { eastM, northM };
 }
 
 /**
@@ -141,6 +148,40 @@ export function movePart(part: SitePart, eastM: number, northM: number): SitePar
       const { dLat, dLon } = metresToDegrees(la, eastM, northM);
       return [+(la + dLat).toFixed(7), +(lo + dLon).toFixed(7)] as [number, number];
     });
+  }
+  return next;
+}
+
+/** A part's ground anchor: its centre, or a trace's centroid. */
+export function partAnchor(p: SitePart): [number, number] | null {
+  if (p.lat != null && p.lon != null) return [p.lat, p.lon];
+  if (p.verts?.length) {
+    let la = 0, lo = 0;
+    for (const [a, o] of p.verts) { la += a; lo += o; }
+    return [la / p.verts.length, lo / p.verts.length];
+  }
+  return null;
+}
+
+/**
+ * Move a part so its anchor lands EXACTLY on `target`. Works in degree deltas,
+ * not metre deltas — a metre delta re-applied at a different latitude drifts
+ * east/west (cos(lat) changes), which put a cross-continental "move here" 217 km
+ * off in testing. Degree deltas land the anchor exactly at any distance; shape
+ * distortion on traced verts is negligible at building scale.
+ */
+export function movePartTo(part: SitePart, target: [number, number]): SitePart {
+  const anchor = partAnchor(part);
+  if (!anchor) return part;
+  const dLat = target[0] - anchor[0];
+  const dLon = target[1] - anchor[1];
+  const next: SitePart = { ...part };
+  if (next.lat != null && next.lon != null) {
+    next.lat = +(next.lat + dLat).toFixed(7);
+    next.lon = +(next.lon + dLon).toFixed(7);
+  }
+  if (next.verts?.length) {
+    next.verts = next.verts.map(([la, lo]) => [+(la + dLat).toFixed(7), +(lo + dLon).toFixed(7)] as [number, number]);
   }
   return next;
 }

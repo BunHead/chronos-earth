@@ -50,9 +50,17 @@ export function saveLocalSitePlan(key: string, plan: SitePlan | undefined): void
 let builderActive = false;
 export function setBuilderActive(on: boolean): void {
   builderActive = on;
+  // The glb fleet ghosts translucent while building — repaint straight away.
+  theViewer?.scene.requestRender();
 }
 export function isBuilderActive(): boolean {
   return builderActive;
+}
+
+/** The timeline year the globe last reported — new parts record it as their
+ * fromYear, so a site composed at 1097 CE belongs to 1097 CE. */
+export function currentTimelineYear(): number {
+  return lastYear;
 }
 
 // ── rendering ────────────────────────────────────────────────────────────────

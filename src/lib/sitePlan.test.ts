@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
   metresToDegrees,
   distanceM,
+  movePartTo,
+  offsetM,
+  partAnchor,
   snapVert,
   allVerts,
   movePart,
@@ -45,6 +48,12 @@ describe('distanceM / snapVert', () => {
     const far: [number, number] = [a[0], a[1] + dFar];
     expect(snapVert(far, [a])).toEqual(far);
   });
+  it('offsetM inverts metresToDegrees (move-here math)', () => {
+    const { dLat, dLon } = metresToDegrees(TOWER_LAT, 40, -25);
+    const { eastM, northM } = offsetM(a, [a[0] + dLat, a[1] + dLon]);
+    expect(eastM).toBeCloseTo(40, 1);
+    expect(northM).toBeCloseTo(-25, 1);
+  });
   it('snaps to the NEAREST of several targets', () => {
     const t1: [number, number] = [a[0], a[1] + metresToDegrees(a[0], 2.5, 0).dLon];
     const t2: [number, number] = [a[0], a[1] + metresToDegrees(a[0], 1.0, 0).dLon];
@@ -71,6 +80,26 @@ describe('movePart', () => {
     for (let i = 0; i < 2; i++) {
       expect(distanceM(part.verts![i], moved.verts![i])).toBeCloseTo(50, 0);
     }
+  });
+});
+
+describe('movePartTo — "move here" lands the anchor EXACTLY on the click', () => {
+  it('a box dropped in Chad lands exactly at the Tower (the 217 km bug)', () => {
+    const stray: SitePart = { type: 'box', lat: 13.08981, lon: 23.64151, widthM: 20 };
+    const moved = movePartTo(stray, [51.507968, -0.077896]);
+    expect(moved.lat).toBeCloseTo(51.507968, 6);
+    expect(moved.lon).toBeCloseTo(-0.077896, 6); // metre-delta math drifted 217 km here
+  });
+  it('translates a trace so its centroid lands on the target, shape intact', () => {
+    const wall: SitePart = { type: 'wall', verts: [[51.508, -0.077], [51.509, -0.075]] };
+    const target: [number, number] = [51.52, -0.09];
+    const moved = movePartTo(wall, target);
+    const a = partAnchor(moved)!;
+    expect(a[0]).toBeCloseTo(target[0], 6);
+    expect(a[1]).toBeCloseTo(target[1], 6);
+    // shape preserved: the two verts keep their relative offset
+    expect(moved.verts![1][0] - moved.verts![0][0]).toBeCloseTo(0.001, 6);
+    expect(moved.verts![1][1] - moved.verts![0][1]).toBeCloseTo(0.002, 6);
   });
 });
 
