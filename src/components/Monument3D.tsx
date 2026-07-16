@@ -3387,14 +3387,16 @@ export function buildModel(
     wing(-13.2, midZ, 3.4, depth, H - 0.4); // south end range (−X)
     wing(13.2, midZ, 3.4, depth, H - 0.4);  // north end range (+X)
     for (const cx of [-4.7, 4.7]) wing(cx, midZ, 3.0, depth - 1.5, H - 0.6); // two cross-ranges → 3 courts
-    // The river front reads as THREE tiers, the upper two double-height: two
-    // string courses band the face, with tall traceried windows above the first.
-    for (const sy of [1.4, 3.4]) group.add(block(28.2, 0.28, 0.24, 0, sy, front + 0.03, trim));
+    // The river (Thames) front reads as THREE clear tiers — a low ground storey
+    // and two DOUBLE-HEIGHT upper storeys — banded by prominent string courses,
+    // each tier carrying its own row of traceried windows so the count reads.
+    for (const sy of [1.3, 3.35]) group.add(block(28.4, 0.36, 0.3, 0, sy, front + 0.05, trim)); // string courses
     for (let i = 0; i < 15; i++) {
       const x = -13.1 + i * 1.87;
-      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim));      // buttress pinnacle
-      group.add(block(0.8, 1.7, 0.16, x + 0.93, 2.35, front + 0.05, glass)); // 2nd tier window (double height)
-      group.add(block(0.8, 1.4, 0.16, x + 0.93, 4.3, front + 0.05, glass));  // 3rd tier window (double height)
+      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim));         // buttress pinnacle
+      group.add(block(0.72, 0.9, 0.16, x + 0.93, 0.72, front + 0.07, glass)); // tier 1 — low ground storey
+      group.add(block(0.82, 1.55, 0.16, x + 0.93, 2.28, front + 0.07, glass)); // tier 2 — double height
+      group.add(block(0.82, 1.55, 0.16, x + 0.93, 4.33, front + 0.07, glass)); // tier 3 — double height
     }
     // The river terrace / dock running the length of the front, with mooring posts.
     group.add(block(29, 0.7, 2.6, 0, 0.35, front + 1.7, stoneLo)); // terrace deck
