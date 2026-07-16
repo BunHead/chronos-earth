@@ -45,9 +45,9 @@
   },
   "buckingham": {
     "note": "Fountain and gate still way too close, is the roof flat????",
-    "ts": 1784194494430,
+    "ts": 1784194496219,
     "status": "allowed",
-    "rework": false
+    "rework": true
   },
   "place:buckingham@51.501,-0.142": {
     "transform": {
