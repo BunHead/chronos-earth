@@ -386,5 +386,13 @@
       "scale": 1.712
     },
     "ts": 1784196827442
+  },
+  "artemis-temple": {},
+  "place:artemis-temple@37.950,27.364": {
+    "transform": {
+      "headingDeg": 12.5,
+      "scale": 0.784
+    },
+    "ts": 1784196866529
   }
 }
