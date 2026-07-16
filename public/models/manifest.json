@@ -92,8 +92,8 @@
     "kb": 29
   },
   "impact": {
-    "footprint": 16.8,
-    "kb": 52
+    "footprint": 17.032,
+    "kb": 47
   },
   "hanging-gardens": {
     "footprint": 45.9,
@@ -207,14 +207,6 @@
     "footprint": 15.843,
     "kb": 394
   },
-  "impact-b25": {
-    "footprint": 16,
-    "kb": 35
-  },
-  "impact-b60": {
-    "footprint": 16,
-    "kb": 56
-  },
   "tower-of-london-b15": {
     "footprint": 27.6,
     "kb": 61
@@ -230,5 +222,21 @@
   "tower-of-london-b80": {
     "footprint": 29.3,
     "kb": 283
+  },
+  "impact-b15": {
+    "footprint": 17.236,
+    "kb": 31
+  },
+  "impact-b30": {
+    "footprint": 16,
+    "kb": 34
+  },
+  "impact-b50": {
+    "footprint": 16,
+    "kb": 56
+  },
+  "impact-b72": {
+    "footprint": 17.12,
+    "kb": 58
   }
 }

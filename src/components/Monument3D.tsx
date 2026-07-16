@@ -1773,38 +1773,45 @@ export function buildModel(
       }
     }
   } else if (model === 'impact') {
-    // An impact event told as a SEQUENCE over time (buildFrac drives the frame):
-    //   frac < 0.4  — the COMET incoming, a fireball on a blazing trail;
-    //   0.4–0.75    — the IMPACT itself, a white flash, ejecta rays, shock ring;
-    //   ≥ 0.75/none — the AFTERMATH, the settled crater with its central peak.
+    // An impact told as a FIVE-frame sequence (buildFrac drives the frame):
+    //   <0.2 comet FAR · <0.4 comet NEAR · <0.6 the IMPACT flash ·
+    //   <0.82 the FRESH raw crater · ≥0.82 the SETTLED, weathered crater.
     ground = '#3a3a42';
     const f = buildFrac ?? 1;
     const glow = (c: string, e: string, ei: number) =>
       new THREE.MeshStandardMaterial({ color: c, emissive: e, emissiveIntensity: ei });
-    // A fireball travelling toward ground zero along this unit heading.
-    const dir = new THREE.Vector3(8, -12, 5).normalize();
-    if (f < 0.4) {
-      // --- COMET: the bolide plunging toward the already-scorched ground zero.
-      //     Kept shadow-casting so the render harness frames it in view. ---
-      const scorch = new THREE.Mesh(new THREE.CylinderGeometry(8, 8, 0.16, 40), stoneLike({ color: '#33323a' }));
-      scorch.position.y = 0.06;
-      group.add(scorch);
-      const target = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.5, 8, 32), stoneLike({ color: '#26262d' }));
-      target.rotation.x = -Math.PI / 2; target.position.y = 0.16;
-      group.add(target);
-      const src = new THREE.Vector3().copy(dir).multiplyScalar(-9); // on the line into origin
-      const comet = new THREE.Mesh(new THREE.SphereGeometry(1.2, 20, 20), glow('#fff1c4', '#ff9b3d', 2.0));
-      comet.position.copy(src);
-      group.add(comet);
-      // A long tapered trail streaming back UP the flight path (opposite dir).
-      const trail = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 1.15, 12, 14), glow('#ff8a2e', '#ff6a12', 1.5));
-      trail.position.copy(src).addScaledVector(dir, -6);
+    const dir = new THREE.Vector3(8, -12, 5).normalize(); // the bolide's heading into ground zero
+    // A fireball at `dist` up the flight-line, with a tapered trail behind it.
+    const cometAt = (dist: number, r: number, ei: number) => {
+      const src = dir.clone().multiplyScalar(-dist);
+      const c = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 18), glow('#fff1c4', '#ff9b3d', ei));
+      c.position.copy(src);
+      group.add(c);
+      const trail = new THREE.Mesh(new THREE.CylinderGeometry(0.04, r * 0.95, dist * 0.85, 14), glow('#ff8a2e', '#ff6a12', 1.4));
+      trail.position.copy(src).addScaledVector(dir, -dist * 0.42);
       trail.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().negate());
-      trail.material.transparent = true; trail.material.opacity = 0.82;
+      trail.material.transparent = true; trail.material.opacity = 0.8;
       trail.userData.noShadow = true;
       group.add(trail);
-    } else if (f < 0.75) {
-      // --- IMPACT: the flash, ejecta thrown out, a dust shock-ring, raw crater. ---
+    };
+    const disc = (r: number, col: string) => {
+      const s = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.16, 44), stoneLike({ color: col }));
+      s.position.y = 0.06;
+      group.add(s);
+    };
+    if (f < 0.2) {
+      // --- COMET FAR: pristine desert floor, the bolide a distant streak on high. ---
+      disc(8, '#8f8574');
+      cometAt(16, 0.85, 2.2);
+    } else if (f < 0.4) {
+      // --- COMET NEAR: ground zero already scorching, the fireball almost down. ---
+      disc(8, '#39332b');
+      const tgt = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.5, 8, 32), stoneLike({ color: '#241f19' }));
+      tgt.rotation.x = -Math.PI / 2; tgt.position.y = 0.16;
+      group.add(tgt);
+      cometAt(6, 1.55, 2.7);
+    } else if (f < 0.6) {
+      // --- IMPACT: the flash, ejecta starburst, shock ring, raw gouged bowl. ---
       const core = new THREE.Mesh(new THREE.SphereGeometry(2.6, 20, 16), glow('#ffffff', '#ffd27a', 3.0));
       core.position.y = 1.2; core.userData.noShadow = true;
       group.add(core);
@@ -1812,11 +1819,10 @@ export function buildModel(
       fire.position.y = 1.4; fire.scale.set(1, 0.8, 1); fire.userData.noShadow = true;
       fire.material.transparent = true; fire.material.opacity = 0.75;
       group.add(fire);
-      for (let i = 0; i < 12; i++) { // ejecta rays flung out and up
+      for (let i = 0; i < 12; i++) {
         const a = (i / 12) * Math.PI * 2;
         const ray = new THREE.Mesh(new THREE.ConeGeometry(0.35, 5.5, 6), glow('#ff9b3d', '#ff6a12', 1.6));
-        const out = new THREE.Vector3(Math.cos(a), 0, Math.sin(a));
-        const tip = out.clone().multiplyScalar(6).add(new THREE.Vector3(0, 4.5, 0));
+        const tip = new THREE.Vector3(Math.cos(a), 0, Math.sin(a)).multiplyScalar(6).add(new THREE.Vector3(0, 4.5, 0));
         ray.position.copy(tip).multiplyScalar(0.5).add(new THREE.Vector3(0, 0.5, 0));
         ray.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tip.clone().normalize());
         ray.userData.noShadow = true;
@@ -1826,26 +1832,38 @@ export function buildModel(
       shock.rotation.x = -Math.PI / 2; shock.position.y = 0.3;
       group.add(shock);
       const raw = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 3.4, 1.1, 32), stoneLike({ color: '#4a473f' }));
-      raw.position.y = -0.2; // gouged bowl
+      raw.position.y = -0.2;
       group.add(raw);
     } else {
-      // --- AFTERMATH: the settled complex crater — raised rim, sunk floor, the
-      //     central uplift peak, and an ejecta blanket strewn beyond the rim. ---
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(7, 1.4, 12, 40), stoneLike({ color: '#55524d' }));
-      rim.rotation.x = -Math.PI / 2; rim.position.y = 0.4;
+      // --- AFTERMATH: a realistic complex crater — an overturned raised rim,
+      //     terraced (slumped) inner walls stepping down to a sunk floor, and a
+      //     central uplift peak. FRESH (dark, sharp) at first, then SETTLED
+      //     (weathered, softened, shallower, part-infilled) after long ages. ---
+      const fresh = f < 0.82;
+      const rimCol = fresh ? '#514c43' : '#726a5b';
+      const wallCol = fresh ? '#453f37' : '#645d50';
+      const floorCol = fresh ? '#38352d' : '#5a5348';
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(7, 1.5, 14, 44), stoneLike({ color: rimCol, flatShading: true }));
+      rim.rotation.x = -Math.PI / 2; rim.position.y = fresh ? 0.5 : 0.32;
       group.add(rim);
-      const floor = new THREE.Mesh(new THREE.CylinderGeometry(6.2, 4.6, 0.8, 40), stoneLike({ color: '#403d37' }));
-      floor.position.y = -0.1;
+      const terr = fresh ? 3 : 2; // slumped, terraced inner walls
+      for (let i = 0; i < terr; i++) {
+        const rTop = 6.3 - i * 1.7;
+        const step = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rTop - 1.5, 0.5, 40), stoneLike({ color: wallCol, flatShading: true }));
+        step.position.y = (fresh ? 0.1 : 0.03) - i * (fresh ? 0.28 : 0.2);
+        group.add(step);
+      }
+      const floor = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.0, 0.45, 36), stoneLike({ color: floorCol }));
+      floor.position.y = fresh ? -0.32 : -0.16;
       group.add(floor);
-      const peak = new THREE.Mesh(new THREE.ConeGeometry(1.6, 2.2, 12), stoneLike({ color: '#615c53', flatShading: true }));
-      peak.position.y = 0.9;
+      const peak = new THREE.Mesh(new THREE.ConeGeometry(fresh ? 1.5 : 1.05, fresh ? 2.1 : 1.3, 14), stoneLike({ color: rimCol, flatShading: true }));
+      peak.position.y = fresh ? 0.2 : 0.05;
       group.add(peak);
-      for (let i = 0; i < 16; i++) { // ejecta blanket hugging the rim (deterministic)
-        const a = (i / 16) * Math.PI * 2;
-        const rr = 7.4 + (i % 4) * 0.2;
-        const b = block(0.55 + (i % 3) * 0.22, 0.4 + (i % 2) * 0.3, 0.55 + (i % 4) * 0.18, Math.cos(a) * rr, 0.2, Math.sin(a) * rr, i % 2 ? '#5c584f' : '#6a655b', a);
-        b.rotation.z = ((i % 3) - 1) * 0.25;
-        group.add(b);
+      const rays = fresh ? 16 : 9; // ejecta apron — short radial stubs hugging the rim
+      for (let i = 0; i < rays; i++) {
+        const a = (i / rays) * Math.PI * 2;
+        const len = 0.8 + (i % 3) * 0.32;
+        group.add(block(0.5, 0.14, len, Math.cos(a) * 7.9, 0.12, Math.sin(a) * 7.9, fresh ? (i % 2 ? '#33302a' : '#413c34') : '#6f6858', Math.PI / 2 - a));
       }
     }
   } else if (model === 'rings') {
