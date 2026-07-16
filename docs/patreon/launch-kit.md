@@ -64,10 +64,18 @@ word and image below is prepared. Assets: `banner-1600x400.png` (cover) and
 
 **£12/month — Maker's Circle**
 > Everything above, plus:
-> - **Nominate a site** — name a monument, castle, city or battlefield and it
->   goes straight into the build queue (one nomination a month)
-> - Your nomination credited on its info panel when it ships
-> Thank-you blurb: *"Welcome to the Maker's Circle — tell the crew what to raise next, and we'll raise it. 🏗"*
+> - **Build it yourself.** Trace a real site on the satellite globe with the
+>   in-app site builder — keep, walls, towers, moat — then hit **📤 Submit**.
+>   The crew's modeller dresses your outline in proper masonry (parapets,
+>   archways, roofs) and raises it on the globe, **credited to you** on its info
+>   panel.
+> - Prefer to just name one? A plain **nomination** works too — one a month.
+> - Your submissions jump the queue.
+> Thank-you blurb: *"Welcome to the Maker's Circle — trace it yourself, and we'll raise it in your name. 🏗"*
+
+_(Note: submissions are reviewed and published by the Captain — the single
+curator — so accuracy and the "no wrong 3D" rule hold. No login or key is ever
+shared; the Submit button just sends your traced plan across for review.)_
 
 _(Prices in GBP; Patreon will localise. All perks are deliverable with zero
 running cost — names ship as a small data file, votes are Patreon polls,

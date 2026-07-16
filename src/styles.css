@@ -2659,3 +2659,6 @@ textarea:focus-visible,
   border-bottom: 1px solid rgba(201, 162, 75, 0.25);
 }
 .app-menu-support:hover { background: rgba(201, 162, 75, 0.12); }
+
+.sb-submit { border-color: #6f9fd0 !important; padding: 5px 10px; color: #dcebfb; }
+.sb-submit:hover { background: #1a2b3d; }

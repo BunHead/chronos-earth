@@ -263,6 +263,35 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
     onPublish(plan);
   };
 
+  // Submit a traced site to the Captain for review — WITHOUT any key. The plan
+  // is copied to the clipboard and a pre-filled GitHub issue opens; the Captain
+  // (single curator, vandal-proofing intact) reviews, the modeller details it,
+  // and it ships credited. The Maker's Circle patron perk rides this path.
+  const submitSite = async () => {
+    if (!plan.parts.length) { onStatus('Trace something first, then submit it.'); return; }
+    save(); // keep the device copy too
+    const payload = JSON.stringify({ siteKey, origin: plan.origin, parts: plan.parts }, null, 2);
+    const block =
+      `Chronos Earth — site submission\n` +
+      `Site: ${siteKey}\nParts: ${plan.parts.length}\n\n` +
+      `Traced with the in-app site builder — please review and raise it on the globe.\n` +
+      `Your Patreon name (so we can credit you): \n\n` +
+      '```json\n' + payload + '\n```\n';
+    let copied = false;
+    try { await navigator.clipboard.writeText(block); copied = true; } catch { /* clipboard blocked */ }
+    const title = encodeURIComponent(`Site submission: ${siteKey}`);
+    const body = encodeURIComponent(
+      'A site traced with the in-app builder. Paste the plan below — it is already on your ' +
+      'clipboard (Ctrl/Cmd + V) — and add your Patreon name so we can credit you:\n\n',
+    );
+    try { window.open(`https://github.com/BunHead/chronos-earth/issues/new?title=${title}&body=${body}`, '_blank', 'noopener'); } catch { /* popup blocked */ }
+    onStatus(
+      copied
+        ? 'Copied ✓ — paste it into the submission that opened, or into a message on Patreon. The Captain will review it and raise it in your name.'
+        : 'Select the site JSON to send it — or save and message the Captain on Patreon.',
+    );
+  };
+
   const pickMode = (t: SitePartType) => {
     setSelected(null);
     if (TRACED.has(t)) {
@@ -410,6 +439,7 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
           {plan.parts.length ? `${plan.parts.length} part${plan.parts.length === 1 ? '' : 's'}` : 'pick a shape, then click the satellite ground'}
         </span>
         <button className="sb-save" onClick={save}>💾 save site</button>
+        <button className="sb-submit" onClick={() => void submitSite()} title="Send this site to the Captain to review and raise on the globe">📤 submit</button>
       </div>
     </div>
   );
