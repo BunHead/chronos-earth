@@ -126,11 +126,18 @@ const LIVE_SITES: Record<string, LiveSite> = {
 const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' }> = {
   rings: { label: 'Sea level — drag to drown Atlantis', max: 3.5, kind: 'sea' },
   giza: { label: 'Construction stage', max: 1, kind: 'build' },
+  // Stonehenge and the Colosseum rise over their build windows too — their
+  // frac drives the same construction the globe swaps by date (their -b30/-b60/
+  // -b90 stages). Stonehenge's frac walks its OWN distinct sequence: the
+  // earthwork bank first, then the bluestone ring, then the great sarsens and
+  // last the lintels and trilithons.
+  stonehenge: { label: 'Construction — bank · bluestones · sarsens · lintels', max: 1, kind: 'build' },
+  amphitheatre: { label: 'Construction stage', max: 1, kind: 'build' },
   // The impact is a SEQUENCE, not a building — the same build-fraction slider
-  // steps its three frames (buildModel reads frac: <0.4 comet incoming, mid
-  // the impact flash, 1 the settled crater). Matches export-models' impact-b25 /
-  // -b60 / base, so the workshop previews exactly what the globe timeline plays.
-  impact: { label: 'Impact — drag: comet · flash · crater', max: 1, kind: 'build' },
+  // steps its five frames (buildModel reads frac: comet far · near · the flash ·
+  // the fresh crater · the settled crater). Matches export-models' impact-b15 /
+  // -b30 / -b50 / -b72 / base, so the workshop previews what the globe plays.
+  impact: { label: 'Impact — comet · flash · fresh · settled crater', max: 1, kind: 'build' },
   // The Tower of London's five reigns: timber corner-fort → White Tower → inner
   // ward → concentric castle + wet moat → the modern drained-moat plan. The
   // globe swaps its -b15/-b35/-b55/-b80 stages by date (see globeModels STAGE_TABLE).
