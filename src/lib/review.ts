@@ -44,6 +44,10 @@ export interface ReviewRecord {
   focus?: string; // what to focus the rework on (roof / colour / …)
   /** Globe placement trim, keyed per site (see globeModels.transformKey). */
   transform?: ModelTransform;
+  /** A traced site composition (see sitePlan.ts), under "siteplan:<key>" keys.
+   * Typed loosely here so review.ts stays dependency-free; sitePlan.parseSitePlan
+   * validates on read. */
+  siteplan?: unknown;
   ts?: number; // last change, ms epoch
 }
 

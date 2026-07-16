@@ -22,6 +22,8 @@ import {
   type ReviewStatus,
 } from '../lib/review';
 import { applyLiveTransform, placementKeyFor } from '../lib/globeModels';
+import { sitePlanKeyFor, type SitePlan } from '../lib/sitePlan';
+import SiteBuilder from './SiteBuilder';
 
 // One shared copy of the review file per app session.
 let shared: ReviewData | null = null;
@@ -54,6 +56,7 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
   const [, bump] = useState(0);
   const [msg, setMsg] = useState('');
   const [adjusting, setAdjusting] = useState(false);
+  const [building, setBuilding] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -109,6 +112,15 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
             🧭
           </button>
         )}
+        {place && (
+          <button
+            className={building ? 'on' : ''}
+            title="Build this site: place and trace buildings, walls and water on the satellite"
+            onClick={() => setBuilding((v) => !v)}
+          >
+            🏗
+          </button>
+        )}
       </div>
       <input
         className="maker-note"
@@ -140,6 +152,25 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
               void persist();
             } else {
               setMsg('Saved on this device. Add your key to publish for everyone.');
+            }
+          }}
+        />
+      )}
+      {building && place && (
+        <SiteBuilder
+          siteKey={sitePlanKeyFor(placementKeyFor(place.model, place.lat, place.lon))}
+          origin={{ lat: place.lat, lon: place.lon }}
+          onStatus={setMsg}
+          onPublish={(plan: SitePlan) => {
+            // SiteBuilder already saved the device copy; publish with the key.
+            if (keyed) {
+              const key = sitePlanKeyFor(placementKeyFor(place.model, place.lat, place.lon));
+              const r = (shared![key] ??= {});
+              r.siteplan = plan.parts.length ? plan : undefined;
+              r.ts = Date.now();
+              void persist();
+            } else {
+              setMsg('Site saved on this device. Add your key to publish for everyone.');
             }
           }}
         />

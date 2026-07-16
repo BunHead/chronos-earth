@@ -2600,3 +2600,34 @@ textarea:focus-visible,
 .bh-phase .bh-play { border-color: #c9a24b; }
 .bh-phase-name { flex: 1; font-size: 12px; font-weight: 700; }
 .bh-narration { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; color: #d9e4ef; }
+
+/* ── Site builder (🏗 in the maker row): compose a site on the satellite ── */
+.site-builder {
+  width: 100%; display: flex; flex-direction: column; gap: 8px;
+  padding: 8px 4px 2px; border-top: 1px dashed rgba(201, 162, 75, 0.35);
+}
+.site-builder button { cursor: pointer; border: 1px solid #3a4a5c; background: #16222e; color: #eaf1f8; border-radius: 7px; }
+.site-builder button:hover { border-color: #c9a24b; }
+.site-builder button.on { border-color: #c9a24b; background: #2a2413; }
+.sb-palette { display: flex; flex-wrap: wrap; gap: 5px; }
+.sb-palette button { padding: 5px 8px; font-size: 12px; }
+.sb-tracebar { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #cfdbe8; }
+.sb-tracebar .sb-ok { border-color: #7fc97f; }
+.sb-parts { display: flex; flex-wrap: wrap; gap: 4px; }
+.sb-chip { padding: 3px 8px; font-size: 11px; border-radius: 999px !important; }
+.sb-edit { display: flex; flex-direction: column; gap: 6px; }
+.sb-name { width: 100%; background: #101a24; border: 1px solid #2c3a49; border-radius: 6px; color: #eaf1f8; padding: 4px 8px; font-size: 12px; }
+.sb-pad { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.sb-pad > div { display: flex; gap: 26px; }
+.sb-pad button { padding: 4px 10px; font-size: 12px; }
+.sb-steps { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.sb-step { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: #cfdbe8; }
+.sb-step b { min-width: 44px; text-align: center; font-variant-numeric: tabular-nums; }
+.sb-step button { width: 24px; height: 22px; line-height: 1; }
+.sb-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 11.5px; color: #cfdbe8; }
+.sb-row label { display: flex; align-items: center; gap: 5px; }
+.sb-row input[type='color'] { width: 30px; height: 22px; padding: 0; border: 1px solid #3a4a5c; border-radius: 5px; background: none; }
+.sb-year { width: 62px; background: #101a24; border: 1px solid #2c3a49; border-radius: 5px; color: #eaf1f8; padding: 2px 5px; font-size: 11.5px; }
+.sb-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sb-hint { font-size: 11px; color: #9fb0bf; }
+.sb-save { border-color: #c9a24b !important; padding: 5px 10px; }

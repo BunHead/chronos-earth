@@ -8,6 +8,7 @@ import * as Cesium from 'cesium';
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
+import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
 import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
@@ -777,6 +778,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // borders layer is active, identify the polity under the cursor.
     const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction((movement: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
+      // While the site builder is tracing, its clicks are ITS OWN — a vertex
+      // drop must never also open a place dossier underneath.
+      if (isBuilderActive()) return;
       const picked = viewer.scene.pick(movement.position);
       const site: AncientSite | undefined = picked?.id?.chronosSite;
       if (site) {
@@ -921,6 +925,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // revealed as you fly close. Fire-and-forget: no fleet manifest, no
     // models — the globe simply keeps its markers.
     void loadGlobeModels(viewer);
+    void loadSitePlans(viewer); // traced site compositions stand for everyone
 
     return () => {
       tooltip.remove();
@@ -1049,6 +1054,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }
     // The 3D fleet obeys the same clock and the same layer switch.
     updateGlobeModelVisibility(currentYearsBP, showSites);
+    // …and so do traced site compositions (dated walls, the wet moat).
+    updateSitePlanVisibility(yearsBPToYear(currentYearsBP), showSites);
   }, [currentYearsBP, showSites, sites]);
 
   // --- Build battle markers whenever the battle list changes. ------------
