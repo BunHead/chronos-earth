@@ -753,6 +753,12 @@ export class BordersController {
     this.activeYear = floor;
     void this.ensureFrame(floor);
     if (ceil !== floor) void this.ensureFrame(ceil);
+    // Prefetch the frame BEHIND too. The ceil load above keeps FORWARD scrubbing
+    // seamless, but travelling BACKWARD (the Captain's natural direction — from
+    // the present into the past) hit a cold fetch+rasterise stall at every frame
+    // boundary. Warming the previous frame makes both directions instant.
+    const prev = this.frames[floorIdx - 1]?.year;
+    if (prev != null) void this.ensureFrame(prev);
     this.syncLabels(floor);
 
     for (const [y, { layer }] of this.cache.entries()) {
