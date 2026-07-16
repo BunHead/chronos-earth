@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { startWindowDrag } from '../lib/windowDrag';
 
 interface AboutProps {
@@ -11,6 +12,16 @@ interface AboutProps {
  * how the historical content was put together.
  */
 export default function About({ onClose }: AboutProps) {
+  const [patrons, setPatrons] = useState<string[] | null>(null);
+  useEffect(() => {
+    let alive = true;
+    fetch(`${import.meta.env.BASE_URL}data/supporters.json?b=${Date.now()}`)
+      .then((r) => (r.ok ? r.json() : { patrons: [] }))
+      .then((d: { patrons?: string[] }) => { if (alive) setPatrons(Array.isArray(d.patrons) ? d.patrons : []); })
+      .catch(() => { if (alive) setPatrons([]); });
+    return () => { alive = false; };
+  }, []);
+
   return (
     <div className="bv-overlay" role="dialog" aria-label="About Chronos Earth" onClick={onClose}>
       <div className="about-window" onClick={(e) => e.stopPropagation()}>
@@ -29,6 +40,43 @@ export default function About({ onClose }: AboutProps) {
             Chronos Earth lets you scrub through deep geological time and recorded history on a 3D
             globe — watching continents drift, empires rise and fall, and famous battles unfold.
           </p>
+
+          <div className="about-support">
+            <p>
+              <b>Chronos Earth is free — and always will be.</b> No ads, no accounts, no paywall.
+              If you'd like to keep the crew building, you can support the voyage on Patreon — from
+              £3 your name joins the ship's manifest below.
+            </p>
+            <a
+              className="support-btn"
+              href="https://www.patreon.com/c/ChronosEarth"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ❤ Support on Patreon
+            </a>
+          </div>
+
+          {patrons !== null && (
+            <>
+              <h3 className="info-h3">The ship's manifest ⚓</h3>
+              {patrons.length > 0 ? (
+                <>
+                  <p className="info-summary">With gratitude to the patrons keeping this voyage free for everyone:</p>
+                  <ul className="manifest-roll">
+                    {patrons.map((name, i) => (
+                      <li key={i}>{name}</li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <p className="info-summary">
+                  The manifest is open, and the first berth is empty — be the first name aboard.
+                  Every patron is listed here.
+                </p>
+              )}
+            </>
+          )}
 
           <h3 className="info-h3">Data sources</h3>
           <ul className="facts">

@@ -64,6 +64,15 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
         <div className="app-menu-drop" role="menu">
           {view === 'root' && (
             <>
+              <a
+                className="app-menu-item app-menu-support"
+                href="https://www.patreon.com/c/ChronosEarth"
+                target="_blank"
+                rel="noreferrer"
+                onClick={close}
+              >
+                ❤ Support Chronos Earth
+              </a>
               <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
               <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
               {/* The floating frames — movable windows over the globe. */}
