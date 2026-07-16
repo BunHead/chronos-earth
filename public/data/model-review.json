@@ -129,7 +129,7 @@
     "status": "allowed",
     "ts": 1783891598373,
     "note": "Extend nile, lower Sphinx as it sits lower on the terrain on the globe. Temple at shoreline and course-way and perimeter wall need including",
-    "rework": false,
+    "rework": true,
     "focus": "detail"
   },
   "leaning-tower": {
@@ -171,5 +171,207 @@
       "headingDeg": -122.5
     },
     "ts": 1784124158943
+  },
+  "siteplan:tower-of-london@51.508,-0.076": {
+    "siteplan": {
+      "origin": {
+        "lat": 51.5082,
+        "lon": -0.0762
+      },
+      "parts": [
+        {
+          "widthM": 20,
+          "lengthM": 20,
+          "heightM": 12,
+          "rotationDeg": 0,
+          "color": "#d8d2c4",
+          "type": "box",
+          "lat": 51.50816693033232,
+          "lon": -0.07569534456932572,
+          "fromYear": 1797
+        },
+        {
+          "radiusM": 6,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.5077489,
+          "lon": -0.0775078,
+          "fromYear": 1272,
+          "label": "Southwest Innerwall Tower"
+        },
+        {
+          "radiusM": 6,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.5075533,
+          "lon": -0.0766602,
+          "fromYear": 1272,
+          "label": "South Innerwall Tower"
+        },
+        {
+          "color": "#3f6f9e",
+          "type": "water",
+          "verts": [
+            [
+              51.507443027900386,
+              -0.07815140879519462
+            ],
+            [
+              51.50766162993347,
+              -0.07746199150797621
+            ],
+            [
+              51.507443027900386,
+              -0.07815140879519462
+            ],
+            [
+              51.50674657531955,
+              -0.07507757305511331
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "radiusM": 6,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.5073351,
+          "lon": -0.0757945,
+          "fromYear": 1272,
+          "label": "South East Innerwall Tower"
+        },
+        {
+          "thicknessM": 3,
+          "heightM": 8,
+          "color": "#b8b2a4",
+          "type": "wall",
+          "verts": [
+            [
+              51.5073351,
+              -0.0757945
+            ],
+            [
+              51.50773757047509,
+              -0.07739528375145162
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "widthM": 10,
+          "lengthM": 20,
+          "heightM": 12,
+          "rotationDeg": 20,
+          "color": "#d8d2c4",
+          "type": "box",
+          "lat": 51.5082928,
+          "lon": -0.0772821,
+          "fromYear": 1272,
+          "label": "Gate House Inner"
+        },
+        {
+          "radiusM": 6,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.5087397,
+          "lon": -0.0769679,
+          "fromYear": 1272,
+          "label": "North West Inner Tower"
+        },
+        {
+          "thicknessM": 3,
+          "heightM": 8,
+          "color": "#b8b2a4",
+          "type": "wall",
+          "verts": [
+            [
+              51.507816286732094,
+              -0.07749460581012031
+            ],
+            [
+              51.508730287580114,
+              -0.07701699010660726
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "radiusM": 6,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.5086282,
+          "lon": -0.074977,
+          "fromYear": 1272,
+          "label": "North East Inner Tower"
+        },
+        {
+          "thicknessM": 3,
+          "heightM": 8,
+          "color": "#b8b2a4",
+          "type": "wall",
+          "verts": [
+            [
+              51.50865339152212,
+              -0.0750466731322778
+            ],
+            [
+              51.50881807941529,
+              -0.07580742360464375
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "thicknessM": 3,
+          "heightM": 8,
+          "color": "#b8b2a4",
+          "type": "wall",
+          "verts": [
+            [
+              51.50881807941529,
+              -0.07580742360464375
+            ],
+            [
+              51.50878022398311,
+              -0.07693255960026014
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "thicknessM": 3,
+          "heightM": 8,
+          "color": "#b8b2a4",
+          "type": "wall",
+          "verts": [
+            [
+              51.5086282,
+              -0.074977
+            ],
+            [
+              51.50741476459506,
+              -0.0750263730480063
+            ]
+          ],
+          "fromYear": 1272
+        },
+        {
+          "radiusM": 4,
+          "heightM": 14,
+          "color": "#cfc9bb",
+          "type": "cylinder",
+          "lat": 51.50742718125535,
+          "lon": -0.07501920154794868,
+          "fromYear": 1272,
+          "label": "East Inner Tower"
+        }
+      ]
+    },
+    "ts": 1784192303646
   }
 }
