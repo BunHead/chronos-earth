@@ -129,7 +129,7 @@
     "status": "allowed",
     "ts": 1783891598373,
     "note": "Extend nile, lower Sphinx as it sits lower on the terrain on the globe. Temple at shoreline and course-way and perimeter wall need including",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "leaning-tower": {
