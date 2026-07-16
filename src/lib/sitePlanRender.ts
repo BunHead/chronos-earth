@@ -19,6 +19,12 @@ import { partStandsAt, type SitePart, type SitePlan, parseSitePlan } from './sit
  * reveal distance as the glb fleet, so a site fades in with its monument. */
 const REVEAL_DISTANCE = 80_000;
 
+/** Every part is BURIED this many metres below its anchor's ground height, so a
+ * rigid box/tower/wall still meets the terrain on the downhill side of a slope
+ * instead of floating (the Captain's riverbank towers). The buried skirt sits
+ * under opaque terrain, invisible — a generous depth just costs nothing. */
+const FOUNDATION_SINK = 12;
+
 const LOCAL_SITEPLANS_KEY = 'ce_local_siteplans';
 
 // ── device-local drafts (no key needed — mirrors placement trims) ───────────
@@ -87,13 +93,15 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
     const h = part.heightM ?? 12;
     return new Cesium.Entity({
       id,
-      position: Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2),
+      // Buried FOUNDATION_SINK below ground, so the box reaches the terrain on a
+      // slope's downhill side. Centre = (top + bottom)/2 = (h − sink)/2.
+      position: Cesium.Cartesian3.fromDegrees(part.lon, part.lat, (h - FOUNDATION_SINK) / 2),
       orientation: Cesium.Transforms.headingPitchRollQuaternion(
         Cesium.Cartesian3.fromDegrees(part.lon, part.lat),
         new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(part.rotationDeg ?? 0), 0, 0),
       ) as unknown as Cesium.Property,
       box: {
-        dimensions: new Cesium.Cartesian3(part.widthM ?? 20, part.lengthM ?? 20, h),
+        dimensions: new Cesium.Cartesian3(part.widthM ?? 20, part.lengthM ?? 20, h + FOUNDATION_SINK),
         material: color(part.color, '#d8d2c4'),
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         distanceDisplayCondition: DDC(),
@@ -104,9 +112,9 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
     const h = part.heightM ?? 14;
     return new Cesium.Entity({
       id,
-      position: Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2),
+      position: Cesium.Cartesian3.fromDegrees(part.lon, part.lat, (h - FOUNDATION_SINK) / 2),
       cylinder: {
-        length: h,
+        length: h + FOUNDATION_SINK, // sink a foundation so towers reach the ground
         topRadius: part.radiusM ?? 6,
         bottomRadius: part.radiusM ?? 6,
         material: color(part.color, '#cfc9bb'),
@@ -121,7 +129,7 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
       corridor: {
         positions: part.verts.map(([la, lo]) => Cesium.Cartesian3.fromDegrees(lo, la)),
         width: part.thicknessM ?? 3,
-        height: 0,
+        height: -FOUNDATION_SINK, // base buried so the wall foots on sloping ground
         extrudedHeight: part.heightM ?? 8,
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         extrudedHeightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -142,7 +150,7 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
         ...(isWater
           ? { classificationType: Cesium.ClassificationType.BOTH } // drape on terrain
           : {
-              height: 0,
+              height: -FOUNDATION_SINK,
               extrudedHeight: part.heightM ?? 2,
               heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
               extrudedHeightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -162,7 +170,7 @@ function partEntity(siteKey: string, idx: number, part: SitePart): Cesium.Entity
 function updateEntity(e: Cesium.Entity, part: SitePart): void {
   if (part.type === 'box' && part.lat != null && part.lon != null && e.box) {
     const h = part.heightM ?? 12;
-    const pos = Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2);
+    const pos = Cesium.Cartesian3.fromDegrees(part.lon, part.lat, (h - FOUNDATION_SINK) / 2);
     e.position = new Cesium.ConstantPositionProperty(pos);
     e.orientation = new Cesium.ConstantProperty(
       Cesium.Transforms.headingPitchRollQuaternion(
@@ -171,13 +179,13 @@ function updateEntity(e: Cesium.Entity, part: SitePart): void {
       ),
     );
     e.box.dimensions = new Cesium.ConstantProperty(
-      new Cesium.Cartesian3(part.widthM ?? 20, part.lengthM ?? 20, h),
+      new Cesium.Cartesian3(part.widthM ?? 20, part.lengthM ?? 20, h + FOUNDATION_SINK),
     );
     e.box.material = new Cesium.ColorMaterialProperty(color(part.color, '#d8d2c4'));
   } else if (part.type === 'cylinder' && part.lat != null && part.lon != null && e.cylinder) {
     const h = part.heightM ?? 14;
-    e.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(part.lon, part.lat, h / 2));
-    e.cylinder.length = new Cesium.ConstantProperty(h);
+    e.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(part.lon, part.lat, (h - FOUNDATION_SINK) / 2));
+    e.cylinder.length = new Cesium.ConstantProperty(h + FOUNDATION_SINK);
     e.cylinder.topRadius = new Cesium.ConstantProperty(part.radiusM ?? 6);
     e.cylinder.bottomRadius = new Cesium.ConstantProperty(part.radiusM ?? 6);
     e.cylinder.material = new Cesium.ColorMaterialProperty(color(part.color, '#cfc9bb'));
