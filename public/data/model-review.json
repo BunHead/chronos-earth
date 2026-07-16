@@ -147,9 +147,9 @@
   },
   "stepped-pyramid": {
     "status": "allowed",
-    "ts": 1784194390067,
+    "ts": 1784194390164,
     "note": "Structure at top is quite plain, more detail and actual steps, not going by the human scale model, currently would be too large",
-    "rework": false,
+    "rework": true,
     "focus": "detail"
   },
   "louvre": {
