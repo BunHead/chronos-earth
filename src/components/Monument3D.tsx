@@ -3308,7 +3308,13 @@ export function buildModel(
     const cbw = 6.4, cProj = 0.9;
     const czf = bayFace(0, cbw, cProj);
     bays(-cbw / 2 + 0.7, cbw / 2 - 0.7, 3, czf);
-    group.add(block(1.8, 2.5, 0.24, 0, 1.25, czf, '#33291f')); // central doorway
+    // The arched tunnel under the balcony — the Grand Entrance through to the
+    // quadrangle (where the family appear on state occasions, on the balcony above).
+    group.add(block(1.9, 1.6, 0.7, 0, 0.8, czf - 0.15, '#241d15')); // the tunnel opening
+    const archHead = new THREE.Mesh(new THREE.CircleGeometry(0.95, 20, 0, Math.PI), new THREE.MeshStandardMaterial({ color: '#241d15', side: THREE.DoubleSide }));
+    archHead.position.set(0, 1.6, czf + 0.02);
+    group.add(archHead);
+    group.add(block(2.3, 0.22, 0.24, 0, 2.55, czf + 0.05, trim)); // impost band under the balcony
     group.add(block(3.6, 0.28, 0.8, 0, s1 + 0.35, D / 2 + cProj + 0.35, trim)); // balcony slab
     for (let i = 0; i <= 8; i++) group.add(block(0.1, 0.5, 0.1, -1.7 + i * 0.425, s1 + 0.7, D / 2 + cProj + 0.62, trim)); // balustrade
     // The triangular pediment crowning the central bay.
@@ -3327,8 +3333,28 @@ export function buildModel(
       group.add(block(w + 0.4, 0.36, d + 0.4, x, eaves + 0.18, z, trim)); // cornice
       group.add(block(w - 1.2, 1.0, d - 1.2, x, eaves + 0.6, z, roofC));   // lead roof
     };
-    wingMass(0, backZ, W - 5, 4);                    // west (back) range
+    wingMass(0, backZ - 1, W - 2, 6.5);              // west (back) range — larger and deeper
     for (const sx of [-1, 1] as const) wingMass(sx * (W / 2 - 2.5), (backZ + 2) / 2, 5, Math.abs(backZ) + D); // side wings
+    // --- Inner-court detail: window rows on the four courtyard faces. ---
+    const courtWin = (x0: number, x1: number, n: number, z: number, ry = 0) => {
+      for (let i = 0; i < n; i++) {
+        const t = x0 + (i + 0.5) * ((x1 - x0) / n);
+        const [px, pz] = ry === 0 ? [t, z] : [z, t];
+        for (const [wy, wh] of [[0.95, 1.1], [s1 + 0.95, 1.2], [s1 + s2 + 0.7, 0.9]] as const)
+          group.add(block(0.7, wh, 0.12, px, wy, pz, win, ry));
+      }
+    };
+    courtWin(-9.5, 9.5, 7, -3.6);                 // East Front, court side (−Z)
+    courtWin(-9.5, 9.5, 7, backZ + 2.2, 0);       // back range, court side (+Z)
+    for (const sx of [-1, 1] as const) courtWin(backZ + 2.6, -3.4, 5, sx * (W / 2 - 5.1), Math.PI / 2); // side wings, court sides
+    // --- A more complex roofscape: ranked chimney-stacks and dormers. ---
+    for (const [rz, rw] of [[D / 2 - 0.6, W - 3], [backZ - 1, W - 3]] as const)
+      for (let i = 0; i <= 6; i++) group.add(block(0.5, 1.1, 0.5, -rw / 2 + i * (rw / 6), eaves + 1.2, rz, '#8a7f74')); // chimney rows
+    for (let i = 0; i < 6; i++) { // dormer windows on the front roof
+      const dx = -W / 2 + 3 + i * ((W - 6) / 5);
+      group.add(block(0.8, 0.7, 0.5, dx, eaves + 0.7, D / 2 - 0.5, gTop));
+      group.add(block(0.5, 0.45, 0.14, dx, eaves + 0.75, D / 2 - 0.2, win));
+    }
     // Forecourt railings with a central gate gap and stone gate piers.
     const railZ = D / 2 + 5;
     for (let i = 0; i <= 30; i++) {
