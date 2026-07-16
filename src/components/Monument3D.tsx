@@ -608,22 +608,44 @@ export function buildModel(
     group.add(pyr(7, 5, -9, 4));
     group.add(pyr(5, 3.6, -15, 7));
   } else if (model === 'stepped-pyramid') {
-    // Mesoamerican / ziggurat style: square tiers, a grand stair, temple on top.
+    // El Castillo–style Mesoamerican pyramid: square terraces with an IDENTICAL
+    // grand stair on EACH of the four faces, every stair flanked by feathered-
+    // serpent balustrades that end in a serpent's head at the foot; a temple
+    // crowns the top.
     ground = '#6c7a45';
     const tierH = 1.15;
-    const tiers = 5;
+    const tiers = 6;
+    const baseW = 12;
+    const inset = 1.8; // how much each terrace steps in per side
     for (let i = 0; i < tiers; i++) {
-      const w = 12 - i * 2.1;
+      const w = baseW - i * inset;
       const t = block(w, tierH, w, 0, i * tierH + tierH / 2, 0, '#9a8a6a');
-      weather(t, 0.06);
+      weather(t, 0.05);
       group.add(t);
     }
     const top = tiers * tierH;
-    group.add(block(2.6, 1.9, 2.6, 0, top + 0.95, 0, '#8a7a5c')); // temple
-    group.add(block(3.0, 0.35, 3.0, 0, top + 2.05, 0, '#6e6248')); // roof comb
-    // The grand stair climbing the south face.
-    for (let i = 0; i < tiers; i++) {
-      group.add(block(2.2, tierH, 1.2, 0, i * tierH + tierH / 2, 6.2 - i * 1.05, '#a89878'));
+    group.add(block(2.8, 2.0, 2.8, 0, top + 1.0, 0, '#8a7a5c')); // temple
+    group.add(block(3.2, 0.35, 3.2, 0, top + 2.15, 0, '#6e6248')); // roof comb
+    // A stair + serpent balustrades on each of the four faces (built once in a
+    // sub-group, then rotated 90° four times — so every side is the same).
+    const stairMat = '#a89878';
+    const serpentMat = stoneMat('#bcb29a');
+    const baseZ = baseW / 2 + 0.35;
+    const topZ = baseW / 2 + 0.35 - (tiers - 1) * (inset / 2);
+    for (let f = 0; f < 4; f++) {
+      const fg = new THREE.Group();
+      for (let i = 0; i < tiers; i++) // the steps, hugging the terrace profile
+        fg.add(block(2.4, tierH, 1.05, 0, i * tierH + tierH / 2, baseW / 2 + 0.3 - i * (inset / 2), stairMat));
+      for (const s of [-1, 1] as const) {
+        // the sloping feathered-serpent balustrade running the height of the stair
+        fg.add(strut(new THREE.Vector3(s * 1.45, 0.25, baseZ), new THREE.Vector3(s * 1.45, top - 0.3, topZ), 0.42, serpentMat));
+        // the serpent's head at the foot, jaw agape, facing out and down the steps
+        fg.add(block(0.72, 0.62, 1.0, s * 1.45, 0.42, baseZ + 0.65, '#c6bca6'));
+        fg.add(block(0.72, 0.24, 0.72, s * 1.45, 0.12, baseZ + 1.0, '#b0a68f')); // lower jaw
+        for (const e of [-1, 1] as const) fg.add(block(0.13, 0.13, 0.13, s * 1.45 + e * 0.22, 0.62, baseZ + 0.5, '#3a3128')); // eyes
+      }
+      fg.rotation.y = f * (Math.PI / 2);
+      group.add(fg);
     }
   } else if (model === 'sphinx') {
     ground = '#d8c48a';
