@@ -21,6 +21,34 @@ export const cellKey = (lat: number, lon: number) => `${latIdx(lat)}|${lonIdx(lo
 
 export interface ViewRect { w: number; s: number; e: number; n: number }
 
+/**
+ * The grid cell keys a view rectangle covers (dateline-aware) with a degree
+ * margin — the same cells `inView` scans, but as bare keys for the tiled
+ * skeleton loader (coreTiles.ts) to fetch. Mirrors the cellKey formula, so it
+ * lines up with the harvest-side tile split.
+ */
+export function cellsForRect(rect: ViewRect, marginLat: number, marginLon: number): string[] {
+  const { w, s, e, n } = rect;
+  const latLo = latIdx(s - marginLat);
+  const latHi = latIdx(n + marginLat);
+  const westCell = Math.floor((w - marginLon) / CELL);
+  const span = e >= w ? e - w : 360 - (w - e); // handle a dateline-crossing view
+  const eastCell = Math.floor((w + span + marginLon) / CELL);
+  const keys: string[] = [];
+  const seen = new Set<string>();
+  for (let latc = latLo; latc <= latHi; latc++) {
+    for (let lc = westCell; lc <= eastCell; lc++) {
+      const lonc = ((lc % CELLS) + CELLS) % CELLS;
+      const k = `${latc}|${lonc}`;
+      if (!seen.has(k)) {
+        seen.add(k);
+        keys.push(k);
+      }
+    }
+  }
+  return keys;
+}
+
 export interface EventIndex {
   /** All events, ascending by startYear. */
   readonly sorted: TimelineEvent[];

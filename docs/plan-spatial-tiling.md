@@ -1,7 +1,42 @@
 # Plan — spatial + temporal tiling (scaling the skeleton)
 
-_Status: planned. Written 2026-07-15. No code yet — this is the design so a future
-session (or the Captain) can pick it up cold._
+_Status: **SHIPPED behind a flag, 2026-07-17.** The design below is intact; this
+note records what landed and how to switch it on._
+
+## Shipped (behind the `tiles` flag — default OFF / monolithic)
+
+The tiled skeleton is live but dormant by default, so the current load path can't
+regress. Turn it on per-load with **`?tiles=1`** in the URL (`?tiles=0` turns it
+back off and clears the sticky bit; the choice persists in `localStorage`
+`chronos.tiling`). See `src/lib/tilingFlag.ts`.
+
+- **Build side** — `scripts/build-core-index.mjs` still writes the monolithic
+  `core-index.json` unchanged, and now ALSO emits `public/data/core-index/`:
+  `manifest.json` (which era buckets each 10° cell holds — so the client never
+  404-probes), `headline.json` (the 600 most-notable events worldwide, the
+  always-loaded LOD tier), and one `<cell>__b<bucket>.json` per (cell, era
+  bucket). A bucket is the timeline ERA index (`bucketFor`), mirrored on both
+  sides and parity-tested.
+- **Runtime** — `src/lib/coreTiles.ts` loads the manifest + headline first (globe
+  never flashes empty), then `src/App.tsx` (flag-gated effect) streams the cells
+  the view rect covers × the era buckets the timeline window touches, keyed off
+  the existing `viewRegion` + `heavyYearsBP`/`zoomIdx`. Merge de-dups by id/qid,
+  exactly like the region-chunk loader it sits beside.
+- **Search decision** — the plan's sanctioned "route search through the headline
+  tier + live lookup" option. With the flag on, `SearchBox` searches whatever is
+  in memory (the headline tier + already-streamed cells); anything not found
+  locally falls to the existing `onWebSearch` (live Wikidata, already wired). No
+  separate global name index was needed. Enabling the flag by default — and, if
+  desired, a tiny name-only index for offline search of the long tail — is a
+  later, separate decision.
+- **Verified 2026-07-17** — flag ON: cold start fetches only `headline.json` (no
+  `core-index.json`); panning to Europe streamed the manifest + 61 tiles;
+  scrubbing to 1850 CE rendered 66 real markers in-view. Flag OFF: `core-index.json`
+  loads as before and zero tiled files are requested. Tests green.
+
+---
+
+_Original design (written 2026-07-15):_
 
 ## Why
 

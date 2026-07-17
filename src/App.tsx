@@ -23,9 +23,13 @@ import { ensurePlacement } from './lib/globeModels';
 import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
-import { OLDEST_BP, ZOOM_SPANS, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
+import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna } from './lib/data';
+import { cellsForRect } from './lib/eventIndex';
+import { bucketsForWindow } from './lib/buckets';
+import { loadTileManifest, loadHeadline, loadTile, tilesToLoad, type TileManifest } from './lib/coreTiles';
+import { tilingEnabled } from './lib/tilingFlag';
 import { fetchByName } from './lib/liveFetch';
 import { loadLiveCache, addToLiveCache } from './lib/liveCache';
 import { initPortraits } from './lib/portraits';
@@ -124,6 +128,11 @@ export default function App() {
   // index is fetched once; missing index = harvest not run yet = feature off.
   const regionIndexRef = useRef<RegionIndex | null | 'pending'>('pending');
   const loadedCellsRef = useRef(new Set<string>());
+  // Tiled-skeleton state (docs/plan-spatial-tiling.md) — only touched when the
+  // ?tiles flag is on; the monolithic path never sees these.
+  const tilingRef = useRef(tilingEnabled());
+  const tileManifestRef = useRef<TileManifest | null | 'pending'>('pending');
+  const loadedTilesRef = useRef(new Set<string>());
   // The patch of Earth the camera is looking at (null = orbit / whole globe);
   // when set, the timeline tells that region's own story.
   const [viewRegion, setViewRegion] = useState<{ w: number; s: number; e: number; n: number } | null>(null);
@@ -158,6 +167,40 @@ export default function App() {
       live = false;
     };
   }, [viewRegion]);
+  // Tiled skeleton (flag on only): stream the core-index tiles the current view
+  // + timeline window need, mirroring the region-chunk loader above but keyed on
+  // the 10° cell grid and era buckets. Off by default → this whole effect no-ops.
+  useEffect(() => {
+    if (!tilingRef.current || !viewRegion) return;
+    let live = true;
+    void (async () => {
+      if (tileManifestRef.current === 'pending') {
+        tileManifestRef.current = await loadTileManifest(import.meta.env.BASE_URL);
+      }
+      const manifest = tileManifestRef.current;
+      if (!manifest) return;
+      const cells = cellsForRect(viewRegion, 10, 10); // one-cell margin, seamless pan
+      const window = clampWindow({ centerBP: heavyYearsBP, span: ZOOM_SPANS[zoomIdx] });
+      const buckets = bucketsForWindow(window);
+      const need = tilesToLoad(manifest, cells, buckets, loadedTilesRef.current);
+      if (need.length === 0) return;
+      const fresh = (
+        await Promise.all(need.map((t) => loadTile(import.meta.env.BASE_URL, t.cell, t.bucket)))
+      ).flat();
+      if (!live || fresh.length === 0) return;
+      setEvents((prev) => {
+        const seenIds = new Set(prev.map((e) => e.id));
+        const seenQids = new Set(prev.map((e) => e.wikidataId).filter(Boolean));
+        const add = fresh.filter(
+          (e) => !seenIds.has(e.id) && !(e.wikidataId && seenQids.has(e.wikidataId)),
+        );
+        return add.length ? [...prev, ...add] : prev;
+      });
+    })();
+    return () => {
+      live = false;
+    };
+  }, [viewRegion, heavyYearsBP, zoomIdx]);
   // The imported event you just picked (search/click) — its globe marker stays
   // visible even when the declutter caps would have hidden it.
   const [focusEventId, setFocusEventId] = useState<string | null>(null);
@@ -320,15 +363,24 @@ export default function App() {
     loadBattles()
       .then(setBattles)
       .catch((err) => console.error('Could not load battles:', err));
-    loadEvents()
-      .then((evs) => {
-        // Fold in any places you found live on earlier visits.
-        const cached = loadLiveCache();
-        if (!cached.length) return setEvents(evs);
-        const ids = new Set(evs.map((e) => e.id));
-        setEvents([...evs, ...cached.filter((e) => !ids.has(e.id))]);
-      })
-      .catch((err) => console.error('Could not load events:', err));
+    // Fold in any places you found live on earlier visits.
+    const foldCache = (evs: TimelineEvent[]) => {
+      const cached = loadLiveCache();
+      if (!cached.length) return setEvents(evs);
+      const ids = new Set(evs.map((e) => e.id));
+      setEvents([...evs, ...cached.filter((e) => !ids.has(e.id))]);
+    };
+    if (tilingRef.current) {
+      // Tiled path: the headline LOD tier loads first + fast so the globe is
+      // never empty; per-cell/era tiles then stream via the viewRegion effect.
+      loadHeadline(import.meta.env.BASE_URL)
+        .then((head) => (head.length ? foldCache(head) : loadEvents().then(foldCache)))
+        .catch((err) => console.error('Could not load headline tier:', err));
+    } else {
+      loadEvents()
+        .then(foldCache)
+        .catch((err) => console.error('Could not load events:', err));
+    }
     loadFauna()
       .then(setFauna)
       .catch((err) => console.error('Could not load fauna:', err));

@@ -2,9 +2,12 @@ import { describe, it, expect } from 'vitest';
 // The build script is plain Node ESM and exports its pure core for exactly
 // this test: proving the emit (script) and the reconstruction (app) agree.
 // @ts-expect-error — untyped .mjs module outside src/
-import { buildCoreIndex, cellKeyFor, cellFileName } from '../../scripts/build-core-index.mjs';
+import { buildCoreIndex, cellKeyFor, cellFileName, bucketFor as bucketForBuild, packColumns, tileFileName } from '../../scripts/build-core-index.mjs';
 import { eventsFromColumns, type CoreColumns } from './coreIndex';
-import { cellKey } from './eventIndex';
+import { cellKey, cellsForRect } from './eventIndex';
+import { bucketFor, bucketsForWindow, BUCKET_COUNT } from './buckets';
+import { tilesToLoad, type TileManifest } from './coreTiles';
+import { ERAS, getEra, yearToYearsBP, clampWindow } from './timeScale';
 import type { TimelineEvent } from './types';
 
 /** A deliberately awkward sample: unsorted years, negative coords, a span,
@@ -111,5 +114,87 @@ describe('core index — cell formula parity with eventIndex', () => {
   it('cell keys map to Windows-safe filenames', () => {
     expect(cellFileName('-4|9')).toBe('-4_9.json');
     expect(cellFileName(cellKeyFor(50.911, 0.487))).not.toContain('|');
+  });
+});
+
+describe('tiled skeleton — era buckets', () => {
+  it('the harvest-side bucketFor matches the runtime bucketFor', () => {
+    for (let year = -250_000; year <= 2026; year += 137) {
+      expect(bucketForBuild(year), `${year}`).toBe(bucketFor(year));
+    }
+    // Deep time + the awkward edges: present, year zero, era boundaries.
+    for (const y of [2026, 2025, 0, -2525, -3200, -5300, -12000, -250_000_000]) {
+      expect(bucketForBuild(y), `${y}`).toBe(bucketFor(y));
+    }
+  });
+
+  it('a bucket is the index of the ERA the event sits in', () => {
+    // Ties the tiled cut points to the app's own timeline eras (the source of
+    // truth) — so a tile never disagrees with getEra about which era it holds.
+    for (const y of [2000, 1500, 500, 0, -200, -1000, -3000, -10000, -1_000_000]) {
+      const era = getEra(yearToYearsBP(y));
+      expect(bucketFor(y), `${y}`).toBe(ERAS.indexOf(era!));
+    }
+    expect(BUCKET_COUNT).toBe(ERAS.length);
+  });
+});
+
+describe('tiled skeleton — columnar round trip per tile', () => {
+  // Split the sample by (cell, bucket) exactly as the build does, pack each
+  // tile columnar, decode, and prove no field or event is lost across tiles.
+  const tiles = new Map<string, TimelineEvent[]>();
+  for (const e of SAMPLE) {
+    const key = `${cellKeyFor(e.lat, e.lon)}#${bucketForBuild(e.startYear)}`;
+    (tiles.get(key) ?? tiles.set(key, []).get(key)!).push(e);
+  }
+
+  it('every event lands in exactly one tile and decodes back to itself', () => {
+    const rebuilt: TimelineEvent[] = [];
+    for (const [key, rows] of tiles) {
+      const [cell, bucketStr] = key.split('#');
+      // The tile filename is Windows-safe and carries the bucket.
+      expect(tileFileName(cell, Number(bucketStr))).toBe(`${cell.replace('|', '_')}__b${bucketStr}.json`);
+      for (const ev of eventsFromColumns(packColumns(rows) as CoreColumns)) {
+        expect(ev.cell, ev.id).toBe(cell); // every event in the tile shares its cell
+        rebuilt.push(ev);
+      }
+    }
+    expect(rebuilt.length).toBe(SAMPLE.length);
+    for (const src of SAMPLE) {
+      const got = rebuilt.find((e) => e.id === src.id)!;
+      for (const f of SKELETON_FIELDS) expect(got[f], `${src.id}.${f}`).toEqual(src[f]);
+    }
+  });
+});
+
+describe('tiled skeleton — view + window selection', () => {
+  it('cellsForRect returns the cells a rect covers, cellKey-formatted', () => {
+    const cells = cellsForRect({ w: -6, s: 50, e: 4, n: 56 }, 0, 0);
+    expect(cells).toContain(cellKey(51, 0)); // London-ish
+    for (const k of cells) expect(k).toMatch(/^-?\d+\|\d+$/);
+  });
+
+  it('bucketsForWindow covers the window and never starves a scrubbed year', () => {
+    // A tight modern window still includes the modern bucket, plus padding.
+    const modern = bucketsForWindow(clampWindow({ centerBP: 100, span: 100 }));
+    expect(modern.has(bucketFor(2000))).toBe(true);
+    // The whole-timeline span pulls in every bucket.
+    const all = bucketsForWindow(clampWindow({ centerBP: 125_000_000, span: 250_000_000 }));
+    expect(all.size).toBe(BUCKET_COUNT);
+  });
+
+  it('tilesToLoad honours the manifest and de-dupes against already-loaded', () => {
+    const manifest: TileManifest = {
+      v: 1, cell: 10, buckets: BUCKET_COUNT, headline: 0,
+      tiles: { '5|18': [11, 12], '4|18': [12] },
+    };
+    const loaded = new Set<string>();
+    const first = tilesToLoad(manifest, ['5|18', '4|18', '9|9'], new Set([12]), loaded);
+    // Only bucket-12 tiles in cells that exist; unknown cell 9|9 is skipped.
+    expect(first.map((t) => `${t.cell}#${t.bucket}`).sort()).toEqual(['4|18#12', '5|18#12']);
+    // A second pass over the same view asks for nothing new.
+    expect(tilesToLoad(manifest, ['5|18', '4|18'], new Set([12]), loaded)).toEqual([]);
+    // Widening the window to bucket 11 now pulls the remaining tile.
+    expect(tilesToLoad(manifest, ['5|18'], new Set([11, 12]), loaded)).toEqual([{ cell: '5|18', bucket: 11 }]);
   });
 });

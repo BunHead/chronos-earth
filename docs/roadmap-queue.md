@@ -59,7 +59,15 @@ is dirty at the start, stop and do nothing.
     and an axe-core/Lighthouse a11y check if runnable headlessly.
   - Done when: landmarks + slider ARIA + contrast fixes committed, tests green.
 
-- [ ] **3. Spatial + temporal tiling of the skeleton.** _(behind a flag)_
+- [x] **3. Spatial + temporal tiling of the skeleton.** _(behind a flag)_
+  done 2026-07-17: tiled skeleton shipped behind the `?tiles=1` flag (default
+  monolithic). Build emits `core-index/{manifest,headline,<cell>__b<bucket>}.json`
+  (monolithic `core-index.json` byte-identical); `coreTiles.ts` + a flag-gated
+  App effect stream cells×era-buckets off the existing viewRegion/time-window.
+  Cell-parity + bucket-parity + tiled round-trip + selection tests added.
+  Search routes through the headline tier + existing onWebSearch (plan's
+  sanctioned option). Verified live: flag ON cold-starts on headline only and
+  fills in on pan/scrub (66 markers at 1850 Europe); flag OFF is unchanged.
   Follow `docs/plan-spatial-tiling.md` exactly. Tile the monolithic
   `core-index.json` by cell (+ era bucket), load only what the view rect and time
   window need, with a small always-loaded "headline" LOD tier.

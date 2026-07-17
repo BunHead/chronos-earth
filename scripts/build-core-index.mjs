@@ -23,6 +23,7 @@ const DATA = join(__dirname, '..', 'public', 'data');
 const SOURCE = join(DATA, 'imported', 'events.json');
 const CORE = join(DATA, 'core-index.json');
 const DETAIL_DIR = join(DATA, 'detail');
+const TILE_DIR = join(DATA, 'core-index');
 
 // CELL GEOMETRY IS MIRRORED in src/lib/eventIndex.ts (cellKey) — change one,
 // change both. Parity is unit-tested in src/lib/coreIndex.test.ts.
@@ -33,6 +34,67 @@ export const cellKeyFor = (lat, lon) =>
 
 /** '|' is illegal in Windows filenames, so cells become "-4_9.json" on disk. */
 export const cellFileName = (cell) => `${cell.replace('|', '_')}.json`;
+
+/* ------------------------------------------------------------------ *
+ * TILED SKELETON (docs/plan-spatial-tiling.md) — behind a runtime flag.
+ * The monolithic core-index.json above stays the default; these extra
+ * files let the app load only the cells+eras the view needs at scale.
+ * ------------------------------------------------------------------ */
+
+/** "Now" for BP maths — MIRRORED from src/lib/timeScale.ts PRESENT_YEAR. */
+export const PRESENT_YEAR = 2026;
+/** Older edge (startBP) of each era, oldest→youngest — MIRRORED from the ERAS
+ * table in src/lib/timeScale.ts. A tile's temporal bucket is the era index.
+ * Parity with the app's getEra is unit-tested in src/lib/coreIndex.test.ts. */
+export const ERA_START_BP = [
+  251_900_000, 201_400_000, 145_000_000, 66_000_000, 23_000_000, 2_580_000,
+  12_000, 5_300, 3_200, 2_525, 1_526, 526, 226,
+];
+export const BUCKET_COUNT = ERA_START_BP.length;
+const OLDEST_BP = 250_000_000;
+
+/** The era-bucket index (0..BUCKET_COUNT-1) a signed startYear falls in — the
+ * temporal half of a tile key. Mirrors getEra(yearsBP): an era covers
+ * (endBP, startBP], and the present (bp 0) folds into the youngest era. */
+export const bucketFor = (startYear) => {
+  const bp = Math.min(Math.max(PRESENT_YEAR - startYear, 0), OLDEST_BP);
+  for (let i = 0; i < ERA_START_BP.length; i++) {
+    const startBP = ERA_START_BP[i];
+    const endBP = i + 1 < ERA_START_BP.length ? ERA_START_BP[i + 1] : 0;
+    if (bp <= startBP && bp > endBP) return i;
+  }
+  return ERA_START_BP.length - 1;
+};
+
+/** A tile's on-disk name — cell (|→_ for Windows) plus its era bucket. */
+export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${bucket}.json`;
+
+/** How many of the most-notable events ride in the always-loaded headline
+ * LOD tier, so the globe is never empty while cells stream in. */
+const HEADLINE_COUNT = 600;
+
+/** Pack a list of already-year-sorted events into the columnar shape the app's
+ * eventsFromColumns() reconstructs — identical schema to core-index.json.
+ * Exported so the unit tests can prove tiled round-trip parity. */
+export function packColumns(rows) {
+  const cols = {
+    v: 1, id: [], name: [], lat: [], lon: [], year: [], endYear: [],
+    category: [], notability: [], wiki: [], cell: [],
+  };
+  for (const e of rows) {
+    cols.id.push(e.id);
+    cols.name.push(e.name);
+    cols.lat.push(e.lat);
+    cols.lon.push(e.lon);
+    cols.year.push(e.startYear);
+    cols.endYear.push(e.endYear ?? null);
+    cols.category.push(e.category);
+    cols.notability.push(e.notability ?? 0);
+    cols.wiki.push(e.wikiTitle === undefined ? null : e.wikiTitle === e.name ? '' : e.wikiTitle);
+    cols.cell.push(cellKeyFor(e.lat, e.lon));
+  }
+  return cols;
+}
 
 /** The fields the skeleton carries — everything else is flesh. */
 const SKELETON_KEYS = new Set([
@@ -103,11 +165,52 @@ async function main() {
     detailCount += Object.keys(byId).length;
   }
 
+  // --- Tiled skeleton (behind the runtime flag; see coreTiles.ts) ---------
+  // Re-derive year-sorted rows exactly as buildCoreIndex did, then split them
+  // by (cell, era bucket) and skim off a headline LOD tier.
+  const rows = [...events].sort((a, b) => a.startYear - b.startYear);
+  await rm(TILE_DIR, { recursive: true, force: true });
+  await mkdir(TILE_DIR, { recursive: true });
+
+  const tileRows = new Map(); // "cell|bucket" → event[]  (year-sorted, since rows is)
+  const availByCell = {}; // cell → sorted unique bucket indices present
+  for (const e of rows) {
+    const cell = cellKeyFor(e.lat, e.lon);
+    const bucket = bucketFor(e.startYear);
+    const key = `${cell}#${bucket}`;
+    let list = tileRows.get(key);
+    if (!list) tileRows.set(key, (list = []));
+    list.push(e);
+  }
+  for (const [key, list] of tileRows) {
+    const [cell, bucketStr] = key.split('#');
+    const bucket = Number(bucketStr);
+    await writeFile(join(TILE_DIR, tileFileName(cell, bucket)), JSON.stringify(packColumns(list)));
+    (availByCell[cell] ??= []).push(bucket);
+  }
+  for (const cell of Object.keys(availByCell)) availByCell[cell].sort((a, b) => a - b);
+
+  // Headline LOD tier: the most-notable events worldwide, kept year-sorted so
+  // the app can reuse the same columnar decode. Never empty at cold start.
+  const headline = [...rows]
+    .sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0))
+    .slice(0, HEADLINE_COUNT)
+    .sort((a, b) => a.startYear - b.startYear);
+  await writeFile(join(TILE_DIR, 'headline.json'), JSON.stringify(packColumns(headline)));
+
+  // Manifest so the client never 404-probes: which era buckets each cell holds.
+  const manifest = { v: 1, cell: CELL, buckets: BUCKET_COUNT, headline: headline.length, tiles: availByCell };
+  await writeFile(join(TILE_DIR, 'manifest.json'), JSON.stringify(manifest));
+
   const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
   const coreSize = Buffer.byteLength(JSON.stringify(cols));
   console.log(
     `core-index.json: ${cols.id.length} events, ${kb(coreSize)} · ` +
       `detail: ${detailCount} entries across ${detailByCell.size} cell files`,
+  );
+  console.log(
+    `tiled skeleton: ${tileRows.size} tiles across ${Object.keys(availByCell).length} cells · ` +
+      `headline ${headline.length} events`,
   );
 }
 
