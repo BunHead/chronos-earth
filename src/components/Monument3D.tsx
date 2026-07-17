@@ -3195,10 +3195,12 @@ export function buildModel(
     if (!ruined) {
       const bend = (z: number) => 38.5 + Math.sin(z * 0.11) * 2.6 + Math.sin(z * 0.031 + 1.7) * 1.8;
       const riverPts: THREE.Vector3[] = [];
-      for (let z = -46; z <= 46; z += 4) riverPts.push(new THREE.Vector3(bend(z), 0, z)); // extended full length of the plateau
+      // Runs well beyond the plateau both ways (~±150 units ≈ ±3.4 km) so the
+      // Nile reads as a river crossing the valley, not a stub beside the pyramids.
+      for (let z = -150; z <= 150; z += 5) riverPts.push(new THREE.Vector3(bend(z), 0, z));
       const course = new THREE.CatmullRomCurve3(riverPts);
       const water = new THREE.Mesh(
-        new THREE.TubeGeometry(course, 56, 2.6, 6, false),
+        new THREE.TubeGeometry(course, 140, 3.2, 6, false),
         new THREE.MeshStandardMaterial({ color: '#3f7fa8', roughness: 0.32, metalness: 0.05 }),
       );
       water.scale.y = 0.03; // a ribbon lying on the land, not a pipe
@@ -3206,7 +3208,7 @@ export function buildModel(
       water.userData.noShadow = true; // never part of the fit box
       group.add(water);
       const banks = new THREE.Mesh(
-        new THREE.TubeGeometry(course, 56, 4.0, 6, false),
+        new THREE.TubeGeometry(course, 140, 4.8, 6, false),
         new THREE.MeshStandardMaterial({ color: '#7d8a56', roughness: 0.95 }),
       );
       banks.scale.y = 0.014; // the green floodplain fringe
@@ -3228,32 +3230,17 @@ export function buildModel(
       spur.userData.noShadow = true;
       group.add(spur);
     }
-    if (frac >= 0.82) { // the Great Sphinx, carved from the bedrock
-      const sx = sphinxGroup();
-      // TRUE size: 73 m nose-to-tail ≈ 3.17 units at this plateau's ~23 m/unit
-      // (the old fixed 0.62 scalar made her read half a pyramid). Measure the
-      // authored group and scale to fact, whatever its native size.
-      const sb = new THREE.Box3().setFromObject(sx);
-      const nativeLen = Math.max(sb.max.z - sb.min.z, 0.001);
-      sx.scale.setScalar(3.17 / nativeLen);
-      sx.position.set(14.2, 0, 18.8); // (true vertical "sits lower in its hollow" is a globe placement/upM tweak)
-      // The Sphinx faces due east; the group itself is authored facing +Z.
-      sx.rotation.y = Math.PI / 2;
-      group.add(sx);
-    }
-    // --- The mortuary complex: the Sphinx enclosure, Khafre's valley temple by
-    //     the Sphinx, his causeway up to the pyramid, and Khufu's perimeter
-    //     wall — all raised once the plateau is well advanced. ---
+    // The Great Sphinx is NO LONGER drawn in the flat plateau model: baked here
+    // at (14.2, 0, 18.8) she floated ~20 m up, because the whole model clamps to
+    // the ground at ONE point (the pyramids, up on the plateau) while her hollow
+    // sits lower to the SE. She now stands as her own ground-clamped model at her
+    // true coordinates (globeModels PLACEMENTS), so she foots the real terrain.
+    // --- The mortuary complex: Khafre's mortuary temple, his causeway up to the
+    //     pyramid, and Khufu's perimeter wall — raised once the plateau is well
+    //     advanced. (The Sphinx enclosure + valley temple went with the Sphinx —
+    //     they belong on her lower ground; the modeller adds them there next.) ---
     if (frac >= 0.7) {
       const templeMat = ruined ? '#b6a075' : '#c7ac7e';
-      // Sphinx enclosure: a sunk floor and low quarried retaining walls on three
-      // sides, so the Sphinx reads as sitting DOWN in its hollow.
-      group.add(block(6.0, 0.1, 5.0, 14.2, -0.04, 18.8, '#c0aa7c')); // enclosure floor (flush — never below the pyramid bases)
-      for (const [w, d, x, z] of [[6.2, 0.5, 14.2, 21.6], [0.5, 5.2, 11.2, 18.8], [0.5, 5.2, 17.2, 18.8]] as const)
-        group.add(block(w, 0.5, d, x, 0.25, z, templeMat)); // low quarried rim (east open), the Sphinx rises above it
-      // Khafre's valley temple, hard by the Sphinx (east), with a pillared front.
-      group.add(block(3.2, 1.1, 2.8, 15.8, 0.55, 22.2, templeMat));
-      for (let i = -1; i <= 1; i++) group.add(block(0.35, 1.3, 0.35, 15.8 + i * 0.9, 0.65, 23.5, templeMat)); // portico pillars
       // Khafre's mortuary temple at his pyramid's east face.
       group.add(block(2.8, 1.1, 3.2, -8.4, 0.55, 15.0, templeMat));
       // The covered causeway climbing from the valley temple to the mortuary temple.

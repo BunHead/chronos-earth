@@ -53,6 +53,12 @@ const PLACEMENTS: Placement[] = [
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.
   { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80 },
+  // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
+  // lower than the pyramids — so she clamps to her own (lower) ground and sits in
+  // her hollow instead of floating at plateau height baked into the flat giza
+  // model. Carved under Khafre, ~2500 BCE. (The plateau model no longer draws its
+  // own Sphinx — see Monument3D 'giza'.)
+  { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500 },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500, buildYears: 400 },

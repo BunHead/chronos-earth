@@ -18,11 +18,14 @@ export interface MonumentFit {
 // `match` is a lowercase substring of the title (first hit wins).
 const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'giza pyramids', widthM: 1000 }, // whole plateau: Menkaure west edge → Sphinx east edge
+  // 'sphinx' MUST precede 'giza': first-hit-wins, and "Great Sphinx of Giza"
+  // contains "giza" — without this it sized as the 230 m pyramid base, not the
+  // 73 m lion (the Captain's "grew up" behemoth).
+  { match: 'sphinx', widthM: 73, facingDeg: 90 }, // the Sphinx faces due east
   { match: 'giza', widthM: 230 },
   { match: 'great pyramid', widthM: 230 },
   { match: 'pyramid of the sun', widthM: 220 },
   { match: 'teotihuac', widthM: 220 },
-  { match: 'sphinx', widthM: 73, facingDeg: 90 }, // the Sphinx faces due east
   { match: 'colosseum', widthM: 190 },
   { match: 'parthenon', widthM: 70, facingDeg: 0 }, // long axis E–W on the Acropolis; model long axis=local X, so θ=0 lays it E–W (facing 90 wrongly ran it N–S)
   { match: 'notre-dame', widthM: 130, facingDeg: 242.5 }, // Captain's globe eyeball 2026-07-12: 30° clockwise from 270 overshot by 2–3°, eased back

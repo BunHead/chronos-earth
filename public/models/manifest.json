@@ -1,7 +1,7 @@
 {
   "giza": {
-    "footprint": 46.95,
-    "kb": 72
+    "footprint": 45.042,
+    "kb": 52
   },
   "amphitheatre": {
     "footprint": 15.843,
@@ -156,8 +156,8 @@
     "kb": 171
   },
   "giza-ruin": {
-    "footprint": 46.95,
-    "kb": 61
+    "footprint": 45.042,
+    "kb": 36
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
@@ -173,15 +173,15 @@
   },
   "giza-b30": {
     "footprint": 14,
-    "kb": 36
+    "kb": 41
   },
   "giza-b60": {
     "footprint": 28.424,
-    "kb": 40
+    "kb": 44
   },
   "giza-b90": {
-    "footprint": 44.7,
-    "kb": 76
+    "footprint": 44.2,
+    "kb": 55
   },
   "stonehenge-b30": {
     "footprint": 25.17,
