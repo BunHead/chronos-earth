@@ -394,5 +394,15 @@
       "scale": 0.784
     },
     "ts": 1784196866529
+  },
+  "sphinx": {},
+  "place:stepped-pyramid@17.220,-89.620": {
+    "transform": {
+      "eastM": -330,
+      "northM": 230,
+      "headingDeg": 7.5,
+      "scale": 0.864
+    },
+    "ts": 1784270213446
   }
 }
