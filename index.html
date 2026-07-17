@@ -8,6 +8,13 @@
          mounts, so open the TCP/TLS connection early to shave the handshake off
          the first tiles. -->
     <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin />
+    <!-- Start the startup data downloading at HTML parse, in parallel with the
+         JS — otherwise these fetches only begin after React mounts. The four
+         biggest cold-start payloads; hrefs relative so the Pages subpath works. -->
+    <link rel="preload" as="fetch" href="./data/core-index.json" crossorigin />
+    <link rel="preload" as="fetch" href="./data/battles.json" crossorigin />
+    <link rel="preload" as="fetch" href="./data/battle-views.json" crossorigin />
+    <link rel="preload" as="fetch" href="./data/ancient-sites.json" crossorigin />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <title>Chronos Earth</title>
   </head>

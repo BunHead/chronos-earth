@@ -15,8 +15,16 @@
  */
 const VERSION = new URL(self.location.href).searchParams.get('v') || '0';
 const DATA_CACHE = `chronos-data-${VERSION}`;
+const ASSET_CACHE = `chronos-assets-${VERSION}`;
 const SHELL_CACHE = 'chronos-shell';
 const CACHE_PREFIX = 'chronos-data-';
+const ASSET_PREFIX = 'chronos-assets-';
+
+/** Vite's content-hashed bundles (assets/name-HASH.js|css). The hash IS the
+ * version — a given URL can never change content — so CACHE-FIRST is safe and
+ * makes repeat visits instant (GitHub Pages only sends max-age=600). The cache
+ * carries the build stamp, so stale hashes are swept on activate. */
+const HASHED_ASSET = /\/assets\/[^/]+-[A-Za-z0-9_-]{8,}\.(js|css)$/;
 
 const DATA_PATH = new URL('data/', self.registration.scope).pathname;
 const CACHEABLE = /\.(json|png|jpe?g|webp|gif|svg)$/i;
@@ -30,7 +38,13 @@ self.addEventListener('activate', (event) => {
     (async () => {
       const names = await caches.keys();
       await Promise.all(
-        names.filter((n) => n.startsWith(CACHE_PREFIX) && n !== DATA_CACHE).map((n) => caches.delete(n)),
+        names
+          .filter(
+            (n) =>
+              (n.startsWith(CACHE_PREFIX) && n !== DATA_CACHE) ||
+              (n.startsWith(ASSET_PREFIX) && n !== ASSET_CACHE),
+          )
+          .map((n) => caches.delete(n)),
       );
       await self.clients.claim();
     })(),
@@ -55,6 +69,23 @@ self.addEventListener('fetch', (event) => {
           const cache = await caches.open(SHELL_CACHE);
           return (await cache.match(req)) || fetch(req);
         }
+      })(),
+    );
+    return;
+  }
+
+  // Content-hashed bundles — CACHE-FIRST: the hash in the name guarantees the
+  // content can never change for a given URL, so a cached copy is always right.
+  // Repeat visits skip the network entirely for JS/CSS.
+  if (HASHED_ASSET.test(url.pathname)) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(ASSET_CACHE);
+        const hit = await cache.match(req);
+        if (hit) return hit;
+        const res = await fetch(req);
+        if (res.ok) cache.put(req, res.clone());
+        return res;
       })(),
     );
     return;
