@@ -14,11 +14,17 @@
  * unreliable across drivers. Cross-fading is then just an opacity tween.
  */
 import * as Cesium from 'cesium';
+import { adaptiveLayerCap } from '../lib/gpuBudget';
 
 /** Continents are essentially modern within the last few million years. */
 const ACTIVE_MA = 4;
-const TEX_W = 2048;
-const TEX_H = 1024;
+/** The drift epochs are drawn from VECTOR coastlines, so the texture size is
+ * the only thing limiting their sharpness — there is no source image to
+ * out-resolve. This was 2048×1024 (half the border layer's), which is why the
+ * separating continents read soft. At 4096×2048 the same vectors rasterise with
+ * twice the detail; the cost is GPU memory, which the eviction below bounds. */
+const TEX_W = 4096;
+const TEX_H = 2048;
 
 const LAND_CSS = '#6f7d57';
 const OCEAN_CSS = '#16384f';
@@ -71,6 +77,35 @@ export class PaleoController {
       else break;
     }
     return best;
+  }
+
+  /** The user's "fast time travel" setting — a generous GPU window, or lean. */
+  private gpuCacheOn = true;
+  setGpuCache(on: boolean): void {
+    this.gpuCacheOn = on;
+    this.evictFarEpochs(this.pendingMa ?? 0);
+  }
+
+  /** Drop epoch textures furthest (in Ma) from where the traveller is, keeping
+   * the resident count inside the machine's budget. The vector coastlines stay
+   * cached by the browser, so re-rasterising an evicted epoch is a local redraw
+   * — never a download. */
+  private evictFarEpochs(anchorMa: number): void {
+    if (this.viewer.isDestroyed()) return;
+    const cap = adaptiveLayerCap(this.gpuCacheOn);
+    if (this.layers.size <= cap) return;
+    const victims = [...this.layers.keys()].sort(
+      (a, b) => Math.abs(b - anchorMa) - Math.abs(a - anchorMa), // furthest first
+    );
+    for (const ma of victims) {
+      if (this.layers.size <= cap) break;
+      // Never evict the two epochs currently cross-fading on screen.
+      if (Math.abs(ma - anchorMa) < 1e-6) continue;
+      const layer = this.layers.get(ma);
+      if (!layer || layer.show) continue;
+      this.viewer.imageryLayers.remove(layer, true);
+      this.layers.delete(ma);
+    }
   }
 
   /** Rasterise one frame's GeoJSON coastlines into an equirectangular canvas. */
@@ -150,6 +185,7 @@ export class PaleoController {
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
       this.layers.set(timeMa, layer);
+      this.evictFarEpochs(timeMa);
       if (this.pendingMa !== undefined) this.update(this.pendingMa, this.pendingBase);
     } catch (err) {
       console.warn(`Failed to load paleo frame ${timeMa} Ma`, err);

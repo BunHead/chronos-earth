@@ -519,7 +519,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     return placeDossierPanel(lat, lon, year, hit?.name, nearby, openEvent);
   };
 
-  const setGpuBorderCache = (on: boolean) => bordersRef.current?.setGpuCache(on);
+  // One setting governs every historical imagery layer that caches on the GPU:
+  // the border frames and the continental-drift epochs.
+  const setGpuBorderCache = (on: boolean) => {
+    bordersRef.current?.setGpuCache(on);
+    paleoRef.current?.setGpuCache(on);
+  };
 
   useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache }));
 
@@ -664,11 +669,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         __Cesium?: typeof Cesium;
         __borders?: BordersController | null;
         __fx?: DisasterFx | null;
+        __paleo?: PaleoController | null;
       };
       w.__viewer = viewer;
       w.__Cesium = Cesium;
       w.__borders = bordersRef.current;
       w.__fx = fxRef.current;
+      w.__paleo = paleoRef.current;
     }
 
     viewer.camera.flyTo({

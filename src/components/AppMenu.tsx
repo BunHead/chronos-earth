@@ -131,12 +131,12 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   checked={gpuBorderCache}
                   onChange={(e) => onGpuBorderCache(e.target.checked)}
                 />
-                <span>🗺️ Fast border travel</span>
+                <span>🗺️ Fast time travel</span>
               </label>
               <div className="app-menu-note">
-                Keeps more historical border maps ready on the graphics card, so
-                travelling through time is instant. Turn it off on an older
-                machine if the globe stutters.
+                Keeps more historical maps — borders and drifting continents —
+                ready on the graphics card, so travelling through time is
+                instant. Turn it off on an older machine if the globe stutters.
               </div>
               <label className="app-menu-item toggle">
                 <input

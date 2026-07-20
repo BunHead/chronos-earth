@@ -23,6 +23,7 @@ import * as Cesium from 'cesium';
 import { diffOwners, morphOpen } from '../lib/borderStatus';
 import { flagCanvasFor } from '../lib/flags';
 import { densifyRing } from '../lib/ringSmooth';
+import { adaptiveLayerCap } from '../lib/gpuBudget';
 
 const TEX_W = 4096;
 const TEX_H = 2048;
@@ -700,12 +701,7 @@ export class BordersController {
   private gpuCacheOn = true;
   /** Frames to keep resident, chosen from the device's reported memory. */
   private layerCap(): number {
-    if (!this.gpuCacheOn) return 4; // conservative mode: only the active span
-    const gb = (navigator as unknown as { deviceMemory?: number }).deviceMemory;
-    if (typeof gb !== 'number') return 10; // unknown (Safari/Firefox) — middle road
-    if (gb >= 8) return 16;
-    if (gb >= 4) return 10;
-    return 6;
+    return adaptiveLayerCap(this.gpuCacheOn);
   }
   /** Turn the generous GPU cache on/off (⋯ menu → Settings). Off = minimum
    * residency and no pre-rasterising, for constrained machines. */

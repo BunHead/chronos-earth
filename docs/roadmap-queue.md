@@ -113,11 +113,24 @@ is dirty at the start, stop and do nothing.
   - Done when: eviction + adaptive cap + ahead-of-travel pre-rasterise + toggle
     land, verified both directions, tests green.
 
-- [ ] **6. Continental drift sharpness ("continents separating looks blurry").**
-  The paleo epochs (GPlates snapshots) read soft/blurry mid-drift. INVESTIGATE
-  FIRST — find the paleo texture path (grep `paleo` in src/components/, likely a
-  SingleTileImageryProvider over bundled snapshot images) and measure the source
-  resolution actually shipped.
+- [x] **6. Continental drift sharpness.** _(done 2026-07-17 — investigation changed the fix)_
+  Landing note: the investigation overturned the assumption in this item. The
+  drift epochs are NOT bundled snapshot images — they are **vector coastline
+  geojson** (`public/data/paleo/coastlines-*.geojson`, 26 epochs) rasterised in
+  the browser by `src/components/paleo.ts`. So there was no source resolution to
+  out-resolve and nothing to re-fetch from GPlates: the blur was purely the
+  canvas it was drawn onto — **2048×1024, half the border layer's 4096×2048**.
+  Raised TEX to 4096×2048, so the same vectors rasterise with twice the detail —
+  zero download growth, zero new data, no runtime service calls.
+  That alone would have quadrupled the epoch textures to ~30 MB each (26 epochs
+  ≈ 780 MB of GPU), recreating the very risk item 5 removed — so paleo now shares
+  the same budget: extracted `src/lib/gpuBudget.ts` (`adaptiveLayerCap`, 4 unit
+  tests), used by BOTH borders and paleo, with `evictFarEpochs()` mirroring the
+  border eviction and never dropping the two epochs mid-cross-fade.
+  The Settings toggle is now **"🗺️ Fast time travel"** and governs both layers.
+  Verified live: the visible epoch texture measures 4096×2048 (was 2048×1024),
+  and a full 230 Mya → present → back sweep held exactly 16 of 26 epochs
+  resident. `__paleo` added to the dev probes for future diagnosis.
   - Likely fix: re-fetch higher-resolution snapshots from the GPlates Web
     Service at BUILD time (zero-cost law: bundle them, no runtime calls — About
     already credits GPlates) for the marquee epochs; keep total bundle growth
