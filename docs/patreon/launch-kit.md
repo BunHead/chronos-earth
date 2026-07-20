@@ -49,9 +49,11 @@ word and image below is prepared. Assets: `banner-1600x400.png` (cover) and
 
 **£3/month — Time Traveller**
 > - Your name on the **ship's manifest** — the supporters scroll inside the app itself
-> - Patron-only dev-logs: what the AI crew built this week, with screenshots of
->   monuments mid-construction, battles mid-choreography, and the occasional
->   glorious failure
+> - Patron-only dispatches from the crew — new monuments, battles and features
+>   as they land, with screenshots of monuments mid-construction and the
+>   occasional glorious failure
+>   _(deliberately NO fixed cadence — "as they land", never "weekly": the #1
+>   patron-churn cause is creators missing a schedule they didn't need to set)_
 > Thank-you blurb: *"Welcome aboard, Time Traveller — your name goes on the manifest. ⏳"*
 
 **£6/month — Navigator**
