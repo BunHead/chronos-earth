@@ -127,9 +127,9 @@
   },
   "giza": {
     "status": "allowed",
-    "ts": 1783891598373,
-    "note": "Extend nile, lower Sphinx as it sits lower on the terrain on the globe. Temple at shoreline and course-way and perimeter wall need including",
-    "rework": false,
+    "ts": 1784534401142,
+    "note": "🛠 Remaining from the Captain: Khafre valley temple at the SHORELINE by the Sphinx hollow, the causeway climbing valley-temple → mortuary temple, and Khufu perimeter wall — rebuild on the plateau model (the Sphinx + her enclosure moved OUT to her own ground-clamped model 2026-07-16; do NOT re-add a sphinx here). Nile already extended.",
+    "rework": true,
     "focus": "detail"
   },
   "leaning-tower": {
