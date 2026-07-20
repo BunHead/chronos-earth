@@ -678,15 +678,47 @@ export class BordersController {
     }
   }
 
+  /** Raw geojson text per frame year — filled by the idle warm-up so a scrub in
+   * EITHER direction skips the network and only pays the rasterise. Stored as
+   * text (~8 MB total for all 35 frames), parsed on demand. */
+  private geoText = new Map<number, string>();
+
+  /** Quietly download every frame's geojson after the app has settled, one at a
+   * time with a breather between, so scrubbing deep history never waits on the
+   * network. Runs once; frames already cached or warmed are skipped. */
+  warmAllFrames(): void {
+    if (this.warming) return;
+    this.warming = true;
+    void (async () => {
+      for (const f of this.frames) {
+        if (this.viewer.isDestroyed()) return;
+        if (this.geoText.has(f.year) || this.cache.has(f.year)) continue;
+        try {
+          const res = await fetch(`${this.baseUrl}data/borders/${f.file}`);
+          if (res.ok) this.geoText.set(f.year, await res.text());
+        } catch {
+          /* offline / hiccup — ensureFrame will fetch on demand as before */
+        }
+        await new Promise((r) => setTimeout(r, 250)); // stay polite to the main thread + network
+      }
+    })();
+  }
+  private warming = false;
+
   private async ensureFrame(year: number): Promise<void> {
     if (this.cache.has(year) || this.loading.has(year)) return;
     const file = this.frames.find((f) => f.year === year)?.file;
     if (!file) return;
     this.loading.add(year);
     try {
-      const res = await fetch(`${this.baseUrl}data/borders/${file}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const fc = (await res.json()) as {
+      const warmed = this.geoText.get(year);
+      const text = warmed ?? (await (async () => {
+        const res = await fetch(`${this.baseUrl}data/borders/${file}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })());
+      this.geoText.delete(year); // parsed once — the rasterised frame takes over
+      const fc = JSON.parse(text) as {
         features: Array<{ properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }>;
       };
       let polities: Polity[] = [];

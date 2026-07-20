@@ -48,7 +48,8 @@ word and image below is prepared. Assets: `banner-1600x400.png` (cover) and
 > Follow the voyage: public dev-logs and launch announcements.
 
 **£3/month — Time Traveller**
-> - Your name on the **ship's manifest** — the supporters scroll inside the app itself
+> - Your name on the **ship's manifest** — the supporters scroll inside the app
+>   itself. **The first 20 aboard wear a founding star ⭐ forever.**
 > - Patron-only dispatches from the crew — new monuments, battles and features
 >   as they land, with screenshots of monuments mid-construction and the
 >   occasional glorious failure

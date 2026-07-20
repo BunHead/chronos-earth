@@ -65,14 +65,18 @@ export default function About({ onClose }: AboutProps) {
                   <p className="info-summary">With gratitude to the patrons keeping this voyage free for everyone:</p>
                   <ul className="manifest-roll">
                     {patrons.map((name, i) => (
-                      <li key={i}>{name}</li>
+                      // The first 20 aboard are FOUNDING patrons — they wear the
+                      // star forever (order in supporters.json = order joined).
+                      <li key={i} title={i < 20 ? 'Founding patron — among the first 20 aboard' : undefined}>
+                        {i < 20 ? '⭐ ' : ''}{name}
+                      </li>
                     ))}
                   </ul>
                 </>
               ) : (
                 <p className="info-summary">
                   The manifest is open, and the first berth is empty — be the first name aboard.
-                  Every patron is listed here.
+                  Every patron is listed here, and the <b>first 20 wear a founding star ⭐ forever</b>.
                 </p>
               )}
             </>

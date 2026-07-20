@@ -645,6 +645,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     oceanRef.current = new OceanDrainController(viewer);
     riversRef.current = new RiversController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
+    // After the first paint has long settled, quietly download every border
+    // frame's geojson (~8 MB over ~10s, one file at a time) so time-travel in
+    // EITHER direction never waits on the network — only the quick rasterise.
+    const warmTimer = window.setTimeout(() => bordersRef.current?.warmAllFrames(), 8000);
     fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
     campaignRef.current.onActiveLabel = (label) => onCampaignLabelRef.current(label);
@@ -944,6 +948,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       seaRef.current?.dispose();
       oceanRef.current?.dispose();
       riversRef.current?.dispose();
+      window.clearTimeout(warmTimer);
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
       fxRef.current?.dispose();
