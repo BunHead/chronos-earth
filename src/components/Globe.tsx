@@ -21,6 +21,14 @@ import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
+import { renderTier } from '../lib/renderTier';
+import {
+  bindRenderLease,
+  unbindRenderLease,
+  requestFrame,
+  nudgeFrames,
+  onDemandRenderingEnabled,
+} from '../lib/renderLease';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -314,6 +322,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           bb.scale = Math.max(0.01, a.base * easeOutBack(t));
         }
       }
+      // The scale above was mutated directly, so under render-on-demand it
+      // would never be drawn — the markers would simply appear at full size.
+      requestFrame();
       if (popAnimsRef.current.size === 0 && popTimerRef.current !== null) {
         window.clearInterval(popTimerRef.current);
         popTimerRef.current = null;
@@ -549,15 +560,44 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       fullscreenButton: false,
       selectionIndicator: false,
       infoBox: false,
+      // Draw only when something changes rather than sixty times a second —
+      // but OFF by default until proven; see onDemandRenderingEnabled().
+      requestRenderMode: onDemandRenderingEnabled(),
+      maximumRenderTimeChange: Infinity,
     });
+    bindRenderLease(viewer.scene);
+    // The opening frames: base imagery, terrain and the first data all arrive
+    // asynchronously over the first few seconds, and under render-on-demand a
+    // globe nobody has asked to be drawn is simply black.
+    nudgeFrames(6000);
+    // Terrain and imagery tiles are REQUESTED during render passes, so a globe
+    // that is not being drawn never asks for the tiles it needs to be drawn —
+    // it starves itself, and you get a star field with no Earth in front of it
+    // (seen live, 2026-07-20). While tiles are in flight, keep drawing; when
+    // the queue drains, fall silent again.
+    viewer.scene.globe.tileLoadProgressEvent.addEventListener((pending: number) => {
+      if (pending > 0) nudgeFrames(700);
+    });
+
+    // On a machine without a graphics card every pixel is drawn on the CPU, so
+    // buy back the fill rate: render below native resolution (the globe is a
+    // smooth-shaded sphere and barely shows it) and let terrain be coarser.
+    const lightweight = renderTier() === 'software';
+    if (lightweight) {
+      viewer.resolutionScale = 0.75;
+      viewer.scene.globe.maximumScreenSpaceError = 4; // default 2 — a quarter of the tiles
+      viewer.scene.globe.showGroundAtmosphere = false;
+    }
 
     viewer.scene.globe.enableLighting = false;
     // Bare globe (imagery not yet streamed) reads as DESERT, not ocean —
     // Cesium's default blue base was hiding the ground under Giza whenever
     // tiles lagged, and blue-under-pyramids reads as "sea", not "loading".
     viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#8a7d63');
-    if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = true;
-    if (viewer.scene.fog) viewer.scene.fog.enabled = true;
+    // Atmosphere and fog are per-pixel work, and the first thing to go when
+    // there is no graphics card to do it on.
+    if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = !lightweight;
+    if (viewer.scene.fog) viewer.scene.fog.enabled = !lightweight;
     (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = 'none';
 
     // Natural Earth (bundled, low-res) stays as an offline fallback at the
@@ -599,6 +639,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
             if (viewer.isDestroyed()) return;
             const layer = viewer.imageryLayers.addImageryProvider(provider);
             modernLayersRef.current.push(layer);
+            nudgeFrames();
           })
           .catch(() => {});
       void addCap(82.5, 90);
@@ -953,6 +994,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         popTimerRef.current = null;
       }
       popAnimsRef.current.clear();
+      unbindRenderLease();
       handler.destroy();
       faunaRef.current?.dispose();
       faunaRef.current = null;

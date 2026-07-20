@@ -15,6 +15,9 @@
  */
 import * as Cesium from 'cesium';
 import { adaptiveLayerCap } from '../lib/gpuBudget';
+import { globeTextureSize, mayWorkAhead } from '../lib/renderTier';
+import { requestFrame, nudgeFrames } from '../lib/renderLease';
+import { providerFromCanvas } from './canvasImagery';
 
 /** Continents are essentially modern within the last few million years. */
 const ACTIVE_MA = 4;
@@ -22,9 +25,12 @@ const ACTIVE_MA = 4;
  * the only thing limiting their sharpness — there is no source image to
  * out-resolve. This was 2048×1024 (half the border layer's), which is why the
  * separating continents read soft. At 4096×2048 the same vectors rasterise with
- * twice the detail; the cost is GPU memory, which the eviction below bounds. */
-const TEX_W = 4096;
-const TEX_H = 2048;
+ * twice the detail; the cost is GPU memory, which the eviction below bounds.
+ *
+ * But NOT on a machine without a GPU, where the real cost is the main-thread
+ * PNG encode and 4096×2048 meant minutes between frames. There we take the
+ * 2048×1024 sharpness hit gladly — see renderTier.ts. */
+const { w: TEX_W, h: TEX_H } = globeTextureSize();
 
 const LAND_CSS = '#6f7d57';
 const OCEAN_CSS = '#16384f';
@@ -166,6 +172,27 @@ export class PaleoController {
     return canvas;
   }
 
+  /** Frames the playhead needs at this instant (floor + ceil of the cross-fade). */
+  private wanted = new Set<number>();
+  private ensureTimer: number | undefined;
+
+  /**
+   * Wait for the timeline to SETTLE before rasterising anything new.
+   *
+   * Dragging the timeline fast used to fire one full-globe rasterise per epoch
+   * skimmed past — twenty blocking PNG encodes queued back to back for frames
+   * nobody ever looked at, which is what put "Page Unresponsive" on the
+   * Captain's screen (2026-07-20). Already-rasterised frames still cross-fade
+   * instantly during the drag, because that path never comes through here; only
+   * NEW work waits for the hand to stop.
+   */
+  private scheduleEnsure(): void {
+    window.clearTimeout(this.ensureTimer);
+    this.ensureTimer = window.setTimeout(() => {
+      for (const t of this.wanted) void this.ensureFrame(t);
+    }, mayWorkAhead() ? 120 : 260);
+  }
+
   private async ensureFrame(timeMa: number): Promise<void> {
     if (this.layers.has(timeMa) || this.loading.has(timeMa)) return;
     const file = this.frames.find((f) => f.timeMa === timeMa)?.file;
@@ -176,15 +203,18 @@ export class PaleoController {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const fc = await res.json();
       if (this.viewer.isDestroyed()) return;
+      // The download took time; the playhead may have moved on. Rasterising is
+      // the expensive half, so abandon it rather than spend it on a frame that
+      // is no longer wanted.
+      if (!this.wanted.has(timeMa)) return;
       const canvas = this.rasterise(fc);
-      const provider = await Cesium.SingleTileImageryProvider.fromUrl(canvas.toDataURL('image/png'), {
-        rectangle: FULL_GLOBE,
-      });
+      const provider = await providerFromCanvas(canvas, { rectangle: FULL_GLOBE });
       if (this.viewer.isDestroyed()) return;
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
       this.layers.set(timeMa, layer);
+      nudgeFrames(); // a new epoch has arrived — make sure it is actually drawn
       this.evictFarEpochs(timeMa);
       if (this.pendingMa !== undefined) this.update(this.pendingMa, this.pendingBase);
     } catch (err) {
@@ -224,8 +254,11 @@ export class PaleoController {
     // stays crisp most of the time instead of being a long two-frame blur.
     const frac = Cesium.Math.clamp((rawFrac - 0.3) / 0.4, 0, 1);
 
-    void this.ensureFrame(floor);
-    if (ceil !== floor) void this.ensureFrame(ceil);
+    // Only these two frames are wanted right now. Recording that lets an
+    // in-flight rasterise for a frame the playhead has already left abandon
+    // itself instead of finishing work nobody will ever see.
+    this.wanted = ceil === floor ? new Set([floor]) : new Set([floor, ceil]);
+    this.scheduleEnsure();
 
     for (const [time, layer] of this.layers.entries()) {
       if (time === floor) {
@@ -245,9 +278,14 @@ export class PaleoController {
     const ceilLayer = ceil !== floor ? this.layers.get(ceil) : undefined;
     if (floorLayer) this.viewer.imageryLayers.raiseToTop(floorLayer);
     if (ceilLayer) this.viewer.imageryLayers.raiseToTop(ceilLayer);
+    // Show/alpha/order were all just set directly — ask for the frame that
+    // shows them, or the cross-fade never appears.
+    requestFrame();
   }
 
   dispose() {
+    window.clearTimeout(this.ensureTimer);
+    this.wanted.clear();
     if (!this.viewer.isDestroyed()) {
       for (const layer of this.layers.values()) this.viewer.imageryLayers.remove(layer, true);
     }

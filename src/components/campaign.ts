@@ -9,6 +9,7 @@
  *
  * Same robust technique as borders.ts: rasterise to a canvas → imagery layer.
  */
+import { nudgeFrames } from '../lib/renderLease';
 import * as Cesium from 'cesium';
 
 const TEX_W = 2048;
@@ -116,6 +117,7 @@ export class CampaignController {
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // async arrival — make sure it is drawn
       this.cache.set(key, layer);
       if (this.pending) this.update(this.pending.year, this.pending.visible);
     } catch (err) {

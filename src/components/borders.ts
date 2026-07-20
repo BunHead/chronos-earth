@@ -24,9 +24,13 @@ import { diffOwners, morphOpen } from '../lib/borderStatus';
 import { flagCanvasFor } from '../lib/flags';
 import { densifyRing } from '../lib/ringSmooth';
 import { adaptiveLayerCap } from '../lib/gpuBudget';
+import { globeTextureSize, mayWorkAhead } from '../lib/renderTier';
+import { requestFrame, nudgeFrames } from '../lib/renderLease';
+import { providerFromCanvas } from './canvasImagery';
 
-const TEX_W = 4096;
-const TEX_H = 2048;
+// Sized to the machine: a CPU-only renderer gets half in each direction, which
+// quarters the per-frame PNG encode. See renderTier.ts.
+const { w: TEX_W, h: TEX_H } = globeTextureSize();
 /** Owner-comparison grids are computed at this coarser size (fast, denoised). */
 const OWNER_W = 1024;
 const OWNER_H = 512;
@@ -319,9 +323,13 @@ export class BordersController {
     this.labels = new Cesium.LabelCollection();
     this.viewer.scene.primitives.add(this.labels);
     // Gentle heartbeat on the war borders — red stretches breathe.
+    // Under render-on-demand a mutated alpha is invisible until someone asks
+    // for a frame — so ask, but ONLY while there is actually a war border
+    // breathing. An idle globe must be allowed to be genuinely idle.
     this.pulseTimer = window.setInterval(() => {
       if (this.redLayer?.show) {
         this.redLayer.alpha = 0.66 + 0.28 * Math.sin(performance.now() / 260);
+        requestFrame();
       }
     }, 80);
     void this.init();
@@ -555,14 +563,12 @@ export class BordersController {
       const maskCanvas = maskToCanvas(mask, OWNER_W, OWNER_H);
       ctx.globalCompositeOperation = 'destination-in';
       ctx.drawImage(maskCanvas, 0, 0, TEX_W, TEX_H);
-      const provider = await Cesium.SingleTileImageryProvider.fromUrl(
-        canvas.toDataURL('image/png'),
-        { rectangle: FULL_GLOBE },
-      );
+      const provider = await providerFromCanvas(canvas, { rectangle: FULL_GLOBE });
       if (this.viewer.isDestroyed()) return;
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // a layer has arrived asynchronously — make sure it is drawn
       if (a.orange?.layer) this.viewer.imageryLayers.remove(a.orange.layer, true);
       a.orange = { layer, vsYear: ceilYear, mask: maskCanvas };
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
@@ -663,14 +669,12 @@ export class BordersController {
         });
         ctx.stroke();
       }
-      const provider = await Cesium.SingleTileImageryProvider.fromUrl(
-        canvas.toDataURL('image/png'),
-        { rectangle: FULL_GLOBE },
-      );
+      const provider = await providerFromCanvas(canvas, { rectangle: FULL_GLOBE });
       if (this.viewer.isDestroyed()) return;
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // a layer has arrived asynchronously — make sure it is drawn
       if (this.redLayer) this.viewer.imageryLayers.remove(this.redLayer, true);
       this.redLayer = layer;
       this.redKey = `${floorYear}|${key}`;
@@ -744,6 +748,10 @@ export class BordersController {
     if (!this.gpuCacheOn || this.viewer.isDestroyed()) return;
     const anchor = this.activeYear;
     if (anchor === undefined) return;
+    // On a CPU-only renderer there are no spare cycles to speculate with:
+    // rasterising a frame nobody has asked for steals them from the frame they
+    // are looking at right now.
+    if (!mayWorkAhead()) return;
     const prev = this.lastAnchor;
     this.lastAnchor = anchor;
     if (prev === undefined || prev === anchor) return;
@@ -758,9 +766,9 @@ export class BordersController {
     // One at a time, well after the current frame has settled, so this never
     // competes with the frame the user is actually looking at.
     this.preTimer = setTimeout(() => {
-      void this.ensureFrame(targets[0]);
+      void this.ensureFrame(targets[0], true);
       if (targets[1]) {
-        this.preTimer = setTimeout(() => void this.ensureFrame(targets[1]), 1200);
+        this.preTimer = setTimeout(() => void this.ensureFrame(targets[1], true), 1200);
       }
     }, 900);
   }
@@ -769,6 +777,9 @@ export class BordersController {
    * time with a breather between, so scrubbing deep history never waits on the
    * network. Runs once; frames already cached or warmed are skipped. */
   warmAllFrames(): void {
+    // Thirty-five frames of held geojson is a comfort on a healthy machine and
+    // a burden on a struggling one — skip it where memory is the scarce thing.
+    if (!mayWorkAhead()) return;
     if (this.warming) return;
     this.warming = true;
     void (async () => {
@@ -787,7 +798,33 @@ export class BordersController {
   }
   private warming = false;
 
-  private async ensureFrame(year: number): Promise<void> {
+  /** Frames the playhead needs right now (floor, ceil and the one behind). */
+  private wanted = new Set<number>();
+  private ensureTimer: number | undefined;
+
+  /**
+   * Let the timeline SETTLE before rasterising anything new.
+   *
+   * A fast drag used to fire a full-globe rasterise per frame swept past —
+   * dozens of them, queued, for years nobody paused on. That is what produced
+   * "Page Unresponsive" (the Captain, 2026-07-20). Frames already in the cache
+   * still swap instantly mid-drag; this gate governs only NEW work.
+   */
+  private scheduleEnsure(): void {
+    clearTimeout(this.ensureTimer);
+    this.ensureTimer = window.setTimeout(
+      () => {
+        for (const y of this.wanted) void this.ensureFrame(y);
+        // Only once the traveller has actually stopped is it worth looking ahead.
+        this.preRasteriseAhead();
+      },
+      mayWorkAhead() ? 120 : 260,
+    );
+  }
+
+  /** `speculative` marks look-ahead work, which is deliberately for a frame the
+   * playhead has NOT reached and so must not be cancelled for that reason. */
+  private async ensureFrame(year: number, speculative = false): Promise<void> {
     if (this.cache.has(year) || this.loading.has(year)) return;
     const file = this.frames.find((f) => f.year === year)?.file;
     if (!file) return;
@@ -823,14 +860,16 @@ export class BordersController {
         polities = [...this.heptarchy, ...polities.filter((p) => !ours.has(p.name.toLowerCase()))];
       }
       if (this.viewer.isDestroyed()) return;
+      // Parsing took time and rasterising is the expensive half — so if the
+      // traveller has moved on and this was not deliberate look-ahead, stop.
+      if (!speculative && !this.wanted.has(year)) return;
       const canvas = this.rasterise(polities, year);
-      const provider = await Cesium.SingleTileImageryProvider.fromUrl(canvas.toDataURL('image/png'), {
-        rectangle: FULL_GLOBE,
-      });
+      const provider = await providerFromCanvas(canvas, { rectangle: FULL_GLOBE });
       if (this.viewer.isDestroyed()) return;
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // a layer has arrived asynchronously — make sure it is drawn
       this.cache.set(year, { layer, polities });
       this.evictFarFrames();
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
@@ -868,17 +907,19 @@ export class BordersController {
     const frac = Cesium.Math.clamp((year - floor) / span, 0, 1);
 
     this.activeYear = floor;
-    void this.ensureFrame(floor);
-    if (ceil !== floor) void this.ensureFrame(ceil);
-    // Prefetch the frame BEHIND too. The ceil load above keeps FORWARD scrubbing
-    // seamless, but travelling BACKWARD (the Captain's natural direction — from
-    // the present into the past) hit a cold fetch+rasterise stall at every frame
-    // boundary. Warming the previous frame makes both directions instant.
+    // The frames this playhead position actually needs. Recorded so that work
+    // in flight for a year the traveller has already swept past can abandon
+    // itself rather than finish — see scheduleEnsure().
     const prev = this.frames[floorIdx - 1]?.year;
-    if (prev != null) void this.ensureFrame(prev);
-    // Keep going in whichever direction the traveller is heading, during idle.
-    this.preRasteriseAhead();
+    this.wanted = new Set<number>([floor]);
+    if (ceil !== floor) this.wanted.add(ceil);
+    // The frame BEHIND too: the ceil load keeps FORWARD scrubbing seamless, but
+    // travelling BACKWARD (the Captain's natural direction — from the present
+    // into the past) hit a cold stall at every frame boundary.
+    if (prev != null) this.wanted.add(prev);
+    this.scheduleEnsure();
     this.syncLabels(floor);
+    requestFrame(); // show/alpha below are set directly; ask for the frame
 
     for (const [y, { layer }] of this.cache.entries()) {
       if (y === floor) {
@@ -1185,14 +1226,14 @@ export class BordersController {
         ctx.drawImage(red, 0, 0);
       }
 
-      const provider = await Cesium.SingleTileImageryProvider.fromUrl(
-        canvas.toDataURL('image/png'),
-        { rectangle: Cesium.Rectangle.fromDegrees(rect.w, rect.s, rect.e, rect.n) },
-      );
+      const provider = await providerFromCanvas(canvas, {
+        rectangle: Cesium.Rectangle.fromDegrees(rect.w, rect.s, rect.e, rect.n),
+      });
       if (this.viewer.isDestroyed()) return;
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // a layer has arrived asynchronously — make sure it is drawn
       if (this.detailLayer) this.viewer.imageryLayers.remove(this.detailLayer, true);
       this.detailLayer = layer;
       this.detailBuilt = {
@@ -1296,6 +1337,8 @@ export class BordersController {
   dispose() {
     window.clearInterval(this.pulseTimer);
     clearTimeout(this.preTimer);
+    clearTimeout(this.ensureTimer);
+    this.wanted.clear();
     if (!this.viewer.isDestroyed()) {
       for (const frame of this.cache.values()) {
         this.viewer.imageryLayers.remove(frame.layer, true);

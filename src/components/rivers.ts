@@ -17,6 +17,7 @@
  * grade channels. Good for the last several thousand years; deeper than that the
  * evidence thins out.
  */
+import { nudgeFrames } from '../lib/renderLease';
 import * as Cesium from 'cesium';
 
 const TEX_W = 2048;
@@ -166,6 +167,7 @@ export class RiversController {
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // async arrival — make sure it is drawn
       this.layers.set(sig, layer);
     } catch (err) {
       console.warn('Shifting-rivers overlay unavailable.', err);

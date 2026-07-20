@@ -18,6 +18,7 @@
  * so it reads as ice and flood grown onto the globe, not flat panels. Curated and
  * deliberately APPROXIMATE — the honest science behind the drowned-coast stories.
  */
+import { nudgeFrames } from '../lib/renderLease';
 import * as Cesium from 'cesium';
 
 const TEX_W = 2048;
@@ -307,6 +308,7 @@ export class SeaLevelController {
       const layer = new Cesium.ImageryLayer(provider);
       layer.show = false; layer.alpha = 0;
       this.viewer.imageryLayers.add(layer);
+      nudgeFrames(); // async arrival — make sure it is drawn
       this.layers.set(key, layer);
     } catch (err) {
       console.warn('Ice Age overlay frame unavailable.', err);

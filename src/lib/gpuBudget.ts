@@ -16,20 +16,35 @@
  *
  * Pure and framework-free, so it is unit-tested (gpuBudget.test.ts).
  */
+import { renderTier, type RenderTier } from './renderTier';
 
 /** Frames to keep resident. `generous` is the user's "fast time travel" setting;
- * when off we hold only the active span, for constrained machines. */
-export function adaptiveLayerCap(generous: boolean, deviceMemoryGb?: number): number {
+ * when off we hold only the active span, for constrained machines.
+ *
+ * `tier` comes FIRST and overrides everything, because the original version of
+ * this function asked `deviceMemory` alone — and deviceMemory is system RAM,
+ * which says nothing whatever about graphics. A machine with 8 GB of RAM and no
+ * GPU therefore scored the most generous setting in the file, sixteen full-globe
+ * textures, and behaved exactly as badly as you would expect (2026-07-20).
+ */
+export function adaptiveLayerCap(
+  generous: boolean,
+  deviceMemoryGb?: number,
+  tier: RenderTier = renderTier(),
+): number {
+  // No graphics card: hold the frame in view and its two neighbours, no more.
+  if (tier === 'software') return 3;
   if (!generous) return 4;
   const gb =
     deviceMemoryGb ??
     (typeof navigator !== 'undefined'
       ? (navigator as unknown as { deviceMemory?: number }).deviceMemory
       : undefined);
-  // Not every browser reports deviceMemory (Safari, Firefox) — take a middle
-  // road rather than assuming the best or the worst.
-  if (typeof gb !== 'number' || !Number.isFinite(gb)) return 10;
-  if (gb >= 8) return 16;
-  if (gb >= 4) return 10;
+  // Integrated or unidentified graphics: RAM can inform the middle of the range
+  // but must never buy the top of it — only a named card earns that.
+  const ceiling = tier === 'capable' ? 16 : 10;
+  if (typeof gb !== 'number' || !Number.isFinite(gb)) return Math.min(10, ceiling);
+  if (gb >= 8) return ceiling;
+  if (gb >= 4) return Math.min(10, ceiling);
   return 6;
 }
