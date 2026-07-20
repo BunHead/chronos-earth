@@ -179,10 +179,29 @@ is dirty at the start, stop and do nothing.
   - Done when: library added, celestial gate + SkyDial/workshop wired, known-value
     tests green. NOTE: items 8-9 build on this — land it first.
 
-- [ ] **8. Celestial engine 2 — the eclipse finder.**
-  Using astronomy-engine's SearchGlobalSolarEclipse / SearchLocalSolarEclipse:
-  from the CURRENT timeline date and the camera's ground point, find the
-  next/previous solar eclipse visible there.
+- [x] **8. Celestial engine 2 — the eclipse finder.** _(done 2026-07-20, Opus)_
+  Landing note: `findSolarEclipse(from, lat, lon, dir)` added to `celestial.ts`
+  — local search for what's actually visible at the observer, enriched with the
+  GLOBAL greatest-eclipse point as the centreline to fly to (null for globally
+  partial events, so we never fly to a track that doesn't exist). The library
+  searches forward only, so backward walks from 12 years earlier and keeps the
+  last hit before the target (~50 ms, measured). UI: an **Eclipses** row on the
+  Weather & Sky frame (◀ prev / next ▶) showing kind, date, % covered, and
+  "below the horizon here" when it isn't actually visible; clicking jumps the
+  timeline to the year, sets the dial to the local solar hour of greatest
+  eclipse, and flies to the centreline.
+  HONESTY: pre-1500 hits carry the ΔT warning ("the date is sound; the ground it
+  crossed is an estimate"), and outside the celestial window it refuses outright
+  rather than guessing — both verified live.
+  TWO BUGS FOUND BY LIVE TESTING, both fixed: (1) searching from noon on the
+  timeline's day re-found an eclipse that peaked that afternoon, so prev/next
+  stuck on the same event; (2) stepping only an hour clear still landed inside
+  the eclipse's own partial phases — it takes TWO DAYS to clear an event, which
+  can never skip a neighbour since one place waits months between eclipses.
+  Verified live at Casper, Wyoming: forward walk 2017 Total 100% → 2023 Partial
+  73% → 2024 Partial 55% → 2028 Partial 4% (below horizon), and the backward
+  walk retraces it exactly. Unit tests pin the 2017 American and 1919 Eddington
+  eclipses, the backward search, a round-trip, and the honesty rules. 256 green.
   - UI: an "Eclipses" row on the Weather & Sky frame — prev/next buttons showing
     kind (partial/annular/total), date, local magnitude; clicking jumps the
     timeline to the instant and flies to the centreline point.

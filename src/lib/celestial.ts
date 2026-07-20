@@ -26,7 +26,10 @@ import {
   Equator,
   Illumination,
   MoonPhase,
+  NextLocalSolarEclipse,
   Observer,
+  SearchGlobalSolarEclipse,
+  SearchLocalSolarEclipse,
   SearchSunLongitude,
 } from 'astronomy-engine';
 
@@ -108,6 +111,127 @@ export interface MoonState {
   phaseDeg: number;
   /** Sunlit fraction of the disc, 0..1. */
   litFraction: number;
+}
+
+/* ── Solar eclipses ─────────────────────────────────────────────────────────
+ * Nobody lands on a four-minute eclipse by dragging a 250-million-year
+ * timeline, so the app has to FIND them: "from where I am, and when I am, when
+ * is the next/previous eclipse?" astronomy-engine searches forward only, so a
+ * backward search walks from a few years earlier and keeps the last one before
+ * the target — cheap in practice (a place sees an eclipse of some kind every
+ * year or two; measured at ~50 ms for a two-step walk).
+ *
+ * HONESTY (house doctrine, same spirit as the Atlantis flagging): an ancient
+ * eclipse's DATE is certain, but its ground TRACK is not. Earth's rotation has
+ * been slowing irregularly (the ΔT problem), and an hour of unmodelled rotation
+ * slides the path of totality thousands of kilometres. So anything before ~1500
+ * CE is marked `pathApproximate`, and the UI must say so rather than draw a
+ * confident line across Anatolia.
+ *
+ * A NOTE ON BCE YEARS, for whoever builds item 9: JavaScript Dates use
+ * ASTRONOMICAL year numbering (year 0 exists), while the app's timeline labels
+ * a negative year N as "|N| BCE". So the eclipse Thales is said to have
+ * predicted — 585 BCE in the history books — computes as astronomical year
+ * −584. Everything here stays in Date/astronomical space and is displayed
+ * through the app's own formatter, so the app is self-consistent; just don't be
+ * startled by the one-year offset against a textbook.
+ */
+
+/** Cut-off below which the ground track is not trustworthy (ΔT). */
+export const ECLIPSE_PATH_CERTAIN_FROM = 1500;
+/** How far back a "previous eclipse" search is willing to walk. */
+const ECLIPSE_LOOKBACK_YEARS = 12;
+const ECLIPSE_MAX_STEPS = 40;
+
+export interface EclipseHit {
+  /** As seen from the observer's own ground. */
+  kind: 'partial' | 'annular' | 'total';
+  /** Instant of greatest eclipse AT THE OBSERVER. */
+  peak: Date;
+  /** Fraction of the sun's disc covered there, 0..1. */
+  obscuration: number;
+  /** The sun's altitude at peak; below 0 it is under the horizon. */
+  altitudeDeg: number;
+  /** Where the eclipse is greatest on Earth — the centreline point to fly to.
+   * Null when the engine reports no central track (globally partial). */
+  centre: { lat: number; lon: number } | null;
+  /** True when Earth-rotation uncertainty makes the ancient track unreliable. */
+  pathApproximate: boolean;
+}
+
+/** Normalise the engine's local-eclipse record into our own shape. */
+function toHit(info: {
+  kind: string;
+  obscuration: number;
+  peak: { time: { date: Date }; altitude: number };
+}): EclipseHit | null {
+  const peak = info.peak.time.date;
+  if (!Number.isFinite(peak.getTime())) return null;
+  const kind = info.kind as EclipseHit['kind'];
+  let centre: EclipseHit['centre'] = null;
+  try {
+    // The matching GLOBAL eclipse gives the greatest-eclipse point. Search from
+    // a day before and only trust it if it is the same event.
+    const g = SearchGlobalSolarEclipse(new Date(peak.getTime() - 36 * 3600 * 1000));
+    const gPeak = g.peak.date;
+    // latitude/longitude are absent when the eclipse is only ever partial —
+    // there is no central track anywhere on Earth to fly to.
+    const gLat = g.latitude;
+    const gLon = g.longitude;
+    if (
+      Math.abs(gPeak.getTime() - peak.getTime()) < 24 * 3600 * 1000 &&
+      typeof gLat === 'number' && Number.isFinite(gLat) &&
+      typeof gLon === 'number' && Number.isFinite(gLon)
+    ) {
+      centre = { lat: gLat, lon: gLon };
+    }
+  } catch {
+    /* no central track — a globally partial eclipse; centre stays null */
+  }
+  return {
+    kind,
+    peak,
+    obscuration: Number.isFinite(info.obscuration) ? info.obscuration : 0,
+    altitudeDeg: info.peak.altitude,
+    centre,
+    pathApproximate: peak.getUTCFullYear() < ECLIPSE_PATH_CERTAIN_FROM,
+  };
+}
+
+/**
+ * The next (`dir` = 1) or previous (`dir` = −1) solar eclipse visible from a
+ * place, or null if there is none within reach or the date is outside the
+ * window where the sky is computable at all.
+ */
+export function findSolarEclipse(
+  from: Date,
+  latDeg: number,
+  lonDeg: number,
+  dir: 1 | -1,
+): EclipseHit | null {
+  if (!inCelestialWindow(from.getUTCFullYear())) return null;
+  const observer = new Observer(latDeg, lonDeg, 0);
+  try {
+    if (dir === 1) {
+      const info = SearchLocalSolarEclipse(from, observer);
+      if (!info || info.peak.time.date.getUTCFullYear() > CELESTIAL_MAX_YEAR) return null;
+      return toHit(info);
+    }
+    // Backward: walk forward from a few years earlier, keep the last one that
+    // still falls before `from`.
+    const start = new Date(from.getTime());
+    start.setUTCFullYear(start.getUTCFullYear() - ECLIPSE_LOOKBACK_YEARS);
+    if (!inCelestialWindow(start.getUTCFullYear())) return null;
+    let cur = SearchLocalSolarEclipse(start, observer);
+    let last: typeof cur | null = null;
+    for (let i = 0; i < ECLIPSE_MAX_STEPS && cur.peak.time.date < from; i++) {
+      last = cur;
+      cur = NextLocalSolarEclipse(cur.peak.time, observer);
+    }
+    return last ? toHit(last) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** The moon's phase for a moment, or null outside the window. */

@@ -23,7 +23,7 @@ import { ensurePlacement } from './lib/globeModels';
 import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
-import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearToYearsBP, type Era } from './lib/timeScale';
+import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna } from './lib/data';
 import { cellsForRect } from './lib/eventIndex';
@@ -774,7 +774,26 @@ export default function App() {
           temperature={sky.temperature}
           cloud={sky.cloud}
           latitude={viewRegion ? (viewRegion.s + viewRegion.n) / 2 : 51.5}
+          longitude={viewRegion ? (viewRegion.w + viewRegion.e) / 2 : -0.12}
+          timelineYear={Math.round(yearsBPToYear(yearsBP))}
           title="the globe"
+          onGoToEclipse={(hit) => {
+            // Travel to the moment: put the timeline on its year, set the dial
+            // to the day and the local solar hour of greatest eclipse, and fly
+            // to the centreline point if the eclipse has one.
+            const y = hit.peak.getUTCFullYear();
+            setIsPlaying(false);
+            setYearsBP(yearToYearsBP(y));
+            if (y > -12000) setZoomIdx(1);
+            const lonForSolar = hit.centre?.lon ?? (viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0);
+            const solarHours =
+              (hit.peak.getUTCHours() + hit.peak.getUTCMinutes() / 60 + lonForSolar / 15 + 24) % 24;
+            setSky((s) => ({ ...s, date: new Date(hit.peak), solarHours, auto: false }));
+            if (hit.centre) globeRef.current?.flyTo(hit.centre.lon, hit.centre.lat, 9_000_000);
+            showToast(
+              `${hit.kind === 'total' ? 'Totality' : hit.kind === 'annular' ? 'Annular eclipse' : 'Partial eclipse'} · ${Math.round(hit.obscuration * 100)}% covered${hit.pathApproximate ? ' · path approximate' : ''}`,
+            );
+          }}
           onChange={(next) => {
             setSky((s) => ({ ...s, ...next }));
             // The sun commands the field: dragging time forward or back

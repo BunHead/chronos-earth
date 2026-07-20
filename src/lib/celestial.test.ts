@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   CELESTIAL_MAX_YEAR,
   CELESTIAL_MIN_YEAR,
+  ECLIPSE_PATH_CERTAIN_FROM,
+  findSolarEclipse,
   inCelestialWindow,
   moonState,
   realSeasons,
@@ -87,6 +89,62 @@ describe('the upgraded sun — alignment truths', () => {
     const seasons = solsticesEquinoxes(2026);
     expect(sunPosition(seasons.decemberSolstice, 12, lat).altitude).toBeCloseTo(15.4, 0);
     expect(sunPosition(seasons.juneSolstice, 12, lat).altitude).toBeCloseTo(62.3, 0);
+  });
+});
+
+describe('eclipse finder — the famous ones, found from where they were seen', () => {
+  it('finds the Great American Eclipse of 2017 as TOTAL over Casper, Wyoming', () => {
+    const e = findSolarEclipse(utcDate(2017, 7, 1), 42.85, -106.32, 1)!;
+    expect(e.kind).toBe('total');
+    expect(e.peak.toISOString().slice(0, 10)).toBe('2017-08-21');
+    expect(e.obscuration).toBeCloseTo(1, 2);
+    expect(e.altitudeDeg).toBeGreaterThan(0); // genuinely above the horizon
+    expect(e.pathApproximate).toBe(false); // modern — the track is known
+    // Greatest eclipse fell over the American south-east.
+    expect(e.centre!.lat).toBeGreaterThan(30);
+    expect(e.centre!.lon).toBeLessThan(-80);
+  });
+
+  it("finds Eddington's 1919 eclipse — the one that proved relativity — from Príncipe", () => {
+    const e = findSolarEclipse(utcDate(1919, 4, 1), 1.61, 7.4, 1)!;
+    expect(e.kind).toBe('total');
+    expect(e.peak.toISOString().slice(0, 10)).toBe('1919-05-29');
+    expect(e.obscuration).toBeCloseTo(1, 2);
+  });
+
+  it('searches BACKWARD too: the last eclipse London saw before 2020', () => {
+    const e = findSolarEclipse(utcDate(2020, 0, 1), 51.5, -0.12, -1)!;
+    expect(e.peak.getTime()).toBeLessThan(utcDate(2020, 0, 1).getTime());
+    // London caught the 2017 American eclipse only as a partial.
+    expect(e.peak.toISOString().slice(0, 10)).toBe('2017-08-21');
+    expect(e.kind).toBe('partial');
+    expect(e.obscuration).toBeLessThan(0.5);
+  });
+
+  it('backward then forward round-trips to the same event', () => {
+    const back = findSolarEclipse(utcDate(2020, 0, 1), 51.5, -0.12, -1)!;
+    const fwd = findSolarEclipse(new Date(back.peak.getTime() - 3600_000), 51.5, -0.12, 1)!;
+    expect(fwd.peak.toISOString().slice(0, 10)).toBe(back.peak.toISOString().slice(0, 10));
+  });
+});
+
+describe('eclipse finder — honesty about what we cannot know', () => {
+  it('flags ancient tracks as approximate (ΔT), modern ones as certain', () => {
+    // The eclipse Thales is said to have predicted: 585 BCE in the books,
+    // astronomical year −584. Its DATE is solid; its PATH is not.
+    const ancient = findSolarEclipse(utcDate(-584, 3, 1), 38.5, 35.0, 1);
+    expect(ancient).not.toBeNull();
+    expect(ancient!.pathApproximate).toBe(true);
+    expect(findSolarEclipse(utcDate(2017, 7, 1), 42.85, -106.32, 1)!.pathApproximate).toBe(false);
+  });
+
+  it('refuses to guess outside the window where the sky is computable', () => {
+    expect(findSolarEclipse(utcDate(-50_000, 0, 1), 0, 0, 1)).toBeNull();
+    expect(findSolarEclipse(utcDate(9999, 0, 1), 0, 0, 1)).toBeNull();
+  });
+
+  it('the ΔT cut-off sits at 1500 CE', () => {
+    expect(ECLIPSE_PATH_CERTAIN_FROM).toBe(1500);
   });
 });
 

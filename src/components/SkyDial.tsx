@@ -1,5 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { sunPosition, sunriseSolarHour, solsticesEquinoxes } from '../lib/sun';
+import {
+  findSolarEclipse,
+  inCelestialWindow,
+  utcDate,
+  type EclipseHit,
+} from '../lib/celestial';
 import { startDrag } from '../lib/windowDrag';
 
 const DEG = Math.PI / 180;
@@ -52,8 +58,17 @@ export interface SkyDialProps {
   /** Cloud cover 0..1 — the horizontal centre slider (clear right, pea soup left). */
   cloud: number;
   latitude: number;
+  /** Longitude of the place in view — with latitude it locates the eclipse
+   * search. Omit and the Eclipses row simply doesn't appear. */
+  longitude?: number;
+  /** The year the TIMELINE is sitting at (the dial itself only carries a
+   * day-of-year). Eclipse searches start from this year. */
+  timelineYear?: number;
   title: string;
   onChange: (next: { date?: Date; solarHours?: number; auto?: boolean; moonPhase?: number; temperature?: number; cloud?: number }) => void;
+  /** Travel to a found eclipse: jump the timeline to its instant and fly to the
+   * centreline. Omit and the row still finds/reports, but can't travel. */
+  onGoToEclipse?: (hit: EclipseHit) => void;
 }
 
 // Temperature slider range (°C): +40 at the top of the bar, −20 at the bottom,
@@ -85,7 +100,21 @@ const MOON_NAME = ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbo
  */
 const LUNAR_DAYS = 29.530588; // one synodic month
 
-export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, title, onChange }: SkyDialProps) {
+/** "21 Aug 2017" / "584 BCE" — the app's own era convention. */
+function eclipseDateLabel(d: Date): string {
+  const y = d.getUTCFullYear();
+  const day = d.getUTCDate();
+  const month = MONTHS[d.getUTCMonth()];
+  return `${day} ${month} ${y <= 0 ? `${Math.max(1, -y)} BCE` : y}`;
+}
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const ECLIPSE_EMOJI: Record<EclipseHit['kind'], string> = {
+  total: '🌑',
+  annular: '🌒',
+  partial: '🌘',
+};
+
+export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, longitude, timelineYear, title, onChange, onGoToEclipse }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
   // The moon is the MONTH hand: drag it round the ring and the calendar turns
@@ -181,6 +210,44 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
 
   const marks = marksFor(title, latitude);
   const activeMark = marks.find((m) => sameDay(m.date, date));
+
+  // ── Eclipses ────────────────────────────────────────────────────────────
+  // Nobody stumbles onto a four-minute eclipse by dragging a 250-million-year
+  // timeline, so we go and find them from where (and when) you are standing.
+  const [eclipse, setEclipse] = useState<EclipseHit | null>(null);
+  const [eclipseNote, setEclipseNote] = useState('');
+  const canSeekEclipse = typeof longitude === 'number' && typeof timelineYear === 'number';
+
+  const seekEclipse = (dir: 1 | -1) => {
+    if (!canSeekEclipse) return;
+    const year = timelineYear as number;
+    if (!inCelestialWindow(year)) {
+      setEclipse(null);
+      setEclipseNote('Beyond the years the sky can be computed — no eclipse can honestly be found here.');
+      return;
+    }
+    // Start from the timeline's day at noon — EXCEPT when we're already parked
+    // on a found eclipse. Searching from noon would just re-find an eclipse
+    // that peaked later that afternoon, so prev/next would stick on it; step an
+    // hour clear of the current one and the buttons walk properly.
+    const base = utcDate(year, date.getUTCMonth(), date.getUTCDate(), 12);
+    // Step a clear TWO DAYS past it: an hour still lands inside the eclipse's
+    // own partial phases, so the search re-finds the same event. Two days can
+    // never skip a neighbour — one place waits months between eclipses.
+    const onCurrentHit =
+      eclipse && Math.abs(eclipse.peak.getTime() - base.getTime()) < 36 * 3600 * 1000;
+    const from = onCurrentHit
+      ? new Date(eclipse.peak.getTime() + dir * 2 * 86400 * 1000)
+      : base;
+    const hit = findSolarEclipse(from, latitude, longitude as number, dir);
+    setEclipse(hit);
+    if (!hit) {
+      setEclipseNote(dir === 1 ? 'No eclipse found ahead from here.' : 'No eclipse found behind from here.');
+      return;
+    }
+    setEclipseNote('');
+    onGoToEclipse?.(hit);
+  };
 
   return (
     <div className="sky-dial" role="group" aria-label="Sun, time of day and calendar">
@@ -325,6 +392,38 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
           </button>
         ))}
       </div>
+
+      {canSeekEclipse && (
+        <div className="sky-eclipse" role="group" aria-label="Solar eclipses visible here">
+          <div className="sky-eclipse-row">
+            <button onClick={() => seekEclipse(-1)} title="The last eclipse seen here before this date">
+              ◀ prev
+            </button>
+            <span className="sky-eclipse-title">🌘 Eclipses</span>
+            <button onClick={() => seekEclipse(1)} title="The next eclipse seen here after this date">
+              next ▶
+            </button>
+          </div>
+          {eclipse && (
+            <div className="sky-eclipse-hit">
+              <strong>
+                {ECLIPSE_EMOJI[eclipse.kind]} {eclipse.kind[0].toUpperCase() + eclipse.kind.slice(1)}
+              </strong>{' '}
+              · {eclipseDateLabel(eclipse.peak)} ·{' '}
+              {Math.round(eclipse.obscuration * 100)}% covered
+              {eclipse.altitudeDeg < 0 && ' · below the horizon here'}
+            </div>
+          )}
+          {eclipse?.pathApproximate && (
+            <div className="sky-eclipse-warn">
+              ⚠ Path approximate — Earth's rotation has slowed unevenly since, so
+              an ancient track can be hundreds of km off. The date is sound; the
+              ground it crossed is an estimate.
+            </div>
+          )}
+          {eclipseNote && <div className="sky-note">{eclipseNote}</div>}
+        </div>
+      )}
     </div>
   );
 }
