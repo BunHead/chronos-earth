@@ -687,6 +687,88 @@ export class BordersController {
    * text (~8 MB total for all 35 frames), parsed on demand. */
   private geoText = new Map<number, string>();
 
+  /* ── GPU budget ──────────────────────────────────────────────────────────
+   * Each rasterised frame holds a 4096×2048 imagery layer — roughly 30 MB of
+   * VIDEO memory. All 35 frames resident would be ~1 GB: fine on a desktop
+   * card, fatal on the integrated GPUs most visitors actually use (stutter, or
+   * a lost WebGL context and a black globe). So we keep a WINDOW of frames
+   * around the playhead and evict the rest; re-rasterising an evicted frame
+   * from the kept geoText costs ~200 ms and never touches the network.
+   * The cap scales to the machine — "the fastest experience their hardware can
+   * honestly hold" — and the Captain can switch the whole cache down to a
+   * minimum from Settings. */
+  private gpuCacheOn = true;
+  /** Frames to keep resident, chosen from the device's reported memory. */
+  private layerCap(): number {
+    if (!this.gpuCacheOn) return 4; // conservative mode: only the active span
+    const gb = (navigator as unknown as { deviceMemory?: number }).deviceMemory;
+    if (typeof gb !== 'number') return 10; // unknown (Safari/Firefox) — middle road
+    if (gb >= 8) return 16;
+    if (gb >= 4) return 10;
+    return 6;
+  }
+  /** Turn the generous GPU cache on/off (⋯ menu → Settings). Off = minimum
+   * residency and no pre-rasterising, for constrained machines. */
+  setGpuCache(on: boolean): void {
+    this.gpuCacheOn = on;
+    this.evictFarFrames();
+  }
+
+  /** Drop rasterised frames furthest (in years) from the playhead until we are
+   * within the cap. The active floor/ceil and their immediate neighbours are
+   * never evicted, and geoText is always kept so eviction is cheap to undo. */
+  private evictFarFrames(): void {
+    if (this.viewer.isDestroyed()) return;
+    const cap = this.layerCap();
+    if (this.cache.size <= cap) return;
+    const anchor = this.activeYear ?? this.pending?.year ?? 0;
+    const idx = this.frames.findIndex((f) => f.year === this.floorFrameYear(anchor));
+    const protectedYears = new Set(
+      [idx - 1, idx, idx + 1, idx + 2].map((i) => this.frames[i]?.year).filter((y): y is number => y != null),
+    );
+    const victims = [...this.cache.keys()]
+      .filter((y) => !protectedYears.has(y))
+      .sort((a, b) => Math.abs(b - anchor) - Math.abs(a - anchor)); // furthest first
+    for (const y of victims) {
+      if (this.cache.size <= cap) break;
+      const frame = this.cache.get(y);
+      if (!frame) continue;
+      this.viewer.imageryLayers.remove(frame.layer, true);
+      if (frame.orange?.layer) this.viewer.imageryLayers.remove(frame.orange.layer, true);
+      this.cache.delete(y);
+    }
+  }
+
+  /** Rasterise the next frames in the DIRECTION OF TRAVEL while the user is
+   * mid-journey, so a steady scrub never even pays the ~200 ms rasterise. Only
+   * runs when the geojson is already warm (no network) and the cache has room. */
+  private lastAnchor: number | undefined;
+  private preTimer: ReturnType<typeof setTimeout> | undefined;
+  private preRasteriseAhead(): void {
+    if (!this.gpuCacheOn || this.viewer.isDestroyed()) return;
+    const anchor = this.activeYear;
+    if (anchor === undefined) return;
+    const prev = this.lastAnchor;
+    this.lastAnchor = anchor;
+    if (prev === undefined || prev === anchor) return;
+    const dir = anchor > prev ? 1 : -1; // travelling toward the present or the past
+    const idx = this.frames.findIndex((f) => f.year === anchor);
+    if (idx < 0) return;
+    const targets = [this.frames[idx + dir]?.year, this.frames[idx + 2 * dir]?.year].filter(
+      (y): y is number => y != null && !this.cache.has(y) && this.geoText.has(y),
+    );
+    if (!targets.length || this.cache.size >= this.layerCap()) return;
+    clearTimeout(this.preTimer);
+    // One at a time, well after the current frame has settled, so this never
+    // competes with the frame the user is actually looking at.
+    this.preTimer = setTimeout(() => {
+      void this.ensureFrame(targets[0]);
+      if (targets[1]) {
+        this.preTimer = setTimeout(() => void this.ensureFrame(targets[1]), 1200);
+      }
+    }, 900);
+  }
+
   /** Quietly download every frame's geojson after the app has settled, one at a
    * time with a breather between, so scrubbing deep history never waits on the
    * network. Runs once; frames already cached or warmed are skipped. */
@@ -721,7 +803,9 @@ export class BordersController {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.text();
       })());
-      this.geoText.delete(year); // parsed once — the rasterised frame takes over
+      // geoText is KEPT (not deleted): it is the cheap half of the cache (~8 MB
+      // of text for all 35 frames), and it lets an evicted frame re-rasterise
+      // without touching the network.
       const fc = JSON.parse(text) as {
         features: Array<{ properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }>;
       };
@@ -752,6 +836,7 @@ export class BordersController {
       layer.show = false;
       this.viewer.imageryLayers.add(layer);
       this.cache.set(year, { layer, polities });
+      this.evictFarFrames();
       if (this.pending) this.update(this.pending.year, this.pending.visible, this.pending.paleoActive);
     } catch (err) {
       console.warn(`Failed to load borders for ${year}`, err);
@@ -795,6 +880,8 @@ export class BordersController {
     // boundary. Warming the previous frame makes both directions instant.
     const prev = this.frames[floorIdx - 1]?.year;
     if (prev != null) void this.ensureFrame(prev);
+    // Keep going in whichever direction the traveller is heading, during idle.
+    this.preRasteriseAhead();
     this.syncLabels(floor);
 
     for (const [y, { layer }] of this.cache.entries()) {
@@ -1212,6 +1299,7 @@ export class BordersController {
 
   dispose() {
     window.clearInterval(this.pulseTimer);
+    clearTimeout(this.preTimer);
     if (!this.viewer.isDestroyed()) {
       for (const frame of this.cache.values()) {
         this.viewer.imageryLayers.remove(frame.layer, true);

@@ -15,6 +15,8 @@ interface AppMenuProps {
   onToggleSea: () => void;
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
+  gpuBorderCache: boolean;
+  onGpuBorderCache: (v: boolean) => void;
 }
 
 /**
@@ -24,7 +26,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -123,6 +125,19 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 <input type="checkbox" checked={reduceMotion} onChange={(e) => onReduceMotion(e.target.checked)} />
                 <span>Reduce motion</span>
               </label>
+              <label className="app-menu-item toggle">
+                <input
+                  type="checkbox"
+                  checked={gpuBorderCache}
+                  onChange={(e) => onGpuBorderCache(e.target.checked)}
+                />
+                <span>🗺️ Fast border travel</span>
+              </label>
+              <div className="app-menu-note">
+                Keeps more historical border maps ready on the graphics card, so
+                travelling through time is instant. Turn it off on an older
+                machine if the globe stutters.
+              </div>
               <label className="app-menu-item toggle">
                 <input
                   type="checkbox"

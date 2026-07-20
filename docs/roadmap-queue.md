@@ -76,9 +76,22 @@ is dirty at the start, stop and do nothing.
   - Done when: smoothing pass committed (and any sourced frames added with
     citations), tests green.
 
-- [ ] **5. Border raster — GPU package (pre-rasterise + adaptive cap + toggle).**
-  Goal (the Captain's words): "the fastest experience their hardware can honestly
-  hold." Today `src/components/borders.ts` warms every frame's geojson TEXT after
+- [x] **5. Border raster — GPU package.** _(done 2026-07-17)_
+  Landing note: `geoText` is now KEPT permanently (~8 MB of text for all 35
+  frames) so an evicted frame re-rasterises without network. Added
+  `evictFarFrames()` — an LRU-by-year-distance eviction with an adaptive cap from
+  `navigator.deviceMemory` (≥8 GB → 16 layers, ≥4 GB → 10, else 6; unknown → 10),
+  never evicting the active floor/ceil/prev span. Added `preRasteriseAhead()`,
+  which rasterises the next ±2 frames in the DIRECTION of travel during idle, so
+  a steady scrub doesn't even pay the ~200 ms rasterise. New ⋯ → Settings toggle
+  **"🗺️ Fast border travel"** (default ON, persisted in `ce_gpu_borders`) drops
+  the cap to 4 and disables pre-rasterising for constrained machines.
+  Verified live on a 16 GB machine: cap 16, and a FULL 35-frame sweep to the
+  deepest past and back again held at exactly 16 resident (not 35 → the ~1 GB
+  GPU risk is gone) with **zero network fetches** in either direction; toggling
+  the setting OFF dropped to 4 resident and stayed lean while scrubbing.
+  _Original spec:_ Goal (the Captain's words): "the fastest experience their
+  hardware can honestly hold." Today `src/components/borders.ts` warms every frame's geojson TEXT after
   load (`warmAllFrames`, ~8 MB) but frames rasterise on first visit (~150–250 ms)
   and every rasterised frame keeps a 4096-wide GPU texture (~30 MB) forever —
   all 35 ≈ 1 GB GPU, fine on desktops, fatal on integrated/mobile GPUs.

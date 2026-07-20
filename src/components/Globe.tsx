@@ -123,6 +123,9 @@ export interface GlobeHandle {
   resetNorth: () => void;
   /** Sea level frame: manual sea in metres vs today (null = engine off). */
   setManualSea: (seaM: number | null) => void;
+  /** Settings: keep a generous window of border frames on the GPU (fast travel)
+   * or run lean on a constrained machine. */
+  setGpuBorderCache: (on: boolean) => void;
   /** Freeze the current globe pixels for the Time Rift comparison overlay. */
   captureFrame: () => string | null;
   /** Recompute the open "on the map" dossier for the current year so its ruling
@@ -516,7 +519,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     return placeDossierPanel(lat, lon, year, hit?.name, nearby, openEvent);
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier }));
+  const setGpuBorderCache = (on: boolean) => bordersRef.current?.setGpuCache(on);
+
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {

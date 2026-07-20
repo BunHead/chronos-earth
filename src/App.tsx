@@ -236,6 +236,24 @@ export default function App() {
   useEffect(() => {
     document.documentElement.toggleAttribute('data-reduce-motion', reduceMotion);
   }, [reduceMotion]);
+  // "GPU border cache" (⋯ menu → Settings): keep a generous window of border
+  // frames resident on the GPU so time-travel is instant, or run lean on a
+  // constrained machine. Defaults ON and remembers the choice per device.
+  const [gpuBorderCache, setGpuBorderCache] = useState(() => {
+    try {
+      return localStorage.getItem('ce_gpu_borders') !== '0';
+    } catch {
+      return true;
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem('ce_gpu_borders', gpuBorderCache ? '1' : '0');
+    } catch {
+      /* storage blocked — the choice just won't stick */
+    }
+    globeRef.current?.setGpuBorderCache(gpuBorderCache);
+  }, [gpuBorderCache]);
   // A newer build has been deployed since this tab loaded — offer a refresh.
   const [newVersion, setNewVersion] = useState(false);
 
@@ -696,6 +714,8 @@ export default function App() {
           }}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
+          gpuBorderCache={gpuBorderCache}
+          onGpuBorderCache={setGpuBorderCache}
         />
       </div>
 
