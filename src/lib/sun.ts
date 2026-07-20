@@ -1,16 +1,24 @@
 // Chronos Earth — where the sun (and its light) really is.
 //
-// Pure astronomy, no libraries, no network, no cost. Given a calendar date, a
-// time of day, and a place on Earth, it returns the sun's altitude and compass
-// azimuth — enough to point a 3D light correctly and to make a celestial
-// monument (Stonehenge, Abu Simbel, Chichén Itzá) line up with the real sky at
-// a solstice or equinox.
+// Given a calendar date, a time of day, and a place on Earth, it returns the
+// sun's altitude and compass azimuth — enough to point a 3D light correctly and
+// to make a celestial monument (Stonehenge, Abu Simbel, Chichén Itzá) line up
+// with the real sky at a solstice or equinox.
+//
+// TWO TIERS OF TRUTH (queue item 7): inside the historical window (−2000 …
+// +3000) the declination and the season instants come from REAL astronomy
+// (lib/celestial.ts, astronomy-engine — still no network, no cost), including
+// the ancient world's slightly larger axial tilt. Outside it, the simple cosine
+// model below carries on — precession makes exact dates meaningless in deep
+// time, and an honest approximation beats fake precision.
 //
 // Convention: the "time of day" is LOCAL APPARENT SOLAR time at the monument —
 // so 12:00 always means the sun is at its highest (due south in the northern
 // hemisphere, due north in the southern). That is exactly what alignments are
 // measured against, and it needs no timezone database. Azimuth is degrees
 // clockwise from true north (0 = N, 90 = E, 180 = S, 270 = W).
+
+import { realSolarDeclination, realSeasons, utcDate } from './celestial';
 
 const DEG = Math.PI / 180;
 const clamp = (x: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, x));
@@ -24,11 +32,14 @@ export function dayOfYear(date: Date): number {
 
 /**
  * Solar declination (degrees) for a date — the sun's tilt north/south of the
- * equator. Peaks at +23.44° at the June solstice, −23.44° in December, ~0 at
- * the equinoxes. Simple cosine model, accurate to well under a degree — ample
- * for lighting and alignment.
+ * equator. Inside the historical window this is the REAL declination (true
+ * obliquity of that era, real orbital shape); outside it, the cosine model:
+ * peaks +23.44° at the June solstice, −23.44° in December, ~0 at the equinoxes,
+ * accurate to well under a degree — ample for lighting and alignment.
  */
 export function solarDeclination(date: Date): number {
+  const real = realSolarDeclination(date);
+  if (real !== null) return real;
   const n = dayOfYear(date);
   return -23.44 * Math.cos((360 / 365) * (n + 10) * DEG);
 }
@@ -99,16 +110,21 @@ export function sunriseSolarHour(date: Date, latDeg: number): number | null {
 }
 
 /**
- * Approximate the four seasonal turning points for a year. Good to a day or so
- * — plenty to mark them on a calendar and jump the sun to them.
+ * The four seasonal turning points for a year. Inside the historical window
+ * these are the REAL instants (the sun crossing ecliptic longitude 0/90/180/
+ * 270° — they genuinely drift: the June solstice lands on the 20th by 2500 CE).
+ * Outside it, classical calendar dates, good enough to jump the sun to them.
+ * Dates are built through the year-0–99-safe path, so the Roman era is correct.
  */
 export function solsticesEquinoxes(year: number): {
   marchEquinox: Date; juneSolstice: Date; septemberEquinox: Date; decemberSolstice: Date;
 } {
+  const real = realSeasons(year);
+  if (real) return real;
   return {
-    marchEquinox: new Date(Date.UTC(year, 2, 20)),
-    juneSolstice: new Date(Date.UTC(year, 5, 21)),
-    septemberEquinox: new Date(Date.UTC(year, 8, 22)),
-    decemberSolstice: new Date(Date.UTC(year, 11, 21)),
+    marchEquinox: utcDate(year, 2, 20),
+    juneSolstice: utcDate(year, 5, 21),
+    septemberEquinox: utcDate(year, 8, 22),
+    decemberSolstice: utcDate(year, 11, 21),
   };
 }

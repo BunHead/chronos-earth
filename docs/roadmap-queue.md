@@ -145,12 +145,27 @@ is dirty at the start, stop and do nothing.
     rift) before/after, visibly crisper; no regression in drift animation.
   - Done when: sharper epochs committed with sizes logged, tests green.
 
-- [ ] **7. Celestial engine 1 — real sun + true seasons (Astronomy Engine).**
-  Add the `astronomy-engine` npm package (MIT, ~100 KB, pure JS, NO data files,
-  no CDN — passes the zero-cost law). Validity window: use it for roughly
-  **1000 BCE → 3000 CE**; OUTSIDE that window keep the current approximate sun
-  (precession makes exact dates meaningless anyway). Put the gate in one place,
-  e.g. `src/lib/celestial.ts`.
+- [x] **7. Celestial engine 1 — real sun + true seasons.** _(done 2026-07-20, Fable)_
+  Landing note: `astronomy-engine` added (tree-shakes to +1.7 KB gz in main).
+  New `src/lib/celestial.ts` gates everything: window **−2000 … +3000** (probed
+  empirically — wider than the spec's ±1000 BCE guess), real solar declination
+  (including the ancient world's larger obliquity: 23.74° at 900 BCE), real
+  season instants via `SearchSunLongitude`, and `moonState()` (phase + lit
+  fraction) for items 8-9 and the night sky. TRAP FOUND AND DEFUSED: JS Dates
+  (and the library's own `Seasons()`) treat years 0–99 as 1900+year — Seasons(1)
+  returns 1901! All dates go through a `utcDate()` safe path and seasons are
+  searched directly, so the Roman era is correct (unit-tested at year 50 CE).
+  `sun.ts` upgrades through its two foundations (`solarDeclination`,
+  `solsticesEquinoxes`) with zero API churn, so the SkyDial, its solstice/
+  sunrise buttons, and the monument scenes all got the real sky with no UI
+  changes; outside the window the old cosine model carries on, per the honesty
+  doctrine. 14 new known-value tests (2026 solstice instant 08:25 UTC;
+  Stonehenge midsummer sunrise az 49–51°; equator equinox 12 h day; solstice
+  drift to Jun 20 by 2500; ancient obliquity) + the 9 existing sun tests pass
+  unchanged on the real engine. 249 total green.
+  FOR ITEMS 8-9: import from `./celestial` — the window gate and `utcDate()`
+  are mandatory for any date you construct; never call the library's `Seasons()`
+  directly.
   - Seasonally-true sun for the Weather & Sky dial: sun path/altitude from real
     date + latitude (today's code: `src/lib/sun.ts` + the SkyDial component) —
     low winter arcs, midnight sun at high latitude, correct day length. Keep the
