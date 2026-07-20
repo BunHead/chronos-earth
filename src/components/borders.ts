@@ -22,6 +22,7 @@
 import * as Cesium from 'cesium';
 import { diffOwners, morphOpen } from '../lib/borderStatus';
 import { flagCanvasFor } from '../lib/flags';
+import { densifyRing } from '../lib/ringSmooth';
 
 const TEX_W = 4096;
 const TEX_H = 2048;
@@ -213,6 +214,7 @@ function makeTracer(
   w: number,
   h: number,
   projectFn?: (lon: number, lat: number) => [number, number],
+  smooth = false,
 ) {
   const project = projectFn ?? projector(w, h);
   return (poly: number[][][]): boolean => {
@@ -226,7 +228,8 @@ function makeTracer(
     }
     if (maxX - minX > 200) return false;
     ctx.beginPath();
-    for (const ring of poly) {
+    for (const raw of poly) {
+      const ring = smooth ? densifyRing(raw) : raw;
       for (let i = 0; i < ring.length; i++) {
         const [x, y] = project(ring[i][0], ring[i][1]);
         if (i === 0) ctx.moveTo(x, y);
@@ -237,6 +240,7 @@ function makeTracer(
     return true;
   };
 }
+
 
 /** Paint a 0/1 mask as opaque white pixels on transparent (for destination-in). */
 function maskToCanvas(mask: Uint8Array, w: number, h: number): HTMLCanvasElement {
@@ -390,7 +394,7 @@ export class BordersController {
     const ctx = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, TEX_W, TEX_H); // transparent oceans -> Earth shows through
     ctx.lineJoin = 'round';
-    const trace = makeTracer(ctx, TEX_W, TEX_H);
+    const trace = makeTracer(ctx, TEX_W, TEX_H, undefined, true);
     const project = projector(TEX_W, TEX_H);
 
     // Inside each border: the nation's REAL flag when history gave it one at
@@ -502,7 +506,7 @@ export class BordersController {
     const ctx = canvas.getContext('2d')!;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    const trace = makeTracer(ctx, w, h);
+    const trace = makeTracer(ctx, w, h, undefined, true);
     for (const pass of passes) {
       ctx.lineWidth = pass.width;
       ctx.strokeStyle = pass.style;
@@ -938,7 +942,7 @@ export class BordersController {
       canvas.height = H;
       const ctx = canvas.getContext('2d')!;
       ctx.lineJoin = 'round';
-      const trace = makeTracer(ctx, W, H, project);
+      const trace = makeTracer(ctx, W, H, project, true);
 
       // Only polities that touch the view (with margin) are worth drawing.
       const margin = Math.max(lonSpan, latSpan) * 0.3;
@@ -1027,7 +1031,7 @@ export class BordersController {
         const octx = oc.getContext('2d')!;
         octx.lineJoin = 'round';
         octx.lineCap = 'round';
-        const otrace = makeTracer(octx, W, H, project);
+        const otrace = makeTracer(octx, W, H, project, true);
         for (const pass of [
           { width: 5.4, style: 'rgba(255,157,43,0.45)' },
           { width: 2.6, style: '#ffa02e' },
@@ -1061,7 +1065,7 @@ export class BordersController {
         const rctx = red.getContext('2d')!;
         rctx.lineJoin = 'round';
         rctx.lineCap = 'round';
-        const rtrace = makeTracer(rctx, W, H, project);
+        const rtrace = makeTracer(rctx, W, H, project, true);
         for (const pass of [
           { width: 5.2, style: 'rgba(255,64,44,0.5)' },
           { width: 2.2, style: '#ff3226' },

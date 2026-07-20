@@ -45,9 +45,23 @@ is dirty at the start, stop and do nothing.
   the headline tier + existing onWebSearch. Verified live both flag states.
   Enabling by default is the Captain's call (see his list at the bottom).
 
-- [ ] **4. Border-data fidelity.** _(conservative — never invent borders)_
-  The medieval borders read coarse/straight-edged and frames sit centuries apart
-  (700 → 1000 → 1200). Improve the READABILITY without fabricating history.
+- [x] **4. Border-data fidelity.** _(done 2026-07-17 — geometry only, no new frames)_
+  Landing note: new pure module `src/lib/ringSmooth.ts` densifies border rings for
+  DRAWING ONLY with **centripetal** Catmull-Rom — chosen over Chaikin because the
+  queue's rule is "densify, don't relocate": every original vertex survives
+  exactly, so no border moves to a new claim and neighbours sharing a vertex
+  sequence still produce identical curves (corner-cutting would have opened
+  hairline gaps between countries). Two guards make it honest: rings denser than
+  2000 pts are skipped (cost), and a segment is only smoothed when the turn at
+  BOTH ends is ≤60° — so faceted CURVES (coastlines, rolling frontiers) round out
+  while genuinely ruled/geometric borders stay crisp, and Catmull-Rom can't
+  overshoot outside the outline. On the 1600 CE frame that smooths 52.6% of long
+  segments and leaves 47.4% crisp. `hitTest` is untouched (it reads pristine
+  geometry) — verified live: England and Ireland (1668) / United Kingdom (1980) /
+  Beaker (−1409) / France + Ottoman Empire (1600) all unchanged. `ownerGrid` also
+  keeps pristine geometry so the orange diff is unaffected. 9 unit tests.
+  NO new frames were sourced — the intermediate-frame gaps (700→1000→1200) still
+  need a cited open dataset; left for the Captain / a future sourced pass.
   - ALLOWED: smooth/re-sample the EXISTING polygon geometry (e.g. Chaikin /
     Catmull-Rom) so outlines read less jagged — a pure geometry operation that
     moves no border to a new claim. Densify vertices, don't relocate them.
