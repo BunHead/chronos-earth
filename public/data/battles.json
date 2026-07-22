@@ -33,7 +33,8 @@
           "side": 2,
           "wiki": "Muwatalli II"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "marathon",
@@ -326,7 +327,8 @@
           "side": 2,
           "wiki": "Cleopatra"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "teutoburg",
@@ -360,7 +362,8 @@
           "side": 2,
           "wiki": "Publius Quinctilius Varus"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "red-cliffs",
@@ -433,7 +436,8 @@
           "side": 2,
           "wiki": "Vahan (Byzantine commander)"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "tours",

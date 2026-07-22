@@ -6390,6 +6390,1799 @@
       ],
       "loser": "b",
       "severity": 1.1
+    },
+    "kadesh": {
+      "title": "Battle of Kadesh",
+      "subtitle": "1274 BCE — the largest chariot battle ever fought",
+      "sides": {
+        "a": {
+          "name": "Egypt (Ramesses II)",
+          "color": "#d9a441"
+        },
+        "b": {
+          "name": "Hittite Empire (Muwatalli II)",
+          "color": "#a0522d"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 50,
+          "y": 20,
+          "r": 6,
+          "label": "Kadesh"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              58,
+              4
+            ],
+            [
+              56,
+              20
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              46,
+              54
+            ],
+            [
+              44,
+              70
+            ]
+          ],
+          "label": "Orontes"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              40,
+              70
+            ],
+            [
+              40,
+              50
+            ],
+            [
+              42,
+              34
+            ]
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "name": "The march north",
+          "narration": "Ramesses marches up the Orontes with four divisions — Amun, Re, Ptah and Set — strung far apart along the road. Two Shasu nomads, in fact Hittite spies, tell him Muwatalli is still far off at Aleppo, so he pushes ahead and camps north-west of Kadesh with Amun alone."
+        },
+        {
+          "name": "The chariot ambush",
+          "narration": "Captured Hittite scouts reveal the truth: the enemy army is hidden behind the city. Before Ramesses can react, Hittite chariots cross the river and smash into the Re division as it is strung out on the march, scattering it in all directions.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                22
+              ],
+              "to": [
+                46,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                26
+              ],
+              "to": [
+                50,
+                46
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The camp overrun",
+          "narration": "Chariots pursuing the broken Re division round on the Egyptian camp and burst through the Amun shield wall. Ramesses is cut off inside his own camp with his household guard, and panic spreads through the division.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                40
+              ],
+              "to": [
+                42,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                36
+              ],
+              "to": [
+                40,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Ramesses counterattacks",
+          "narration": "Ramesses rallies his guard and the survivors of Re and charges the chariots crowding the camp — by his own account, repeatedly. The Hittite chariotry is driven back east toward the Orontes.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                28
+              ],
+              "to": [
+                54,
+                24
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Pinned against the river",
+          "narration": "The Ne'arin arrive from Amurru and the Ptah division comes up from the south, catching the Hittites in the rear. Their chariots are forced against the Orontes and many abandon them to swim. Muwatalli keeps his infantry uncommitted across the river — and keeps Kadesh; Ramesses, too weak to besiege it, withdraws south.",
+          "arrows": [
+            {
+              "from": [
+                26,
+                28
+              ],
+              "to": [
+                46,
+                24
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                34
+              ],
+              "to": [
+                54,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "amun",
+          "side": "a",
+          "label": "Ramesses & Amun division",
+          "size": 1.2,
+          "pos": [
+            [
+              40,
+              28
+            ],
+            [
+              40,
+              28
+            ],
+            [
+              40,
+              28
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              52,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "re-div",
+          "side": "a",
+          "label": "Re division",
+          "pos": [
+            [
+              42,
+              54
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              46,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "ptah-div",
+          "side": "a",
+          "label": "Ptah division",
+          "pos": [
+            [
+              40,
+              66
+            ],
+            [
+              40,
+              62
+            ],
+            [
+              40,
+              54
+            ],
+            [
+              42,
+              44
+            ],
+            [
+              46,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "set-div",
+          "side": "a",
+          "label": "Set division",
+          "pos": [
+            [
+              38,
+              68
+            ],
+            [
+              38,
+              66
+            ],
+            [
+              38,
+              62
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              38,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "nearin",
+          "side": "a",
+          "label": "Ne'arin (from Amurru)",
+          "pos": [
+            [
+              6,
+              32
+            ],
+            [
+              6,
+              32
+            ],
+            [
+              8,
+              32
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              40,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "hit-char-a",
+          "side": "b",
+          "label": "Hittite chariotry",
+          "shape": "cavalry",
+          "size": 1.2,
+          "pos": [
+            [
+              62,
+              16
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              52,
+              24
+            ],
+            [
+              56,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "hit-char-b",
+          "side": "b",
+          "label": "Hittite chariotry (second wave)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              66,
+              18
+            ],
+            [
+              58,
+              44
+            ],
+            [
+              48,
+              32
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              60,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "hit-inf",
+          "side": "b",
+          "label": "Muwatalli's infantry (uncommitted)",
+          "size": 1.3,
+          "pos": [
+            [
+              70,
+              14
+            ],
+            [
+              70,
+              14
+            ],
+            [
+              70,
+              14
+            ],
+            [
+              70,
+              14
+            ],
+            [
+              68,
+              14
+            ]
+          ]
+        }
+      ],
+      "severity": 0.9
+    },
+    "actium": {
+      "title": "Battle of Actium",
+      "subtitle": "2 September 31 BCE — Octavian and Agrippa break Antony at sea",
+      "sides": {
+        "a": {
+          "name": "Octavian (Agrippa)",
+          "color": "#3b6ea5"
+        },
+        "b": {
+          "name": "Antony & Cleopatra",
+          "color": "#b5402f"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70
+        },
+        {
+          "type": "town",
+          "x": 88,
+          "y": 46,
+          "r": 5,
+          "label": "Actium"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Blockaded in the gulf",
+          "narration": "Agrippa has cut Antony's sea route south to Egypt, trapping his fleet in the Gulf of Ambracia by land and water. Disease and desertion thin the crews through the summer until Antony resolves to fight his way out."
+        },
+        {
+          "name": "Out of the strait",
+          "narration": "Antony's fleet emerges from the narrows into the Ionian Sea and forms line: Antony himself on the right to the north, Sosius on the left to the south, Cleopatra's squadron held in reserve behind. Octavian's lighter Liburnians stay deliberately out of range."
+        },
+        {
+          "name": "The fight on the northern wing",
+          "narration": "Antony pushes north with his heavier quinqueremes, trying to overlap and crush Agrippa's wing; Agrippa extends north in turn to avoid being outflanked. The fighting rages all afternoon without decision, and a gap opens in the centre.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                14
+              ],
+              "to": [
+                42,
+                12
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                36,
+                14
+              ],
+              "to": [
+                48,
+                12
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Cleopatra breaks through",
+          "narration": "A breeze gets up and Cleopatra's squadron hoists sail, runs through the gap in the centre without engaging and stands away for the open sea. Antony breaks off and follows her, shifting to a lighter ship with only a handful of vessels.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                30
+              ],
+              "to": [
+                54,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The fleet surrenders",
+          "narration": "Abandoned by both commanders, Antony's remaining ships throw their towers and heavy fighting gear overboard and give up or are burned. Octavian takes the fleet, and with it the war.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                20
+              ],
+              "to": [
+                58,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                48,
+                44
+              ],
+              "to": [
+                58,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "agrippa",
+          "side": "a",
+          "label": "Agrippa (left)",
+          "shape": "ship",
+          "size": 1.1,
+          "pos": [
+            [
+              30,
+              18
+            ],
+            [
+              38,
+              18
+            ],
+            [
+              36,
+              10
+            ],
+            [
+              38,
+              14
+            ],
+            [
+              44,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "arruntius",
+          "side": "a",
+          "label": "Arruntius (centre)",
+          "shape": "ship",
+          "pos": [
+            [
+              30,
+              34
+            ],
+            [
+              38,
+              34
+            ],
+            [
+              38,
+              34
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              48,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "lurius",
+          "side": "a",
+          "label": "Lurius (right)",
+          "shape": "ship",
+          "pos": [
+            [
+              30,
+              50
+            ],
+            [
+              38,
+              50
+            ],
+            [
+              40,
+              50
+            ],
+            [
+              42,
+              48
+            ],
+            [
+              48,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "ant-right",
+          "side": "b",
+          "label": "Antony (right)",
+          "shape": "ship",
+          "size": 1.2,
+          "pos": [
+            [
+              80,
+              18
+            ],
+            [
+              58,
+              18
+            ],
+            [
+              50,
+              10
+            ],
+            [
+              56,
+              34
+            ],
+            [
+              14,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "ant-centre",
+          "side": "b",
+          "label": "Octavius & Insteius (centre)",
+          "shape": "ship",
+          "pos": [
+            [
+              82,
+              34
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              58,
+              34
+            ],
+            [
+              60,
+              36
+            ],
+            [
+              62,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "ant-left",
+          "side": "b",
+          "label": "Sosius (left)",
+          "shape": "ship",
+          "pos": [
+            [
+              80,
+              50
+            ],
+            [
+              58,
+              50
+            ],
+            [
+              56,
+              50
+            ],
+            [
+              58,
+              48
+            ],
+            [
+              60,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "cleo",
+          "side": "b",
+          "label": "Cleopatra's squadron",
+          "shape": "ship",
+          "size": 1.1,
+          "pos": [
+            [
+              90,
+              34
+            ],
+            [
+              76,
+              36
+            ],
+            [
+              74,
+              36
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              10,
+              66
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1
+    },
+    "teutoburg": {
+      "title": "Battle of the Teutoburg Forest",
+      "subtitle": "9 CE — three legions ambushed and destroyed",
+      "sides": {
+        "a": {
+          "name": "Germanic alliance (Arminius)",
+          "color": "#4a7c59"
+        },
+        "b": {
+          "name": "Rome (Varus)",
+          "color": "#b03a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "forest",
+          "x": 60,
+          "y": 50,
+          "r": 14
+        },
+        {
+          "type": "forest",
+          "x": 34,
+          "y": 52,
+          "r": 10
+        },
+        {
+          "type": "hill",
+          "x": 24,
+          "y": 48,
+          "r": 8,
+          "label": "Kalkriese Hill"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              42,
+              22
+            ],
+            [
+              30,
+              24
+            ],
+            [
+              18,
+              26
+            ]
+          ],
+          "label": "Great Bog"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              92,
+              34
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              34,
+              36
+            ],
+            [
+              14,
+              38
+            ]
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "name": "Lured off the road",
+          "narration": "Arminius, a trusted Cheruscan officer in Roman service, reports a rising among the Angrivarii. Varus leaves his secure route back to the Rhine to put it down. Arminius rides off to muster auxiliaries and never returns — taking the army's scouts with him."
+        },
+        {
+          "name": "Ambush on the march",
+          "narration": "The column snakes through thick forest, strung out over fifteen to twenty kilometres with its baggage and camp followers. In late morning Germanic warbands attack along its whole length from the wooded slopes, then break off once the baggage is savaged.",
+          "arrows": [
+            {
+              "from": [
+                64,
+                44
+              ],
+              "to": [
+                66,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                44
+              ],
+              "to": [
+                56,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                74,
+                44
+              ],
+              "to": [
+                78,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Storm and the night march",
+          "narration": "A torrential downpour stops the army in mud and timber. Varus builds a marching camp and burns what baggage he can, but the scouts and wagons have proved fatally exposed. Rather than hold, he sets off again — into ground Arminius has already prepared."
+        },
+        {
+          "name": "The Kalkriese narrows",
+          "narration": "The road passes through a gap of barely a hundred metres between the hill to the south and the bog to the north. Along the hillside the Germans have dug a trench and raised an earthen wall to attack from cover. The legions storm the wall and fail.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                38
+              ],
+              "to": [
+                26,
+                45
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                24,
+                45
+              ],
+              "to": [
+                28,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                34,
+                44
+              ],
+              "to": [
+                36,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Destruction",
+          "narration": "The warbands storm the field and Roman cohesion breaks. Numonius Vala rides for the Rhine with the cavalry and is run down. Varus takes his own life, and with him fall three legions and their eagles — 15,000 to 20,000 dead. Exact Germanic losses are unknown.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                44
+              ],
+              "to": [
+                26,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                44
+              ],
+              "to": [
+                34,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                16,
+                34
+              ],
+              "to": [
+                10,
+                31
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "rom-van",
+          "side": "b",
+          "label": "Vanguard",
+          "pos": [
+            [
+              72,
+              34
+            ],
+            [
+              56,
+              34
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              26,
+              36
+            ],
+            [
+              18,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "varus",
+          "side": "b",
+          "label": "Varus & the main column",
+          "size": 1.3,
+          "pos": [
+            [
+              80,
+              34
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              32,
+              36
+            ],
+            [
+              26,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "baggage",
+          "side": "b",
+          "label": "Baggage & camp followers",
+          "shape": "vehicle",
+          "pos": [
+            [
+              86,
+              34
+            ],
+            [
+              72,
+              34
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              38,
+              36
+            ],
+            [
+              34,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "rom-rear",
+          "side": "b",
+          "label": "Rearguard",
+          "pos": [
+            [
+              92,
+              34
+            ],
+            [
+              80,
+              34
+            ],
+            [
+              62,
+              36
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              40,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "vala",
+          "side": "b",
+          "label": "Vala's cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              76,
+              30
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              28,
+              32
+            ],
+            [
+              10,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "arminius",
+          "side": "a",
+          "label": "Arminius & the Cherusci",
+          "size": 1.2,
+          "pos": [
+            [
+              78,
+              30
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              54,
+              44
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              24,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "bructeri",
+          "side": "a",
+          "label": "Bructeri warbands",
+          "pos": [
+            [
+              60,
+              48
+            ],
+            [
+              56,
+              42
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              36,
+              44
+            ],
+            [
+              32,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "ger-wall",
+          "side": "a",
+          "label": "Warriors behind the earth wall",
+          "size": 1.1,
+          "pos": [
+            [
+              20,
+              50
+            ],
+            [
+              20,
+              50
+            ],
+            [
+              24,
+              48
+            ],
+            [
+              24,
+              44
+            ],
+            [
+              22,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "ger-cav",
+          "side": "a",
+          "label": "Germanic cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              70,
+              46
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              12,
+              32
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "yarmouk": {
+      "title": "Battle of the Yarmouk",
+      "subtitle": "15–20 August 636 — six days that lost Byzantium Syria",
+      "sides": {
+        "a": {
+          "name": "Rashidun Caliphate (Khalid ibn al-Walid)",
+          "color": "#2e8b57"
+        },
+        "b": {
+          "name": "Byzantine Empire (Vahan)",
+          "color": "#7d4a9e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              8,
+              58
+            ],
+            [
+              30,
+              62
+            ],
+            [
+              56,
+              64
+            ],
+            [
+              82,
+              62
+            ]
+          ],
+          "label": "Yarmouk gorge"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              10,
+              8
+            ],
+            [
+              12,
+              30
+            ],
+            [
+              12,
+              48
+            ],
+            [
+              16,
+              58
+            ]
+          ],
+          "label": "Wadi-ur-Ruqqad"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              8,
+              12
+            ],
+            [
+              40,
+              12
+            ],
+            [
+              78,
+              14
+            ]
+          ],
+          "label": "Jabiya road"
+        },
+        {
+          "type": "town",
+          "x": 12,
+          "y": 48,
+          "r": 4,
+          "label": "Bridge at Ayn al-Dhakar"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Day 1 — the armies form",
+          "narration": "Two armies face each other across some twelve kilometres, the Muslims looking west with their left on the Yarmouk gorge and their right on the Jabiya road. The day opens with single combats between champions, then Vahan sends in a third of his infantry to test the line; the attack lacks conviction and both sides break off at sunset.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                34
+              ],
+              "to": [
+                56,
+                34
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Day 2 — the Day of Lost Eyes",
+          "narration": "Vahan attacks just before dawn, pinning the centre and striking both Muslim flanks. Qanatir drives the right back and Gregory's testudo pushes the left onto its own camps — where the women of the camp, led by Hind, tear down the tents and turn the retreating men round with tent poles. Khalid's mobile guard restores both wings; Dairjan is killed.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                18
+              ],
+              "to": [
+                62,
+                18
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                44,
+                54
+              ],
+              "to": [
+                62,
+                54
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                24
+              ],
+              "to": [
+                48,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                62,
+                48
+              ],
+              "to": [
+                48,
+                52
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Day 3 — the right flank hammered",
+          "narration": "Vahan works on the joint between the Muslim right wing and right centre, and both give ground before steadying. Khalid answers with converging attacks on the flanks of the Byzantine left centre and left wing, and by dusk the Byzantines are back where they began.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                20
+              ],
+              "to": [
+                60,
+                20
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                26
+              ],
+              "to": [
+                46,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                34
+              ],
+              "to": [
+                46,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Day 4 — Khalid holds the line",
+          "narration": "Qanatir attacks the Muslim right once more and it falls back again. Khalid has Abu Ubaidah and Yazid pin the Byzantine front so it cannot advance as a whole, splits his mobile guard onto both flanks of the Byzantine left centre and drives it in with a frontal push.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                20
+              ],
+              "to": [
+                60,
+                20
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                58,
+                26
+              ],
+              "to": [
+                44,
+                28
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                38
+              ],
+              "to": [
+                44,
+                34
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Day 5 — the cavalry massed",
+          "narration": "Vahan sends an envoy to talk terms and there is no serious fighting. Khalid uses the night: he gathers every cavalry regiment into a single mobile corps, and sends Dhirar with some 500 horse to ride wide and seize the Roman bridge at Ayn al-Dhakar — the one good crossing of the Wadi-ur-Ruqqad, behind the Byzantine army."
+        },
+        {
+          "name": "Day 6 — the collapse",
+          "narration": "At dawn Khalid throws his massed cavalry at the Byzantine horse and drives it north, clean off the field and away from the infantry. The abandoned foot are rolled up from the flanks and Vahan is killed. Falling back on the Wadi-ur-Ruqqad, the survivors find the bridge held and are forced into the ravines.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                30
+              ],
+              "to": [
+                36,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                40
+              ],
+              "to": [
+                36,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                54
+              ],
+              "to": [
+                34,
+                54
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "amr",
+          "side": "a",
+          "label": "Amr ibn al-As (right)",
+          "pos": [
+            [
+              62,
+              18
+            ],
+            [
+              68,
+              18
+            ],
+            [
+              68,
+              20
+            ],
+            [
+              66,
+              20
+            ],
+            [
+              66,
+              20
+            ],
+            [
+              56,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "shurahbil",
+          "side": "a",
+          "label": "Shurahbil (right centre)",
+          "pos": [
+            [
+              62,
+              30
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              68,
+              30
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              56,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "abu-ubaidah",
+          "side": "a",
+          "label": "Abu Ubaidah (left centre)",
+          "pos": [
+            [
+              62,
+              42
+            ],
+            [
+              66,
+              42
+            ],
+            [
+              64,
+              42
+            ],
+            [
+              64,
+              42
+            ],
+            [
+              64,
+              42
+            ],
+            [
+              54,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "yazid",
+          "side": "a",
+          "label": "Yazid (left)",
+          "pos": [
+            [
+              62,
+              54
+            ],
+            [
+              68,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              54,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "khalid",
+          "side": "a",
+          "label": "Khalid & the mobile guard",
+          "shape": "cavalry",
+          "size": 1.3,
+          "pos": [
+            [
+              74,
+              36
+            ],
+            [
+              60,
+              24
+            ],
+            [
+              58,
+              36
+            ],
+            [
+              58,
+              30
+            ],
+            [
+              72,
+              36
+            ],
+            [
+              38,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "dhirar",
+          "side": "a",
+          "label": "Dhirar & 500 horse",
+          "shape": "cavalry",
+          "size": 0.7,
+          "pos": [
+            [
+              76,
+              40
+            ],
+            [
+              76,
+              40
+            ],
+            [
+              74,
+              40
+            ],
+            [
+              74,
+              40
+            ],
+            [
+              30,
+              54
+            ],
+            [
+              12,
+              48
+            ]
+          ]
+        },
+        {
+          "id": "qanatir",
+          "side": "b",
+          "label": "Qanatir (left)",
+          "pos": [
+            [
+              36,
+              18
+            ],
+            [
+              46,
+              18
+            ],
+            [
+              42,
+              20
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              38,
+              18
+            ],
+            [
+              30,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "vahan",
+          "side": "b",
+          "label": "Vahan (centre)",
+          "size": 1.3,
+          "pos": [
+            [
+              34,
+              30
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              24,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "dairjan",
+          "side": "b",
+          "label": "Dairjan (centre left)",
+          "pos": [
+            [
+              34,
+              42
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              34,
+              42
+            ],
+            [
+              22,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "gregory",
+          "side": "b",
+          "label": "Gregory (right)",
+          "pos": [
+            [
+              36,
+              54
+            ],
+            [
+              44,
+              54
+            ],
+            [
+              40,
+              54
+            ],
+            [
+              40,
+              54
+            ],
+            [
+              36,
+              54
+            ],
+            [
+              24,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "jabalah",
+          "side": "b",
+          "label": "Jabalah (Ghassanid screen)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              46,
+              36
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              26,
+              14
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
     }
   }
 }
