@@ -3390,9 +3390,17 @@ export function buildModel(
     // The Palace of Westminster (Houses of Parliament) — Barry & Pugin's long
     // Perpendicular-Gothic river frontage. The Captain's brief: the two towers
     // are the north tower (Elizabeth Tower, Big Ben) and the south tower
-    // (Victoria Tower, the Sovereign's Entrance), both on the river face; three
-    // inner courtyards; and the river front is THREE tiers, of which the upper
-    // two are double height. Front = local +Z = the river front.
+    // (Victoria Tower, the Sovereign's Entrance); three inner courtyards; and
+    // the river front is THREE tiers, of which the upper two are double height.
+    // Front = local +Z = the river (east) front.
+    //
+    // ORIENTATION, read off the Captain's annotated plan view (Google Maps) —
+    // do NOT re-derive it: both great towers stand on the WEST (landward) face,
+    // at the north-west and south-west corners. An earlier pass put them on the
+    // river front, which is wrong: the river frontage runs UNBROKEN past them,
+    // and that regularity is its whole character. The west front is the
+    // irregular, historic one — Victoria Tower, Old Palace Yard, St Stephen's
+    // Porch, Westminster Hall, New Palace Yard, then Elizabeth Tower.
     //
     // Everything here is laid out in REAL METRES through M(). The fit table
     // scales this model's 38.35-unit footprint to 265 m, so one unit is 6.91 m
@@ -3591,9 +3599,12 @@ export function buildModel(
     for (let i = -5; i <= 5; i++) {
       group.add(block(0.16, 0.4, 0.16, mainCx + i * 3, 0.34, front + M(12.4), '#3a3a3a')); // bollards
     }
-    // --- Elizabeth Tower (Big Ben) at the NORTH end: 12.2 m square, 96 m. ---
+    // --- Elizabeth Tower (Big Ben) at the NORTH-WEST corner: 12.2 m square,
+    //     96 m. Read off the Captain's plan view: both great towers stand on
+    //     the WEST (landward) face, NOT on the river front. The river frontage
+    //     runs unbroken past them, which is exactly its character. ---
     const bx = halfLen - bigW / 2;
-    const bz = front - bigW / 2;
+    const bz = back + bigW / 2;
     group.add(block(bigW + 0.24, M(6), bigW + 0.24, bx, M(3), bz, stoneLo)); // plinth
     group.add(block(bigW, M(62), bigW, bx, M(31), bz, stoneHi));               // shaft
     for (let i = 1; i <= 4; i++) {
@@ -3625,21 +3636,22 @@ export function buildModel(
     const efin = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 8), GOLD);
     efin.position.set(bx, M(95), bz);
     group.add(efin);
-    // --- Victoria Tower at the SOUTH end: 22.6 m square, 98.5 m, the
-    //     Sovereign's Entrance at its foot. ---
+    // --- Victoria Tower at the SOUTH-WEST corner: 22.6 m square, 98.5 m. Its
+    //     Sovereign's Entrance opens WEST onto Old Palace Yard — which is why
+    //     it belongs on this face and not the river. ---
     const vx = -halfLen + vicW / 2;
-    const vz = front - vicW / 2;
+    const vz = back + vicW / 2;
     group.add(block(vicW + 0.3, M(7), vicW + 0.3, vx, M(3.5), vz, stoneLo)); // base
     group.add(block(vicW, M(75), vicW, vx, M(37.5), vz, stoneHi));            // great shaft
     for (let i = 1; i <= 5; i++) {
       group.add(block(vicW + 0.12, 0.14, vicW + 0.12, vx, M(7 + i * 12), vz, trim)); // string courses
     }
     // The Sovereign's Entrance archway at its foot, and the stacked windows above.
-    group.add(block(vicW * 0.36, M(13), 0.12, vx, M(7), vz + vicW / 2 + 0.05, glass));
-    group.add(block(vicW * 0.44, M(1.4), 0.16, vx, M(14), vz + vicW / 2 + 0.05, trim));
+    group.add(block(vicW * 0.36, M(13), 0.12, vx, M(7), vz - vicW / 2 - 0.05, glass));
+    group.add(block(vicW * 0.44, M(1.4), 0.16, vx, M(14), vz - vicW / 2 - 0.05, trim));
     for (let i = 0; i < 4; i++) {
       for (const s of [-1, 1] as const) {
-        group.add(block(vicW * 0.2, M(9), 0.1, vx + s * vicW * 0.24, M(24 + i * 13), vz + vicW / 2 + 0.05, glass));
+        group.add(block(vicW * 0.2, M(9), 0.1, vx + s * vicW * 0.24, M(24 + i * 13), vz - vicW / 2 - 0.05, glass));
       }
     }
     group.add(block(vicW + 0.28, M(7), vicW + 0.28, vx, M(78.5), vz, stoneLo)); // parapet stage
@@ -3668,6 +3680,48 @@ export function buildModel(
     const cfin = new THREE.Mesh(new THREE.SphereGeometry(0.18, 10, 8), GOLD);
     cfin.position.set(ccx, M(89), midZ);
     group.add(cfin);
+    // --- Westminster Hall: the surviving medieval hall (1097; its hammerbeam
+    //     roof 1393), 73 x 21 m under ONE unbroken steep roof, standing on the
+    //     WEST side north of centre and projecting clear of the back range.
+    //     With the two towers it makes the west front the palace's irregular,
+    //     historic face — the river front is the regular one. ---
+    const hallW = M(73);
+    const hallD = M(21);
+    const hallCx = M(34);
+    const hallCz = back - M(4);
+    const hallH = M(19);
+    group.add(block(hallW, hallH, hallD, hallCx, hallH / 2, hallCz, stone));
+    group.add(block(hallW + 0.06, M(4), hallD + 0.06, hallCx, M(2), hallCz, stoneLo)); // worn ground course
+    group.add(block(hallW + 0.16, 0.18, hallD + 0.16, hallCx, hallH + 0.07, hallCz, trim));
+    pitched(hallCx, hallCz, hallW / 2, hallD / 2, hallH + 0.16, M(13)); // the great steep roof
+    // Its buttresses and the tall traceried windows between them, both flanks.
+    for (let i = 0; i <= 9; i++) {
+      const x = hallCx - hallW / 2 + (hallW * i) / 9;
+      for (const s of [-1, 1] as const) {
+        const z = hallCz + s * (hallD / 2 + 0.07);
+        group.add(cell(0.2, hallH + 0.22, 0.2, x, (hallH + 0.22) / 2, z, stoneMat(trim)));
+        group.add(cell(0.15, 0.38, 0.15, x, hallH + 0.4, z, stoneMat(trim)));
+        if (i === 9) continue;
+        group.add(cell(hallW / 22, hallH * 0.46, 0.06, x + hallW / 18, hallH * 0.6, z, stoneMat(glass)));
+      }
+    }
+    // The great north window and the door onto New Palace Yard.
+    group.add(block(0.07, hallH * 0.4, hallD * 0.52, hallCx + hallW / 2 + 0.04, hallH * 0.62, hallCz, glass));
+    group.add(block(0.09, hallH * 0.3, hallD * 0.26, hallCx + hallW / 2 + 0.05, hallH * 0.15, hallCz, trim));
+    // St Stephen's Porch, linking the Hall's south end into the palace.
+    const porchH = M(15);
+    const porchCx = hallCx - hallW / 2 - M(8);
+    group.add(block(M(16), porchH, M(15), porchCx, porchH / 2, back - M(2), stone));
+    pitched(porchCx, back - M(2), M(8), M(7.5), porchH + 0.12, M(8));
+    // New Palace Yard (north, at Big Ben's foot) and Old Palace Yard (south, at
+    // Victoria Tower's) — the two open forecourts the west front looks onto.
+    for (const [yx, yw] of [[M(107), M(44)], [M(-70), M(66)]] as const) {
+      group.add(block(yw, 0.12, M(22), yx, 0.06, back - M(12), '#9c9a93'));    // paving
+      group.add(block(yw, 0.34, 0.1, yx, 0.17, back - M(23), trim));           // boundary wall
+      for (let i = 0; i < 5; i++) {
+        group.add(cell(0.1, 0.5, 0.1, yx - yw / 2 + (yw * i) / 4, 0.25, back - M(23), stoneMat(trim)));
+      }
+    }
     // --- The lesser turrets around the courts, which with the three great
     //     towers make up the palace's family of spires. ---
     const minorTower = (x: number, z: number, w: number, h: number) => {
@@ -3681,7 +3735,10 @@ export function buildModel(
       fin.position.set(x, h + M(16), z);
       group.add(fin);
     };
-    for (const cx of endCx) minorTower(cx, back + rangeD / 2, M(13), M(38));       // back end turrets
+    // The river-front corner pavilions — the Speaker's House at the north end
+    // and the Royal Court at the south, both labelled on the Captain's plan.
+    // (The back corners now carry the two great towers, so no turrets there.)
+    for (const cx of endCx) minorTower(cx, front - rangeD / 2, M(15), M(40));
     minorTower(ccx, back + rangeD / 2, M(13), M(34));                              // back centre turret
     for (const cx of crossCx) minorTower(cx, front - rangeD / 2, M(12), M(32));    // river-front turrets
   } else if (model === 'london-eye') {
