@@ -404,5 +404,10 @@
       "scale": 0.864
     },
     "ts": 1784270213446
+  },
+  "battle:waterloo": {},
+  "battle:d-day": {
+    "rework": true,
+    "ts": 1784706604053
   }
 }
