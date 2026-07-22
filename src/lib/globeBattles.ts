@@ -79,39 +79,196 @@ function sprite(kind: 'dust' | 'wake' | 'fire' | 'smoke'): HTMLCanvasElement {
   return sprites[kind];
 }
 
-/** The unit's badge: a disc in its side's colour with a glyph for its kind. */
-const GLYPH: Record<NonNullable<BattleUnit['shape']> | 'block', string> = {
-  block: '⚔',
-  cavalry: '🐎',
-  ship: '⛵',
-  vehicle: '🚙',
-  plane: '✈',
-};
 const icons = new Map<string, HTMLCanvasElement>();
+
+/**
+ * Figures are drawn this many times larger than they display. At 1:1 a 15px
+ * man is mostly outline — the stroke closes the gap between his legs and eats
+ * his head, leaving a blob. Drawn 3× and let down by the GPU, the same
+ * proportions survive as a figure. The billboard scales back by 1/this.
+ */
+const FIGURE_SS = 3;
+
+/** Canvas the figure is drawn on, per arm — tall for men, wide for machines. */
+const FIGURE_BOX: Record<NonNullable<BattleUnit['shape']> | 'block', [number, number]> = {
+  block: [15, 22],
+  cavalry: [22, 21],
+  ship: [24, 24],
+  vehicle: [22, 17],
+  plane: [24, 22],
+};
+
 /**
  * One FIGURE in a formation — the little man (or horse, ship, tank, plane)
- * that a block is built from. Smaller and plainer than the old one-marker-
- * per-unit icon: at a block of twenty the glyph is what reads, not a ring.
+ * a block is built from.
+ *
+ * SILHOUETTES, not glyphs: at globe range a figure is ten-odd pixels tall,
+ * where an emoji is mud and a disc is just a dot. A filled shape in the
+ * side's colour under a dark outline still reads as a man with a spear, a
+ * horseman, a sail. Drawn from the feet up, since the sprite's BOTTOM is
+ * what stands on the ground.
  */
 function figureIcon(shape: BattleUnit['shape'], colour: string): HTMLCanvasElement {
-  const key = `fig|${shape ?? 'block'}|${colour}`;
-  let c = icons.get(key);
-  if (c) return c;
-  const px = shape === 'block' || shape === 'cavalry' || !shape ? 18 : 24;
-  c = document.createElement('canvas');
-  c.width = c.height = px + 6;
+  const kind = shape ?? 'block';
+  const key = `fig|${kind}|${colour}`;
+  const hit = icons.get(key);
+  if (hit) return hit;
+
+  const [w, h] = FIGURE_BOX[kind];
+  const S = FIGURE_SS;
+  const c = document.createElement('canvas');
+  c.width = w * S;
+  c.height = h * S;
   const g = c.getContext('2d')!;
-  g.beginPath();
-  g.arc(c.width / 2, c.height / 2, px / 2, 0, Math.PI * 2);
+  g.scale(S, S);
   g.fillStyle = colour;
-  g.fill();
-  g.lineWidth = 1.5;
-  g.strokeStyle = 'rgba(0,0,0,0.55)';
-  g.stroke();
-  g.font = `${Math.round(px * 0.72)}px sans-serif`;
-  g.textAlign = 'center';
-  g.textBaseline = 'middle';
-  g.fillText(GLYPH[shape ?? 'block'], c.width / 2, c.height / 2 + 1);
+  g.strokeStyle = 'rgba(0,0,0,0.75)';
+  g.lineWidth = 0.5;
+  g.lineJoin = 'round';
+  const cx = w / 2;
+
+  /** Fill then outline, so every limb keeps its edge against the ground. */
+  const ink = () => {
+    g.fill();
+    g.stroke();
+  };
+
+  if (kind === 'block') {
+    // Foot, as a bold pawn: head, broad shoulders, body tapering to the
+    // ground, and a shouldered spear. Legs are deliberately NOT drawn — at
+    // this size the gap between them falls below a pixel and fills in, so
+    // they only turn the man back into a blob. Head-shoulders-taper survives.
+    g.beginPath();
+    g.moveTo(cx + 4.2, 1);
+    g.lineTo(cx + 5.4, 1);
+    g.lineTo(cx + 5.4, h - 1);
+    g.lineTo(cx + 4.2, h - 1);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.arc(cx - 1.2, 4, 3.2, 0, Math.PI * 2);
+    ink();
+    g.beginPath();
+    g.moveTo(cx - 5, 9); // shoulders — the widest point
+    g.lineTo(cx + 2.6, 9);
+    g.lineTo(cx + 1.6, 14);
+    g.lineTo(cx + 2.4, h - 1); // flares back out to a firm base
+    g.lineTo(cx - 4.8, h - 1);
+    g.lineTo(cx - 4, 14);
+    g.closePath();
+    ink();
+  } else if (kind === 'cavalry') {
+    // Horse in profile with a rider above the withers.
+    g.beginPath();
+    g.moveTo(3, 13);
+    g.lineTo(w - 6, 13);
+    g.lineTo(w - 5, 10);
+    g.lineTo(w - 2, 6);
+    g.lineTo(w - 4.5, 5.5);
+    g.lineTo(w - 7, 9.5);
+    g.lineTo(4, 10);
+    g.closePath();
+    ink();
+    g.beginPath(); // hind and fore legs
+    g.moveTo(4, 13);
+    g.lineTo(6, 13);
+    g.lineTo(5.6, h - 1);
+    g.lineTo(3.6, h - 1);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(w - 9, 13);
+    g.lineTo(w - 7, 13);
+    g.lineTo(w - 7.4, h - 1);
+    g.lineTo(w - 9.4, h - 1);
+    g.closePath();
+    ink();
+    g.beginPath(); // rider
+    g.arc(w - 10, 3.5, 2.4, 0, Math.PI * 2);
+    ink();
+    g.beginPath();
+    g.moveTo(w - 12.5, 6);
+    g.lineTo(w - 7.5, 6);
+    g.lineTo(w - 8.5, 10);
+    g.lineTo(w - 12, 10);
+    g.closePath();
+    ink();
+  } else if (kind === 'ship') {
+    // Hull with a raked mast and a square sail.
+    g.beginPath();
+    g.moveTo(2, h - 7);
+    g.lineTo(w - 2, h - 7);
+    g.lineTo(w - 5, h - 2);
+    g.lineTo(5, h - 2);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx - 0.6, 2);
+    g.lineTo(cx + 0.6, 2);
+    g.lineTo(cx + 0.6, h - 7);
+    g.lineTo(cx - 0.6, h - 7);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx + 1, 3.5);
+    g.lineTo(w - 4, 6);
+    g.lineTo(w - 4, 12);
+    g.lineTo(cx + 1, 13);
+    g.closePath();
+    ink();
+  } else if (kind === 'vehicle') {
+    // Tank from the side: hull, turret, gun.
+    g.beginPath();
+    g.moveTo(2, h - 8);
+    g.lineTo(w - 2, h - 8);
+    g.lineTo(w - 3, h - 2);
+    g.lineTo(3, h - 2);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx - 5, h - 13);
+    g.lineTo(cx + 3, h - 13);
+    g.lineTo(cx + 4, h - 8);
+    g.lineTo(cx - 6, h - 8);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx + 3, h - 12);
+    g.lineTo(w - 1, h - 11.6);
+    g.lineTo(w - 1, h - 10.4);
+    g.lineTo(cx + 3, h - 10.8);
+    g.closePath();
+    ink();
+  } else {
+    // Aircraft from above: fuselage, swept wings, tailplane.
+    g.beginPath();
+    g.moveTo(cx, 1);
+    g.lineTo(cx + 1.7, 6);
+    g.lineTo(cx + 1.7, h - 3);
+    g.lineTo(cx - 1.7, h - 3);
+    g.lineTo(cx - 1.7, 6);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx - 1.5, 8);
+    g.lineTo(cx + 1.5, 8);
+    g.lineTo(w - 1, 13);
+    g.lineTo(w - 1, 15);
+    g.lineTo(cx + 1.5, 12.5);
+    g.lineTo(cx - 1.5, 12.5);
+    g.lineTo(1, 15);
+    g.lineTo(1, 13);
+    g.closePath();
+    ink();
+    g.beginPath();
+    g.moveTo(cx - 1.4, h - 5);
+    g.lineTo(cx + 1.4, h - 5);
+    g.lineTo(cx + 4.5, h - 2);
+    g.lineTo(cx - 4.5, h - 2);
+    g.closePath();
+    ink();
+  }
+
   icons.set(key, c);
   return c;
 }
@@ -247,6 +404,8 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          // The sprite is drawn oversized for detail; show it at its real size.
+          scale: 1 / FIGURE_SS,
           scaleByDistance: new Cesium.NearFarScalar(2_000, 1, 25_000, 0.5),
         },
       });
@@ -309,6 +468,8 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
   if (import.meta.env.DEV) {
     (window as unknown as { __gb?: object }).__gb = {
       density: () => figureDensity,
+      /** The drawn figure sprites, for checking they read as men not dots. */
+      sprites: () => [...icons.entries()].map(([k, c]) => [k, c.toDataURL()]),
       /** [figures standing, figures fielded] per unit — the field, countable. */
       counts: () =>
         [...units.entries()].map(([id, t]) => [id, t.figures.filter((f) => f.entity.show).length, t.fullCount]),
