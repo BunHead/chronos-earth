@@ -225,8 +225,21 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     });
   if (e.partOf) sections.push({ heading: 'Part of', body: e.partOf });
   if (e.deaths) sections.push({ heading: 'Deaths (recorded)', body: e.deaths.toLocaleString('en-GB') });
+  // A figure the record does not establish the way it establishes a king with
+  // a charter says so, right next to the date it is being given — the same
+  // doctrine that flags the Atlantis hypothesis rather than burying it.
+  if (e.attestation) {
+    sections.push({
+      heading: e.attestation === 'legendary' ? 'A figure of legend' : 'Traditionally dated',
+      body:
+        e.dateNote ??
+        (e.attestation === 'legendary'
+          ? 'Known from story rather than from records made at the time.'
+          : 'Known from scripture and later tradition rather than from records made at the time.'),
+    });
+  }
   return {
-    kicker: EVENT_KICKER[e.category],
+    kicker: e.attestation === 'legendary' ? 'Legend' : EVENT_KICKER[e.category],
     title: e.name,
     date,
     // With a Wikipedia title we fetch the real summary + photo live on click;

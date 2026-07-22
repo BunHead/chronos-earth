@@ -32,6 +32,16 @@ jobs:
         # gets committed below. The Captain's first button-run was cancelled at
         # the job timeout WITH data in hand; never again.
         run: timeout 55m node scripts/fetch-wikidata-events.mjs || [ $? -eq 124 ]
+      - name: Fetch notable people (documented + traditional)
+        # This step did not exist until 2026-07-20, which is why every single
+        # person in events.json was hand-added: the people harvest was written,
+        # committed, and then never actually run. Same timeout treatment as
+        # above — partial results are still worth keeping.
+        run: timeout 25m node scripts/fetch-people.mjs || [ $? -eq 124 ]
+      - name: Add the curated legends (idempotent)
+        # Hand-written figures who defeat any query — no birthplace, no usable
+        # date. Re-run each night so edits to the file take effect.
+        run: node scripts/add-legends.mjs
       - name: Rebuild the core index
         run: node scripts/build-core-index.mjs
       - name: Lint the data (report only — never lose a night's harvest)

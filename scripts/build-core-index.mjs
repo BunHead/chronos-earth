@@ -79,7 +79,7 @@ const HEADLINE_COUNT = 600;
 export function packColumns(rows) {
   const cols = {
     v: 1, id: [], name: [], lat: [], lon: [], year: [], endYear: [],
-    category: [], notability: [], wiki: [], cell: [],
+    category: [], notability: [], wiki: [], cell: [], attest: [],
   };
   for (const e of rows) {
     cols.id.push(e.id);
@@ -92,6 +92,9 @@ export function packColumns(rows) {
     cols.notability.push(e.notability ?? 0);
     cols.wiki.push(e.wikiTitle === undefined ? null : e.wikiTitle === e.name ? '' : e.wikiTitle);
     cols.cell.push(cellKeyFor(e.lat, e.lon));
+    // Rides in the SKELETON, not the flesh: a legendary or traditional figure
+    // must be distinguishable on the globe itself, before any panel is opened.
+    cols.attest.push(e.attestation ?? null);
   }
   return cols;
 }
@@ -99,6 +102,7 @@ export function packColumns(rows) {
 /** The fields the skeleton carries — everything else is flesh. */
 const SKELETON_KEYS = new Set([
   'id', 'name', 'lat', 'lon', 'startYear', 'endYear', 'category', 'notability', 'wikiTitle',
+  'attestation',
 ]);
 
 /**
@@ -112,7 +116,7 @@ export function buildCoreIndex(events) {
   const cols = {
     v: 1, // format version
     id: [], name: [], lat: [], lon: [], year: [], endYear: [],
-    category: [], notability: [], wiki: [], cell: [],
+    category: [], notability: [], wiki: [], cell: [], attest: [],
   };
   const detailByCell = new Map();
   for (const e of rows) {
@@ -130,6 +134,9 @@ export function buildCoreIndex(events) {
     // detail field rides along in the skeleton, cheaply.)
     cols.wiki.push(e.wikiTitle === undefined ? null : e.wikiTitle === e.name ? '' : e.wikiTitle);
     cols.cell.push(cell);
+    // Rides in the SKELETON: a legendary or traditional figure must be
+    // distinguishable on the globe before any panel is opened.
+    cols.attest.push(e.attestation ?? null);
     const detail = {};
     for (const [k, v] of Object.entries(e)) if (!SKELETON_KEYS.has(k)) detail[k] = v;
     if (Object.keys(detail).length > 0) {

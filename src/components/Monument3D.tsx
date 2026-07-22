@@ -3388,121 +3388,285 @@ export function buildModel(
     group.add(vic);
   } else if (model === 'westminster') {
     // The Palace of Westminster (Houses of Parliament) — Barry & Pugin's long
-    // Perpendicular-Gothic river frontage: the slender Elizabeth Tower (Big Ben)
-    // with its four clock faces and crocketed spire at the NORTH end (+X), the
-    // massive square Victoria Tower with its iron cresting at the south (−X), the
-    // octagonal Central Tower spire between them, and a pinnacled, buttressed
-    // frontage the whole length. Front = local +Z = the river (east) front.
+    // Perpendicular-Gothic river frontage. The Captain's brief: the two towers
+    // are the north tower (Elizabeth Tower, Big Ben) and the south tower
+    // (Victoria Tower, the Sovereign's Entrance), both on the river face; three
+    // inner courtyards; and the river front is THREE tiers, of which the upper
+    // two are double height. Front = local +Z = the river front.
+    //
+    // Everything here is laid out in REAL METRES through M(). The fit table
+    // scales this model's 38.35-unit footprint to 265 m, so one unit is 6.91 m
+    // and M() puts every dimension on the real building. The previous pass was
+    // built by eye and came out ~1.5x overscale — a 37 m eaves line and an
+    // 18 m-square Elizabeth Tower — which is why it read as a castle keep
+    // rather than a long, low palace.
+    const M = (metres: number) => metres / 6.91;
     ground = '#3f5138';
-    const stone = '#cbb684'; // honey Anston limestone
-    const stoneLo = '#c0aa78';
-    const trim = '#b6a06e';
-    const roof = '#465862';
+    // Anston limestone on the fleet's cathedral palette, GRADED worn-dark at
+    // ground level to paler high up so the walls never read as one flat beige
+    // (the single flat tone was what made this model look like timber).
+    const stoneLo = '#b3a789';
+    const stone = '#c3b79a';
+    const stoneHi = '#cfc4a8';
+    const trim = '#dbd2b9';
+    const roof = '#6e7377';    // lead and slate
     const glass = '#2f3742';
     const gold = '#d8c37a';
-    const front = 3; // +Z river-front plane
-    const H = 5.4;        // main range height
-    const backZ = -11;    // the palace runs back to here
-    const midZ = backZ / 2;
-    const depth = Math.abs(backZ) + 3.4;
-    // --- The palace is a full rectangular pile enclosing THREE inner courts:
-    //     the river-front range, a back range, two end ranges, and two internal
-    //     cross-ranges that divide the interior into three courtyards. ---
-    const wing = (x: number, z: number, w: number, d: number, h: number, col = stone) => {
-      group.add(block(w, h, d, x, h / 2, z, col));
-      group.add(block(w + 0.3, 0.45, d + 0.3, x, h + 0.2, z, trim)); // eaves band
-      group.add(block(w - 0.7, 1.0, d - 0.7, x, h + 0.7, z, roof));   // slate roof mass
+    const ironCrest = new THREE.MeshStandardMaterial({ color: '#2b2f33', metalness: 0.5, roughness: 0.6 });
+    // --- Plan. The 265 m river frontage runs along X with the two great towers
+    //     bracketing it; the palace is 100 m deep, and a front range, a back
+    //     range, two end ranges and two cross-ranges enclose THREE courts. ---
+    const front = 3;                       // the river-front plane (+Z)
+    const halfLen = M(265) / 2;            // 19.18
+    const back = front - M(100);           // -11.47
+    const midZ = (front + back) / 2;
+    const vicW = M(22.6);                  // Victoria Tower is 22.6 m square
+    const bigW = M(12.2);                  // Elizabeth Tower is 12.2 m square
+    const rangeD = M(27);                  // depth of the front and back ranges
+    // The palace is ONE 265 x 100 m rectangle: the towers stand at its river
+    // corners and rise out of the end ranges, they are not bolted on outboard
+    // of it (which left them visibly detached in plan).
+    const mainS = -halfLen;
+    const mainN = halfLen;
+    const mainW = mainN - mainS;
+    const mainCx = 0;
+    const eaves = M(22);                   // main parapet
+    const eavesLo = M(20);                 // the lesser ranges
+    /** A pitched roof with its ridge along X (or along Z when `alongZ`), gable
+     * ends, and the ornamental iron cresting that runs every Westminster ridge.
+     * Built in a sub-group so the whole thing can be turned as one. */
+    const pitched = (
+      cx: number, cz: number, hx: number, hz: number, yb: number, rise: number, alongZ = false,
+    ) => {
+      const g = new THREE.Group();
+      const halfRidge = alongZ ? hz : hx;  // half-length along the ridge
+      const halfSpan = alongZ ? hx : hz;   // half-span across it
+      const slope = Math.hypot(halfSpan, rise) + 0.05;
+      const ang = Math.atan2(rise, halfSpan);
+      for (const s of [-1, 1] as const) {
+        const slab = new THREE.Mesh(
+          new THREE.BoxGeometry(2 * halfRidge, 0.14, slope),
+          stoneLike({ color: roof, flatShading: true }),
+        );
+        slab.position.set(0, rise / 2, (s * halfSpan) / 2);
+        slab.rotation.x = s * ang;
+        g.add(slab);
+      }
+      const ped = new THREE.Shape();
+      ped.moveTo(-halfSpan, 0);
+      ped.lineTo(halfSpan, 0);
+      ped.lineTo(0, rise);
+      ped.lineTo(-halfSpan, 0);
+      const pedGeo = new THREE.ExtrudeGeometry(ped, { depth: 0.14, bevelEnabled: false });
+      for (const sx of [-1, 1] as const) {
+        const p = new THREE.Mesh(pedGeo, stoneMat(stone));
+        p.rotation.y = Math.PI / 2;
+        p.position.set(sx * halfRidge, 0, 0);
+        g.add(p);
+      }
+      g.add(matBlock(2 * halfRidge, 0.06, 0.06, 0, rise + 0.04, 0, ironCrest)); // ridge rail
+      const n = Math.max(3, Math.round((2 * halfRidge) / 0.5));
+      for (let i = 0; i <= n; i++) { // the cresting spikes
+        g.add(matBlock(0.045, 0.24, 0.045, -halfRidge + (2 * halfRidge * i) / n, rise + 0.14, 0, ironCrest));
+      }
+      g.position.set(cx, yb, cz);
+      if (alongZ) g.rotation.y = Math.PI / 2;
+      group.add(g);
     };
-    wing(0, 0, 28, 3.6, H);                 // river-front range (+Z)
-    wing(0, backZ, 28, 3.4, H - 0.4);       // back range (−X spine)
-    wing(-13.2, midZ, 3.4, depth, H - 0.4); // south end range (−X)
-    wing(13.2, midZ, 3.4, depth, H - 0.4);  // north end range (+X)
-    for (const cx of [-4.7, 4.7]) wing(cx, midZ, 3.0, depth - 1.5, H - 0.6); // two cross-ranges → 3 courts
-    // The river (Thames) front reads as THREE clear tiers — a low ground storey
-    // and two DOUBLE-HEIGHT upper storeys — banded by prominent string courses,
-    // each tier carrying its own row of traceried windows so the count reads.
-    for (const sy of [1.3, 3.35]) group.add(block(28.4, 0.36, 0.3, 0, sy, front + 0.05, trim)); // string courses
-    for (let i = 0; i < 15; i++) {
-      const x = -13.1 + i * 1.87;
-      group.add(block(0.24, 3.0, 0.24, x, 6.4, front - 0.05, trim));         // buttress pinnacle
-      group.add(block(0.72, 0.9, 0.16, x + 0.93, 0.72, front + 0.07, glass)); // tier 1 — low ground storey
-      group.add(block(0.82, 1.55, 0.16, x + 0.93, 2.28, front + 0.07, glass)); // tier 2 — double height
-      group.add(block(0.82, 1.55, 0.16, x + 0.93, 4.33, front + 0.07, glass)); // tier 3 — double height
+    /** One range of the palace: walls, eaves band, an embattled parapet, and
+     * the pitched roof rising BEHIND the parapet — without it the roofs read
+     * as one dark mass swallowing the stone from every airborne angle. */
+    const range = (
+      cx: number, cz: number, w: number, d: number, h: number, rise: number, alongZ = false,
+    ) => {
+      group.add(block(w, h, d, cx, h / 2, cz, stone));
+      group.add(block(w + 0.06, M(4), d + 0.06, cx, M(2), cz, stoneLo));  // worn ground course
+      group.add(block(w + 0.14, 0.2, d + 0.14, cx, h + 0.07, cz, trim)); // eaves band
+      const ph = M(3.5);
+      const py = h + 0.17 + ph / 2;
+      for (const s of [-1, 1] as const) {
+        group.add(block(w + 0.18, ph, 0.09, cx, py, cz + s * (d / 2 + 0.045), trim));
+        group.add(block(0.09, ph, d + 0.18, cx + s * (w / 2 + 0.045), py, cz, trim));
+      }
+      pitched(cx, cz, w / 2 - 0.05, d / 2 - 0.05, h + 0.17, rise, alongZ);
+    };
+    /** A run of buttresses with pinnacles along one wall — the vertical rhythm
+     * that makes the palace read as Perpendicular Gothic rather than a slab.
+     * `n` bays between `a` and `b` on the axis given by `alongZ`. */
+    const buttresses = (a: number, b: number, fixed: number, h: number, n: number, alongZ = false) => {
+      const span = (b - a) / n;
+      for (let i = 0; i <= n; i++) {
+        const u = a + span * i;
+        const [x, z] = alongZ ? [fixed, u] : [u, fixed];
+        const [bw2, bd2] = alongZ ? [0.26, 0.22] : [0.22, 0.26];
+        group.add(block(bw2, h + 0.24, bd2, x, (h + 0.24) / 2, z, trim));
+        if (i % 2 === 0) { // a pinnacle on every OTHER buttress, not a palisade
+          group.add(block(0.19, 0.44, 0.19, x, h + 0.5, z, trim));
+          group.add(block(0.11, 0.13, 0.11, x, h + 0.79, z, gold));
+        }
+        if (i === n) continue;
+        // Two tiers of glazing in the bay between, so the wall reads as wall.
+        const v = u + span / 2;
+        const [wx, wz] = alongZ ? [fixed, v] : [v, fixed];
+        const [ww, wd] = alongZ ? [0.07, span * 0.5] : [span * 0.5, 0.07];
+        group.add(block(ww, h * 0.3, wd, wx, h * 0.28, wz, glass));
+        group.add(block(ww, h * 0.34, wd, wx, h * 0.72, wz, glass));
+      }
+    };
+    range(mainCx, front - rangeD / 2, mainW, rangeD, eaves, M(8));           // river-front range
+    range(mainCx, back + rangeD / 2, mainW, rangeD, eavesLo, M(6));          // back range
+    const endCx = [mainS + M(27) / 2, mainN - M(27) / 2];
+    for (const cx of endCx) range(cx, midZ, M(27), M(100), eavesLo, M(6), true); // the two end ranges
+    // The west (back) and the two end elevations get their own buttress rhythm
+    // so no face of the palace reads as a blank slab.
+    buttresses(mainS + 0.7, mainN - 0.7, back - 0.1, eavesLo, 14);
+    for (const s of [-1, 1] as const) buttresses(back + 0.7, front - 0.7, s * (halfLen + 0.1), eavesLo, 5, true);
+    // Two cross-ranges divide the interior into THREE courts.
+    const inS = endCx[0] + M(27) / 2;
+    const inN = endCx[1] - M(27) / 2;
+    const crossW = M(20);
+    const court = (inN - inS - 2 * crossW) / 3;
+    const crossCx = [inS + court + crossW / 2, inS + 2 * court + 1.5 * crossW];
+    const courtD = (back + rangeD) - (front - rangeD);
+    for (const cx of crossCx) range(cx, midZ, crossW, Math.abs(courtD) + 0.6, eavesLo, M(8), true);
+    // --- The river front: THREE tiers, a low ground storey under two DOUBLE-
+    //     HEIGHT upper storeys, banded by string courses and divided by
+    //     buttresses that carry pinnacles above the parapet. This sits ON the
+    //     wall plane (the previous pass floated the whole facade 7.9 m clear of
+    //     the building, so the tiers the Captain asked for read as a screen). ---
+    const t1 = M(5.5);   // top of the low ground storey
+    const t2 = M(13.5);  // top of the first double-height storey
+    for (const sy of [t1, t2]) group.add(block(mainW + 0.1, 0.16, 0.16, mainCx, sy, front + 0.06, trim));
+    const bays = 28;
+    const step = mainW / bays;
+    for (let i = 0; i <= bays; i++) {
+      const x = mainS + i * step;
+      group.add(block(0.16, eaves + 0.3, 0.26, x, (eaves + 0.3) / 2, front + 0.1, trim)); // buttress
+      group.add(block(0.2, 0.5, 0.2, x, eaves + 0.62, front + 0.1, trim));                // pinnacle
+      group.add(block(0.13, 0.16, 0.13, x, eaves + 0.93, front + 0.1, gold));             // its finial
+      if (i === bays) continue;
+      const wx = x + step / 2;
+      group.add(block(step * 0.5, t1 - M(1.5), 0.08, wx, (t1 + M(1.5)) / 2 - M(0.4), front + 0.04, glass));
+      group.add(block(step * 0.56, (t2 - t1) * 0.78, 0.08, wx, (t1 + t2) / 2 + M(0.6), front + 0.04, glass));
+      group.add(block(step * 0.56, (eaves - t2) * 0.78, 0.08, wx, (t2 + eaves) / 2 + M(0.4), front + 0.04, glass));
     }
-    // The river terrace / dock running the length of the front, with mooring posts.
-    group.add(block(29, 0.7, 2.6, 0, 0.35, front + 1.7, stoneLo)); // terrace deck
-    group.add(block(29, 0.5, 0.4, 0, 0.5, front + 2.9, trim));     // embankment lip
-    for (let i = -3; i <= 3; i++) group.add(block(0.28, 1.0, 0.28, i * 4, 0.5, front + 2.75, '#3a3a3a')); // mooring bollards
-    // — Elizabeth Tower (Big Ben) at the +X (north) end: slender, ~96 m. —
-    const bx = 15.4, bz = 1.0, bw = 2.6;
-    group.add(block(bw + 0.4, 1.0, bw + 0.4, bx, 0.5, bz, stoneLo)); // base plinth
-    group.add(block(bw, 13.5, bw, bx, 7.2, bz, stone)); // slender shaft
-    for (let i = 1; i <= 3; i++) group.add(block(bw + 0.15, 0.25, bw + 0.15, bx, 3 + i * 2.8, bz, trim)); // string courses
-    // The four clock faces high on the shaft.
-    const clockY = 12.4;
+    // The river terrace running the length of the front.
+    group.add(block(mainW + M(20), 0.34, M(13), mainCx, 0.17, front + M(6.5), stoneLo));
+    group.add(block(mainW + M(20), 0.26, 0.2, mainCx, 0.3, front + M(13), trim)); // embankment lip
+    for (let i = -5; i <= 5; i++) {
+      group.add(block(0.16, 0.4, 0.16, mainCx + i * 3, 0.34, front + M(12.4), '#3a3a3a')); // bollards
+    }
+    // --- Elizabeth Tower (Big Ben) at the NORTH end: 12.2 m square, 96 m. ---
+    const bx = halfLen - bigW / 2;
+    const bz = front - bigW / 2;
+    group.add(block(bigW + 0.24, M(6), bigW + 0.24, bx, M(3), bz, stoneLo)); // plinth
+    group.add(block(bigW, M(62), bigW, bx, M(31), bz, stoneHi));               // shaft
+    for (let i = 1; i <= 4; i++) {
+      group.add(block(bigW + 0.1, 0.12, bigW + 0.1, bx, M(6 + i * 11), bz, trim)); // string courses
+    }
+    const clockY = M(55);
+    const dial = M(7);
     const clockFace = (dx: number, dz: number, ry: number) => {
-      group.add(block(1.7, 1.7, 0.14, bx + dx, clockY, bz + dz, '#f2ecd6', ry)); // white dial
-      group.add(block(1.9, 1.9, 0.1, bx + dx, clockY, bz + dz - Math.sign(dz || 0) * 0.02, gold, ry)); // gilt surround (behind)
-      group.add(block(0.6, 0.09, 0.16, bx + dx, clockY + 0.1, bz + dz + 0.06, '#1c1c1c', ry)); // hands
-      group.add(block(0.09, 0.5, 0.16, bx + dx, clockY - 0.05, bz + dz + 0.06, '#1c1c1c', ry));
+      group.add(block(dial + 0.14, dial + 0.14, 0.06, bx + dx * 1.02, clockY, bz + dz * 1.02, gold, ry)); // gilt surround
+      group.add(block(dial, dial, 0.05, bx + dx * 1.06, clockY, bz + dz * 1.06, '#f2ecd6', ry));          // dial
+      group.add(block(dial * 0.34, 0.05, 0.05, bx + dx * 1.12, clockY + 0.06, bz + dz * 1.12, '#1c1c1c', ry));
+      group.add(block(0.05, dial * 0.28, 0.05, bx + dx * 1.12, clockY - 0.03, bz + dz * 1.12, '#1c1c1c', ry));
     };
-    clockFace(0, bw / 2 + 0.02, 0);
-    clockFace(0, -bw / 2 - 0.02, 0);
-    clockFace(bw / 2 + 0.02, 0, Math.PI / 2);
-    clockFace(-bw / 2 - 0.02, 0, Math.PI / 2);
-    group.add(block(bw + 0.5, 1.4, bw + 0.5, bx, 14.4, bz, stoneLo)); // belfry stage
-    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner pinnacles
-      group.add(block(0.4, 2.0, 0.4, bx + cx * (bw / 2 + 0.1), 15.6, bz + cz * (bw / 2 + 0.1), trim));
-    const espire = new THREE.Mesh(new THREE.ConeGeometry(1.85, 4.6, 4), stoneLike({ color: roof, flatShading: true }));
+    clockFace(0, bigW / 2, 0);
+    clockFace(0, -bigW / 2, 0);
+    clockFace(bigW / 2, 0, Math.PI / 2);
+    clockFace(-bigW / 2, 0, Math.PI / 2);
+    group.add(block(bigW + 0.22, M(8), bigW + 0.22, bx, M(66), bz, stoneLo)); // belfry stage
+    for (let i = 0; i < 3; i++) { // the belfry louvres on each face
+      for (const [dx, dz, ry] of [[0, 1, 0], [0, -1, 0], [1, 0, Math.PI / 2], [-1, 0, Math.PI / 2]] as const) {
+        group.add(block(bigW * 0.22, M(5), 0.05, bx + dx * (bigW / 2 + 0.13) + (dz !== 0 ? (i - 1) * bigW * 0.28 : 0),
+          M(66), bz + dz * (bigW / 2 + 0.13) + (dx !== 0 ? (i - 1) * bigW * 0.28 : 0), glass, ry));
+      }
+    }
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) { // corner pinnacles
+      group.add(block(0.24, M(14), 0.24, bx + cx * (bigW / 2 + 0.11), M(73), bz + cz * (bigW / 2 + 0.11), trim));
+    }
+    const espire = new THREE.Mesh(
+      new THREE.ConeGeometry(bigW * 0.72, M(23), 4),
+      stoneLike({ color: roof, flatShading: true }),
+    );
     espire.rotation.y = Math.PI / 4;
-    espire.position.set(bx, 17.5, bz);
+    espire.position.set(bx, M(81.5), bz);
     group.add(espire);
-    const efin = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 8), GOLD);
-    efin.position.set(bx, 20.0, bz); // finial
+    const efin = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 8), GOLD);
+    efin.position.set(bx, M(95), bz);
     group.add(efin);
-    // — Victoria Tower at the −X (south) end: massive, square, ~98 m. —
-    const vx = -15.6, vz = 0.2, vw = 5.4;
-    group.add(block(vw + 0.6, 1.2, vw + 0.6, vx, 0.6, vz, stoneLo)); // base
-    group.add(block(vw, 15.5, vw, vx, 8.35, vz, stone)); // great shaft
-    for (let i = 1; i <= 4; i++) group.add(block(vw + 0.2, 0.3, vw + 0.2, vx, 2.5 + i * 2.9, vz, trim)); // string courses
-    for (let i = 0; i < 3; i++) group.add(block(1.0, 2.2, 0.14, vx, 4 + i * 3.4, vz + vw / 2 + 0.02, glass)); // stacked windows
-    group.add(block(vw + 0.5, 1.0, vw + 0.5, vx, 16.3, vz, stoneLo)); // parapet stage
-    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner turrets
-      group.add(block(0.85, 2.6, 0.85, vx + cx * (vw / 2 + 0.1), 17.6, vz + cz * (vw / 2 + 0.1), trim));
-    const vroof = new THREE.Mesh(new THREE.ConeGeometry(vw * 0.62, 2.6, 4), stoneLike({ color: roof, flatShading: true }));
+    // --- Victoria Tower at the SOUTH end: 22.6 m square, 98.5 m, the
+    //     Sovereign's Entrance at its foot. ---
+    const vx = -halfLen + vicW / 2;
+    const vz = front - vicW / 2;
+    group.add(block(vicW + 0.3, M(7), vicW + 0.3, vx, M(3.5), vz, stoneLo)); // base
+    group.add(block(vicW, M(75), vicW, vx, M(37.5), vz, stoneHi));            // great shaft
+    for (let i = 1; i <= 5; i++) {
+      group.add(block(vicW + 0.12, 0.14, vicW + 0.12, vx, M(7 + i * 12), vz, trim)); // string courses
+    }
+    // The Sovereign's Entrance archway at its foot, and the stacked windows above.
+    group.add(block(vicW * 0.36, M(13), 0.12, vx, M(7), vz + vicW / 2 + 0.05, glass));
+    group.add(block(vicW * 0.44, M(1.4), 0.16, vx, M(14), vz + vicW / 2 + 0.05, trim));
+    for (let i = 0; i < 4; i++) {
+      for (const s of [-1, 1] as const) {
+        group.add(block(vicW * 0.2, M(9), 0.1, vx + s * vicW * 0.24, M(24 + i * 13), vz + vicW / 2 + 0.05, glass));
+      }
+    }
+    group.add(block(vicW + 0.28, M(7), vicW + 0.28, vx, M(78.5), vz, stoneLo)); // parapet stage
+    for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) { // corner turrets
+      group.add(block(0.44, M(15), 0.44, vx + cx * (vicW / 2 + 0.12), M(82), vz + cz * (vicW / 2 + 0.12), trim));
+      const tf = new THREE.Mesh(new THREE.ConeGeometry(0.34, M(6), 4), stoneLike({ color: roof, flatShading: true }));
+      tf.rotation.y = Math.PI / 4;
+      tf.position.set(vx + cx * (vicW / 2 + 0.12), M(92), vz + cz * (vicW / 2 + 0.12));
+      group.add(tf);
+    }
+    const vroof = new THREE.Mesh(
+      new THREE.ConeGeometry(vicW * 0.6, M(11), 4),
+      stoneLike({ color: roof, flatShading: true }),
+    );
     vroof.rotation.y = Math.PI / 4;
-    vroof.position.set(vx, 18.1, vz);
+    vroof.position.set(vx, M(87.5), vz);
     group.add(vroof);
-    group.add(block(0.16, 3.0, 0.16, vx, 20.5, vz, '#3a3a3a')); // flagpole
-    // — Central Tower: the octagonal lantern spire over the central lobby. —
-    group.add(block(4, 6.2, 4, 0, 3.1, -1, stoneLo));
-    for (const [dx, dz] of [[1.6, 0], [-1.6, 0], [0, 1.6], [0, -1.6]] as const)
-      group.add(block(0.9, 2.6, 0.16, dx, 4.6, -1 + dz + Math.sign(dz) * 0.02, glass, dx !== 0 ? Math.PI / 2 : 0));
-    group.add(block(4.4, 0.5, 4.4, 0, 6.3, -1, trim));
-    const cs = new THREE.Mesh(new THREE.ConeGeometry(2.1, 6.4, 8), stoneLike({ color: roof, flatShading: true }));
-    cs.position.set(0, 9.7, -1);
+    group.add(block(0.08, M(13), 0.08, vx, M(97), vz, '#3a3a3a')); // flagpole
+    // --- The Central Tower: the octagonal lantern spire over the Central
+    //     Lobby, standing free in the middle court as the real one stands over
+    //     the palace's cross-axis. 91 m to the finial. ---
+    const ccx = crossCx[0] + (crossCx[1] - crossCx[0]) / 2;
+    group.add(block(M(18), M(45), M(18), ccx, M(22.5), midZ, stoneLo));
+    for (const [dx, dz] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+      group.add(block(M(6), M(16), 0.1, ccx + dx * (M(9) + 0.05), M(32), midZ + dz * (M(9) + 0.05), glass,
+        dx !== 0 ? Math.PI / 2 : 0));
+    }
+    group.add(block(M(20), M(2), M(20), ccx, M(46), midZ, trim));
+    const cs = new THREE.Mesh(
+      new THREE.ConeGeometry(M(11), M(38), 8),
+      stoneLike({ color: roof, flatShading: true }),
+    );
+    cs.position.set(ccx, M(66), midZ);
     group.add(cs);
-    const cfin = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), GOLD);
-    cfin.position.set(0, 13.1, -1);
+    const cfin = new THREE.Mesh(new THREE.SphereGeometry(0.18, 10, 8), GOLD);
+    cfin.position.set(ccx, M(89), midZ);
     group.add(cfin);
-    // --- The six smaller towers around the courts (with Big Ben, Victoria and
-    //     the Central Tower these make up the palace's family of towers). ---
+    // --- The lesser turrets around the courts, which with the three great
+    //     towers make up the palace's family of spires. ---
     const minorTower = (x: number, z: number, w: number, h: number) => {
       group.add(block(w, h, w, x, h / 2, z, stone));
-      group.add(block(w + 0.3, 0.4, w + 0.3, x, h + 0.2, z, trim));
-      for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) // corner pinnacles
-        group.add(block(0.3, 1.3, 0.3, x + cx * (w / 2 + 0.05), h + 0.7, z + cz * (w / 2 + 0.05), trim));
-      const sp = new THREE.Mesh(new THREE.ConeGeometry(w * 0.72, 2.4, 4), stoneLike({ color: roof, flatShading: true }));
-      sp.rotation.y = Math.PI / 4; sp.position.set(x, h + 1.6, z);
+      group.add(block(w + 0.16, 0.2, w + 0.16, x, h + 0.1, z, trim));
+      for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
+        group.add(block(0.16, 0.6, 0.16, x + cx * (w / 2 + 0.04), h + 0.42, z + cz * (w / 2 + 0.04), trim));
+      }
+      const sp = new THREE.Mesh(new THREE.ConeGeometry(w * 0.7, M(14), 4), stoneLike({ color: roof, flatShading: true }));
+      sp.rotation.y = Math.PI / 4;
+      sp.position.set(x, h + M(8), z);
       group.add(sp);
-      const fin = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), GOLD);
-      fin.position.set(x, h + 3.0, z);
+      const fin = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), GOLD);
+      fin.position.set(x, h + M(16), z);
       group.add(fin);
     };
-    minorTower(-13.2, backZ, 2.4, 8.5);  // back south-west turret
-    minorTower(13.2, backZ, 2.4, 8.5);   // back north-west turret
-    minorTower(0, backZ, 2.6, 7.5);      // back centre turret
-    for (const cx of [-4.7, 4.7]) minorTower(cx, front - 0.3, 2.0, 7.0); // the two courtyard-gate turrets
+    for (const cx of endCx) minorTower(cx, back + rangeD / 2, M(13), M(38));       // back end turrets
+    minorTower(ccx, back + rangeD / 2, M(13), M(34));                              // back centre turret
+    for (const cx of crossCx) minorTower(cx, front - rangeD / 2, M(12), M(32));    // river-front turrets
   } else if (model === 'london-eye') {
     // The London Eye — a giant cantilevered observation wheel: a steel rim on
     // spokes, glass passenger capsules around it, held out over the Thames on an

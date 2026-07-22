@@ -198,3 +198,40 @@ describe('tiled skeleton — view + window selection', () => {
     expect(tilesToLoad(manifest, ['5|18'], new Set([11, 12]), loaded)).toEqual([{ cell: '5|18', bucket: 11 }]);
   });
 });
+
+describe('attestation survives the build → skeleton → app round trip', () => {
+  // The honesty guarantee. If this flag is ever silently dropped in the
+  // columnar packing, the globe presents Robin Hood and Gilgamesh as documented
+  // history — exactly the quiet false precision the app exists to avoid.
+  const rows = [
+    { id: 'cur-legend-robinhood', name: 'Robin Hood', startYear: 1193, lat: 53.2063, lon: -1.0715,
+      category: 'person', attestation: 'legendary', dateNote: 'First appears in ballads from the 1300s.' },
+    { id: 'q9077', name: 'Moses', startYear: -2000, lat: 30, lon: 31,
+      category: 'person', attestation: 'traditional', dateNote: 'A traditional date.' },
+    { id: 'q36359', name: 'Hammurabi', startYear: -1810, lat: 32.5, lon: 44.4, category: 'person' },
+  ];
+
+  it('carries the flag in the skeleton, so the globe can mark them unopened', () => {
+    const back = eventsFromColumns(packColumns(rows) as CoreColumns);
+    const by = Object.fromEntries(back.map((e) => [e.name, e]));
+    expect(by['Robin Hood'].attestation).toBe('legendary');
+    expect(by['Moses'].attestation).toBe('traditional');
+    // A documented person carries no flag at all — absence is the default.
+    expect(by['Hammurabi'].attestation).toBeUndefined();
+  });
+
+  it('keeps the reason for the date in the detail files', () => {
+    const { detailByCell } = buildCoreIndex(rows);
+    const all = Object.assign({}, ...[...detailByCell.values()]);
+    expect(all['cur-legend-robinhood'].dateNote).toMatch(/ballads/);
+    expect(all['q9077'].dateNote).toMatch(/traditional/i);
+    expect(all['q36359']).toBeUndefined(); // nothing to explain
+  });
+
+  it('still loads an index built before the column existed', () => {
+    const cols = packColumns(rows) as CoreColumns;
+    delete cols.attest; // an older core-index.json
+    expect(() => eventsFromColumns(cols)).not.toThrow();
+    expect(eventsFromColumns(cols).every((e) => e.attestation === undefined)).toBe(true);
+  });
+});

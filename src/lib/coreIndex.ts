@@ -25,6 +25,10 @@ export interface CoreColumns {
   wiki: (string | null)[];
   /** Spatial grid key (eventIndex cellKey formula) → detail/<cell>.json. */
   cell: string[];
+  /** 'legendary' | 'traditional' | null — how well attested the figure is.
+   * In the skeleton so the globe can mark them without opening a panel.
+   * Optional: an index built before this column existed still loads. */
+  attest?: (string | null)[];
 }
 
 /**
@@ -61,6 +65,8 @@ export function eventsFromColumns(cols: CoreColumns): TimelineEvent[] {
     if (end !== null) e.endYear = end;
     const wiki = cols.wiki[i];
     if (wiki !== null) e.wikiTitle = wiki === '' ? e.name : wiki;
+    const att = cols.attest?.[i];
+    if (att === 'legendary' || att === 'traditional') e.attestation = att;
     const qid = qidFromId(e.id);
     if (qid) e.wikidataId = qid;
     out[i] = e;

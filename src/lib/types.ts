@@ -222,6 +222,28 @@ export interface TimelineEvent {
   image?: string;
   /** Notability proxy (Wikipedia sitelink count) — used to declutter by zoom. */
   notability?: number;
+  /**
+   * How well attested this figure is. Absent = ordinary documented history.
+   *
+   * The globe carries people whose existence is not established the way a
+   * charter or a coin establishes a king's, and it must say so rather than
+   * quietly present them as the same kind of fact:
+   *
+   *   • 'legendary'   — a figure of legend or literature (Robin Hood, Arthur,
+   *     Achilles). Set BY HAND only, in scripts/add-legends.mjs.
+   *   • 'traditional' — known from scripture and later tradition rather than
+   *     from contemporary record (Moses, David, the Apostles). Applied by the
+   *     harvest to figures Wikidata does not class as human.
+   *
+   * Both are claims about the EVIDENCE, never about whether the person lived
+   * or what anyone should believe — the house rule is to present history
+   * neutrally, and that cuts both ways.
+   */
+  attestation?: 'legendary' | 'traditional';
+  /** Why the date is uncertain, in one plain sentence, shown wherever the date
+   * is. Required alongside `attestation` — a traditional date with no
+   * explanation is exactly the quiet false precision we are avoiding. */
+  dateNote?: string;
   /** Spatial grid key stamped by the core index (scripts/build-core-index.mjs).
    * Present = skeleton-loaded; names the detail/<cell>.json file with the rest. */
   cell?: string;
