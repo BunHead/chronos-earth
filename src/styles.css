@@ -2569,6 +2569,25 @@ textarea:focus-visible,
 }
 .bmap-caption strong { color: #e8eef5; }
 
+/* The map's default home: inside the battle's side panel. */
+.info-battlemap {
+  margin: 12px 0 4px;
+  padding: 8px 10px 10px;
+  border-radius: 10px;
+  background: rgba(11, 19, 28, 0.55);
+  border: 1px solid #2c3d50;
+}
+.info-battlemap-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding-bottom: 6px;
+  font-size: 11px; font-weight: 700; color: #d9e4ef; letter-spacing: 0.02em;
+}
+.info-battlemap-pop {
+  width: 22px; height: 20px; border-radius: 5px; border: 1px solid #3a4a5c;
+  background: #16222e; color: #eaf1f8; cursor: pointer; font-size: 11px; line-height: 1;
+}
+.info-battlemap-pop:hover { background: #26445e; border-color: #4d7ea8; }
+
 /* The battle HUD's map toggle sits beside its close button. */
 .bh-map {
   width: 22px; height: 20px; margin-left: auto; border-radius: 5px;

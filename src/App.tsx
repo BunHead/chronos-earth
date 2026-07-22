@@ -27,6 +27,7 @@ import {
   setBattleFigureDensity,
 } from './lib/globeBattles';
 import BattleMapFrame from './components/BattleMapFrame';
+import BattleMapSvg from './components/BattleMapSvg';
 import { clampDensity } from './lib/battleMath';
 import { renderTier } from './lib/renderTier';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
@@ -295,8 +296,10 @@ export default function App() {
     setBattleFigureDensity(figureDensity);
   }, [figureDensity]);
 
-  // The schematic map that floats alongside the real battlefield.
+  // The schematic map. It lives in the battle's side panel by default and
+  // pops out into a movable window over the globe on request.
   const [battleMapOpen, setBattleMapOpen] = useState(true);
+  const [battleMapPopped, setBattleMapPopped] = useState(false);
 
   // Changing the density restages whatever is already on the field, so the
   // ranks visibly fill out (or thin) while you drag the control.
@@ -967,14 +970,25 @@ export default function App() {
         onFly={(c) => c.fly && globeRef.current?.flyTo(c.fly.lon, c.fly.lat, c.fly.altitude)}
         onZoomToBattle={visitBattle}
         onViewMonument={visitMonument}
+        // Only the panel for the battle actually on the field gets the map.
+        battleMap={
+          globeBattle && battleMapOpen && !battleMapPopped && panel?.battleId === globeBattle.id ? (
+            <BattleMapSvg
+              view={globeBattle.view}
+              phase={globeBattle.phase}
+              getHeading={() => globeRef.current?.getHeading() ?? 0}
+            />
+          ) : undefined
+        }
+        onPopOutMap={() => setBattleMapPopped(true)}
       />
 
-      {globeBattle && battleMapOpen && (
+      {globeBattle && battleMapOpen && battleMapPopped && (
         <BattleMapFrame
           view={globeBattle.view}
           phase={globeBattle.phase}
           getHeading={() => globeRef.current?.getHeading() ?? 0}
-          onClose={() => setBattleMapOpen(false)}
+          onDock={() => setBattleMapPopped(false)}
         />
       )}
 

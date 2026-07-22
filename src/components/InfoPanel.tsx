@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import MakerRow from './MakerRow';
 import type { ExternalLink, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
@@ -12,6 +12,10 @@ interface InfoPanelProps {
   onFly: (content: PanelContent) => void;
   onZoomToBattle: (battleId: string) => void;
   onViewMonument: (monument: NonNullable<PanelContent['monument3d']>) => void;
+  /** The battle map, when this panel's battle is the one on the field.
+   * Rendered inline here by default; `onPopOutMap` floats it instead. */
+  battleMap?: ReactNode;
+  onPopOutMap?: () => void;
 }
 
 function LinkList({ links }: { links: ExternalLink[] }) {
@@ -35,7 +39,7 @@ function LinkList({ links }: { links: ExternalLink[] }) {
  * entity, or battle). Shows the mainstream content first, then — if present —
  * a clearly-flagged alternative hypothesis.
  */
-export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomToBattle, onViewMonument }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
   // fetch its per-cell detail lazily and rebuild the panel when it lands. The
@@ -243,20 +247,25 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
             )}
           </div>
 
-          {/* The maker's reins over the globe: review any monument or battle
-              right here — appears only when the Captain's key is present. */}
-          {(content.monument3d || content.battleId) && (
-            <MakerRow
-              // Key per site so the reins RESET when you move to another
-              // monument — their state must not follow the old model.
-              key={content.battleId ? `battle:${content.battleId}` : `${content.monument3d!.model}@${content.monument3d!.lat},${content.monument3d!.lon}`}
-              reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model}
-              place={
-                content.monument3d
-                  ? { model: content.monument3d.model, lat: content.monument3d.lat, lon: content.monument3d.lon }
-                  : undefined
-              }
-            />
+          {/* THE PLAN, beside the real ground. Lives here by default; the
+              pop-out floats it over the globe as a movable window. */}
+          {battleMap && (
+            <div className="info-battlemap">
+              <div className="info-battlemap-head">
+                <span>🗺 Battle map</span>
+                {onPopOutMap && (
+                  <button
+                    className="info-battlemap-pop"
+                    onClick={onPopOutMap}
+                    aria-label="Pop the map out into its own window"
+                    title="Pop out into a movable window"
+                  >
+                    ⧉
+                  </button>
+                )}
+              </div>
+              {battleMap}
+            </div>
           )}
 
           {wiki.thumb && (
@@ -323,6 +332,24 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
               </p>
               <LinkList links={content.alternative.links} />
             </div>
+          )}
+
+          {/* The maker's reins over the globe: review any monument or battle
+              right here — appears only when the Captain's key is present.
+              LAST in the panel: it's a workbench control, not something a
+              reader wants between the battle and its history. */}
+          {(content.monument3d || content.battleId) && (
+            <MakerRow
+              // Key per site so the reins RESET when you move to another
+              // monument — their state must not follow the old model.
+              key={content.battleId ? `battle:${content.battleId}` : `${content.monument3d!.model}@${content.monument3d!.lat},${content.monument3d!.lon}`}
+              reviewKey={content.battleId ? `battle:${content.battleId}` : content.monument3d!.model}
+              place={
+                content.monument3d
+                  ? { model: content.monument3d.model, lat: content.monument3d.lat, lon: content.monument3d.lon }
+                  : undefined
+              }
+            />
           )}
         </div>
       )}
