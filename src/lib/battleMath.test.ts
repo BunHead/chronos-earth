@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { figureCount, inferLoser, keepFraction, sideTally } from './battleMath';
+import {
+  clampDensity,
+  DENSITY_MAX,
+  DENSITY_MIN,
+  figureCount,
+  inferLoser,
+  keepFraction,
+  sideTally,
+} from './battleMath';
 import type { BattleUnit } from './types';
 
 describe('battleMath — figures fielded and figures lost', () => {
@@ -9,6 +17,36 @@ describe('battleMath — figures fielded and figures lost', () => {
     expect(figureCount('vehicle', 0.8)).toBe(4);
     expect(figureCount('ship', 1.1)).toBe(6);
     expect(figureCount('plane', 0.2)).toBe(3); // never fewer than 3 machines
+  });
+
+  it('the density dial scales a formation both ways — floors included', () => {
+    // Turning it up crowds the ranks...
+    expect(figureCount('block', 1, 2)).toBe(40);
+    expect(figureCount('ship', 1, 2)).toBe(10);
+    // ...and turning it down genuinely costs sprites, rather than bottoming
+    // out on a floor that never moves (the whole point on a weak machine).
+    expect(figureCount('block', 1, 0.25)).toBe(5);
+    expect(figureCount('block', 0.2, 0.25)).toBe(3); // floor scales, but never below 3
+    expect(figureCount('block', 0.2, 1)).toBe(9); // unchanged at full density
+  });
+
+  it('density is clamped, and a missing dial means the designed look', () => {
+    expect(clampDensity(99)).toBe(DENSITY_MAX);
+    expect(clampDensity(-1)).toBe(DENSITY_MIN);
+    expect(clampDensity(Number.NaN)).toBe(1);
+    expect(figureCount('block', 1)).toBe(figureCount('block', 1, 1));
+  });
+
+  it('the tally counts the same figures the field actually shows', () => {
+    const units: BattleUnit[] = [
+      { id: 'x', side: 'a', label: 'Foot', pos: [[0, 0]] },
+      { id: 'y', side: 'a', label: 'Horse', shape: 'cavalry', pos: [[0, 0]] },
+    ];
+    // Whatever the dial says, the reckoning must agree with the blocks.
+    for (const d of [0.5, 1, 2]) {
+      const expected = figureCount('block', 1, d) + figureCount('cavalry', 1, d);
+      expect(sideTally(units, 'a', 'b', 1, d).start).toBe(expected);
+    }
   });
 
   it('the loser thins roughly twice as fast; severity makes it bloodier', () => {

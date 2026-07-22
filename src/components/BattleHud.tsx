@@ -14,11 +14,14 @@ interface BattleHudProps {
   phase: number;
   onPhase: (idx: number) => void;
   onClose: () => void;
+  /** The schematic map floating alongside the real ground. */
+  mapOpen: boolean;
+  onToggleMap: () => void;
 }
 
 const PLAY_MS = 6500; // reading time per phase when the battle plays itself
 
-export default function BattleHud({ view, phase, onPhase, onClose }: BattleHudProps) {
+export default function BattleHud({ view, phase, onPhase, onClose, mapOpen, onToggleMap }: BattleHudProps) {
   const [playing, setPlaying] = useState(false);
   const last = view.phases.length - 1;
 
@@ -37,6 +40,15 @@ export default function BattleHud({ view, phase, onPhase, onClose }: BattleHudPr
     <div className="battle-hud" role="group" aria-label={`${view.title} on the globe`}>
       <div className="bh-header" onPointerDown={(e) => startDrag(e, '.battle-hud')} title="Drag to move">
         <span className="bh-title">⚔ {view.title}</span>
+        <button
+          className={`bh-map${mapOpen ? ' is-on' : ''}`}
+          onClick={onToggleMap}
+          aria-pressed={mapOpen}
+          aria-label={mapOpen ? 'Hide the battle map' : 'Show the battle map'}
+          title="Battle map"
+        >
+          🗺
+        </button>
         <button className="bh-close" onClick={onClose} aria-label="Leave the battlefield">×</button>
       </div>
       {view.subtitle && <div className="bh-sub">{view.subtitle}</div>}

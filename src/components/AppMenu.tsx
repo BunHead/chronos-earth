@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Tour } from '../lib/types';
 import { getLocalMaker, setLocalMaker } from '../lib/review';
+import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
 
 interface AppMenuProps {
   tours: Tour[];
@@ -16,6 +17,8 @@ interface AppMenuProps {
   reduceMotion: boolean;
   onReduceMotion: (v: boolean) => void;
   gpuBorderCache: boolean;
+  figureDensity: number;
+  onFigureDensity: (d: number) => void;
   onGpuBorderCache: (v: boolean) => void;
 }
 
@@ -26,7 +29,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -137,6 +140,24 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 Keeps more historical maps — borders and drifting continents —
                 ready on the graphics card, so travelling through time is
                 instant. Turn it off on an older machine if the globe stutters.
+              </div>
+              <label className="app-menu-item slider">
+                <span>⚔️ Army size</span>
+                <input
+                  type="range"
+                  min={DENSITY_MIN}
+                  max={DENSITY_MAX}
+                  step={0.05}
+                  value={figureDensity}
+                  onChange={(e) => onFigureDensity(parseFloat(e.target.value))}
+                  aria-label="Army size"
+                />
+                <span className="app-menu-slider-value">{Math.round(figureDensity * 100)}%</span>
+              </label>
+              <div className="app-menu-note">
+                How many figures stand in each formation on the battlefield.
+                Turn it up for crowded ranks, down if a battle runs slowly —
+                it starts where your machine can comfortably sit.
               </div>
               <label className="app-menu-item toggle">
                 <input

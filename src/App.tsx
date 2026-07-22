@@ -20,7 +20,15 @@ import CompassFrame from './components/CompassFrame';
 import WeatherOverlay from './components/WeatherOverlay';
 import SeaLevelFrame from './components/SeaLevelFrame';
 import { ensurePlacement } from './lib/globeModels';
-import { showBattleOnGlobe, setGlobeBattlePhase, endGlobeBattle } from './lib/globeBattles';
+import {
+  showBattleOnGlobe,
+  setGlobeBattlePhase,
+  endGlobeBattle,
+  setBattleFigureDensity,
+} from './lib/globeBattles';
+import BattleMapFrame from './components/BattleMapFrame';
+import { clampDensity } from './lib/battleMath';
+import { renderTier } from './lib/renderTier';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
@@ -263,6 +271,47 @@ export default function App() {
     }
     globeRef.current?.setGpuBorderCache(gpuBorderCache);
   }, [gpuBorderCache]);
+
+  // ARMY DENSITY (⋯ menu → Settings): each unit is a BLOCK of figures on the
+  // globe, and this is how crowded those blocks are. Defaults off the render
+  // tier so a machine with no graphics card gets sparse ranks without anyone
+  // having to know why, then remembers whatever the viewer chooses.
+  const [figureDensity, setFigureDensity] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ce_figure_density');
+      if (saved) return clampDensity(parseFloat(saved));
+    } catch {
+      /* storage blocked — fall through to the machine's own default */
+    }
+    const tier = renderTier();
+    return tier === 'software' ? 0.4 : tier === 'modest' ? 0.8 : 1;
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem('ce_figure_density', String(figureDensity));
+    } catch {
+      /* storage blocked — the choice just won't stick */
+    }
+    setBattleFigureDensity(figureDensity);
+  }, [figureDensity]);
+
+  // The schematic map that floats alongside the real battlefield.
+  const [battleMapOpen, setBattleMapOpen] = useState(true);
+
+  // Changing the density restages whatever is already on the field, so the
+  // ranks visibly fill out (or thin) while you drag the control.
+  const changeFigureDensity = (d: number) => {
+    const v = clampDensity(d);
+    setFigureDensity(v);
+    setBattleFigureDensity(v);
+    if (globeBattle) {
+      const b = battles.find((x) => x.id === globeBattle.id);
+      if (b) {
+        showBattleOnGlobe(b.lat, b.lon, globeBattle.view);
+        setGlobeBattlePhase(globeBattle.view, globeBattle.phase);
+      }
+    }
+  };
   // A newer build has been deployed since this tab loaded — offer a refresh.
   const [newVersion, setNewVersion] = useState(false);
 
@@ -737,6 +786,8 @@ export default function App() {
           onReduceMotion={setReduceMotion}
           gpuBorderCache={gpuBorderCache}
           onGpuBorderCache={setGpuBorderCache}
+          figureDensity={figureDensity}
+          onFigureDensity={changeFigureDensity}
         />
       </div>
 
@@ -918,8 +969,19 @@ export default function App() {
         onViewMonument={visitMonument}
       />
 
+      {globeBattle && battleMapOpen && (
+        <BattleMapFrame
+          view={globeBattle.view}
+          phase={globeBattle.phase}
+          getHeading={() => globeRef.current?.getHeading() ?? 0}
+          onClose={() => setBattleMapOpen(false)}
+        />
+      )}
+
       {globeBattle && (
         <BattleHud
+          mapOpen={battleMapOpen}
+          onToggleMap={() => setBattleMapOpen((v) => !v)}
           view={globeBattle.view}
           phase={globeBattle.phase}
           onPhase={(i) => {

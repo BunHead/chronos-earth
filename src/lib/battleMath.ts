@@ -7,10 +7,29 @@
  */
 import type { BattleUnit } from './types';
 
-/** How many little figures a formation fields (big machines come in fives). */
-export function figureCount(shape: BattleUnit['shape'], size: number): number {
+/** Range the figure-density control may be set to (1 = the designed look). */
+export const DENSITY_MIN = 0.25;
+export const DENSITY_MAX = 3;
+
+/** Clamp a density to the range the control offers. */
+export function clampDensity(d: number): number {
+  return Math.min(DENSITY_MAX, Math.max(DENSITY_MIN, Number.isFinite(d) ? d : 1));
+}
+
+/**
+ * How many little figures a formation fields (big machines come in fives).
+ *
+ * `density` is the viewer's own dial: turn it down and a weak machine draws
+ * sparse blocks, turn it up for a crowded field. It scales the floors too,
+ * so turning it down genuinely costs fewer sprites rather than bottoming out
+ * on a minimum that never moves.
+ */
+export function figureCount(shape: BattleUnit['shape'], size: number, density = 1): number {
+  const d = clampDensity(density);
   const big = shape === 'ship' || shape === 'vehicle' || shape === 'plane';
-  return big ? Math.max(3, Math.round(5 * size)) : Math.max(9, Math.round(20 * size));
+  const per = big ? 5 : 20;
+  const floor = big ? Math.max(1, Math.round(3 * d)) : Math.max(3, Math.round(9 * d));
+  return Math.max(floor, Math.round(per * size * d));
 }
 
 /**
@@ -51,12 +70,13 @@ export function sideTally(
   side: 'a' | 'b',
   loser: 'a' | 'b' | undefined,
   severity = 1,
+  density = 1,
 ): { start: number; end: number } {
   let start = 0;
   let end = 0;
   for (const u of units) {
     if (u.side !== side) continue;
-    const full = figureCount(u.shape, u.size ?? 1);
+    const full = figureCount(u.shape, u.size ?? 1, density);
     start += full;
     end += Math.max(2, Math.round(full * keepFraction(1, loser === side, severity)));
   }
