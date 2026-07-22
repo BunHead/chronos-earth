@@ -3573,34 +3573,74 @@ export function buildModel(
     ground = '#5f6b4a';
     const iron = new THREE.MeshStandardMaterial({ color: '#6b5233', metalness: 0.45, roughness: 0.55 });
     const ironDk = new THREE.MeshStandardMaterial({ color: '#57432a', metalness: 0.45, roughness: 0.6 });
-    /** One storey of open lattice between two square cross-sections: corner
-     * chords, a horizontal ring at the top, and an X of diagonals per face. */
+    // Lighter iron for the parts that catch the light — lift tracks, the deck
+    // pavilions, the summit lantern.
+    const ironLt = new THREE.MeshStandardMaterial({ color: '#7d6140', metalness: 0.4, roughness: 0.5 });
+    /** A lattice member — same job as `strut`, but the geometry is CACHED by
+     * (thickness, length). The four piers are mirror images of one another, so
+     * of ~1100 members only a few dozen distinct sizes exist; sharing them
+     * keeps the exported glb near its old weight instead of tripling it. Local
+     * to this branch so no other model's geometry lifetime changes. */
+    const memberGeo = new Map<string, THREE.BoxGeometry>();
+    const member = (a: THREE.Vector3, b: THREE.Vector3, t: number, mat: THREE.Material): THREE.Mesh => {
+      const d = new THREE.Vector3().subVectors(b, a);
+      const key = `${t.toFixed(3)}:${d.length().toFixed(3)}`;
+      let g = memberGeo.get(key);
+      if (!g) {
+        g = new THREE.BoxGeometry(t, d.length(), t);
+        memberGeo.set(key, g);
+      }
+      const m = new THREE.Mesh(g, mat);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize());
+      return m;
+    };
+    /** One storey of open lattice between two square cross-sections:
+     * continuous corner chords, then `latticeBays` stacked panels each with a
+     * horizontal ring and an X of diagonals per face. The SUBDIVISION is the
+     * whole point — the real tower's faces carry a repeating web of small X's,
+     * and one giant X per storey reads as an electricity pylon instead. */
     const latticeStage = (
       lo: { y: number; c: [number, number]; half: number },
       hi: { y: number; c: [number, number]; half: number },
       t: number,
+      latticeBays = 2,
     ) => {
-      const corner = (l: typeof lo, sx: number, sz: number) =>
+      /** The pier's cross-section interpolated a fraction of the way up. */
+      const at = (f: number) => ({
+        y: lo.y + (hi.y - lo.y) * f,
+        c: [lo.c[0] + (hi.c[0] - lo.c[0]) * f, lo.c[1] + (hi.c[1] - lo.c[1]) * f] as [number, number],
+        half: lo.half + (hi.half - lo.half) * f,
+      });
+      const corner = (l: ReturnType<typeof at>, sx: number, sz: number) =>
         new THREE.Vector3(l.c[0] + sx * l.half, l.y, l.c[1] + sz * l.half);
       const S: Array<[number, number]> = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
-      for (let i = 0; i < 4; i++) {
-        const [sx, sz] = S[i];
-        const [nx, nz] = S[(i + 1) % 4];
-        group.add(strut(corner(lo, sx, sz), corner(hi, sx, sz), t, iron)); // corner chord
-        group.add(strut(corner(hi, sx, sz), corner(hi, nx, nz), t * 0.85, ironDk)); // top ring
-        group.add(strut(corner(lo, sx, sz), corner(hi, nx, nz), t * 0.6, ironDk)); // crossed
-        group.add(strut(corner(lo, nx, nz), corner(hi, sx, sz), t * 0.6, ironDk)); //   diagonals
+      const foot = at(0);
+      const head = at(1);
+      for (const [sx, sz] of S) group.add(member(corner(foot, sx, sz), corner(head, sx, sz), t, iron)); // corner chords
+      for (let b = 0; b < latticeBays; b++) {
+        const p = at(b / latticeBays);
+        const q = at((b + 1) / latticeBays);
+        for (let i = 0; i < 4; i++) {
+          const [sx, sz] = S[i];
+          const [nx, nz] = S[(i + 1) % 4];
+          group.add(member(corner(q, sx, sz), corner(q, nx, nz), t * 0.8, ironDk)); // ring at panel top
+          group.add(member(corner(p, sx, sz), corner(q, nx, nz), t * 0.5, ironDk)); // crossed
+          group.add(member(corner(p, nx, nz), corner(q, sx, sz), t * 0.5, ironDk)); //   diagonals
+        }
       }
     };
     // Pier centre-spread (w) and pier cross-section side (a) at hand-set
-    // control levels read off the real curve — decks at 57 m and 115 m.
-    const legLevels: Array<{ y: number; w: number; a: number }> = [
-      { y: 0, w: 5.0, a: 2.3 },
-      { y: 2.1, w: 4.15, a: 1.95 },
-      { y: 4.1, w: 3.3, a: 1.65 },
-      { y: 5.7, w: 2.7, a: 1.4 }, // first deck
-      { y: 8.6, w: 2.1, a: 1.05 },
-      { y: 11.5, w: 1.6, a: 0.8 }, // second deck
+    // control levels read off the real curve — decks at 57 m and 115 m. `bays`
+    // is the web density of the storey ABOVE each level, picked to keep every
+    // lattice panel roughly 8–12 m tall as the real ironwork does.
+    const legLevels: Array<{ y: number; w: number; a: number; bays: number }> = [
+      { y: 0, w: 5.0, a: 2.3, bays: 3 },
+      { y: 2.1, w: 4.15, a: 1.95, bays: 3 },
+      { y: 4.1, w: 3.3, a: 1.65, bays: 2 },
+      { y: 5.7, w: 2.7, a: 1.4, bays: 3 }, // first deck
+      { y: 8.6, w: 2.1, a: 1.05, bays: 3 },
+      { y: 11.5, w: 1.6, a: 0.8, bays: 1 }, // second deck
     ];
     for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {
       for (let i = 0; i + 1 < legLevels.length; i++) {
@@ -3610,7 +3650,20 @@ export function buildModel(
           { y: lo.y, c: [sx * lo.w, sz * lo.w], half: lo.a / 2 },
           { y: hi.y, c: [sx * hi.w, sz * hi.w], half: hi.a / 2 },
           0.15,
+          lo.bays,
         );
+      }
+      // The masonry plinth each pier springs from (kept to the pier's own
+      // width so the fit footprint stays put), and the inclined lift track
+      // that climbs inside it to the first deck.
+      group.add(block(2.2, 0.75, 2.2, sx * 5.0, 0.34, sz * 5.0, '#9a958c'));
+      for (const off of [-0.42, 0.42] as const) {
+        group.add(member(
+          new THREE.Vector3(sx * 4.4 + sz * off, 0.5, sz * 4.4 - sx * off),
+          new THREE.Vector3(sx * 2.55 + sz * off, 5.6, sz * 2.55 - sx * off),
+          0.07,
+          ironLt,
+        ));
       }
     }
     // Above the second deck the four piers merge into one tapering shaft.
@@ -3621,35 +3674,78 @@ export function buildModel(
     for (let i = 0; i + 1 < shaftLevels.length; i++) {
       const lo = shaftLevels[i];
       const hi = shaftLevels[i + 1];
-      latticeStage({ y: lo.y, c: [0, 0], half: lo.half }, { y: hi.y, c: [0, 0], half: hi.half }, 0.13);
+      latticeStage({ y: lo.y, c: [0, 0], half: lo.half }, { y: hi.y, c: [0, 0], half: hi.half }, 0.13, 2);
     }
     // The decorative base arch swung between each pair of piers, its crown
-    // kissing the underside of the first deck.
+    // kissing the underside of the first deck, with the ornamental grille
+    // filling the spandrel between the arc and the deck's under-beam.
     const archGeo = new THREE.TorusGeometry(2.75, 0.14, 8, 28, Math.PI);
     for (const [px, pz, ry] of [[0, 3.85, 0], [0, -3.85, 0], [3.85, 0, Math.PI / 2], [-3.85, 0, Math.PI / 2]] as const) {
       const arc = new THREE.Mesh(archGeo, iron);
       arc.position.set(px, 2.5, pz);
       arc.rotation.y = ry;
       group.add(arc);
+      group.add(matBlock(7.0, 0.18, 0.18, px, 5.42, pz, iron, ry)); // the fringe beam it hangs from
+      for (let k = 0; k <= 9; k++) {
+        const th = Math.PI * (0.08 + 0.84 * (k / 9));
+        const ax = Math.cos(th) * 2.75;
+        const ay = 2.5 + Math.sin(th) * 2.75;
+        if (ay >= 5.34) continue; // near the crown there is no spandrel left to fill
+        const gx = px + ax * Math.cos(ry);
+        const gz = pz - ax * Math.sin(ry);
+        group.add(member(new THREE.Vector3(gx, ay, gz), new THREE.Vector3(gx, 5.42, gz), 0.06, ironDk));
+      }
     }
-    // The two public decks: platform slab, a wider under-gallery lip, railings.
-    const deck = (y: number, half: number) => {
+    // The two public decks: platform slab, a wider under-gallery lip, and a
+    // balustrade of close-set posts between top and mid rails — a single bare
+    // bar read as scaffolding from any angle the visitor actually gets.
+    const deck = (y: number, half: number, postGap: number) => {
       group.add(matBlock(2 * half, 0.3, 2 * half, 0, y + 0.15, 0, ironDk));
       group.add(matBlock(2 * half + 0.5, 0.14, 2 * half + 0.5, 0, y - 0.09, 0, iron));
+      const n = Math.max(4, Math.round((2 * half) / postGap));
       for (const s of [-1, 1] as const) {
-        group.add(matBlock(2 * half, 0.2, 0.06, 0, y + 0.4, s * (half - 0.03), iron));
-        group.add(matBlock(0.06, 0.2, 2 * half, s * (half - 0.03), y + 0.4, 0, iron));
+        group.add(matBlock(2 * half, 0.09, 0.07, 0, y + 0.64, s * (half - 0.03), iron)); // top rail
+        group.add(matBlock(0.07, 0.09, 2 * half, s * (half - 0.03), y + 0.64, 0, iron));
+        group.add(matBlock(2 * half, 0.05, 0.05, 0, y + 0.44, s * (half - 0.03), ironDk)); // mid rail
+        group.add(matBlock(0.05, 0.05, 2 * half, s * (half - 0.03), y + 0.44, 0, ironDk));
+        for (let i = 0; i <= n; i++) {
+          const u = -half + (2 * half * i) / n;
+          group.add(matBlock(0.05, 0.55, 0.05, u, y + 0.45, s * (half - 0.03), ironDk));
+          group.add(matBlock(0.05, 0.55, 0.05, s * (half - 0.03), y + 0.45, u, ironDk));
+        }
       }
     };
-    deck(5.7, 3.6);
-    deck(11.5, 2.1);
-    // Top gallery, cupola and the antenna to ~315 m.
+    deck(5.7, 3.6, 0.55);
+    deck(11.5, 2.1, 0.5);
+    // The first deck's four glazed pavilions — the restaurants and galleries
+    // that have stood on it since 1889 — one set in along each side.
+    for (const [ox, oz, ry] of [[0, 2.55, 0], [0, -2.55, 0], [2.55, 0, Math.PI / 2], [-2.55, 0, Math.PI / 2]] as const) {
+      group.add(matBlock(3.4, 0.85, 1.0, ox, 6.43, oz, ironLt, ry));
+      group.add(matBlock(3.6, 0.12, 1.2, ox, 6.92, oz, ironDk, ry));
+    }
+    // Top gallery, the round lantern-cupola over it, and the antenna to ~330 m.
     group.add(matBlock(1.7, 0.26, 1.7, 0, 27.73, 0, ironDk));
     group.add(matBlock(1.95, 0.12, 1.95, 0, 27.5, 0, iron));
-    group.add(matBlock(1.0, 0.85, 1.0, 0, 28.28, 0, iron));
+    for (let i = 0; i < 16; i++) {
+      const th = (i / 16) * Math.PI * 2;
+      group.add(matBlock(0.05, 0.34, 0.05, Math.cos(th) * 0.8, 28.03, Math.sin(th) * 0.8, ironDk));
+    }
+    const lantern = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 0.8, 14), ironLt);
+    lantern.position.set(0, 28.28, 0);
+    group.add(lantern);
+    const cupola = new THREE.Mesh(
+      new THREE.SphereGeometry(0.52, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2),
+      iron,
+    );
+    cupola.position.set(0, 28.66, 0);
+    group.add(cupola);
     const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.17, 2.3, 8), ironDk);
     mast.position.set(0, 29.8, 0);
     group.add(mast);
+    for (let i = 0; i < 5; i++) { // the broadcast aerials clustered up the mast
+      const th = (i / 5) * Math.PI * 2;
+      group.add(matBlock(0.04, 0.9, 0.04, Math.cos(th) * 0.17, 30.35, Math.sin(th) * 0.17, ironDk));
+    }
     const tip = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.75, 8), ironDk);
     tip.position.set(0, 31.15, 0);
     group.add(tip);
