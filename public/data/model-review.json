@@ -408,7 +408,8 @@
   "battle:waterloo": {},
   "battle:d-day": {
     "rework": true,
-    "ts": 1784706624786,
-    "note": "Axis troops start in water"
+    "ts": 1784706624906,
+    "note": "Axis troops start in water",
+    "status": "allowed"
   }
 }
