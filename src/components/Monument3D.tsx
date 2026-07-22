@@ -3413,6 +3413,38 @@ export function buildModel(
     const glass = '#2f3742';
     const gold = '#d8c37a';
     const ironCrest = new THREE.MeshStandardMaterial({ color: '#2b2f33', metalness: 0.5, roughness: 0.6 });
+    const roofMat = stoneLike({ color: roof, flatShading: true });
+    /** A square pyramid roof. The 45-degree turn is baked into the GEOMETRY,
+     * not applied to the mesh: a rotated mesh keeps its unrotated bounding box
+     * and Box3 then inflates it by root-2, and that phantom width was setting
+     * this model fit footprint (40.2u for a 38.35u palace, shrinking the whole
+     * building on the globe to make room for a roof that was never there). */
+    const pyramid = (r: number, h: number, x: number, y: number, z: number): THREE.Mesh => {
+      const g = new THREE.ConeGeometry(r, h, 4);
+      g.rotateY(Math.PI / 4);
+      const mesh = new THREE.Mesh(g, roofMat);
+      mesh.position.set(x, y, z);
+      return mesh;
+    };
+    /** A cached-geometry box, for the pieces this model repeats in the hundreds
+     * — cresting spikes, facade bays, buttresses, pinnacles. They come in a
+     * handful of distinct sizes, so sharing the geometry keeps the exported
+     * glb near its old weight instead of quadrupling it. */
+    const cellGeo = new Map<string, THREE.BoxGeometry>();
+    const cell = (
+      w: number, h: number, d: number, x: number, y: number, z: number, mat: THREE.Material, ry = 0,
+    ): THREE.Mesh => {
+      const key = `${w.toFixed(3)}:${h.toFixed(3)}:${d.toFixed(3)}`;
+      let g = cellGeo.get(key);
+      if (!g) {
+        g = new THREE.BoxGeometry(w, h, d);
+        cellGeo.set(key, g);
+      }
+      const m = new THREE.Mesh(g, mat);
+      m.position.set(x, y, z);
+      m.rotation.y = ry;
+      return m;
+    };
     // --- Plan. The 265 m river frontage runs along X with the two great towers
     //     bracketing it; the palace is 100 m deep, and a front range, a back
     //     range, two end ranges and two cross-ranges enclose THREE courts. ---
@@ -3464,10 +3496,10 @@ export function buildModel(
         p.position.set(sx * halfRidge, 0, 0);
         g.add(p);
       }
-      g.add(matBlock(2 * halfRidge, 0.06, 0.06, 0, rise + 0.04, 0, ironCrest)); // ridge rail
+      g.add(cell(2 * halfRidge, 0.06, 0.06, 0, rise + 0.04, 0, ironCrest)); // ridge rail
       const n = Math.max(3, Math.round((2 * halfRidge) / 0.5));
       for (let i = 0; i <= n; i++) { // the cresting spikes
-        g.add(matBlock(0.045, 0.24, 0.045, -halfRidge + (2 * halfRidge * i) / n, rise + 0.14, 0, ironCrest));
+        g.add(cell(0.045, 0.24, 0.045, -halfRidge + (2 * halfRidge * i) / n, rise + 0.14, 0, ironCrest));
       }
       g.position.set(cx, yb, cz);
       if (alongZ) g.rotation.y = Math.PI / 2;
@@ -3499,18 +3531,18 @@ export function buildModel(
         const u = a + span * i;
         const [x, z] = alongZ ? [fixed, u] : [u, fixed];
         const [bw2, bd2] = alongZ ? [0.26, 0.22] : [0.22, 0.26];
-        group.add(block(bw2, h + 0.24, bd2, x, (h + 0.24) / 2, z, trim));
+        group.add(cell(bw2, h + 0.24, bd2, x, (h + 0.24) / 2, z, stoneMat(trim)));
         if (i % 2 === 0) { // a pinnacle on every OTHER buttress, not a palisade
-          group.add(block(0.19, 0.44, 0.19, x, h + 0.5, z, trim));
-          group.add(block(0.11, 0.13, 0.11, x, h + 0.79, z, gold));
+          group.add(cell(0.19, 0.44, 0.19, x, h + 0.5, z, stoneMat(trim)));
+          group.add(cell(0.11, 0.13, 0.11, x, h + 0.79, z, stoneMat(gold)));
         }
         if (i === n) continue;
         // Two tiers of glazing in the bay between, so the wall reads as wall.
         const v = u + span / 2;
         const [wx, wz] = alongZ ? [fixed, v] : [v, fixed];
         const [ww, wd] = alongZ ? [0.07, span * 0.5] : [span * 0.5, 0.07];
-        group.add(block(ww, h * 0.3, wd, wx, h * 0.28, wz, glass));
-        group.add(block(ww, h * 0.34, wd, wx, h * 0.72, wz, glass));
+        group.add(cell(ww, h * 0.3, wd, wx, h * 0.28, wz, stoneMat(glass)));
+        group.add(cell(ww, h * 0.34, wd, wx, h * 0.72, wz, stoneMat(glass)));
       }
     };
     range(mainCx, front - rangeD / 2, mainW, rangeD, eaves, M(8));           // river-front range
@@ -3520,7 +3552,7 @@ export function buildModel(
     // The west (back) and the two end elevations get their own buttress rhythm
     // so no face of the palace reads as a blank slab.
     buttresses(mainS + 0.7, mainN - 0.7, back - 0.1, eavesLo, 14);
-    for (const s of [-1, 1] as const) buttresses(back + 0.7, front - 0.7, s * (halfLen + 0.1), eavesLo, 5, true);
+    for (const s of [-1, 1] as const) buttresses(back + 0.7, front - 0.7, s * (halfLen - 0.12), eavesLo, 5, true);
     // Two cross-ranges divide the interior into THREE courts.
     const inS = endCx[0] + M(27) / 2;
     const inN = endCx[1] - M(27) / 2;
@@ -3541,18 +3573,21 @@ export function buildModel(
     const step = mainW / bays;
     for (let i = 0; i <= bays; i++) {
       const x = mainS + i * step;
-      group.add(block(0.16, eaves + 0.3, 0.26, x, (eaves + 0.3) / 2, front + 0.1, trim)); // buttress
-      group.add(block(0.2, 0.5, 0.2, x, eaves + 0.62, front + 0.1, trim));                // pinnacle
-      group.add(block(0.13, 0.16, 0.13, x, eaves + 0.93, front + 0.1, gold));             // its finial
+      group.add(cell(0.16, eaves + 0.3, 0.26, x, (eaves + 0.3) / 2, front + 0.1, stoneMat(trim))); // buttress
+      group.add(cell(0.2, 0.5, 0.2, x, eaves + 0.62, front + 0.1, stoneMat(trim)));       // pinnacle
+      group.add(cell(0.13, 0.16, 0.13, x, eaves + 0.93, front + 0.1, stoneMat(gold)));    // its finial
       if (i === bays) continue;
       const wx = x + step / 2;
-      group.add(block(step * 0.5, t1 - M(1.5), 0.08, wx, (t1 + M(1.5)) / 2 - M(0.4), front + 0.04, glass));
-      group.add(block(step * 0.56, (t2 - t1) * 0.78, 0.08, wx, (t1 + t2) / 2 + M(0.6), front + 0.04, glass));
-      group.add(block(step * 0.56, (eaves - t2) * 0.78, 0.08, wx, (t2 + eaves) / 2 + M(0.4), front + 0.04, glass));
+      group.add(cell(step * 0.5, t1 - M(1.5), 0.08, wx, (t1 + M(1.5)) / 2 - M(0.4), front + 0.04, stoneMat(glass)));
+      group.add(cell(step * 0.56, (t2 - t1) * 0.78, 0.08, wx, (t1 + t2) / 2 + M(0.6), front + 0.04, stoneMat(glass)));
+      group.add(cell(step * 0.56, (eaves - t2) * 0.78, 0.08, wx, (t2 + eaves) / 2 + M(0.4), front + 0.04, stoneMat(glass)));
     }
     // The river terrace running the length of the front.
-    group.add(block(mainW + M(20), 0.34, M(13), mainCx, 0.17, front + M(6.5), stoneLo));
-    group.add(block(mainW + M(20), 0.26, 0.2, mainCx, 0.3, front + M(13), trim)); // embankment lip
+    // The terrace must stay INSIDE the 265 m frontage — run it wider and it,
+    // not the palace, becomes the fit footprint, and the whole building is
+    // scaled down on the globe to make room for a strip of paving.
+    group.add(block(mainW - M(8), 0.34, M(13), mainCx, 0.17, front + M(6.5), stoneLo));
+    group.add(block(mainW - M(8), 0.26, 0.2, mainCx, 0.3, front + M(13), trim)); // embankment lip
     for (let i = -5; i <= 5; i++) {
       group.add(block(0.16, 0.4, 0.16, mainCx + i * 3, 0.34, front + M(12.4), '#3a3a3a')); // bollards
     }
@@ -3586,13 +3621,7 @@ export function buildModel(
     for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) { // corner pinnacles
       group.add(block(0.24, M(14), 0.24, bx + cx * (bigW / 2 + 0.11), M(73), bz + cz * (bigW / 2 + 0.11), trim));
     }
-    const espire = new THREE.Mesh(
-      new THREE.ConeGeometry(bigW * 0.72, M(23), 4),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    espire.rotation.y = Math.PI / 4;
-    espire.position.set(bx, M(81.5), bz);
-    group.add(espire);
+    group.add(pyramid(bigW * 0.62, M(23), bx, M(81.5), bz));
     const efin = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 8), GOLD);
     efin.position.set(bx, M(95), bz);
     group.add(efin);
@@ -3615,19 +3644,10 @@ export function buildModel(
     }
     group.add(block(vicW + 0.28, M(7), vicW + 0.28, vx, M(78.5), vz, stoneLo)); // parapet stage
     for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) { // corner turrets
-      group.add(block(0.44, M(15), 0.44, vx + cx * (vicW / 2 + 0.12), M(82), vz + cz * (vicW / 2 + 0.12), trim));
-      const tf = new THREE.Mesh(new THREE.ConeGeometry(0.34, M(6), 4), stoneLike({ color: roof, flatShading: true }));
-      tf.rotation.y = Math.PI / 4;
-      tf.position.set(vx + cx * (vicW / 2 + 0.12), M(92), vz + cz * (vicW / 2 + 0.12));
-      group.add(tf);
+      group.add(block(0.44, M(15), 0.44, vx + cx * (vicW / 2 - 0.06), M(82), vz + cz * (vicW / 2 - 0.06), trim));
+      group.add(pyramid(0.34, M(6), vx + cx * (vicW / 2 - 0.06), M(92), vz + cz * (vicW / 2 - 0.06)));
     }
-    const vroof = new THREE.Mesh(
-      new THREE.ConeGeometry(vicW * 0.6, M(11), 4),
-      stoneLike({ color: roof, flatShading: true }),
-    );
-    vroof.rotation.y = Math.PI / 4;
-    vroof.position.set(vx, M(87.5), vz);
-    group.add(vroof);
+    group.add(pyramid(vicW * 0.6, M(11), vx, M(87.5), vz));
     group.add(block(0.08, M(13), 0.08, vx, M(97), vz, '#3a3a3a')); // flagpole
     // --- The Central Tower: the octagonal lantern spire over the Central
     //     Lobby, standing free in the middle court as the real one stands over
@@ -3656,10 +3676,7 @@ export function buildModel(
       for (const cx of [-1, 1] as const) for (const cz of [-1, 1] as const) {
         group.add(block(0.16, 0.6, 0.16, x + cx * (w / 2 + 0.04), h + 0.42, z + cz * (w / 2 + 0.04), trim));
       }
-      const sp = new THREE.Mesh(new THREE.ConeGeometry(w * 0.7, M(14), 4), stoneLike({ color: roof, flatShading: true }));
-      sp.rotation.y = Math.PI / 4;
-      sp.position.set(x, h + M(8), z);
-      group.add(sp);
+      group.add(pyramid(w * 0.7, M(14), x, h + M(8), z));
       const fin = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), GOLD);
       fin.position.set(x, h + M(16), z);
       group.add(fin);
