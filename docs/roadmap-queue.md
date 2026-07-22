@@ -213,8 +213,68 @@ is dirty at the start, stop and do nothing.
     from nearby dates/places with correct dates; unit-test 2-3 knowns.
   - Done when: finder UI + honesty labels land, knowns verified, tests green.
 
-- [ ] **9. Celestial engine 3 — the eclipse ON the globe.**
-  The showpiece. When the timeline sits inside an eclipse's ground-track window
+- [x] **9. Celestial engine 3 — the eclipse ON the globe.** _(done 2026-07-22)_
+  Landing note: new pure module `src/lib/eclipseShadow.ts` casts the real cones.
+  `shadowAt(date)` takes the Sun and Moon as geocentric equator-of-date vectors,
+  runs the axis from the Sun's centre through the Moon's and intersects it with
+  the WGS84 **ellipsoid** (stretch z by a/b → the ellipsoid becomes a sphere and
+  the near root is an ordinary quadratic; the 21 km polar difference is bigger
+  than an umbra, so a sphere would not do). Umbra radius
+  `Rm − x(Rs−Rm)/D` — negative means the tip fell short and the eclipse is
+  ANNULAR — and penumbra `Rm + x(Rs+Rm)/D`, plus `incidenceCos` so a shadow near
+  the limb draws as the long smeared ellipse it really is.
+  Verified against NASA's catalogue, all within ~10 km: 2017-08-21 greatest at
+  36.92 N 87.58 W (published 36.97/−87.65), 1919 Eddington 4.36 N 16.91 W
+  (4.4/−16.7), 2024-04-08 25.14 N 104.47 W (25.3/−104.1), and the 2023-10-14
+  ring of fire correctly flagged `annular`.
+  TRAP, and the reason the known-value tests exist: the first draft used
+  `Equator(…, new Observer(0,0,0))` for the Moon — Observer(0,0,0) is a point
+  STANDING ON THE EQUATOR at Greenwich, not the centre of the Earth, and the
+  Moon's parallax from there threw the 2017 track 8000 km into the Pacific.
+  `GeoVector` + `Rotation_EQJ_EQD` is the honest path.
+  RENDERING: `src/components/eclipseShadow.ts` paints two entity ellipses with
+  baked radial-gradient textures — NOT the SingleTileImagery repaint the other
+  overlays use, because a play-through is hundreds of frames and each would mean
+  a `toDataURL` plus a new ImageryLayer; this way a sweep is just a position and
+  two radii per frame. `play()` runs the whole ground window (~5 h for 2017,
+  found by `eclipseGroundWindow`) in 30 s, driving `viewer.clock` so the
+  terminator and the monument night-dimmer march with the shadow. New
+  `src/lib/eclipseDim.ts` publishes the live shadow so `globeModels`' colour
+  callback dims monuments under it (a non-linear curve — an eclipse stays oddly
+  bright until the last few percent). SkyDial gains "▶ watch the shadow cross",
+  a live "% covered where you're standing" readout, and the sun becomes a
+  CORONA ring with the moon sliding over it.
+  BUG FOUND BY LIVE TESTING, fixed: `obscurationAt` measured plain distance from
+  the shadow centre against a penumbra radius that, stretched near the limb,
+  reached over 20 000 km — so an eclipse over Canada dimmed Stonehenge at
+  MIDNIGHT. It now checks the sun is actually above the horizon (angular
+  distance to the subsolar point) and caps the stretch, with a 5° roll-off so
+  the darkening eases in rather than switching on at the terminator. Regression
+  tests pin it. Post-fix numbers match reality: Chicago 61% in the 2014 event
+  (real ~60%), New York 68% in 2017 (real ~71%), London 0% in 2017 (correct —
+  not visible there).
+  VERIFIED BY RENDER on a dev server proved to serve this code (port-ownership
+  check per MODELLER-CRAFT): screen luminance at the umbra centre fell
+  **120 → 9.1 (92% darker — totality)** and **130 → 60 (54%)** 65 km out in the
+  penumbra, with the umbra standing on eastern Wyoming at 42.55 N 104.94 W,
+  103 km wide — the real 2017 track. The sweep starts at the computed first
+  contact (15:47 UTC) with the shadow in the mid-Pacific, exactly where the
+  penumbra first met Earth, and walks its corridor. Ancient case: the Thales
+  eclipse (585 BCE = astronomical −584) lands over northern Anatolia at
+  40.8 N 36.5 E, 99% at the Halys battlefield, wearing item 8's ΔT label.
+  NOTE for whoever verifies next: the Browser pane runs as a HIDDEN tab
+  (`document.visibilityState === 'hidden'`), so rAF never fires and timers are
+  throttled to ~1/s. Drive frames with `viewer.dataSourceDisplay.update(t)`
+  FOLLOWED BY `viewer.scene.render()` — `scene.render()` alone never builds
+  entity geometry, which will convince you a perfectly good overlay is invisible.
+  NOT BUILT, deliberately: "the real star field shows" at a site inside
+  totality. There IS a real star catalogue (`src/lib/stars.ts`) but it is
+  rendered only in the Three.js workshop scenes — the Cesium globe has no star
+  field at all, and standing one up is its own piece of work rather than part of
+  this item. The sun dimming to a corona and the monuments going dark under the
+  umbra both landed; the stars behind them are left for the Captain to call.
+  19 tests added (283 total green).
+  _Original spec:_ When the timeline sits inside an eclipse's ground-track window
   (item 8's data):
   - Paint the moving umbra/penumbra as a dark soft-edged ellipse sweeping the
     real terrain — same repaint machinery as `src/components/oceanDrain.ts`

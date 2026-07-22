@@ -69,6 +69,15 @@ export interface SkyDialProps {
   /** Travel to a found eclipse: jump the timeline to its instant and fly to the
    * centreline. Omit and the row still finds/reports, but can't travel. */
   onGoToEclipse?: (hit: EclipseHit) => void;
+  /** Start (or stop) the shadow sweeping its real path across the globe. */
+  onPlayEclipse?: () => void;
+  /** True while the shadow is crossing. */
+  eclipsePlaying?: boolean;
+  /** An eclipse is standing on the globe and can be watched. */
+  canPlayEclipse?: boolean;
+  /** How much of the sun is covered where we're looking, 0..1 — at totality the
+   * dial's sun becomes a corona. */
+  eclipseObscuration?: number;
 }
 
 // Temperature slider range (°C): +40 at the top of the bar, −20 at the bottom,
@@ -114,7 +123,7 @@ const ECLIPSE_EMOJI: Record<EclipseHit['kind'], string> = {
   partial: '🌘',
 };
 
-export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, longitude, timelineYear, title, onChange, onGoToEclipse }: SkyDialProps) {
+export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, longitude, timelineYear, title, onChange, onGoToEclipse, onPlayEclipse, eclipsePlaying = false, canPlayEclipse = false, eclipseObscuration = 0 }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
   // The moon is the MONTH hand: drag it round the ring and the calendar turns
@@ -132,6 +141,9 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
   const sunY = cy - R * Math.sin(theta);
   const { altitude } = sunPosition(date, solarHours, latitude);
   const daytime = altitude > 0;
+  // Below about a tenth covered there is nothing an eye would notice, so the
+  // dial doesn't pretend otherwise.
+  const eclipsed = eclipseObscuration > 0.1;
 
   // The moon lags the sun by its phase: full moon (0.5) sits opposite the sun,
   // so it rides the ring on an inner track and its position "orbits" as the
@@ -332,8 +344,36 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
           <title>{`Cloud ${Math.round(cloud * 100)}% — clear right, pea soup left`}</title>
         </circle>
         <circle cx={cx} cy={cy} r="6" className="ring-hub" opacity="0.85" />
-        {/* the sun */}
-        <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
+        {/* The sun — but when the moon is over it, the disc goes out and only
+            the corona is left burning round the rim. The bite grows with the
+            obscuration, so a 40% partial reads as a nibbled sun, not a
+            switch that flips at the last second. */}
+        {eclipsed ? (
+          <g className="ring-sun-eclipsed">
+            {/* the corona: a soft halo, bigger the deeper the eclipse */}
+            <circle
+              cx={sunX}
+              cy={sunY}
+              r={8 + 5 * eclipseObscuration}
+              fill="none"
+              stroke="#fff4d0"
+              strokeWidth={0.8 + 1.6 * eclipseObscuration}
+              opacity={0.25 + 0.55 * eclipseObscuration}
+            />
+            {/* what is left of the sun's disc */}
+            <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
+            {/* the moon, sliding across it */}
+            <circle
+              cx={sunX - 8 * (1 - eclipseObscuration)}
+              cy={sunY - 2 * (1 - eclipseObscuration)}
+              r="8"
+              fill="#0b0f16"
+            />
+            <title>{`${Math.round(eclipseObscuration * 100)}% of the sun covered`}</title>
+          </g>
+        ) : (
+          <circle cx={sunX} cy={sunY} r="8" className={`ring-sun${daytime ? '' : ' below'}`} />
+        )}
         {/* the moon — the month hand: drag it round the ring (one lap = one
             lunar cycle, the calendar turns with it); a tap steps the phase */}
         <text
@@ -413,6 +453,30 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
               {Math.round(eclipse.obscuration * 100)}% covered
               {eclipse.altitudeDeg < 0 && ' · below the horizon here'}
             </div>
+          )}
+          {canPlayEclipse && onPlayEclipse && (
+            <>
+              <button
+                className={`sky-eclipse-play${eclipsePlaying ? ' on' : ''}`}
+                onClick={onPlayEclipse}
+                title={
+                  eclipsePlaying
+                    ? 'Stop the shadow where it stands'
+                    : "Watch the moon's shadow cross the Earth along its real path"
+                }
+              >
+                {eclipsePlaying ? '⏹ stop the shadow' : '▶ watch the shadow cross'}
+              </button>
+              {eclipsePlaying && (
+                <div className="sky-eclipse-live">
+                  {eclipseObscuration >= 0.999
+                    ? '🌑 totality — the sun is gone'
+                    : eclipseObscuration > 0.02
+                      ? `${Math.round(eclipseObscuration * 100)}% covered where you're standing`
+                      : 'the shadow has not reached you'}
+                </div>
+              )}
+            </>
           )}
           {eclipse?.pathApproximate && (
             <div className="sky-eclipse-warn">

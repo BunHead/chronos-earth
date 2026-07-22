@@ -18,6 +18,7 @@
  */
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
+import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
@@ -190,7 +191,9 @@ function addPlacement(p: Placement): void {
         const d = Cesium.JulianDate.toDate(v.clock.currentTime);
         const solar = (d.getUTCHours() + d.getUTCMinutes() / 60 + p.lon / 15 + 24) % 24;
         const day = Math.max(0, Math.min(1, (Math.cos(((solar - 12) / 12) * Math.PI) + 0.3) / 0.9));
-        const k = 0.12 + 0.88 * day;
+        // An eclipse overhead darkens a monument in broad daylight — the same
+        // dimmer, driven by the moon instead of the hour (queue item 9).
+        const k = (0.12 + 0.88 * day) * eclipseLightFactor(p.lat, p.lon);
         return new Cesium.Color(k, k, k, ghost);
       }, false) as unknown as Cesium.Property,
     },

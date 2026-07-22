@@ -15,6 +15,7 @@ import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
 import { SeaLevelController } from './seaLevel';
 import { OceanDrainController } from './oceanDrain';
+import { EclipseShadowController, type EclipseSweepState } from './eclipseShadow';
 import { RiversController } from './rivers';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
@@ -126,6 +127,14 @@ export interface GlobeHandle {
    * (solar time at lonRef converts to UTC), or switch real lighting off. */
   setSunTime: (date: Date, solarHours: number, lonRef: number) => void;
   setSunLighting: (on: boolean) => void;
+  /** Eclipse (queue item 9): paint the umbra/penumbra where they really fall at
+   * this instant, or null to clear. Returns true if a shadow was on Earth. */
+  setEclipseShadow: (date: Date | null) => boolean;
+  /** How much of the sun is covered under the camera right now, 0..1. */
+  eclipseObscurationHere: () => number;
+  /** Watch the shadow cross its real path, ~30 s for the whole ground window. */
+  playEclipse: (peak: Date, onTick: (s: EclipseSweepState) => void) => boolean;
+  stopEclipse: () => void;
   /** Compass: current camera heading in degrees, and a swing back to north. */
   getHeading: () => number;
   resetNorth: () => void;
@@ -202,6 +211,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const paleoRef = useRef<PaleoController | null>(null);
   const seaRef = useRef<SeaLevelController | null>(null);
   const oceanRef = useRef<OceanDrainController | null>(null);
+  const eclipseRef = useRef<EclipseShadowController | null>(null);
   // While the manual Sea level frame is active it owns the water — the
   // timeline's ice-age overlay stands down until the frame lets go.
   const manualSeaActiveRef = useRef(false);
@@ -449,6 +459,25 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.scene.requestRender();
   };
 
+  /**
+   * Paint the moon's shadow for an instant (null clears it). The date is a real
+   * UTC moment — the eclipse's own clock, not the dial's day-of-year.
+   */
+  const setEclipseShadow = (date: Date | null) =>
+    (eclipseRef.current?.show(date) ?? null) !== null;
+
+  /** How much of the sun is covered under the camera right now, 0..1. */
+  const eclipseObscurationHere = () => eclipseRef.current?.obscurationHere() ?? 0;
+
+  /** Run the shadow across its real corridor in ~30 s. */
+  const playEclipse = (peak: Date, onTick: (s: EclipseSweepState) => void) =>
+    eclipseRef.current?.play(peak, onTick) ?? false;
+
+  const stopEclipse = () => {
+    eclipseRef.current?.stop();
+    eclipseRef.current?.show(null);
+  };
+
   const getHeading = () => {
     const viewer = viewerRef.current;
     return viewer && !viewer.isDestroyed() ? Cesium.Math.toDegrees(viewer.camera.heading) : 0;
@@ -537,7 +566,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     paleoRef.current?.setGpuCache(on);
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache }));
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache, setEclipseShadow, eclipseObscurationHere, playEclipse, stopEclipse }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {
@@ -694,6 +723,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     paleoRef.current = new PaleoController(viewer, import.meta.env.BASE_URL);
     seaRef.current = new SeaLevelController(viewer);
     oceanRef.current = new OceanDrainController(viewer);
+    eclipseRef.current = new EclipseShadowController(viewer);
     riversRef.current = new RiversController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
     // After the first paint has long settled, quietly download every border
@@ -1001,6 +1031,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       paleoRef.current?.dispose();
       seaRef.current?.dispose();
       oceanRef.current?.dispose();
+      eclipseRef.current?.dispose();
+      eclipseRef.current = null;
       riversRef.current?.dispose();
       window.clearTimeout(warmTimer);
       bordersRef.current?.dispose();

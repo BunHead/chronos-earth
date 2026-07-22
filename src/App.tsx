@@ -230,6 +230,15 @@ export default function App() {
     temperature: 18,
     cloud: 0.15,
   });
+  // The eclipse standing on the globe (queue item 9): the instant of greatest
+  // eclipse we have travelled to, whether its shadow is currently sweeping, and
+  // how much of the sun is covered where we are looking — which is what turns
+  // the dial's sun into a corona.
+  const [eclipseSweep, setEclipseSweep] = useState<{
+    peak: Date;
+    playing: boolean;
+    obscuration: number;
+  } | null>(null);
   // "Reduce motion" (in the ⋮ menu) sets a root attribute; CSS then stills the
   // app's transitions and animations for anyone who finds movement distracting.
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -427,9 +436,21 @@ export default function App() {
       globeRef.current?.setSunLighting(false);
       return;
     }
+    // While the eclipse sweep is running it owns Cesium's clock — the shadow
+    // and the terminator have to march to the same time, and two writers would
+    // just fight each other.
+    if (eclipseSweep?.playing) return;
     const lon = viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0;
     globeRef.current?.setSunTime(sky.date, sky.solarHours, lon);
-  }, [skyOpen, sky.date, sky.solarHours, viewRegion]);
+  }, [skyOpen, sky.date, sky.solarHours, viewRegion, eclipseSweep?.playing]);
+
+  // Closing the Weather & Sky frame packs the eclipse away with it — the shadow
+  // belongs to the dial that found it.
+  useEffect(() => {
+    if (skyOpen) return;
+    globeRef.current?.stopEclipse();
+    setEclipseSweep(null);
+  }, [skyOpen]);
 
   // The dial's play button: the day rolls on while it's unpaused.
   useEffect(() => {
@@ -777,6 +798,34 @@ export default function App() {
           longitude={viewRegion ? (viewRegion.w + viewRegion.e) / 2 : -0.12}
           timelineYear={Math.round(yearsBPToYear(yearsBP))}
           title="the globe"
+          eclipsePlaying={eclipseSweep?.playing ?? false}
+          eclipseObscuration={eclipseSweep?.obscuration ?? 0}
+          canPlayEclipse={!!eclipseSweep}
+          onPlayEclipse={() => {
+            if (!eclipseSweep) return;
+            if (eclipseSweep.playing) {
+              globeRef.current?.stopEclipse();
+              setEclipseSweep((e) => (e ? { ...e, playing: false, obscuration: 0 } : e));
+              return;
+            }
+            const lonRef = viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0;
+            // The sweep runs at 20 fps inside the controller; React only needs
+            // the dial to keep up, so state is nudged about five times a second.
+            let lastPush = 0;
+            const ok = globeRef.current?.playEclipse(eclipseSweep.peak, (t) => {
+              const now = t.date.getTime();
+              if (!t.done && now - lastPush < 200) return;
+              lastPush = now;
+              const solarHours =
+                (t.date.getUTCHours() + t.date.getUTCMinutes() / 60 + lonRef / 15 + 24) % 24;
+              setSky((s) => ({ ...s, date: new Date(t.date), solarHours, auto: false }));
+              setEclipseSweep((e) =>
+                e ? { ...e, playing: !t.done, obscuration: t.obscurationHere } : e,
+              );
+            });
+            if (ok) setEclipseSweep((e) => (e ? { ...e, playing: true } : e));
+            else showToast('That eclipse never touches the ground here.');
+          }}
           onGoToEclipse={(hit) => {
             // Travel to the moment: put the timeline on its year, set the dial
             // to the day and the local solar hour of greatest eclipse, and fly
@@ -790,6 +839,11 @@ export default function App() {
               (hit.peak.getUTCHours() + hit.peak.getUTCMinutes() / 60 + lonForSolar / 15 + 24) % 24;
             setSky((s) => ({ ...s, date: new Date(hit.peak), solarHours, auto: false }));
             if (hit.centre) globeRef.current?.flyTo(hit.centre.lon, hit.centre.lat, 9_000_000);
+            // Stand the shadow on the globe at its greatest moment, ready to
+            // be watched crossing.
+            globeRef.current?.stopEclipse();
+            globeRef.current?.setEclipseShadow(hit.peak);
+            setEclipseSweep({ peak: new Date(hit.peak), playing: false, obscuration: hit.obscuration });
             showToast(
               `${hit.kind === 'total' ? 'Totality' : hit.kind === 'annular' ? 'Annular eclipse' : 'Partial eclipse'} · ${Math.round(hit.obscuration * 100)}% covered${hit.pathApproximate ? ' · path approximate' : ''}`,
             );
