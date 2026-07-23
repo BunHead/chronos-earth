@@ -160,6 +160,44 @@ export default function About({ onClose }: AboutProps) {
             "alternative hypothesis" boxes alongside the mainstream scholarly consensus — never as
             established fact.
           </p>
+
+          <h3 className="info-h3">Copyright &amp; licence</h3>
+          <p className="info-summary">
+            <b>© 2026 Spencer Austin.</b> The software behind Chronos Earth — the app, the
+            harvesters, the model workshop — is open source under the{' '}
+            <a
+              href="https://www.apache.org/licenses/LICENSE-2.0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Apache License 2.0
+            </a>
+            : free to use, change and share, including commercially, provided the licence and
+            these credits travel with it. The source lives at{' '}
+            <a
+              href="https://github.com/BunHead/chronos-earth"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              github.com/BunHead/chronos-earth
+            </a>
+            .
+          </p>
+          <p className="info-summary">
+            The historical <b>data</b> listed above is a different matter, and keeps the licence
+            its makers gave it — this project cannot and does not relicense it. In particular the
+            historical borders dataset is <b>ODbL</b>, which is share-alike: improve that data and
+            pass it on, and it must stay open on the same terms. Wikipedia text is CC BY-SA and is
+            linked to rather than copied. The full breakdown is in the{' '}
+            <a
+              href="https://github.com/BunHead/chronos-earth/blob/main/NOTICE"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              NOTICE file
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>

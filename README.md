@@ -149,6 +149,25 @@ See the in-app **About** panel (the "ℹ About & sources" button in the Layers b
 
 ---
 
+## ⚖️ Copyright & licence
+
+© 2026 Spencer Austin.
+
+The **software** — the app, the harvest scripts, the model workshop — is released under the
+[Apache License 2.0](LICENSE). Use it, change it, build on it, sell it if you like; just keep the
+licence and the credits with it.
+
+The **historical data** bundled under `public/data/` is a separate matter. It arrives under the
+licences its makers chose, and this project neither can nor tries to relicense it. Most notably the
+historical borders dataset is **ODbL**, which is *share-alike*: if you improve that data and pass it
+on, it has to stay open on the same terms. Wikipedia article text is CC BY-SA and is linked to
+rather than copied.
+
+Every source and its licence is listed in [NOTICE](NOTICE), and again inside the app on the About
+panel — so a visitor can see it without reading the repository.
+
+---
+
 ## Project structure (for the curious)
 
 ```

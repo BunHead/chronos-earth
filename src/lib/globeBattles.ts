@@ -274,6 +274,49 @@ function figureIcon(shape: BattleUnit['shape'], colour: string): HTMLCanvasEleme
 }
 
 /**
+ * A figure who has fallen: prone on the ground, in his side's colour knocked
+ * well back. Simply hiding the dead reads as nothing at all — in a block this
+ * tight the sprites overlap, so a vanished back rank is invisible. Leaving
+ * bodies where they dropped is what makes a battle look costly.
+ */
+function fallenIcon(colour: string): HTMLCanvasElement {
+  const key = `fallen|${colour}`;
+  const hit = icons.get(key);
+  if (hit) return hit;
+
+  const [w, h] = FIGURE_BOX.block;
+  const S = FIGURE_SS;
+  const c = document.createElement('canvas');
+  c.width = w * S;
+  c.height = h * S;
+  const g = c.getContext('2d')!;
+  g.scale(S, S);
+  g.fillStyle = colour;
+  g.strokeStyle = 'rgba(0,0,0,0.75)';
+  g.lineWidth = 0.5;
+  g.lineJoin = 'round';
+
+  // Lying across the bottom of the same box the standing man used, so he
+  // drops on the spot rather than jumping.
+  g.beginPath();
+  g.ellipse(w / 2 + 0.6, h - 3, 5.2, 2.1, 0, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+  g.beginPath();
+  g.arc(w / 2 - 5, h - 3.4, 2.2, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+
+  // Knock the whole silhouette back so the living read as the live ones.
+  g.globalCompositeOperation = 'source-atop';
+  g.fillStyle = 'rgba(0,0,0,0.5)';
+  g.fillRect(0, 0, w, h);
+
+  icons.set(key, c);
+  return c;
+}
+
+/**
  * Lay `count` figures out in ranks and files, centred on the unit's grid
  * position. Returned offsets are in GRID units (1 grid unit = FIELD_M/100
  * metres of real ground), so cavalry and ships stand further apart than foot.
@@ -304,6 +347,8 @@ interface FigureTrack {
   oy: number;
   from: Cesium.Cartesian3;
   to: Cesium.Cartesian3;
+  /** Once he falls he stays down, and stays where he fell. */
+  dead: boolean;
 }
 
 interface UnitTrack {
@@ -313,6 +358,7 @@ interface UnitTrack {
   figures: FigureTrack[];
   side: 'a' | 'b';
   shape: BattleUnit['shape'];
+  colour: string;
   fullCount: number;
   from: Cesium.Cartesian3;
   to: Cesium.Cartesian3;
@@ -372,6 +418,7 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
       figures: [],
       side: u.side,
       shape: u.shape,
+      colour,
       fullCount: count,
       from: start,
       to: start,
@@ -393,6 +440,7 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
         oy,
         from: gridToPosition(u.pos[0][0] + ox, u.pos[0][1] + oy),
         to: gridToPosition(u.pos[0][0] + ox, u.pos[0][1] + oy),
+        dead: false,
       };
       fig.entity = viewer.entities.add({
         position: new Cesium.CallbackPositionProperty(
@@ -472,7 +520,7 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
       sprites: () => [...icons.entries()].map(([k, c]) => [k, c.toDataURL()]),
       /** [figures standing, figures fielded] per unit — the field, countable. */
       counts: () =>
-        [...units.entries()].map(([id, t]) => [id, t.figures.filter((f) => f.entity.show).length, t.fullCount]),
+        [...units.entries()].map(([id, t]) => [id, t.figures.filter((f) => !f.dead).length, t.fullCount]),
     };
   }
 }
@@ -494,19 +542,29 @@ export function setGlobeBattlePhase(view: BattleView, idx: number): void {
     const held = moveProgress(track);
     track.from = Cesium.Cartesian3.lerp(track.from, track.to, held, new Cesium.Cartesian3());
     track.to = gridToPosition(p[0], p[1]);
-    for (const fig of track.figures) {
-      fig.from = Cesium.Cartesian3.lerp(fig.from, fig.to, held, new Cesium.Cartesian3());
-      fig.to = gridToPosition(p[0] + fig.ox, p[1] + fig.oy);
-    }
     track.t0 = now;
 
-    // BATTLES COST MEN: show only what is still standing. The fallen simply
-    // stop being drawn, from the back rank forward.
+    // BATTLES COST MEN. The living march on to the new position; the fallen
+    // drop where they stood and stay there, so the ground each side gave up
+    // is littered with what it cost them.
     const standing = Math.max(
       2,
       Math.round(track.fullCount * keepFraction(frac, view.loser === track.side, view.severity)),
     );
-    for (let i = 0; i < track.figures.length; i++) track.figures[i].entity.show = i < standing;
+    for (let i = 0; i < track.figures.length; i++) {
+      const fig = track.figures[i];
+      if (fig.dead) continue; // he is where he fell, and stays there
+      const here = Cesium.Cartesian3.lerp(fig.from, fig.to, held, new Cesium.Cartesian3());
+      if (i >= standing) {
+        fig.dead = true;
+        fig.from = here;
+        fig.to = here;
+        fig.entity.billboard!.image = fallenIcon(track.colour) as unknown as Cesium.Property;
+        continue;
+      }
+      fig.from = here;
+      fig.to = gridToPosition(p[0] + fig.ox, p[1] + fig.oy);
+    }
   }
 
   for (const a of arrows) viewer.entities.remove(a);

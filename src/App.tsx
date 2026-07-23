@@ -28,7 +28,8 @@ import {
 } from './lib/globeBattles';
 import BattleMapFrame from './components/BattleMapFrame';
 import BattleMapSvg from './components/BattleMapSvg';
-import { clampDensity } from './lib/battleMath';
+import { clampDensity, inferLoser } from './lib/battleMath';
+import { casualtyScale } from './lib/synthBattle';
 import { renderTier } from './lib/renderTier';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
@@ -535,7 +536,17 @@ export default function App() {
   const visitBattle = (id: string, fly = true) => {
     const battle = battles.find((b) => b.id === id);
     if (!battle) return;
-    const view = battleViews[id] ?? synthesizeBattleView(battle);
+    const raw = battleViews[id] ?? synthesizeBattleView(battle);
+    // MOST CURATED VIEWS PREDATE `loser` AND `severity` — 17 of 28 carry
+    // neither, so without this every formation on the field thinned at the
+    // victor's gentle rate and the beaten side never visibly broke. Read the
+    // loser off the victor string and the toll off the casualty record, the
+    // same way the old 2D view did before the globe became the battlefield.
+    const view = {
+      ...raw,
+      loser: raw.loser ?? inferLoser(battle.victor, raw.sides.a.name, raw.sides.b.name),
+      severity: raw.severity ?? casualtyScale(battle.casualties),
+    };
     setIsPlaying(false);
     setYearsBP(yearToYearsBP(battle.year));
     if (fly) globeRef.current?.flyToMonument(battle.lon, battle.lat, 900);

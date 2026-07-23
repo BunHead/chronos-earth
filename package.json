@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Chronos Earth — an interactive 3D globe for exploring 250 million years of Earth and human history.",
+  "author": "Spencer Austin",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",
     "build": "node scripts/stamp-version.mjs && tsc --noEmit && vite build",

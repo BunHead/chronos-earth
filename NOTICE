@@ -1,0 +1,75 @@
+Chronos Earth
+Copyright 2026 Spencer Austin
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+
+================================================================================
+WHAT THE APACHE LICENCE COVERS HERE
+================================================================================
+
+The Apache 2.0 licence above applies to the SOFTWARE in this repository: the
+application source under src/, the build and harvest scripts under scripts/,
+the workflows, and the project's own documentation.
+
+It does NOT apply to the third-party DATA and ASSETS bundled under public/data/
+and public/cesium/. Those arrive under their own licences, which this project
+cannot relicense and does not attempt to. They are listed below, and are also
+credited inside the app itself, on the About panel.
+
+The one that carries an ongoing obligation is the historical borders dataset:
+it is ODbL, which is share-alike. Anyone redistributing a modified version of
+that data must keep it open under the same terms. The Apache licence on the
+code does not lift that.
+
+
+================================================================================
+THIRD-PARTY DATA AND ASSETS
+================================================================================
+
+Historical borders
+  historical-basemaps by André Ourednik
+  https://github.com/aourednik/historical-basemaps
+  Open Database License (ODbL) — SHARE-ALIKE.
+
+Continental drift reconstructions
+  GPlates Web Service (EarthByte, University of Sydney), MERDITH2021 rotation
+  model. https://gws.gplates.org/
+
+Globe imagery
+  Natural Earth II, bundled with CesiumJS. Natural Earth is public domain.
+  Satellite imagery is served live by Esri (© Esri, Maxar, Earthstar
+  Geographics) and is not redistributed by this project.
+
+Elevation and bathymetry
+  NASA Blue Marble Next Generation (GEBCO-derived). Public domain.
+
+Events, people and place data
+  Wikidata (CC0) and Wikipedia. Article text is CC BY-SA; the app links to each
+  article rather than copying it.
+
+Battle maps and portraits
+  Wikimedia Commons — public domain or Creative Commons, per file. Each map
+  shows its credit and links to the original.
+
+Monument stone and ground textures
+  Poly Haven (CC0): large_sandstone_blocks, old_stone_wall, dry_ground_01.
+
+Astronomical calculations
+  astronomy-engine by Donald Cross (MIT).
+
+3D globe engine
+  CesiumJS (Apache 2.0).
+
+Curated historical content
+  The ancient-sites, battles, campaigns, tours and legends datasets were
+  written for this project and are covered by the Apache licence above.
