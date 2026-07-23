@@ -106,8 +106,8 @@
   },
   "westminster": {
     "status": "allowed",
-    "ts": 1784798380119,
-    "note": "Too wide east to west, the western chapel, with famous south window",
+    "ts": 1784798475211,
+    "note": "Too wide east to west, the western chapel is merged with the 3 court yards (once courtyard are narrower, this should fix itself)), with famous south window",
     "rework": false,
     "focus": "bakeoff"
   },
