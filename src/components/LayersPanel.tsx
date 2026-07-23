@@ -30,12 +30,30 @@ interface LayersPanelProps {
   onToggleRivers: (value: boolean) => void;
 }
 
+/** One switchable layer. `sub` is a dependent child row (flags live inside
+ * borders), which stays pinned to its parent rather than being sorted away
+ * from it — nesting beats alphabetising. */
+interface LayerRow {
+  /** Sort key and visible text, WITHOUT the emoji — sorting on the emoji would
+   * order the list by an invisible character nobody can see. */
+  label: string;
+  emoji?: string;
+  on: boolean;
+  set: (v: boolean) => void;
+  sub?: { label: string; on: boolean; set: (v: boolean) => void };
+}
+
 /**
  * LayersPanel
  * -----------
  * A small control in the top-right for toggling map layers on and off. The
  * emoji on each row matches the marker that layer draws on the globe and the
  * timeline, so the panel doubles as a legend.
+ *
+ * The rows are declared as DATA and sorted by name at render, so the list is
+ * alphabetical and stays that way: a new layer can be appended anywhere in the
+ * array below and still lands in its right place. Hand-ordered JSX drifts the
+ * moment somebody is in a hurry.
  *
  * Note: continental drift is deliberately NOT a toggle — when you scrub into
  * deep time the continents simply move, which is self-evident on the globe.
@@ -73,22 +91,33 @@ export default function LayersPanel({
   // Draggable by its title bar — a real drag swallows the collapse-click.
   const draggedRef = useRef<(() => boolean) | undefined>(undefined);
 
+  // Declared in any order — sorted by label just below.
+  const rows: LayerRow[] = [
+    { label: 'Cities & places', emoji: '🏙️', on: showCities, set: onToggleCities },
+    { label: 'Ice Ages (seas & ice)', emoji: '🧊', on: showSeaLevel, set: onToggleSeaLevel },
+    { label: 'Natural disasters', emoji: '🌋', on: showDisasters, set: onToggleDisasters },
+    { label: 'Notable people', emoji: '👤', on: showPeople, set: onTogglePeople },
+    {
+      label: 'Political borders',
+      on: showBorders,
+      set: onToggleBorders,
+      sub: { label: '⚑ flags inside borders', on: showFlags, set: onToggleFlags },
+    },
+    { label: 'Prehistoric life', emoji: '🦕', on: showFauna, set: onToggleFauna },
+    { label: 'Science & discoveries', emoji: '🔬', on: showScience, set: onToggleScience },
+    { label: 'Shifting rivers', emoji: '🏞️', on: showRivers, set: onToggleRivers },
+    { label: 'Sites & monuments', emoji: '🏛️', on: showSites, set: onToggleSites },
+    { label: 'Treaties & events', emoji: '📜', on: showEvents, set: onToggleEvents },
+    { label: 'War front lines', emoji: '🚩', on: showCampaigns, set: onToggleCampaigns },
+    { label: 'Wars & battles', emoji: '⚔️', on: showBattles, set: onToggleBattles },
+  ].sort((a, b) => a.label.localeCompare(b.label, 'en'));
+
   // The master "All layers" switch — turns every layer on or off at once.
-  const allToggles: Array<[boolean, (v: boolean) => void]> = [
-    [showBorders, onToggleBorders],
-    [showFlags, onToggleFlags],
-    [showBattles, onToggleBattles],
-    [showCampaigns, onToggleCampaigns],
-    [showSites, onToggleSites],
-    [showCities, onToggleCities],
-    [showDisasters, onToggleDisasters],
-    [showEvents, onToggleEvents],
-    [showScience, onToggleScience],
-    [showPeople, onTogglePeople],
-    [showFauna, onToggleFauna],
-    [showSeaLevel, onToggleSeaLevel],
-    [showRivers, onToggleRivers],
-  ];
+  // Built from the same list, so a new layer joins it automatically instead of
+  // being quietly left out of "All".
+  const allToggles: Array<[boolean, (v: boolean) => void]> = rows.flatMap((r) =>
+    r.sub ? [[r.on, r.set], [r.sub.on, r.sub.set]] : [[r.on, r.set]],
+  );
   const allOn = allToggles.every(([v]) => v);
   const anyOn = allToggles.some(([v]) => v);
   const setAll = (value: boolean) => allToggles.forEach(([, fn]) => fn(value));
@@ -122,63 +151,25 @@ export default function LayersPanel({
         <input ref={allRef} type="checkbox" checked={allOn} onChange={(e) => setAll(e.target.checked)} />
         <span>All layers</span>
       </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showBorders} onChange={(e) => onToggleBorders(e.target.checked)} />
-        <span>Political borders</span>
-      </label>
-      <label className="layer-row sub">
-        <input
-          type="checkbox"
-          checked={showFlags}
-          disabled={!showBorders}
-          onChange={(e) => onToggleFlags(e.target.checked)}
-        />
-        <span>↳ ⚑ flags inside borders</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showBattles} onChange={(e) => onToggleBattles(e.target.checked)} />
-        <span>⚔️ Wars &amp; battles</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showCampaigns} onChange={(e) => onToggleCampaigns(e.target.checked)} />
-        <span>🚩 War front lines</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showSites} onChange={(e) => onToggleSites(e.target.checked)} />
-        <span>🏛️ Sites &amp; monuments</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showCities} onChange={(e) => onToggleCities(e.target.checked)} />
-        <span>🏙️ Cities &amp; places</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showDisasters} onChange={(e) => onToggleDisasters(e.target.checked)} />
-        <span>🌋 Natural disasters</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showEvents} onChange={(e) => onToggleEvents(e.target.checked)} />
-        <span>📜 Treaties &amp; events</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showScience} onChange={(e) => onToggleScience(e.target.checked)} />
-        <span>🔬 Science &amp; discoveries</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showPeople} onChange={(e) => onTogglePeople(e.target.checked)} />
-        <span>👤 Notable people</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showFauna} onChange={(e) => onToggleFauna(e.target.checked)} />
-        <span>🦕 Prehistoric life</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showSeaLevel} onChange={(e) => onToggleSeaLevel(e.target.checked)} />
-        <span>🧊 Ice Ages (seas &amp; ice)</span>
-      </label>
-      <label className="layer-row">
-        <input type="checkbox" checked={showRivers} onChange={(e) => onToggleRivers(e.target.checked)} />
-        <span>🏞️ Shifting rivers</span>
-      </label>
+      {rows.map((r) => (
+        <div key={r.label}>
+          <label className="layer-row">
+            <input type="checkbox" checked={r.on} onChange={(e) => r.set(e.target.checked)} />
+            <span>{r.emoji ? `${r.emoji} ${r.label}` : r.label}</span>
+          </label>
+          {r.sub && (
+            <label className="layer-row sub">
+              <input
+                type="checkbox"
+                checked={r.sub.on}
+                disabled={!r.on}
+                onChange={(e) => r.sub!.set(e.target.checked)}
+              />
+              <span>↳ {r.sub.label}</span>
+            </label>
+          )}
+        </div>
+      ))}
         </>
       )}
     </div>

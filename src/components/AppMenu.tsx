@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Tour } from '../lib/types';
-import { getLocalMaker, setLocalMaker } from '../lib/review';
+import { getLocalMaker, setLocalMaker, getToken, validateMakerToken } from '../lib/review';
 import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
 
 interface AppMenuProps {
@@ -33,6 +33,17 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
+  // Maker tools show only for makers. Same unlock as MakerRow: the device
+  // switch below, or a validated GitHub key. Note this is TIDINESS, not
+  // security — the switch is self-service and the Workshop is a public page.
+  // The real gate is publishing, which still needs the key (see saveReview).
+  const [maker, setMaker] = useState(getLocalMaker());
+  useEffect(() => {
+    if (maker || !getToken()) return;
+    let alive = true;
+    void validateMakerToken().then((r) => { if (alive && r.ok) setMaker(true); });
+    return () => { alive = false; };
+  }, [maker]);
 
   useEffect(() => {
     if (!open) return;
@@ -78,35 +89,47 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
               >
                 ❤ Support Chronos Earth
               </a>
-              <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
-              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
-              {/* The floating frames — movable windows over the globe. */}
-              <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
-                🌤️ Weather &amp; Sky {skyOpen ? '✓' : ''}
-              </button>
+              {/* ── For everyone ──────────────────────────────────────────
+                  Alphabetical by label, ignoring the emoji: About, Compass,
+                  Sea level, Settings, Share, Story tours, Weather & Sky.
+                  Keep it that way when adding an item. */}
+              <div className="app-menu-heading">For everyone</div>
+              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; sources</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleCompass(); }}>
                 🧭 Compass {compassOpen ? '✓' : ''}
               </button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSea(); }}>
                 🌊 Sea level {seaOpen ? '✓' : ''}
               </button>
-              {/* The maker's tools: browse every 3D model, and run the automated
-                  Wikidata harvester on GitHub (free, no local setup) — the
-                  Captain's no-tokens-needed controls. */}
-              <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
-                🛠️ Model Workshop
-              </a>
-              <a
-                className="app-menu-item"
-                href="https://github.com/BunHead/chronos-earth/actions/workflows/harvest.yml"
-                target="_blank"
-                rel="noreferrer"
-                onClick={close}
-              >
-                🚜 Run the data harvester
-              </a>
-              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; sources</button>
               <button className="app-menu-item" onClick={() => setView('settings')}>⚙️ Settings <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
+              <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
+                🌤️ Weather &amp; Sky {skyOpen ? '✓' : ''}
+              </button>
+              {/* ── Maker's tools ────────────────────────────────────────
+                  Browse every 3D model, and run the automated Wikidata
+                  harvester on GitHub. Shown only once maker tools are on
+                  (Settings, above) or a GitHub key has been validated — until
+                  then they were on show to every visitor, which is clutter for
+                  them and confusion for us. Alphabetical: Model, Run. */}
+              {maker && (
+                <>
+                  <div className="app-menu-heading">Maker&rsquo;s tools</div>
+                  <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
+                    🛠️ Model Workshop
+                  </a>
+                  <a
+                    className="app-menu-item"
+                    href="https://github.com/BunHead/chronos-earth/actions/workflows/harvest.yml"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={close}
+                  >
+                    🚜 Run the data harvester
+                  </a>
+                </>
+              )}
             </>
           )}
           {view === 'tours' && (
