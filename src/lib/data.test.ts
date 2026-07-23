@@ -189,7 +189,12 @@ describe('imported events (Wikidata)', () => {
       expect(typeof e.startYear, e.id).toBe('number');
       // Bulk imports are floored at -12000 by the fetcher; hand-curated deep-time
       // events (Ice Age, cave art, Toba) legitimately reach back to ~-72000.
-      expect(e.startYear, e.id).toBeGreaterThanOrEqual(-80000);
+      // A HAND-CURATED event may go deeper still — the Chicxulub impact is 66
+      // million years old, and the timeline runs to 250 million — but a
+      // HARVESTED one may not: out there, a wild date means a parsing bug, which
+      // is exactly what this guard is for.
+      const floor = e.id.startsWith('cur-') ? -250_000_000 : -80_000;
+      expect(e.startYear, e.id).toBeGreaterThanOrEqual(floor);
       expect(e.startYear, e.id).toBeLessThanOrEqual(new Date().getFullYear());
       if (e.endYear !== undefined) expect(e.endYear, e.id).toBeGreaterThanOrEqual(e.startYear);
       expect(Math.abs(e.lat), `${e.id} lat`).toBeLessThanOrEqual(90);

@@ -228,6 +228,10 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
   // A figure the record does not establish the way it establishes a king with
   // a charter says so, right next to the date it is being given — the same
   // doctrine that flags the Atlantis hypothesis rather than burying it.
+  // A catastrophe that had no single location — a pandemic, a famine — has been
+  // pinned somewhere by choice. Say where, and why, rather than let the marker
+  // imply the Black Death happened at a point in Sicily.
+  if (e.placeNote) sections.push({ heading: 'Why it is shown here', body: e.placeNote });
   if (e.attestation) {
     sections.push({
       heading: e.attestation === 'legendary' ? 'A figure of legend' : 'Traditionally dated',
@@ -237,6 +241,10 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
           ? 'Known from story rather than from records made at the time.'
           : 'Known from scripture and later tradition rather than from records made at the time.'),
     });
+  } else if (e.dateNote) {
+    // A date can be uncertain without the subject being legendary — Chicxulub
+    // is dated by an iridium layer, not a chronicle. Say so on its own.
+    sections.push({ heading: 'About the date', body: e.dateNote });
   }
   return {
     kicker: e.attestation === 'legendary' ? 'Legend' : EVENT_KICKER[e.category],

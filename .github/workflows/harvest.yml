@@ -38,6 +38,10 @@ jobs:
         # committed, and then never actually run. Same timeout treatment as
         # above — partial results are still worth keeping.
         run: timeout 25m node scripts/fetch-people.mjs || [ $? -eq 124 ]
+      - name: Add the curated great disasters (idempotent)
+        # Pandemics have no coordinates, so the box-based harvest above can
+        # never find them however the query is widened. These arrive by hand.
+        run: node scripts/add-disasters.mjs
       - name: Add the curated legends (idempotent)
         # Hand-written figures who defeat any query — no birthplace, no usable
         # date. Re-run each night so edits to the file take effect.

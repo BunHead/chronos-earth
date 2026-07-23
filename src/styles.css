@@ -726,7 +726,11 @@ textarea:focus-visible,
   z-index: 15;
 }
 .layers-panel {
-  width: 220px;
+  /* 220px left the longest label ("🔬 Science & Discoveries", 148px) just 4px
+     of slack once the checkbox, gap and fold arrow were taken out — so it
+     wrapped to two lines. 260px gives every top-level layer its own single
+     line with room to spare, and the sub-rows their indent and count too. */
+  width: 260px;
   padding: 12px 14px;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -2388,7 +2392,9 @@ textarea:focus-visible,
     right: 12px;
   }
   .layers-panel {
-    width: 180px;
+    /* Widened alongside the desktop rule, but the smaller font here means it
+       needs less: 210px clears the longest label at 12px. */
+    width: 210px;
     padding: 8px 10px;
     font-size: 12px;
   }

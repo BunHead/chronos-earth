@@ -272,6 +272,16 @@ export interface TimelineEvent {
    * is. Required alongside `attestation` — a traditional date with no
    * explanation is exactly the quiet false precision we are avoiding. */
   dateNote?: string;
+  /**
+   * Why this event is pinned HERE, when it did not happen at a single point.
+   *
+   * A pandemic has no coordinates — the Black Death has none in Wikidata,
+   * which is precisely why it could never be harvested. To put it on a globe at
+   * all is to choose a spot, and choosing one silently would be a small lie:
+   * the marker would claim a precision the history does not have. So anything
+   * placed by choice rather than by record says so here, and the panel shows it.
+   */
+  placeNote?: string;
   /** Spatial grid key stamped by the core index (scripts/build-core-index.mjs).
    * Present = skeleton-loaded; names the detail/<cell>.json file with the rest. */
   cell?: string;

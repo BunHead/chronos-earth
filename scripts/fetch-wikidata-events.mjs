@@ -61,8 +61,30 @@ const CATEGORIES = [
   { category: 'city', selector: '?item wdt:P31 wd:Q515 ; wdt:P571 ?date .', min: 18 },
   { category: 'monument', selector: '?item wdt:P1435 wd:Q9259 ; wdt:P571 ?date .', min: 0 },
   {
+    // The Captain found Great Fires 0, Plagues 0 and Impacts 0 in the Layers
+    // sub-list (2026-07-23). Two causes lived here, both fixed below.
+    //
+    // WRONG TYPES: the list asked only for earthquakes, volcanic eruptions,
+    // natural disasters and pandemics. The Great Fire of London is a "city
+    // fire"; Tunguska is an "explosion"; famines and epidemics had no entry at
+    // all — so none of them could ever match, however famous.
+    //
+    // WRONG DATE PROPERTY: it demanded P585 ("point in time"), which suits an
+    // earthquake but not a catastrophe that LASTED. The Great Fire, the Black
+    // Death and COVID-19 all record P580 ("start time") instead and matched
+    // nothing. COALESCE takes whichever the event actually has.
+    //
+    // Still unreachable from here, by design of the box service rather than any
+    // fault in this query: events with no coordinates at all (the Black Death,
+    // COVID-19, the 1918 flu — a pandemic is not a place). Those are curated by
+    // hand in add-disasters.mjs, which explains where each one is pinned.
     category: 'disaster',
-    selector: 'VALUES ?dtype { wd:Q7944 wd:Q7692360 wd:Q8065 wd:Q12184 } ?item wdt:P31 ?dtype ; wdt:P585 ?date .',
+    selector:
+      'VALUES ?dtype { wd:Q7944 wd:Q7692360 wd:Q8065 wd:Q12184 ' +
+      'wd:Q838718 wd:Q168983 wd:Q44512 wd:Q168247 wd:Q179057 wd:Q3241045 } ' +
+      '?item wdt:P31 ?dtype . ' +
+      'OPTIONAL { ?item wdt:P585 ?pit } OPTIONAL { ?item wdt:P580 ?start } ' +
+      'BIND(COALESCE(?pit, ?start) AS ?date) FILTER(BOUND(?date))',
     min: 4,
   },
 ];

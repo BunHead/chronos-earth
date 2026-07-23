@@ -37,13 +37,20 @@ export type SubKind = string;
  * general ones — a "tsunami earthquake" is filed under tsunami.
  */
 const DISASTER_PATTERNS: Array<[SubKind, RegExp]> = [
-  ['disaster:impact', /impact|meteor|meteorite|comet|airburst|bolide|asteroid/i],
+  // "Tunguska event" and "Chicxulub crater" name neither an impact nor a
+  // meteor, so the obvious words alone missed the two most famous impacts there
+  // are. Crater is safe here: this branch only ever sees disasters, so the
+  // Battle of the Crater (a battle) and Lichfield Crater (a monument) cannot
+  // reach it.
+  ['disaster:impact', /impact|meteor|meteorite|comet|airburst|bolide|asteroid|crater|tunguska/i],
   ['disaster:eruption', /erupt|volcan|vulkan|krakatoa|vesuvius|tambora|pinatubo|toba|laki|pel[ée]e/i],
   ['disaster:tsunami', /tsunami|tidal wave/i],
   ['disaster:landslide', /landslide|mudslide|mudflow|avalanche|rockfall|lahar/i],
   ['disaster:flood', /flood|deluge|inundat|hochwasser/i],
   ['disaster:storm', /storm|hurricane|typhoon|cyclone|tornado|blizzard/i],
-  ['disaster:fire', /wildfire|bushfire|great fire|conflagration/i],
+  // Not just "great fire": the Great CHICAGO Fire puts the city in the middle,
+  // which the literal phrase missed entirely.
+  ['disaster:fire', /wildfire|bushfire|firestorm|conflagration|great .{0,18}fire|fire of /i],
   ['disaster:plague', /plague|pandemic|epidemic|cholera|influenza|smallpox|black death/i],
   ['disaster:famine', /famine|starvation|drought|d[üu]rre/i],
   // Earthquake last of the shaking words, so it cannot swallow "tsunami

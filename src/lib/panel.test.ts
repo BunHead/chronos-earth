@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { monumentModelForName, resolveMonumentModel } from './panel';
-import type { AncientSite } from './types';
+import { eventToPanel, monumentModelForName, resolveMonumentModel } from './panel';
+import type { AncientSite, TimelineEvent } from './types';
 
 describe('monumentModelForName — honest 3D or nothing', () => {
   it('churches get the cathedral model', () => {
@@ -113,5 +113,50 @@ describe('the Seven Wonders of the Ancient World each carry their own archetype'
       expect(byId[id], `missing wonder ${id}`).toBeTruthy();
       expect(resolveMonumentModel(byId[id]), id).toBe(model);
     }
+  });
+});
+
+describe('eventToPanel — a marker must not claim precision the history lacks', () => {
+  // Read the real shipped data, so this breaks if the curation is ever lost.
+  const events: TimelineEvent[] = JSON.parse(
+    readFileSync(join(process.cwd(), 'public/data/imported/events.json'), 'utf-8'),
+  ).events;
+  const byId = (id: string) => {
+    const e = events.find((x) => x.id === id);
+    if (!e) throw new Error(`missing curated event: ${id}`);
+    return e;
+  };
+
+  it('says WHY the Black Death is pinned in Sicily', () => {
+    const p = eventToPanel(byId('cur-dis-black-death'));
+    const s = p.sections?.find((x) => x.heading === 'Why it is shown here');
+    expect(s, 'placeNote section').toBeTruthy();
+    expect(s!.body).toMatch(/Messina/);
+    // The crucial half: it must admit the pandemic had no single location.
+    expect(s!.body).toMatch(/no single location/i);
+  });
+
+  it('admits the 1918 flu’s origin is disputed', () => {
+    const p = eventToPanel(byId('cur-dis-spanish-flu'));
+    const s = p.sections?.find((x) => x.heading === 'Why it is shown here');
+    expect(s!.body).toMatch(/disputed/i);
+  });
+
+  it('explains an uncertain date without calling the subject legendary', () => {
+    // Chicxulub is dated by an iridium layer, not a chronicle — so it gets a
+    // date note but no attestation, and must not be filed under "legend".
+    const chicxulub = byId('cur-dis-chicxulub');
+    expect(chicxulub.attestation).toBeUndefined();
+    const p = eventToPanel(chicxulub);
+    expect(p.kicker).not.toBe('Legend');
+    expect(p.sections?.find((x) => x.heading === 'About the date')?.body).toMatch(/iridium/i);
+  });
+
+  it('leaves an ordinary event with no notes at all', () => {
+    const plain = events.find((e) => !e.placeNote && !e.dateNote && !e.attestation)!;
+    const p = eventToPanel(plain);
+    const headings = (p.sections ?? []).map((s) => s.heading);
+    expect(headings).not.toContain('Why it is shown here');
+    expect(headings).not.toContain('About the date');
   });
 });
