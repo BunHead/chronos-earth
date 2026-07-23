@@ -411,5 +411,12 @@
     "ts": 1784706624906,
     "note": "Axis troops start in water",
     "status": "allowed"
+  },
+  "place:westminster@51.499,-0.125": {
+    "transform": {
+      "headingDeg": 7.5,
+      "eastM": 30
+    },
+    "ts": 1784798475310
   }
 }
