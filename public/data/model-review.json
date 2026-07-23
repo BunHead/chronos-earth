@@ -106,8 +106,8 @@
   },
   "westminster": {
     "status": "allowed",
-    "ts": 1784798283928,
-    "note": "Too wide east to west",
+    "ts": 1784798380119,
+    "note": "Too wide east to west, the western chapel, with famous south window",
     "rework": false,
     "focus": "bakeoff"
   },
