@@ -311,7 +311,7 @@ export default function App() {
     if (globeBattle) {
       const b = battles.find((x) => x.id === globeBattle.id);
       if (b) {
-        showBattleOnGlobe(b.lat, b.lon, globeBattle.view);
+        showBattleOnGlobe(b.lat, b.lon, globeBattle.view, b.year);
         setGlobeBattlePhase(globeBattle.view, globeBattle.phase);
       }
     }
@@ -550,7 +550,7 @@ export default function App() {
     setIsPlaying(false);
     setYearsBP(yearToYearsBP(battle.year));
     if (fly) globeRef.current?.flyToMonument(battle.lon, battle.lat, 900);
-    showBattleOnGlobe(battle.lat, battle.lon, view);
+    showBattleOnGlobe(battle.lat, battle.lon, view, battle.year);
     setGlobeBattle({ id, view, phase: 0 });
     // The sky over the field is the sky of the day: the dial opens set to
     // the battle's real season, a morning sun, and a temperature that fits

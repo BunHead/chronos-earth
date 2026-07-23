@@ -253,7 +253,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "a",
+      "severity": 1.05
     },
     "waterloo": {
       "title": "Battle of Waterloo",
@@ -538,7 +540,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.15
     },
     "cannae": {
       "title": "Battle of Cannae",
@@ -840,7 +844,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "a",
+      "severity": 1.35
     },
     "gaugamela": {
       "title": "Battle of Gaugamela",
@@ -1069,7 +1075,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.2
     },
     "marathon": {
       "title": "Battle of Marathon",
@@ -1337,7 +1345,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.15
     },
     "agincourt": {
       "title": "Battle of Agincourt",
@@ -1567,7 +1577,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.15
     },
     "austerlitz": {
       "title": "Battle of Austerlitz",
@@ -1800,7 +1812,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "a",
+      "severity": 1.1
     },
     "trafalgar": {
       "title": "Battle of Trafalgar",
@@ -2026,7 +2040,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.2
     },
     "gettysburg": {
       "title": "Battle of Gettysburg",
@@ -2265,7 +2281,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.15
     },
     "d-day": {
       "title": "D-Day — The Normandy Landings",
@@ -2592,7 +2610,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1
     },
     "thermopylae": {
       "title": "Battle of Thermopylae",
@@ -2612,24 +2632,31 @@
         {
           "type": "sea",
           "x": 50,
-          "y": 8,
+          "y": 15,
           "w": 100,
-          "h": 14,
-          "label": "Malian Gulf"
+          "h": 30,
+          "label": "Malian Gulf (the 480 BCE shore)"
         },
         {
           "type": "ridge",
           "x": 50,
-          "y": 56,
-          "w": 90,
-          "h": 8,
+          "y": 52,
+          "w": 100,
+          "h": 26,
           "label": "Mt. Kallidromon"
+        },
+        {
+          "type": "town",
+          "x": 43,
+          "y": 34,
+          "r": 3,
+          "label": "The Phocian wall"
         }
       ],
       "phases": [
         {
           "name": "The Hot Gates",
-          "narration": "Between the mountains and the sea runs a pass barely wide enough for a cart. Leonidas posts his 300 Spartans and some 7,000 allies across it, behind an old wall. Xerxes waits four days for them to flee. They do not."
+          "narration": "Between the cliffs of Kallidromon and the sea runs a pass barely a hundred metres wide — the shoreline then lay where the modern coastal plain now stands, before the Malian Gulf silted up. Leonidas posts some 7,000 Greeks across the narrows, behind a rebuilt Phocian wall."
         },
         {
           "name": "Waves break on the wall",
@@ -2728,7 +2755,9 @@
               32,
               33
             ]
-          ]
+          ],
+          "strength": 300,
+          "helmet": "crest"
         },
         {
           "id": "greek-allies",
@@ -2752,7 +2781,9 @@
               12,
               30
             ]
-          ]
+          ],
+          "strength": 6000,
+          "helmet": "crest"
         },
         {
           "id": "thespians",
@@ -2776,7 +2807,9 @@
               30,
               36
             ]
-          ]
+          ],
+          "strength": 700,
+          "helmet": "crest"
         },
         {
           "id": "immortals",
@@ -2800,7 +2833,9 @@
               30,
               40
             ]
-          ]
+          ],
+          "strength": 10000,
+          "helmet": "cap"
         },
         {
           "id": "persian-inf",
@@ -2824,7 +2859,9 @@
               42,
               31
             ]
-          ]
+          ],
+          "strength": 90000,
+          "helmet": "cap"
         },
         {
           "id": "persian-arch",
@@ -2848,9 +2885,13 @@
               52,
               38
             ]
-          ]
+          ],
+          "strength": 50000,
+          "helmet": "cap"
         }
-      ]
+      ],
+      "loser": "a",
+      "severity": 1.35
     },
     "stalingrad": {
       "title": "Battle of Stalingrad",
@@ -3151,7 +3192,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.35
     },
     "tours": {
       "title": "Battle of Tours",
@@ -3464,7 +3507,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.05
     },
     "midway": {
       "title": "Battle of Midway",
@@ -3698,7 +3743,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.2
     },
     "zama": {
       "title": "Battle of Zama",
@@ -4072,7 +4119,9 @@
             }
           ]
         }
-      ]
+      ],
+      "loser": "b",
+      "severity": 1.25
     },
     "annexation-of-crimea": {
       "id": "annexation-of-crimea",
@@ -4201,7 +4250,9 @@
             ]
           ]
         }
-      ]
+      ],
+      "loser": "a",
+      "severity": 0.8
     },
     "salamis": {
       "id": "salamis",

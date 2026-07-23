@@ -117,6 +117,29 @@ describe('battle-views.json cross-references battles.json', () => {
     }
   });
 
+  it('every battle gets at least four phases', () => {
+    // The Captain's rule: four steps is roughly twelve hours, a single day's
+    // fighting. Fewer than that and a battle is a caption, not a course —
+    // deployment, the manoeuvre, the turn and the decision is the minimum
+    // shape. Multi-day battles should scale up from there.
+    for (const [id, view] of Object.entries<{ phases: unknown[] }>(battleViews)) {
+      expect(view.phases.length, `${id} needs at least 4 phases`).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  it('a view claiming real strengths gives them to every unit', () => {
+    // Half a roster of strengths would silently starve the units without
+    // them down to the floor, which reads as an army that was not there.
+    for (const [id, view] of Object.entries<{ units: { strength?: number }[] }>(battleViews)) {
+      const withStrength = view.units.filter((u) => typeof u.strength === 'number');
+      if (withStrength.length === 0) continue;
+      expect(withStrength.length, `${id} mixes units with and without strength`).toBe(
+        view.units.length,
+      );
+      for (const u of withStrength) expect(u.strength).toBeGreaterThan(0);
+    }
+  });
+
   it('each unit defines a position for every phase', () => {
     for (const [id, view] of Object.entries<{ phases: unknown[]; units: { pos: unknown[] }[] }>(battleViews)) {
       const phaseCount = view.phases.length;

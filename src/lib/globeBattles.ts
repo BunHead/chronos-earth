@@ -18,7 +18,8 @@
 import * as Cesium from 'cesium';
 import type { BattleUnit, BattleView } from './types';
 import { getViewer } from './globeModels';
-import { clampDensity, figureCount, keepFraction } from './battleMath';
+import { clampDensity, headgearForYear, keepFraction, unitFigures } from './battleMath';
+import type { Helmet } from './types';
 
 /** Real ground the 100-wide choreography grid spans (metres). */
 const FIELD_M = 3000;
@@ -98,6 +99,201 @@ const FIGURE_BOX: Record<NonNullable<BattleUnit['shape']> | 'block', [number, nu
   plane: [24, 22],
 };
 
+/** Spare canvas above a man's head, for whatever he is wearing on it. */
+const HELMET_ROOM = 6;
+
+/**
+ * Put a helmet on a figure's head — armies are known by their headgear, and
+ * at this size the outline above the shoulders is the most legible thing
+ * about a man. Drawn around a head centred (hx, hy) of radius r.
+ */
+function drawHelmet(
+  g: CanvasRenderingContext2D,
+  ink: () => void,
+  helmet: Helmet,
+  hx: number,
+  hy: number,
+  r: number,
+): void {
+  const dome = (lift = 0.4, wide = 0.6) => {
+    g.beginPath();
+    g.arc(hx, hy - lift, r + wide, Math.PI, 0);
+    g.closePath();
+    ink();
+  };
+  switch (helmet) {
+    case 'crest': {
+      // Corinthian: the helm covers the face, under a high fore-and-aft crest.
+      dome(0.2, 0.7);
+      g.beginPath();
+      g.moveTo(hx - r - 0.4, hy - 0.2);
+      g.lineTo(hx + r + 0.4, hy - 0.2);
+      g.lineTo(hx + r, hy + r * 0.8);
+      g.lineTo(hx - r, hy + r * 0.8);
+      g.closePath();
+      ink();
+      g.beginPath(); // the crest itself
+      g.moveTo(hx - r - 0.3, hy - r - 0.4);
+      g.quadraticCurveTo(hx, hy - r - 5.2, hx + r + 0.3, hy - r - 0.4);
+      g.quadraticCurveTo(hx, hy - r - 2, hx - r - 0.3, hy - r - 0.4);
+      g.closePath();
+      ink();
+      break;
+    }
+    case 'cap':
+      // Soft cap or tiara — rounded, no hard brim, slightly forward.
+      g.beginPath();
+      g.arc(hx, hy - 0.8, r + 0.3, Math.PI * 1.05, Math.PI * 1.95);
+      g.closePath();
+      ink();
+      break;
+    case 'roman':
+      dome();
+      g.beginPath(); // cheek flanges
+      g.moveTo(hx - r - 0.6, hy - 0.4);
+      g.lineTo(hx - r + 0.6, hy - 0.4);
+      g.lineTo(hx - r + 0.9, hy + r);
+      g.lineTo(hx - r - 0.4, hy + r);
+      g.closePath();
+      ink();
+      g.beginPath();
+      g.moveTo(hx + r - 0.6, hy - 0.4);
+      g.lineTo(hx + r + 0.6, hy - 0.4);
+      g.lineTo(hx + r + 0.4, hy + r);
+      g.lineTo(hx + r - 0.9, hy + r);
+      g.closePath();
+      ink();
+      g.beginPath(); // low transverse crest
+      g.moveTo(hx - r * 0.7, hy - r - 0.6);
+      g.lineTo(hx + r * 0.7, hy - r - 0.6);
+      g.lineTo(hx + r * 0.5, hy - r - 2.4);
+      g.lineTo(hx - r * 0.5, hy - r - 2.4);
+      g.closePath();
+      ink();
+      break;
+    case 'conical':
+      // Spangenhelm: a cone with a nasal bar down the face.
+      g.beginPath();
+      g.moveTo(hx - r - 0.5, hy + 0.4);
+      g.lineTo(hx, hy - r - 3);
+      g.lineTo(hx + r + 0.5, hy + 0.4);
+      g.closePath();
+      ink();
+      g.beginPath();
+      g.moveTo(hx - 0.5, hy);
+      g.lineTo(hx + 0.5, hy);
+      g.lineTo(hx + 0.5, hy + r);
+      g.lineTo(hx - 0.5, hy + r);
+      g.closePath();
+      ink();
+      break;
+    case 'greathelm':
+      // A flat-topped cylinder swallowing the whole head.
+      g.beginPath();
+      g.moveTo(hx - r - 0.7, hy - r - 1.6);
+      g.lineTo(hx + r + 0.7, hy - r - 1.6);
+      g.lineTo(hx + r + 0.5, hy + r + 0.4);
+      g.lineTo(hx - r - 0.5, hy + r + 0.4);
+      g.closePath();
+      ink();
+      break;
+    case 'morion':
+      dome(0.6, 0.5);
+      g.beginPath(); // brim turned up fore and aft
+      g.moveTo(hx - r - 2.4, hy - 0.2);
+      g.quadraticCurveTo(hx, hy + 1.6, hx + r + 2.4, hy - 0.2);
+      g.quadraticCurveTo(hx, hy + 0.4, hx - r - 2.4, hy - 0.2);
+      g.closePath();
+      ink();
+      g.beginPath(); // the comb
+      g.moveTo(hx - r * 0.8, hy - r - 0.6);
+      g.quadraticCurveTo(hx, hy - r - 2.8, hx + r * 0.8, hy - r - 0.6);
+      g.closePath();
+      ink();
+      break;
+    case 'tricorne':
+      g.beginPath();
+      g.moveTo(hx - r - 2.6, hy - 0.6);
+      g.lineTo(hx, hy - r - 2.6);
+      g.lineTo(hx + r + 2.6, hy - 0.6);
+      g.quadraticCurveTo(hx, hy + 0.8, hx - r - 2.6, hy - 0.6);
+      g.closePath();
+      ink();
+      break;
+    case 'shako':
+      // Tall cylinder, a touch wider at the crown, with a peak and a plume.
+      g.beginPath();
+      g.moveTo(hx - r - 0.2, hy + 0.2);
+      g.lineTo(hx - r - 0.7, hy - r - 4);
+      g.lineTo(hx + r + 0.7, hy - r - 4);
+      g.lineTo(hx + r + 0.2, hy + 0.2);
+      g.closePath();
+      ink();
+      g.beginPath();
+      g.moveTo(hx - r - 1.6, hy + 0.2);
+      g.lineTo(hx + r + 0.4, hy + 0.2);
+      g.lineTo(hx + r + 0.2, hy + 1.1);
+      g.lineTo(hx - r - 1.4, hy + 1.1);
+      g.closePath();
+      ink();
+      break;
+    case 'pickelhaube':
+      dome(0.5, 0.6);
+      g.beginPath(); // the spike
+      g.moveTo(hx - 0.6, hy - r - 0.9);
+      g.lineTo(hx + 0.6, hy - r - 0.9);
+      g.lineTo(hx, hy - r - 3.4);
+      g.closePath();
+      ink();
+      break;
+    case 'dish':
+      // Brodie: a shallow bowl on a wide flat brim.
+      g.beginPath();
+      g.arc(hx, hy - 0.9, r * 0.85, Math.PI, 0);
+      g.closePath();
+      ink();
+      g.beginPath();
+      g.moveTo(hx - r - 2.4, hy - 1.2);
+      g.lineTo(hx + r + 2.4, hy - 1.2);
+      g.lineTo(hx + r + 2, hy - 0.1);
+      g.lineTo(hx - r - 2, hy - 0.1);
+      g.closePath();
+      ink();
+      break;
+    case 'coal':
+      // Stahlhelm: domed crown flaring to a skirt over neck and ears.
+      dome(0.6, 0.5);
+      g.beginPath();
+      g.moveTo(hx - r - 0.6, hy - 0.8);
+      g.lineTo(hx + r + 0.6, hy - 0.8);
+      g.lineTo(hx + r + 1.2, hy + 1.4);
+      g.lineTo(hx - r - 1.2, hy + 1.4);
+      g.closePath();
+      ink();
+      break;
+    case 'ushanka':
+      dome(0.7, 0.8);
+      g.beginPath(); // ear flaps
+      g.moveTo(hx - r - 1.1, hy - 0.6);
+      g.lineTo(hx - r + 0.5, hy - 0.6);
+      g.lineTo(hx - r + 0.5, hy + r * 0.9);
+      g.lineTo(hx - r - 1.1, hy + r * 0.9);
+      g.closePath();
+      ink();
+      g.beginPath();
+      g.moveTo(hx + r - 0.5, hy - 0.6);
+      g.lineTo(hx + r + 1.1, hy - 0.6);
+      g.lineTo(hx + r + 1.1, hy + r * 0.9);
+      g.lineTo(hx + r - 0.5, hy + r * 0.9);
+      g.closePath();
+      ink();
+      break;
+    case 'none':
+    default:
+      break;
+  }
+}
+
 /**
  * One FIGURE in a formation — the little man (or horse, ship, tank, plane)
  * a block is built from.
@@ -108,19 +304,24 @@ const FIGURE_BOX: Record<NonNullable<BattleUnit['shape']> | 'block', [number, nu
  * horseman, a sail. Drawn from the feet up, since the sprite's BOTTOM is
  * what stands on the ground.
  */
-function figureIcon(shape: BattleUnit['shape'], colour: string): HTMLCanvasElement {
+function figureIcon(shape: BattleUnit['shape'], colour: string, helmet: Helmet): HTMLCanvasElement {
   const kind = shape ?? 'block';
-  const key = `fig|${kind}|${colour}`;
+  const key = `fig|${kind}|${colour}|${helmet}`;
   const hit = icons.get(key);
   if (hit) return hit;
 
   const [w, h] = FIGURE_BOX[kind];
   const S = FIGURE_SS;
+  // Men wear helmets, so the canvas carries spare room above the head and
+  // everything else is drawn shifted down into place. Machines need none.
+  const manned = kind === 'block' || kind === 'cavalry';
+  const headroom = manned ? HELMET_ROOM : 0;
   const c = document.createElement('canvas');
   c.width = w * S;
-  c.height = h * S;
+  c.height = (h + headroom) * S;
   const g = c.getContext('2d')!;
   g.scale(S, S);
+  g.translate(0, headroom);
   g.fillStyle = colour;
   g.strokeStyle = 'rgba(0,0,0,0.75)';
   g.lineWidth = 0.5;
@@ -148,6 +349,7 @@ function figureIcon(shape: BattleUnit['shape'], colour: string): HTMLCanvasEleme
     g.beginPath();
     g.arc(cx - 1.2, 4, 3.2, 0, Math.PI * 2);
     ink();
+    drawHelmet(g, ink, helmet, cx - 1.2, 4, 3.2);
     g.beginPath();
     g.moveTo(cx - 5, 9); // shoulders — the widest point
     g.lineTo(cx + 2.6, 9);
@@ -186,6 +388,7 @@ function figureIcon(shape: BattleUnit['shape'], colour: string): HTMLCanvasEleme
     g.beginPath(); // rider
     g.arc(w - 10, 3.5, 2.4, 0, Math.PI * 2);
     ink();
+    drawHelmet(g, ink, helmet, w - 10, 3.5, 2.4);
     g.beginPath();
     g.moveTo(w - 12.5, 6);
     g.lineTo(w - 7.5, 6);
@@ -288,9 +491,12 @@ function fallenIcon(colour: string): HTMLCanvasElement {
   const S = FIGURE_SS;
   const c = document.createElement('canvas');
   c.width = w * S;
-  c.height = h * S;
+  // Same canvas the standing man uses, headroom and all, so a figure keeps
+  // its footing on the ground at the instant it falls.
+  c.height = (h + HELMET_ROOM) * S;
   const g = c.getContext('2d')!;
   g.scale(S, S);
+  g.translate(0, HELMET_ROOM);
   g.fillStyle = colour;
   g.strokeStyle = 'rgba(0,0,0,0.75)';
   g.lineWidth = 0.5;
@@ -402,16 +608,22 @@ function pumpFrames(): void {
 }
 
 /** Raise the armies at the real battlefield, standing in phase 0. */
-export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): void {
+export function showBattleOnGlobe(lat: number, lon: number, view: BattleView, year = 0): void {
   const viewer = getViewer();
   if (!viewer) return;
   endGlobeBattle();
   site = { lat, lon };
 
+  // One allocation for the whole battle: where the view gives real strengths,
+  // the blocks are shared out in proportion to them.
+  const fielded = unitFigures(view.units, figureDensity);
+  const eraHelmet = headgearForYear(year);
+
   for (const u of view.units) {
     const colour = view.sides[u.side].color;
     const start = gridToPosition(u.pos[0][0], u.pos[0][1]);
-    const count = figureCount(u.shape, u.size ?? 1, figureDensity);
+    const count = fielded.get(u.id) ?? 1;
+    const helmet: Helmet = u.helmet ?? eraHelmet;
     const track: UnitTrack = {
       entity: null as unknown as Cesium.Entity,
       dust: null as unknown as Cesium.Entity,
@@ -432,7 +644,7 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView): v
     // THE BLOCK: one sprite per figure, each holding his own place in the
     // ranks as the whole formation marches. Billboards only — the one
     // primitive this Cesium build renders reliably.
-    const figImage = figureIcon(u.shape, colour);
+    const figImage = figureIcon(u.shape, colour, helmet);
     for (const [ox, oy] of formationOffsets(u.shape, count)) {
       const fig: FigureTrack = {
         entity: null as unknown as Cesium.Entity,

@@ -111,7 +111,35 @@ export interface BattleUnit {
   /** Relative size of the block (default 1). */
   size?: number;
   shape?: 'block' | 'ship' | 'cavalry' | 'vehicle' | 'plane';
+  /**
+   * Roughly how many MEN (or ships/aircraft) the formation really fielded.
+   * When a battle gives these, block sizes are shared out in proportion, so
+   * a force outnumbered twenty to one looks outnumbered twenty to one. Views
+   * without them keep the older `size`-only look.
+   */
+  strength?: number;
+  /**
+   * Headgear the figures wear — armies are recognised by their helmets.
+   * Omitted, a helmet fitting the battle's century is chosen.
+   */
+  helmet?: Helmet;
 }
+
+/** The helmets the little figures can wear (see `headgearForYear`). */
+export type Helmet =
+  | 'crest' // Greek/Corinthian — full helm under a tall transverse crest
+  | 'cap' // soft cap or tiara (Persian, Scythian, early levies)
+  | 'roman' // legionary galea, cheek flanges and a low crest
+  | 'conical' // Norman/Rus spangenhelm with a nasal bar
+  | 'greathelm' // flat-topped crusader/knightly great helm
+  | 'morion' // crested brim, turned up fore and aft (pike-and-shot)
+  | 'tricorne' // three-cornered hat
+  | 'shako' // tall cylindrical Napoleonic/Victorian shako
+  | 'pickelhaube' // spiked Prussian helmet
+  | 'dish' // wide flat brim (Brodie, and later steel dishes)
+  | 'coal' // flared coal-scuttle Stahlhelm
+  | 'ushanka' // Soviet winter cap
+  | 'none';
 
 export interface BattleArrow {
   from: [number, number];

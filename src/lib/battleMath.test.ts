@@ -4,9 +4,11 @@ import {
   DENSITY_MAX,
   DENSITY_MIN,
   figureCount,
+  headgearForYear,
   inferLoser,
   keepFraction,
   sideTally,
+  unitFigures,
 } from './battleMath';
 import type { BattleUnit } from './types';
 
@@ -47,6 +49,40 @@ describe('battleMath — figures fielded and figures lost', () => {
       const expected = figureCount('block', 1, d) + figureCount('cavalry', 1, d);
       expect(sideTally(units, 'a', 'b', 1, d).start).toBe(expected);
     }
+  });
+
+  it('real strengths make a lopsided battle LOOK lopsided', () => {
+    // Thermopylae's shape: ~7,000 Greeks against a modern estimate of the
+    // Persian force. `size` alone showed these as near-equal blocks.
+    const units: BattleUnit[] = [
+      { id: 'greeks', side: 'a', label: 'Greeks', strength: 7000, pos: [[0, 0]] },
+      { id: 'persians', side: 'b', label: 'Persians', strength: 150000, pos: [[0, 0]] },
+    ];
+    const f = unitFigures(units, 1);
+    const ratio = f.get('persians')! / f.get('greeks')!;
+    expect(ratio).toBeGreaterThan(10); // the odds are visible, not flattened
+    expect(f.get('greeks')).toBeGreaterThanOrEqual(4); // but the 300 never vanish
+    // The whole field stays bounded however extreme the mismatch.
+    expect(f.get('greeks')! + f.get('persians')!).toBeLessThan(400);
+  });
+
+  it('without strengths, nothing changes — the old size-only look holds', () => {
+    const units: BattleUnit[] = [
+      { id: 'a1', side: 'a', label: 'Foot', size: 1.2, pos: [[0, 0]] },
+      { id: 'b1', side: 'b', label: 'Horse', shape: 'cavalry', pos: [[0, 0]] },
+    ];
+    const f = unitFigures(units, 1);
+    expect(f.get('a1')).toBe(figureCount('block', 1.2, 1));
+    expect(f.get('b1')).toBe(figureCount('cavalry', 1, 1));
+  });
+
+  it('helmets follow the century when a unit does not name its own', () => {
+    expect(headgearForYear(-480)).toBe('crest'); // Thermopylae
+    expect(headgearForYear(-31)).toBe('roman'); // Actium
+    expect(headgearForYear(1066)).toBe('conical'); // Hastings
+    expect(headgearForYear(1415)).toBe('greathelm'); // Agincourt
+    expect(headgearForYear(1815)).toBe('shako'); // Waterloo
+    expect(headgearForYear(1944)).toBe('dish'); // D-Day
   });
 
   it('the loser thins roughly twice as fast; severity makes it bloodier', () => {
