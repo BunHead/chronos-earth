@@ -176,6 +176,32 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
 .app-menu-emoji { font-size: 18px; }
 .app-menu-arrow { margin-left: auto; color: var(--text-dim); }
 .app-menu-item.back { color: var(--text-dim); font-size: 12px; }
+/* A layer row and its fold arrow share one line — the checkbox label keeps all
+   the clickable width it had, the arrow sits at the end. */
+.layer-row-line { display: flex; align-items: center; gap: 2px; }
+.layer-row-line > .layer-row { flex: 1; min-width: 0; }
+.layer-fold {
+  flex: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--text-dim);
+  border-radius: 4px;
+}
+.layer-fold:hover { color: var(--text); background: rgba(255, 255, 255, 0.07); }
+/* How many events are actually of this kind. Tabular so the column of numbers
+   lines up, dim so it informs without competing with the label. */
+.layer-count {
+  float: right;
+  margin-left: 8px;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
 .app-menu-note { padding: 6px 10px; font-size: 11px; color: var(--text-dim); }
 /* Section label in the ⋯ menu — separates the tools everyone gets from the
    maker's tools. Quiet by design: it is a signpost, not an item to click. */

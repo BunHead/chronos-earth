@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { startDrag } from '../lib/windowDrag';
+import { SUB_LAYERS } from '../lib/subLayers';
 
 interface LayersPanelProps {
   showSites: boolean;
@@ -28,6 +29,12 @@ interface LayersPanelProps {
   onToggleSeaLevel: (value: boolean) => void;
   showRivers: boolean;
   onToggleRivers: (value: boolean) => void;
+  /** Sub-kinds switched OFF (see lib/subLayers — opt-out, so anything the
+   * classifier doesn't recognise stays visible). */
+  offSubs: ReadonlySet<string>;
+  onToggleSub: (kind: string, on: boolean) => void;
+  /** How many loaded events fall into each sub-kind, shown beside its row. */
+  subCounts: Record<string, number>;
 }
 
 /** One switchable layer. `sub` is a dependent child row (flags live inside
@@ -85,7 +92,13 @@ export default function LayersPanel({
   onToggleSeaLevel,
   showRivers,
   onToggleRivers,
+  offSubs,
+  onToggleSub,
+  subCounts,
 }: LayersPanelProps) {
+  // Which layers have their sub-list unfolded. Folded by default: the panel
+  // must stay a glance, not a wall of forty checkboxes.
+  const [openSubs, setOpenSubs] = useState<Record<string, boolean>>({});
   // Collapsible, and folded by default for a clean view of the planet.
   const [open, setOpen] = useState(false);
   // Draggable by its title bar — a real drag swallows the collapse-click.
@@ -93,23 +106,23 @@ export default function LayersPanel({
 
   // Declared in any order — sorted by label just below.
   const rows: LayerRow[] = [
-    { label: 'Cities & places', emoji: '🏙️', on: showCities, set: onToggleCities },
-    { label: 'Ice Ages (seas & ice)', emoji: '🧊', on: showSeaLevel, set: onToggleSeaLevel },
-    { label: 'Natural disasters', emoji: '🌋', on: showDisasters, set: onToggleDisasters },
-    { label: 'Notable people', emoji: '👤', on: showPeople, set: onTogglePeople },
+    { label: 'Cities & Places', emoji: '🏙️', on: showCities, set: onToggleCities },
+    { label: 'Ice Ages (Seas & Ice)', emoji: '🧊', on: showSeaLevel, set: onToggleSeaLevel },
+    { label: 'Natural Disasters', emoji: '🌋', on: showDisasters, set: onToggleDisasters },
+    { label: 'Notable People', emoji: '👤', on: showPeople, set: onTogglePeople },
     {
-      label: 'Political borders',
+      label: 'Political Borders',
       on: showBorders,
       set: onToggleBorders,
-      sub: { label: '⚑ flags inside borders', on: showFlags, set: onToggleFlags },
+      sub: { label: '⚑ Flags Inside Borders', on: showFlags, set: onToggleFlags },
     },
-    { label: 'Prehistoric life', emoji: '🦕', on: showFauna, set: onToggleFauna },
-    { label: 'Science & discoveries', emoji: '🔬', on: showScience, set: onToggleScience },
-    { label: 'Shifting rivers', emoji: '🏞️', on: showRivers, set: onToggleRivers },
-    { label: 'Sites & monuments', emoji: '🏛️', on: showSites, set: onToggleSites },
-    { label: 'Treaties & events', emoji: '📜', on: showEvents, set: onToggleEvents },
-    { label: 'War front lines', emoji: '🚩', on: showCampaigns, set: onToggleCampaigns },
-    { label: 'Wars & battles', emoji: '⚔️', on: showBattles, set: onToggleBattles },
+    { label: 'Prehistoric Life', emoji: '🦕', on: showFauna, set: onToggleFauna },
+    { label: 'Science & Discoveries', emoji: '🔬', on: showScience, set: onToggleScience },
+    { label: 'Shifting Rivers', emoji: '🏞️', on: showRivers, set: onToggleRivers },
+    { label: 'Sites & Monuments', emoji: '🏛️', on: showSites, set: onToggleSites },
+    { label: 'Treaties & Events', emoji: '📜', on: showEvents, set: onToggleEvents },
+    { label: 'War Front Lines', emoji: '🚩', on: showCampaigns, set: onToggleCampaigns },
+    { label: 'Wars & Battles', emoji: '⚔️', on: showBattles, set: onToggleBattles },
   ].sort((a, b) => a.label.localeCompare(b.label, 'en'));
 
   // The master "All layers" switch — turns every layer on or off at once.
@@ -149,27 +162,67 @@ export default function LayersPanel({
         <>
       <label className="layer-row layer-all">
         <input ref={allRef} type="checkbox" checked={allOn} onChange={(e) => setAll(e.target.checked)} />
-        <span>All layers</span>
+        <span>All Layers</span>
       </label>
-      {rows.map((r) => (
+      {rows.map((r) => {
+        const kinds = SUB_LAYERS[r.label] ?? [];
+        const hasSubs = kinds.length > 0 || !!r.sub;
+        const unfolded = !!openSubs[r.label];
+        return (
         <div key={r.label}>
-          <label className="layer-row">
-            <input type="checkbox" checked={r.on} onChange={(e) => r.set(e.target.checked)} />
-            <span>{r.emoji ? `${r.emoji} ${r.label}` : r.label}</span>
-          </label>
-          {r.sub && (
-            <label className="layer-row sub">
-              <input
-                type="checkbox"
-                checked={r.sub.on}
-                disabled={!r.on}
-                onChange={(e) => r.sub!.set(e.target.checked)}
-              />
-              <span>↳ {r.sub.label}</span>
+          <div className="layer-row-line">
+            <label className="layer-row">
+              <input type="checkbox" checked={r.on} onChange={(e) => r.set(e.target.checked)} />
+              <span>{r.emoji ? `${r.emoji} ${r.label}` : r.label}</span>
             </label>
+            {hasSubs && (
+              <button
+                className="layer-fold"
+                aria-expanded={unfolded}
+                aria-label={`${unfolded ? 'Hide' : 'Show'} the kinds inside ${r.label}`}
+                title={unfolded ? 'Hide the kinds inside' : 'Show the kinds inside'}
+                onClick={() => setOpenSubs((o) => ({ ...o, [r.label]: !o[r.label] }))}
+              >
+                {unfolded ? '▾' : '▸'}
+              </button>
+            )}
+          </div>
+          {hasSubs && unfolded && (
+            <>
+              {/* The hand-built dependent child (flags inside borders). */}
+              {r.sub && (
+                <label className="layer-row sub">
+                  <input
+                    type="checkbox"
+                    checked={r.sub.on}
+                    disabled={!r.on}
+                    onChange={(e) => r.sub!.set(e.target.checked)}
+                  />
+                  <span>↳ {r.sub.label}</span>
+                </label>
+              )}
+              {/* Data-derived kinds. A count of 0 is left showing rather than
+                  hidden: "Plagues 0" tells the visitor the app looked and found
+                  none, where a missing row would suggest it never looks. */}
+              {kinds.map((k) => (
+                <label className="layer-row sub" key={k.kind}>
+                  <input
+                    type="checkbox"
+                    checked={!offSubs.has(k.kind)}
+                    disabled={!r.on}
+                    onChange={(e) => onToggleSub(k.kind, e.target.checked)}
+                  />
+                  <span>
+                    ↳ {k.emoji} {k.label}
+                    <span className="layer-count">{subCounts[k.kind] ?? 0}</span>
+                  </span>
+                </label>
+              ))}
+            </>
           )}
         </div>
-      ))}
+        );
+      })}
         </>
       )}
     </div>

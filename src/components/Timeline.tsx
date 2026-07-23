@@ -17,6 +17,7 @@ import {
 import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
 import { ELSEWHERE, laneRegionFor } from '../lib/laneRegions';
+import { eventPasses } from '../lib/subLayers';
 
 interface TimelineProps {
   yearsBP: number;
@@ -34,6 +35,8 @@ interface TimelineProps {
   fauna: Fauna[];
   /** Event categories currently enabled in the Layers panel (mural filter). */
   enabledEventCats: Set<string>;
+  /** Sub-kinds switched off inside a layer (lib/subLayers). */
+  offSubs: ReadonlySet<string>;
   /** Whether the prehistoric-life layer is on (filters fauna out of the mural). */
   showFauna: boolean;
   /** The patch of Earth the globe camera is looking at (null = whole world).
@@ -306,6 +309,7 @@ export default function Timeline({
   events,
   fauna,
   enabledEventCats,
+  offSubs,
   showFauna,
   region,
   onSelect,
@@ -456,7 +460,7 @@ export default function Timeline({
   const eventItems = useMemo<MuralSource[]>(
     () =>
       events
-        .filter((e) => enabledEventCats.has(e.category))
+        .filter((e) => eventPasses(e, enabledEventCats, offSubs))
         .map((e) => ({
           id: 'e-' + e.id,
           title: e.name,
@@ -471,7 +475,7 @@ export default function Timeline({
           color: CAT_COLOR[e.category] ?? '#cccccc',
           toPanel: () => eventToPanel(e),
         })),
-    [events, enabledEventCats],
+    [events, enabledEventCats, offSubs],
   );
   const faunaItems = useMemo<MuralSource[]>(
     () =>

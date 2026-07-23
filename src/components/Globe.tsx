@@ -23,6 +23,7 @@ import { FaunaController, type FaunaEntry } from './fauna';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
 import { renderTier } from '../lib/renderTier';
+import { eventPasses } from '../lib/subLayers';
 import {
   bindRenderLease,
   unbindRenderLease,
@@ -171,6 +172,8 @@ interface GlobeProps {
   events: TimelineEvent[];
   /** Imported-event categories currently enabled in the Layers panel. */
   enabledEventCats: Set<string>;
+  /** Sub-kinds switched off inside a layer (lib/subLayers). */
+  offSubs: ReadonlySet<string>;
   /** When zoomed into the mural, the exact event ids it's showing (else null). */
   muralEventIds: string[] | null;
   /** A just-picked event whose marker must show even past the declutter caps. */
@@ -201,7 +204,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -1338,7 +1341,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       }
       const inWindow = candidates.filter((ev) => {
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
-        if (!enabledEventCats.has(ev.category)) return false; // category toggled off
+        // Category switch AND the finer sub-kind switches (lib/subLayers).
+        if (!eventPasses(ev, enabledEventCats, offSubs)) return false;
         return inView(ev) && eventVisibleAt(ev, year);
       });
       const byCat = new Map<string, TimelineEvent[]>();
@@ -1395,7 +1399,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       tagged.chronosScale = scale;
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
-  }, [currentYearsBP, enabledEventCats, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById, eventIndex]);
+  }, [currentYearsBP, enabledEventCats, offSubs, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById, eventIndex]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.

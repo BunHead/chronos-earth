@@ -46,6 +46,7 @@ import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
 import { synthesizeBattleView } from './lib/synthBattle';
 import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneState';
+import { countSubKinds } from './lib/subLayers';
 import type {
   AncientSite,
   Battle,
@@ -114,6 +115,34 @@ export default function App() {
   const [showEvents, setShowEvents] = useState(layerStartsOn('events'));
   const [showScience, setShowScience] = useState(layerStartsOn('science'));
   const [showPeople, setShowPeople] = useState(layerStartsOn('people'));
+  // Sub-layer filters — the kinds switched OFF inside a layer (see
+  // lib/subLayers). Opt-out by design: an empty set means "show everything",
+  // so a disaster type the classifier has never met can never be hidden by a
+  // checkbox nobody added. Remembered between visits, like the layer switches.
+  const [offSubs, setOffSubs] = useState<Set<string>>(() => {
+    try {
+      const raw = localStorage.getItem('ce_off_subs');
+      return new Set<string>(raw ? (JSON.parse(raw) as string[]) : []);
+    } catch {
+      return new Set<string>();
+    }
+  });
+  const toggleSub = (kind: string, on: boolean) => {
+    setOffSubs((prev) => {
+      const next = new Set(prev);
+      if (on) next.delete(kind);
+      else next.add(kind);
+      try {
+        localStorage.setItem('ce_off_subs', JSON.stringify([...next]));
+      } catch {
+        /* storage blocked — the choice just won't stick between visits */
+      }
+      return next;
+    });
+  };
+  // Counts shown beside each sub-row, so the panel is honest about what is
+  // actually in the data rather than implying an even spread.
+  const subCounts = useMemo(() => countSubKinds(events), [events]);
   const enabledEventCats = useMemo(() => {
     const s = new Set<string>();
     if (showBattles) s.add('battle');
@@ -712,6 +741,7 @@ export default function App() {
         showRivers={showRivers}
         events={events}
         enabledEventCats={enabledEventCats}
+        offSubs={offSubs}
         muralEventIds={muralEventIds}
         focusEventId={focusEventId}
         onSelect={setPanel}
@@ -836,6 +866,9 @@ export default function App() {
         onToggleSeaLevel={setShowSeaLevel}
         showRivers={showRivers}
         onToggleRivers={setShowRivers}
+        offSubs={offSubs}
+        onToggleSub={toggleSub}
+        subCounts={subCounts}
         showCities={showCities}
         onToggleCities={setShowCities}
         showDisasters={showDisasters}
@@ -1042,6 +1075,7 @@ export default function App() {
         events={events}
         fauna={fauna}
         enabledEventCats={enabledEventCats}
+        offSubs={offSubs}
         showFauna={showFauna}
         region={viewRegion}
         onSelect={setPanel}

@@ -89,33 +89,35 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
               >
                 ❤ Support Chronos Earth
               </a>
-              {/* ── For everyone ──────────────────────────────────────────
+              {/* ── For Everyone ──────────────────────────────────────────
                   Alphabetical by label, ignoring the emoji: About, Compass,
-                  Sea level, Settings, Share, Story tours, Weather & Sky.
-                  Keep it that way when adding an item. */}
-              <div className="app-menu-heading">For everyone</div>
-              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; sources</button>
+                  Sea Level, Share, Sky and Weather, Story Tours. Labels are
+                  Title Case throughout the site (the Captain's house style),
+                  which is also why "Sky and Weather" reads as it does — under
+                  its old name, "Weather & Sky", it sorted to the very bottom.
+                  Keep the order when adding an item. */}
+              <div className="app-menu-heading">For Everyone</div>
+              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; Sources</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleCompass(); }}>
                 🧭 Compass {compassOpen ? '✓' : ''}
               </button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSea(); }}>
-                🌊 Sea level {seaOpen ? '✓' : ''}
+                🌊 Sea Level {seaOpen ? '✓' : ''}
               </button>
-              <button className="app-menu-item" onClick={() => setView('settings')}>⚙️ Settings <span className="app-menu-arrow">›</span></button>
-              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share this moment</button>
-              <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story tours <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share This Moment</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
-                🌤️ Weather &amp; Sky {skyOpen ? '✓' : ''}
+                🌤️ Sky and Weather {skyOpen ? '✓' : ''}
               </button>
-              {/* ── Maker's tools ────────────────────────────────────────
+              <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story Tours <span className="app-menu-arrow">›</span></button>
+              {/* ── Maker's Tools ────────────────────────────────────────
                   Browse every 3D model, and run the automated Wikidata
                   harvester on GitHub. Shown only once maker tools are on
-                  (Settings, above) or a GitHub key has been validated — until
+                  (Settings, below) or a GitHub key has been validated — until
                   then they were on show to every visitor, which is clutter for
                   them and confusion for us. Alphabetical: Model, Run. */}
               {maker && (
                 <>
-                  <div className="app-menu-heading">Maker&rsquo;s tools</div>
+                  <div className="app-menu-heading">Maker&rsquo;s Tools</div>
                   <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
                     🛠️ Model Workshop
                   </a>
@@ -126,10 +128,18 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                     rel="noreferrer"
                     onClick={close}
                   >
-                    🚜 Run the data harvester
+                    🚜 Run the Data Harvester
                   </a>
                 </>
               )}
+              {/* ── Settings ─────────────────────────────────────────────
+                  Last, in its own section: it is where you go to change how
+                  the app behaves, not one of the things the app does. It stays
+                  visible to everyone — the maker switch lives inside it, so
+                  hiding it behind the maker gate would lock the door and post
+                  the key through it. */}
+              <div className="app-menu-heading">Settings</div>
+              <button className="app-menu-item" onClick={() => setView('settings')}>⚙️ Settings &amp; Preferences <span className="app-menu-arrow">›</span></button>
             </>
           )}
           {view === 'tours' && (
@@ -149,7 +159,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
               <button className="app-menu-item back" onClick={() => setView('root')}>‹ Back</button>
               <label className="app-menu-item toggle">
                 <input type="checkbox" checked={reduceMotion} onChange={(e) => onReduceMotion(e.target.checked)} />
-                <span>Reduce motion</span>
+                <span>Reduce Motion</span>
               </label>
               <label className="app-menu-item toggle">
                 <input
@@ -157,7 +167,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   checked={gpuBorderCache}
                   onChange={(e) => onGpuBorderCache(e.target.checked)}
                 />
-                <span>🗺️ Fast time travel</span>
+                <span>🗺️ Fast Time Travel</span>
               </label>
               <div className="app-menu-note">
                 Keeps more historical maps — borders and drifting continents —
@@ -165,7 +175,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 instant. Turn it off on an older machine if the globe stutters.
               </div>
               <label className="app-menu-item slider">
-                <span>⚔️ Army size</span>
+                <span>⚔️ Army Size</span>
                 <input
                   type="range"
                   min={DENSITY_MIN}
@@ -173,7 +183,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   step={0.05}
                   value={figureDensity}
                   onChange={(e) => onFigureDensity(parseFloat(e.target.value))}
-                  aria-label="Army size"
+                  aria-label="Army Size"
                 />
                 <span className="app-menu-slider-value">{Math.round(figureDensity * 100)}%</span>
               </label>
@@ -188,7 +198,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   defaultChecked={getLocalMaker()}
                   onChange={(e) => { setLocalMaker(e.target.checked); location.reload(); }}
                 />
-                <span>🔧 Maker tools (this device)</span>
+                <span>🔧 Maker Tools (This Device)</span>
               </label>
               <div className="app-menu-note">
                 Maker tools let you move, turn, scale and lift monuments on the globe. Saved on this
