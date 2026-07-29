@@ -24,6 +24,7 @@ import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from '.
 import { fetchNearbyHistory } from '../lib/liveFetch';
 import { renderTier } from '../lib/renderTier';
 import { eventPasses } from '../lib/subLayers';
+import type { CameraState } from '../lib/sceneState';
 import {
   bindRenderLease,
   unbindRenderLease,
@@ -138,6 +139,8 @@ export interface GlobeHandle {
   stopEclipse: () => void;
   /** Compass: current camera heading in degrees, and a swing back to north. */
   getHeading: () => number;
+  /** Read the current view (position + heading + pitch) for a share link. */
+  getCamera: () => CameraState | null;
   resetNorth: () => void;
   /** Sea level frame: manual sea in metres vs today (null = engine off). */
   setManualSea: (seaM: number | null) => void;
@@ -189,6 +192,9 @@ interface GlobeProps {
   /** Reports the patch of Earth in view once zoomed toward a region (null at
    * orbit) — the timeline uses it to tell that region's own story. */
   onViewRegion: (rect: { w: number; s: number; e: number; n: number } | null) => void;
+  /** From a shared "this moment" link: where to point the camera on load,
+   * instead of the default whole-globe home view. */
+  initialCamera?: CameraState | null;
 }
 
 /** Diving below this camera height (m) over a marker opens its 3D scene.
@@ -204,7 +210,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, initialCamera },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -486,6 +492,21 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     return viewer && !viewer.isDestroyed() ? Cesium.Math.toDegrees(viewer.camera.heading) : 0;
   };
 
+  /** Read the current view for a "share this moment" link (null if no viewer). */
+  const getCamera = (): CameraState | null => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return null;
+    const cam = viewer.camera;
+    const carto = cam.positionCartographic;
+    return {
+      lon: Cesium.Math.toDegrees(carto.longitude),
+      lat: Cesium.Math.toDegrees(carto.latitude),
+      height: carto.height,
+      heading: Cesium.Math.toDegrees(cam.heading),
+      pitch: Cesium.Math.toDegrees(cam.pitch),
+    };
+  };
+
   const resetNorth = () => {
     const viewer = viewerRef.current;
     if (!viewer || viewer.isDestroyed() || cameraLockedRef.current) return;
@@ -569,7 +590,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     paleoRef.current?.setGpuCache(on);
   };
 
-  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache, setEclipseShadow, eclipseObscurationHere, playEclipse, stopEclipse }));
+  useImperativeHandle(ref, () => ({ flyTo, flyToMonument, setSunTime, setSunLighting, getHeading, getCamera, resetNorth, setManualSea, captureFrame, rebuildDossier, setGpuBorderCache, setEclipseShadow, eclipseObscurationHere, playEclipse, stopEclipse }));
 
   // --- Create the viewer once. -------------------------------------------
   useEffect(() => {
@@ -752,10 +773,27 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       w.__paleo = paleoRef.current;
     }
 
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(10, 25, 24_000_000),
-      duration: 0,
-    });
+    if (initialCamera) {
+      // A shared "this moment" link: drop straight to the saved view (instant,
+      // no swoop — the year and layers are already being restored too).
+      viewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(
+          initialCamera.lon,
+          initialCamera.lat,
+          initialCamera.height,
+        ),
+        orientation: {
+          heading: Cesium.Math.toRadians(initialCamera.heading),
+          pitch: Cesium.Math.toRadians(initialCamera.pitch),
+          roll: 0,
+        },
+      });
+    } else {
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(10, 25, 24_000_000),
+        duration: 0,
+      });
+    }
 
     // Descending reveals more history: watch the camera height and bucket it
     // into tiers that widen the event caps. Polled — Cesium's camera.changed

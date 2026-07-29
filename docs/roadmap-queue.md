@@ -395,11 +395,23 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   it, so the post should be pasted before Friday; the routine then resumes its
   normal cadence. Docs-only; tsc/vitest unaffected.
 
-- [ ] **L5. "Share this moment" deep links.**
-  Growth loop: a small share button that copies a URL restoring the current
-  view (year + camera/site), using existing URL-param machinery if present,
-  else add minimal `?year=`/`?site=` handling. Verify a round-trip live. Done
-  when copy-link + restore land, tests green.
+- [x] **L5. "Share this moment" deep links.** _(done 2026-07-29)_
+  Landing note: the URL-param machinery already existed (`src/lib/sceneState.ts`
+  + a `🔗 Share This Moment` menu item + `shareScene()` copying a
+  `buildSceneUrl`), but it only carried WHEN (`time`/`zoom`/`layers`) — a shared
+  link reopened at the right year but back in orbit. Added the missing half:
+  WHERE. New `CameraState` + a compact `cam=lon,lat,height,heading,pitch` param
+  (trimmed to ~1 m / 0.1°), rejected outright if corrupt or out of range rather
+  than flying to nowhere. `Globe` gained `getCamera()` on its handle (reads
+  `camera.positionCartographic` + heading/pitch) and an `initialCamera` prop
+  that `setView`s straight to the saved view on load — instant, no swoop, since
+  the year and layers are being restored in the same beat. `shareScene()` now
+  includes the live camera; `App` passes `initialScene.camera` to the globe.
+  Verified LIVE end-to-end: parked the camera over Stonehenge, clicked Share —
+  the copied URL carried time+zoom+layers+a 5-field cam matching the view; then
+  opened such a link cold and the camera restored to all five values exactly
+  (lon/lat/height/heading/pitch). 6 sceneState tests (round-trip, corrupt-cam
+  rejection, no-cam default), 312 total green.
 
 ---
 

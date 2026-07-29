@@ -420,6 +420,9 @@ export default function App() {
       yearsBP,
       zoomIdx,
       layers: enabledLayerKeys(),
+      // Restore WHERE you're looking, not just WHEN — so a link to a battle
+      // seen from 300 m up reopens at 300 m over that field, not in orbit.
+      camera: globeRef.current?.getCamera() ?? null,
     });
     try {
       await navigator.clipboard.writeText(url);
@@ -751,6 +754,7 @@ export default function App() {
           setYearsBP(bp);
         }}
         onViewRegion={setViewRegion}
+        initialCamera={initialScene.camera}
         onDive={(t) => {
           // The dive: zooming right down onto a marker — make sure the
           // monument is standing there on the globe when you arrive.
