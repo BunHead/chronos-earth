@@ -291,6 +291,69 @@ is dirty at the start, stop and do nothing.
   - Done when: shadow sweep + play-through + totality-at-site land, verified,
     tests green.
 
+---
+
+## 🚀 LAUNCH QUEUE — distribution before decoration (inserted 2026-07-29, Captain's call)
+
+**Standing order from the Captain, relayed by the cloud session:** the site is
+excellent and nobody knows it exists. Both Patreons are live (ChronosEarth: 0
+posts, ~0 patrons; IRLid: 15 posts, 1 member) — the bottleneck is TRAFFIC, not
+features. Until every L-item below is ticked, **no session may take an
+engineering item** (items 10–12 wait). Same iron laws apply: zero running cost,
+tests green, verify before committing, one item per run, stop on a dirty tree.
+
+- [ ] **L1. Wire the ❤ Support link + ship's manifest.**
+  The live site has NO route to the Patreon. Add a tasteful "❤ Support" link in
+  BOTH the About panel and the ⋯ menu → `https://www.patreon.com/cw/ChronosEarth`
+  (launch-kit step 10, still unwired). Build the **ship's manifest**: a
+  supporters scroll inside the app (About panel section or its own small panel)
+  reading `public/data/supporters.json` — plain data file, zero cost; first 20
+  names carry a founding star ⭐ per the kit. Seed the file with an empty list +
+  a comment telling the Captain how to add a name. Verify live from both entry
+  points. Done when link + manifest land, tests green.
+
+- [ ] **L2. Rich link previews (OG/social cards).**
+  Every future share is a first impression. Add `og:title`, `og:description`,
+  `og:image`, `twitter:card` meta to `index.html`; bake a 1200×630 `og-image`
+  at build from existing render assets (self-hosted, no CDN). Sensible
+  title/description ("250 million years of history on a living globe — free,
+  no ads, no accounts"). Verify: meta present in built `dist/index.html`, image
+  resolves. Done when cards land, tests green.
+
+- [ ] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.**
+  **Constraint (2026-07-29): the Captain's HN and Reddit accounts cannot post
+  (known from IRLid launch history — do NOT draft primary posts for those).**
+  Write `docs/launch/launch-posts.md` for channels open to him:
+  (a) a **Bluesky/X thread** (6–8 posts, each pairing one money-shot with one
+  line); (b) a **Product Hunt** listing draft (tagline, description, first
+  comment); (c) short pitch **emails to newsletter curators** — Hacker
+  Newsletter, Web Curios, Dense Discovery, Recomendo — two sentences + link,
+  personalised per outlet; (d) the **education angle**: posts for
+  history-teacher communities (TES forum, teacher Facebook groups,
+  homeschool groups) pitching it as a free classroom tool; (e) outreach notes
+  to 5 named **history YouTubers/streamers** whose audience fits; (f) a short
+  "would you share this?" note a FRIEND could post to HN/Reddit on his behalf —
+  honest, first-person-friend voice, no astroturfing.
+  Plus the 30-second screen-capture SHOT LIST for a demo GIF (Pangea → today
+  scrub, ocean-drain land-bridges, Stonehenge rising, eclipse shadow sweep) —
+  the same GIF serves every channel. One channel per day, UK evening. Done when
+  the file lands; sending is the Captain's (see his list).
+
+- [ ] **L4. First Patreon post + page sync.**
+  The ChronosEarth Patreon currently shows **0 posts**. Write
+  `docs/patreon/next-post.md` NOW with the launch kit's "First post" (adapted to
+  present tense), plus a short checklist of page fixes vs the kit (tier copy
+  drift, welcome note, About). The Friday `patreon-dispatch-draft` routine
+  resumes its normal cadence afterwards. Done when the file lands.
+
+- [ ] **L5. "Share this moment" deep links.**
+  Growth loop: a small share button that copies a URL restoring the current
+  view (year + camera/site), using existing URL-param machinery if present,
+  else add minimal `?year=`/`?site=` handling. Verify a round-trip live. Done
+  when copy-link + restore land, tests green.
+
+---
+
 - [ ] **10. Audience skins (exclusion lifted 2026-07-17).**
   Three reading modes — Explorer (default, current voice), Scholar (denser:
   dates/sources up front, no emoji), Casual/Kid (shorter sentences, friendlier
@@ -349,6 +412,19 @@ is dirty at the start, stop and do nothing.
 
 ## Captain's own 5-minute list (things only he can do)
 
+**Do these in order — each unblocks the fleet or puts the work in front of humans:**
+
+- [ ] **Commit this queue update.** The cloud session edited this file but the
+      device bridge can't run git. Open a session here (or GitHub Desktop) and
+      commit: `[no1] Launch queue L1–L5: distribution before decoration`.
+      Until committed the sweep sees a dirty tree and no-ops.
+- [ ] **Publish the first Patreon post** — paste the "First post" section from
+      `docs/patreon/launch-kit.md` to patreon.com/cw/ChronosEarth (page shows
+      0 posts; a bare page converts nobody). ~5 minutes.
+- [ ] **When L3 lands:** work through `docs/launch/launch-posts.md` — one
+      channel per day, UK evening (Bluesky/X thread, Product Hunt, newsletter
+      emails, teacher groups). This is the single highest-leverage 15 minutes
+      a day in the whole queue.
 - [ ] Patreon tier edits to mirror the kit: the £3 dev-log line → "dispatches
       as they land" (no cadence promised), and the founding-star line (the
       first 20 aboard wear the star forever).
