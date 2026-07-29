@@ -338,10 +338,30 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   absolute image URL, and `dist/og-image.jpg` resolves. Card viewed and correct
   (Africa/Europe/Atlantic upright and in place). 310 tests green.
 
-- [ ] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.**
-  **Constraint (2026-07-29): the Captain's HN and Reddit accounts cannot post
-  (known from IRLid launch history — do NOT draft primary posts for those).**
-  Write `docs/launch/launch-posts.md` for channels open to him:
+- [x] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.** _(done 2026-07-29)_
+  Landing note: `docs/launch/launch-posts.md` written, matching the launch-kit's
+  established voice (nautical, honesty-first, "free forever", the one-person +
+  AI-crew story) and the confirmed URLs (app + `/cw/` Patreon). Covers every
+  channel open to him: (0) the shared 30-second demo-GIF **shot list**
+  (Pangea→today, ocean-drain land bridges, Stonehenge rising, a battle, the
+  eclipse sweep — recorded once, reused everywhere); (a) an 8-post **Bluesky/X
+  thread**, each post paired with a named money-shot; (b) a **Product Hunt**
+  listing (tagline, description, maker's first comment); (c) four **newsletter
+  curator** emails, personalised — Hacker Newsletter (the honest backdoor to the
+  HN crowd he can't post to), Web Curios, Dense Discovery, Recomendo; (d) the
+  **education angle** for TES / teacher FB / homeschool groups, led with
+  "free, no logins, browser-only = classroom-safe"; (e) outreach to **5 named
+  history YouTubers** chosen for genuine audience fit, each with a channel-
+  specific hook (Ollie Bye, Kings and Generals, Atlas Pro, Stefan Milo,
+  Miniminuteman — the last for the honest-flagging-of-pseudoarchaeology angle);
+  (f) a **friend's HN/Reddit post** in an honest first-person-friend voice with
+  a Show HN title, first comment and best-fit subreddits — explicitly no
+  astroturf. The honesty angle ("a free thing that tells you what it doesn't
+  know") is the lead hook throughout, not hype. Docs-only: no code touched, tsc
+  and vitest unaffected. Sending is the Captain's (his list already points here).
+  _Constraint honoured: the Captain's HN and Reddit accounts cannot post — no
+  primary posts for those were drafted; only the friend-relay path (f)._
+  _Original spec follows:_ Write `docs/launch/launch-posts.md` for channels open to him:
   (a) a **Bluesky/X thread** (6–8 posts, each pairing one money-shot with one
   line); (b) a **Product Hunt** listing draft (tagline, description, first
   comment); (c) short pitch **emails to newsletter curators** — Hacker
