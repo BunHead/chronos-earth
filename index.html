@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Chronos Earth — explore 250 million years of Earth and human history on an interactive 3D globe." />
+    <!-- Rich link previews (Open Graph + Twitter). Every share is a first
+         impression, so the card is a real orthographic globe from the app's own
+         Natural Earth imagery (baked by scripts/build-og-image.mjs).
+         NOTE: og:image and og:url MUST be ABSOLUTE — social scrapers do not
+         resolve the app's relative `base: './'` paths — so these hard-code the
+         GitHub Pages origin. If the site ever moves, update these three lines. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chronos Earth" />
+    <meta property="og:title" content="Chronos Earth — a living globe of 250 million years of history" />
+    <meta property="og:description" content="Drag one timeline across 250 million years and watch the world change — continents drift, empires rise and fall, monuments rise, eclipses sweep the Earth. Free. No ads. No accounts." />
+    <meta property="og:url" content="https://bunhead.github.io/chronos-earth/" />
+    <meta property="og:image" content="https://bunhead.github.io/chronos-earth/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="An orthographic globe showing Africa, Europe and the Atlantic, beside the title Chronos Earth and the tagline 250 million years of history on one living globe." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chronos Earth — a living globe of 250 million years of history" />
+    <meta name="twitter:description" content="Drag one timeline across 250 million years and watch the world change. Free, no ads, no accounts." />
+    <meta name="twitter:image" content="https://bunhead.github.io/chronos-earth/og-image.jpg" />
     <!-- The globe layers sharp Esri satellite tiles from this host the moment it
          mounts, so open the TCP/TLS connection early to shave the handshake off
          the first tiles. -->

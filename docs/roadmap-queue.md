@@ -318,13 +318,25 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   menu link and About button both now resolve to `/cw/ChronosEarth`, the
   manifest heading renders, and the empty-state message shows. 310 tests green.
 
-- [ ] **L2. Rich link previews (OG/social cards).**
-  Every future share is a first impression. Add `og:title`, `og:description`,
-  `og:image`, `twitter:card` meta to `index.html`; bake a 1200×630 `og-image`
-  at build from existing render assets (self-hosted, no CDN). Sensible
-  title/description ("250 million years of history on a living globe — free,
-  no ads, no accounts"). Verify: meta present in built `dist/index.html`, image
-  resolves. Done when cards land, tests green.
+- [x] **L2. Rich link previews (OG/social cards).** _(done 2026-07-29)_
+  Landing note: full Open Graph + Twitter-card meta added to `index.html`
+  (og:type/site_name/title/description/url/image + image:width/height/alt,
+  twitter:summary_large_image). The **card** (`public/og-image.jpg`, 1200×630,
+  ~115 KB) is a REAL orthographic globe drawn from the app's own Natural Earth
+  II imagery (Cesium's bundled TMS tiles, level 2 → 2048×1024 equirectangular,
+  orthographically projected with limb-darkening + atmosphere rim), composited
+  with the title, tagline and the signature era-gradient timeline bar — not a
+  mock. Baked by `scripts/build-og-image.mjs`: a **2D-canvas** render (NOT a
+  headless-WebGL screenshot of the live globe — a hidden tab throttles Cesium's
+  render loop per the item-9 note, so that would be fragile), captured with
+  puppeteer at exactly 1200×630. The tiles are sampled same-origin from the dev
+  server so the canvas stays untainted. The script is standalone and NOT in the
+  CI build — the committed JPG ships; a puppeteer step must never break a
+  deploy. KEY GOTCHA: `og:image`/`og:url` are ABSOLUTE (hard-code the Pages
+  origin) because scrapers don't resolve the app's relative `base: './'` paths.
+  Verified: `npm run build` → `dist/index.html` carries all the tags and the
+  absolute image URL, and `dist/og-image.jpg` resolves. Card viewed and correct
+  (Africa/Europe/Atlantic upright and in place). 310 tests green.
 
 - [ ] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.**
   **Constraint (2026-07-29): the Captain's HN and Reddit accounts cannot post
