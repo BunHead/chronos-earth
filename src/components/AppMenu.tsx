@@ -82,7 +82,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
             <>
               <a
                 className="app-menu-item app-menu-support"
-                href="https://www.patreon.com/c/ChronosEarth"
+                href="https://www.patreon.com/cw/ChronosEarth"
                 target="_blank"
                 rel="noreferrer"
                 onClick={close}

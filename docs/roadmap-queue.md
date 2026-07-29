@@ -302,15 +302,21 @@ features. Until every L-item below is ticked, **no session may take an
 engineering item** (items 10–12 wait). Same iron laws apply: zero running cost,
 tests green, verify before committing, one item per run, stop on a dirty tree.
 
-- [ ] **L1. Wire the ❤ Support link + ship's manifest.**
-  The live site has NO route to the Patreon. Add a tasteful "❤ Support" link in
-  BOTH the About panel and the ⋯ menu → `https://www.patreon.com/cw/ChronosEarth`
-  (launch-kit step 10, still unwired). Build the **ship's manifest**: a
-  supporters scroll inside the app (About panel section or its own small panel)
-  reading `public/data/supporters.json` — plain data file, zero cost; first 20
-  names carry a founding star ⭐ per the kit. Seed the file with an empty list +
-  a comment telling the Captain how to add a name. Verify live from both entry
-  points. Done when link + manifest land, tests green.
+- [x] **L1. Wire the ❤ Support link + ship's manifest.** _(done 2026-07-29)_
+  Landing note: the components already existed from the cloud session — the ⋯
+  menu's `❤ Support Chronos Earth` link, the About panel's `❤ Support on Patreon`
+  button, and the **ship's manifest** (About reads `public/data/supporters.json`
+  with a cache-buster, falls back to empty gracefully, and renders the roll with
+  a founding star ⭐ on the first 20; the empty state reads "the first berth is
+  empty — be the first name aboard"). `supporters.json` is seeded with an empty
+  `patrons: []` and a note telling the Captain how to add a name (display names
+  only, order = order joined). What was actually WRONG and is the substance of
+  this commit: both links pointed at the old `patreon.com/**c**/ChronosEarth`
+  form, not the canonical `patreon.com/**cw**/ChronosEarth` the Captain gave.
+  Verified both forms resolve to the live page (so nothing was broken), but
+  standardised on `/cw/` per the Captain. Verified LIVE from both entry points:
+  menu link and About button both now resolve to `/cw/ChronosEarth`, the
+  manifest heading renders, and the empty-state message shows. 310 tests green.
 
 - [ ] **L2. Rich link previews (OG/social cards).**
   Every future share is a first impression. Add `og:title`, `og:description`,

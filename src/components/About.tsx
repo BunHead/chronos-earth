@@ -49,7 +49,7 @@ export default function About({ onClose }: AboutProps) {
             </p>
             <a
               className="support-btn"
-              href="https://www.patreon.com/c/ChronosEarth"
+              href="https://www.patreon.com/cw/ChronosEarth"
               target="_blank"
               rel="noopener noreferrer"
             >
