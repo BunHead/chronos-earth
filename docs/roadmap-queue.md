@@ -377,12 +377,23 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the same GIF serves every channel. One channel per day, UK evening. Done when
   the file lands; sending is the Captain's (see his list).
 
-- [ ] **L4. First Patreon post + page sync.**
-  The ChronosEarth Patreon currently shows **0 posts**. Write
-  `docs/patreon/next-post.md` NOW with the launch kit's "First post" (adapted to
-  present tense), plus a short checklist of page fixes vs the kit (tier copy
-  drift, welcome note, About). The Friday `patreon-dispatch-draft` routine
-  resumes its normal cadence afterwards. Done when the file lands.
+- [x] **L4. First Patreon post + page sync.** _(done 2026-07-29)_
+  Landing note: the "0 posts" premise is already resolved — the Captain
+  published the maiden post ("The maiden voyage of the support ship 🚢", the
+  launch-kit's exact first post) on launch day, confirmed live on the page. So
+  rather than draft a duplicate first post, `docs/patreon/next-post.md` now
+  holds (1) a status note that the maiden post is up, (2) the genuine **second**
+  post — a public launch-week feature spotlight on the eclipse-shadow sweep,
+  honest (claims no patron numbers, since there are none to inflate), with a
+  softer "drain the oceans" alternate, and (3) the **page-sync checklist**. The
+  live tier prices could not be read automatically (Patreon renders them in JS —
+  a scraper sees an empty page), so the checklist is a compare-against-the-kit
+  list with the suspected drifts flagged: the £3-vs-£3.50 entry-tier price, the
+  "dispatches as they land" cadence wording, the founding-star line (now backed
+  by the app's real manifest from L1), the welcome note and About. The file is
+  headed with a note that the Friday `patreon-dispatch-draft` routine overwrites
+  it, so the post should be pasted before Friday; the routine then resumes its
+  normal cadence. Docs-only; tsc/vitest unaffected.
 
 - [ ] **L5. "Share this moment" deep links.**
   Growth loop: a small share button that copies a URL restoring the current
