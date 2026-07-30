@@ -338,29 +338,43 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   absolute image URL, and `dist/og-image.jpg` resolves. Card viewed and correct
   (Africa/Europe/Atlantic upright and in place). 310 tests green.
 
-- [x] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.** _(done 2026-07-29)_
-  Landing note: `docs/launch/launch-posts.md` written, matching the launch-kit's
-  established voice (nautical, honesty-first, "free forever", the one-person +
-  AI-crew story) and the confirmed URLs (app + `/cw/` Patreon). Covers every
-  channel open to him: (0) the shared 30-second demo-GIF **shot list**
-  (Pangea→today, ocean-drain land bridges, Stonehenge rising, a battle, the
-  eclipse sweep — recorded once, reused everywhere); (a) an 8-post **Bluesky/X
-  thread**, each post paired with a named money-shot; (b) a **Product Hunt**
-  listing (tagline, description, maker's first comment); (c) four **newsletter
-  curator** emails, personalised — Hacker Newsletter (the honest backdoor to the
-  HN crowd he can't post to), Web Curios, Dense Discovery, Recomendo; (d) the
-  **education angle** for TES / teacher FB / homeschool groups, led with
-  "free, no logins, browser-only = classroom-safe"; (e) outreach to **5 named
-  history YouTubers** chosen for genuine audience fit, each with a channel-
-  specific hook (Ollie Bye, Kings and Generals, Atlas Pro, Stefan Milo,
-  Miniminuteman — the last for the honest-flagging-of-pseudoarchaeology angle);
-  (f) a **friend's HN/Reddit post** in an honest first-person-friend voice with
-  a Show HN title, first comment and best-fit subreddits — explicitly no
-  astroturf. The honesty angle ("a free thing that tells you what it doesn't
-  know") is the lead hook throughout, not hype. Docs-only: no code touched, tsc
-  and vitest unaffected. Sending is the Captain's (his list already points here).
-  _Constraint honoured: the Captain's HN and Reddit accounts cannot post — no
-  primary posts for those were drafted; only the friend-relay path (f)._
+- [x] **L3. Ready-to-paste launch posts — CHANNELS THE CAPTAIN CAN USE.**
+  _(first pass 2026-07-29; **REWRITTEN 2026-07-30** against the Bridge's
+  `WEBSITES/LAUNCH-TARGETS.md`, which did not exist when the first pass shipped)_
+
+  **Why it was rewritten — the first pass was wrong three ways:**
+  1. **Tone, and this one mattered most.** Web Curios's contact page explicitly
+     says *no AI-generated emails — write in your actual, human voice.* The
+     first pass handed the Captain four polished, AI-written email scripts.
+     Pasting them would have breached a curator's stated rule and read as
+     TheKit™ to exactly the people whose goodwill the launch depends on. The
+     curator section is now **notes, not scripts**: the address, why the outlet
+     fits, what to lead with, and a bank of true raw material — and an explicit
+     instruction that HE writes the two or three sentences. No paste-ready
+     curator email survives in the file, deliberately.
+  2. **Wrong targets.** The first pass INVENTED "Hacker Newsletter" as an
+     HN backdoor and missed **Kottke.org** entirely; 3 of its 5 YouTubers
+     (Kings and Generals, Stefan Milo, Miniminuteman) were guesses that the
+     Bridge's verified list does not carry. Now matches the real list: Web
+     Curios (with the real address `matt@webcurios.co.uk`), Kottke, Dense
+     Discovery, Recomendo/Cool Tools; Ollie Bye (flagged best single fit),
+     UsefulCharts, History Matters, toldinstone, Atlas Pro.
+  3. **Missing the operational spine.** No send order, no tracker. Now ends
+     with the Bridge's sequence (Bluesky → Web Curios → Kottke → Product Hunt →
+     Dense Discovery → Recomendo → Ollie Bye → teachers) and points every send
+     at `WEBSITES/OUTREACH-TRACKER.xlsx`.
+
+  Also added: the **Historical Association** (`history.org.uk`) as the strongest
+  teacher route, with the suggestion to offer a "using Chronos Earth in KS2/KS3"
+  write-up rather than a bare link — a contribution, not a promotion. Kept from
+  the first pass (still good, and these are broadcasts rather than personal mail
+  so drafts are legitimate): the 30-second demo-GIF shot list, the 8-post
+  Bluesky/X thread, the Product Hunt listing, and the friend-relay HN/Reddit
+  note. Each of those now carries a "read it aloud; if it isn't something you'd
+  say, change it" instruction.
+  Docs-only: no code touched, tsc and vitest unaffected. Sending is the
+  Captain's. _Constraint honoured throughout: no primary HN/Reddit posts drafted
+  for his own accounts — only the friend-relay path._
   _Original spec follows:_ Write `docs/launch/launch-posts.md` for channels open to him:
   (a) a **Bluesky/X thread** (6–8 posts, each pairing one money-shot with one
   line); (b) a **Product Hunt** listing draft (tagline, description, first
@@ -473,22 +487,32 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
 
 ## Captain's own 5-minute list (things only he can do)
 
-**Do these in order — each unblocks the fleet or puts the work in front of humans:**
+**Do these in order — each unblocks the fleet or puts the work in front of humans.**
+_(Cross-fleet priority — including the income track — lives in `WEBSITES/ORDERS.md`;
+this list is ChronosEarth's part of it.)_
 
-- [ ] **Commit this queue update.** The cloud session edited this file but the
-      device bridge can't run git. Open a session here (or GitHub Desktop) and
-      commit: `[no1] Launch queue L1–L5: distribution before decoration`.
-      Until committed the sweep sees a dirty tree and no-ops.
-- [ ] **Publish the first Patreon post** — paste the "First post" section from
-      `docs/patreon/launch-kit.md` to patreon.com/cw/ChronosEarth (page shows
-      0 posts; a bare page converts nobody). ~5 minutes.
-- [ ] **When L3 lands:** work through `docs/launch/launch-posts.md` — one
-      channel per day, UK evening (Bluesky/X thread, Product Hunt, newsletter
-      emails, teacher groups). This is the single highest-leverage 15 minutes
-      a day in the whole queue.
-- [ ] Patreon tier edits to mirror the kit: the £3 dev-log line → "dispatches
-      as they land" (no cadence promised), and the founding-star line (the
-      first 20 aboard wear the star forever).
+- [x] ~~**Commit this queue update.**~~ Done — `e1f5397`.
+- [x] ~~**Publish the first Patreon post.**~~ Done 29 Jul — "The maiden voyage
+      of the support ship 🚢" is live.
+- [ ] **① RECORD THE 30-SECOND DEMO GIF.** Everything else waits on this — it is
+      the hero image for every single channel. Shot list is at the top of
+      `docs/launch/launch-posts.md` (Pangea→today, drain the oceans, Stonehenge
+      rising, a battle, the eclipse sweep). One take, ~30s, no narration.
+- [ ] **② THEN one channel per evening, UK ~6–8pm**, logging each send in
+      `WEBSITES/OUTREACH-TRACKER.xlsx`. Order (from the Bridge's
+      `WEBSITES/LAUNCH-TARGETS.md`): **Bluesky/X thread → Web Curios → Kottke →
+      Product Hunt → Dense Discovery → Recomendo → Ollie Bye → teacher tier.**
+      This is the highest-leverage 15 minutes a day in the whole queue.
+      ⚠️ **Write the curator emails YOURSELF — two or three sentences, your own
+      voice, typos welcome.** Web Curios explicitly refuses AI-written mail, and
+      the rest can smell it too. `launch-posts.md` deliberately gives you raw
+      material and no paste-ready email for those four. Your own platform posts
+      (Bluesky, Product Hunt) are drafted and fine to use — just read them aloud
+      first and change anything you wouldn't say.
+- [ ] **Founding-star line on the Time Traveller tier** (~2 min, the last
+      outstanding tier edit): the first 20 aboard wear the star forever. The app
+      now really renders it, so the promise is keepable. _(The "dispatches as
+      they land" cadence wording was part of the same review — check it stuck.)_
 - [ ] Approve the workshop gallery backlog (~35 models awaiting the maker key).
 - [ ] Drop the annotated Atlantis water-system map image into the repo (its
       panel slot has been waiting since 2026-07-15).

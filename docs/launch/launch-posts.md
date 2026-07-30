@@ -1,91 +1,220 @@
-# Chronos Earth — launch posts (ready to paste)
+# Chronos Earth — launch words
 
-Everything below is written to paste. **Sending is yours** (accounts, posting) —
-see the Captain's 5-minute list at the bottom of `docs/roadmap-queue.md`.
+Companion to **`WEBSITES/LAUNCH-TARGETS.md`** (who to send to, verified by the
+Bridge 30 Jul 2026). That file is the *targets*; this one is the *words*.
+Log every send in **`WEBSITES/OUTREACH-TRACKER.xlsx`**.
 
 **Two links, used everywhere:**
 - The app: **https://bunhead.github.io/chronos-earth/**
 - Support: **https://www.patreon.com/cw/ChronosEarth**
 
-**Rhythm:** one channel per day, posted **UK early evening (~6–8pm)** — that
-catches UK after-work and US mid-afternoon together. Don't fire them all at
-once; a steady week reads as a launch, a single blast reads as spam. The **same
-30-second demo GIF** (shot list below) is the hero for every channel — make it
-once, reuse it everywhere.
+---
 
-A word on honesty, because it's the whole pitch: never call it finished, never
-say "the best", never hide that it's one person and an AI crew. The hook that
-actually lands with strangers is *"a free thing that's genuinely lovely and
-tells you what it doesn't know"* — lead with that, not with hype.
+## ⚠️ Read this before you send a single email
+
+Web Curios's contact page says it plainly: **no AI-generated emails — write in
+your actual, human voice.** Curators read hundreds of pitches; they can smell a
+kit from the subject line. A polished paragraph from an AI is worse than three
+clumsy sentences from you, because it tells them you couldn't be bothered.
+
+So the curator section below deliberately gives you **no paste-ready email**.
+It gives you the address, why the outlet fits, and a bank of true things to
+draw on. **You write the two or three sentences.** Typos are fine. Your voice
+is the point.
+
+The rule of thumb: *"I spent a year building a free 3D globe of 250 million
+years of history — no ads, no accounts, thought you might enjoy it"* — that is
+a complete, excellent email. Add a link. Send it. Don't gild it.
+
+**Where drafts ARE fine:** your own platform posts (Bluesky/X thread, Product
+Hunt listing) — those are broadcasts, not personal mail, and nobody has asked
+you not to prepare them. Even so, read them aloud first; if a line isn't
+something you'd say, change it.
 
 ---
 
 ## 0. The demo GIF — 30-second shot list (make this first)
 
-One silent screen-capture, ~30s, looped. Record the real app at 1280×720, hide
-nothing — the UI is part of the charm. Any free recorder → export as an
-optimised GIF or a short MP4 (both work; MP4 is smaller on X/Bluesky, GIF is
-safest on forums). Zero cost, no tools to buy.
+Everything else waits on this. One silent screen-capture, ~30s, looped. Record
+the real app at 1280×720; don't hide the UI, it's part of the charm. Export as
+GIF (safest everywhere) or short MP4 (smaller on X/Bluesky). Zero cost.
 
 | Time | Shot | How |
 |---|---|---|
-| 0–6s | **Pangea → today.** The supercontinent breaks apart and drifts into the modern map. | Load the site; drag the timeline from 250 Mya to the present in one smooth sweep. |
+| 0–6s | **Pangea → today.** The supercontinent tears apart and drifts into the modern map. | Load the site; drag the timeline from 250 Mya to the present in one smooth sweep. |
 | 6–12s | **Drain the oceans.** Sea level drops; the land bridges our ancestors walked appear. | Sea Level frame → pull the slider down until Doggerland / the Bering bridge surface. |
 | 12–18s | **Stonehenge rises.** Dive from orbit to the stones standing on real terrain. | Search "Stonehenge", set the year to ~2500 BCE, dive in. |
 | 18–24s | **A battle on real ground.** Armies stand and move on the actual battlefield. | Search a famous battle (e.g. Hastings), let the field draw. |
-| 24–30s | **The eclipse shadow sweeps.** The Moon's umbra crosses the real Earth. | Weather & Sky → find the 2017 eclipse → "watch the shadow cross". |
+| 24–30s | **The eclipse shadow sweeps.** The Moon's umbra crosses the real Earth. | Sky and Weather → find the 2017 eclipse → "watch the shadow cross". |
 
 End on the globe, calm. If 30s is tight, cut the battle beat — the other four
 are the signature.
 
 ---
 
-## (a) Bluesky / X thread — 6–8 posts
+## 1. Raw material — true things to draw on
 
-Post the GIF (or a still) with post 1; pair each later post with one screenshot.
-Keep each line short. Same thread works on both networks.
+Not a script. Pick two or three that suit whoever you're writing to. Every one
+of these is true, which is why they work.
 
-**1/ [attach: the 30s GIF]**
+**What it is**
+- A free website where you drag one timeline across 250 million years and watch
+  the world change.
+- Continents drift back into Pangea. Ice ages drop the seas and the land bridges
+  our ancestors actually walked come up out of the water.
+- Monuments rise stone by stone — the Tower of London grows through five reigns.
+- Famous battles play out on the real terrain they were fought on.
+- Solar eclipses: pick any place and year, and watch the Moon's real shadow
+  sweep the actual Earth.
+
+**Why it's unusual**
+- No ads, no accounts, no tracking, no paywall. Nothing to sign up to.
+- It costs *nothing* to run — deliberately. Open data (NASA, Wikidata,
+  Wikipedia) and free hosting, so it can never die behind a server bill.
+- Open source under Apache 2.0.
+- **It tells you what it doesn't know.** Legendary figures are labelled as
+  legend (Gilgamesh, Robin Hood). Contested theories (Atlantis, a Younger Dryas
+  impact) appear only as clearly flagged hypotheses beside the consensus.
+  Ancient eclipse tracks say outright: the date is certain, the ground path is
+  an estimate, because Earth's spin has slowed unevenly.
+- Built by one person with a crew of AI shipwrights.
+
+**The one-liner, if you need one**
+> A free globe you drag through 250 million years of history.
+
+---
+
+## 2. Tier 1 — newsletter curators (notes, not scripts)
+
+Highest return per minute: one feature = thousands of exactly-right visitors.
+**Write each of these yourself, 2–3 sentences.** Link only — no attachments on
+a first email (they trip spam filters). Subject lines: plain and literal beats
+clever.
+
+### Web Curios — Matt Muir (UK)
+- **Route:** `matt@webcurios.co.uk` — his page invites it: *"even better if
+  you've made something you'd like me to feature."*
+- **Why it fits:** weekly roundup of genuinely wonderful internet things; UK
+  voice; actively likes maker-submitted oddities.
+- **Lead with:** the sheer *fall-into-it* quality — drag a timeline, lose an
+  hour. He likes delight, not specs.
+- **Do NOT:** send anything that reads as written by an AI. He has said so
+  explicitly. This is the one email to write scruffiest and most human.
+
+### Kottke.org — Jason Kottke
+- **Route:** contact via `kottke.org/about`.
+- **Why it fits:** the original "fine hypertext products" blog — history, maps
+  and visualisations are core Kottke material.
+- **Lead with:** the deep-time sweep and the honesty (flagged legends,
+  hypotheses kept separate). That editorial care is very much his register.
+
+### Dense Discovery — Kai Brach
+- **Route:** contact/submit form at `densediscovery.com`.
+- **Why it fits:** design-literate audience; features one beautiful web thing
+  an issue.
+- **Lead with:** the ethos — free forever by design, no ads, no accounts, no
+  tracking — and that it's calm to use. DD's readers care about *how* a thing
+  is made, not just what it does.
+
+### Recomendo / Cool Tools — Kevin Kelly & co
+- **Route:** `recomendo.com` reply route, or a Cool Tools submission.
+- **Why it fits:** six brief recommendations a week; free tools do well.
+- **Lead with:** one sentence and a link. Recomendo entries *are* one sentence
+  — match the format and you make their job trivial.
+
+---
+
+## 3. Tier 2 — history YouTubers (after the GIF exists)
+
+Small personal note, not a pitch. Attach the GIF. Contact via each channel's
+About page. Say plainly it's free and that you made it. **Never** "please cover
+this" — always "made this, thought your lot might enjoy it."
+
+| Channel | Why it fits | Your angle |
+|---|---|---|
+| **Ollie Bye** | Animated history-map videos — this is his format made interactive. **Best single fit on the list.** | "Your map animations are the thing I kept wanting to *drive* — so I built one you can." |
+| **UsefulCharts** (Matt Baker) | Timelines and chart posters; his audience buys history visualisation. | The timeline itself — 250M years on one logarithmic bar, deep time to this morning. |
+| **History Matters** | Ten-minute history; huge casual-history audience. | Quick, surprising visuals — the land bridges, a monument rising. |
+| **toldinstone** (Garrett Ryan) | Ancient monuments and daily life. | Monuments rising stone by stone, standing on real ground under the correct ancient sky. |
+| **Atlas Pro** | Geography and deep time. | The plate-drift layer — continents reassembling into Pangea from real reconstruction data. |
+
+---
+
+## 4. Tier 3 — teacher communities (slow burn, deepest roots)
+
+The winning combination, and it's rare: **free + no accounts (safeguarding-
+friendly) + no ads (school-safe) + runs in a browser (nothing to install)**.
+Lead with exactly that. Teachers share relentlessly when something clears those
+hurdles.
+
+- **Historical Association — `history.org.uk`.** UK subject association: forums
+  and a newsletter. Strongest move here is to offer a short *"using Chronos
+  Earth in KS2/KS3"* write-up rather than just a link — that's a contribution,
+  not a promotion. (If you want, I can draft that write-up as a separate piece.)
+- **TES community forums** — history teachers' section.
+- **Facebook groups** — search "history teachers UK", "KS3 history teaching
+  ideas", "homeschool UK history". Join two or three, take part for a few days
+  first, *then* share. (Your Facebook account works, unlike HN/Reddit.)
+- **Ask an actual teacher you know** to put it in their staffroom group. One
+  real teacher's recommendation outperforms ten cold posts.
+
+**A shape for the forum post — rewrite in your own words:**
+> I've built a free history/geography globe that might be useful in lessons —
+> you drag one timeline across 250 million years and watch continents drift,
+> sea levels fall to reveal land bridges, borders change, and you can dive down
+> to sites like Stonehenge as they stood. No accounts, no ads, nothing to
+> install. It also flags legends as legends and contested theories as
+> hypotheses, which makes a decent "how do we actually know?" discussion. Free,
+> and staying free: [link]. I'd welcome any feedback on what would make it more
+> useful in a classroom.
+
+---
+
+## 5. Tier 4 — your own platforms
+
+### Bluesky / X thread (draft — read it aloud, make it sound like you)
+
+Post the GIF with post 1; pair each later post with one screenshot. Then link
+this thread everywhere else instead of re-explaining yourself.
+
+**1/ [attach the GIF]**
 > The whole of history on one spinning globe. Drag a timeline across 250 million
 > years and watch the world change — continents drift, empires rise and fall,
 > monuments rise stone by stone. Free, no ads, no accounts. 🧵
 > bunhead.github.io/chronos-earth
 
-**2/ [attach: Pangea still]**
+**2/ [Pangea still]**
 > Start 250 million years ago. That's Pangea — every continent fused into one.
 > Drag forward and watch them tear apart and drift to where they are today.
 
-**3/ [attach: ocean-drained land-bridge still]**
+**3/ [land-bridge still]**
 > Drain the oceans and the map our ancestors actually walked appears — Britain
 > joined to Europe, Asia to Alaska. The Ice Age coastline, not the modern one.
 
-**4/ [attach: Stonehenge-from-orbit still]**
+**4/ [Stonehenge still]**
 > Dive from orbit to Stonehenge as it stood in 2500 BCE — on the real terrain,
 > under the real sky for that date. The sun sits where it actually sat.
 
-**5/ [attach: eclipse-shadow still]**
-> Ask it for the next solar eclipse from anywhere, any year, and watch the
-> Moon's shadow sweep the real Earth. For ancient eclipses it tells you the
-> date is certain but the ground track is an estimate — it won't fake precision.
+**5/ [eclipse still]**
+> Ask it for a solar eclipse from anywhere, any year, and watch the Moon's
+> shadow sweep the real Earth. For ancient ones it tells you the date is certain
+> but the ground track is an estimate — it won't fake precision.
 
-**6/ [attach: Gilgamesh or Robin Hood panel still]**
-> It even carries the people history remembers but can't prove — Gilgamesh at
-> Uruk, Robin Hood in Sherwood — each clearly flagged as legend, never dressed
-> up as fact.
+**6/ [Gilgamesh or Robin Hood panel]**
+> It carries the people history remembers but can't prove — Gilgamesh at Uruk,
+> Robin Hood in Sherwood — each flagged as legend, never dressed up as fact.
 
-**7/ [attach: the globe, calm]**
-> It runs entirely on free open data (NASA, Wikidata, Wikipedia) and costs
-> nothing to run — a deliberate design law, so it can never be held to ransom
-> by server bills. Built by one person and a crew of AI shipwrights.
+**7/ [the globe, calm]**
+> It runs on free open data (NASA, Wikidata, Wikipedia) and costs nothing to
+> run — deliberately, so it can never be held to ransom by server bills. Built
+> by one person and a crew of AI shipwrights.
 
 **8/ (pin this)**
 > Free forever. If you'd like to keep the crew building, the ship's manifest is
 > open — the first 20 aboard wear a founding star. ⚓
 > patreon.com/cw/ChronosEarth
 
----
-
-## (b) Product Hunt listing
+### Product Hunt (launch Tue–Thu; the GIF is your thumbnail)
 
 **Name:** Chronos Earth
 
@@ -101,183 +230,57 @@ Keep each line short. Same thread works on both networks.
 >
 > No ads, no accounts, no tracking, no paywall. It runs entirely on open data
 > (NASA, Wikidata, Wikipedia) and free hosting — a deliberate zero-cost design.
-> Contested ideas (Atlantis, a Younger Dryas impact) appear only as clearly
-> flagged hypotheses, and ancient eclipse tracks carry an honest "the date is
-> sure, the ground path is an estimate" note. It tells you what it doesn't know.
+> Contested ideas appear only as clearly flagged hypotheses, and ancient eclipse
+> tracks carry an honest "the date is sure, the ground path is an estimate"
+> note. It tells you what it doesn't know.
 >
-> Built by one person steering a crew of AI shipwrights.
+> Built by one person steering a crew of AI shipwrights. Open source, Apache 2.0.
 
-**Maker's first comment (post as the Captain):**
-> Hi PH 👋 I'm the one person behind this. Chronos Earth started as "what if you
-> could just *drag* history" and grew into a globe that spans from Pangea to
-> this morning. The rule I set myself: it must cost nothing to run and stay free
-> forever, so it can never die behind a server bill. The other rule: never fake
-> certainty — legends are flagged as legends, and where the science is genuinely
-> unsure, the app says so. It's still growing; I'd genuinely love to know which
-> moment in history you'd want to stand inside next. Thanks for looking. ⚓
+**Your first comment — rewrite in your own voice, it matters most here:**
+> Hi PH 👋 I'm the one person behind this. It started as "what if you could just
+> *drag* history" and grew into a globe spanning from Pangea to this morning.
+> The rule I set myself: it must cost nothing to run and stay free forever, so
+> it can never die behind a server bill. The other rule: never fake certainty —
+> legends are flagged as legends, and where the science is genuinely unsure, the
+> app says so. Still growing. I'd love to know which moment in history you'd
+> want to stand inside next. ⚓
 
-**First-launch tips (yours to action):** launch 12:01am PT on a Tue–Thu; reply
-to every comment in the first few hours; the GIF is your thumbnail.
+### HN & Reddit — via a friend only
 
----
+Your accounts can't post, and astroturfing would poison the well. Give a friend
+who *actually likes it* the note below and let them use their own words.
 
-## (c) Newsletter curators — two-sentence pitches (personalised)
-
-Short, specific, no attachment on the first email (link only — attachments trip
-spam filters). One paragraph, plain text, from you.
-
-**Hacker Newsletter** (Kale Davis) — _the backdoor to the HN crowd you can't post to yourself._
-> Subject: A free globe that scrubs through 250 million years of history
->
-> Hi Kale — I built a free, no-account website where you drag one timeline
-> across 250 million years and watch continents drift, oceans drop to reveal
-> land bridges, and eclipse shadows sweep the real Earth; the whole thing runs
-> on open data at literally zero hosting cost, and it flags legends and
-> contested theories as exactly that rather than faking certainty. If it fits a
-> future issue: https://bunhead.github.io/chronos-earth/
-
-**Web Curios** (Matt Muir) — _he loves a genuinely lovely, slightly uncanny web toy._
-> Subject: The whole of history on one spinning globe (free, no signup)
->
-> Hi Matt — this is a free globe you drag through 250 million years: Pangea
-> reassembles, you can drain the seas to walk the Ice Age coastline, dive to
-> Stonehenge under the correct 2500 BCE sky, and watch a real solar eclipse's
-> shadow cross the actual Earth. No ads, no accounts, no catch — just a lovely
-> thing to fall into for an hour: https://bunhead.github.io/chronos-earth/
-
-**Dense Discovery** (Kai Brach) — _angle: considered design + a clean ethos._
-> Subject: A calm, ad-free history globe with an honesty-first design
->
-> Hi Kai — I made a free interactive globe spanning 250 million years, built
-> around two rules that might suit DD: it costs nothing to run so it can stay
-> free forever, and it never fakes certainty — legends are labelled as legends,
-> and uncertain ancient science says so plainly. No ads, no accounts, no
-> tracking: https://bunhead.github.io/chronos-earth/
-
-**Recomendo** (Kevin Kelly, Mark Frauenfelder, Claudia Dawson) — _they want one-line "lose an hour" recs._
-> Subject: Recomendo idea — a free time-travel globe
->
-> A free website where you drag a single timeline across 250 million years and
-> watch the world change — continents drift, ice ages drop the seas, monuments
-> rise, eclipse shadows cross the Earth — with no ads or accounts. It's the best
-> hour-long rabbit hole I've made: https://bunhead.github.io/chronos-earth/
-
----
-
-## (d) The education angle — a free classroom tool
-
-Teachers are the highest-value audience: one teacher shares it with a class, a
-staff room, a subject group. Lead with "free, no logins, works in a browser" —
-that's what unblocks classroom use. Post in your own voice; don't oversell.
-
-**TES forums / subject-teacher boards (History & Geography):**
-> **A free, no-login history/geography globe for the classroom**
->
-> I've built a free website that might be useful for lessons: you drag one
-> timeline across 250 million years on a 3D globe — continents drift, ice ages
-> drop the sea level to reveal land bridges, historical borders change, famous
-> battles play out on the real terrain, and you can dive from orbit to sites
-> like Stonehenge as they stood. No accounts, no ads, no install — it just runs
-> in a browser, so it's classroom-safe. It also models the honest limits of the
-> evidence (legends are flagged as legends; contested theories are shown as
-> hypotheses), which makes a nice "how do we know?" discussion. Free forever:
-> https://bunhead.github.io/chronos-earth/ — I'd welcome teacher feedback on
-> what would make it more useful in a lesson.
-
-**Teacher Facebook groups (history/geography/homeschool) — shorter:**
-> Free, no-login history globe I made — drag a timeline across 250 million years
-> and watch continents drift, seas fall to reveal land bridges, borders change,
-> battles play out on real ground, and dive to Stonehenge as it stood. Runs in a
-> browser, no accounts, no ads. Might be handy for lessons — feedback welcome:
-> https://bunhead.github.io/chronos-earth/
-
-**Homeschool communities — add the "rabbit hole" line:**
-> …the kind of thing a curious kid happily loses an afternoon in, and every
-> claim links out to Wikipedia if they want to dig deeper.
-
----
-
-## (e) History YouTubers / streamers — outreach (5 fits)
-
-Short, genuine, specific to their channel. Send via their listed business email
-or a DM. Offer, don't demand — "thought your audience might like this," never
-"please cover this." Attach the GIF.
-
-1. **Ollie Bye** (world-history-as-animated-map)
-   > Your map-animation history videos are exactly the instinct behind this — a
-   > free globe where you drag one timeline across 250M years and watch borders
-   > and continents change live. Thought your audience might enjoy playing with
-   > the thing your videos evoke: [link]
-
-2. **Kings and Generals** (animated battle history)
-   > I built a free history globe that plays famous battles out on the *real*
-   > terrain they were fought on — armies moving on the actual ground, under the
-   > sky for that date. Given your battle animations, thought it might land with
-   > your viewers: [link]
-
-3. **Atlas Pro** (earth science / geography)
-   > This free globe does the deep-time earth-science your channel loves — drag
-   > the timeline and continents drift back into Pangea; drop the sea level and
-   > the Ice Age land bridges surface. Might suit an "is this real?" short: [link]
-
-4. **Stefan Milo** (prehistory / archaeology)
-   > Your deep-prehistory videos are the audience for this — a free globe where
-   > you can drain the seas to the Ice Age coastline our ancestors actually
-   > walked, and dive to ancient sites as they stood. Thought you'd appreciate
-   > the honesty too — it flags legends as legends: [link]
-
-5. **Miniminuteman (Milo Rossi)** (archaeology + debunking pseudo-archaeology)
-   > Right up your street: a free history globe that shows contested claims
-   > (Atlantis, a Younger Dryas impact) *only* as clearly flagged hypotheses
-   > beside the mainstream consensus — never as fact — and labels legendary
-   > figures as legend. Built-in "how do we actually know?" — thought it'd
-   > resonate: [link]
-
-_(Swap any name for a creator you already follow — a genuine "I watch your
-stuff" opener beats a cold pitch every time.)_
-
----
-
-## (f) The friend's post — for HN / Reddit (which you can't post to yourself)
-
-Your HN and Reddit accounts can't post, so these belong to **a friend who
-genuinely likes it**. Send them the note, let them use their own words — the
-whole point is that it's real. No sock-puppets, no pretending to be a stranger.
-
-**The note to your friend:**
+**The ask:**
 > Hey — I finally launched the history-globe thing I've been building. My
-> HN/Reddit accounts are dead so I can't post it myself. If you actually think
-> it's cool, would you share it? Totally fine if not. Link:
+> HN/Reddit accounts are dead so I can't post it myself. If you genuinely think
+> it's cool, would you share it? Completely fine if not. Link:
 > https://bunhead.github.io/chronos-earth/ — post it as *you*, in your own
-> words, and please say a mate built it (don't pretend it's yours or a
-> stranger's). Thank you 🙏
+> words, and please say a mate built it (don't pretend it's yours). Thank you 🙏
 
-**A Show HN title the friend could use (honest, third-person):**
+**A Show HN title they could use:**
 > Show HN: Chronos Earth – a free globe you scrub through 250M years of history
->
-> First comment (friend, honest voice):
+
+**Their first comment (honest, third-person):**
 > A friend built this and I've lost an embarrassing amount of time in it. You
 > drag one timeline across 250 million years — continents drift, ice ages drop
 > the seas to reveal land bridges, monuments rise, eclipse shadows cross the
 > real Earth. No ads, no accounts, runs at zero cost on open data. What sold me
-> is the honesty: legends are flagged as legends and shaky science says so. Not
-> mine, just genuinely liked it.
+> is the honesty: legends are flagged as legends and shaky science says so.
+> Not mine, just genuinely liked it.
 
-**Best-fit subreddits (friend picks one, reads the rules first):**
-- r/InternetIsBeautiful — the ideal home; lead with "free, no signup".
-- r/dataisbeautiful — pair with the Pangea→today or eclipse GIF.
-- r/history / r/geography — the education + honesty angle.
-- r/Worldbuilding, r/Maps — the drift + borders angle.
-
-One subreddit at a time, spaced out — cross-posting the same thing in a day
-gets it filtered.
+**Best-fit subreddits** (one at a time, read each one's rules first):
+r/InternetIsBeautiful (ideal — lead with "free, no signup") · r/dataisbeautiful
+(pair with the Pangea or eclipse GIF) · r/history · r/geography · r/Maps
 
 ---
 
-## What's yours (sending only — see roadmap-queue.md § Captain's list)
+## Send order (from LAUNCH-TARGETS.md — one per day, UK evening)
 
-- Record the 30-second GIF once (shot list above).
-- One channel per evening, in roughly this order: Bluesky/X → Product Hunt →
-  the four curator emails (same day is fine, they're private) → teacher groups →
-  YouTuber DMs → hand the friend-note to a friend.
-- Reply to everyone who replies. That's the whole game.
+1. ✅ **L1 is live** — the Support link and manifest are in the app, so traffic
+   now has somewhere to land.
+2. **Make the GIF** (shot list above).
+3. Then, one per evening, logging each in `OUTREACH-TRACKER.xlsx`:
+   **Bluesky thread → Web Curios → Kottke → Product Hunt → Dense Discovery →
+   Recomendo → Ollie Bye → teacher tier → the rest.**
+
+Reply to everyone who replies. That's the whole game.
