@@ -39,6 +39,19 @@ Everything else waits on this. One silent screen-capture, ~30s, looped. Record
 the real app at 1280×720; don't hide the UI, it's part of the charm. Export as
 GIF (safest everywhere) or short MP4 (smaller on X/Bluesky). Zero cost.
 
+**What to record with (both free, both fine):**
+- **Xbox Game Bar** — already on your machine. `Win + G` → record → it writes an
+  MP4 to `Videos\Captures`. Simplest possible route; MP4 is what X and Bluesky
+  actually prefer.
+- **ScreenToGif** (screentogif.com, free, open source) — if you specifically
+  want a GIF, this records straight to one and lets you trim frames after.
+
+_(A crew note, so nobody wastes an hour rediscovering it: an agent can't render
+this one. There's no ffmpeg or GIF encoder in the toolchain, the browser canvas
+here is pinned to a letterboxed 1536×519 — the wrong shape for social — and
+smooth 30-second interaction can't be faked frame-by-frame without it looking
+worse than nothing. Ninety seconds of Game Bar beats anything automated here.)_
+
 | Time | Shot | How |
 |---|---|---|
 | 0–6s | **Pangea → today.** The supercontinent tears apart and drifts into the modern map. | Load the site; drag the timeline from 250 Mya to the present in one smooth sweep. |

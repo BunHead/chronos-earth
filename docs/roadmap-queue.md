@@ -495,9 +495,15 @@ this list is ChronosEarth's part of it.)_
 - [x] ~~**Publish the first Patreon post.**~~ Done 29 Jul — "The maiden voyage
       of the support ship 🚢" is live.
 - [ ] **① RECORD THE 30-SECOND DEMO GIF.** Everything else waits on this — it is
-      the hero image for every single channel. Shot list is at the top of
+      the hero asset for every single channel. Shot list is at the top of
       `docs/launch/launch-posts.md` (Pangea→today, drain the oceans, Stonehenge
       rising, a battle, the eclipse sweep). One take, ~30s, no narration.
+      **Press `Win + G`** (Xbox Game Bar, already installed) → record → it saves
+      an MP4 to `Videos\Captures`. That's the whole job, ~90 seconds of your
+      time. _(This one genuinely can't be delegated: the toolchain has no
+      ffmpeg or GIF encoder, and the agent browser canvas is a letterboxed
+      1536×519 — wrong shape for social. Tried, hit the wall, reporting it
+      rather than shipping poor assets under your name.)_
 - [ ] **② THEN one channel per evening, UK ~6–8pm**, logging each send in
       `WEBSITES/OUTREACH-TRACKER.xlsx`. Order (from the Bridge's
       `WEBSITES/LAUNCH-TARGETS.md`): **Bluesky/X thread → Web Curios → Kottke →
