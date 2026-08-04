@@ -90,7 +90,15 @@ of these is true, which is why they work.
   impact) appear only as clearly flagged hypotheses beside the consensus.
   Ancient eclipse tracks say outright: the date is certain, the ground path is
   an estimate, because Earth's spin has slowed unevenly.
-- Built by one person with a crew of AI shipwrights.
+- A year of one person's work.
+
+**⚠️ Lesson from the first Bluesky reply (Matt at Web Curios, 30 Jul):** he
+gets *a dozen AI-built projects mailed to him a day* and they blur into one.
+"Built with an AI crew" has flipped from hook to camouflage — it is now the
+LEAST distinctive true thing about the project. So: lead with what a weekend
+project cannot fake (a year of work, 250 million years, real astronomy, the
+honesty doctrine). If someone asks how it was built — as Matt did — answer
+plainly and proudly; it's in the app's About. Just never make it the pitch.
 
 **The one-liner, if you need one**
 > A free globe you drag through 250 million years of history.
@@ -219,8 +227,8 @@ this thread everywhere else instead of re-explaining yourself.
 
 **7/ [the globe, calm]**
 > It runs on free open data (NASA, Wikidata, Wikipedia) and costs nothing to
-> run — deliberately, so it can never be held to ransom by server bills. Built
-> by one person and a crew of AI shipwrights.
+> run — deliberately, so it can never be held to ransom by server bills. A
+> year of work by one person, and it stays free forever.
 
 **8/ (pin this)**
 > Free forever. If you'd like to keep the crew building, the ship's manifest is
@@ -247,7 +255,7 @@ this thread everywhere else instead of re-explaining yourself.
 > tracks carry an honest "the date is sure, the ground path is an estimate"
 > note. It tells you what it doesn't know.
 >
-> Built by one person steering a crew of AI shipwrights. Open source, Apache 2.0.
+> A year of one person's work. Open source, Apache 2.0.
 
 **Your first comment — rewrite in your own voice, it matters most here:**
 > Hi PH 👋 I'm the one person behind this. It started as "what if you could just
