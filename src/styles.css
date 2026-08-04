@@ -260,6 +260,32 @@ a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items
   font-variant-numeric: tabular-nums;
 }
 
+/* ── The skin picker (⋯ → Settings) ──────────────────────────────────────
+   Each row previews the identity it offers: a swatch of that skin's own
+   ground, rule and accent, so the choice is judged by eye, not by name. The
+   swatch colours are LITERAL here on purpose — they must show the other skins
+   while you are still wearing this one, so they cannot use the live tokens. */
+.skin-pick { display: flex; align-items: flex-start; gap: 10px; text-align: left; }
+.skin-pick .skin-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.skin-pick .skin-text b { font-weight: 600; }
+.skin-pick .skin-text small { color: var(--text-dim); font-size: 10.5px; line-height: 1.35; }
+.skin-pick .skin-tick { margin-left: auto; color: var(--accent); align-self: center; }
+.skin-pick.on { background: rgba(255, 255, 255, 0.05); }
+.skin-swatch {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+  border-radius: calc(4px * var(--r-scale));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  /* ground · rule · accent, read left to right */
+  background-image: linear-gradient(135deg, var(--sw-a) 0 58%, var(--sw-b) 58% 78%, var(--sw-c) 78% 100%);
+}
+.skin-swatch-chart       { --sw-a: #101613; --sw-b: #c9a24b; --sw-c: #e8e2d0; }
+.skin-swatch-atlas       { --sw-a: #f2ecdd; --sw-b: #26221a; --sw-c: #9c3f2f; }
+.skin-swatch-observatory { --sw-a: #12101f; --sw-b: #d4af6a; --sw-c: #ddd8e8; }
+.skin-swatch-stratum     { --sw-a: #14100c; --sw-b: #c2803d; --sw-c: #9c4a2e; }
+
 .app-menu-note { padding: 6px 10px; font-size: 11px; color: var(--text-dim); }
 /* Section label in the ⋯ menu — separates the tools everyone gets from the
    maker's tools. Quiet by design: it is a signpost, not an item to click. */

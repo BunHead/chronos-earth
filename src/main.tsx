@@ -2,6 +2,13 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles.css';
 import { loadRejectedModels } from './lib/review';
+import { applySkin, loadSkin } from './lib/skin';
+
+// Paint the chosen identity BEFORE anything renders. The boot splash in
+// index.html is styled too, so doing this inside React would show a flash of
+// the default skin first — most obvious jumping into the light Atlas skin,
+// where the whole page would flare dark then white.
+applySkin(loadSkin());
 
 // Note: we intentionally do NOT wrap the app in <React.StrictMode>. Strict mode
 // mounts every component twice in development, which forces CesiumJS to build,

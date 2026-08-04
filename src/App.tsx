@@ -47,6 +47,7 @@ import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTI
 import { synthesizeBattleView } from './lib/synthBattle';
 import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneState';
 import { countSubKinds } from './lib/subLayers';
+import { applySkin, loadSkin, saveSkin, type SkinId } from './lib/skin';
 import type {
   AncientSite,
   Battle,
@@ -284,6 +285,15 @@ export default function App() {
   useEffect(() => {
     document.documentElement.toggleAttribute('data-reduce-motion', reduceMotion);
   }, [reduceMotion]);
+  // The ship's colours (⋯ menu → Settings). main.tsx has already painted the
+  // saved choice before first render; this only carries it into the UI and
+  // repaints when the Captain picks another.
+  const [skin, setSkinState] = useState<SkinId>(loadSkin);
+  const changeSkin = (id: SkinId) => {
+    setSkinState(id);
+    applySkin(id);
+    saveSkin(id);
+  };
   // "GPU border cache" (⋯ menu → Settings): keep a generous window of border
   // frames resident on the GPU so time-travel is instant, or run lean on a
   // constrained machine. Defaults ON and remembers the choice per device.
@@ -830,6 +840,8 @@ export default function App() {
               return !v;
             });
           }}
+          skin={skin}
+          onSkin={changeSkin}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
           gpuBorderCache={gpuBorderCache}

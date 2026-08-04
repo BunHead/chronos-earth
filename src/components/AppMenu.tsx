@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Tour } from '../lib/types';
 import { getLocalMaker, setLocalMaker, getToken, validateMakerToken } from '../lib/review';
 import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
+import { SKINS, type SkinId } from '../lib/skin';
 
 interface AppMenuProps {
   tours: Tour[];
@@ -20,6 +21,9 @@ interface AppMenuProps {
   figureDensity: number;
   onFigureDensity: (d: number) => void;
   onGpuBorderCache: (v: boolean) => void;
+  /** The ship's colours — see lib/skin.ts. */
+  skin: SkinId;
+  onSkin: (id: SkinId) => void;
 }
 
 /**
@@ -29,7 +33,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity, skin, onSkin }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -157,6 +161,26 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
           {view === 'settings' && (
             <>
               <button className="app-menu-item back" onClick={() => setView('root')}>‹ Back</button>
+              {/* The ship's colours. First, because it is the one setting that
+                  changes what the whole app looks like — and the swatches let
+                  you judge it without reading a word. */}
+              <div className="app-menu-heading">The Ship&rsquo;s Colours</div>
+              {SKINS.map((s) => (
+                <button
+                  key={s.id}
+                  className={`app-menu-item skin-pick${skin === s.id ? ' on' : ''}`}
+                  aria-pressed={skin === s.id}
+                  onClick={() => onSkin(s.id)}
+                >
+                  <span className={`skin-swatch skin-swatch-${s.id}`} aria-hidden="true" />
+                  <span className="skin-text">
+                    <b>{s.name}</b>
+                    <small>{s.blurb}</small>
+                  </span>
+                  {skin === s.id && <span className="skin-tick">✓</span>}
+                </button>
+              ))}
+              <div className="app-menu-heading">Preferences</div>
               <label className="app-menu-item toggle">
                 <input type="checkbox" checked={reduceMotion} onChange={(e) => onReduceMotion(e.target.checked)} />
                 <span>Reduce Motion</span>
