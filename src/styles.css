@@ -2913,3 +2913,172 @@ textarea:focus-visible,
   background: rgba(201,162,75,0.10); border: 1px solid rgba(201,162,75,0.28);
   border-radius: calc(6px * var(--r-scale)); padding: 5px 7px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE FOUR IDENTITIES
+   ═══════════════════════════════════════════════════════════════════════════
+   Each skin is a block of token overrides — no component knows a skin exists.
+   Chosen in ⋯ → Settings, painted onto <html data-skin> before first render
+   (src/lib/skin.ts + main.tsx). Mockups: docs/design/skin-mockups.html.
+
+   Fonts are SELF-HOSTED OFL files in public/fonts (~94 KB total, and a face
+   only downloads when a skin that uses it is worn). No CDN, no runtime service
+   — the zero-cost law holds. `font-display: swap` so text is readable while a
+   face loads rather than invisible.
+
+   WHAT A SKIN MAY NOT DO: repaint a fact. The era gradient, war red, peace
+   yellow, changing-soon orange and the category marker hues stay exactly as
+   they are under every identity — they carry meaning, not style.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('./fonts/ebgaramond-var.woff2') format('woff2-variations');
+  font-weight: 400 700;   /* one variable file covers the range */
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./fonts/cormorant-var.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  src: url('./fonts/zillaslab-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zilla Slab';
+  src: url('./fonts/zillaslab-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ── A · THE CHART ROOM ─────────────────────────────────────────────────────
+   The ship's own story: Admiralty ink, brass rules, lamplight parchment.
+   Dark — but nothing like a dashboard. */
+:root[data-skin='chart'] {
+  --bg: #0a0f0c;
+  --panel: rgba(22, 31, 26, 0.94);
+  --panel-solid: #161f1a;
+  --surface-2: #1b2620;
+  --surface-hover: #23302a;
+  --surface-sunk: #0c110e;
+
+  --border: rgba(201, 162, 75, 0.26);      /* brass hairline, not white */
+  --border-strong: #c9a24b66;
+
+  --text: #e8e2d0;                          /* warm parchment, not blue-white */
+  --text-dim: #a8a08a;
+  --text-bright: #f2ede0;
+  --text-soft: #ded7c4;
+  --text-mute: #9a927e;
+
+  --accent: #c9a24b;                        /* brass is the accent here */
+  --accent-bright: #e0bd6b;
+  --accent-deep: #3d3218;
+  --gold: #c9a24b;
+
+  --font-body: 'EB Garamond', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-display: 'EB Garamond', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-ui: 'EB Garamond', Georgia, serif;
+  --label-tracking: 0.22em;
+  --r-scale: 0.25;                          /* nearly square: paper, not glass */
+}
+
+/* ── B · THE ATLAS PLATE ────────────────────────────────────────────────────
+   A 19th-century engraved atlas page. The LIGHT one — which is the strategic
+   move: every AI-built site in a curator's inbox is dark. */
+:root[data-skin='atlas'] {
+  --bg: #e9e2d1;
+  --panel: rgba(246, 241, 228, 0.96);
+  --panel-solid: #f6f1e4;
+  --surface-2: #efe8d6;
+  --surface-hover: #e3dac4;
+  --surface-sunk: #ded4bc;
+
+  --border: rgba(38, 34, 26, 0.34);         /* engraved rule */
+  --border-strong: #26221a;
+
+  --text: #26221a;                          /* ink on paper */
+  --text-dim: #6b6353;
+  --text-bright: #14110c;
+  --text-soft: #3a352a;
+  --text-mute: #8a8371;
+
+  --accent: #9c3f2f;                        /* madder red, the plate's spot colour */
+  --accent-bright: #b8503c;
+  --accent-deep: #e6d5c4;
+  --gold: #8a6b2c;
+
+  --font-body: 'EB Garamond', Cambria, Georgia, 'Times New Roman', serif;
+  --font-display: 'EB Garamond', Cambria, Georgia, serif;
+  --font-ui: 'EB Garamond', Cambria, Georgia, serif;
+  --label-tracking: 0.26em;
+  --r-scale: 0;                             /* a printed plate has no round corners */
+}
+
+/* ── C · THE OBSERVATORY ────────────────────────────────────────────────────
+   Brass instruments and a violet night; the astronomy IS the identity. */
+:root[data-skin='observatory'] {
+  --bg: #0d0b18;
+  --panel: rgba(24, 21, 48, 0.93);
+  --panel-solid: #181530;
+  --surface-2: #201c3d;
+  --surface-hover: #2a2450;
+  --surface-sunk: #100e21;
+
+  --border: rgba(212, 175, 106, 0.24);
+  --border-strong: #d4af6a55;
+
+  --text: #ddd8e8;
+  --text-dim: #8d86a8;
+  --text-bright: #f0ecf8;
+  --text-soft: #c4bfd4;
+  --text-mute: #857ea0;
+
+  --accent: #d4af6a;                        /* instrument gold */
+  --accent-bright: #ecc684;
+  --accent-deep: #2f2752;
+  --gold: #d4af6a;
+
+  --font-body: 'Cormorant Garamond', Constantia, Georgia, serif;
+  --font-display: 'Cormorant Garamond', Constantia, Georgia, serif;
+  --font-ui: 'Cormorant Garamond', Constantia, Georgia, serif;
+  --label-tracking: 0.28em;
+  --r-scale: 0.5;
+}
+
+/* ── D · THE STRATUM ────────────────────────────────────────────────────────
+   Deep time as geology: sediment, basalt and ochre. Every corner sharp. */
+:root[data-skin='stratum'] {
+  --bg: #100d09;
+  --panel: rgba(29, 23, 18, 0.95);
+  --panel-solid: #1d1712;
+  --surface-2: #251d16;
+  --surface-hover: #322619;
+  --surface-sunk: #150f0a;
+
+  --border: rgba(125, 98, 72, 0.5);
+  --border-strong: #7d6248;
+  --rule-weight: 2px;                       /* strata are bedded, not hinted */
+
+  --text: #d8cdb6;
+  --text-dim: #94886e;
+  --text-bright: #e8ddc4;
+  --text-soft: #c4b89e;
+  --text-mute: #8a7e64;
+
+  --accent: #c2803d;                        /* ochre */
+  --accent-bright: #dc9a52;
+  --accent-deep: #3a2a17;
+  --gold: #c2803d;
+
+  --font-body: 'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --font-display: 'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --font-ui: 'Zilla Slab', Rockwell, Georgia, serif;
+  --label-tracking: 0.2em;
+  --r-scale: 0;                             /* rock does not have rounded corners */
+}
