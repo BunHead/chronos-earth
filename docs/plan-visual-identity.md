@@ -68,7 +68,39 @@ generic look — and item one to replace in the default skin).
 ## Status
 
 - [x] Mockups built + verified (2026-07-30)
-- [ ] **Captain picks the default identity** ← blocking everything else
-- [ ] Variable extraction
-- [ ] Default skin build
-- [ ] Optional skins
+- [x] **1. Variable extraction** — `9b56f45`. Pure refactor, zero visual change,
+      proven by comparing computed styles before and after. Radii became
+      `calc(Npx * var(--r-scale))` rather than a fixed scale — the 16 distinct
+      radius values were too irregular to bucket without moving pixels, and the
+      multiplier lets one variable square the entire app.
+- [x] **2. Skin machinery** — `3799046`. `src/lib/skin.ts`, painted from
+      `main.tsx` BEFORE first render (doing it in a React effect flashes the
+      default first — glaring when landing on the light Atlas skin). Picker sits
+      first in ⋯ → Settings with a swatch per identity. Also sets
+      `color-scheme`, without which Atlas ships black scrollbars.
+- [x] **3. All four skins** — `9387115`. Self-hosted OFL fonts in
+      `public/fonts`, 94 KB for all four. EB Garamond and Cormorant turned out
+      to be VARIABLE fonts (one file covers every weight); only Zilla Slab
+      needed two statics. Verified live in all four.
+- [ ] **THE CAPTAIN PICKS THE DEFAULT** — provisionally `chart`. One word, in
+      `DEFAULT_SKIN` (`src/lib/skin.ts`).
+- [ ] 4. Emoji icons → drawn SVG marks (the loudest remaining AI tell)
+- [ ] 5. Per-skin timeline treatment (the mockups' signature move)
+- [ ] 6. Re-bake `og-image.jpg` + favicon to match the chosen default
+
+## Traps found the hard way — read before continuing
+
+- **Do NOT trust `getComputedStyle(el).backgroundColor` straight after flipping
+  `data-skin`.** Chrome returns a STALE value when the declaration is a `var()`
+  inside the `background` SHORTHAND — across rAF and timeouts alike. It reported
+  every skin's buttons as the boot skin's colour and produced 96 phantom
+  "contrast failures" in an audit. The custom property itself
+  (`getPropertyValue('--surface-hover')`) updates correctly, and the rendered
+  pixels were right the whole time. **Verify skins by screenshot.**
+- **A long-lived HMR page accumulates stale skin state** and will confidently
+  report another skin's values. Hard reload between checks.
+- **`.btn` uses `--surface-hover` as its RESTING background** — before
+  extraction the literal `#1d2735` served both the button fill and menu hovers,
+  so the token inherited both jobs. It renders correctly in all four skins, but
+  the name misleads; split it into `--surface-control` when buttons are next
+  touched.
