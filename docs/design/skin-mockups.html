@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chronos Earth — four visual identities</title>
+<style>
+  /* Mockup chrome only (not part of any skin) */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#1c1c20; color:#bbb; font:14px/1.5 'Segoe UI', sans-serif; padding:28px 18px 60px; }
+  .intro { max-width:860px; margin:0 auto 30px; }
+  .intro h1 { color:#eee; font-size:20px; margin-bottom:8px; }
+  .intro p { color:#999; max-width:70ch; }
+  .skin { max-width:980px; margin:0 auto 46px; border-radius:4px; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.5); }
+  .skin-label { max-width:980px; margin:0 auto; padding:0 4px 8px; }
+  .skin-label b { color:#ddd; font-size:15px; }
+  .skin-label span { color:#888; font-size:12.5px; }
+  .stage { padding:34px 38px 38px; }
+  .row { display:flex; gap:26px; margin-top:22px; align-items:flex-start; flex-wrap:wrap; }
+  .col { flex:1; min-width:270px; }
+
+  /* ════ A · THE CHART ROOM ════ */
+  .chart { background:#101613; color:#e8e2d0; font-family:'Palatino Linotype','Book Antiqua',Georgia,serif; }
+  .chart .hdr { display:flex; justify-content:space-between; align-items:baseline; border-bottom:3px double #c9a24b66; padding-bottom:12px; }
+  .chart h2 { font-size:27px; letter-spacing:.5px; font-weight:normal; }
+  .chart h2 em { font-style:normal; color:#c9a24b; }
+  .chart .tag { font-size:12.5px; color:#a8a08a; font-style:italic; }
+  .chart .panel { background:#161f1a; border:1px solid #c9a24b40; padding:16px 18px; }
+  .chart .panel h3 { font-size:11px; letter-spacing:.22em; color:#c9a24b; font-weight:normal; margin-bottom:11px; }
+  .chart .lyr { display:flex; align-items:center; gap:10px; padding:4.5px 0; font-size:14.5px; }
+  .chart .bx { width:13px; height:13px; border:1px solid #c9a24b99; display:inline-block; position:relative; }
+  .chart .bx.on::after { content:''; position:absolute; inset:2px; background:#c9a24b; }
+  .chart .n { color:#7d8a76; font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .chart .tl { margin-top:26px; border:1px solid #c9a24b55; padding:11px 14px 13px; background:#0c110e; }
+  .chart .tl-cap { display:flex; justify-content:space-between; font-size:10.5px; letter-spacing:.18em; color:#a8a08a; margin-bottom:8px; }
+  .chart .tl-bar { height:14px; background:linear-gradient(90deg,#28424e,#2e5747,#586b35,#8a6b2c,#8a3d2e); position:relative; }
+  .chart .tl-bar::before { content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(90deg, transparent 0 59px, #101613 59px 60px); }
+  .chart .tl-pin { position:absolute; left:63%; top:-5px; bottom:-5px; width:2px; background:#e8e2d0; }
+  .chart .tl-pin::after { content:'▾'; position:absolute; top:-14px; left:-5px; color:#c9a24b; font-size:11px; }
+  .chart .dossier { border-left:3px solid #c9a24b; }
+  .chart .kick { font-size:10.5px; letter-spacing:.24em; color:#c9a24b; }
+  .chart .dossier h4 { font-size:20px; font-weight:normal; margin:5px 0 2px; }
+  .chart .date { font-size:13px; color:#a8a08a; font-style:italic; margin-bottom:9px; }
+  .chart .body { font-size:13.5px; line-height:1.55; color:#cfc9b6; }
+  .chart .flag { margin-top:10px; padding:8px 11px; border:1px solid #a63c2e88; color:#d8a294; font-size:12.5px; }
+  .chart .support { display:inline-block; margin-top:24px; border:1px solid #c9a24b; color:#c9a24b; padding:7px 18px; font-size:13px; letter-spacing:.1em; }
+
+  /* ════ B · THE ATLAS PLATE ════ */
+  .atlas { background:#f2ecdd; color:#26221a; font-family:Cambria,Georgia,'Times New Roman',serif; }
+  .atlas .hdr { text-align:center; border-bottom:1px solid #26221a; padding-bottom:14px; position:relative; }
+  .atlas .hdr::after { content:''; position:absolute; left:0; right:0; bottom:-4px; border-bottom:1px solid #26221a55; }
+  .atlas h2 { font-size:25px; letter-spacing:.34em; font-weight:normal; text-transform:uppercase; }
+  .atlas .tag { font-size:12px; letter-spacing:.14em; color:#6b6353; margin-top:5px; font-variant:small-caps; }
+  .atlas .panel { border:1px solid #26221a; padding:15px 17px; background:#f6f1e4; }
+  .atlas .panel h3 { font-size:10.5px; letter-spacing:.26em; font-weight:normal; border-bottom:1px solid #26221a33; padding-bottom:7px; margin-bottom:10px; }
+  .atlas .lyr { display:flex; align-items:center; gap:10px; padding:4px 0; font-size:14px; }
+  .atlas .bx { width:12px; height:12px; border:1px solid #26221a; }
+  .atlas .bx.on { background:#26221a; box-shadow:inset 0 0 0 2px #f6f1e4; }
+  .atlas .n { color:#8a8371; font-size:11.5px; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .atlas .tl { margin-top:26px; }
+  .atlas .tl-cap { display:flex; justify-content:space-between; font-size:10px; letter-spacing:.2em; color:#6b6353; margin-bottom:6px; font-variant:small-caps; }
+  .atlas .tl-bar { height:16px; border:1px solid #26221a; background:linear-gradient(90deg,#b8c4c2,#adc0a8,#c8c290,#d4b183,#c08a77); position:relative; }
+  .atlas .tl-bar::before { content:''; position:absolute; inset:0;
+    background-image:repeating-linear-gradient(90deg, transparent 0 44px, #26221a44 44px 45px); }
+  .atlas .tl-pin { position:absolute; left:63%; top:-6px; bottom:-6px; width:1.5px; background:#9c3f2f; }
+  .atlas .dossier { border:1px solid #26221a; border-top:4px solid #26221a; padding:14px 16px !important; }
+  .atlas .kick { font-size:10px; letter-spacing:.3em; color:#9c3f2f; font-variant:small-caps; }
+  .atlas .dossier h4 { font-size:21px; font-weight:normal; margin:4px 0 1px; }
+  .atlas .date { font-size:12.5px; color:#6b6353; font-style:italic; margin-bottom:8px; }
+  .atlas .body { font-size:13.5px; line-height:1.55; }
+  .atlas .flag { margin-top:10px; padding:7px 10px; border-left:3px solid #9c3f2f; background:#ece4d0; font-size:12.5px; color:#7c3227; }
+  .atlas .support { display:inline-block; margin-top:24px; background:#26221a; color:#f2ecdd; padding:8px 20px; font-size:12px; letter-spacing:.18em; font-variant:small-caps; }
+
+  /* ════ C · THE OBSERVATORY ════ */
+  .obs { background:#12101f; color:#ddd8e8; font-family:Constantia,Georgia,serif;
+    background-image:radial-gradient(circle at 78% 18%, #241f3d55, transparent 42%); }
+  .obs .hdr { display:flex; justify-content:space-between; align-items:baseline; }
+  .obs h2 { font-size:26px; font-weight:normal; letter-spacing:1px; }
+  .obs h2::before { content:'✶ '; color:#d4af6a; font-size:18px; }
+  .obs .tag { font-size:12.5px; color:#8d86a8; }
+  .obs .panel { background:#181530cc; border:1px solid #d4af6a33; border-radius:2px; padding:16px 18px; margin-top:20px; }
+  .obs .panel h3 { font-size:10.5px; letter-spacing:.28em; color:#d4af6a; font-weight:normal; margin-bottom:11px; }
+  .obs .lyr { display:flex; align-items:center; gap:10px; padding:4.5px 0; font-size:14px; }
+  .obs .bx { width:13px; height:13px; border:1px solid #d4af6a88; border-radius:50%; position:relative; }
+  .obs .bx.on::after { content:''; position:absolute; inset:2.5px; background:#d4af6a; border-radius:50%; }
+  .obs .n { color:#8d86a8; font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .obs .tl { margin-top:26px; padding:12px 14px; border-top:1px solid #d4af6a44; border-bottom:1px solid #d4af6a44; }
+  .obs .tl-cap { display:flex; justify-content:space-between; font-size:10.5px; letter-spacing:.2em; color:#8d86a8; margin-bottom:8px; }
+  .obs .tl-bar { height:3px; background:linear-gradient(90deg,#3a4f8c,#3a8c74,#8c883a,#8c5c3a,#8c3a48); position:relative; }
+  .obs .tl-bar i { position:absolute; top:-3.5px; width:9px; height:9px; border-radius:50%; background:#12101f; border:1.5px solid #ddd8e8; }
+  .obs .tl-pin { position:absolute; left:63%; top:-6.5px; width:13px; height:13px; margin-left:-7px; border-radius:50%; background:#d4af6a; box-shadow:0 0 12px #d4af6a99; }
+  .obs .dossier { border-top:2px solid #d4af6a; }
+  .obs .kick { font-size:10.5px; letter-spacing:.3em; color:#d4af6a; }
+  .obs .dossier h4 { font-size:20px; font-weight:normal; margin:5px 0 2px; }
+  .obs .date { font-size:13px; color:#8d86a8; margin-bottom:9px; font-variant-numeric:tabular-nums; }
+  .obs .body { font-size:13.5px; line-height:1.55; color:#c4bfd4; }
+  .obs .flag { margin-top:10px; padding:8px 11px; background:#241a1a; border:1px solid #8c3a4877; color:#d8a2ac; font-size:12.5px; border-radius:2px; }
+  .obs .support { display:inline-block; margin-top:24px; border:1px solid #d4af6a; border-radius:20px; color:#d4af6a; padding:7px 20px; font-size:13px; }
+
+  /* ════ D · THE STRATUM ════ */
+  .strat { background:#14100c; color:#d8cdb6; font-family:'Rockwell','Roboto Slab',Georgia,serif; }
+  .strat .hdr { border-left:10px solid #c2803d; padding-left:16px; }
+  .strat h2 { font-size:28px; letter-spacing:.5px; color:#e8ddc4; }
+  .strat .tag { font-size:13px; color:#94886e; margin-top:2px; }
+  .strat .panel { background:#1d1712; border:none; border-top:4px solid #7d6248; padding:16px 18px; margin-top:20px; }
+  .strat .panel h3 { font-size:11px; letter-spacing:.2em; color:#c2803d; margin-bottom:11px; }
+  .strat .lyr { display:flex; align-items:center; gap:10px; padding:4.5px 0; font-size:14.5px; }
+  .strat .bx { width:14px; height:14px; background:#2b221a; border:none; position:relative; }
+  .strat .bx.on { background:#c2803d; }
+  .strat .n { color:#94886e; font-size:12px; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .strat .tl { margin-top:26px; }
+  .strat .tl-cap { display:flex; justify-content:space-between; font-size:11px; letter-spacing:.14em; color:#94886e; margin-bottom:7px; }
+  .strat .tl-bar { height:26px; position:relative; display:flex; }
+  .strat .tl-bar b { flex:1; }
+  .strat .s1{background:#3d4a52} .strat .s2{background:#44584a} .strat .s3{background:#6b6b38} .strat .s4{background:#9c6f2e} .strat .s5{background:#9c4a2e}
+  .strat .tl-bar b + b { border-left:2px solid #14100c; }
+  .strat .tl-pin { position:absolute; left:63%; top:-4px; bottom:-4px; width:3px; background:#e8ddc4; }
+  .strat .dossier { border-left:6px solid #9c4a2e; }
+  .strat .kick { font-size:11px; letter-spacing:.24em; color:#9c4a2e; font-weight:bold; }
+  .strat .dossier h4 { font-size:21px; margin:5px 0 2px; color:#e8ddc4; }
+  .strat .date { font-size:13px; color:#94886e; margin-bottom:9px; }
+  .strat .body { font-size:13.5px; line-height:1.55; color:#c4b89e; }
+  .strat .flag { margin-top:10px; padding:8px 11px; background:#241510; border-left:4px solid #9c4a2e; color:#d8a294; font-size:12.5px; }
+  .strat .support { display:inline-block; margin-top:24px; background:#c2803d; color:#14100c; padding:8px 20px; font-size:13px; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Chronos Earth — four visual identities</h1>
+  <p>The same three fragments of the app — the masthead, the Layers panel, the
+  timeline, and the Black Death dossier — dressed four different ways. The globe
+  itself never changes; only the chrome around it. Fonts here are system
+  stand-ins; the real build would self-host proper open-licence faces (free,
+  zero running cost). Pick one as the ship's true colours — the others can
+  become optional skins.</p>
+</div>
+
+<!-- ════════════ A ════════════ -->
+<div class="skin-label"><b>A · The Chart Room</b> <span>— the ship's own story: Admiralty ink, brass rules, lamplight parchment. Dark, but nothing like a dashboard.</span></div>
+<div class="skin chart"><div class="stage">
+  <div class="hdr">
+    <div><h2>Chronos <em>Earth</em></h2><div class="tag">A chart of two hundred and fifty million years</div></div>
+    <div class="tag">❦ the ship's manifest is open</div>
+  </div>
+  <div class="row">
+    <div class="col panel">
+      <h3>THE CHART'S LAYERS</h3>
+      <div class="lyr"><span class="bx on"></span> Political Borders</div>
+      <div class="lyr"><span class="bx on"></span> Natural Disasters <span class="n">530</span></div>
+      <div class="lyr"><span class="bx"></span> Notable People <span class="n">632</span></div>
+      <div class="lyr"><span class="bx on"></span> Wars &amp; Battles <span class="n">1,135</span></div>
+    </div>
+    <div class="col panel dossier">
+      <div class="kick">PESTILENCE · TRADITIONALLY DATED</div>
+      <h4>The Black Death</h4>
+      <div class="date">1347 – 1351 · shown at Messina, Sicily</div>
+      <div class="body">Genoese galleys carried the plague into Europe in October 1347. The pandemic itself spanned three continents…</div>
+      <div class="flag">Why it is shown here — a pandemic has no single location on record; the pin marks where it entered Europe.</div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="tl-cap"><span>250 MILLION YEARS BEFORE PRESENT</span><span>THIS MORNING</span></div>
+    <div class="tl-bar"><span class="tl-pin"></span></div>
+  </div>
+  <span class="support">❤ KEEP THE CREW BUILDING</span>
+</div></div>
+
+<!-- ════════════ B ════════════ -->
+<div class="skin-label"><b>B · The Atlas Plate</b> <span>— a 19th-century engraved atlas page. LIGHT — and being light makes it instantly unlike every AI-built dark app in the pile.</span></div>
+<div class="skin atlas"><div class="stage">
+  <div class="hdr">
+    <h2>Chronos Earth</h2>
+    <div class="tag">being a complete atlas of two hundred and fifty million years</div>
+  </div>
+  <div class="row">
+    <div class="col panel">
+      <h3>PLATES &amp; OVERLAYS</h3>
+      <div class="lyr"><span class="bx on"></span> Political Borders</div>
+      <div class="lyr"><span class="bx on"></span> Natural Disasters <span class="n">530</span></div>
+      <div class="lyr"><span class="bx"></span> Notable People <span class="n">632</span></div>
+      <div class="lyr"><span class="bx on"></span> Wars &amp; Battles <span class="n">1,135</span></div>
+    </div>
+    <div class="col panel dossier">
+      <div class="kick">Pestilence · Traditionally Dated</div>
+      <h4>The Black Death</h4>
+      <div class="date">1347 – 1351 · shown at Messina, Sicily</div>
+      <div class="body">Genoese galleys carried the plague into Europe in October 1347. The pandemic itself spanned three continents…</div>
+      <div class="flag">Why it is shown here — a pandemic has no single location on record; the pin marks where it entered Europe.</div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="tl-cap"><span>250 Million Years Before Present</span><span>This Morning</span></div>
+    <div class="tl-bar"><span class="tl-pin"></span></div>
+  </div>
+  <span class="support">Keep the Crew Building</span>
+</div></div>
+
+<!-- ════════════ C ════════════ -->
+<div class="skin-label"><b>C · The Observatory</b> <span>— brass instruments and a violet night; the astronomy is the identity. The timeline becomes an orrery track.</span></div>
+<div class="skin obs"><div class="stage">
+  <div class="hdr">
+    <div><h2>Chronos Earth</h2><div class="tag">250 million years, observed honestly</div></div>
+    <div class="tag">the first 20 aboard wear a founding star</div>
+  </div>
+  <div class="row">
+    <div class="col panel">
+      <h3>INSTRUMENTS</h3>
+      <div class="lyr"><span class="bx on"></span> Political Borders</div>
+      <div class="lyr"><span class="bx on"></span> Natural Disasters <span class="n">530</span></div>
+      <div class="lyr"><span class="bx"></span> Notable People <span class="n">632</span></div>
+      <div class="lyr"><span class="bx on"></span> Wars &amp; Battles <span class="n">1,135</span></div>
+    </div>
+    <div class="col panel dossier">
+      <div class="kick">PESTILENCE · TRADITIONALLY DATED</div>
+      <h4>The Black Death</h4>
+      <div class="date">1347 – 1351 · shown at Messina, Sicily</div>
+      <div class="body">Genoese galleys carried the plague into Europe in October 1347. The pandemic itself spanned three continents…</div>
+      <div class="flag">Why it is shown here — a pandemic has no single location on record; the pin marks where it entered Europe.</div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="tl-cap"><span>250 MYA</span><span>TODAY</span></div>
+    <div class="tl-bar"><i style="left:12%"></i><i style="left:34%"></i><i style="left:82%"></i><span class="tl-pin"></span></div>
+  </div>
+  <span class="support">❤ Keep the crew building</span>
+</div></div>
+
+<!-- ════════════ D ════════════ -->
+<div class="skin-label"><b>D · The Stratum</b> <span>— deep time as geology: the timeline is a core sample, the palette is sediment, basalt and ochre. Boldest of the four.</span></div>
+<div class="skin strat"><div class="stage">
+  <div class="hdr">
+    <h2>CHRONOS EARTH</h2>
+    <div class="tag">250 million years, cut through like rock</div>
+  </div>
+  <div class="row">
+    <div class="col panel">
+      <h3>STRATA</h3>
+      <div class="lyr"><span class="bx on"></span> Political Borders</div>
+      <div class="lyr"><span class="bx on"></span> Natural Disasters <span class="n">530</span></div>
+      <div class="lyr"><span class="bx"></span> Notable People <span class="n">632</span></div>
+      <div class="lyr"><span class="bx on"></span> Wars &amp; Battles <span class="n">1,135</span></div>
+    </div>
+    <div class="col panel dossier">
+      <div class="kick">PESTILENCE · TRADITIONALLY DATED</div>
+      <h4>The Black Death</h4>
+      <div class="date">1347 – 1351 · shown at Messina, Sicily</div>
+      <div class="body">Genoese galleys carried the plague into Europe in October 1347. The pandemic itself spanned three continents…</div>
+      <div class="flag">Why it is shown here — a pandemic has no single location on record; the pin marks where it entered Europe.</div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="tl-cap"><span>250 MYA · THE CORE SAMPLE</span><span>TODAY</span></div>
+    <div class="tl-bar"><b class="s1"></b><b class="s2"></b><b class="s3"></b><b class="s4"></b><b class="s5"></b><span class="tl-pin"></span></div>
+  </div>
+  <span class="support">KEEP THE CREW BUILDING</span>
+</div></div>
+
+</body>
+</html>
