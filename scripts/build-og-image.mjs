@@ -35,6 +35,17 @@ const ORIGIN = `http://localhost:${PORT}`;
 // The drawing runs in the PAGE (same origin as the tiles). Sets window.__ogDone.
 const DRAW = /* js */ `
 async function drawOG(){
+  // The card wears the ship's own face. Canvas silently falls back to a default
+  // serif if the face has not loaded, so load it EXPLICITLY through the
+  // FontFace API rather than declaring @font-face and awaiting
+  // document.fonts.ready — on this bare builder page that never settles
+  // (measured: it hangs indefinitely, while FontFace.load resolves at once).
+  const face = new FontFace('EB Garamond', "url('/fonts/ebgaramond-var.woff2')");
+  await face.load();
+  document.fonts.add(face);
+  if (!document.fonts.check('600 70px "EB Garamond"')) {
+    throw new Error('EB Garamond did not load — the card would render in a fallback serif');
+  }
   const W=2048,H=1024,TS=256,NX=8,NY=4;
   const loadImg=(s)=>new Promise((res,rej)=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>res(im);im.onerror=()=>rej(new Error(s));im.src=s;});
   const eq=document.createElement('canvas');eq.width=W;eq.height=H;const ec=eq.getContext('2d');
@@ -43,7 +54,7 @@ async function drawOG(){
   await Promise.all(jobs);
   const eqd=ec.getImageData(0,0,W,H).data;
   const cw=1200,ch=630;const cv=document.getElementById('og');cv.width=cw;cv.height=ch;const g=cv.getContext('2d');
-  let bg=g.createRadialGradient(900,315,60,900,315,900);bg.addColorStop(0,'#0b1622');bg.addColorStop(1,'#04060b');g.fillStyle=bg;g.fillRect(0,0,cw,ch);
+  let bg=g.createRadialGradient(900,315,60,900,315,900);bg.addColorStop(0,'#111a15');bg.addColorStop(1,'#070b09');g.fillStyle=bg;g.fillRect(0,0,cw,ch);
   g.save();for(let i=0;i<340;i++){const sx=(i*73.13)%cw,sy=(i*181.7)%ch;const a=0.15+((i*97)%100)/100*0.6;const r=((i*53)%100)/100<0.12?1.4:0.7;g.globalAlpha=a;g.fillStyle='#dfeaff';g.beginPath();g.arc(sx,sy,r,0,7);g.fill();}g.restore();
   const cx=905,cy=315,R=292,lon0=15*Math.PI/180,lat0=20*Math.PI/180,sinL0=Math.sin(lat0),cosL0=Math.cos(lat0);
   const Lx=-0.42,Ly=0.55,Lz=0.72,Ln=Math.hypot(Lx,Ly,Lz);
@@ -60,17 +71,21 @@ async function drawOG(){
   g.putImageData(img,0,0);
   g.save();g.globalCompositeOperation='lighter';let rim=g.createRadialGradient(cx,cy,R*0.92,cx,cy,R*1.06);rim.addColorStop(0,'rgba(90,150,220,0)');rim.addColorStop(0.6,'rgba(96,160,230,0.30)');rim.addColorStop(1,'rgba(96,160,230,0)');g.fillStyle=rim;g.beginPath();g.arc(cx,cy,R*1.06,0,7);g.fill();g.restore();
   g.textBaseline='alphabetic';
-  g.fillStyle='#7fd7e8';g.font='600 15px Segoe UI, system-ui, sans-serif';g.letterSpacing='3px';g.fillText('FREE · NO ADS · NO ACCOUNTS · OPEN DATA',70,205);g.letterSpacing='0px';
-  g.fillStyle='#f4f7fb';g.font='700 66px Georgia, "Times New Roman", serif';g.fillText('Chronos Earth',68,285);
-  g.fillStyle='#c7d2e0';g.font='400 27px Segoe UI, system-ui, sans-serif';g.fillText('250 million years of history,',70,340);g.fillText('on one living globe.',70,378);
+  g.fillStyle='#c9a24b';g.font='600 15px "EB Garamond", Georgia, serif';g.letterSpacing='3px';g.fillText('FREE · NO ADS · NO ACCOUNTS · OPEN DATA',70,205);g.letterSpacing='0px';
+  g.fillStyle='#e8e2d0';g.font='600 70px "EB Garamond", Georgia, serif';g.fillText('Chronos Earth',68,285);
+  g.fillStyle='#a8a08a';g.font='400 28px "EB Garamond", Georgia, serif';g.fillText('250 million years of history,',70,340);g.fillText('on one living globe.',70,378);
   const bx=70,by=430,bw=470,bh=13;let tl=g.createLinearGradient(bx,0,bx+bw,0);[[0,'#2b4a7a'],[0.35,'#2f7d6a'],[0.6,'#5f8a3a'],[0.8,'#b7842f'],[1,'#a83a3a']].forEach(([s,c])=>tl.addColorStop(s,c));g.fillStyle=tl;g.beginPath();g.roundRect(bx,by,bw,bh,7);g.fill();
-  g.fillStyle='#8fa0b4';g.font='400 15px Segoe UI, system-ui, sans-serif';g.fillText('Deep time',bx,by+34);g.textAlign='right';g.fillText('Today',bx+bw,by+34);g.textAlign='left';
+  g.fillStyle='#a8a08a';g.font='400 15px "EB Garamond", Georgia, serif';g.fillText('Deep time',bx,by+34);g.textAlign='right';g.fillText('Today',bx+bw,by+34);g.textAlign='left';
   window.__ogDone=true;
 }
 drawOG().catch(e=>{window.__ogError=String(e);});
 `;
 
-const HTML = `<!doctype html><meta charset=utf-8><style>html,body{margin:0}#og{display:block}</style><canvas id="og" width="1200" height="630"></canvas><script>${DRAW}<\/script>`;
+// The face is loaded in JS (see drawOG) rather than declared here — see the
+// note there about document.fonts.ready never settling on a bare page.
+const HTML = `<!doctype html><meta charset=utf-8><style>
+html,body{margin:0}#og{display:block}
+</style><canvas id="og" width="1200" height="630"></canvas><script>${DRAW}<\/script>`;
 
 const tmpName = '_og-builder.html';
 await writeFile(join(PUBLIC, tmpName), HTML);
