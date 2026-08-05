@@ -31,6 +31,7 @@ import {
   requestFrame,
   nudgeFrames,
   onDemandRenderingEnabled,
+  releaseBootLease,
 } from '../lib/renderLease';
 
 /** A battle marker is visible from its date until this many years after it —
@@ -613,11 +614,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       fullscreenButton: false,
       selectionIndicator: false,
       infoBox: false,
-      // Draw only when something changes rather than sixty times a second —
-      // but OFF by default until proven; see onDemandRenderingEnabled().
-      requestRenderMode: onDemandRenderingEnabled(),
+      // ALWAYS start continuous, whatever the preference. The one real hazard
+      // of render-on-demand is at boot: Cesium asks for terrain and imagery
+      // tiles DURING render passes, so a globe that isn't being drawn never
+      // asks for the tiles it needs in order to be drawn, and the visitor gets
+      // a star field with no Earth. Drawing normally until the globe has
+      // actually loaded makes that impossible; the switch to on-demand happens
+      // below, once `tilesLoaded` says the Earth is really there.
+      requestRenderMode: false,
       maximumRenderTimeChange: Infinity,
     });
+    // Torn down with the viewer — see the render-mode handover below.
+    let cleanupRenderMode: (() => void) | undefined;
     bindRenderLease(viewer.scene);
     // The opening frames: base imagery, terrain and the first data all arrive
     // asynchronously over the first few seconds, and under render-on-demand a
@@ -631,6 +639,42 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.scene.globe.tileLoadProgressEvent.addEventListener((pending: number) => {
       if (pending > 0) nudgeFrames(700);
     });
+
+    // THE HANDOVER: draw normally until the Earth is genuinely on screen, then
+    // — if the visitor wants it — stop redrawing sixty times a second for a
+    // globe that is sitting still. Cesium redrawing forever is this app's
+    // single biggest cost on an old laptop ("basically unusable", a reviewer,
+    // 2026-07-30), but a black globe would be far worse than a slow one, so
+    // the saving is only taken once there is something to save.
+    if (onDemandRenderingEnabled()) {
+      let settled = false;
+      const goOnDemand = () => {
+        if (settled || viewer.isDestroyed()) return;
+        if (!viewer.scene.globe.tilesLoaded) return; // still dressing — wait
+        settled = true;
+        releaseBootLease();
+      };
+      // Poll rather than trust one event: tilesLoaded flickers as the camera
+      // settles, and we only want the handover after it has genuinely stuck.
+      const settleTimer = window.setInterval(() => {
+        goOnDemand();
+        if (settled) window.clearInterval(settleTimer);
+      }, 1000);
+      // Belt and braces — hand over regardless after 20s, so a permanently
+      // half-loaded globe (offline, blocked tiles) doesn't burn the CPU for
+      // the whole visit.
+      const failsafe = window.setTimeout(() => {
+        if (!settled && !viewer.isDestroyed()) {
+          settled = true;
+          window.clearInterval(settleTimer);
+          releaseBootLease();
+        }
+      }, 20_000);
+      cleanupRenderMode = () => {
+        window.clearInterval(settleTimer);
+        window.clearTimeout(failsafe);
+      };
+    }
 
     // On a machine without a graphics card every pixel is drawn on the CPU, so
     // buy back the fill rate: render below native resolution (the globe is a
@@ -1065,6 +1109,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         popTimerRef.current = null;
       }
       popAnimsRef.current.clear();
+      cleanupRenderMode?.();
       unbindRenderLease();
       handler.destroy();
       faunaRef.current?.dispose();

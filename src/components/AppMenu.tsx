@@ -42,6 +42,14 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
   // security — the switch is self-service and the Workshop is a public page.
   // The real gate is publishing, which still needs the key (see saveReview).
   const [maker, setMaker] = useState(getLocalMaker());
+  // Read once for the Performance switches' initial state. Both settings are
+  // consumed when the globe is constructed, so changing either reloads.
+  const [lightGraphics] = useState(() => {
+    try { return localStorage.getItem('chronos.perf') === 'low'; } catch { return false; }
+  });
+  const [onDemand] = useState(() => {
+    try { return localStorage.getItem('chronos.ondemand') !== '0'; } catch { return true; }
+  });
   useEffect(() => {
     if (maker || !getToken()) return;
     let alive = true;
@@ -180,6 +188,52 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   {skin === s.id && <span className="skin-tick">✓</span>}
                 </button>
               ))}
+              {/* ── Performance ─────────────────────────────────────────
+                  Put HERE, above the rest, because "it runs badly on my old
+                  laptop" is the one complaint that stops a visitor cold — and
+                  until now the only cure was a URL parameter nobody could
+                  guess (?perf=low). Both switches are read when the globe is
+                  built, so both reload. */}
+              <div className="app-menu-heading">Performance</div>
+              <label className="app-menu-item toggle">
+                <input
+                  type="checkbox"
+                  defaultChecked={lightGraphics}
+                  onChange={(e) => {
+                    try {
+                      if (e.target.checked) localStorage.setItem('chronos.perf', 'low');
+                      else localStorage.removeItem('chronos.perf');
+                    } catch { /* storage blocked — the choice just won't stick */ }
+                    location.reload();
+                  }}
+                />
+                <span>🪶 Lighter Graphics</span>
+              </label>
+              <div className="app-menu-note">
+                For older or slower machines: smaller map textures, simpler
+                terrain, and no haze or atmosphere. The globe looks a little
+                softer and runs a great deal faster. Reloads the page.
+              </div>
+              <label className="app-menu-item toggle">
+                <input
+                  type="checkbox"
+                  defaultChecked={onDemand}
+                  onChange={(e) => {
+                    try {
+                      localStorage.setItem('chronos.ondemand', e.target.checked ? '1' : '0');
+                    } catch { /* storage blocked */ }
+                    location.reload();
+                  }}
+                />
+                <span>🔋 Draw Only When Something Changes</span>
+              </label>
+              <div className="app-menu-note">
+                Normally the globe redraws sixty times a second even while it
+                sits still. This draws it only when something actually moves —
+                much kinder to laptops and batteries. Switch it off if anything
+                ever looks frozen. Reloads the page.
+              </div>
+
               <div className="app-menu-heading">Preferences</div>
               <label className="app-menu-item toggle">
                 <input type="checkbox" checked={reduceMotion} onChange={(e) => onReduceMotion(e.target.checked)} />

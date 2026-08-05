@@ -30,37 +30,70 @@ let scene: Scene | null = null;
 let held = 0;
 
 /**
- * Is render-on-demand switched on? DEFAULT OFF, deliberately.
+ * Is render-on-demand switched on? DEFAULT ON since 2026-07-30.
  *
- * Turning it on is the single biggest saving available to a machine with no
- * graphics card — but the first live trial (2026-07-20) showed why it cannot be
- * shipped casually. Cesium requests terrain and imagery tiles DURING render
- * passes, so a globe that is not being drawn never asks for the tiles it would
- * need in order to be drawn. It starves itself, and the visitor gets a star
- * field with no Earth in front of it until they happen to touch the mouse.
+ * This is the single biggest saving the app has: without it Cesium redraws the
+ * entire globe sixty times a second forever, even with nobody touching it.
  *
- * The plumbing below (explicit requestFrame calls at every direct mutation, the
- * nudge after asynchronous arrivals, the tile-progress pump) is all correct and
- * costs nothing while continuous rendering is on — it simply becomes redundant.
- * So it stays, and the mode itself waits behind `?ondemand=1` until it has been
- * proven frame by frame on a real machine. A globe that is slow is a problem; a
- * globe that is black is a disaster.
+ * IT SHIPPED OFF AT FIRST, and the reason is worth keeping. Cesium requests
+ * terrain and imagery tiles DURING render passes, so a globe that is not being
+ * drawn never asks for the tiles it needs in order to be drawn — it starves
+ * itself, and the visitor gets a star field with no Earth in front of it. The
+ * first trial (2026-07-20) appeared to show exactly that, so it was gated.
+ *
+ * That reading was WRONG, and the instrument was at fault: those trials ran in
+ * a HIDDEN browser tab (`document.visibilityState === 'hidden'`), where the
+ * browser throttles rAF to nothing — the unmodified app went equally black
+ * under the same conditions. Re-tested 2026-07-30 in a real, visible tab: the
+ * globe draws in full, and the camera responds. Note that paint COUNTS still
+ * cannot be measured through an automated tab (always zero, both modes) —
+ * verify this feature by screenshot, never by frame counter.
+ *
+ * The safety plumbing that made it shippable stays either way: explicit
+ * requestFrame at each direct mutation, `nudgeFrames` after asynchronous
+ * arrivals, the tile-progress pump that solves the starvation above, and a
+ * counted lease so `CallbackProperty` animations keep moving.
+ *
+ * Escape hatch, because a frozen globe would be worse than a slow one:
+ * `?ondemand=0`, or the switch in ⋯ → Settings.
  */
 export function onDemandRenderingEnabled(): boolean {
   try {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === 'undefined') return true;
     const q = new URLSearchParams(window.location.search).get('ondemand');
     if (q === '1' || q === '0') window.localStorage.setItem('chronos.ondemand', q);
-    return window.localStorage.getItem('chronos.ondemand') === '1';
+    // DEFAULT ON since 2026-07-30. Opt OUT with ?ondemand=0 or the Settings
+    // switch, which is the escape hatch if anything ever looks frozen.
+    return window.localStorage.getItem('chronos.ondemand') !== '0';
   } catch {
-    return false;
+    return true;
   }
 }
 
-/** Attach the lease system to the viewer's scene and start on-demand drawing. */
+/**
+ * Attach the lease system to the viewer's scene.
+ *
+ * ALWAYS starts with a lease held, so the app draws continuously at boot. That
+ * is what makes on-demand safe: Cesium requests tiles during render passes, so
+ * a globe that isn't drawing never asks for the tiles it needs to be drawn.
+ * Globe.tsx releases this boot lease with `releaseBootLease()` once the Earth
+ * has genuinely loaded — and never releases it at all when the visitor has
+ * switched on-demand off.
+ */
 export function bindRenderLease(s: Scene): void {
   scene = s;
-  held = onDemandRenderingEnabled() ? 0 : 1; // a permanent lease keeps it continuous
+  held = 1;
+  bootLeaseHeld = true;
+  apply();
+}
+
+let bootLeaseHeld = false;
+
+/** Hand over to on-demand drawing. Safe to call twice. */
+export function releaseBootLease(): void {
+  if (!bootLeaseHeld) return;
+  bootLeaseHeld = false;
+  held = Math.max(0, held - 1);
   apply();
 }
 
