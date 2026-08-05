@@ -12,6 +12,7 @@ import LayersPanel from './components/LayersPanel';
 import BattleHud from './components/BattleHud';
 import SearchBox from './components/SearchBox';
 import About from './components/About';
+import Welcome, { hasSeenWelcome, markWelcomeSeen } from './components/Welcome';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
 import CompareMode from './components/CompareMode';
@@ -257,6 +258,10 @@ export default function App() {
   // A battle currently staged ON the globe (armies standing at the real site).
   const [globeBattle, setGlobeBattle] = useState<{ id: string; view: BattleViewData; phase: number } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  // The first-run explainer. A reviewer opening the site cold found it "a bit
+  // confusing" (30 Jul 2026) — it now says what this is and which three things
+  // to touch. Shown once; re-openable from the About panel.
+  const [showWelcome, setShowWelcome] = useState(() => !hasSeenWelcome());
   // The floating frames over the globe (⋯ menu toggles): Weather & Sky for
   // everyone — it lights the REAL globe by the real sun — and the compass.
   const [skyOpen, setSkyOpen] = useState(false);
@@ -897,7 +902,13 @@ export default function App() {
         onTogglePeople={setShowPeople}
       />
 
-      {showAbout && <About onClose={() => setShowAbout(false)} />}
+      {showWelcome && (
+        <Welcome
+          onClose={() => { setShowWelcome(false); markWelcomeSeen(); }}
+          onTakeTour={tours.length > 0 ? () => { setActiveTour(tours[0]); setTourStep(0); } : undefined}
+        />
+      )}
+      {showAbout && <About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} />}
 
       {skyOpen && (
         <div className="app-sky">

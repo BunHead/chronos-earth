@@ -3,6 +3,9 @@ import { startWindowDrag } from '../lib/windowDrag';
 
 interface AboutProps {
   onClose: () => void;
+  /** Re-open the first-run explainer, so "how does this work?" has an answer
+   *  on every visit, not just the first one. */
+  onReplayWelcome?: () => void;
 }
 
 /**
@@ -11,7 +14,7 @@ interface AboutProps {
  * Credits the open data and tools that power Chronos Earth, and is honest about
  * how the historical content was put together.
  */
-export default function About({ onClose }: AboutProps) {
+export default function About({ onClose, onReplayWelcome }: AboutProps) {
   const [patrons, setPatrons] = useState<string[] | null>(null);
   useEffect(() => {
     let alive = true;
@@ -40,6 +43,14 @@ export default function About({ onClose }: AboutProps) {
             Chronos Earth lets you scrub through deep geological time and recorded history on a 3D
             globe — watching continents drift, empires rise and fall, and famous battles unfold.
           </p>
+
+          {onReplayWelcome && (
+            <p>
+              <button className="welcome-tour" onClick={onReplayWelcome}>
+                ↻ Show me how it works again
+              </button>
+            </p>
+          )}
 
           <div className="about-support">
             <p>
