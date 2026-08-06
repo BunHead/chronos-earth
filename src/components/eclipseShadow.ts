@@ -25,6 +25,7 @@ import {
   eclipseGroundWindow,
   obscurationAt,
   bearingDeg,
+  greatCircleKm,
   type ShadowState,
 } from '../lib/eclipseShadow';
 import { setEclipseShadowState } from '../lib/eclipseDim';
@@ -71,6 +72,14 @@ export class EclipseShadowController {
   private timer: number | null = null;
   private releaseRender: (() => void) | null = null;
   private current: ShadowState | null = null;
+  /**
+   * Where "here" is for the duration of a sweep. Captured from the camera the
+   * moment play begins and held, because the sweep now flies the camera to the
+   * shadow's corridor — and without this the "% covered here" readout would
+   * quietly stop meaning the Captain's place and start meaning wherever the
+   * camera had got to, which would read near-total for every eclipse.
+   */
+  private watchFrom: { lat: number; lon: number } | null = null;
 
   constructor(viewer: Cesium.Viewer) {
     this.viewer = viewer;
@@ -127,11 +136,70 @@ export class EclipseShadowController {
    * right as the Captain flies about mid-eclipse.
    */
   private here(): { lat: number; lon: number } {
+    if (this.watchFrom) return this.watchFrom;
     const c = this.viewer.camera.positionCartographic;
     return {
       lat: Cesium.Math.toDegrees(c.latitude),
       lon: Cesium.Math.toDegrees(c.longitude),
     };
+  }
+
+  /**
+   * Put the shadow's corridor on screen before the sweep starts.
+   *
+   * WHY THIS EXISTS. The shadow was always being painted correctly — at its
+   * true place on the real Earth. But a play-through never touched the camera,
+   * so "watch the shadow cross" only worked if you happened to already be
+   * looking at the right third of the planet. Ask for the 26 Feb 2017 annular
+   * from a view over Britain and the whole event happens in the South Atlantic,
+   * behind the globe: a correct shadow, invisible, and no way to tell the two
+   * apart. Reported as "saw nothing when I watch the shadow cross".
+   *
+   * The camera is only moved when it has to be — if the corridor is already
+   * comfortably on screen the Captain's framing is left exactly as he set it.
+   */
+  private frameShadow(peak: Date): void {
+    const s = shadowAt(peak);
+    if (!s) return;
+    const cam = this.viewer.camera.positionCartographic;
+    const camLat = Cesium.Math.toDegrees(cam.latitude);
+    const camLon = Cesium.Math.toDegrees(cam.longitude);
+
+    const R = 6371;
+    // How far off-centre the shadow sits, and how much of the globe the camera
+    // can presently see. Both in degrees of arc from the sub-camera point.
+    const sepDeg = greatCircleKm(camLat, camLon, s.lat, s.lon) / (R * DEG);
+    const visibleDeg = Math.acos(Math.min(1, R / (R + cam.height / 1000))) / DEG;
+    // A 10° cuff: a shadow sitting right on the limb is technically visible and
+    // practically edge-on, which is no better than not being there at all.
+    if (sepDeg < visibleDeg - 10) return;
+
+    // Aim at the great-circle midpoint of watcher and shadow, so the Captain
+    // keeps his own patch of Earth in shot and watches the dark come to it.
+    const v = (lat: number, lon: number) => [
+      Math.cos(lat * DEG) * Math.cos(lon * DEG),
+      Math.cos(lat * DEG) * Math.sin(lon * DEG),
+      Math.sin(lat * DEG),
+    ];
+    const a = v(camLat, camLon);
+    const b = v(s.lat, s.lon);
+    const m = [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+    const len = Math.hypot(m[0], m[1], m[2]);
+    // Antipodal to within rounding — no midpoint means anything; frame the
+    // shadow itself and accept that his own spot is round the back.
+    const midLat = len < 1e-6 ? s.lat : Math.asin(m[2] / len) / DEG;
+    const midLon = len < 1e-6 ? s.lon : Math.atan2(m[1], m[0]) / DEG;
+
+    // Pull back far enough to hold both ends plus the penumbra's own radius.
+    const needDeg = Math.min(78, sepDeg / 2 + s.penumbraKm / (R * DEG) + 8);
+    const height = Math.min(
+      34_000_000,
+      Math.max(9_000_000, (R / Math.cos(needDeg * DEG) - R) * 1000),
+    );
+    this.viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(midLon, midLat, height),
+      duration: 1.5,
+    });
   }
 
   /**
@@ -207,6 +275,11 @@ export class EclipseShadowController {
     const ground = eclipseGroundWindow(peak);
     if (!ground || this.viewer.isDestroyed()) return false;
     this.stop();
+    // Pin "here" to the Captain's own patch BEFORE the camera is allowed to
+    // move, then put the corridor on screen. Order matters: stop() clears the
+    // pin, so both of these must come after it.
+    this.watchFrom = this.here();
+    this.frameShadow(peak);
 
     const startMs = ground.start.getTime();
     const spanMs = ground.end.getTime() - startMs;
@@ -249,6 +322,8 @@ export class EclipseShadowController {
       this.releaseRender();
       this.releaseRender = null;
     }
+    // The sweep is over; "here" goes back to meaning wherever the camera is.
+    this.watchFrom = null;
   }
 
   isPlaying(): boolean {
