@@ -3,6 +3,7 @@ import type { Tour } from '../lib/types';
 import { getLocalMaker, setLocalMaker, getToken, validateMakerToken } from '../lib/review';
 import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
 import { SKINS, type SkinId } from '../lib/skin';
+import Glyph from './Glyph';
 
 interface AppMenuProps {
   tours: Tour[];
@@ -78,7 +79,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
           else { setOpen(true); setView('tours'); }
         }}
       >
-        🎬 <span>Journeys</span>
+        <Glyph name="tour" /> <span>Journeys</span>
       </button>
       <button
         className="app-menu-btn"
@@ -99,7 +100,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 rel="noreferrer"
                 onClick={close}
               >
-                ❤ Support Chronos Earth
+                <Glyph name="heart" /> Support Chronos Earth
               </a>
               {/* ── For Everyone ──────────────────────────────────────────
                   Alphabetical by label, ignoring the emoji: About, Compass,
@@ -109,18 +110,18 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   its old name, "Weather & Sky", it sorted to the very bottom.
                   Keep the order when adding an item. */}
               <div className="app-menu-heading">For Everyone</div>
-              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}>ℹ️ About &amp; Sources</button>
+              <button className="app-menu-item" onClick={() => { close(); onAbout(); }}><Glyph name="info" /> About &amp; Sources</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleCompass(); }}>
-                🧭 Compass {compassOpen ? '✓' : ''}
+                <Glyph name="compass" /> Compass {compassOpen ? '✓' : ''}
               </button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSea(); }}>
-                🌊 Sea Level {seaOpen ? '✓' : ''}
+                <Glyph name="seas" /> Sea Level {seaOpen ? '✓' : ''}
               </button>
-              <button className="app-menu-item" onClick={() => { close(); onShare(); }}>🔗 Share This Moment</button>
+              <button className="app-menu-item" onClick={() => { close(); onShare(); }}><Glyph name="share" /> Share This Moment</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
-                🌤️ Sky and Weather {skyOpen ? '✓' : ''}
+                <Glyph name="sky" /> Sky and Weather {skyOpen ? '✓' : ''}
               </button>
-              <button className="app-menu-item" onClick={() => setView('tours')}>🎬 Story Tours <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => setView('tours')}><Glyph name="tour" /> Story Tours <span className="app-menu-arrow">›</span></button>
               {/* ── Maker's Tools ────────────────────────────────────────
                   Browse every 3D model, and run the automated Wikidata
                   harvester on GitHub. Shown only once maker tools are on
@@ -131,7 +132,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 <>
                   <div className="app-menu-heading">Maker&rsquo;s Tools</div>
                   <a className="app-menu-item" href="workshop.html" target="_blank" rel="noreferrer" onClick={close}>
-                    🛠️ Model Workshop
+                    <Glyph name="tools" /> Model Workshop
                   </a>
                   <a
                     className="app-menu-item"
@@ -140,7 +141,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                     rel="noreferrer"
                     onClick={close}
                   >
-                    🚜 Run the Data Harvester
+                    <Glyph name="harvest" /> Run the Data Harvester
                   </a>
                 </>
               )}
@@ -151,7 +152,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   hiding it behind the maker gate would lock the door and post
                   the key through it. */}
               <div className="app-menu-heading">Settings</div>
-              <button className="app-menu-item" onClick={() => setView('settings')}>⚙️ Settings &amp; Preferences <span className="app-menu-arrow">›</span></button>
+              <button className="app-menu-item" onClick={() => setView('settings')}><Glyph name="settings" /> Settings &amp; Preferences <span className="app-menu-arrow">›</span></button>
             </>
           )}
           {view === 'tours' && (
@@ -207,7 +208,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                     location.reload();
                   }}
                 />
-                <span>🪶 Lighter Graphics</span>
+                <span><Glyph name="feather" /> Lighter Graphics</span>
               </label>
               <div className="app-menu-note">
                 For older or slower machines: smaller map textures, simpler
@@ -225,7 +226,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                     location.reload();
                   }}
                 />
-                <span>🔋 Draw Only When Something Changes</span>
+                <span><Glyph name="battery" /> Draw Only When Something Changes</span>
               </label>
               <div className="app-menu-note">
                 Normally the globe redraws sixty times a second even while it
@@ -245,7 +246,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   checked={gpuBorderCache}
                   onChange={(e) => onGpuBorderCache(e.target.checked)}
                 />
-                <span>🗺️ Fast Time Travel</span>
+                <span><Glyph name="map" /> Fast Time Travel</span>
               </label>
               <div className="app-menu-note">
                 Keeps more historical maps — borders and drifting continents —
@@ -253,7 +254,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 instant. Turn it off on an older machine if the globe stutters.
               </div>
               <label className="app-menu-item slider">
-                <span>⚔️ Army Size</span>
+                <span><Glyph name="battle" /> Army Size</span>
                 <input
                   type="range"
                   min={DENSITY_MIN}
@@ -276,7 +277,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                   defaultChecked={getLocalMaker()}
                   onChange={(e) => { setLocalMaker(e.target.checked); location.reload(); }}
                 />
-                <span>🔧 Maker Tools (This Device)</span>
+                <span><Glyph name="tools" /> Maker Tools (This Device)</span>
               </label>
               <div className="app-menu-note">
                 Maker tools let you move, turn, scale and lift monuments on the globe. Saved on this
