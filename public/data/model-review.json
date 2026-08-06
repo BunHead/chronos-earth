@@ -423,5 +423,13 @@
   "castle": {
     "note": "Was rebuilt serveral times through history. Width doesn't fit on hilltop, remember as historically accurate as possible",
     "ts": 1786009625437
+  },
+  "place:castle@52.949,-1.155": {
+    "transform": {
+      "headingDeg": -12.5,
+      "eastM": 40,
+      "northM": 50
+    },
+    "ts": 1786009625564
   }
 }
