@@ -22,8 +22,122 @@ export type SitePartType =
   | 'platform' //  traced outline filled and raised (a ward, a motte)
   | 'water'; //    traced outline filled flat as water (the moat)
 
+/**
+ * What a part IS ARCHITECTURALLY — the brief the mason works to when a plan is
+ * baked into detailed masonry (docs/plan-site-detail-bake.md). The Captain
+ * surveys shapes; the role says what kind of building that shape is, so the
+ * mason can dress it without ever moving or resizing what he traced.
+ *
+ * `plain` means "leave it as the primitive" — the honest default for anything
+ * the mason has no recipe for yet.
+ */
+export type SitePartRole = 'tower' | 'gatehouse' | 'curtain-wall' | 'building' | 'moat' | 'plain';
+
+/** Friendly names for the builder's role dropdown. */
+export const ROLE_NAMES: Record<SitePartRole, string> = {
+  tower: 'Tower',
+  gatehouse: 'Gatehouse',
+  'curtain-wall': 'Curtain wall',
+  building: 'Building',
+  moat: 'Moat / water',
+  plain: 'Plain (no detail)',
+};
+
+/**
+ * Name→role guesses, FIRST HIT WINS — and the order is load-bearing.
+ *
+ * "tower" must be tested before "wall", because the Captain's real labels
+ * include "Southwest Innerwall Tower" and "North West Inner Tower": the
+ * substring "wall" lives inside "Innerwall", so a wall-first scan would dress
+ * four of his round towers as curtain walls. Every entry below was checked
+ * against the Tower of London survey in model-review.json.
+ */
+const ROLE_KEYWORDS: Array<[RegExp, SitePartRole]> = [
+  [/tower|drum|turret|bastion/i, 'tower'],
+  [/gate|barbican|portcullis/i, 'gatehouse'],
+  [/keep|hall|chapel|donjon|lodging/i, 'building'],
+  [/wall|curtain|rampart|enceinte/i, 'curtain-wall'],
+  [/moat|ditch|river|water/i, 'moat'],
+];
+
+/** The role a part falls back to when its name says nothing. */
+const ROLE_BY_TYPE: Record<SitePartType, SitePartRole> = {
+  box: 'building',
+  cylinder: 'tower',
+  wall: 'curtain-wall',
+  platform: 'plain',
+  water: 'moat',
+};
+
+/**
+ * The role the mason should build this part as: an explicit override first
+ * (the builder's dropdown), then the Captain's own name, then the part type.
+ * Pure — the whole inference is unit-tested against his real labels.
+ */
+export function roleFor(part: SitePart): SitePartRole {
+  if (part.role) return part.role;
+  const name = part.label ?? '';
+  if (name) {
+    for (const [re, role] of ROLE_KEYWORDS) if (re.test(name)) return role;
+  }
+  return ROLE_BY_TYPE[part.type] ?? 'plain';
+}
+
+/** Roles the mason can currently dress. The vertical slice ships ONE. */
+export const BAKED_ROLES: readonly SitePartRole[] = ['curtain-wall'];
+
+/**
+ * Is this part one the baked glb takes over? A part qualifies only when the
+ * mason has a recipe for its role AND the geometry is a traced run he can walk
+ * (a wall needs at least one segment). Date-range agreement is checked
+ * separately by `bakedParts` — a single static glb can only carry one range.
+ */
+export function isBakeableRole(part: SitePart): boolean {
+  if (!BAKED_ROLES.includes(roleFor(part))) return false;
+  return part.type === 'wall' && (part.verts?.length ?? 0) >= 2;
+}
+
+/** Two parts stand and fall together (same timeline gate)? */
+function sameSpan(a: SitePart, b: SitePart): boolean {
+  return (a.fromYear ?? null) === (b.fromYear ?? null) && (a.toYear ?? null) === (b.toYear ?? null);
+}
+
+/**
+ * The parts a site's baked glb actually contains, with the one date span it
+ * carries. ONE glb can only obey ONE timeline gate, so we bake the parts that
+ * share the FIRST bakeable part's span and leave any others as live primitives
+ * — a deliberate honesty limit, not an oversight: a wall added in a different
+ * century keeps its own dates rather than being silently back-dated.
+ */
+export function bakedParts(plan: SitePlan): {
+  indices: number[];
+  fromYear?: number;
+  toYear?: number;
+} {
+  const first = plan.parts.findIndex(isBakeableRole);
+  if (first < 0) return { indices: [] };
+  const lead = plan.parts[first];
+  const indices: number[] = [];
+  plan.parts.forEach((p, i) => {
+    if (isBakeableRole(p) && sameSpan(p, lead)) indices.push(i);
+  });
+  return { indices, fromYear: lead.fromYear, toYear: lead.toYear };
+}
+
+/**
+ * The glb filename a site bakes to. Review keys carry ':', '@', ',' and '.'
+ * — all awkward in a URL path — so they flatten to a safe slug. Deterministic
+ * so the exporter and the globe agree without a lookup table.
+ */
+export function siteGlbName(siteKey: string): string {
+  const body = siteKey.replace(/^siteplan:/, '');
+  return 'site-' + body.replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/^_+|_+$/g, '');
+}
+
 export interface SitePart {
   type: SitePartType;
+  /** What the mason builds this as when baked. Absent = inferred (roleFor). */
+  role?: SitePartRole;
   /** Centre, for box/cylinder. */
   lat?: number;
   lon?: number;

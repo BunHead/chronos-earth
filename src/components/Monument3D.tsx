@@ -140,7 +140,10 @@ function sandLike(opts: THREE.MeshStandardMaterialParameters): THREE.MeshStandar
 }
 
 const matCache = new Map<string, THREE.MeshStandardMaterial>();
-function stoneMat(color: string): THREE.MeshStandardMaterial {
+/** Exported so the site-plan mason (lib/siteBake.ts) dresses the Captain's
+ * surveys in the SAME procedural stone as the archetype fleet — one canvas,
+ * no new assets. */
+export function stoneMat(color: string): THREE.MeshStandardMaterial {
   let m = matCache.get(color);
   if (!m) {
     m = stoneLike({ color });
