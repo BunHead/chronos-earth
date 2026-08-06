@@ -103,7 +103,8 @@ export function eventPasses(
 export interface SubLayerDef {
   kind: SubKind;
   label: string;
-  emoji: string;
+  /** Key into lib/glyphs — the drawn mark for this kind. */
+  glyph: string;
 }
 
 /**
@@ -118,25 +119,25 @@ export interface SubLayerDef {
  */
 export const SUB_LAYERS: Record<string, SubLayerDef[]> = {
   'Natural Disasters': [
-    { kind: 'disaster:quake', label: 'Earthquakes', emoji: '🌎' },
-    { kind: 'disaster:eruption', label: 'Volcanoes', emoji: '🌋' },
-    { kind: 'disaster:tsunami', label: 'Tsunamis', emoji: '🌊' },
-    { kind: 'disaster:flood', label: 'Floods', emoji: '💧' },
-    { kind: 'disaster:storm', label: 'Storms', emoji: '🌀' },
-    { kind: 'disaster:landslide', label: 'Landslides', emoji: '⛰️' },
-    { kind: 'disaster:fire', label: 'Great Fires', emoji: '🔥' },
-    { kind: 'disaster:plague', label: 'Plagues', emoji: '🦠' },
-    { kind: 'disaster:famine', label: 'Famines', emoji: '🌾' },
-    { kind: 'disaster:impact', label: 'Impacts', emoji: '☄️' },
+    { kind: 'disaster:quake', label: 'Earthquakes', glyph: 'quake' },
+    { kind: 'disaster:eruption', label: 'Volcanoes', glyph: 'eruption' },
+    { kind: 'disaster:tsunami', label: 'Tsunamis', glyph: 'tsunami' },
+    { kind: 'disaster:flood', label: 'Floods', glyph: 'flood' },
+    { kind: 'disaster:storm', label: 'Storms', glyph: 'storm' },
+    { kind: 'disaster:landslide', label: 'Landslides', glyph: 'landslide' },
+    { kind: 'disaster:fire', label: 'Great Fires', glyph: 'fire' },
+    { kind: 'disaster:plague', label: 'Plagues', glyph: 'plague' },
+    { kind: 'disaster:famine', label: 'Famines', glyph: 'famine' },
+    { kind: 'disaster:impact', label: 'Impacts', glyph: 'impact' },
   ],
   'Science & Discoveries': [
-    { kind: 'science:discovery', label: 'Discoveries', emoji: '🔬' },
-    { kind: 'science:invention', label: 'Inventions', emoji: '💡' },
+    { kind: 'science:discovery', label: 'Discoveries', glyph: 'discovery' },
+    { kind: 'science:invention', label: 'Inventions', glyph: 'invention' },
   ],
   'Notable People': [
-    { kind: 'people:documented', label: 'Documented Lives', emoji: '👤' },
-    { kind: 'people:legendary', label: 'Legends', emoji: '🐉' },
-    { kind: 'people:traditional', label: 'Traditional Figures', emoji: '📖' },
+    { kind: 'people:documented', label: 'Documented Lives', glyph: 'documented' },
+    { kind: 'people:legendary', label: 'Legends', glyph: 'legendary' },
+    { kind: 'people:traditional', label: 'Traditional Figures', glyph: 'traditional' },
   ],
 };
 

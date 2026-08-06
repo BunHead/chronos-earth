@@ -3166,3 +3166,9 @@ textarea:focus-visible,
   .welcome-card { padding: 20px 18px 18px; }
   .welcome-title { font-size: 24px; }
 }
+
+/* Drawn marks (lib/glyphs) sit on the text baseline beside their label, and
+   inherit the row's colour so every skin repaints them for free. */
+.glyph { vertical-align: -2px; flex: none; }
+.layer-row span, .app-menu-item { display: inline-flex; align-items: center; gap: 7px; }
+.layer-row span { gap: 6px; }

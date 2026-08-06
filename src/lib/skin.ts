@@ -44,8 +44,9 @@ export const SKINS = [
 
 export type SkinId = (typeof SKINS)[number]['id'];
 
-/** The ship's default face until the Captain says otherwise. */
-export const DEFAULT_SKIN: SkinId = 'chart';
+/** The ship's face. The Captain's choice, 2026-07-30: the Stratum — deep time
+ *  as geology, and every corner sharp. */
+export const DEFAULT_SKIN: SkinId = 'stratum';
 
 const KEY = 'ce_skin';
 

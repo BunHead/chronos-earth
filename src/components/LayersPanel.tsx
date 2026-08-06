@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { startDrag } from '../lib/windowDrag';
 import { SUB_LAYERS } from '../lib/subLayers';
+import Glyph from './Glyph';
 
 interface LayersPanelProps {
   showSites: boolean;
@@ -44,7 +45,8 @@ interface LayerRow {
   /** Sort key and visible text, WITHOUT the emoji — sorting on the emoji would
    * order the list by an invisible character nobody can see. */
   label: string;
-  emoji?: string;
+  /** Key into lib/glyphs — the drawn mark for this layer. */
+  glyph?: string;
   on: boolean;
   set: (v: boolean) => void;
   sub?: { label: string; on: boolean; set: (v: boolean) => void };
@@ -106,23 +108,23 @@ export default function LayersPanel({
 
   // Declared in any order — sorted by label just below.
   const rows: LayerRow[] = [
-    { label: 'Cities & Places', emoji: '🏙️', on: showCities, set: onToggleCities },
-    { label: 'Ice Ages (Seas & Ice)', emoji: '🧊', on: showSeaLevel, set: onToggleSeaLevel },
-    { label: 'Natural Disasters', emoji: '🌋', on: showDisasters, set: onToggleDisasters },
-    { label: 'Notable People', emoji: '👤', on: showPeople, set: onTogglePeople },
+    { label: 'Cities & Places', glyph: 'city', on: showCities, set: onToggleCities },
+    { label: 'Ice Ages (Seas & Ice)', glyph: 'seas', on: showSeaLevel, set: onToggleSeaLevel },
+    { label: 'Natural Disasters', glyph: 'disaster', on: showDisasters, set: onToggleDisasters },
+    { label: 'Notable People', glyph: 'person', on: showPeople, set: onTogglePeople },
     {
       label: 'Political Borders',
       on: showBorders,
       set: onToggleBorders,
       sub: { label: '⚑ Flags Inside Borders', on: showFlags, set: onToggleFlags },
     },
-    { label: 'Prehistoric Life', emoji: '🦕', on: showFauna, set: onToggleFauna },
-    { label: 'Science & Discoveries', emoji: '🔬', on: showScience, set: onToggleScience },
-    { label: 'Shifting Rivers', emoji: '🏞️', on: showRivers, set: onToggleRivers },
-    { label: 'Sites & Monuments', emoji: '🏛️', on: showSites, set: onToggleSites },
-    { label: 'Treaties & Events', emoji: '📜', on: showEvents, set: onToggleEvents },
-    { label: 'War Front Lines', emoji: '🚩', on: showCampaigns, set: onToggleCampaigns },
-    { label: 'Wars & Battles', emoji: '⚔️', on: showBattles, set: onToggleBattles },
+    { label: 'Prehistoric Life', glyph: 'fauna', on: showFauna, set: onToggleFauna },
+    { label: 'Science & Discoveries', glyph: 'discovery', on: showScience, set: onToggleScience },
+    { label: 'Shifting Rivers', glyph: 'rivers', on: showRivers, set: onToggleRivers },
+    { label: 'Sites & Monuments', glyph: 'monument', on: showSites, set: onToggleSites },
+    { label: 'Treaties & Events', glyph: 'event', on: showEvents, set: onToggleEvents },
+    { label: 'War Front Lines', glyph: 'campaign', on: showCampaigns, set: onToggleCampaigns },
+    { label: 'Wars & Battles', glyph: 'battle', on: showBattles, set: onToggleBattles },
   ].sort((a, b) => a.label.localeCompare(b.label, 'en'));
 
   // The master "All layers" switch — turns every layer on or off at once.
@@ -173,7 +175,7 @@ export default function LayersPanel({
           <div className="layer-row-line">
             <label className="layer-row">
               <input type="checkbox" checked={r.on} onChange={(e) => r.set(e.target.checked)} />
-              <span>{r.emoji ? `${r.emoji} ${r.label}` : r.label}</span>
+              <span>{r.glyph && <Glyph name={r.glyph} />} {r.label}</span>
             </label>
             {hasSubs && (
               <button
@@ -213,7 +215,7 @@ export default function LayersPanel({
                     onChange={(e) => onToggleSub(k.kind, e.target.checked)}
                   />
                   <span>
-                    ↳ {k.emoji} {k.label}
+                    ↳ <Glyph name={k.glyph} /> {k.label}
                     <span className="layer-count">{subCounts[k.kind] ?? 0}</span>
                   </span>
                 </label>
