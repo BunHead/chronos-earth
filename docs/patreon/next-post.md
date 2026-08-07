@@ -1,77 +1,49 @@
-# Patreon — next dispatch + page sync
+# Dispatch from the crew — the ship finally has its own colours
 
-_Staging file. The Friday `patreon-dispatch-draft` routine OVERWRITES this file
-with the next dev-log, so **paste the post below before Friday** and action the
-checklist this week. After that, the file returns to its normal weekly cadence._
+This week the globe changed clothes. There are now **four looks** to choose
+from, and not one of them is a dashboard: the **Chart Room** (ink-green and
+brass), the **Atlas** (a printed paper plate — light, inky, deliberately
+unlike everything else out there), the **Observatory** (violet night and
+instrument gold), and the **Stratum** (basalt and ochre), which is what
+you'll find waiting when you arrive. Pick yours under ⋯ → Settings.
 
-**Status:** the maiden post — _"The maiden voyage of the support ship 🚢"_ — is
-already **published** (the Captain, launch day). So L4's "first post" is done;
-what follows is the **second** post (a launch-week feature spotlight, public, to
-help the launch reach convert) and a **page-sync checklist**.
+While we had the paint out we drew every icon by hand — twenty-six little
+engraved marks in place of the old emoji — so the legend in the Layers panel
+and the markers dotted across the globe finally speak the same language.
 
----
+Landing somewhere new shouldn't be baffling, so there's now a **welcome card**
+on your first visit that names the three things worth touching. Chiefly: drag
+the coloured strip along the bottom. That strip is time, and dragging it is
+the whole point.
 
-## Post to publish next (public)
+For anyone on an older machine, the cure used to be hidden behind a secret
+word. Now the globe **only redraws when something actually changes**, and
+there's a **Lighter Graphics** switch in Settings → Performance.
 
-> **Watch the Moon's shadow cross the real Earth 🌑**
->
-> A thing to try on Chronos Earth this week: open **Sky and Weather**, ask it
-> for a solar eclipse — anywhere on Earth, any year — and press _watch the
-> shadow cross_. The Moon's umbra sweeps the actual globe along its real path,
-> the sky dims to a corona, and the monuments beneath it go dark.
->
-> Stand under the 2017 eclipse over Wyoming and it's spot-on. Ask for an ancient
-> one — the eclipse Thales is said to have predicted, 585 BCE — and it still
-> finds it, but wears an honest label: the date is certain, the ground it
-> crossed is an estimate, because Earth's spin has slowed unevenly since. The
-> globe would rather tell you what it doesn't know than fake a confident line
-> across Anatolia.
->
-> The site's free and stays free — bunhead.github.io/chronos-earth. If you're
-> enjoying it, sharing it with one person who'd love it is worth as much as a
-> pledge. And if you'd like to keep the crew building, the ship's manifest is
-> open: the first 20 aboard wear a founding star. ⚓
+And the eclipse sweep is mended. Ask to watch the Moon's shadow cross and the
+camera now turns to face the corridor before it sets off — until this week it
+was drawing the shadow beautifully on the far side of the planet, where you
+had no way of seeing it. Worth a try: **bunhead.github.io/chronos-earth**.
 
-_(Why this post: it's honest, it shows off genuinely new work, and it's public
-so it aids the launch-week reach rather than sitting behind the paywall. No
-patron numbers are claimed — there's nothing to inflate yet, and pretending
-otherwise would break the whole honesty pitch.)_
+Below decks, the mason has started work — traced castle walls are growing real
+battlements. Not standing on the globe yet. Soon.
 
-**Alternate, if you'd rather lead softer** — a "drain the oceans" post:
-> **Walk the coastline your ancestors actually walked 🌊** — Chronos Earth lets
-> you drop the sea level and watch the Ice Age land bridges surface: Britain
-> joined to Europe, Asia to Alaska. Free, no account: bunhead.github.io/chronos-earth ⚓
+Thank you, every one of you, for keeping this ship at sea.
+**Maker's Circle:** trace a site with the builder and hit 📤 to send it aboard.
 
 ---
 
-## Page-sync checklist (verify the live page matches the kit)
+## This month's vote 🗳️
 
-I couldn't read the live tier prices automatically — Patreon renders them with
-JavaScript, so a scraper sees an empty page. **Please eyeball these against
-`docs/patreon/launch-kit.md` and fix any that drifted** (each is ~30 seconds in
-the Patreon editor):
+Navigators, you choose what the crew builds next. Pick one:
 
-- [ ] **Tier prices.** The kit specifies **£3 · £6 · £12**. An earlier read of
-      the live page hinted at **£3.50** for the entry tier — if the bottom tier
-      isn't £3, either lower it to match the kit or update the kit to match the
-      page (pick one so they can't disagree). The names should be **Time
-      Traveller / Navigator / Maker's Circle**.
-- [ ] **£3 tier cadence wording.** The dev-log line must promise **"dispatches
-      as they land"**, NEVER "weekly" or any fixed cadence — missing a schedule
-      you didn't need to set is the #1 cause of patron churn. (This is already
-      on your 5-minute list.)
-- [ ] **Founding-star line.** The £3 tier must say the **first 20 aboard wear a
-      founding star ⭐ forever** — that's the scarcity hook, and it's now real:
-      the app's ship's manifest renders the star on the first 20 names (L1).
-- [ ] **Welcome note.** Settings → Welcome note should match the kit's welcome
-      text ("Welcome aboard, and thank you — truly…").
-- [ ] **About section.** Should match the kit's About ("The whole of history, on
-      one spinning globe…"). Confirm it mentions free-forever + the AI-crew.
-- [ ] **The ❤ Support link is now live in the app** (About panel + ⋯ menu →
-      `patreon.com/cw/ChronosEarth`) and the **ship's manifest** shows the empty
-      "be the first name aboard" state — so the £3 perk is real from day one.
-      Nothing to do here; just so you know the promise is now backed by the app.
-
-Once the tiers match the kit, the £3 perk (name on the manifest, founding star)
-is fully deliverable — add a patron's display name to
-`public/data/supporters.json` and it appears on the next deploy.
+1. **Reading modes** — the same history told three ways: Explorer (as now),
+   Scholar (dates and sources first), and a shorter, friendlier version for
+   younger visitors and classrooms.
+2. **Finish the mason** — put those battlements on the globe for real, so a
+   site you trace yourself comes back as proper stonework.
+3. **Play all of history** — one button, and the whole timeline runs as a show:
+   monuments rising and ruining, borders breathing, battles flaring, day and
+   night rolling over it all.
+4. **Real stars at totality** — stand under an eclipse and watch the true night
+   sky of that exact date and place come out behind the corona.
