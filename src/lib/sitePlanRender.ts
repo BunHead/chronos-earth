@@ -13,7 +13,8 @@
  */
 import * as Cesium from 'cesium';
 import { loadReview } from './review';
-import { partStandsAt, type SitePart, type SitePlan, parseSitePlan } from './sitePlan';
+import { eclipseLightFactor } from './eclipseDim';
+import { bakedParts, partStandsAt, siteGlbName, type SitePart, type SitePlan, parseSitePlan } from './sitePlan';
 
 /** Site parts appear when the camera is nearer than this (metres) — the same
  * reveal distance as the glb fleet, so a site fades in with its monument. */
@@ -56,6 +57,11 @@ export function saveLocalSitePlan(key: string, plan: SitePlan | undefined): void
 let builderActive = false;
 export function setBuilderActive(on: boolean): void {
   builderActive = on;
+  // Opening the builder hands the site back to its PRIMITIVES — they are the
+  // editable source of truth, the baked masonry only their dressed output — so
+  // the swap has to happen the moment the flag turns, not at the next timeline
+  // tick (which may never come if he never scrubs).
+  applyVisibility();
   // The glb fleet ghosts translucent while building — repaint straight away.
   theViewer?.scene.requestRender();
 }
@@ -68,6 +74,33 @@ export function isBuilderActive(): boolean {
 export function currentTimelineYear(): number {
   return lastYear;
 }
+
+// ── the baked masonry (queue item 11) ───────────────────────────────────────
+/**
+ * The Cesium heading that lands the mason's calibrated frame (+X east, −Z
+ * north — MODELLER-CRAFT rule 2) on the real compass.
+ *
+ * READ OFF A RENDER, never re-derived: Cesium's glTF y-up→z-up lift leaves the
+ * model's +Z pointing EAST at heading 0 (the same lift globeModels documents),
+ * so the bake arrives a quarter-turn out and this puts it back. It was checked
+ * by standing the baked walls on top of the live primitive corridors at the
+ * Tower of London — they trace the same lines or they do not, which is a
+ * yes/no read rather than an opinion about a 3D view.
+ */
+const SITE_BAKE_HEADING_DEG = 90;
+
+/** What the exporter recorded about one site's baked glb. */
+interface BakeInfo {
+  /** Part indices the glb CONTAINS — the only ones it may stand down. */
+  parts: number[];
+  fromYear?: number;
+  toYear?: number;
+}
+
+/** manifest.json entries for site bakes, keyed by review key. */
+const bakes = new Map<string, BakeInfo>();
+/** The model entity standing for each site's bake. */
+const bakeEntities = new Map<string, Cesium.Entity>();
 
 // ── rendering ────────────────────────────────────────────────────────────────
 interface RenderedSite {
@@ -208,6 +241,93 @@ function updateEntity(e: Cesium.Entity, part: SitePart): void {
   }
 }
 
+/**
+ * The bake that honestly describes THIS plan, or null.
+ *
+ * A glb is a photograph of the survey as it was baked. If the plan standing on
+ * this device has since changed which parts are bakeable — a wall added,
+ * deleted, or re-dated — the masonry no longer describes what the Captain
+ * traced, so we fall back to the primitives and show him the survey. Detail
+ * that quietly claims to be his traced line is the one thing this feature must
+ * never do. (A vertex nudged inside an unchanged part still slips through;
+ * re-baking is what refreshes it.)
+ */
+function bakeFor(key: string, plan: SitePlan): BakeInfo | null {
+  const info = bakes.get(key);
+  if (!info) return null;
+  return bakedParts(plan).indices.join(',') === info.parts.join(',') ? info : null;
+}
+
+/** The bake that should be VISIBLE right now — layer, timeline and builder. */
+function bakeVisible(key: string, plan: SitePlan): BakeInfo | null {
+  // While the builder is open the primitives take the site back: they are the
+  // editable source, the bake only their dressed output (docs/plan-site-detail-bake.md).
+  if (builderActive || !lastShow) return null;
+  const info = bakeFor(key, plan);
+  if (!info) return null;
+  if (info.fromYear != null && lastYear < info.fromYear) return null;
+  if (info.toYear != null && lastYear >= info.toYear) return null;
+  return info;
+}
+
+/** Stand this site's baked glb on the globe (once). */
+function ensureBakeEntity(key: string, plan: SitePlan): void {
+  const viewer = theViewer;
+  if (!viewer || bakeEntities.has(key) || !bakes.has(key)) return;
+  const position = Cesium.Cartesian3.fromDegrees(plan.origin.lon, plan.origin.lat);
+  const entity = viewer.entities.add({
+    id: `siteglb|${key}`,
+    position,
+    orientation: Cesium.Transforms.headingPitchRollQuaternion(
+      position,
+      new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(SITE_BAKE_HEADING_DEG), 0, 0),
+    ) as unknown as Cesium.Property,
+    model: {
+      uri: `./models/${siteGlbName(key)}.glb`,
+      // Scale 1: the mason authors in TRUE METRES, so there is no fit table in
+      // this path at all — the survey's own measurements are the only ones.
+      scale: 1,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+      distanceDisplayCondition: DDC(),
+      // Baked walls sleep at night with the rest of the fleet. Without this the
+      // Tower's curtain would glow white beside its own dimmed keep.
+      color: new Cesium.CallbackProperty(() => {
+        const v = theViewer;
+        if (!v || !v.scene.globe.enableLighting) return Cesium.Color.WHITE;
+        const d = Cesium.JulianDate.toDate(v.clock.currentTime);
+        const solar = (d.getUTCHours() + d.getUTCMinutes() / 60 + plan.origin.lon / 15 + 24) % 24;
+        const day = Math.max(0, Math.min(1, (Math.cos(((solar - 12) / 12) * Math.PI) + 0.3) / 0.9));
+        const k = (0.12 + 0.88 * day) * eclipseLightFactor(plan.origin.lat, plan.origin.lon);
+        return new Cesium.Color(k, k, k, 1);
+      }, false) as unknown as Cesium.Property,
+    },
+    show: false, // applyVisibility decides
+  });
+  bakeEntities.set(key, entity);
+}
+
+/**
+ * Push the current year / layer / builder state onto every site: each part
+ * shows unless the baked glb has taken it over, and the glb shows only when it
+ * honestly stands for the plan beneath it.
+ */
+function applyVisibility(): void {
+  for (const [key, { plan, entities }] of sites.entries()) {
+    const bake = bakeVisible(key, plan);
+    const taken = new Set(bake?.parts ?? []);
+    entities.forEach((e, i) => {
+      // Entity order mirrors part order (nulls never pushed), so map back via id.
+      const raw = Number(String(e.id).split('|')[2]);
+      const idx = Number.isFinite(raw) ? raw : i;
+      const part = plan.parts[idx];
+      if (part) e.show = lastShow && partStandsAt(part, lastYear) && !taken.has(idx);
+    });
+    const be = bakeEntities.get(key);
+    if (be) be.show = !!bake;
+  }
+  theViewer?.scene.requestRender();
+}
+
 /** (Re)render one site's plan by DIFFING against what stands: untouched parts
  * keep their entities (and their settled ground heights — see updateEntity's
  * note), edited parts update in place, new parts are created, deleted parts
@@ -221,6 +341,13 @@ export function renderSitePlan(key: string, plan: SitePlan | undefined): number 
   if (!plan || !plan.parts.length) {
     for (const e of prevEntities) viewer.entities.remove(e);
     sites.delete(key);
+    // The masonry goes with the survey it dressed — applyVisibility only walks
+    // live sites, so a lingering glb would outlive the plan that justified it.
+    const be = bakeEntities.get(key);
+    if (be) {
+      viewer.entities.remove(be);
+      bakeEntities.delete(key);
+    }
     viewer.scene.requestRender();
     return 0;
   }
@@ -247,7 +374,8 @@ export function renderSitePlan(key: string, plan: SitePlan | undefined): number 
   // Parts deleted from the end: their entities go too.
   for (let i = plan.parts.length; i < prevEntities.length; i++) viewer.entities.remove(prevEntities[i]);
   sites.set(key, { plan, entities });
-  viewer.scene.requestRender();
+  ensureBakeEntity(key, plan);
+  applyVisibility(); // …and hide whatever the baked masonry has taken over
   return entities.length;
 }
 
@@ -255,15 +383,7 @@ export function renderSitePlan(key: string, plan: SitePlan | undefined): number 
 export function updateSitePlanVisibility(year: number, showSites: boolean): void {
   lastYear = year;
   lastShow = showSites;
-  for (const { plan, entities } of sites.values()) {
-    entities.forEach((e, i) => {
-      // Entity order mirrors part order (nulls never pushed), so map back via id.
-      const idx = Number(String(e.id).split('|')[2]);
-      const part = plan.parts[Number.isFinite(idx) ? idx : i];
-      if (part) e.show = showSites && partStandsAt(part, year);
-    });
-  }
-  theViewer?.scene.requestRender();
+  applyVisibility();
 }
 
 /** The plan currently standing for a site (for the builder to edit). */
@@ -285,6 +405,21 @@ export function pickedSitePart(id: unknown): { key: string; index: number } | nu
 export async function loadSitePlans(viewer: Cesium.Viewer): Promise<void> {
   theViewer = viewer;
   const plans: Record<string, SitePlan> = {};
+  // Which sites have baked masonry waiting. The manifest is the exporter's own
+  // record of what went INTO each glb, so the globe never guesses.
+  try {
+    const manifest = (await (await fetch('./models/manifest.json')).json()) as Record<
+      string,
+      { site?: string; parts?: number[]; fromYear?: number; toYear?: number }
+    >;
+    for (const rec of Object.values(manifest)) {
+      if (rec?.site && Array.isArray(rec.parts)) {
+        bakes.set(rec.site, { parts: rec.parts, fromYear: rec.fromYear, toYear: rec.toYear });
+      }
+    }
+  } catch {
+    /* no fleet exported — every site simply keeps its primitives */
+  }
   try {
     const review = await loadReview();
     for (const [key, rec] of Object.entries(review)) {

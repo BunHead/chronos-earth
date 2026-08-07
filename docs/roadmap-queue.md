@@ -430,6 +430,15 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
 ---
 
 - [ ] **10. Audience skins (exclusion lifted 2026-07-17).**
+  ⚠️ **NOTE FOR THE CAPTAIN, 2026-08-07 — this item is being SKIPPED by the
+  routine, and it will keep being skipped until you fix it.** The
+  `chronos-roadmap-sweep` scheduled task still carries the old standing order
+  *"Do NOT build Audience skins or Play all of history — the Captain excluded
+  them"*, written before you lifted the exclusion here on 2026-07-17. A routine
+  run cannot tell whether a file it reads outranks its own instructions, so it
+  takes the cautious reading, skips items 10 and 12, and takes the next
+  unexcluded item (this run: item 11). **To unblock:** edit the scheduled task's
+  SKILL.md and delete that line. Until then items 10 and 12 need a live session.
   Three reading modes — Explorer (default, current voice), Scholar (denser:
   dates/sources up front, no emoji), Casual/Kid (shorter sentences, friendlier
   words, bigger type) — as a ⋯ menu → Settings choice, persisted in
@@ -440,8 +449,52 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   - Verify: switch modes live on a monument + battle panel; persists on reload.
   - Done when: three modes + persistence land, tests green.
 
-- [ ] **11. Site detail bake — vertical slice (the Maker's Circle engine).**
-  Follow `docs/plan-site-detail-bake.md`. Build ONLY the vertical slice:
+- [x] **11. Site detail bake — vertical slice (the Maker's Circle engine).**
+  _(done 2026-08-07 — the four "NOT YET WIRED" gaps closed, verified by render)_
+  Landing note: the mason existed but nothing called him. All four gaps the
+  landing commit recorded are now closed, and the Tower of London's curtain
+  walls stand as real battlements on the Captain's own traced lines.
+  **Wired:** `sitePlanRender` places `site-<slug>.glb` at the plan origin at
+  **scale 1** — the bake is authored in true metres, so there is no fit table in
+  this path at all — and stands down EXACTLY the primitives the glb contains,
+  read from the exporter's own manifest record rather than guessed. It hides
+  again the moment the builder opens (primitives are the editable source, the
+  bake only their dressed output) and obeys the timeline through the one span
+  the glb can honestly carry. **Honesty guard:** if the plan on this device has
+  since changed which parts are bakeable, the glb is treated as stale and the
+  SURVEY is shown instead — masonry must never quietly claim to be a traced
+  line it no longer follows. **Roles** are now overridable in the builder
+  ("builds as" dropdown, defaulting to the name-guess and storing nothing when
+  he agrees, so renaming still re-guesses). **Export:** `?siteplan=<key>` in
+  export-models.ts, keys read straight from the review file so a site traced
+  tomorrow exports tomorrow; the OUTPUT FILENAME comes back from the page via
+  the one `siteGlbName()` the globe looks it up with, so the two cannot drift.
+  488 → **51 KB** Draco.
+  **Also unlocked the tests the last commit said were impossible:** siteBake.ts
+  no longer imports `stoneMat` from a React module (the caller injects the
+  material), so the mason is testable headlessly at last — 10 tests including
+  the one that matters most, that body + parapet equals the surveyed height
+  EXACTLY, on every wall from 3 m to 45 m. 335 green.
+  **VERIFIED BY RENDER** (new `scripts/verify-site-bake.mjs`, kept — it renders
+  the same camera three ways and measures the overlap, so orientation is a
+  number rather than an opinion). Top-down over the Tower at 1400 CE the baked
+  masonry and the primitive corridors overlap **IoU 0.55** — and the quarter-turn
+  sweep proves that is the peak, not merely "not obviously wrong": heading 0 →
+  0.094, 90 → **0.546**, 180 → 0.085, 270 → 0.109. Read from two oblique angles
+  as well; the teeth carry. The five wall primitives go dark and the towers,
+  gatehouse and moat stay, with no doubled wall anywhere.
+  TWO TRAPS, recorded because each cost real time. (1) The app runs Cesium in
+  **requestRenderMode**, so `scene.render()` returns instantly unless a repaint
+  was asked for — every phase screenshots the same frozen frame, every diff
+  comes out zero, and it reads exactly like "the bake draws nothing". Call
+  `scene.requestRender()` (or clear the flag) before each frame. (2) Cesium
+  renders through its own framebuffer with `preserveDrawingBuffer` off, so
+  `gl.readPixels` on the default framebuffer comes back uniformly blank —
+  screenshot the CANVAS ELEMENT and decode it, don't read the buffer.
+  STILL OPEN, deliberately: only `curtain-wall` has a recipe. Towers,
+  gatehouses and buildings remain plain primitives — the fan-out the plan
+  describes is the next slice, and the engine is now standing to receive it.
+  _Original spec:_ Follow `docs/plan-site-detail-bake.md`. Build ONLY the vertical slice:
   - `role` on site-plan parts (infer from the Captain's part names — "wall" →
     curtain-wall etc., overridable in the builder UI), and
   - the curtain-wall role's bake: buildSiteFromPlan(spec) emitting crenellated

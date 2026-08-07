@@ -18,12 +18,15 @@ import {
   PART_DEFAULTS,
   PART_NAMES,
   MIN_VERTS,
+  ROLE_NAMES,
   allVerts,
   clampPart,
   movePart,
   movePartTo,
+  roleFor,
   snapVert,
   type SitePart,
+  type SitePartRole,
   type SitePartType,
   type SitePlan,
 } from '../lib/sitePlan';
@@ -362,6 +365,28 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
               editSelected((p) => ({ ...p, label: v || undefined }));
             }}
           />
+          <label className="sb-role">
+            builds as
+            {/* The mason's brief. It starts as a GUESS from the name the
+                Captain already typed ("South Curtain Wall" → curtain wall), and
+                this is where he overrules it in one click. Choosing the guess
+                itself stores nothing, so a part he never touches keeps
+                following its name if he renames it later. */}
+            <select
+              value={sel.role ?? ''}
+              onChange={(e) => {
+                const v = e.target.value as SitePartRole | '';
+                editSelected((p) => ({ ...p, role: v === '' ? undefined : v }));
+              }}
+            >
+              <option value="">from the name ({ROLE_NAMES[roleFor(sel)]})</option>
+              {(Object.keys(ROLE_NAMES) as SitePartRole[]).map((r) => (
+                <option key={r} value={r}>
+                  {ROLE_NAMES[r]}
+                </option>
+              ))}
+            </select>
+          </label>
           <div className="sb-pad">
             <button onClick={() => editSelected((p) => movePart(p, 0, 2))}>▲ N</button>
             <div>

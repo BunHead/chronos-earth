@@ -23,8 +23,18 @@
  */
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { stoneMat } from '../components/Monument3D';
 import { bakedParts, offsetM, type SitePart, type SitePlan } from './sitePlan';
+
+/**
+ * How the caller dresses the merged masonry. INJECTED rather than imported,
+ * and that is deliberate: this module used to `import { stoneMat } from
+ * '../components/Monument3D'`, a React module that loads textures at import
+ * time, so importing the mason under the node test environment threw before a
+ * single test could run — the parapet maths (above all the rule that body +
+ * parapet must equal the surveyed height EXACTLY) could not be pinned at all.
+ * The exporter passes the fleet's own `stoneMat`; a test passes a plain colour.
+ */
+export type SiteMaterialFor = (color: string) => THREE.Material;
 
 /**
  * How far the masonry is buried below the plan's ground datum, so a rigid
@@ -182,7 +192,10 @@ function dressCurtainWall(plan: SitePlan, part: SitePart): THREE.BufferGeometry[
  * bakeable the group comes back empty and `partIndices` is `[]` — the caller
  * must then keep every primitive, which is the correct no-op.
  */
-export function buildSiteFromPlan(plan: SitePlan): {
+export function buildSiteFromPlan(
+  plan: SitePlan,
+  matFor: SiteMaterialFor,
+): {
   group: THREE.Group;
   partIndices: number[];
   fromYear?: number;
@@ -209,7 +222,7 @@ export function buildSiteFromPlan(plan: SitePlan): {
     const merged = mergeGeometries(geos, false);
     for (const g of geos) g.dispose();
     if (!merged) continue;
-    group.add(new THREE.Mesh(merged, stoneMat(color)));
+    group.add(new THREE.Mesh(merged, matFor(color)));
   }
   group.userData.siteBake = true;
   return { group, partIndices: indices, fromYear, toYear };

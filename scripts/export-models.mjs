@@ -106,6 +106,19 @@ const ALL_JOBS = [
 // partial run doesn't drop other models' footprints.
 const ONLY = (process.env.ONLY ?? '').split(',').map((s) => s.trim()).filter(Boolean);
 const JOBS = ONLY.length ? ALL_JOBS.filter(([model]) => ONLY.includes(model)) : ALL_JOBS;
+
+// ── SITE PLANS (queue item 11) ────────────────────────────────────────────────
+// The Captain's own traced surveys, baked into masonry by lib/siteBake.ts. The
+// keys come straight from the review file, so a site he traces tomorrow is
+// exported tomorrow with no list to maintain here. The OUTPUT FILENAME is NOT
+// derived here: the page reports it via window.__siteName, from the same
+// siteGlbName() the globe uses to look the file up — one slug function, so the
+// exporter and the globe can never drift apart over a punctuation rule.
+// ONLY=sites runs just these.
+const SITE_KEYS = await readFile('public/data/model-review.json', 'utf8')
+  .then((t) => Object.keys(JSON.parse(t)).filter((k) => k.startsWith('siteplan:')))
+  .catch(() => []);
+const SITE_JOBS = ONLY.length && !ONLY.includes('sites') ? [] : SITE_KEYS;
 try {
   for (const [model, title, outName, extra] of JOBS) {
     const page = await browser.newPage();
@@ -135,6 +148,45 @@ try {
     await writeFile(join(OUT, `${outName}.glb`), out);
     manifest[outName] = { footprint: +(+footprint).toFixed(3), kb: Math.round(out.length / 1024) };
     console.log(`${outName.padEnd(20)} ${String(Math.round(raw.length / 1024)).padStart(5)}→${String(Math.round(out.length / 1024)).padStart(5)} KB  footprint ${(+footprint).toFixed(1)}u`);
+    await page.close();
+  }
+
+  for (const key of SITE_JOBS) {
+    const page = await browser.newPage();
+    await page.goto(`${BASE}?siteplan=${encodeURIComponent(key)}`, { waitUntil: 'networkidle0' });
+    await page.waitForFunction('window.__glb || window.__glbError', { timeout: 60_000 });
+    const err = await page.evaluate('window.__glbError');
+    if (err) {
+      // A site with nothing bakeable is a normal outcome, not a failure: the
+      // mason has one recipe so far, and a plan of towers and moat simply has
+      // no work for him. Say so plainly and move on.
+      console.error(`${key}: not baked — ${err}`);
+      await page.close();
+      continue;
+    }
+    const outName = await page.evaluate('window.__siteName');
+    const meta = await page.evaluate('window.__siteMeta');
+    const raw = Buffer.from(await page.evaluate('window.__glb'), 'base64');
+    let out = raw;
+    try {
+      const { glb } = await processGlb(raw, { dracoOptions: { compressionLevel: 7 } });
+      if (glb && glb.length) out = Buffer.from(glb);
+    } catch (e) {
+      console.error(`${outName}: Draco failed (${e.message}) — writing uncompressed`);
+    }
+    await writeFile(join(OUT, `${outName}.glb`), out);
+    // A site bake stands at scale 1 (it is authored in true metres), so the
+    // globe never divides by this footprint — it is recorded for eyeballing a
+    // size regression. `parts` is what the renderer stands down.
+    manifest[outName] = {
+      footprint: +(+(await page.evaluate('window.__footprint'))).toFixed(3),
+      kb: Math.round(out.length / 1024),
+      site: key,
+      parts: meta?.partIndices ?? [],
+      ...(meta?.fromYear != null ? { fromYear: meta.fromYear } : {}),
+      ...(meta?.toYear != null ? { toYear: meta.toYear } : {}),
+    };
+    console.log(`${String(outName).padEnd(20)} ${String(Math.round(raw.length / 1024)).padStart(5)}→${String(Math.round(out.length / 1024)).padStart(5)} KB  site ${key} (${meta?.partIndices?.length ?? 0} parts)`);
     await page.close();
   }
 } finally {

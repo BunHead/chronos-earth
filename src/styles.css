@@ -2841,6 +2841,8 @@ textarea:focus-visible,
 .sb-chip { padding: 3px 8px; font-size: 11px; border-radius: calc(999px * var(--r-scale)) !important; }
 .sb-edit { display: flex; flex-direction: column; gap: 6px; }
 .sb-name { width: 100%; background: #101a24; border: 1px solid #2c3a49; border-radius: calc(6px * var(--r-scale)); color: var(--text-bright); padding: 4px 8px; font-size: 12px; }
+.sb-role { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #cfdbe8; }
+.sb-role select { flex: 1; min-width: 0; background: #101a24; border: 1px solid #2c3a49; border-radius: calc(5px * var(--r-scale)); color: var(--text-bright); padding: 3px 5px; font-size: 11.5px; }
 .sb-pad { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .sb-pad > div { display: flex; gap: 26px; }
 .sb-pad button { padding: 4px 10px; font-size: 12px; }

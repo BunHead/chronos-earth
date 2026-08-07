@@ -238,5 +238,18 @@
   "impact-b72": {
     "footprint": 17.12,
     "kb": 58
+  },
+  "site-tower-of-london_51.508_-0.076": {
+    "footprint": 177.434,
+    "kb": 51,
+    "site": "siteplan:tower-of-london@51.508,-0.076",
+    "parts": [
+      5,
+      8,
+      10,
+      11,
+      12
+    ],
+    "fromYear": 1272
   }
 }
