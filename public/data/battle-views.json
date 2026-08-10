@@ -8234,6 +8234,2870 @@
       ],
       "loser": "b",
       "severity": 1.3
+    },
+    "alesia": {
+      "title": "Siege of Alesia",
+      "subtitle": "September 52 BCE — Caesar besieges Vercingetorix, and is besieged in turn",
+      "sides": {
+        "a": {
+          "name": "Roman Republic (Caesar)",
+          "color": "#b03a2e"
+        },
+        "b": {
+          "name": "Gallic confederation (Vercingetorix)",
+          "color": "#4a7c59"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 50,
+          "y": 33,
+          "r": 7,
+          "label": "Alesia, on the plateau of Mont Auxois"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              8,
+              24
+            ],
+            [
+              30,
+              22
+            ],
+            [
+              52,
+              21
+            ],
+            [
+              76,
+              23
+            ]
+          ],
+          "label": "The Ose"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              10,
+              50
+            ],
+            [
+              32,
+              49
+            ],
+            [
+              54,
+              48
+            ],
+            [
+              78,
+              47
+            ]
+          ],
+          "label": "The Oserain"
+        },
+        {
+          "type": "hill",
+          "x": 28,
+          "y": 18,
+          "r": 8,
+          "label": "Mont Réa — the ground the works could not enclose"
+        },
+        {
+          "type": "hill",
+          "x": 53,
+          "y": 56,
+          "r": 7,
+          "label": "Mont Flavigny"
+        },
+        {
+          "type": "hill",
+          "x": 73,
+          "y": 30,
+          "r": 7,
+          "label": "Mont Bussy"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              4,
+              40
+            ],
+            [
+              20,
+              38
+            ],
+            [
+              36,
+              37
+            ]
+          ],
+          "label": "The plain of Les Laumes"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Driven onto the hill",
+          "narration": "Caesar catches Vercingetorix on the march and breaks his cavalry, and the Gauls fall back onto the plateau of Mont Auxois, ringed by the Ose and the Oserain. Rather than storm a hill fort, Caesar decides to starve it.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                36
+              ],
+              "to": [
+                57,
+                35
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                70,
+                44
+              ],
+              "to": [
+                58,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Two rings of timber",
+          "narration": "Caesar builds a contravallation of eleven Roman miles facing the hill and a circumvallation of fourteen facing outward — ditches, a twelve-foot rampart, towers every eighty feet, and before them fields of sharpened stakes and iron-hooked spikes. Vercingetorix has already sent his cavalry out through the gap to summon all Gaul."
+        },
+        {
+          "name": "The Mandubii sent out",
+          "narration": "With the grain gone, the Mandubii drive their own women, children and old people out of the town to save food, expecting Caesar to take them as slaves and feed them. He refuses to open the lines. They starve in the ground between the two rings, in sight of both armies."
+        },
+        {
+          "name": "The relief army comes",
+          "narration": "A relief army from across Gaul — modern estimates put it near 80,000, though Caesar claims a quarter of a million — camps on the plain of Les Laumes. It attacks the outer ring while Vercingetorix sorties against the inner; a long cavalry fight on the plain goes to Caesar's Germanic horse, and both assaults fall back.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                48
+              ],
+              "to": [
+                26,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                37
+              ],
+              "to": [
+                40,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                24,
+                54
+              ],
+              "to": [
+                42,
+                55
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                56
+              ],
+              "to": [
+                32,
+                55
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The night attack",
+          "narration": "At midnight the Gauls come on again with hurdles, grappling hooks and slings, filling the ditches in the dark while Vercingetorix's men push out from inside. Mark Antony and Trebonius feed reserves to whichever tower is shouting loudest. At first light the relief pulls back rather than be caught in the open.",
+          "arrows": [
+            {
+              "from": [
+                16,
+                48
+              ],
+              "to": [
+                24,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                38
+              ],
+              "to": [
+                42,
+                42
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Mont Réa",
+          "narration": "The Gauls have found the flaw: on the north-west the works could not be carried over the hill. At noon Vercassivellaunus storms the camp there with a picked column while Vercingetorix attacks the inner line. Caesar feeds in Labienus and then comes himself, recognisable by his scarlet cloak — and sends cavalry right round the outside to fall on the stormers' rear.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                22
+              ],
+              "to": [
+                31,
+                23
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                36
+              ],
+              "to": [
+                42,
+                39
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                16,
+                12
+              ],
+              "to": [
+                27,
+                19
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                27
+              ],
+              "to": [
+                31,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Vercingetorix lays down his arms",
+          "narration": "The relief army breaks and melts away into Gaul overnight. The next day Vercingetorix rides out, dismounts, and gives up his weapons. He is kept six years for Caesar's triumph and then killed; Gaul is Roman for the next five centuries."
+        }
+      ],
+      "units": [
+        {
+          "id": "caesar",
+          "side": "a",
+          "label": "Caesar's reserve cohorts",
+          "pos": [
+            [
+              74,
+              32
+            ],
+            [
+              48,
+              52
+            ],
+            [
+              48,
+              52
+            ],
+            [
+              46,
+              50
+            ],
+            [
+              42,
+              46
+            ],
+            [
+              33,
+              24
+            ],
+            [
+              42,
+              40
+            ]
+          ],
+          "strength": 6000,
+          "helmet": "roman"
+        },
+        {
+          "id": "inner-line",
+          "side": "a",
+          "label": "Contravallation — the ring facing in",
+          "pos": [
+            [
+              66,
+              34
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              44,
+              40
+            ],
+            [
+              44,
+              40
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              44,
+              40
+            ]
+          ],
+          "strength": 24000,
+          "helmet": "roman"
+        },
+        {
+          "id": "outer-line",
+          "side": "a",
+          "label": "Circumvallation — the ring facing out",
+          "pos": [
+            [
+              72,
+              30
+            ],
+            [
+              24,
+              44
+            ],
+            [
+              24,
+              44
+            ],
+            [
+              22,
+              44
+            ],
+            [
+              22,
+              44
+            ],
+            [
+              26,
+              40
+            ],
+            [
+              24,
+              44
+            ]
+          ],
+          "strength": 24000,
+          "helmet": "roman"
+        },
+        {
+          "id": "labienus",
+          "side": "a",
+          "label": "Labienus's cohorts",
+          "pos": [
+            [
+              70,
+              26
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              28,
+              24
+            ],
+            [
+              31,
+              20
+            ],
+            [
+              33,
+              24
+            ]
+          ],
+          "strength": 8000,
+          "helmet": "roman"
+        },
+        {
+          "id": "roman-horse",
+          "side": "a",
+          "label": "Roman & Germanic cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              64,
+              42
+            ],
+            [
+              52,
+              56
+            ],
+            [
+              52,
+              56
+            ],
+            [
+              40,
+              56
+            ],
+            [
+              46,
+              54
+            ],
+            [
+              20,
+              14
+            ],
+            [
+              30,
+              28
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "roman"
+        },
+        {
+          "id": "vercingetorix",
+          "side": "b",
+          "label": "Vercingetorix, besieged",
+          "pos": [
+            [
+              56,
+              36
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              46,
+              36
+            ],
+            [
+              50,
+              33
+            ]
+          ],
+          "strength": 40000,
+          "helmet": "cap"
+        },
+        {
+          "id": "mandubii",
+          "side": "b",
+          "label": "The Mandubii, driven out",
+          "size": 0.6,
+          "pos": [
+            [
+              50,
+              30
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              45,
+              40
+            ],
+            [
+              45,
+              40
+            ],
+            [
+              45,
+              40
+            ],
+            [
+              45,
+              40
+            ],
+            [
+              45,
+              40
+            ]
+          ],
+          "strength": 6000,
+          "helmet": "none"
+        },
+        {
+          "id": "gallic-horse",
+          "side": "b",
+          "label": "Gallic cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              60,
+              42
+            ],
+            [
+              40,
+              60
+            ],
+            [
+              10,
+              64
+            ],
+            [
+              20,
+              56
+            ],
+            [
+              22,
+              54
+            ],
+            [
+              22,
+              44
+            ],
+            [
+              8,
+              60
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "cap"
+        },
+        {
+          "id": "relief-army",
+          "side": "b",
+          "label": "The relief army (Commius)",
+          "pos": [
+            [
+              6,
+              58
+            ],
+            [
+              6,
+              58
+            ],
+            [
+              6,
+              58
+            ],
+            [
+              16,
+              50
+            ],
+            [
+              16,
+              48
+            ],
+            [
+              18,
+              46
+            ],
+            [
+              6,
+              58
+            ]
+          ],
+          "strength": 45000,
+          "helmet": "cap"
+        },
+        {
+          "id": "vercassivellaunus",
+          "side": "b",
+          "label": "Vercassivellaunus's storm column",
+          "pos": [
+            [
+              4,
+              52
+            ],
+            [
+              4,
+              52
+            ],
+            [
+              4,
+              52
+            ],
+            [
+              14,
+              44
+            ],
+            [
+              14,
+              42
+            ],
+            [
+              28,
+              20
+            ],
+            [
+              8,
+              50
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "lepanto": {
+      "title": "Battle of Lepanto",
+      "subtitle": "7 October 1571 — the last great battle of oared galleys",
+      "sides": {
+        "a": {
+          "name": "Holy League (Don John of Austria)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Ottoman Empire (Müezzinzade Ali Pasha)",
+          "color": "#c23b22"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70,
+          "label": "The Gulf of Patras"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 3,
+          "w": 100,
+          "h": 8,
+          "label": "The Aetolian shore"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 67,
+          "w": 100,
+          "h": 8,
+          "label": "The Peloponnese"
+        },
+        {
+          "type": "town",
+          "x": 96,
+          "y": 10,
+          "r": 3,
+          "label": "Lepanto (Naupactus)"
+        },
+        {
+          "type": "town",
+          "x": 5,
+          "y": 46,
+          "r": 3,
+          "label": "The Curzolaris islands"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The fleets come in sight",
+          "narration": "Two fleets of a size never seen again under oars meet at the mouth of the Gulf of Patras: 206 galleys and six galleasses for the Holy League, 211 galleys and 63 galliots for the Ottomans, some 170,000 men between them. Both form line abreast across the gulf, and Don John has the galley-slaves of his own fleet unchained."
+        },
+        {
+          "name": "The galleasses open fire",
+          "narration": "Towed out ahead of the line are six Venetian galleasses — merchant hulls cut down and filled with guns, a weapon the Ottomans had not met. Around noon they fire into the advancing line at close range, tearing holes in it before a single galley is grappled. The pair meant for the seaward wing never get into position.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                30
+              ],
+              "to": [
+                63,
+                31
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                52,
+                40
+              ],
+              "to": [
+                63,
+                41
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                70,
+                34
+              ],
+              "to": [
+                58,
+                34
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Barbarigo falls inshore",
+          "narration": "On the northern flank Barbarigo hugs the Aetolian coast to stop anyone slipping between him and the shore; Mehmed Siroco knows the shoals and does it anyway. Barbarigo raises his visor to give an order and is killed by an arrow through the eye. The Venetians hold, Siroco is killed, and his squadron is driven onto the beach.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                12
+              ],
+              "to": [
+                51,
+                12
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                13
+              ],
+              "to": [
+                56,
+                12
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Real and the Sultana",
+          "narration": "In the centre the two flagships ram and lock together, and Spanish tercios and Ottoman janissaries fight along the decks for over an hour, boarding and being thrown back twice. Colonna comes alongside; Ali Pasha is killed and his head shown on a pike, against Don John's orders. When the banner of the League goes up on the Sultana the Ottoman centre gives way.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                34
+              ],
+              "to": [
+                55,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                37,
+                34
+              ],
+              "to": [
+                52,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                35,
+                40
+              ],
+              "to": [
+                50,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Uluç Ali takes the Maltese flag",
+          "narration": "On the seaward flank Doria works south to avoid being outflanked and opens a gap in the League line. Uluç Ali turns straight into it, cuts out some fifteen galleys around the flagship of the Knights of Malta and takes her banner. Bazán brings the reserve across; Uluç Ali breaks off with about thirty ships and runs for it — the only Ottoman commander to get his squadron away.",
+          "arrows": [
+            {
+              "from": [
+                63,
+                54
+              ],
+              "to": [
+                47,
+                56
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                48
+              ],
+              "to": [
+                53,
+                54
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The reckoning",
+          "narration": "The League takes 117 galleys and sinks or burns some 80 more, and frees around 15,000 Christian galley slaves from the Ottoman benches. The Ottomans lose 20,000–40,000 men, the League 7,500 or more; among the wounded is a young Spanish soldier, Miguel de Cervantes, who loses the use of his left hand. The fleet is rebuilt within a year, but the legend of Ottoman invincibility at sea is not."
+        }
+      ],
+      "units": [
+        {
+          "id": "galleasses",
+          "side": "a",
+          "label": "The six Venetian galleasses",
+          "shape": "ship",
+          "size": 1.3,
+          "pos": [
+            [
+              42,
+              35
+            ],
+            [
+              52,
+              35
+            ],
+            [
+              52,
+              30
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              52,
+              36
+            ]
+          ],
+          "strength": 6,
+          "helmet": "morion"
+        },
+        {
+          "id": "barbarigo",
+          "side": "a",
+          "label": "Left wing, inshore (Barbarigo)",
+          "shape": "ship",
+          "pos": [
+            [
+              26,
+              14
+            ],
+            [
+              34,
+              14
+            ],
+            [
+              46,
+              12
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              52,
+              16
+            ],
+            [
+              50,
+              14
+            ]
+          ],
+          "strength": 53,
+          "helmet": "morion"
+        },
+        {
+          "id": "don-john",
+          "side": "a",
+          "label": "Centre — the Real (Don John)",
+          "shape": "ship",
+          "pos": [
+            [
+              24,
+              34
+            ],
+            [
+              32,
+              34
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              52,
+              34
+            ],
+            [
+              54,
+              36
+            ],
+            [
+              52,
+              34
+            ]
+          ],
+          "strength": 62,
+          "helmet": "morion"
+        },
+        {
+          "id": "doria",
+          "side": "a",
+          "label": "Right wing, seaward (Doria)",
+          "shape": "ship",
+          "pos": [
+            [
+              26,
+              54
+            ],
+            [
+              34,
+              54
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              42,
+              60
+            ],
+            [
+              54,
+              54
+            ],
+            [
+              52,
+              52
+            ]
+          ],
+          "strength": 53,
+          "helmet": "morion"
+        },
+        {
+          "id": "bazan",
+          "side": "a",
+          "label": "Reserve (Álvaro de Bazán)",
+          "shape": "ship",
+          "pos": [
+            [
+              14,
+              36
+            ],
+            [
+              20,
+              36
+            ],
+            [
+              28,
+              20
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              44,
+              42
+            ]
+          ],
+          "strength": 38,
+          "helmet": "morion"
+        },
+        {
+          "id": "siroco",
+          "side": "b",
+          "label": "Right wing, inshore (Mehmed Siroco)",
+          "shape": "ship",
+          "pos": [
+            [
+              76,
+              14
+            ],
+            [
+              66,
+              14
+            ],
+            [
+              56,
+              12
+            ],
+            [
+              56,
+              10
+            ],
+            [
+              58,
+              8
+            ],
+            [
+              60,
+              6
+            ]
+          ],
+          "strength": 56,
+          "helmet": "cap"
+        },
+        {
+          "id": "ali-pasha",
+          "side": "b",
+          "label": "Centre — the Sultana (Ali Pasha)",
+          "shape": "ship",
+          "pos": [
+            [
+              78,
+              34
+            ],
+            [
+              68,
+              34
+            ],
+            [
+              62,
+              34
+            ],
+            [
+              54,
+              34
+            ],
+            [
+              58,
+              34
+            ],
+            [
+              62,
+              34
+            ]
+          ],
+          "strength": 96,
+          "helmet": "cap"
+        },
+        {
+          "id": "uluc-ali",
+          "side": "b",
+          "label": "Left wing, seaward (Uluç Ali)",
+          "shape": "ship",
+          "pos": [
+            [
+              80,
+              54
+            ],
+            [
+              70,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              58,
+              56
+            ],
+            [
+              46,
+              56
+            ],
+            [
+              88,
+              52
+            ]
+          ],
+          "strength": 93,
+          "helmet": "cap"
+        },
+        {
+          "id": "ottoman-reserve",
+          "side": "b",
+          "label": "Ottoman reserve",
+          "shape": "ship",
+          "pos": [
+            [
+              90,
+              36
+            ],
+            [
+              82,
+              36
+            ],
+            [
+              76,
+              36
+            ],
+            [
+              70,
+              36
+            ],
+            [
+              68,
+              44
+            ],
+            [
+              86,
+              44
+            ]
+          ],
+          "strength": 29,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "leipzig": {
+      "title": "Battle of Leipzig",
+      "subtitle": "16–19 October 1813 — the Battle of the Nations, Europe's largest battle before 1914",
+      "sides": {
+        "a": {
+          "name": "Sixth Coalition",
+          "color": "#cc3a3a"
+        },
+        "b": {
+          "name": "French Empire (Napoleon)",
+          "color": "#3a63cc"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 40,
+          "y": 30,
+          "r": 7,
+          "label": "Leipzig"
+        },
+        {
+          "type": "town",
+          "x": 23,
+          "y": 30,
+          "r": 3,
+          "label": "Lindenau — the only road west"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              30,
+              4
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              33,
+              34
+            ],
+            [
+              34,
+              52
+            ],
+            [
+              36,
+              68
+            ]
+          ],
+          "label": "The Elster and the Pleisse"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 44,
+          "r": 3,
+          "label": "Probstheida"
+        },
+        {
+          "type": "town",
+          "x": 33,
+          "y": 15,
+          "r": 3,
+          "label": "Möckern"
+        },
+        {
+          "type": "town",
+          "x": 48,
+          "y": 52,
+          "r": 3,
+          "label": "Wachau"
+        },
+        {
+          "type": "town",
+          "x": 49,
+          "y": 59,
+          "r": 2.5,
+          "label": "Guldengossa"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              24,
+              30
+            ],
+            [
+              8,
+              31
+            ],
+            [
+              0,
+              32
+            ]
+          ],
+          "label": "The road to the Rhine"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Ringed at Leipzig",
+          "narration": "Napoleon stands at Leipzig with about 177,000 men against 257,000 already closing in, and more marching. Four Coalition armies converge on him from four directions; behind him a single causeway runs west through Lindenau over the marshy Elster."
+        },
+        {
+          "name": "16 October: Wachau",
+          "narration": "Schwarzenberg's Army of Bohemia attacks out of the south at Markkleeberg, Wachau and Liebertwolkwitz. The French hold the villages, and by early afternoon Napoleon has 150 guns massed and is preparing to break the Allied centre.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                62
+              ],
+              "to": [
+                47,
+                55
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                60
+              ],
+              "to": [
+                42,
+                55
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                48
+              ],
+              "to": [
+                48,
+                54
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Murat's charge",
+          "narration": "Around half past two Murat launches some 10,000 horse at the shaken Allied centre. They ride clean through it toward Guldengossa and the hill where the Tsar, the King of Prussia and the Emperor of Austria are watching. Marshy ground and the Tsar's Life Guard Cossacks stop them a few hundred yards short, and the charge streams back.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                52
+              ],
+              "to": [
+                48,
+                59
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                62
+              ],
+              "to": [
+                49,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Möckern, the same afternoon",
+          "narration": "While the south is decided by cavalry, Blücher's Army of Silesia grinds into Marmont at Möckern in the north-west. Yorck's Prussians take the village after hours of street fighting and lose around a third of their corps doing it. The French northern flank is broken open.",
+          "arrows": [
+            {
+              "from": [
+                32,
+                10
+              ],
+              "to": [
+                35,
+                17
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "17 October: the noose",
+          "narration": "A near-silent Sunday of rain. Napoleon sends a captured Austrian general with an offer of terms; no reply comes. Bennigsen's Army of Poland arrives from the east and Bernadotte's Army of the North from the north-east, and the Coalition passes 350,000 men to Napoleon's 195,000."
+        },
+        {
+          "name": "18 October: attacked from every side",
+          "narration": "Six columns come in at once around a shrinking French ring. Probstheida is stormed and stormed again and holds all day at frightful cost, but the perimeter is squeezed back to the gates of the city and the French guns begin to run out of ammunition.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                52
+              ],
+              "to": [
+                46,
+                46
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                38,
+                24
+              ],
+              "to": [
+                41,
+                28
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                40
+              ],
+              "to": [
+                48,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                22
+              ],
+              "to": [
+                46,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Saxons change sides",
+          "narration": "In the afternoon the Saxon division and Württemberg cavalry in the French line march over to the Coalition near Paunsdorf and turn their guns on the men beside whom they had stood that morning. The line has to be shortened again. That evening Napoleon orders the retreat.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                42
+              ],
+              "to": [
+                47,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "19 October: the Elster bridge",
+          "narration": "The army files west through Lindenau across a single bridge. With the rearguard still on the far bank a nervous corporal fires the demolition charge early, stranding some 20,000–30,000 men and 200 guns. Marshal Poniatowski, given his baton three days earlier, is wounded and drowns trying to swim the Elster.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                34
+              ],
+              "to": [
+                27,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                44,
+                38
+              ],
+              "to": [
+                38,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The storming of Leipzig",
+          "narration": "The Coalition fights into the city as the last of the French get away. Around 54,000 Coalition and 73,000 French casualties are left behind, and typhus follows. Napoleon reaches the Rhine with a fraction of his army; the Confederation of the Rhine and French power in Germany are finished.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                36
+              ],
+              "to": [
+                38,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "schwarzenberg",
+          "side": "a",
+          "label": "Army of Bohemia (Schwarzenberg)",
+          "pos": [
+            [
+              50,
+              66
+            ],
+            [
+              48,
+              56
+            ],
+            [
+              46,
+              58
+            ],
+            [
+              46,
+              56
+            ],
+            [
+              46,
+              54
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              45,
+              45
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              40,
+              34
+            ]
+          ],
+          "strength": 113000,
+          "helmet": "shako"
+        },
+        {
+          "id": "allied-horse",
+          "side": "a",
+          "label": "Allied cavalry & Cossacks",
+          "shape": "cavalry",
+          "pos": [
+            [
+              58,
+              66
+            ],
+            [
+              54,
+              58
+            ],
+            [
+              50,
+              60
+            ],
+            [
+              52,
+              58
+            ],
+            [
+              54,
+              56
+            ],
+            [
+              52,
+              48
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              30,
+              36
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "shako"
+        },
+        {
+          "id": "guard-reserve",
+          "side": "a",
+          "label": "Russian & Prussian Guard reserve",
+          "pos": [
+            [
+              52,
+              68
+            ],
+            [
+              50,
+              62
+            ],
+            [
+              48,
+              60
+            ],
+            [
+              48,
+              60
+            ],
+            [
+              48,
+              58
+            ],
+            [
+              47,
+              52
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              44,
+              42
+            ],
+            [
+              42,
+              36
+            ]
+          ],
+          "strength": 70000,
+          "helmet": "shako"
+        },
+        {
+          "id": "blucher",
+          "side": "a",
+          "label": "Army of Silesia (Blücher)",
+          "pos": [
+            [
+              30,
+              6
+            ],
+            [
+              32,
+              10
+            ],
+            [
+              32,
+              10
+            ],
+            [
+              34,
+              15
+            ],
+            [
+              35,
+              18
+            ],
+            [
+              37,
+              22
+            ],
+            [
+              38,
+              25
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              36,
+              29
+            ]
+          ],
+          "strength": 54000,
+          "helmet": "shako"
+        },
+        {
+          "id": "bennigsen",
+          "side": "a",
+          "label": "Army of Poland (Bennigsen)",
+          "pos": [
+            [
+              92,
+              44
+            ],
+            [
+              88,
+              44
+            ],
+            [
+              86,
+              44
+            ],
+            [
+              84,
+              44
+            ],
+            [
+              66,
+              42
+            ],
+            [
+              56,
+              40
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              48,
+              34
+            ],
+            [
+              44,
+              32
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "shako"
+        },
+        {
+          "id": "bernadotte",
+          "side": "a",
+          "label": "Army of the North (Bernadotte)",
+          "pos": [
+            [
+              88,
+              10
+            ],
+            [
+              84,
+              12
+            ],
+            [
+              82,
+              12
+            ],
+            [
+              80,
+              12
+            ],
+            [
+              62,
+              18
+            ],
+            [
+              54,
+              22
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              46,
+              27
+            ],
+            [
+              43,
+              28
+            ]
+          ],
+          "strength": 72000,
+          "helmet": "shako"
+        },
+        {
+          "id": "napoleon",
+          "side": "b",
+          "label": "Napoleon & the Imperial Guard",
+          "pos": [
+            [
+              44,
+              40
+            ],
+            [
+              46,
+              46
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              46,
+              46
+            ],
+            [
+              45,
+              44
+            ],
+            [
+              45,
+              44
+            ],
+            [
+              43,
+              40
+            ],
+            [
+              38,
+              32
+            ],
+            [
+              26,
+              30
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "shako"
+        },
+        {
+          "id": "south-corps",
+          "side": "b",
+          "label": "Southern corps (Victor, Lauriston, Poniatowski)",
+          "pos": [
+            [
+              46,
+              52
+            ],
+            [
+              47,
+              52
+            ],
+            [
+              48,
+              54
+            ],
+            [
+              47,
+              52
+            ],
+            [
+              46,
+              50
+            ],
+            [
+              46,
+              46
+            ],
+            [
+              44,
+              42
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              24,
+              30
+            ]
+          ],
+          "strength": 65000,
+          "helmet": "shako"
+        },
+        {
+          "id": "murat",
+          "side": "b",
+          "label": "Murat's cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              50,
+              50
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              48,
+              58
+            ],
+            [
+              50,
+              54
+            ],
+            [
+              49,
+              52
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              36,
+              32
+            ],
+            [
+              22,
+              30
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "shako"
+        },
+        {
+          "id": "marmont",
+          "side": "b",
+          "label": "Marmont's VI Corps",
+          "pos": [
+            [
+              36,
+              20
+            ],
+            [
+              34,
+              16
+            ],
+            [
+              34,
+              15
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              38,
+              24
+            ],
+            [
+              39,
+              26
+            ],
+            [
+              37,
+              29
+            ],
+            [
+              26,
+              31
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "shako"
+        },
+        {
+          "id": "ney",
+          "side": "b",
+          "label": "Ney & the northern corps",
+          "pos": [
+            [
+              42,
+              22
+            ],
+            [
+              42,
+              22
+            ],
+            [
+              42,
+              22
+            ],
+            [
+              40,
+              20
+            ],
+            [
+              42,
+              24
+            ],
+            [
+              43,
+              27
+            ],
+            [
+              42,
+              28
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              25,
+              31
+            ]
+          ],
+          "strength": 58000,
+          "helmet": "shako"
+        },
+        {
+          "id": "saxons",
+          "side": "b",
+          "label": "Saxon & Württemberg contingents",
+          "pos": [
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              45
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              50,
+              36
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "shako"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "somme": {
+      "title": "Battle of the Somme",
+      "subtitle": "1 July – 18 November 1916 — 141 days for six miles of Picardy",
+      "sides": {
+        "a": {
+          "name": "Britain & France",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "German Empire",
+          "color": "#5d6d7e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "road",
+          "points": [
+            [
+              18,
+              44
+            ],
+            [
+              36,
+              38
+            ],
+            [
+              56,
+              30
+            ],
+            [
+              78,
+              20
+            ],
+            [
+              92,
+              14
+            ]
+          ],
+          "label": "The Albert–Bapaume road"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              16,
+              34
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              56,
+              12
+            ]
+          ],
+          "label": "The Ancre"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              10,
+              62
+            ],
+            [
+              30,
+              60
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              72,
+              56
+            ]
+          ],
+          "label": "The Somme"
+        },
+        {
+          "type": "town",
+          "x": 16,
+          "y": 44,
+          "r": 3,
+          "label": "Albert"
+        },
+        {
+          "type": "town",
+          "x": 92,
+          "y": 12,
+          "r": 3,
+          "label": "Bapaume — never taken"
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 22,
+          "r": 2.5,
+          "label": "Thiepval"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 30,
+          "r": 2.5,
+          "label": "Pozières"
+        },
+        {
+          "type": "town",
+          "x": 44,
+          "y": 12,
+          "r": 2.5,
+          "label": "Beaumont Hamel"
+        },
+        {
+          "type": "forest",
+          "x": 60,
+          "y": 40,
+          "r": 4,
+          "label": "Delville Wood"
+        }
+      ],
+      "phases": [
+        {
+          "name": "A week of shellfire",
+          "narration": "From 24 June some 1.5 million shells fall on the German line — but a great many are shrapnel, useless against wire, and as many as one in three fails to explode. The German garrisons sit it out thirty feet down in dugouts cut into the chalk. At 7:20 and 7:28 on 1 July the mines go up at Hawthorn Ridge and Lochnagar.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                40
+              ],
+              "to": [
+                40,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                24,
+                20
+              ],
+              "to": [
+                37,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "1 July: the first day",
+          "narration": "At 7:30 the infantry climb out north of the Albert–Bapaume road and walk into uncut wire and machine guns manned by men who have had ten minutes to come up from the dugouts. The Fourth Army takes 57,470 casualties, 19,240 of them killed — the worst day in the history of the British Army, and the line barely moves.",
+          "arrows": [
+            {
+              "from": [
+                26,
+                16
+              ],
+              "to": [
+                37,
+                16
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                38,
+                16
+              ],
+              "to": [
+                28,
+                16
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The southern success",
+          "narration": "South of the road the same morning goes entirely differently. Montauban and Mametz fall, and the French Sixth Army astride the Somme — better guns, better tactics, and a German line they had not been expected to attack — takes every objective for 1,590 casualties. The German defence on the south bank is ordered back.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                46
+              ],
+              "to": [
+                44,
+                46
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                58
+              ],
+              "to": [
+                42,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "14 July: Bazentin Ridge",
+          "narration": "Four divisions creep out into no man's land in the dark, and after a five-minute hurricane bombardment take the German second position on a 6,000-yard front at dawn. It is the cleanest attack of the battle. The chance to push on to High Wood is lost to broken telephone lines and exhaustion.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                42
+              ],
+              "to": [
+                50,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Delville Wood and Pozières",
+          "narration": "The battle turns into a fight for woods and villages. Of some 3,150 South Africans who go into Delville Wood on 15 July, fewer than 800 answer the roll six days later. At Pozières the Australians take the village and then hold the ridge under bombardment for six weeks, losing around 23,000 men on a frontage of a few hundred yards.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                40
+              ],
+              "to": [
+                59,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                32,
+                28
+              ],
+              "to": [
+                47,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                64,
+                40
+              ],
+              "to": [
+                58,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "15 September: the tanks",
+          "narration": "Forty-nine tanks are brought up for Flers–Courcelette; 32 reach the start line and about nine lead the infantry in. They are slow, blind and unreliable, and most break down or ditch — but where they work the wire and the machine guns stop mattering, and the line moves 2,500 to 3,500 yards. It is the first time armour has been used in war.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                34
+              ],
+              "to": [
+                62,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "26 September: Thiepval Ridge",
+          "narration": "Gough's Reserve Army finally takes Thiepval, its fortified ruins and the Schwaben Redoubt behind it. Thiepval had been an objective for the morning of 1 July; it falls eighty-eight days late.",
+          "arrows": [
+            {
+              "from": [
+                35,
+                24
+              ],
+              "to": [
+                41,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Ancre Heights, in the rain",
+          "narration": "From October the weather closes in and the chalk turns to a liquid paste that swallows men and mules. Regina Trench and Stuff Redoubt change hands over and over; the fighting is measured in yards of trench, and the last of the heights is not secured until 11 November.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                22
+              ],
+              "to": [
+                52,
+                20
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "13 November: Beaumont Hamel, and the end",
+          "narration": "A last attack in freezing fog takes Beaumont Hamel, untaken since 1 July; the attack on Serre alongside it fails as it had in July. On 18 November the offensive is closed down. The front has moved about six miles for roughly 420,000 British, 200,000 French and 237,000–500,000 German casualties — the German figure is still disputed.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                14
+              ],
+              "to": [
+                43,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                10
+              ],
+              "to": [
+                36,
+                8
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "fourth-north",
+          "side": "a",
+          "label": "Fourth Army, northern corps",
+          "pos": [
+            [
+              22,
+              16
+            ],
+            [
+              26,
+              14
+            ],
+            [
+              26,
+              14
+            ],
+            [
+              26,
+              16
+            ],
+            [
+              27,
+              18
+            ],
+            [
+              28,
+              18
+            ],
+            [
+              34,
+              22
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              42,
+              14
+            ]
+          ],
+          "strength": 200000,
+          "helmet": "dish"
+        },
+        {
+          "id": "fourth-south",
+          "side": "a",
+          "label": "Fourth Army, southern corps",
+          "pos": [
+            [
+              24,
+              48
+            ],
+            [
+              28,
+              46
+            ],
+            [
+              36,
+              46
+            ],
+            [
+              46,
+              40
+            ],
+            [
+              54,
+              40
+            ],
+            [
+              62,
+              36
+            ],
+            [
+              64,
+              36
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              66,
+              34
+            ]
+          ],
+          "strength": 190000,
+          "helmet": "dish"
+        },
+        {
+          "id": "reserve-army",
+          "side": "a",
+          "label": "Reserve Army (Gough) & the Anzacs",
+          "pos": [
+            [
+              20,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              24,
+              30
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              46,
+              30
+            ],
+            [
+              48,
+              28
+            ],
+            [
+              42,
+              22
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              46,
+              18
+            ]
+          ],
+          "strength": 180000,
+          "helmet": "dish"
+        },
+        {
+          "id": "french-sixth",
+          "side": "a",
+          "label": "French Sixth Army (Fayolle)",
+          "pos": [
+            [
+              22,
+              58
+            ],
+            [
+              26,
+              58
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              44,
+              58
+            ],
+            [
+              50,
+              56
+            ],
+            [
+              58,
+              54
+            ],
+            [
+              62,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              66,
+              54
+            ]
+          ],
+          "strength": 150000,
+          "helmet": "dish"
+        },
+        {
+          "id": "tanks",
+          "side": "a",
+          "label": "Heavy Branch tanks",
+          "shape": "vehicle",
+          "pos": [
+            [
+              12,
+              40
+            ],
+            [
+              12,
+              40
+            ],
+            [
+              12,
+              40
+            ],
+            [
+              12,
+              40
+            ],
+            [
+              14,
+              38
+            ],
+            [
+              56,
+              32
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              50,
+              22
+            ]
+          ],
+          "strength": 49,
+          "helmet": "dish"
+        },
+        {
+          "id": "rfc",
+          "side": "a",
+          "label": "Royal Flying Corps",
+          "shape": "plane",
+          "pos": [
+            [
+              30,
+              8
+            ],
+            [
+              40,
+              10
+            ],
+            [
+              44,
+              50
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              52,
+              24
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              54,
+              16
+            ]
+          ],
+          "strength": 410
+        },
+        {
+          "id": "german-second",
+          "side": "b",
+          "label": "German Second Army (von Below)",
+          "pos": [
+            [
+              40,
+              44
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              44,
+              46
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              58,
+              42
+            ],
+            [
+              66,
+              38
+            ],
+            [
+              70,
+              36
+            ],
+            [
+              72,
+              34
+            ],
+            [
+              74,
+              34
+            ]
+          ],
+          "strength": 250000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "german-first",
+          "side": "b",
+          "label": "German First Army (from 19 July)",
+          "pos": [
+            [
+              38,
+              16
+            ],
+            [
+              36,
+              14
+            ],
+            [
+              36,
+              14
+            ],
+            [
+              38,
+              16
+            ],
+            [
+              40,
+              18
+            ],
+            [
+              42,
+              18
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              46,
+              18
+            ],
+            [
+              52,
+              14
+            ]
+          ],
+          "strength": 140000,
+          "helmet": "coal"
+        },
+        {
+          "id": "german-reserves",
+          "side": "b",
+          "label": "Divisions railed to the Somme",
+          "pos": [
+            [
+              78,
+              26
+            ],
+            [
+              72,
+              26
+            ],
+            [
+              70,
+              30
+            ],
+            [
+              64,
+              32
+            ],
+            [
+              62,
+              34
+            ],
+            [
+              72,
+              30
+            ],
+            [
+              74,
+              28
+            ],
+            [
+              76,
+              28
+            ],
+            [
+              78,
+              26
+            ]
+          ],
+          "strength": 190000,
+          "helmet": "coal"
+        },
+        {
+          "id": "german-guns",
+          "side": "b",
+          "label": "German artillery",
+          "pos": [
+            [
+              66,
+              24
+            ],
+            [
+              62,
+              24
+            ],
+            [
+              64,
+              28
+            ],
+            [
+              68,
+              28
+            ],
+            [
+              70,
+              30
+            ],
+            [
+              76,
+              26
+            ],
+            [
+              78,
+              26
+            ],
+            [
+              80,
+              26
+            ],
+            [
+              82,
+              26
+            ]
+          ],
+          "strength": 60000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "german-air",
+          "side": "b",
+          "label": "German air service",
+          "shape": "plane",
+          "pos": [
+            [
+              72,
+              12
+            ],
+            [
+              70,
+              14
+            ],
+            [
+              70,
+              40
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              58,
+              22
+            ],
+            [
+              56,
+              24
+            ],
+            [
+              58,
+              18
+            ]
+          ],
+          "strength": 300
+        }
+      ],
+      "severity": 1.3
     }
   }
 }
