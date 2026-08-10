@@ -1127,6 +1127,7 @@ export default function App() {
         offSubs={offSubs}
         showFauna={showFauna}
         region={viewRegion}
+        viewCentre={viewCentre}
         onSelect={setPanel}
         zoomIdx={zoomIdx}
         onZoomChange={setZoomIdx}

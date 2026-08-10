@@ -16,7 +16,7 @@ import {
 } from '../lib/timeScale';
 import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
-import { ELSEWHERE, laneRegionFor } from '../lib/laneRegions';
+import { ELSEWHERE, laneRegionFor, greatCircleKm, viewReachKm } from '../lib/laneRegions';
 import { eventPasses } from '../lib/subLayers';
 
 interface TimelineProps {
@@ -43,6 +43,10 @@ interface TimelineProps {
    * When set, the mural tells THAT region's story — zoom into Italy and the
    * wall fills with Italy's own people and works. */
   region: { w: number; s: number; e: number; n: number } | null;
+  /** The ground directly under the camera. The region test measures distance
+   * from HERE, so a view over Brazil cannot reach Britain through the corner
+   * of a bounding box. */
+  viewCentre: { lon: number; lat: number };
   /** Open the info panel for a clicked mural circle. */
   onSelect: (content: PanelContent) => void;
   /** Current zoom level (index into ZOOM_SPANS); lifted to App for the play loop. */
@@ -312,6 +316,7 @@ export default function Timeline({
   offSubs,
   showFauna,
   region,
+  viewCentre,
   onSelect,
   onFlyTo,
   zoomIdx,
@@ -444,18 +449,16 @@ export default function Timeline({
 
   // --- The photo mural: events + creatures as datable sources. ---
   // When the globe is zoomed into a region, the wall tells that region's own
-  // story (10% margin; handles views crossing the dateline).
+  // story: everything within the view's own reach of the ground under the
+  // camera. A CIRCLE, not the bounding box this used to use — see
+  // `viewReachKm` for why the box put Britain on Brazil's wall. The dateline
+  // stops mattering too, since a great circle does not care where 180° is.
   const inRegion = useMemo(() => {
     if (!region) return () => true;
-    const { w, s, e, n } = region;
-    const mLat = Math.max(1, (n - s) * 0.1);
-    const spanLon = e >= w ? e - w : 360 - (w - e);
-    const mLon = Math.max(1, spanLon * 0.1);
-    return (lat: number, lon: number) => {
-      if (lat < s - mLat || lat > n + mLat) return false;
-      return e >= w ? lon >= w - mLon && lon <= e + mLon : lon >= w - mLon || lon <= e + mLon;
-    };
-  }, [region]);
+    const reachKm = viewReachKm(region);
+    const { lat: cLat, lon: cLon } = viewCentre;
+    return (lat: number, lon: number) => greatCircleKm(cLat, cLon, lat, lon) <= reachKm;
+  }, [region, viewCentre]);
 
   const eventItems = useMemo<MuralSource[]>(
     () =>

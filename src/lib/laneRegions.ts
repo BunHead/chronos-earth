@@ -48,3 +48,61 @@ export function laneRegionFor(lat: number, lon: number): string {
   }
   return ELSEWHERE;
 }
+
+/* ------------------------------------------------------------------ *
+ * "Near where I am looking" — a circle, not a rectangle.
+ *
+ * The mural used to decide this with the camera's lat/lon BOUNDING BOX, and a
+ * box on a globe over-reaches badly at its corners. Parked over Brazil the box
+ * ran from the mid-Atlantic to the Andes and from Patagonia up past the
+ * equator — and its top-right corner landed on the British Isles, so a wall
+ * that was supposed to be telling Brazil's story filled up with Britain's.
+ *
+ * A circle centred on the ground under the camera cannot do that: the corners
+ * were never really in view, only the box's arithmetic said so.
+ * ------------------------------------------------------------------ */
+
+const DEG = Math.PI / 180;
+
+/**
+ * Great-circle distance in km on a spherical Earth — ample for "is this event
+ * near the camera". (`lib/eclipseShadow.ts` keeps its own copy on purpose: it
+ * is a deliberately dependency-free module of pure astronomy.)
+ */
+export function greatCircleKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const p1 = lat1 * DEG;
+  const p2 = lat2 * DEG;
+  const dp = (lat2 - lat1) * DEG;
+  const dl = (lon2 - lon1) * DEG;
+  const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+
+/**
+ * How far the current view honestly reaches from its own centre, in km.
+ *
+ * The LARGER of the view's half-height and half-width, not the diagonal — the
+ * diagonal is exactly the corner over-reach we are getting rid of. A 10%
+ * margin matches the one the old box test carried, so the edge of the screen
+ * is not a hard cliff.
+ *
+ * Floored at 250 km so a deep zoom onto one building still gathers its town.
+ * Capped at 5000 km — about 45° of arc — because past that you are not looking
+ * at a region any more. The cap matters more than it sounds: from roughly
+ * 6000 km up, Cesium's view rectangle snaps to the WHOLE GLOBE (-180..180,
+ * -90..90) even though the camera can only see a cap of it, so without a firm
+ * ceiling every distant view would quietly claim the entire planet. Measured
+ * over Brazil at that height: a 10 000 km reach still swept in 183 British
+ * events (Stonehenge, Brú na Bóinne, Creswell Crags…), which is precisely the
+ * complaint. Britain is ~8900 km from central Brazil; 5000 km settles it.
+ */
+export function viewReachKm(region: { w: number; s: number; e: number; n: number }): number {
+  const { w, s, e, n } = region;
+  const midLat = (s + n) / 2;
+  const spanLon = e >= w ? e - w : 360 - (w - e);
+  const halfHeightKm = ((n - s) / 2) * 111.32;
+  // Longitude degrees shrink toward the poles; measure them where we are.
+  const halfWidthKm = (spanLon / 2) * 111.32 * Math.cos(midLat * DEG);
+  const reach = Math.max(halfHeightKm, halfWidthKm) * 1.1;
+  return Math.min(5_000, Math.max(250, reach));
+}

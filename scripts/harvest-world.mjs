@@ -13,7 +13,14 @@
  *
  *   node scripts/harvest-world.mjs             # next 8 pending cells
  *   node scripts/harvest-world.mjs --cells 40  # a bigger bite
- *   node scripts/harvest-world.mjs --floor 10  # greedier notability floor
+ *   node scripts/harvest-world.mjs --floor 10  # a fixed notability floor
+ *
+ * NEVER IDLE: a cell counts as pending if it has never been swept OR was swept
+ * at a shallower notability floor than the campaign is now working at. When the
+ * whole world is clean at the current floor the campaign digs one notch deeper
+ * by itself (to MIN_FLOOR), so the robot always has something useful to do.
+ * Re-sweeping is safe — every cell dedupes against the core dataset and its own
+ * chunk, so a deeper pass can only ADD long tail, never duplicate.
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -40,6 +47,11 @@ const argVal = (flag, dflt) => {
 };
 const BATCH = argVal('--cells', 8);
 const FLOOR = argVal('--floor', 12);
+/** Was a floor asked for by name? If so, honour it and do not auto-deepen. */
+const FLOOR_GIVEN = args.includes('--floor');
+/** How deep the campaign will dig on its own. Below this the tail is mostly
+ * bus stops and hamlets — worth having only if it is asked for explicitly. */
+const MIN_FLOOR = 6;
 
 const TYPE_CATEGORY = {
   Q515: 'city', Q3957: 'city', Q532: 'city', Q486972: 'city',
@@ -54,7 +66,7 @@ const TYPE_CATEGORY = {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
 
-async function queryCell(key, w, s, e, n) {
+async function queryCell(key, w, s, e, n, FLOOR) {
   const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin WHERE {
   SERVICE wikibase:box {
     ?item wdt:P625 ?coord .
@@ -101,22 +113,54 @@ async function main() {
   const coreQids = new Set(core.events.map((e) => e.wikidataId).filter(Boolean));
 
   const progress = await readJson(PROGRESS, { done: {} });
+  // Which notability floor each cell was last swept at. Cells harvested before
+  // this was recorded were all swept at the old default of 12.
+  progress.floors ??= {};
+  const floorOf = (key) => progress.floors[key] ?? 12;
 
   // Every land-band cell, poles excluded; ocean cells simply come back empty.
-  const cells = [];
+  const allCells = [];
   for (let x = 0; x < 360 / CELL; x++) {
     for (let y = Math.floor((LAT_MIN + 90) / CELL); y <= Math.floor((LAT_MAX + 89) / CELL); y++) {
-      const key = `r${x}x${y}`;
-      if (progress.done[key] === undefined) {
-        cells.push({ key, w: -180 + x * CELL, s: -90 + y * CELL, e: -160 + x * CELL, n: -70 + y * CELL });
-      }
+      allCells.push({
+        key: `r${x}x${y}`,
+        w: -180 + x * CELL, s: -90 + y * CELL, e: -160 + x * CELL, n: -70 + y * CELL,
+      });
     }
   }
-  console.log(`${Object.keys(progress.done).length} cells done, ${cells.length} pending; taking ${Math.min(BATCH, cells.length)} (floor ${FLOOR})`);
+
+  // THE ROBOT MUST ALWAYS HAVE WORK. A cell is pending if it has never been
+  // swept, or was swept at a SHALLOWER floor than the one we are working at —
+  // so deepening the floor re-opens the whole world, and the per-cell dedupe
+  // below means a re-sweep can only ever ADD.
+  //
+  // Once the planet is clean at the current floor the campaign digs one notch
+  // deeper by itself, down to MIN_FLOOR. That is what makes `harvest.cmd`
+  // worth double-clicking forever instead of no-opping the moment the last
+  // cell is ticked — which is where it had got to: 142 of 144 done, nothing
+  // left to do, and no way to ask for more without hand-editing JSON.
+  const pendingAt = (f) =>
+    allCells.filter((c) => progress.done[c.key] === undefined || floorOf(c.key) > f);
+
+  let floor = FLOOR_GIVEN ? FLOOR : (progress.floor ?? FLOOR);
+  let cells = pendingAt(floor);
+  while (cells.length === 0 && !FLOOR_GIVEN && floor > MIN_FLOOR) {
+    floor -= 1;
+    cells = pendingAt(floor);
+    if (cells.length) console.log(`World clean at floor ${floor + 1} — digging deeper to floor ${floor}.`);
+  }
+  if (cells.length === 0) {
+    console.log(
+      `Nothing left: every cell swept at floor ${floor}, the deepest this robot goes. ` +
+        `Run with --floor ${MIN_FLOOR - 1} if you truly want the long tail below it.`,
+    );
+    return;
+  }
+  console.log(`${Object.keys(progress.done).length} cells done, ${cells.length} pending; taking ${Math.min(BATCH, cells.length)} (floor ${floor})`);
 
   let harvested = 0;
   for (const cell of cells.slice(0, BATCH)) {
-    const rows = await queryCell(cell.key, cell.w, cell.s, cell.e, cell.n);
+    const rows = await queryCell(cell.key, cell.w, cell.s, cell.e, cell.n, floor);
     if (rows === null) continue; // transient failure — stays pending
     const chunkPath = join(REGIONS, `${cell.key}.json`);
     const chunk = await readJson(chunkPath, { events: [] });
@@ -160,6 +204,10 @@ async function main() {
     }
     if (chunk.events.length > 0) await writeFile(chunkPath, JSON.stringify(chunk));
     progress.done[cell.key] = chunk.events.length;
+    // Record the depth this cell was swept at, and the campaign's own depth,
+    // so the next run knows what is genuinely still owed.
+    progress.floors[cell.key] = floor;
+    progress.floor = floor;
     await writeFile(PROGRESS, JSON.stringify(progress, null, 1));
     // The index only lists cells that actually hold something.
     const index = { cells: {} };
