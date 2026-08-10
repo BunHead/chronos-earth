@@ -15,6 +15,7 @@ import { describe, it, expect } from 'vitest';
 import {
   shadowAt,
   eclipseGroundWindow,
+  eclipseTrackWindow,
   obscurationAt,
   bearingDeg,
   greatCircleKm,
@@ -128,6 +129,55 @@ describe('eclipseGroundWindow', () => {
 
   it('returns null when asked about a moment with no eclipse', () => {
     expect(eclipseGroundWindow(utc(2017, 7, 1, 12, 0))).toBeNull();
+  });
+});
+
+describe('eclipseTrackWindow — the stretch worth watching', () => {
+  it('trims the 2017 event to the umbra\'s own crossing', () => {
+    const peak = utc(2017, 7, 21, 18, 26, 40);
+    const ground = eclipseGroundWindow(peak)!;
+    const track = eclipseTrackWindow(peak)!;
+    expect(track).not.toBeNull();
+    // NASA: the umbra first touched Earth at 16:48:33 UTC in the north Pacific
+    // and left at 20:02:36 in the south Atlantic — a shade over three hours,
+    // inside the five-hour penumbral window.
+    expect(track.start.getTime()).toBeGreaterThan(ground.start.getTime());
+    expect(track.end.getTime()).toBeLessThan(ground.end.getTime());
+    const mins = (d: Date) => d.getUTCHours() * 60 + d.getUTCMinutes();
+    expect(Math.abs(mins(track.start) - (16 * 60 + 49))).toBeLessThan(4);
+    expect(Math.abs(mins(track.end) - (20 * 60 + 3))).toBeLessThan(4);
+  });
+
+  it('is central throughout, and not central just outside', () => {
+    const track = eclipseTrackWindow(utc(2017, 7, 21, 18, 26, 40))!;
+    const span = track.end.getTime() - track.start.getTime();
+    for (let f = 0.02; f < 1; f += 0.1) {
+      expect(shadowAt(new Date(track.start.getTime() + span * f))!.central).toBe(true);
+    }
+    expect(shadowAt(new Date(track.start.getTime() - 5 * 60_000))?.central).toBe(false);
+    expect(shadowAt(new Date(track.end.getTime() + 5 * 60_000))?.central).toBe(false);
+  });
+
+  it('finds the track even when handed a LOCAL peak an hour off the global one', () => {
+    // What the UI actually passes: `findSolarEclipse` returns greatest eclipse
+    // AT THE OBSERVER. From Casper, Wyoming that is 17:43 UTC — 43 minutes
+    // before the global maximum, and the seed scan has to cope.
+    const local = eclipseTrackWindow(utc(2017, 7, 21, 17, 43, 51))!;
+    const global = eclipseTrackWindow(utc(2017, 7, 21, 18, 26, 40))!;
+    expect(Math.abs(local.start.getTime() - global.start.getTime())).toBeLessThan(60_000);
+    expect(Math.abs(local.end.getTime() - global.end.getTime())).toBeLessThan(60_000);
+  });
+
+  it('returns null for an eclipse that is partial everywhere on Earth', () => {
+    // 2018-08-11: a deep partial over the Arctic — the axis misses the planet
+    // entirely, so there is no track and the sweep must fall back to the full
+    // penumbral window rather than invent a centreline.
+    const partial = eclipseTrackWindow(utc(2018, 7, 11, 9, 46, 0));
+    expect(partial).toBeNull();
+  });
+
+  it('returns null when there is no eclipse at all', () => {
+    expect(eclipseTrackWindow(utc(2017, 7, 1, 12, 0))).toBeNull();
   });
 });
 

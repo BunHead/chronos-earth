@@ -51,11 +51,15 @@
 .ring-moon { font-size: 15px; cursor: pointer; }
 .sky-moon { background: none; border: none; cursor: pointer; font-size: 14px; line-height: 1; padding: 0 2px; }
 
-.sky-readout { display: flex; align-items: center; gap: 6px; justify-content: center; margin-bottom: 4px; }
+.sky-readout { display: flex; align-items: center; gap: 6px; justify-content: center; margin-bottom: 4px; flex-wrap: wrap; }
+/* Labelled, because the dial has three controls that all used to be a bare ▶.
+   This one runs the day; the shadow sweep names itself; the eclipse steppers
+   are chevrons. Auto width so the word never clips at the mobile dial size. */
 .sky-play {
   background: rgba(201, 162, 75, 0.18);
   border: 1px solid rgba(201, 162, 75, 0.5);
-  color: #f0e6d2; border-radius: 6px; width: 22px; height: 20px; cursor: pointer; font-size: 10px;
+  color: #f0e6d2; border-radius: 6px; padding: 2px 6px; height: 20px; cursor: pointer;
+  font-size: 10px; line-height: 1; white-space: nowrap;
 }
 .sky-play.on { background: rgba(201, 162, 75, 0.42); }
 .sky-time { font-weight: 700; letter-spacing: 0.5px; }

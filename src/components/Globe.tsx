@@ -193,6 +193,10 @@ interface GlobeProps {
   /** Reports the patch of Earth in view once zoomed toward a region (null at
    * orbit) — the timeline uses it to tell that region's own story. */
   onViewRegion: (rect: { w: number; s: number; e: number; n: number } | null) => void;
+  /** The ground point directly under the camera, at every height — which is
+   * what "where am I looking?" means for the Sky and Weather dial. Distinct
+   * from onViewRegion, whose centre degenerates to 0°N 0°E in orbit. */
+  onViewCentre: (p: { lon: number; lat: number }) => void;
   /** From a shared "this moment" link: where to point the camera on load,
    * instead of the default whole-globe home view. */
   initialCamera?: CameraState | null;
@@ -211,7 +215,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, initialCamera },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -269,6 +273,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const liveAnchorRef = useRef<{ lat: number; lon: number } | null>(null);
   const onViewRegionRef = useRef(onViewRegion);
   onViewRegionRef.current = onViewRegion;
+  const onViewCentreRef = useRef(onViewCentre);
+  onViewCentreRef.current = onViewCentre;
+  /** Last reported sub-camera point, so a still camera reports nothing. */
+  const viewCentreKeyRef = useRef('');
   /** True after a dive fired; re-arms once the camera climbs back up. */
   const divedRef = useRef(false);
   const eventsRef = useRef(events);
@@ -931,6 +939,20 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       } else if (viewRectKeyRef.current !== 'space') {
         viewRectKeyRef.current = 'space';
         setViewRect(null); // whole globe (or space) in view
+      }
+      // The point directly under the camera — "where you are looking", at any
+      // height. The rectangle above cannot answer that: once the whole globe
+      // is in view it spans −180…180 / −90…90, whose centre is 0°N 0°E in the
+      // Gulf of Guinea no matter where the camera actually is.
+      const c = viewer.camera.positionCartographic;
+      const clat = Math.round(Cesium.Math.toDegrees(c.latitude) * 4) / 4;
+      const clon = Math.round(Cesium.Math.toDegrees(c.longitude) * 4) / 4;
+      if (Number.isFinite(clat) && Number.isFinite(clon)) {
+        const key = `${clon}|${clat}`;
+        if (key !== viewCentreKeyRef.current) {
+          viewCentreKeyRef.current = key;
+          onViewCentreRef.current({ lon: clon, lat: clat });
+        }
       }
     }, 500);
 

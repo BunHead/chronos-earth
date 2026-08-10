@@ -177,6 +177,15 @@ export default function App() {
   // The patch of Earth the camera is looking at (null = orbit / whole globe);
   // when set, the timeline tells that region's own story.
   const [viewRegion, setViewRegion] = useState<{ w: number; s: number; e: number; n: number } | null>(null);
+  // The ground directly under the camera — where you are STANDING, as opposed
+  // to the patch of Earth in shot. The Sky and Weather dial runs off this: its
+  // sun altitude, its solar clock, and above all the eclipse finder, which asks
+  // "what is the next eclipse visible from HERE". Using the view rectangle's
+  // centre instead put "here" at 0°N 0°E in the Gulf of Guinea the moment the
+  // whole globe was on screen — which is the app's own opening view — so the
+  // Eclipses row served up an event in the South Atlantic and the shadow duly
+  // crossed an ocean nobody was looking at.
+  const [viewCentre, setViewCentre] = useState<{ lon: number; lat: number }>({ lon: -0.12, lat: 51.5 });
   useEffect(() => {
     if (!viewRegion) return;
     let live = true;
@@ -540,9 +549,8 @@ export default function App() {
     // and the terminator have to march to the same time, and two writers would
     // just fight each other.
     if (eclipseSweep?.playing) return;
-    const lon = viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0;
-    globeRef.current?.setSunTime(sky.date, sky.solarHours, lon);
-  }, [skyOpen, sky.date, sky.solarHours, viewRegion, eclipseSweep?.playing]);
+    globeRef.current?.setSunTime(sky.date, sky.solarHours, viewCentre.lon);
+  }, [skyOpen, sky.date, sky.solarHours, viewCentre.lon, eclipseSweep?.playing]);
 
   // Closing the Weather & Sky frame packs the eclipse away with it — the shadow
   // belongs to the dial that found it.
@@ -769,6 +777,7 @@ export default function App() {
           setYearsBP(bp);
         }}
         onViewRegion={setViewRegion}
+        onViewCentre={setViewCentre}
         initialCamera={initialScene.camera}
         onDive={(t) => {
           // The dive: zooming right down onto a marker — make sure the
@@ -919,8 +928,8 @@ export default function App() {
           moonPhase={sky.moonPhase}
           temperature={sky.temperature}
           cloud={sky.cloud}
-          latitude={viewRegion ? (viewRegion.s + viewRegion.n) / 2 : 51.5}
-          longitude={viewRegion ? (viewRegion.w + viewRegion.e) / 2 : -0.12}
+          latitude={viewCentre.lat}
+          longitude={viewCentre.lon}
           timelineYear={Math.round(yearsBPToYear(yearsBP))}
           title="the globe"
           eclipsePlaying={eclipseSweep?.playing ?? false}
@@ -933,7 +942,7 @@ export default function App() {
               setEclipseSweep((e) => (e ? { ...e, playing: false, obscuration: 0 } : e));
               return;
             }
-            const lonRef = viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0;
+            const lonRef = viewCentre.lon;
             // The sweep runs at 20 fps inside the controller; React only needs
             // the dial to keep up, so state is nudged about five times a second.
             let lastPush = 0;
@@ -959,7 +968,7 @@ export default function App() {
             setIsPlaying(false);
             setYearsBP(yearToYearsBP(y));
             if (y > -12000) setZoomIdx(1);
-            const lonForSolar = hit.centre?.lon ?? (viewRegion ? (viewRegion.w + viewRegion.e) / 2 : 0);
+            const lonForSolar = hit.centre?.lon ?? viewCentre.lon;
             const solarHours =
               (hit.peak.getUTCHours() + hit.peak.getUTCMinutes() / 60 + lonForSolar / 15 + 24) % 24;
             setSky((s) => ({ ...s, date: new Date(hit.peak), solarHours, auto: false }));

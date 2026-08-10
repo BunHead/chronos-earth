@@ -393,12 +393,17 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
       </svg>
 
       <div className="sky-readout">
+        {/* THE DAY BUTTON. It says "day" out loud because this dial carries
+            three controls that all used to wear a ▶, and the only way to tell
+            them apart was to press one and see what moved. This one runs the
+            clock forward; the eclipse stepper below is now a pair of arrows,
+            and the shadow play-through names itself. */}
         <button
           className={`sky-play${auto ? ' on' : ''}`}
           onClick={() => onChange({ auto: !auto })}
-          title={auto ? 'Pause' : 'Watch a day pass'}
+          title={auto ? 'Stop the clock' : 'Run the clock forward — watch a whole day pass'}
         >
-          {auto ? '⏸' : '▶'}
+          {auto ? '⏸ day' : '▶ day'}
         </button>
         <span className="sky-time">{fmtTime(solarHours)}</span>
         <span className="sky-alt">{daytime ? `sun ${Math.round(altitude)}° up` : 'below horizon'}</span>
@@ -435,13 +440,26 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
 
       {canSeekEclipse && (
         <div className="sky-eclipse" role="group" aria-label="Solar eclipses visible here">
+          {/* SEARCH, NOT PLAYBACK. "next ▶" was an arrow wearing a play
+              button's clothes — it doesn't run anything, it hunts backwards or
+              forwards through time for the next eclipse visible from here. So
+              it now wears the same ‹ › chevrons as the day-stepper above, and
+              says what it finds rather than showing a triangle. */}
           <div className="sky-eclipse-row">
-            <button onClick={() => seekEclipse(-1)} title="The last eclipse seen here before this date">
-              ◀ prev
+            <button
+              className="sky-eclipse-seek"
+              onClick={() => seekEclipse(-1)}
+              title="Search back for the last eclipse seen from here before this date"
+            >
+              ‹ earlier
             </button>
-            <span className="sky-eclipse-title">🌘 Eclipses</span>
-            <button onClick={() => seekEclipse(1)} title="The next eclipse seen here after this date">
-              next ▶
+            <span className="sky-eclipse-title">🌘 Find an eclipse</span>
+            <button
+              className="sky-eclipse-seek"
+              onClick={() => seekEclipse(1)}
+              title="Search on for the next eclipse seen from here after this date"
+            >
+              later ›
             </button>
           </div>
           {eclipse && (

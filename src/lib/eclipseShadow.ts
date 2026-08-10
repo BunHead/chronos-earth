@@ -275,6 +275,64 @@ export function eclipseGroundWindow(peak: Date): { start: Date; end: Date } | nu
 }
 
 /**
+ * The stretch of time the UMBRA is actually standing on Earth — the eclipse's
+ * own track, first landfall to last. Null when the cone never strikes (a
+ * globally partial event has no track to follow).
+ *
+ * WHY THIS EXISTS, and it is a viewing matter rather than an astronomical one.
+ * `eclipseGroundWindow` is the honest full extent of the event, and for 2017 it
+ * runs 15:47–21:04 UTC. But the first hour of that, and the last, are the
+ * penumbra's outermost fringe grazing the planet edge-on out over an empty
+ * ocean at dawn — no dark core anywhere, and the ground it falls on is barely
+ * lit to begin with. Measured on the live globe: at 15:47 the shadow darkens
+ * the screen by 7%, at 16:40 by 1%, and only once the umbra lands does it reach
+ * 85–90%. Compress the whole window into a thirty-second play-through and the
+ * first six seconds are, truthfully, a picture of nothing — which is what
+ * "I press watch the shadow cross and nothing happens" actually was.
+ *
+ * So the sweep runs the TRACK when there is one. Nothing is faked and nothing
+ * is moved; the play-through simply starts where there is something to see.
+ */
+export function eclipseTrackWindow(peak: Date): { start: Date; end: Date } | null {
+  const ground = eclipseGroundWindow(peak);
+  if (!ground) return null;
+  const central = (d: Date) => shadowAt(d)?.central === true;
+
+  // Find any centre instant first: `peak` is usually central already, but a
+  // caller's "peak" is the greatest eclipse AT A PLACE, which can sit an hour
+  // off the global maximum — so scan the window rather than assume.
+  const startMs = ground.start.getTime();
+  const spanMs = ground.end.getTime() - startMs;
+  let seed: number | null = central(peak) ? peak.getTime() : null;
+  if (seed === null) {
+    const STEPS = 48; // ~6-minute resolution across a five-hour window
+    for (let i = 0; i <= STEPS; i++) {
+      const t = startMs + (spanMs * i) / STEPS;
+      if (central(new Date(t))) {
+        seed = t;
+        break;
+      }
+    }
+  }
+  if (seed === null) return null; // never central: no track exists
+
+  // Walk out from the seed to each end of the ground window by bisection —
+  // centrality is a single contiguous stretch, so an edge is where it flips.
+  const edge = (outerMs: number): Date => {
+    let inside = seed as number;
+    let outside = outerMs;
+    for (let i = 0; i < 22; i++) {
+      const mid = (inside + outside) / 2;
+      if (central(new Date(mid))) inside = mid;
+      else outside = mid;
+    }
+    return new Date(inside);
+  };
+
+  return { start: edge(startMs), end: edge(startMs + spanMs) };
+}
+
+/**
  * How much of the sun a given place has covered at an instant, 0..1, judged
  * purely from the shadow geometry — cheap enough to call every animation frame
  * for the site the camera is standing on (item 8's `findSolarEclipse` is the

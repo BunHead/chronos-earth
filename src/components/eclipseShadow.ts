@@ -15,6 +15,23 @@
  * textures ONCE, and the sweep is then nothing but writing a position and two
  * radii per frame — which is what an entity is for.
  *
+ * AND THE PER-FRAME REWRITE IS FINE — TESTED, because it looks as though it
+ * should not be. Writing a new ConstantProperty each frame sends the ellipse
+ * down Cesium's STATIC path, where geometry is tessellated asynchronously in a
+ * worker, so at 20 fps you would expect every build to be cancelled by the next
+ * and the shadow to flicker or vanish. It does not. Sampling the umbra's own
+ * centre on EVERY rendered frame of a live sweep gives a smooth ramp — 35.2,
+ * 35.8, 36.8, 37.0, 37.9 … — with no dropouts. Switching every property to a
+ * non-constant CallbackProperty (the DYNAMIC path, rebuilt synchronously each
+ * frame on the main thread) was tried and measured against it: identical
+ * readings, for more main-thread work. So the simple version stays.
+ *
+ * Keep that measurement in mind before "fixing" this again: readings taken
+ * SECONDS apart during a sweep jump about wildly (8 → 171 → 111), which reads
+ * exactly like a flicker and is not one — it is the shadow crossing bright
+ * ocean, then dark dawn ground, then sunlit land. Sample consecutive FRAMES,
+ * not consecutive seconds, or the instrument will invent a bug for you.
+ *
  * The ellipses are genuinely elliptical, not circles: a shadow landing near the
  * limb is smeared along the line to the subsolar point (`incidenceCos`), which
  * is why totality at sunrise is a long oval and at local noon nearly round.
@@ -23,6 +40,7 @@ import * as Cesium from 'cesium';
 import {
   shadowAt,
   eclipseGroundWindow,
+  eclipseTrackWindow,
   obscurationAt,
   bearingDeg,
   greatCircleKm,
@@ -89,6 +107,14 @@ export class EclipseShadowController {
     if (this.penumbra || this.viewer.isDestroyed()) return;
     // The penumbra: nothing at the rim, deepening inward. Never fully dark —
     // out here the sun is only ever partly bitten.
+    //
+    // DEEPENING THESE STOPS WAS TRIED AND PUT BACK (2026-08-07). Raising the
+    // centre to 0.90 with a steeper inner falloff is arguably truer to the
+    // light budget, but measured on the live globe it moved the whole visible
+    // disc's mean brightness only 60.9 → 58.0 and the umbra's own centre 49.4 →
+    // 47.0 — because the umbra's texture already dominates the middle and the
+    // deepened ring covers very little ground. Not enough to justify changing
+    // what the shadow looks like on reasoning alone.
     const pen = gradientTexture([
       [0, 'rgba(6,8,16,0.62)'],
       [0.45, 'rgba(8,10,20,0.42)'],
@@ -158,7 +184,7 @@ export class EclipseShadowController {
    * The camera is only moved when it has to be — if the corridor is already
    * comfortably on screen the Captain's framing is left exactly as he set it.
    */
-  private frameShadow(peak: Date): void {
+  private frameShadow(peak: Date, window: { start: Date; end: Date }): void {
     const s = shadowAt(peak);
     if (!s) return;
     const cam = this.viewer.camera.positionCartographic;
@@ -166,38 +192,66 @@ export class EclipseShadowController {
     const camLon = Cesium.Math.toDegrees(cam.longitude);
 
     const R = 6371;
-    // How far off-centre the shadow sits, and how much of the globe the camera
-    // can presently see. Both in degrees of arc from the sub-camera point.
-    const sepDeg = greatCircleKm(camLat, camLon, s.lat, s.lon) / (R * DEG);
-    const visibleDeg = Math.acos(Math.min(1, R / (R + cam.height / 1000))) / DEG;
-    // A 10° cuff: a shadow sitting right on the limb is technically visible and
-    // practically edge-on, which is no better than not being there at all.
-    if (sepDeg < visibleDeg - 10) return;
-
-    // Aim at the great-circle midpoint of watcher and shadow, so the Captain
-    // keeps his own patch of Earth in shot and watches the dark come to it.
     const v = (lat: number, lon: number) => [
       Math.cos(lat * DEG) * Math.cos(lon * DEG),
       Math.cos(lat * DEG) * Math.sin(lon * DEG),
       Math.sin(lat * DEG),
     ];
-    const a = v(camLat, camLon);
-    const b = v(s.lat, s.lon);
-    const m = [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
-    const len = Math.hypot(m[0], m[1], m[2]);
-    // Antipodal to within rounding — no midpoint means anything; frame the
-    // shadow itself and accept that his own spot is round the back.
-    const midLat = len < 1e-6 ? s.lat : Math.asin(m[2] / len) / DEG;
-    const midLon = len < 1e-6 ? s.lon : Math.atan2(m[1], m[0]) / DEG;
 
-    // Pull back far enough to hold both ends plus the penumbra's own radius.
-    const needDeg = Math.min(78, sepDeg / 2 + s.penumbraKm / (R * DEG) + 8);
+    // What must be in shot when the sweep BEGINS: the Captain's own patch of
+    // Earth, where the shadow starts, and where it peaks. Framing on the peak
+    // alone was not enough — the opening seconds could sit out on the limb,
+    // foreshortened to a smear, and read as "nothing is happening".
+    //
+    // The track's far END is deliberately NOT in this list, and that is a
+    // measured decision, not an oversight. Including it pulls the camera back
+    // to hold ~125° of longitude, and at that range the planet is a marble:
+    // measured on the 2017 track, the umbra darkens the screen by 90% from
+    // 9 000 km (Earth 551 px across) but only 63% from 24 000 km (257 px). The
+    // shadow moves toward the camera through the whole sweep anyway, so the
+    // tail end comes to us rather than needing to be framed in advance.
+    const marks: Array<[number, number]> = [[camLat, camLon], [s.lat, s.lon]];
+    const opening = shadowAt(window.start);
+    if (opening) marks.push([opening.lat, opening.lon]);
+
+    // Aim at the mean direction of them all — the point that keeps the whole
+    // corridor nearest the middle of the disc.
+    const m = marks.reduce(
+      (acc, [lat, lon]) => {
+        const p = v(lat, lon);
+        return [acc[0] + p[0], acc[1] + p[1], acc[2] + p[2]];
+      },
+      [0, 0, 0],
+    );
+    const len = Math.hypot(m[0], m[1], m[2]);
+    // Spread over more than half the planet — no mean direction means anything;
+    // frame the shadow itself and accept that his own spot is round the back.
+    const aimLat = len < 1e-6 ? s.lat : Math.asin(m[2] / len) / DEG;
+    const aimLon = len < 1e-6 ? s.lon : Math.atan2(m[1], m[0]) / DEG;
+
+    // The furthest of them from that aim point sets how much globe we need.
+    const spreadDeg = marks.reduce(
+      (worst, [lat, lon]) => Math.max(worst, greatCircleKm(aimLat, aimLon, lat, lon) / (R * DEG)),
+      0,
+    );
+    const visibleDeg = Math.acos(Math.min(1, R / (R + cam.height / 1000))) / DEG;
+    // Already holding the lot with a 10° cuff to spare? Leave his framing be —
+    // a shadow sitting right on the limb is technically visible and practically
+    // edge-on, which is no better than not being there at all.
+    const sepDeg = greatCircleKm(camLat, camLon, aimLat, aimLon) / (R * DEG);
+    if (sepDeg + spreadDeg < visibleDeg - 10) return;
+
+    // Pull back far enough to hold that opening stretch plus the penumbra's own
+    // radius, with a margin so nothing rides the limb — and no further. The
+    // ceiling is what keeps the globe big enough for the shadow to read; see
+    // the 90%-vs-63% measurement above.
+    const needDeg = Math.min(70, spreadDeg + s.penumbraKm / (R * DEG) + 8);
     const height = Math.min(
-      34_000_000,
+      14_000_000,
       Math.max(9_000_000, (R / Math.cos(needDeg * DEG) - R) * 1000),
     );
     this.viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(midLon, midLat, height),
+      destination: Cesium.Cartesian3.fromDegrees(aimLon, aimLat, height),
       duration: 1.5,
     });
   }
@@ -272,14 +326,21 @@ export class EclipseShadowController {
    * monument night-dimmer read — so the whole world keeps step with the shadow.
    */
   play(peak: Date, onTick: (s: EclipseSweepState) => void): boolean {
-    const ground = eclipseGroundWindow(peak);
+    // Sweep the umbra's own track when the eclipse has one, and only fall back
+    // to the full penumbral window for a glancing event that never casts a
+    // core. See `eclipseTrackWindow` for why: the outer hour at each end of the
+    // ground window darkens the screen by about 1%, so spending a third of a
+    // thirty-second play-through on it is what made this read as broken.
+    const ground = eclipseTrackWindow(peak) ?? eclipseGroundWindow(peak);
     if (!ground || this.viewer.isDestroyed()) return false;
     this.stop();
     // Pin "here" to the Captain's own patch BEFORE the camera is allowed to
     // move, then put the corridor on screen. Order matters: stop() clears the
     // pin, so both of these must come after it.
     this.watchFrom = this.here();
-    this.frameShadow(peak);
+    // Frame the stretch that is actually about to be swept, not just its
+    // midpoint instant — a track can run a third of the way round the planet.
+    this.frameShadow(peak, ground);
 
     const startMs = ground.start.getTime();
     const spanMs = ground.end.getTime() - startMs;
