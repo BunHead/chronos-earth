@@ -972,11 +972,24 @@ export default function App() {
             const solarHours =
               (hit.peak.getUTCHours() + hit.peak.getUTCMinutes() / 60 + lonForSolar / 15 + 24) % 24;
             setSky((s) => ({ ...s, date: new Date(hit.peak), solarHours, auto: false }));
-            if (hit.centre) globeRef.current?.flyTo(hit.centre.lon, hit.centre.lat, 9_000_000);
             // Stand the shadow on the globe at its greatest moment, ready to
-            // be watched crossing.
+            // be watched crossing — and THEN aim the camera at where it
+            // actually landed.
             globeRef.current?.stopEclipse();
-            globeRef.current?.setEclipseShadow(hit.peak);
+            const standing = globeRef.current?.setEclipseShadow(hit.peak) ?? null;
+            // FLY TO THE SHADOW, NOT TO THE CENTRELINE. These are two different
+            // places and the difference is why the shadow kept going missing.
+            // `hit.centre` is the point of GLOBAL greatest eclipse; `hit.peak`
+            // is the instant the eclipse is deepest AT YOUR SPOT, and the
+            // shadow is painted for that instant. For an eclipse you can see
+            // properly the two nearly coincide, but for a glancing one — "0%
+            // covered", "below the horizon here" — they drift a quarter of the
+            // planet apart. Measured on the 8 Apr 2005 hit from North America:
+            // the camera flew to 119W 11S while the shadow stood at 73W 8.5N,
+            // which put it at pixel (1629, 92) of a 1920x694 canvas — jammed in
+            // the top corner, on the limb, edge-on. Present and invisible.
+            const aim = standing ?? hit.centre;
+            if (aim) globeRef.current?.flyTo(aim.lon, aim.lat, 9_000_000);
             setEclipseSweep({ peak: new Date(hit.peak), playing: false, obscuration: hit.obscuration });
             showToast(
               `${hit.kind === 'total' ? 'Totality' : hit.kind === 'annular' ? 'Annular eclipse' : 'Partial eclipse'} · ${Math.round(hit.obscuration * 100)}% covered${hit.pathApproximate ? ' · path approximate' : ''}`,

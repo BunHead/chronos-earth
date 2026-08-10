@@ -131,8 +131,10 @@ export interface GlobeHandle {
   setSunTime: (date: Date, solarHours: number, lonRef: number) => void;
   setSunLighting: (on: boolean) => void;
   /** Eclipse (queue item 9): paint the umbra/penumbra where they really fall at
-   * this instant, or null to clear. Returns true if a shadow was on Earth. */
-  setEclipseShadow: (date: Date | null) => boolean;
+   * this instant, or null to clear. Returns the ground point the shadow was
+   * actually painted on — which is what the camera must be aimed at — or null
+   * when no shadow touches Earth then. */
+  setEclipseShadow: (date: Date | null) => { lon: number; lat: number } | null;
   /** How much of the sun is covered under the camera right now, 0..1. */
   eclipseObscurationHere: () => number;
   /** Watch the shadow cross its real path, ~30 s for the whole ground window. */
@@ -481,8 +483,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
    * Paint the moon's shadow for an instant (null clears it). The date is a real
    * UTC moment — the eclipse's own clock, not the dial's day-of-year.
    */
-  const setEclipseShadow = (date: Date | null) =>
-    (eclipseRef.current?.show(date) ?? null) !== null;
+  const setEclipseShadow = (date: Date | null) => {
+    const s = eclipseRef.current?.show(date) ?? null;
+    return s ? { lon: s.lon, lat: s.lat } : null;
+  };
 
   /** How much of the sun is covered under the camera right now, 0..1. */
   const eclipseObscurationHere = () => eclipseRef.current?.obscurationHere() ?? 0;
