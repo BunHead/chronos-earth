@@ -538,8 +538,30 @@ export default function App() {
     globeRef.current?.flyTo(battle.lon, battle.lat, BATTLE_FLY_ALTITUDE);
   };
 
-  // The dial drives the REAL sun: solar time at the current view's longitude
-  // converts to UTC, and Cesium lights the day/night line accordingly.
+  // The dial drives the REAL sun: solar time at a reference longitude converts
+  // to UTC, and Cesium lights the day/night line accordingly.
+  //
+  // THAT REFERENCE IS PINNED, NOT LIVE, and the difference is worth spelling
+  // out. If it tracks the camera, then "13:00" means one o'clock *wherever you
+  // happen to be looking* — so panning west quietly winds the clock back, and
+  // the terminator slides round the globe chasing you. The Captain caught it
+  // straight away: "the dark side of the planet seems to follow me."
+  //
+  // Pinned, the dial names one real moment in time. Fly from London to Tokyo
+  // and that moment holds still: the terminator stays where it belongs and you
+  // arrive in Tokyo's night, which is the truth. The dial's own readouts
+  // (sun altitude, the eclipse finder) still follow the camera — they answer
+  // "what is the sky like HERE", which is a different and equally real
+  // question. Re-pinned when the frame is opened and when an eclipse is jumped
+  // to, so the dial always opens on a sensible local hour.
+  const solarRefLonRef = useRef(viewCentre.lon);
+  useEffect(() => {
+    if (skyOpen) solarRefLonRef.current = viewCentre.lon;
+    // Deliberately NOT depending on viewCentre.lon: opening the frame is what
+    // re-pins the reference, not every drag of the globe afterwards.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skyOpen]);
+
   useEffect(() => {
     if (!skyOpen) {
       globeRef.current?.setSunLighting(false);
@@ -549,8 +571,8 @@ export default function App() {
     // and the terminator have to march to the same time, and two writers would
     // just fight each other.
     if (eclipseSweep?.playing) return;
-    globeRef.current?.setSunTime(sky.date, sky.solarHours, viewCentre.lon);
-  }, [skyOpen, sky.date, sky.solarHours, viewCentre.lon, eclipseSweep?.playing]);
+    globeRef.current?.setSunTime(sky.date, sky.solarHours, solarRefLonRef.current);
+  }, [skyOpen, sky.date, sky.solarHours, eclipseSweep?.playing]);
 
   // Closing the Weather & Sky frame packs the eclipse away with it — the shadow
   // belongs to the dial that found it.
@@ -969,6 +991,10 @@ export default function App() {
             setYearsBP(yearToYearsBP(y));
             if (y > -12000) setZoomIdx(1);
             const lonForSolar = hit.centre?.lon ?? viewCentre.lon;
+            // Re-pin the solar clock to the same longitude the dial's hour is
+            // being derived from, so the round trip through solar time lands
+            // back on the eclipse's own instant rather than an hour or two off.
+            solarRefLonRef.current = lonForSolar;
             const solarHours =
               (hit.peak.getUTCHours() + hit.peak.getUTCMinutes() / 60 + lonForSolar / 15 + 24) % 24;
             setSky((s) => ({ ...s, date: new Date(hit.peak), solarHours, auto: false }));
