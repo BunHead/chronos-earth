@@ -39,6 +39,14 @@
  *   --shot <file>    screenshot the whole page
  *   --globe <file>   screenshot the RAW Cesium canvas only (no UI over it)
  *   --hold <ms>      extra wait before capturing (let a flight or sweep run)
+ *   --film <n>x<ms>  capture n globe frames every ms — a TIME SERIES. Each
+ *                    frame is saved as <--film-out>-NN.png and reported with
+ *                    the shadow entities' pixel positions AND the measured
+ *                    screen luminance at the umbra's own pixel against a ring
+ *                    of reference pixels around it. This is how you find out
+ *                    whether a moving thing is actually on screen, rather than
+ *                    inferring it from a still.
+ *   --film-out <p>   filename stem for --film (default ./film)
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
@@ -148,8 +156,98 @@ try {
     console.log(JSON.stringify(p, null, 1));
   }
 
+  // --eval runs BEFORE any capture: it is how you put the app into the state
+  // you want to photograph.
   const expr = val('--eval', null);
-  if (expr) console.log(JSON.stringify(await page.evaluate(expr), null, 1));
+  if (expr) {
+    console.log(JSON.stringify(await page.evaluate(expr), null, 1));
+    await sleep(+val('--eval-wait', 3000));
+  }
+
+  // A TIME SERIES of the globe. The single most useful thing here: a still
+  // frame cannot tell you whether a moving overlay is being drawn, and every
+  // wrong conclusion about the eclipse sweep came from trying.
+  const film = val('--film', null);
+  if (film) {
+    const [count, everyMs] = film.split('x').map(Number);
+    const stem = val('--film-out', './film');
+    await page.evaluate(() => {
+      // Copy the canvas AND measure it inside the same postRender, the only
+      // moment the WebGL buffer holds anything.
+      window.__grab = () => new Promise((res) => {
+        const v = window.__viewer, C = window.__Cesium;
+        if (!v) return res(null);
+        const off = v.scene.postRender.addEventListener(() => {
+          off();
+          const cv = document.createElement('canvas');
+          cv.width = v.scene.canvas.width;
+          cv.height = v.scene.canvas.height;
+          const g = cv.getContext('2d');
+          g.drawImage(v.scene.canvas, 0, 0);
+          const lum = (x, y, r = 4) => {
+            x = Math.round(x); y = Math.round(y);
+            if (x < r + 1 || y < r + 1 || x > cv.width - r - 2 || y > cv.height - r - 2) return null;
+            const d = g.getImageData(x - r, y - r, 2 * r + 1, 2 * r + 1).data;
+            const n = (2 * r + 1) ** 2;
+            let s = 0;
+            for (let i = 0; i < n; i++) s += 0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2];
+            return +(s / n).toFixed(1);
+          };
+          const t = v.clock.currentTime;
+          const ents = v.entities.values.filter((e) => e.ellipse);
+          const seen = ents.map((e, i) => {
+            const pos = e.position?.getValue(t);
+            const gp = pos ? C.Cartographic.fromCartesian(pos) : null;
+            const scr = pos ? C.SceneTransforms.worldToWindowCoordinates(v.scene, pos) : null;
+            const at = scr ? lum(scr.x, scr.y) : null;
+            // A ring of reference points 90 px out — ground the shadow is NOT
+            // sitting on, so "is it darker here than around here" is answerable
+            // without a second render.
+            const around = scr
+              ? [[90, 0], [-90, 0], [0, 90], [0, -90]]
+                  .map(([dx, dy]) => lum(scr.x + dx, scr.y + dy))
+                  .filter((n2) => n2 !== null)
+              : [];
+            const ref = around.length ? around.reduce((a, b) => a + b, 0) / around.length : null;
+            return {
+              which: i === 0 ? 'penumbra' : 'umbra',
+              show: e.show,
+              lon: gp ? +C.Math.toDegrees(gp.longitude).toFixed(1) : null,
+              lat: gp ? +C.Math.toDegrees(gp.latitude).toFixed(1) : null,
+              radiusKm: Math.round(e.ellipse.semiMinorAxis.getValue(t) / 1000),
+              screen: scr ? [Math.round(scr.x), Math.round(scr.y)] : null,
+              onScreen: !!(scr && scr.x >= 0 && scr.y >= 0 && scr.x < cv.width && scr.y < cv.height),
+              lumAtCentre: at,
+              lumAround: ref === null ? null : +ref.toFixed(1),
+              darkerPct: at !== null && ref ? Math.round(100 * (1 - at / ref)) : null,
+            };
+          });
+          const cam = v.camera.positionCartographic;
+          res({
+            url: cv.toDataURL('image/png'),
+            clock: C.JulianDate.toIso8601(t).slice(11, 19),
+            camKm: Math.round(cam.height / 1000),
+            canvas: [cv.width, cv.height],
+            camLon: +C.Math.toDegrees(cam.longitude).toFixed(1),
+            camLat: +C.Math.toDegrees(cam.latitude).toFixed(1),
+            frames: window.__frames,
+            live: document.querySelector('.sky-eclipse-live')?.innerText ?? null,
+            seen,
+          });
+        });
+        v.scene.requestRender();
+      });
+    });
+    for (let i = 0; i < count; i++) {
+      const f = await page.evaluate(() => window.__grab());
+      if (!f) { console.error('no __viewer — --film needs the dev server'); break; }
+      const name = `${stem}-${String(i).padStart(2, '0')}.png`;
+      await save(name, Buffer.from(f.url.split(',')[1], 'base64'));
+      delete f.url;
+      console.log(JSON.stringify({ frame: i, ...f }));
+      if (i < count - 1) await sleep(everyMs);
+    }
+  }
 
   const shot = val('--shot', null);
   if (shot) await save(shot, await page.screenshot());

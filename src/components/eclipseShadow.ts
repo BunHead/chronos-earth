@@ -359,7 +359,9 @@ export class EclipseShadowController {
       }
       const progress = frame / frames;
       const at = new Date(startMs + spanMs * progress);
-      this.show(at);
+      const standing = this.show(at);
+      // …and go with it. See `followShadow`.
+      if (standing) this.followShadow(standing);
       // Keep Cesium's clock on the eclipse's own time: the terminator and the
       // monument dimmer both read it.
       this.viewer.clock.currentTime = Cesium.JulianDate.fromDate(at);
@@ -371,6 +373,66 @@ export class EclipseShadowController {
       frame++;
     }, FRAME_MS);
     return true;
+  }
+
+  /**
+   * Keep the moving shadow in the picture — smooth pursuit, not a leash.
+   *
+   * THE BUG THIS EXISTS FOR, measured frame by frame on the 26 Dec 2019 sweep:
+   * the camera sat at 48.4E 25.5N 9000 km and did not move once in eight
+   * sampled frames, while the shadow marched from 68E to 104E. It left the
+   * visible disc by the third frame and the rest of the play-through happened
+   * off-screen. `frameShadow` had declined to move at all, because its early-out
+   * asks "is everything in view RIGHT NOW?" — and it was. Nothing asked whether
+   * it would still be in view thirty seconds later.
+   *
+   * Framing the whole corridor up front was the other way to solve this, and it
+   * is worse: holding a track that runs a third of the way round the planet
+   * pulls the camera back to ~24 000 km, where the darkening measures 63%
+   * instead of 90% and the Earth is a marble. Following keeps the globe close
+   * AND the shadow present.
+   *
+   * The camera is left alone while the shadow is within a THIRD of the visible
+   * radius, so the first part of the crossing reads as real movement across the
+   * ground rather than a shadow pinned to the middle of the screen with the
+   * world sliding under it. Past that it is DRAGGED BACK to exactly that bound
+   * — never further, never less.
+   *
+   * That bound is a hard constraint rather than a per-frame easing, and the
+   * difference matters: an easing catches up at a rate set by how many ticks
+   * the machine manages, so it tracks fine on a fast GPU and loses the shadow
+   * completely on a slow one. Measured with a 12%-per-tick easing under
+   * software rendering, the camera reached 74E while the shadow was at 104E and
+   * it was off-screen for six of eight sampled frames. A bound cannot lag: it
+   * is satisfied on every single frame, whatever the frame rate.
+   */
+  private followShadow(s: ShadowState): void {
+    if (this.viewer.isDestroyed()) return;
+    const cam = this.viewer.camera.positionCartographic;
+    const camLat = Cesium.Math.toDegrees(cam.latitude);
+    const camLon = Cesium.Math.toDegrees(cam.longitude);
+    const R = 6371;
+    const sepDeg = greatCircleKm(camLat, camLon, s.lat, s.lon) / (R * DEG);
+    if (!(sepDeg > 0)) return;
+    const visibleDeg = Math.acos(Math.min(1, R / (R + cam.height / 1000))) / DEG;
+    const bound = visibleDeg * 0.32;
+    if (sepDeg <= bound) return; // comfortably in shot; leave it be
+
+    // Close exactly the excess — the fraction of the gap that puts the shadow
+    // back on the bound and no closer.
+    const f = 1 - bound / sepDeg;
+    // Shortest way round, so a track crossing the dateline does not send the
+    // camera the long way about.
+    let dLon = s.lon - camLon;
+    if (dLon > 180) dLon -= 360;
+    if (dLon < -180) dLon += 360;
+    this.viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(
+        camLon + dLon * f,
+        camLat + (s.lat - camLat) * f,
+        cam.height,
+      ),
+    });
   }
 
   /** Halt a play-through, leaving the shadow wherever it had reached. */
