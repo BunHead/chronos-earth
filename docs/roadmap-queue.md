@@ -429,8 +429,20 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
 
 ---
 
-- [ ] **10. Audience skins (exclusion lifted 2026-07-17).**
-  ⚠️ **NOTE FOR THE CAPTAIN, 2026-08-07 — this item is being SKIPPED by the
+- [x] **10. Audience skins.** _(done 2026-08-13)_
+  Landing note: shipped as READING REGISTERS — Explorer / Scholar / Curious
+  Reader in ⋯ → Settings → How It Reads. `src/lib/tone.ts` is a copy-transform
+  layer applied in InfoPanel on the way to the screen: one set of facts, three
+  voices, and Explorer is the identity transform so the default reader pays
+  nothing. Iron rule enforced by test: a tone changes HOW something is said,
+  never WHAT — every date, number and proper noun survives every register, and
+  grim facts stay grim ("destroyed" is not on the simplify list). Scholar fronts
+  the date and strips emoji; Casual splits long sentences (never dropping a
+  clause) and bumps the panel type scale via `data-tone`. 12 tests, 359 green.
+  Honest limit: against the Captain's own already-plain copy Casual changes
+  little; it earns its keep on the wordier imported Wikipedia summaries.
+  _Original spec, and a live note that still matters:_
+  ⚠️ **NOTE FOR THE CAPTAIN, 2026-08-07 — items 10 and 12 are being SKIPPED by the
   routine, and it will keep being skipped until you fix it.** The
   `chronos-roadmap-sweep` scheduled task still carries the old standing order
   *"Do NOT build Audience skins or Play all of history — the Captain excluded
@@ -438,7 +450,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   run cannot tell whether a file it reads outranks its own instructions, so it
   takes the cautious reading, skips items 10 and 12, and takes the next
   unexcluded item (this run: item 11). **To unblock:** edit the scheduled task's
-  SKILL.md and delete that line. Until then items 10 and 12 need a live session.
+  SKILL.md and delete that line. Until then they need live sessions — item 10 was done by one on 2026-08-13.
   Three reading modes — Explorer (default, current voice), Scholar (denser:
   dates/sources up front, no emoji), Casual/Kid (shorter sentences, friendlier
   words, bigger type) — as a ⋯ menu → Settings choice, persisted in
