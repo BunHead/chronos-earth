@@ -3,6 +3,7 @@ import type { Tour } from '../lib/types';
 import { getLocalMaker, setLocalMaker, getToken, validateMakerToken } from '../lib/review';
 import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
 import { SKINS, type SkinId } from '../lib/skin';
+import { TONES, type ToneId } from '../lib/tone';
 import Glyph from './Glyph';
 
 interface AppMenuProps {
@@ -25,6 +26,8 @@ interface AppMenuProps {
   /** The ship's colours — see lib/skin.ts. */
   skin: SkinId;
   onSkin: (id: SkinId) => void;
+  tone: ToneId;
+  onTone: (id: ToneId) => void;
 }
 
 /**
@@ -34,7 +37,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity, skin, onSkin }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity, skin, onSkin, tone, onTone }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -187,6 +190,24 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                     <small>{s.blurb}</small>
                   </span>
                   {skin === s.id && <span className="skin-tick">✓</span>}
+                </button>
+              ))}
+              {/* How the writing itself reads. Second, because it changes the
+                  words rather than the paint — and because a teacher and an
+                  eight year old want opposite things from the same panel. */}
+              <div className="app-menu-heading">How It Reads</div>
+              {TONES.map((t) => (
+                <button
+                  key={t.id}
+                  className={`app-menu-item skin-pick${tone === t.id ? ' on' : ''}`}
+                  aria-pressed={tone === t.id}
+                  onClick={() => onTone(t.id)}
+                >
+                  <span className="skin-text">
+                    <b>{t.name}</b>
+                    <small>{t.blurb}</small>
+                  </span>
+                  {tone === t.id && <span className="skin-tick">✓</span>}
                 </button>
               ))}
               {/* ── Performance ─────────────────────────────────────────

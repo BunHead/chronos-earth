@@ -49,6 +49,7 @@ import { synthesizeBattleView } from './lib/synthBattle';
 import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneState';
 import { countSubKinds } from './lib/subLayers';
 import { applySkin, loadSkin, saveSkin, type SkinId } from './lib/skin';
+import { getTone, setTone as persistTone, type ToneId } from './lib/tone';
 import type {
   AncientSite,
   Battle,
@@ -303,6 +304,14 @@ export default function App() {
   // saved choice before first render; this only carries it into the UI and
   // repaints when the Captain picks another.
   const [skin, setSkinState] = useState<SkinId>(loadSkin);
+  // Reading register (⋯ → Settings): Explorer, Scholar or Curious Reader. One
+  // set of facts, three voices — lib/tone.ts retells each panel on its way to
+  // the screen. Casual also bumps the type scale via a root attribute.
+  const [tone, setToneState] = useState<ToneId>(getTone);
+  const changeTone = (id: ToneId) => {
+    setToneState(id);
+    persistTone(id);
+  };
   const changeSkin = (id: SkinId) => {
     setSkinState(id);
     applySkin(id);
@@ -896,6 +905,8 @@ export default function App() {
             });
           }}
           skin={skin}
+          tone={tone}
+          onTone={changeTone}
           onSkin={changeSkin}
           reduceMotion={reduceMotion}
           onReduceMotion={setReduceMotion}
@@ -1101,6 +1112,7 @@ export default function App() {
 
       <InfoPanel
         content={panel}
+        tone={tone}
         onClose={() => {
           setPanel(null);
           setFocusEventId(null);

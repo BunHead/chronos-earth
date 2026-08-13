@@ -4,10 +4,13 @@ import type { ExternalLink, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
 import { eventToPanel } from '../lib/panel';
+import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
   content: PanelContent | null;
+  /** The reader's chosen register — Explorer, Scholar or Curious Reader. */
+  tone: ToneId;
   onClose: () => void;
   onFly: (content: PanelContent) => void;
   onZoomToBattle: (battleId: string) => void;
@@ -39,7 +42,7 @@ function LinkList({ links }: { links: ExternalLink[] }) {
  * entity, or battle). Shows the mainstream content first, then — if present —
  * a clearly-flagged alternative hypothesis.
  */
-export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
   // fetch its per-cell detail lazily and rebuild the panel when it lands. The
@@ -57,7 +60,13 @@ export default function InfoPanel({ content: rawContent, onClose, onFly, onZoomT
       cancelled = true;
     };
   }, [rawContent]);
-  const content = upgraded && upgraded.source === rawContent ? upgraded.content : rawContent;
+  const built = upgraded && upgraded.source === rawContent ? upgraded.content : rawContent;
+  // THE LAST STOP BEFORE THE SCREEN. Every panel in the app is built exactly as
+  // it always was and retold here in the reader's chosen register — one set of
+  // facts, three voices. Explorer is the identity transform, so the default
+  // reader pays nothing for this. See lib/tone.ts for the iron rule: a tone
+  // changes how something is said, never what is said.
+  const content = built ? applyTone(built, tone) : built;
 
   const [wiki, setWiki] = useState<{
     status: 'idle' | 'loading' | 'done' | 'error';

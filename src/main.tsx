@@ -3,12 +3,16 @@ import App from './App';
 import './styles.css';
 import { loadRejectedModels } from './lib/review';
 import { applySkin, loadSkin } from './lib/skin';
+import { applyToneClass, getTone } from './lib/tone';
 
 // Paint the chosen identity BEFORE anything renders. The boot splash in
 // index.html is styled too, so doing this inside React would show a flash of
 // the default skin first — most obvious jumping into the light Atlas skin,
 // where the whole page would flare dark then white.
 applySkin(loadSkin());
+// Same reasoning as the skin: the reading register only changes type size, but
+// doing it before first paint avoids a visible reflow of the panel text.
+applyToneClass(getTone());
 
 // Note: we intentionally do NOT wrap the app in <React.StrictMode>. Strict mode
 // mounts every component twice in development, which forces CesiumJS to build,

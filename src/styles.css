@@ -3195,3 +3195,17 @@ textarea:focus-visible,
 .glyph { vertical-align: -2px; flex: none; }
 .layer-row span, .app-menu-item { display: inline-flex; align-items: center; gap: 7px; }
 .layer-row span { gap: 6px; }
+
+/* ── Reading register (⋯ → Settings → How It Reads) ─────────────────────────
+   Explorer and Scholar are pure copy transforms (see lib/tone.ts) and need no
+   CSS at all. The Curious Reader also wants the type to stop being small: a
+   younger reader bounces off 12.5px prose long before they bounce off the
+   vocabulary. Panel text only — the chrome, timeline and globe labels stay put,
+   because scaling those would break the layout the Captain has tuned. */
+:root[data-tone='casual'] .info-inner {
+  font-size: 15px;
+  line-height: 1.65;
+}
+:root[data-tone='casual'] .info-inner h2 { font-size: 24px; }
+:root[data-tone='casual'] .info-inner p,
+:root[data-tone='casual'] .info-inner li { letter-spacing: 0.01em; }
