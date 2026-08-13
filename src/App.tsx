@@ -50,6 +50,7 @@ import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneSt
 import { countSubKinds } from './lib/subLayers';
 import { applySkin, loadSkin, saveSkin, type SkinId } from './lib/skin';
 import { getTone, setTone as persistTone, type ToneId } from './lib/tone';
+import { showEnabled, buildShowScript, showFrameAt, showDuration } from './lib/showReel';
 import type {
   AncientSite,
   Battle,
@@ -307,6 +308,20 @@ export default function App() {
   // Reading register (⋯ → Settings): Explorer, Scholar or Curious Reader. One
   // set of facts, three voices — lib/tone.ts retells each panel on its way to
   // the screen. Casual also bumps the type scale via a root attribute.
+  // ── "Play all of history" (roadmap 12), behind ?show=1, DEFAULT OFF ──────
+  // The engine lives in lib/showReel.ts: a pacing curve over the log timeline,
+  // per-chapter layer orchestration, and screen time shared by how much there
+  // actually is to see. This is only the wiring that drives the app from it.
+  // UNFINISHED BY DESIGN — the roadmap says the final pacing wants the
+  // Captain's live eye, so this lands the engine and stops.
+  const showMode = useRef(showEnabled()).current;
+  const [showRunning, setShowRunning] = useState(false);
+  const [showCaption, setShowCaption] = useState<string | null>(null);
+  const showScript = useMemo(
+    () => (showMode ? buildShowScript(events.map((e) => yearToYearsBP(e.startYear))) : []),
+    [showMode, events],
+  );
+
   const [tone, setToneState] = useState<ToneId>(getTone);
   const changeTone = (id: ToneId) => {
     setToneState(id);
@@ -601,6 +616,36 @@ export default function App() {
       (sky.solarHours - solarRefLonRef.current / 15) * 3_600_000;
     globeRef.current?.setEclipseShadow(new Date(utcMs));
   }, [skyOpen, sky.date, sky.solarHours, eclipseSweep, eclipseSweep?.playing]);
+
+  // The show's own clock. Separate from the timeline's `isPlaying` loop on
+  // purpose: that one scrubs at a chosen speed, this one follows a script and
+  // switches layers as it goes. They must never both drive the playhead, so
+  // starting the show stops the scrubber.
+  useEffect(() => {
+    if (!showRunning || showScript.length === 0) return;
+    const startedAt = performance.now();
+    let raf = 0;
+    const step = () => {
+      const frame = showFrameAt(showScript, (performance.now() - startedAt) / 1000);
+      if (!frame) return;
+      setYearsBP(frame.yearsBP);
+      setShowCaption(frame.beat.caption);
+      // Layers follow the chapter: drift belongs to deep time, borders and
+      // battles do not exist before there are states and armies.
+      setShowBorders(frame.beat.layers.borders);
+      setShowBattles(frame.beat.layers.battles);
+      setShowSites(frame.beat.layers.sites);
+      setShowFauna(frame.beat.layers.fauna);
+      if (frame.done) {
+        setShowRunning(false);
+        setShowCaption(null);
+        return;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [showRunning, showScript]);
 
   // Closing the Weather & Sky frame packs the eclipse away with it — the shadow
   // belongs to the dial that found it.
@@ -971,6 +1016,33 @@ export default function App() {
       )}
       {showAbout && <About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} />}
 
+      {/* Roadmap 12, behind ?show=1 only. Deliberately plain: the engine is
+          what landed, the presentation is for the Captain to call. */}
+      {showMode && (
+        <div className="show-reel">
+          <button
+            className="show-reel-btn"
+            onClick={() => {
+              if (showRunning) {
+                setShowRunning(false);
+                setShowCaption(null);
+                return;
+              }
+              setIsPlaying(false); // the scrubber and the show must not both drive time
+              setZoomIdx(ZOOM_SPANS.length - 1);
+              setShowRunning(true);
+            }}
+          >
+            {showRunning ? '⏹ Stop the show' : '🎬 Play all of history'}
+          </button>
+          {showCaption && <p className="show-reel-caption">{showCaption}</p>}
+          {!showRunning && showScript.length > 0 && (
+            <p className="show-reel-note">
+              {Math.round(showDuration(showScript))}s · {showScript.length} chapters
+            </p>
+          )}
+        </div>
+      )}
       {skyOpen && (
         <div className="app-sky">
         <SkyDial

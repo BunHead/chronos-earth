@@ -3209,3 +3209,24 @@ textarea:focus-visible,
 :root[data-tone='casual'] .info-inner h2 { font-size: 24px; }
 :root[data-tone='casual'] .info-inner p,
 :root[data-tone='casual'] .info-inner li { letter-spacing: 0.01em; }
+
+/* ── "Play all of history" (roadmap 12) — behind ?show=1, default OFF ────────
+   Deliberately plain. The engine is what landed; how this looks is the
+   Captain's call at the live review, and dressing it up now would only make it
+   harder to argue with. */
+.show-reel {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--timeline-height) + 18px);
+  z-index: 16; text-align: center; pointer-events: auto;
+}
+.show-reel-btn {
+  padding: 8px 16px; cursor: pointer; font-size: 13px; font-weight: 600;
+  border: 1px solid var(--gold); border-radius: calc(8px * var(--r-scale));
+  background: rgba(14, 18, 26, 0.82); color: #f2dfa8; backdrop-filter: blur(4px);
+}
+.show-reel-btn:hover { background: rgba(201, 162, 75, 0.24); }
+.show-reel-caption {
+  margin: 8px auto 0; max-width: 44ch; font-size: 14px; line-height: 1.5;
+  color: #f0e6d2; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+.show-reel-note { margin: 5px 0 0; font-size: 10.5px; color: #c9b98f; }
