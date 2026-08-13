@@ -15,22 +15,31 @@
  * textures ONCE, and the sweep is then nothing but writing a position and two
  * radii per frame — which is what an entity is for.
  *
- * AND THE PER-FRAME REWRITE IS FINE — TESTED, because it looks as though it
- * should not be. Writing a new ConstantProperty each frame sends the ellipse
- * down Cesium's STATIC path, where geometry is tessellated asynchronously in a
- * worker, so at 20 fps you would expect every build to be cancelled by the next
- * and the shadow to flicker or vanish. It does not. Sampling the umbra's own
- * centre on EVERY rendered frame of a live sweep gives a smooth ramp — 35.2,
- * 35.8, 36.8, 37.0, 37.9 … — with no dropouts. Switching every property to a
- * non-constant CallbackProperty (the DYNAMIC path, rebuilt synchronously each
- * frame on the main thread) was tried and measured against it: identical
- * readings, for more main-thread work. So the simple version stays.
+ * AND WHY EVERY GEOMETRY PROPERTY IS A CALLBACK. Writing a new ConstantProperty
+ * each frame sends the ellipse down Cesium's STATIC path, which rebuilds the
+ * primitive — and a rebuilt primitive renders with the DEFAULT material, white,
+ * until its texture is uploaded again. Standing still there is time for that
+ * upload. At 20 fps there never is, so the shadow becomes a pale flashing disc:
+ * the Captain's words were "is the white flashing circle meant to be the
+ * umbra?????", and it is not.
  *
- * Keep that measurement in mind before "fixing" this again: readings taken
- * SECONDS apart during a sweep jump about wildly (8 → 171 → 111), which reads
- * exactly like a flicker and is not one — it is the shadow crossing bright
- * ocean, then dark dawn ground, then sunlit land. Sample consecutive FRAMES,
- * not consecutive seconds, or the instrument will invent a bug for you.
+ * A property reporting `isConstant === false` uses the DYNAMIC path instead,
+ * where the primitive is kept and updated rather than rebuilt, so the material
+ * stays bound. The sweep writes plain numbers into `ShadowShape`; the callbacks
+ * read them.
+ *
+ * THIS ONLY HAPPENS ON A REAL GPU, which is why it survived so long. Measured
+ * at the umbra's own centre mid-sweep, RGB: under SwiftShader (software)
+ * [1,1,1] against ocean at [16,76,93] — perfect. On the D3D11 backend
+ * [68,136,149] against ocean at [30,91,110] — the shadow is BRIGHTER than the
+ * sea it is standing on. Verify this file with `scripts/verify-app.mjs --gpu`;
+ * the software renderer will tell you it is fine.
+ *
+ * And do not trust a bare luminance reading here. Readings taken SECONDS apart
+ * during a sweep jump about wildly for honest reasons too (the shadow crosses
+ * bright ocean, then dark dawn ground). Sample consecutive FRAMES, compare the
+ * SAME pixel shown against hidden, and check the COLOUR — a white-material bug
+ * is invisible to anything that only asks "did the number change?".
  *
  * The ellipses are genuinely elliptical, not circles: a shadow landing near the
  * limb is smeared along the line to the subsolar point (`incidenceCos`), which
@@ -83,10 +92,25 @@ export interface EclipseSweepState {
   done: boolean;
 }
 
+/**
+ * Where one shadow stands right now, in plain numbers. The entity's geometry
+ * properties are callbacks reading THIS, so a frame of the sweep is four number
+ * writes rather than five new Cesium property objects — and, crucially, no
+ * primitive rebuild and no white flash.
+ */
+interface ShadowShape {
+  position: Cesium.Cartesian3;
+  semiMajor: number;
+  semiMinor: number;
+  rotation: number;
+}
+
 export class EclipseShadowController {
   private viewer: Cesium.Viewer;
   private penumbra: Cesium.Entity | null = null;
   private umbra: Cesium.Entity | null = null;
+  /** Index 0 is the penumbra's, index 1 the umbra's. */
+  private shapes: ShadowShape[] = [];
   private timer: number | null = null;
   private releaseRender: (() => void) | null = null;
   private current: ShadowState | null = null;
@@ -136,12 +160,26 @@ export class EclipseShadowController {
         transparent: true,
       });
 
-    const make = (canvas: HTMLCanvasElement) =>
-      this.viewer.entities.add({
+    const make = (canvas: HTMLCanvasElement) => {
+      const shape: ShadowShape = {
         position: Cesium.Cartesian3.fromDegrees(0, 0),
+        semiMajor: 1,
+        semiMinor: 1,
+        rotation: 0,
+      };
+      this.shapes.push(shape);
+      // The `false` is the whole point: it declares the property NON-constant,
+      // which keeps this entity on Cesium's dynamic path so the primitive is
+      // updated rather than rebuilt. Rebuilding is what makes it flash white.
+      const num = (read: () => number) => new Cesium.CallbackProperty(read, false);
+      return this.viewer.entities.add({
+        position: new Cesium.CallbackPositionProperty(() => shape.position, false),
         ellipse: {
-          semiMajorAxis: 1,
-          semiMinorAxis: 1,
+          semiMajorAxis: num(() => shape.semiMajor),
+          semiMinorAxis: num(() => shape.semiMinor),
+          rotation: num(() => shape.rotation),
+          // stRotation keeps the gradient square with the ellipse it is on.
+          stRotation: num(() => shape.rotation),
           material: material(canvas),
           // Sitting on the ellipsoid rather than clamped to terrain: a penumbra
           // is thousands of km across, and a ground primitive that size is a
@@ -151,6 +189,7 @@ export class EclipseShadowController {
         },
         show: false,
       });
+    };
 
     this.penumbra = make(pen);
     this.umbra = make(umb);
@@ -284,22 +323,21 @@ export class EclipseShadowController {
     // and an ellipse wrapped past the horizon reads as a smear, not a shadow.
     const stretch = Math.min(3.2, 1 / Math.max(0.12, s.incidenceCos));
 
-    const set = (e: Cesium.Entity, radiusKm: number, visible: boolean) => {
-      const el = e.ellipse!;
-      (e.position as unknown as Cesium.ConstantPositionProperty) =
-        new Cesium.ConstantPositionProperty(pos);
-      el.semiMajorAxis = new Cesium.ConstantProperty(radiusKm * 1000 * stretch);
-      el.semiMinorAxis = new Cesium.ConstantProperty(radiusKm * 1000);
-      el.rotation = new Cesium.ConstantProperty(rotation);
-      // stRotation keeps the gradient square with the ellipse it is painted on.
-      el.stRotation = new Cesium.ConstantProperty(rotation);
+    // Write NUMBERS into the shape the callbacks read. Replacing the property
+    // OBJECTS is what made the sweep flash white — see the note at the top.
+    const set = (e: Cesium.Entity, i: number, radiusKm: number, visible: boolean) => {
+      const shape = this.shapes[i];
+      shape.position = pos;
+      shape.semiMajor = radiusKm * 1000 * stretch;
+      shape.semiMinor = radiusKm * 1000;
+      shape.rotation = rotation;
       e.show = visible;
     };
 
-    set(this.penumbra, s.penumbraKm, true);
+    set(this.penumbra, 0, s.penumbraKm, true);
     // No umbra to draw when the cone misses Earth: a glancing eclipse is
     // partial everywhere, and inventing a dark core would be a lie.
-    set(this.umbra, Math.max(8, s.umbraKm), s.central && s.umbraKm > 0);
+    set(this.umbra, 1, Math.max(8, s.umbraKm), s.central && s.umbraKm > 0);
 
     this.viewer.scene.requestRender();
     return s;
@@ -461,6 +499,9 @@ export class EclipseShadowController {
     }
     this.penumbra = null;
     this.umbra = null;
+    // Dropped with the entities, so a rebuilt controller starts a fresh pair
+    // rather than writing into shapes nothing reads any more.
+    this.shapes = [];
     this.current = null;
     setEclipseShadowState(null);
   }

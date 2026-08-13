@@ -73,9 +73,16 @@ const save = async (file, buf) => {
   console.log('wrote', file);
 };
 
+// SwiftShader (software WebGL) by default: reliable everywhere, and identical
+// from run to run. But it is NOT the machine the Captain is looking at, and
+// some faults only exist on a real GPU — a texture that uploads late will look
+// perfect in software and flash white on hardware. `--gpu` switches to the real
+// D3D11 backend for exactly those.
 const browser = await puppeteer.launch({
   headless: 'new',
-  args: ['--use-gl=angle', '--use-angle=swiftshader', '--no-sandbox', '--disable-dev-shm-usage'],
+  args: has('--gpu')
+    ? ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--no-sandbox', '--disable-dev-shm-usage']
+    : ['--use-gl=angle', '--use-angle=swiftshader', '--no-sandbox', '--disable-dev-shm-usage'],
 });
 try {
   const page = await browser.newPage();
