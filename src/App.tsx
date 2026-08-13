@@ -572,7 +572,26 @@ export default function App() {
     // just fight each other.
     if (eclipseSweep?.playing) return;
     globeRef.current?.setSunTime(sky.date, sky.solarHours, solarRefLonRef.current);
-  }, [skyOpen, sky.date, sky.solarHours, eclipseSweep?.playing]);
+
+    // AND THE MOON GOES WITH IT. The dial is a time control, so both shadows on
+    // screen must obey it — the Earth's own night, and the moon's. Before this
+    // the shadow was painted once, when the eclipse was chosen, and never
+    // again: you could wind the sun across the sky and the umbra sat there like
+    // a sticker. Now it is recomputed for whatever instant the dial is naming.
+    //
+    // The instant is derived exactly as setSunTime derives it, from the same
+    // pinned reference longitude, so landing on an eclipse and not touching the
+    // dial reproduces its peak to the second.
+    //
+    // If no shadow touches Earth at that moment `setEclipseShadow` clears it,
+    // which is the honest answer: wind two hours past a five-hour eclipse and
+    // there is nothing there any more.
+    if (!eclipseSweep) return;
+    const utcMs =
+      Date.UTC(sky.date.getUTCFullYear(), sky.date.getUTCMonth(), sky.date.getUTCDate()) +
+      (sky.solarHours - solarRefLonRef.current / 15) * 3_600_000;
+    globeRef.current?.setEclipseShadow(new Date(utcMs));
+  }, [skyOpen, sky.date, sky.solarHours, eclipseSweep, eclipseSweep?.playing]);
 
   // Closing the Weather & Sky frame packs the eclipse away with it — the shadow
   // belongs to the dial that found it.
