@@ -105,3 +105,8 @@ letter — every rule here was paid for with a real failure.
 
 `npx tsc --noEmit` · `npx vitest run` (167+) · `npm run build` · renders read
 correctly (3q + top + ruin; geo plan on the real site for placed monuments).
+
+## Verifying app changes
+
+Read `docs/verifying-the-app.md` before claiming any visual change to the globe
+works — the companion to this book, paid for the same way.
