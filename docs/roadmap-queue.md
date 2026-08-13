@@ -521,7 +521,29 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   - Done when: role field + curtain-wall bake + export + globe swap land for one
     site, renders verified, tests green.
 
-- [ ] **12. "Play all of history" — engine behind a flag (LIVE-REVIEW note).**
+- [x] **12. "Play all of history" — engine behind a flag.** _(engine done 2026-08-13; PACING AWAITS THE CAPTAIN)_
+  Landing note:  — six chapters over the log timeline, each
+  one ABOUT something; travel WITHIN a chapter is logarithmic so every order of
+  magnitude gets equal screen time; each chapter's share of the clock is scaled
+  by the REAL event density of the loaded corpus as a SQUARE ROOT (a chapter with
+  100x the events gets 10x the screen, not 100x, which would hand the show to the
+  last two centuries); every chapter keeps a floor so a quiet stretch is hurried,
+  never cut; and each chapter names the layers that make it legible (drift in
+  deep time, borders and battles only once there are any). Behind ,
+  verified OFF by default on a fresh profile. 14 unit tests, 373 green.
+
+  🔎 **LIVE REVIEW — THE CAPTAIN'S EYE, AS THIS ITEM ALWAYS SAID.** Open
+   and press 🎬 Play all of history. Everything below is a FIRST GUESS
+  and meant to be argued with; none of it can be judged from code:
+  - **180 seconds total.** Too long? Too short?
+  - **The six chapters** (Pangea / after the impact / ice / first builders /
+    empires / modern) — right cuts? Any missing?
+  - **The square-root curve.** Does the modern era get too much, or too little?
+  - **The six captions.** They state what is on screen and do not sell it. Is
+    that the right voice for a show?
+  - **What drags and what rushes.** That is the whole item; say where.
+  The presentation is deliberately plain so it is easy to change. Nothing here is
+  precious.
   One button that plays the whole timeline as a show: monuments rising/ruining,
   borders breathing, battles flaring, day/night rolling — choreographing systems
   that all already exist. Build the ENGINE (a pacing curve over the log
