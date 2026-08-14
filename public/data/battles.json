@@ -3007,6 +3007,210 @@
           "wiki": "Sergey Surovikin"
         }
       ]
+    },
+    {
+      "id": "badger-mouth",
+      "name": "Battle of Yehuling (Badger Mouth)",
+      "year": 1211,
+      "dateLabel": "1211 CE",
+      "lat": 40.4,
+      "lon": 115.5,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Jin dynasty"
+      },
+      "victor": "Mongol victory",
+      "outcome": "The Jin field army was destroyed; northern China lay open.",
+      "significance": "Genghis Khan’s first great victory outside the steppe, and the beginning of the Mongol conquest of China.",
+      "casualties": "Jin losses in the hundreds of thousands, by Chinese accounts",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Yehuling",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Yehuling"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Genghis Khan",
+          "side": 1,
+          "wiki": "Genghis Khan"
+        },
+        {
+          "name": "Wanyan Chengyu",
+          "side": 2,
+          "wiki": "Wanyan Chengyu"
+        }
+      ]
+    },
+    {
+      "id": "samarkand-1220",
+      "name": "Siege of Samarkand",
+      "year": 1220,
+      "dateLabel": "1220 CE",
+      "lat": 39.65,
+      "lon": 66.96,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Khwarazmian Empire"
+      },
+      "victor": "Mongol victory",
+      "outcome": "Samarkand fell in days; the Khwarazmian Empire collapsed within two years.",
+      "significance": "The campaign that carried the Mongols into Persia and the Middle East, begun as revenge for murdered envoys.",
+      "casualties": "The garrison massacred; craftsmen deported east",
+      "links": [
+        {
+          "label": "Wikipedia: Siege of Samarkand (1220)",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Samarkand_(1220)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Genghis Khan",
+          "side": 1,
+          "wiki": "Genghis Khan"
+        },
+        {
+          "name": "Ala ad-Din Muhammad II",
+          "side": 2,
+          "wiki": "Muhammad II of Khwarazm"
+        }
+      ]
+    },
+    {
+      "id": "kalka-river",
+      "name": "Battle of the Kalka River",
+      "year": 1223,
+      "dateLabel": "31 May 1223",
+      "lat": 47.2,
+      "lon": 37.5,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Rus’ principalities and Cumans"
+      },
+      "victor": "Mongol victory",
+      "outcome": "A combined Rus’ army destroyed; the Mongols then withdrew east for fourteen years.",
+      "significance": "Europe’s first meeting with the Mongols — a reconnaissance in force that was not understood as a warning.",
+      "casualties": "Around nine tenths of the Rus’ army; six princes killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Kalka River",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Kalka_River"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Subutai",
+          "side": 1,
+          "wiki": "Subutai"
+        },
+        {
+          "name": "Mstislav the Bold",
+          "side": 2,
+          "wiki": "Mstislav Mstislavich"
+        }
+      ]
+    },
+    {
+      "id": "legnica",
+      "name": "Battle of Legnica",
+      "year": 1241,
+      "dateLabel": "9 April 1241",
+      "lat": 51.15,
+      "lon": 16.19,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Poland, Moravia and the military orders"
+      },
+      "victor": "Mongol victory",
+      "outcome": "The Polish army destroyed two days before Mohi; central Europe lay open.",
+      "significance": "The western edge of the conquest. The Mongols turned back the next year on the death of the Great Khan, not through defeat.",
+      "casualties": "Most of the Polish force; Duke Henry II killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Legnica",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Legnica"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Baidar",
+          "side": 1,
+          "wiki": "Baidar"
+        },
+        {
+          "name": "Henry II the Pious",
+          "side": 2,
+          "wiki": "Henry II the Pious"
+        }
+      ]
+    },
+    {
+      "id": "ain-jalut",
+      "name": "Battle of Ain Jalut",
+      "year": 1260,
+      "dateLabel": "3 September 1260",
+      "lat": 32.55,
+      "lon": 35.35,
+      "belligerents": {
+        "side1": "Mamluk Sultanate",
+        "side2": "Mongol Ilkhanate"
+      },
+      "victor": "Mamluk victory",
+      "outcome": "The first strategic defeat the Mongols could not reverse; the advance west stopped here for good.",
+      "significance": "The limit of the empire Genghis began — and the reason Egypt and North Africa were never taken.",
+      "casualties": "The Mongol force largely destroyed; Kitbuqa executed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ain Jalut",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ain_Jalut"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Baibars",
+          "side": 1,
+          "wiki": "Baibars"
+        },
+        {
+          "name": "Kitbuqa",
+          "side": 2,
+          "wiki": "Kitbuqa"
+        }
+      ]
+    },
+    {
+      "id": "yamen",
+      "name": "Battle of Yamen",
+      "year": 1279,
+      "dateLabel": "19 March 1279",
+      "lat": 22.17,
+      "lon": 113,
+      "belligerents": {
+        "side1": "Yuan dynasty (Mongol)",
+        "side2": "Song dynasty"
+      },
+      "victor": "Yuan victory",
+      "outcome": "The Song fleet destroyed; the child emperor drowned. China united under Mongol rule.",
+      "significance": "The conquest Genghis began in 1211 completed by his grandson Kublai, sixty-eight years later.",
+      "casualties": "Reportedly over 100,000 Song dead, many by drowning",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Yamen",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Yamen"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Zhang Hongfan",
+          "side": 1,
+          "wiki": "Zhang Hongfan"
+        },
+        {
+          "name": "Lu Xiufu",
+          "side": 2,
+          "wiki": "Lu Xiufu"
+        }
+      ]
     }
   ]
 }
