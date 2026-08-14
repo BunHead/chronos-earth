@@ -30,7 +30,28 @@
     <!-- Start the startup data downloading at HTML parse, in parallel with the
          JS — otherwise these fetches only begin after React mounts. The four
          biggest cold-start payloads; hrefs relative so the Pages subpath works. -->
-    <link rel="preload" as="fetch" href="./data/core-index.json" crossorigin />
+    <!-- WHICH skeleton to warm depends on the tiling flag, so this one is
+         chosen at parse time rather than hard-coded. The tiled path never reads
+         core-index.json, and preloading a file nobody opens is a download every
+         visitor pays for and nobody spends — the Captain caught it as three
+         "preloaded but not used" warnings in the console. Mirrors
+         lib/tilingFlag.ts; keep the two in step. -->
+    <script>
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search).get("tiles");
+          var tiled = q === "1" || q === "on"
+            ? true
+            : q === "0" || q === "off"
+              ? false
+              : localStorage.getItem("chronos.tiling") !== "off";
+          var l = document.createElement("link");
+          l.rel = "preload"; l.as = "fetch"; l.crossOrigin = "anonymous";
+          l.href = tiled ? "./data/core-index/headline.json" : "./data/core-index.json";
+          document.head.appendChild(l);
+        } catch (e) { /* no storage — the app fetches it normally a moment later */ }
+      })();
+    </script>
     <link rel="preload" as="fetch" href="./data/battles.json" crossorigin />
     <link rel="preload" as="fetch" href="./data/battle-views.json" crossorigin />
     <link rel="preload" as="fetch" href="./data/ancient-sites.json" crossorigin />

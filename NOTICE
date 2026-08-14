@@ -73,3 +73,9 @@ Astronomical calculations
 Curated historical content
   The ancient-sites, battles, campaigns, tours and legends datasets were
   written for this project and are covered by the Apache licence above.
+
+Typefaces (self-hosted, no CDN — see the zero-running-cost rule)
+  EB Garamond, Cormorant Garamond and Zilla Slab, all under the SIL Open Font
+  License 1.1. Latin subsets only (src/fonts/*.woff2): other scripts fall
+  through per-glyph to the system serif, which is what the app did for every
+  glyph before these were shipped.

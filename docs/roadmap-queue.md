@@ -609,6 +609,7 @@ this list is ChronosEarth's part of it.)_
 - [ ] Approve the workshop gallery backlog (~35 models awaiting the maker key).
 - [ ] Drop the annotated Atlantis water-system map image into the repo (its
       panel slot has been waiting since 2026-07-15).
-- [ ] Try `?tiles=1` on the live site; if it feels identical, say the word and
-      tiling becomes the default.
+- [x] ~~Try `?tiles=1` on the live site.~~ Done 2026-08-14 — the Captain checked
+      the photo wall (the one thing the numbers could not reach) and it was full.
+      Tiling is now the DEFAULT; `?tiles=0` opts out and sticks.
 - [ ] Paste each Friday's docs/patreon/next-post.md to Patreon (~5 min).
