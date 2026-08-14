@@ -5,9 +5,9 @@ You picked what we built next, and this week most of it came in.
 **Reading modes** are live. The same history, told three ways: **Explorer**
 as you know it, **Scholar** with the date and the sourcing first, and
 **Curious Reader** in shorter, plainer sentences for younger visitors and
-classrooms. Choose yours under ⋯ → Settings → How It Reads. One promise we
-held to: a reading mode changes how something is said, never what is said.
-No date, name, number or claim moves.
+classrooms. Choose yours under ⋯ → Settings → How It Reads. A reading mode
+changes how something is said, never what is said — no date, name or number
+moves.
 
 **The mason has come up on deck.** The Tower of London's curtain walls now
 stand on the globe as real battlements, following the lines traced by hand
@@ -22,9 +22,8 @@ of you kindly reported.
 **Four battles gained proper choreography** — Alesia, Lepanto, Leipzig and
 the Somme — each unfolding in researched phases rather than generic ones.
 
-Also mended: asking what's happened *near here* now searches a true circle
-around where you're looking, so standing over Brazil no longer fills the
-timeline with British events.
+Also mended: *near here* now means a true circle around where you're looking,
+so standing over Brazil no longer fills the timeline with British events.
 
 Have a wander: **bunhead.github.io/chronos-earth**
 
