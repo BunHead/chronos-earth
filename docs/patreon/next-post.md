@@ -1,49 +1,32 @@
-# Dispatch from the crew — the ship finally has its own colours
+# Dispatch from the crew — you voted, and three of the four are aboard
 
-This week the globe changed clothes. There are now **four looks** to choose
-from, and not one of them is a dashboard: the **Chart Room** (ink-green and
-brass), the **Atlas** (a printed paper plate — light, inky, deliberately
-unlike everything else out there), the **Observatory** (violet night and
-instrument gold), and the **Stratum** (basalt and ochre), which is what
-you'll find waiting when you arrive. Pick yours under ⋯ → Settings.
+You picked what we built next, and this week most of it came in.
 
-While we had the paint out we drew every icon by hand — twenty-six little
-engraved marks in place of the old emoji — so the legend in the Layers panel
-and the markers dotted across the globe finally speak the same language.
+**Reading modes** are live. The same history, told three ways: **Explorer**
+as you know it, **Scholar** with the date and the sourcing first, and
+**Curious Reader** in shorter, plainer sentences for younger visitors and
+classrooms. Choose yours under ⋯ → Settings → How It Reads. One promise we
+held to: a reading mode changes how something is said, never what is said.
+No date, name, number or claim moves.
 
-Landing somewhere new shouldn't be baffling, so there's now a **welcome card**
-on your first visit that names the three things worth touching. Chiefly: drag
-the coloured strip along the bottom. That strip is time, and dragging it is
-the whole point.
+**The mason has come up on deck.** The Tower of London's curtain walls now
+stand on the globe as real battlements, following the lines traced by hand
+rather than plain blocks standing in for them.
 
-For anyone on an older machine, the cure used to be hidden behind a secret
-word. Now the globe **only redraws when something actually changes**, and
-there's a **Lighter Graphics** switch in Settings → Performance.
+**Eclipses finally behave.** Wind the sky dial and the Moon's shadow moves
+with it, along its true track. Ask to watch a crossing and the camera stays
+with the shadow the whole way instead of letting it slide off the edge. And
+the shadow is a shadow now — a dark disc, not the white flickering ring some
+of you kindly reported.
 
-And the eclipse sweep is mended. Ask to watch the Moon's shadow cross and the
-camera now turns to face the corridor before it sets off — until this week it
-was drawing the shadow beautifully on the far side of the planet, where you
-had no way of seeing it. Worth a try: **bunhead.github.io/chronos-earth**.
+**Four battles gained proper choreography** — Alesia, Lepanto, Leipzig and
+the Somme — each unfolding in researched phases rather than generic ones.
 
-Below decks, the mason has started work — traced castle walls are growing real
-battlements. Not standing on the globe yet. Soon.
+Also mended: asking what's happened *near here* now searches a true circle
+around where you're looking, so standing over Brazil no longer fills the
+timeline with British events.
+
+Have a wander: **bunhead.github.io/chronos-earth**
 
 Thank you, every one of you, for keeping this ship at sea.
 **Maker's Circle:** trace a site with the builder and hit 📤 to send it aboard.
-
----
-
-## This month's vote 🗳️
-
-Navigators, you choose what the crew builds next. Pick one:
-
-1. **Reading modes** — the same history told three ways: Explorer (as now),
-   Scholar (dates and sources first), and a shorter, friendlier version for
-   younger visitors and classrooms.
-2. **Finish the mason** — put those battlements on the globe for real, so a
-   site you trace yourself comes back as proper stonework.
-3. **Play all of history** — one button, and the whole timeline runs as a show:
-   monuments rising and ruining, borders breathing, battles flaring, day and
-   night rolling over it all.
-4. **Real stars at totality** — stand under an eclipse and watch the true night
-   sky of that exact date and place come out behind the corona.
