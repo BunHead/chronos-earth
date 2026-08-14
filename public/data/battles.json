@@ -3211,6 +3211,108 @@
           "wiki": "Lu Xiufu"
         }
       ]
+    },
+    {
+      "id": "noche-triste",
+      "name": "La Noche Triste",
+      "year": 1520,
+      "dateLabel": "30 June 1520",
+      "lat": 19.44,
+      "lon": -99.15,
+      "belligerents": {
+        "side1": "Aztec Empire (Mexica)",
+        "side2": "Spain and Tlaxcalan allies"
+      },
+      "victor": "Mexica victory",
+      "outcome": "Cortés driven out of Tenochtitlan overnight with heavy losses.",
+      "significance": "The night the conquest nearly failed. The Spanish returned a year later with smallpox ahead of them.",
+      "casualties": "Perhaps two thirds of the Spanish force and most of their allies",
+      "links": [
+        {
+          "label": "Wikipedia: La Noche Triste",
+          "url": "https://en.wikipedia.org/wiki/La_Noche_Triste"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Cuitláhuac",
+          "side": 1,
+          "wiki": "Cuitláhuac"
+        },
+        {
+          "name": "Hernán Cortés",
+          "side": 2,
+          "wiki": "Hernán Cortés"
+        }
+      ]
+    },
+    {
+      "id": "cajamarca",
+      "name": "Battle of Cajamarca",
+      "year": 1532,
+      "dateLabel": "16 November 1532",
+      "lat": -7.16,
+      "lon": -78.51,
+      "belligerents": {
+        "side1": "Spain",
+        "side2": "Inca Empire"
+      },
+      "victor": "Spanish victory",
+      "outcome": "Atahualpa seized in the square by fewer than 200 men; the Inca state decapitated in an afternoon.",
+      "significance": "An empire of millions taken by ambush — smallpox and a war of succession had come first.",
+      "casualties": "Thousands of Inca killed; almost no Spanish losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Cajamarca",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cajamarca"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Francisco Pizarro",
+          "side": 1,
+          "wiki": "Francisco Pizarro"
+        },
+        {
+          "name": "Atahualpa",
+          "side": 2,
+          "wiki": "Atahualpa"
+        }
+      ]
+    },
+    {
+      "id": "alamo",
+      "name": "Battle of the Alamo",
+      "year": 1836,
+      "dateLabel": "23 Feb – 6 Mar 1836",
+      "lat": 29.43,
+      "lon": -98.49,
+      "belligerents": {
+        "side1": "Mexico",
+        "side2": "Texian rebels"
+      },
+      "victor": "Mexican victory",
+      "outcome": "The mission stormed after a thirteen-day siege; nearly all defenders killed.",
+      "significance": "A tactical defeat that became the rallying cry of Texan independence six weeks later at San Jacinto.",
+      "casualties": "Around 200 Texian defenders; several hundred Mexican soldiers",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Alamo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Alamo"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Antonio López de Santa Anna",
+          "side": 1,
+          "wiki": "Antonio López de Santa Anna"
+        },
+        {
+          "name": "William B. Travis",
+          "side": 2,
+          "wiki": "William B. Travis"
+        }
+      ]
     }
   ]
 }

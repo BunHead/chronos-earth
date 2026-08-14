@@ -52,6 +52,23 @@ const FLOOR_GIVEN = args.includes('--floor');
 /** How deep the campaign will dig on its own. Below this the tail is mostly
  * bus stops and hamlets — worth having only if it is asked for explicitly. */
 const MIN_FLOOR = 6;
+/**
+ * Optional region filter: --box w,s,e,n restricts the sweep to cells that
+ * OVERLAP that rectangle. The campaign normally works the whole planet in grid
+ * order, which is right for coverage and wrong when you want depth somewhere
+ * specific — "go deep on the Americas" was not expressible before this.
+ * Progress and floors stay per-cell, so a boxed run and a global run share the
+ * same bookkeeping and neither undoes the other.
+ */
+const BOX = (() => {
+  const i = args.indexOf("--box");
+  if (i < 0 || !args[i + 1]) return null;
+  const [w, s, e, n] = args[i + 1].split(",").map(Number);
+  if ([w, s, e, n].some((v) => !Number.isFinite(v))) return null;
+  return { w, s, e, n };
+})();
+const overlapsBox = (c) =>
+  !BOX || !(c.e < BOX.w || c.w > BOX.e || c.n < BOX.s || c.s > BOX.n);
 
 const TYPE_CATEGORY = {
   Q515: 'city', Q3957: 'city', Q532: 'city', Q486972: 'city',
@@ -140,7 +157,9 @@ async function main() {
   // cell is ticked — which is where it had got to: 142 of 144 done, nothing
   // left to do, and no way to ask for more without hand-editing JSON.
   const pendingAt = (f) =>
-    allCells.filter((c) => progress.done[c.key] === undefined || floorOf(c.key) > f);
+    allCells.filter(
+      (c) => overlapsBox(c) && (progress.done[c.key] === undefined || floorOf(c.key) > f),
+    );
 
   let floor = FLOOR_GIVEN ? FLOOR : (progress.floor ?? FLOOR);
   let cells = pendingAt(floor);
