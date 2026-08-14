@@ -520,6 +520,40 @@
           "url": "https://en.wikipedia.org/wiki/Constantinople"
         }
       ]
+    },
+    {
+      "id": "hawara-labyrinth",
+      "name": "The Egyptian Labyrinth at Hawara",
+      "category": "monument",
+      "lat": 29.2743,
+      "lon": 30.8981,
+      "model": "settlement",
+      "builtYear": -1850,
+      "builtYearLabel": "c. 1850 BCE, 12th Dynasty",
+      "consensusSummary": "The mortuary temple of Amenemhat III, beside his mud-brick pyramid at the mouth of the Fayum. Herodotus saw it in the fifth century BCE and said it surpassed the pyramids — twelve roofed courts and three thousand rooms, half of them underground, which he was not permitted to enter. Strabo and Pliny describe it too. Flinders Petrie excavated in 1888-89 and found what survives: an immense levelled limestone platform, roughly 300 by 250 metres, quarried away almost to the foundations in Roman and later times for its stone.",
+      "significance": "The best-attested lost building of the ancient world. Three independent classical authors describe it in detail, its foundation platform is measured and mapped — and of the building itself almost nothing stands. It is the clearest case in Egypt of a monument destroyed not by time but by reuse.",
+      "keyFacts": [
+        "Herodotus, Histories II.148: twelve courts, 3000 rooms, and he judged it greater than the pyramids",
+        "Petrie found the foundation platform in 1888-89; the superstructure had been quarried for stone",
+        "Beside the pyramid of Amenemhat III, at the entrance to the Fayum basin",
+        "No confirmed plan of the building survives — every reconstruction is inference from the classical texts"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Hawara",
+          "url": "https://en.wikipedia.org/wiki/Hawara"
+        },
+        {
+          "label": "Herodotus, Histories II.148 (Perseus)",
+          "url": "https://www.perseus.tufts.edu/hopper/text?doc=Hdt.+2.148"
+        }
+      ],
+      "alternative": {
+        "title": "The 2008 ground-penetrating radar claim",
+        "body": "The Mataha Expedition surveyed Hawara in 2008 with ground-penetrating radar and reported a grid of buried chambers beneath the platform, which it identified as the Labyrinth itself, largely intact below the water table. The survey has never been published in a peer-reviewed journal, the raw data has not been released, and the reported results have not been independently reproduced. Egyptian authorities have not confirmed them. Treat the claim as unverified: the Labyrinth is real history, attested by people who stood in it, but no confirmed plan of it exists and nothing here draws one.",
+        "stance": "unverified"
+      },
+      "fadeYear": 400
     }
   ]
 }
