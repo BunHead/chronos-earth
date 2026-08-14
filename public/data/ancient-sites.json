@@ -549,9 +549,15 @@
         }
       ],
       "alternative": {
-        "title": "The 2008 ground-penetrating radar claim",
-        "body": "The Mataha Expedition surveyed Hawara in 2008 with ground-penetrating radar and reported a grid of buried chambers beneath the platform, which it identified as the Labyrinth itself, largely intact below the water table. The survey has never been published in a peer-reviewed journal, the raw data has not been released, and the reported results have not been independently reproduced. Egyptian authorities have not confirmed them. Treat the claim as unverified: the Labyrinth is real history, attested by people who stood in it, but no confirmed plan of it exists and nothing here draws one.",
-        "stance": "unverified"
+        "proponent": "the Mataha Expedition ground-penetrating radar survey (2008)",
+        "claim": "A Belgian-Egyptian team surveyed the ground south of Amenemhat III’s pyramid at Hawara in 2008 with ground-penetrating radar and reported a regular grid of buried chambers and walls beneath the sand, which they identified as the Labyrinth itself — largely intact below the water table rather than quarried away.",
+        "note": "The survey has never been published in a peer-reviewed journal, the raw data has not been released, and the results have not been independently reproduced or confirmed by the Egyptian authorities. Treat it as an unverified claim. What IS established is solid enough on its own: three classical authors describe the building in detail, and Petrie mapped its measured foundation platform in 1888-89. No confirmed plan of the Labyrinth exists, so nothing on this globe draws one — a reconstruction from Herodotus would be invention, not survey.",
+        "links": [
+          {
+            "label": "Wikipedia: Egyptian Labyrinth",
+            "url": "https://en.wikipedia.org/wiki/Egyptian_Labyrinth"
+          }
+        ]
       },
       "fadeYear": 400
     }
