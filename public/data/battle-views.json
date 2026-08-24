@@ -11098,6 +11098,2641 @@
         }
       ],
       "severity": 1.3
+    },
+    "plataea": {
+      "title": "Battle of Plataea",
+      "subtitle": "August 479 BCE — the Greek alliance destroys the Persian army in Greece",
+      "sides": {
+        "a": {
+          "name": "Greek alliance (Pausanias)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Achaemenid Persia (Mardonius)",
+          "color": "#b08a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              4,
+              29
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              74,
+              26
+            ],
+            [
+              96,
+              29
+            ]
+          ],
+          "label": "The Asopos"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 64,
+          "w": 100,
+          "h": 13,
+          "label": "The foothills of Cithaeron"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 9,
+          "r": 6,
+          "label": "The Persian stockade"
+        },
+        {
+          "type": "town",
+          "x": 20,
+          "y": 53,
+          "r": 4,
+          "label": "Plataea"
+        },
+        {
+          "type": "town",
+          "x": 55,
+          "y": 44,
+          "r": 2.5,
+          "label": "The Gargaphian spring"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Across the Asopos",
+          "narration": "Some 38,700 hoplites of the Greek alliance hold the low ridge under Cithaeron; Mardonius faces them from the north bank of the Asopos with perhaps 70,000–120,000 men. Herodotus counted 110,000 Greeks and 300,000 Persians — modern scholars read his Greek figure as hoplites plus their servants, and his Persian one as legend."
+        },
+        {
+          "name": "The cavalry duel",
+          "narration": "Persian horse under Masistius ride at the Megarians, caught on flat open ground, wave after wave. An Athenian arrow brings down Masistius’ horse; he is killed on the ground with a thrust to the eye, and the Greeks hold his body against every attempt to recover it.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                24
+              ],
+              "to": [
+                33,
+                37
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Thirst",
+          "narration": "Mardonius refuses battle and starves the position instead. His cavalry choke the Gargaphian spring — the army’s only water, since Persian archers command the Asopos — and cut a supply convoy in the passes of Cithaeron. After twelve days the Greek line cannot stay where it stands.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                26
+              ],
+              "to": [
+                54,
+                43
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                28
+              ],
+              "to": [
+                72,
+                59
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The night that went wrong",
+          "narration": "Pausanias orders a night withdrawal to the \"Island\", whose stream banks would shield the army from cavalry. It comes apart in the dark: the centre overshoots to the temple of Hera by Plataea, the Athenians start only at dawn, and on the right Amompharetus calls retreat cowardice and will not move his lochos."
+        },
+        {
+          "name": "Mardonius attacks",
+          "narration": "Told at first light that the Greek camp stands empty, Mardonius marches five kilometres and throws his Persians straight at Pausanias’ isolated 11,500. The Thebans go for the Athenians. Behind their wall of wicker shields the Persian archers shoot into the waiting Spartans while Pausanias reads the omens.",
+          "arrows": [
+            {
+              "from": [
+                64,
+                28
+              ],
+              "to": [
+                66,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                30,
+                26
+              ],
+              "to": [
+                34,
+                42
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The spear beats the bow",
+          "narration": "The Tegeans break first into a run and the Spartans follow. The Persians drop their bows and grab at the long spears to snap them, and fail; in the crush they cannot fight the way hoplites fight. Mardonius is killed — with a stone, Plutarch says, thrown by a Spartan named Aeimnestos — and his line goes.",
+          "arrows": [
+            {
+              "from": [
+                64,
+                50
+              ],
+              "to": [
+                66,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                61,
+                49
+              ],
+              "to": [
+                62,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Athenians and Thebans",
+          "narration": "On the western half of the field the Athenians grind down the Thebans, the best of the Greeks fighting for Persia, until they too give way. The allied centre, hurrying up out of formation, is caught in the open by Asopodorus’ Theban horse and loses some 600 men before it can close.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                42
+              ],
+              "to": [
+                30,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                26,
+                32
+              ],
+              "to": [
+                31,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The stockade",
+          "narration": "The wooden camp wall is the last Persian hope. The Tegeans get over it first and the killing inside is one-sided — packed men who cannot form up. Artabazus, who had argued against fighting at all, marches his column off the field intact and does not stop until the Hellespont. The invasion of Greece is over.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                24
+              ],
+              "to": [
+                50,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                22
+              ],
+              "to": [
+                46,
+                13
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "spartans",
+          "side": "a",
+          "label": "Spartans (Pausanias)",
+          "helmet": "crest",
+          "strength": 10000,
+          "pos": [
+            [
+              70,
+              38
+            ],
+            [
+              70,
+              38
+            ],
+            [
+              70,
+              38
+            ],
+            [
+              64,
+              48
+            ],
+            [
+              66,
+              50
+            ],
+            [
+              66,
+              44
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              58,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "tegeans",
+          "side": "a",
+          "label": "Tegeans",
+          "helmet": "crest",
+          "strength": 1500,
+          "pos": [
+            [
+              62,
+              38
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              60,
+              48
+            ],
+            [
+              61,
+              50
+            ],
+            [
+              62,
+              43
+            ],
+            [
+              62,
+              40
+            ],
+            [
+              52,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "greek-centre",
+          "side": "a",
+          "label": "Corinthians & the centre",
+          "helmet": "crest",
+          "strength": 15200,
+          "pos": [
+            [
+              46,
+              38
+            ],
+            [
+              46,
+              38
+            ],
+            [
+              46,
+              38
+            ],
+            [
+              24,
+              50
+            ],
+            [
+              24,
+              50
+            ],
+            [
+              26,
+              48
+            ],
+            [
+              30,
+              44
+            ],
+            [
+              40,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "megarians",
+          "side": "a",
+          "label": "Megarians & Phliasians",
+          "helmet": "crest",
+          "strength": 4000,
+          "pos": [
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              24,
+              52
+            ],
+            [
+              24,
+              52
+            ],
+            [
+              27,
+              50
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              36,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "athenians",
+          "side": "a",
+          "label": "Athenians & Plataeans",
+          "helmet": "crest",
+          "strength": 8000,
+          "pos": [
+            [
+              22,
+              38
+            ],
+            [
+              26,
+              38
+            ],
+            [
+              24,
+              38
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              36,
+              44
+            ],
+            [
+              34,
+              42
+            ],
+            [
+              32,
+              38
+            ],
+            [
+              42,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "persian-foot",
+          "side": "b",
+          "label": "Persian infantry (Mardonius)",
+          "helmet": "cap",
+          "strength": 40000,
+          "pos": [
+            [
+              72,
+              18
+            ],
+            [
+              72,
+              18
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              64,
+              30
+            ],
+            [
+              46,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "medes-bactrians",
+          "side": "b",
+          "label": "Medes, Bactrians & Sakas",
+          "helmet": "cap",
+          "strength": 14000,
+          "pos": [
+            [
+              56,
+              18
+            ],
+            [
+              56,
+              18
+            ],
+            [
+              56,
+              20
+            ],
+            [
+              56,
+              20
+            ],
+            [
+              56,
+              32
+            ],
+            [
+              56,
+              28
+            ],
+            [
+              54,
+              24
+            ],
+            [
+              48,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "persian-horse",
+          "side": "b",
+          "label": "Persian & allied cavalry",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 6000,
+          "pos": [
+            [
+              40,
+              22
+            ],
+            [
+              33,
+              34
+            ],
+            [
+              56,
+              44
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              58,
+              38
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              76,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "thebans",
+          "side": "b",
+          "label": "Thebans & the medising Greeks",
+          "helmet": "crest",
+          "strength": 20000,
+          "pos": [
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              20
+            ],
+            [
+              22,
+              20
+            ],
+            [
+              30,
+              34
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              16,
+              24
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "issus": {
+      "title": "Battle of Issus",
+      "subtitle": "November 333 BCE — Alexander breaks Darius III on the Pinarus",
+      "sides": {
+        "a": {
+          "name": "Macedon (Alexander)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Achaemenid Persia (Darius III)",
+          "color": "#b08a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 6,
+          "y": 35,
+          "w": 16,
+          "h": 70,
+          "label": "The Gulf of Issus"
+        },
+        {
+          "type": "ridge",
+          "x": 92,
+          "y": 35,
+          "w": 20,
+          "h": 70,
+          "label": "The foothills of the Amanus"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              84,
+              30
+            ],
+            [
+              70,
+              32
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              24,
+              36
+            ],
+            [
+              15,
+              37
+            ]
+          ],
+          "label": "The Pinarus"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 7,
+          "r": 3.5,
+          "label": "Issus"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The King in the rear",
+          "narration": "Darius takes a northern road, seizes Issus behind the Macedonians and cuts their supply line — then finds he has trapped himself as much as Alexander. Between the gulf and the mountains the plain is barely 2.6 km wide, and an army of 50,000–100,000 has no room to use its numbers against 37,000."
+        },
+        {
+          "name": "The advance to the river",
+          "narration": "Alexander turns about and comes back north in line of battle, halting and dressing his ranks as the front narrows. Persian light troops posted on the heights lap round his open right; the Agrianians go up the slope and clear them off, and the flank is safe.",
+          "arrows": [
+            {
+              "from": [
+                78,
+                52
+              ],
+              "to": [
+                86,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The phalanx in the water",
+          "narration": "In the centre the sarissa phalanx has to cross the stream and climb a stockaded bank into Darius’ 11,000 Greek mercenaries, and it suffers badly — Arrian counts a hundred and twenty Macedonians of note dead. By the sea, Nabarzanes’ heavy horse crash into Parmenion’s Thessalians, who give ground and buy time.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                44
+              ],
+              "to": [
+                52,
+                33
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                20,
+                30
+              ],
+              "to": [
+                22,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The hole on the right",
+          "narration": "Alexander leads the hypaspists in on foot against the Cardaces on the Persian left and punches a hole clean through them. Through it he mounts at the head of the Companions and drives in a wedge straight at the one man on the field who matters.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                40
+              ],
+              "to": [
+                70,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                72,
+                40
+              ],
+              "to": [
+                74,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Darius turns",
+          "narration": "With the Companions among his guard Darius wheels his chariot and runs, and the Persian line unravels from the middle outward. Alexander breaks off the pursuit to swing left onto the rear of the Greek mercenaries, who are still winning their fight, and they break.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                28
+              ],
+              "to": [
+                56,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                22
+              ],
+              "to": [
+                54,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The pursuit and the royal tent",
+          "narration": "The cavalry chase until the light goes; Arrian says the pursuers crossed a ravine on the piled dead. In the captured camp Alexander takes Darius’ mother Sisygambis, his wife Stateira and their daughters, and treats them as royalty. Ancient writers put the Persian host at 250,000 to 600,000 — no army of that size could have been fed on that plain.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                26
+              ],
+              "to": [
+                48,
+                10
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "companions",
+          "side": "a",
+          "label": "Companion cavalry (Alexander)",
+          "shape": "cavalry",
+          "helmet": "crest",
+          "strength": 2700,
+          "pos": [
+            [
+              72,
+              52
+            ],
+            [
+              74,
+              46
+            ],
+            [
+              76,
+              42
+            ],
+            [
+              72,
+              30
+            ],
+            [
+              60,
+              24
+            ],
+            [
+              48,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "hypaspists",
+          "side": "a",
+          "label": "Hypaspists",
+          "helmet": "crest",
+          "strength": 3000,
+          "pos": [
+            [
+              64,
+              52
+            ],
+            [
+              66,
+              46
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              68,
+              32
+            ],
+            [
+              62,
+              28
+            ],
+            [
+              54,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "phalanx",
+          "side": "a",
+          "label": "The phalanx",
+          "helmet": "crest",
+          "strength": 9000,
+          "pos": [
+            [
+              50,
+              54
+            ],
+            [
+              52,
+              48
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              52,
+              33
+            ],
+            [
+              50,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "allied-foot",
+          "side": "a",
+          "label": "Greek allied & mercenary foot",
+          "helmet": "crest",
+          "strength": 12000,
+          "pos": [
+            [
+              38,
+              54
+            ],
+            [
+              40,
+              48
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              40,
+              37
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              42,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "light",
+          "side": "a",
+          "label": "Agrianians, archers & javelinmen",
+          "helmet": "cap",
+          "strength": 8000,
+          "pos": [
+            [
+              78,
+              56
+            ],
+            [
+              82,
+              44
+            ],
+            [
+              84,
+              40
+            ],
+            [
+              82,
+              36
+            ],
+            [
+              80,
+              32
+            ],
+            [
+              70,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "thessalians",
+          "side": "a",
+          "label": "Thessalian & allied horse (Parmenion)",
+          "shape": "cavalry",
+          "helmet": "crest",
+          "strength": 3000,
+          "pos": [
+            [
+              26,
+              54
+            ],
+            [
+              26,
+              48
+            ],
+            [
+              22,
+              42
+            ],
+            [
+              20,
+              44
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              26,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "greek-merc",
+          "side": "b",
+          "label": "Greek mercenary hoplites",
+          "helmet": "crest",
+          "strength": 11000,
+          "pos": [
+            [
+              52,
+              28
+            ],
+            [
+              52,
+              29
+            ],
+            [
+              52,
+              31
+            ],
+            [
+              52,
+              30
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              58,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "cardaces-left",
+          "side": "b",
+          "label": "Cardaces (the hill flank)",
+          "helmet": "cap",
+          "strength": 10000,
+          "pos": [
+            [
+              74,
+              28
+            ],
+            [
+              74,
+              28
+            ],
+            [
+              74,
+              29
+            ],
+            [
+              76,
+              24
+            ],
+            [
+              82,
+              20
+            ],
+            [
+              88,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "cardaces-right",
+          "side": "b",
+          "label": "Cardaces (the sea flank)",
+          "helmet": "cap",
+          "strength": 10000,
+          "pos": [
+            [
+              30,
+              28
+            ],
+            [
+              30,
+              29
+            ],
+            [
+              30,
+              30
+            ],
+            [
+              30,
+              30
+            ],
+            [
+              28,
+              26
+            ],
+            [
+              22,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "royal",
+          "side": "b",
+          "label": "Darius & the Royal Guard",
+          "helmet": "cap",
+          "strength": 3000,
+          "pos": [
+            [
+              56,
+              22
+            ],
+            [
+              56,
+              22
+            ],
+            [
+              56,
+              24
+            ],
+            [
+              58,
+              24
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              40,
+              3
+            ]
+          ]
+        },
+        {
+          "id": "persian-horse",
+          "side": "b",
+          "label": "Persian heavy cavalry (Nabarzanes)",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 11000,
+          "pos": [
+            [
+              22,
+              28
+            ],
+            [
+              22,
+              29
+            ],
+            [
+              20,
+              36
+            ],
+            [
+              19,
+              40
+            ],
+            [
+              22,
+              32
+            ],
+            [
+              16,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "hill-troops",
+          "side": "b",
+          "label": "Light troops on the heights",
+          "helmet": "cap",
+          "strength": 8000,
+          "pos": [
+            [
+              86,
+              40
+            ],
+            [
+              90,
+              30
+            ],
+            [
+              90,
+              30
+            ],
+            [
+              90,
+              32
+            ],
+            [
+              90,
+              34
+            ],
+            [
+              92,
+              26
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.15
+    },
+    "hattin": {
+      "title": "Battle of Hattin",
+      "subtitle": "3–4 July 1187 — Saladin destroys the field army of the Kingdom of Jerusalem",
+      "sides": {
+        "a": {
+          "name": "Ayyubids (Saladin)",
+          "color": "#2e8b57"
+        },
+        "b": {
+          "name": "Kingdom of Jerusalem (Guy of Lusignan)",
+          "color": "#c0392b"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 95,
+          "y": 35,
+          "w": 14,
+          "h": 70,
+          "label": "Lake Tiberias — the water they never reached"
+        },
+        {
+          "type": "hill",
+          "x": 62,
+          "y": 30,
+          "r": 6,
+          "label": "The Horns of Hattin"
+        },
+        {
+          "type": "town",
+          "x": 7,
+          "y": 34,
+          "r": 4,
+          "label": "Saffuriya — the springs they left"
+        },
+        {
+          "type": "town",
+          "x": 26,
+          "y": 36,
+          "r": 2.5,
+          "label": "The springs of Turan"
+        },
+        {
+          "type": "town",
+          "x": 44,
+          "y": 34,
+          "r": 3,
+          "label": "Maskana — the dry camp"
+        },
+        {
+          "type": "town",
+          "x": 74,
+          "y": 24,
+          "r": 3,
+          "label": "Hattin village and its springs"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The council at Saffuriya",
+          "narration": "Saladin storms Tiberias and traps Raymond of Tripoli’s own wife in the citadel — bait, and Raymond says so, arguing the army should sit tight on the good springs of Saffuriya. Gerard de Ridefort and Raynald of Châtillon call that cowardice. King Guy orders the march."
+        },
+        {
+          "name": "The waterless march",
+          "narration": "Some 20,000 men leave the last reliable water and cross the bare plateau in July heat, the horse archers of Saladin’s wings shooting into the column the whole way. The springs of Turan, when they reach them, are nowhere near enough for an army this size.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                28
+              ],
+              "to": [
+                30,
+                33
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                42
+              ],
+              "to": [
+                26,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The trap closes",
+          "narration": "By midday it is plain Tiberias cannot be reached before dark, and the column turns north-east for the springs of Kafr Hattin, six miles off. Saladin slides his wings in between the Franks and every drop of water on the plateau, and the army halts for the night at Maskana with none.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                26
+              ],
+              "to": [
+                50,
+                31
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                42
+              ],
+              "to": [
+                44,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The night of drums",
+          "narration": "No assault comes — none is needed. The Muslims ring the camp with drums, chanting and prayer, and fire the dry grass so the smoke drifts over men who have not drunk since morning. Camel trains bring goatskins of lake water up to Saladin’s army all night long."
+        },
+        {
+          "name": "Blinded by smoke",
+          "narration": "On the morning of Friday 4 July the Franks stand up into smoke and volleys. Gökböri’s archers, resupplied overnight with four hundred camel-loads of arrows, shoot into a parched, half-blind army that has already lost its cohesion before a blow is struck.",
+          "arrows": [
+            {
+              "from": [
+                55,
+                29
+              ],
+              "to": [
+                48,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                51,
+                40
+              ],
+              "to": [
+                44,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Raymond’s charge",
+          "narration": "Raymond of Tripoli charges twice to open a road to the lake. The second charge goes through — the ranks in front of him opening to let it pass — and he rides clear, eventually to Tyre. Behind him the infantry break away up onto the Horns and take no further part in the battle.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                31
+              ],
+              "to": [
+                80,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                28
+              ],
+              "to": [
+                50,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The tent falls",
+          "narration": "What is left of the knights charges again and again off the hill, and each time is thrown back. The True Cross is taken and later carried upside down on a lance to Damascus. Saladin’s son remembered him saying they had not beaten the Franks until the King’s tent fell — when it did, he dismounted and wept. Guy was spared; Raynald was not, and Jerusalem fell on 2 October.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                32
+              ],
+              "to": [
+                56,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                24
+              ],
+              "to": [
+                62,
+                29
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                38
+              ],
+              "to": [
+                61,
+                33
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "saladin",
+          "side": "a",
+          "label": "Saladin & the centre",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 4000,
+          "pos": [
+            [
+              90,
+              36
+            ],
+            [
+              70,
+              36
+            ],
+            [
+              70,
+              34
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              58,
+              34
+            ],
+            [
+              56,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "gokbori",
+          "side": "a",
+          "label": "Gökböri’s wing — mounted archers",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 4000,
+          "pos": [
+            [
+              86,
+              28
+            ],
+            [
+              40,
+              26
+            ],
+            [
+              62,
+              24
+            ],
+            [
+              58,
+              26
+            ],
+            [
+              55,
+              27
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              62,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "muzaffar",
+          "side": "a",
+          "label": "Al-Muzaffar Umar’s wing",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 4000,
+          "pos": [
+            [
+              86,
+              44
+            ],
+            [
+              40,
+              44
+            ],
+            [
+              58,
+              44
+            ],
+            [
+              54,
+              42
+            ],
+            [
+              51,
+              41
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              60,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "ayyubid-foot",
+          "side": "a",
+          "label": "Ayyubid foot & the arrow train",
+          "helmet": "cap",
+          "strength": 18000,
+          "pos": [
+            [
+              93,
+              40
+            ],
+            [
+              84,
+              38
+            ],
+            [
+              80,
+              36
+            ],
+            [
+              70,
+              36
+            ],
+            [
+              66,
+              36
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              52,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "raymond",
+          "side": "b",
+          "label": "Raymond of Tripoli (vanguard)",
+          "shape": "cavalry",
+          "helmet": "conical",
+          "strength": 500,
+          "pos": [
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              33
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              51,
+              31
+            ],
+            [
+              84,
+              30
+            ],
+            [
+              90,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "guy",
+          "side": "b",
+          "label": "King Guy, the royal battle & the True Cross",
+          "shape": "cavalry",
+          "helmet": "conical",
+          "strength": 700,
+          "pos": [
+            [
+              7,
+              35
+            ],
+            [
+              22,
+              35
+            ],
+            [
+              44,
+              34
+            ],
+            [
+              45,
+              34
+            ],
+            [
+              46,
+              34
+            ],
+            [
+              50,
+              33
+            ],
+            [
+              61,
+              31
+            ]
+          ]
+        },
+        {
+          "id": "orders",
+          "side": "b",
+          "label": "Templars & Hospitallers (rearguard)",
+          "shape": "cavalry",
+          "helmet": "conical",
+          "strength": 300,
+          "pos": [
+            [
+              4,
+              37
+            ],
+            [
+              14,
+              37
+            ],
+            [
+              38,
+              38
+            ],
+            [
+              40,
+              37
+            ],
+            [
+              41,
+              37
+            ],
+            [
+              46,
+              35
+            ],
+            [
+              60,
+              33
+            ]
+          ]
+        },
+        {
+          "id": "sergeants",
+          "side": "b",
+          "label": "Mounted sergeants",
+          "shape": "cavalry",
+          "helmet": "conical",
+          "strength": 3000,
+          "pos": [
+            [
+              6,
+              39
+            ],
+            [
+              20,
+              38
+            ],
+            [
+              42,
+              36
+            ],
+            [
+              43,
+              36
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              47,
+              36
+            ],
+            [
+              59,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "turcopoles",
+          "side": "b",
+          "label": "Turcopoles",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 500,
+          "pos": [
+            [
+              12,
+              30
+            ],
+            [
+              32,
+              30
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              49,
+              29
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              52,
+              30
+            ],
+            [
+              58,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "frankish-foot",
+          "side": "b",
+          "label": "Infantry & crossbowmen",
+          "helmet": "conical",
+          "strength": 15000,
+          "pos": [
+            [
+              5,
+              42
+            ],
+            [
+              16,
+              40
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              41,
+              40
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              62,
+              28
+            ],
+            [
+              63,
+              27
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "borodino": {
+      "title": "Battle of Borodino",
+      "subtitle": "7 September 1812 — the bloodiest single day of the Napoleonic Wars",
+      "sides": {
+        "a": {
+          "name": "Russia (Kutuzov)",
+          "color": "#cc3a3a"
+        },
+        "b": {
+          "name": "French Empire (Napoleon)",
+          "color": "#3a63cc"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              34,
+              52
+            ],
+            [
+              42,
+              36
+            ],
+            [
+              48,
+              20
+            ],
+            [
+              56,
+              10
+            ],
+            [
+              68,
+              3
+            ]
+          ],
+          "label": "The Kolocha"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 12,
+          "r": 3.5,
+          "label": "Borodino"
+        },
+        {
+          "type": "hill",
+          "x": 60,
+          "y": 28,
+          "r": 4,
+          "label": "The Raevsky Redoubt"
+        },
+        {
+          "type": "hill",
+          "x": 55,
+          "y": 42,
+          "r": 3.5,
+          "label": "The Bagration flèches"
+        },
+        {
+          "type": "town",
+          "x": 62,
+          "y": 43,
+          "r": 2.5,
+          "label": "Semyonovskaya"
+        },
+        {
+          "type": "town",
+          "x": 36,
+          "y": 46,
+          "r": 2.5,
+          "label": "Shevardino — lost two days before"
+        },
+        {
+          "type": "forest",
+          "x": 44,
+          "y": 52,
+          "r": 6
+        },
+        {
+          "type": "town",
+          "x": 47,
+          "y": 58,
+          "r": 2.5,
+          "label": "Utitsa"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              4,
+              59
+            ],
+            [
+              30,
+              58
+            ],
+            [
+              50,
+              57
+            ],
+            [
+              74,
+              56
+            ],
+            [
+              96,
+              55
+            ]
+          ],
+          "label": "The Old Smolensk Road"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              8,
+              14
+            ],
+            [
+              40,
+              13
+            ],
+            [
+              64,
+              16
+            ],
+            [
+              96,
+              20
+            ]
+          ],
+          "label": "The new post road to Moscow"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The ground",
+          "narration": "About 130,000 French and allied troops face some 155,000 Russians across five kilometres. The Kolocha shields the Russian right; the centre rests on the Raevsky Redoubt and its nineteen 12-pounders; the left holds three arrow-headed flèches — and the Shevardino redoubt, stormed two days earlier, has already left that left flank hanging."
+        },
+        {
+          "name": "The guns open",
+          "narration": "At six in the morning a grand battery of 102 guns opens on the Russian centre and Davout’s divisions cross the Kolocha at the southernmost flèche. Compans and Dessaix are shot down; Davout has his horse killed under him and goes forward on foot with the 57th. Beauharnais storms Borodino village to the north.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                44
+              ],
+              "to": [
+                52,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                18
+              ],
+              "to": [
+                45,
+                13
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The flèches change hands",
+          "narration": "By half past seven all three flèches are French; Bagration retakes them at once; Ney takes them again. The earthworks change owners through the morning until infantry and horse alike have trouble crossing ground heaped with bodies. Murat’s cavalry go in and meet Duka’s cuirassiers head-on.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                42
+              ],
+              "to": [
+                55,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                44
+              ],
+              "to": [
+                56,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Bagration falls",
+          "narration": "Around eleven, leading a last counterattack in person, Bagration is hit in the leg by cannonball splinters; he dies of the wound weeks later, and word of it runs down the Russian line like a crack. In the centre Bonnamy’s brigade breaks into the open rear of the Great Redoubt and Yermolov throws it out again at bayonet point.",
+          "arrows": [
+            {
+              "from": [
+                54,
+                42
+              ],
+              "to": [
+                59,
+                43
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                52,
+                26
+              ],
+              "to": [
+                59,
+                28
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                29
+              ],
+              "to": [
+                60,
+                28
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Utitsa and the old road",
+          "narration": "On the far southern flank Poniatowski’s Poles take Utitsa at the first rush along the Old Smolensk Road; Tuchkov throws them out by eight and is mortally wounded doing it. Junot’s Westphalians retake the village, the Russians burn it, and the two sides skirmish and cannonade in the thick brush for the rest of the day without deciding anything.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                58
+              ],
+              "to": [
+                47,
+                58
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                58
+              ],
+              "to": [
+                44,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Cossacks in the rear",
+          "narration": "A Cossack patrol finds an unwatched ford on the northern flank. Uvarov and Platov take about 8,000 horse and twelve guns across with no infantry at all and appear behind Beauharnais’ corps. They achieve little in themselves — but Beauharnais cancels his assault and pulls back, and the two hours that buys let the Russians patch their shattered left.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                8
+              ],
+              "to": [
+                46,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Great Redoubt",
+          "narration": "At two the attack goes in for the last time. General Auguste de Caulaincourt is killed leading the cuirassiers at the parapet; then Thielmann’s Saxon and Polish squadrons ride at the rear and force horses bodily through the embrasures. Likhachyov’s 24th Division dies on its guns and its commander is taken. The Russian Guard cavalry charge stops the French going any further.",
+          "arrows": [
+            {
+              "from": [
+                54,
+                32
+              ],
+              "to": [
+                60,
+                29
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                34
+              ],
+              "to": [
+                61,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                68,
+                32
+              ],
+              "to": [
+                63,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Guard stays in its packs",
+          "narration": "Belliard, Berthier and Ney all press Napoleon to send in the Imperial Guard and finish it; Bessières argues against, and Napoleon refuses — he will not have his last reserve destroyed 2,000 miles from home. The guns fire on until dark. That night Kutuzov withdraws toward Moscow with his army beaten but intact, having lost perhaps 45,000 men to Napoleon’s 35,000."
+        }
+      ],
+      "units": [
+        {
+          "id": "barclay",
+          "side": "a",
+          "label": "Barclay de Tolly’s 1st Army (the right)",
+          "helmet": "shako",
+          "strength": 60000,
+          "pos": [
+            [
+              70,
+              16
+            ],
+            [
+              70,
+              16
+            ],
+            [
+              66,
+              20
+            ],
+            [
+              64,
+              24
+            ],
+            [
+              64,
+              24
+            ],
+            [
+              64,
+              24
+            ],
+            [
+              64,
+              26
+            ],
+            [
+              70,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "raevsky",
+          "side": "a",
+          "label": "Raevsky’s corps — the Great Redoubt",
+          "helmet": "shako",
+          "strength": 11000,
+          "pos": [
+            [
+              60,
+              28
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              63,
+              31
+            ],
+            [
+              68,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "bagration",
+          "side": "a",
+          "label": "Bagration’s 2nd Army — the flèches",
+          "helmet": "shako",
+          "strength": 34000,
+          "pos": [
+            [
+              54,
+              42
+            ],
+            [
+              54,
+              42
+            ],
+            [
+              56,
+              42
+            ],
+            [
+              60,
+              44
+            ],
+            [
+              62,
+              44
+            ],
+            [
+              62,
+              44
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              70,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "tuchkov",
+          "side": "a",
+          "label": "Tuchkov’s corps & militia at Utitsa",
+          "helmet": "shako",
+          "strength": 23000,
+          "pos": [
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              46,
+              58
+            ],
+            [
+              48,
+              58
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              52,
+              58
+            ],
+            [
+              54,
+              57
+            ],
+            [
+              62,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "uvarov-platov",
+          "side": "a",
+          "label": "Uvarov’s cavalry & Platov’s Cossacks",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 8000,
+          "pos": [
+            [
+              74,
+              10
+            ],
+            [
+              74,
+              10
+            ],
+            [
+              72,
+              8
+            ],
+            [
+              66,
+              6
+            ],
+            [
+              60,
+              5
+            ],
+            [
+              44,
+              14
+            ],
+            [
+              58,
+              12
+            ],
+            [
+              70,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "russ-guard",
+          "side": "a",
+          "label": "The Russian Guard & reserve",
+          "helmet": "shako",
+          "strength": 20000,
+          "pos": [
+            [
+              76,
+              32
+            ],
+            [
+              76,
+              32
+            ],
+            [
+              74,
+              34
+            ],
+            [
+              70,
+              36
+            ],
+            [
+              68,
+              36
+            ],
+            [
+              68,
+              34
+            ],
+            [
+              66,
+              32
+            ],
+            [
+              74,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "davout",
+          "side": "b",
+          "label": "Davout’s I Corps",
+          "helmet": "shako",
+          "strength": 33000,
+          "pos": [
+            [
+              36,
+              44
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              55,
+              42
+            ],
+            [
+              55,
+              42
+            ],
+            [
+              55,
+              42
+            ],
+            [
+              56,
+              40
+            ],
+            [
+              56,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "ney",
+          "side": "b",
+          "label": "Ney’s III Corps",
+          "helmet": "shako",
+          "strength": 10000,
+          "pos": [
+            [
+              32,
+              38
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              54,
+              44
+            ],
+            [
+              55,
+              44
+            ],
+            [
+              56,
+              44
+            ],
+            [
+              58,
+              42
+            ],
+            [
+              58,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "poniatowski",
+          "side": "b",
+          "label": "Poniatowski & Junot — the old road",
+          "helmet": "shako",
+          "strength": 18000,
+          "pos": [
+            [
+              26,
+              58
+            ],
+            [
+              34,
+              58
+            ],
+            [
+              40,
+              58
+            ],
+            [
+              42,
+              58
+            ],
+            [
+              46,
+              57
+            ],
+            [
+              46,
+              57
+            ],
+            [
+              48,
+              57
+            ],
+            [
+              48,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "beauharnais",
+          "side": "b",
+          "label": "Beauharnais’ IV Corps",
+          "helmet": "shako",
+          "strength": 26000,
+          "pos": [
+            [
+              34,
+              20
+            ],
+            [
+              42,
+              16
+            ],
+            [
+              48,
+              20
+            ],
+            [
+              52,
+              24
+            ],
+            [
+              52,
+              24
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              58,
+              28
+            ],
+            [
+              60,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "murat",
+          "side": "b",
+          "label": "Murat’s reserve cavalry",
+          "shape": "cavalry",
+          "helmet": "shako",
+          "strength": 25000,
+          "pos": [
+            [
+              30,
+              32
+            ],
+            [
+              38,
+              34
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              53,
+              38
+            ],
+            [
+              54,
+              34
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              60,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "imperial-guard",
+          "side": "b",
+          "label": "The Imperial Guard (never committed)",
+          "helmet": "shako",
+          "strength": 18500,
+          "pos": [
+            [
+              24,
+              44
+            ],
+            [
+              28,
+              44
+            ],
+            [
+              30,
+              44
+            ],
+            [
+              32,
+              44
+            ],
+            [
+              33,
+              44
+            ],
+            [
+              34,
+              42
+            ],
+            [
+              36,
+              40
+            ],
+            [
+              38,
+              40
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.3
     }
   }
 }
