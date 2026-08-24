@@ -3991,20 +3991,40 @@ export function buildModel(
     tip.position.set(0, 31.15, 0);
     group.add(tip);
   } else if (model === 'arc-triomphe') {
-    // The Arc de Triomphe — one colossal Lutetian-limestone block pierced by
-    // the great axial arch (a real extruded-profile opening, daylight through)
-    // and by the smaller transverse arch through the flanks, under a sculpted
-    // frieze and the attic storey. 1 unit ≈ 5 m: 9 wide, 4.4 deep, ~10 tall.
-    // Model +Z is a great-arch face — the fit turns it down the Champs-Élysées.
+    // The Arc de Triomphe (Chalgrin, 1806-1836) - one colossal Lutetian-
+    // limestone block pierced by TWO real barrel vaults that cross at its
+    // heart: the great axial arch (14.6 m wide, crown 29 m) and the transverse
+    // arch through the flanks (8.4 m wide, crown 18.7 m). Both are extruded
+    // profiles, so daylight passes through and you can look up into a coffered
+    // vault from underneath. Over that: the four monumental sculpture groups
+    // (La Marseillaise and her sisters) carved on the pier faces, six attic
+    // bas-reliefs, the continuous frieze of marching armies under the cornice,
+    // and the attic's ring of thirty victory shields. 1 unit ~ 5 m:
+    // 9 wide (45 m), 4.4 deep (22 m), 9.9 tall (49 m).
+    // Model +Z is a great-arch face - the fit turns it down the Champs-Elysees.
+    // (No Tomb of the Unknown Soldier: that is 1921 furniture under a monument
+    // the globe raises in 1836, and nothing here is date-gated yet.)
     ground = '#7d7a6c';
     const lime = '#cdc3a9';
     const limeLo = '#bfb499';
     const limeHi = '#d9d1bb';
+    const limeWorn = '#b3a88d'; // the weathered lower courses and plinth
     const H = 7.5; // main cornice line (~37.5 m)
     const gHW = 1.46; // great arch half-width (14.6 m wide)
-    const gSpring = 4.39; // its spring line (crown at 5.85 ≈ 29 m)
+    const gSpring = 4.39; // its spring line (crown at 5.85 = 29 m)
     const tHW = 0.84; // transverse arch half-width (8.4 m)
-    const tSpring = 2.9; // its spring (crown 3.74 ≈ 18.7 m)
+    const tSpring = 2.9; // its spring (crown 3.74 = 18.7 m)
+    const MID_Z = 0.85; // half-depth of the crossing bay (the transverse tunnel)
+    const MID_BASE = 3.95; // solid stone starts above the transverse vault
+    // Carved figures are SMOOTH, never stone-textured - a rusticated statue
+    // reads as a crate (craft book). The wall behind them keeps its grain, so
+    // the sculpture lifts off the masonry exactly as the real marble does.
+    const sculpt = new THREE.MeshStandardMaterial({ color: '#7f6c4f', roughness: 0.74, metalness: 0 });
+    const sculptDk = new THREE.MeshStandardMaterial({ color: '#715e45', roughness: 0.8, metalness: 0 });
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
+    };
     // A wall slab pierced by a round-headed arch, extruded and centred.
     const archSlab = (w: number, h: number, hw: number, spring: number, depth: number): THREE.ExtrudeGeometry => {
       const s = new THREE.Shape();
@@ -4024,43 +4044,6 @@ export function buildModel(
       g.translate(0, 0, -depth / 2);
       return g;
     };
-    // Front and back faces each carry the great arch.
-    const faceGeo = archSlab(9, H, gHW, gSpring, 1.36);
-    for (const s of [-1, 1] as const) {
-      const f = new THREE.Mesh(faceGeo, stoneMat(lime));
-      f.position.z = s * 1.52;
-      group.add(f);
-    }
-    // The middle slab spans the transverse tunnel: solid only above the
-    // tunnel ceiling, with the great arch's crown carved up into it.
-    const mid = new THREE.Shape();
-    mid.moveTo(-4.5, tSpring + 0.05);
-    mid.lineTo(-gHW, tSpring + 0.05);
-    mid.lineTo(-gHW, gSpring);
-    mid.absarc(0, gSpring, gHW, Math.PI, 0, true);
-    mid.lineTo(gHW, tSpring + 0.05);
-    mid.lineTo(4.5, tSpring + 0.05);
-    mid.lineTo(4.5, H);
-    mid.lineTo(-4.5, H);
-    mid.closePath();
-    const midGeo = new THREE.ExtrudeGeometry(mid, { depth: 1.7, bevelEnabled: false, curveSegments: 16 });
-    midGeo.translate(0, 0, -0.85);
-    group.add(new THREE.Mesh(midGeo, stoneMat(limeLo)));
-    // Side façades, slightly proud, carrying the semicircular transverse arch.
-    const sideGeo = archSlab(4.32, 4.7, tHW, tSpring, 0.5);
-    for (const s of [-1, 1] as const) {
-      const f = new THREE.Mesh(sideGeo, stoneMat(lime));
-      f.rotation.y = s * (Math.PI / 2);
-      f.position.x = s * 4.31;
-      group.add(f);
-    }
-    // Sculpted-relief hints: the four great pedestal groups flanking the arch
-    // (La Marseillaise and her sisters) as proud panels, and the frieze band.
-    for (const sz of [-1, 1] as const)
-      for (const sx of [-1, 1] as const)
-        group.add(block(1.7, 3.2, 0.1, sx * 2.95, 2.6, sz * 2.26, limeHi));
-    // Frieze band and attic storey — extruded (not boxes) so their stone
-    // grain matches the façades instead of stretching into wood-plank scale.
     const slabRect = (w: number, h: number, depth: number): THREE.ExtrudeGeometry => {
       const s = new THREE.Shape();
       s.moveTo(-w / 2, 0);
@@ -4072,18 +4055,272 @@ export function buildModel(
       g.translate(0, 0, -depth / 2);
       return g;
     };
+    // ---- One shared unit figure (~1 tall, standing on y=0, facing +Z) -------
+    // Cloned ~140 times for the frieze and the sculpture groups; six-sided
+    // limbs read as chisel facets rather than tubes.
+    const bodyGeo = new THREE.CylinderGeometry(0.13, 0.17, 0.78, 6);
+    bodyGeo.translate(0, 0.39, 0);
+    const headGeo = new THREE.SphereGeometry(0.1, 8, 6);
+    headGeo.translate(0, 0.9, 0);
+    const shieldGeo = new THREE.CylinderGeometry(0.17, 0.17, 0.05, 10);
+    shieldGeo.rotateX(Math.PI / 2);
+    /** A carved figure of height h, based at (x,y,z), facing local +Z. */
+    const figure = (h: number, x: number, y: number, z: number, mat: THREE.Material, ry = 0): THREE.Group => {
+      const g = new THREE.Group();
+      g.add(new THREE.Mesh(bodyGeo, mat));
+      g.add(new THREE.Mesh(headGeo, mat));
+      g.position.set(x, y, z);
+      g.scale.setScalar(h);
+      g.rotation.y = ry;
+      return g;
+    };
+    /** A winged genius - figure plus two swept wings and a raised sword arm. */
+    const genius = (h: number, x: number, y: number, z: number, mat: THREE.Material): THREE.Group => {
+      const g = figure(h, x, y, z, mat);
+      for (const s of [-1, 1] as const) {
+        const w = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.34, 0.07), mat);
+        w.position.set(s * 0.42, 0.78, -0.14);
+        w.rotation.z = s * 0.34;
+        w.rotation.y = s * 0.62; // swept back, not held out
+        w.rotation.x = 0.12;
+        g.add(w);
+      }
+      g.add(strut(new THREE.Vector3(0.1, 0.72, 0.1), new THREE.Vector3(0.46, 1.22, 0.16), 0.07, mat));
+      return g;
+    };
+    // ---- Plinth: the broad stepped socle the whole mass stands on ----------
+    // Kept INSIDE the cornice line (9.44) so the manifest footprint - and with
+    // it the globe's true-metre scaling - does not shift.
+    group.add(block(9.44, 0.1, 4.84, 0, -0.05, 0, limeWorn));
+    group.add(block(9.18, 0.13, 4.6, 0, -0.165, 0, limeWorn));
+    // ---- The two main facades, each carrying the great arch ----------------
+    const faceGeo = archSlab(9, H, gHW, gSpring, 1.36);
+    for (const s of [-1, 1] as const) {
+      const f = new THREE.Mesh(faceGeo, stoneMat(lime));
+      f.position.z = s * 1.52;
+      group.add(f);
+    }
+    // ---- The crossing bay ---------------------------------------------------
+    // The transverse tunnel is a TRUE BARREL, not a flat soffit: two arch-
+    // profile blocks extruded ALONG X fill each pier between the great tunnel
+    // and the outside, so the vault seen from the flank is the vault you stand
+    // under. (It used to be a slab with a flat ceiling at 14.75 m while the
+    // outer arch head reached 18.7 m - the opening read stunted for it.)
+    const barrelGeo = archSlab(2 * MID_Z, MID_BASE + 0.1, tHW, tSpring, 4.5 - gHW);
+    for (const s of [-1, 1] as const) {
+      const b = new THREE.Mesh(barrelGeo, stoneMat(limeLo));
+      b.rotation.y = Math.PI / 2;
+      b.position.x = s * (gHW + (4.5 - gHW) / 2);
+      group.add(b);
+    }
+    // Solid stone above the transverse vault, with the great arch's crown
+    // carved up into it. It overlaps the barrel blocks by 0.1 so no two faces
+    // ever come to rest in the same plane.
+    const mid = new THREE.Shape();
+    mid.moveTo(-4.5, MID_BASE);
+    mid.lineTo(-gHW, MID_BASE);
+    mid.lineTo(-gHW, gSpring);
+    mid.absarc(0, gSpring, gHW, Math.PI, 0, true);
+    mid.lineTo(gHW, MID_BASE);
+    mid.lineTo(4.5, MID_BASE);
+    mid.lineTo(4.5, H);
+    mid.lineTo(-4.5, H);
+    mid.closePath();
+    const midGeo = new THREE.ExtrudeGeometry(mid, { depth: 2 * MID_Z, bevelEnabled: false, curveSegments: 16 });
+    midGeo.translate(0, 0, -MID_Z);
+    group.add(new THREE.Mesh(midGeo, stoneMat(limeLo)));
+    // ---- Flanks: ONE full-height facade to the cornice ---------------------
+    // (Was a 4.32 x 4.7 panel that stopped mid-wall and left a ledge running
+    // right round the building at 23 m - the seam the flank renders showed.)
+    const sideGeo = archSlab(4.4, H, tHW, tSpring, 0.5);
+    for (const s of [-1, 1] as const) {
+      const f = new THREE.Mesh(sideGeo, stoneMat(lime));
+      f.rotation.y = s * (Math.PI / 2);
+      f.position.x = s * 4.31;
+      group.add(f);
+    }
+    // ---- Coffered vaults ----------------------------------------------------
+    // The great barrel: seven ribs running the tunnel's length crossed by five
+    // arch ribs, a rosette bossed in every cell. All sit PROUD into the tunnel
+    // (r 1.43 against the 1.46 intrados) so nothing is coplanar.
+    const ribArc = new THREE.TorusGeometry(1.43, 0.05, 6, 20, Math.PI);
+    for (const z of [-1.76, -0.88, 0, 0.88, 1.76]) {
+      const t = new THREE.Mesh(ribArc, stoneMat(limeHi));
+      t.position.set(0, gSpring, z);
+      group.add(t);
+    }
+    const ribLong = new THREE.BoxGeometry(0.13, 0.05, 4.36);
+    for (let i = 1; i <= 7; i++) {
+      const th = (i / 8) * Math.PI;
+      const r = new THREE.Mesh(ribLong, stoneMat(limeHi));
+      r.position.set(1.43 * Math.cos(th), gSpring + 1.43 * Math.sin(th), 0);
+      r.rotation.z = th - Math.PI / 2;
+      group.add(r);
+    }
+    const rosetteGeo = new THREE.CylinderGeometry(0.075, 0.09, 0.05, 8);
+    for (let i = 0; i < 8; i++)
+      for (const z of [-1.32, -0.44, 0.44, 1.32]) {
+        const th = ((i + 0.5) / 8) * Math.PI;
+        const d = new THREE.Mesh(rosetteGeo, stoneMat(limeHi));
+        d.position.set(1.435 * Math.cos(th), gSpring + 1.435 * Math.sin(th), z);
+        d.rotation.z = th - Math.PI / 2;
+        group.add(d);
+      }
+    // The transverse barrel gets its own ribs, two in each stub.
+    const tRib = new THREE.TorusGeometry(0.815, 0.04, 6, 16, Math.PI);
+    for (const s of [-1, 1] as const)
+      for (const dx of [2.15, 3.55]) {
+        const t = new THREE.Mesh(tRib, stoneMat(limeHi));
+        t.position.set(s * dx, tSpring, 0);
+        t.rotation.y = Math.PI / 2;
+        group.add(t);
+      }
+    // ---- The generals' tablets, inside the great tunnel --------------------
+    // 558 names are cut into these pier walls; at globe range they read as
+    // ruled courses inside a raised frame.
+    for (const sx of [-1, 1] as const)
+      for (const sz of [-1, 1] as const) {
+        const x = sx * 1.44;
+        const z = sz * 1.5;
+        const fr = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.72, 1.06), stoneMat(limeHi));
+        fr.position.set(x, 1.86, z);
+        group.add(fr);
+        for (let i = 0; i < 6; i++)
+          group.add(block(0.03, 0.055, 0.86, x - sx * 0.03, 1.2 + i * 0.24, z, limeLo));
+      }
+    // ---- The four great sculpture groups -----------------------------------
+    // Le Depart de 1792 (La Marseillaise), Le Triomphe de 1810, La Resistance
+    // and La Paix - a winged genius over a press of soldiers, in a moulded
+    // recess on each pier face. These were four blank rectangles before.
+    for (const sz of [-1, 1] as const)
+      for (const sx of [-1, 1] as const) {
+        const g = new THREE.Group();
+        g.position.set(sx * 2.95, 2.5, sz * 2.2);
+        g.rotation.y = sz > 0 ? 0 : Math.PI;
+        const seed = (sx + 2) * 7 + (sz + 2) * 31;
+        // Sunken back plate in darker, still-textured wall stone...
+        const plate = new THREE.Mesh(new THREE.BoxGeometry(2.02, 2.72, 0.05), stoneMat(limeLo));
+        plate.position.set(0, 1.36, 0.03);
+        g.add(plate);
+        // ...inside a proud moulded frame.
+        g.add(block(2.26, 0.15, 0.17, 0, 2.79, 0.06, limeHi));
+        g.add(block(2.26, 0.13, 0.15, 0, -0.06, 0.06, limeHi));
+        for (const s of [-1, 1] as const) g.add(block(0.14, 2.9, 0.15, s * 1.06, 1.4, 0.06, limeHi));
+        // The genius crowning the group, wings spread over the soldiers.
+        g.add(genius(1.12, 0.06, 1.42, 0.17, sculpt));
+        // The press of volunteers below - shields and spears.
+        const men: Array<[number, number, number, number]> = [
+          [-0.82, 0.16, 0.06, 0.82],
+          [-0.58, 0.05, 0.17, 0.98],
+          [-0.3, 0.16, 0.08, 0.86],
+          [-0.12, 0.0, 0.24, 1.08],
+          [0.2, 0.02, 0.27, 1.12],
+          [0.44, 0.14, 0.09, 0.9],
+          [0.66, 0.04, 0.2, 1.0],
+          [0.88, 0.18, 0.07, 0.82],
+        ];
+        men.forEach(([x, y, z, h], i) => {
+          g.add(figure(h, x, y, z, sculpt, (rnd(seed + i, 1) - 0.5) * 0.5));
+          if (i % 2 === 0) {
+            const sh = new THREE.Mesh(shieldGeo, sculptDk);
+            sh.position.set(x - 0.17, y + h * 0.42, z + 0.14);
+            sh.scale.setScalar(0.9 + rnd(seed + i, 2) * 0.25);
+            g.add(sh);
+          } else {
+            g.add(strut(
+              new THREE.Vector3(x + 0.12, y + h * 0.2, z + 0.1),
+              new THREE.Vector3(x + 0.3, y + h * 1.5, z + 0.08),
+              0.045, sculptDk,
+            ));
+          }
+        });
+        // The short string course the group stands on.
+        g.add(block(2.34, 0.16, 0.22, 0, -0.22, 0.05, limeHi));
+        group.add(g);
+      }
+    // ---- Renommees in the spandrels of the great arch -----------------------
+    for (const sz of [-1, 1] as const)
+      for (const sx of [-1, 1] as const) {
+        const g = genius(0.66, 0, 0, 0, sculpt);
+        g.position.set(sx * 1.95, 4.86, sz * 2.24);
+        g.rotation.y = sz > 0 ? 0 : Math.PI;
+        group.add(g);
+      }
+    // ---- The six attic bas-reliefs ------------------------------------------
+    // Four on the main faces (over the sculpture groups), one on each flank:
+    // Marceau's funeral, Aboukir, Jemappes, Arcole, Alexandria.
+    const relief = (w: number, x: number, y: number, z: number, ry: number, seed: number) => {
+      const g = new THREE.Group();
+      g.position.set(x, y, z);
+      g.rotation.y = ry;
+      const plate = new THREE.Mesh(new THREE.BoxGeometry(w, 1.1, 0.05), stoneMat(limeLo));
+      plate.position.set(0, 0.55, 0.03);
+      g.add(plate);
+      g.add(block(w + 0.2, 0.11, 0.14, 0, 1.16, 0.05, limeHi));
+      g.add(block(w + 0.2, 0.11, 0.14, 0, -0.06, 0.05, limeHi));
+      for (const s of [-1, 1] as const) g.add(block(0.11, 1.28, 0.13, s * (w / 2 + 0.05), 0.55, 0.05, limeHi));
+      const n = Math.max(4, Math.round(w / 0.21));
+      for (let i = 0; i < n; i++) {
+        const fx = -w / 2 + 0.15 + (i * (w - 0.3)) / Math.max(1, n - 1);
+        g.add(figure(0.5 + rnd(seed + i, 3) * 0.16, fx, 0.13, 0.01 + rnd(seed + i, 4) * 0.03, sculpt,
+          (rnd(seed + i, 5) - 0.5) * 0.7));
+      }
+      group.add(g);
+    };
+    for (const sz of [-1, 1] as const)
+      for (const sx of [-1, 1] as const)
+        relief(1.94, sx * 2.95, 5.44, sz * 2.22, sz > 0 ? 0 : Math.PI, (sx + 3) * 11 + (sz + 3) * 5);
+    for (const sx of [-1, 1] as const)
+      relief(2.5, sx * 4.57, 5.44, 0, sx * (Math.PI / 2), 71 + sx * 17);
+    // ---- The frieze: the armies march right round the building -------------
+    // Depart des armees on one face, Retour on the other - ~100 cloned figures
+    // in a continuous band under the cornice, where a blank slab used to be.
     const frieze = new THREE.Mesh(slabRect(9.14, 0.6, 4.54), stoneMat(limeLo));
-    frieze.position.y = 6.75; // sculpted frieze band
+    frieze.position.y = 6.75;
     group.add(frieze);
-    // Cornice, attic storey with its ring of shields, crowning cornice.
+    for (const sz of [-1, 1] as const)
+      for (let i = 0; i < 52; i++) {
+        const x = -4.3 + (i * 8.6) / 51;
+        group.add(figure(0.4 + rnd(i, sz + 6) * 0.05, x, 6.85, sz * 2.26, sculptDk, sz > 0 ? 0 : Math.PI));
+      }
+    for (const sx of [-1, 1] as const)
+      for (let i = 0; i < 26; i++) {
+        const z = -2.08 + (i * 4.16) / 25;
+        group.add(figure(0.4 + rnd(i, sx + 9) * 0.05, sx * 4.56, 6.85, z, sculptDk, sx * (Math.PI / 2)));
+      }
+    // ---- Cornice, attic, thirty victory shields, crowning cornice ----------
     group.add(block(9.44, 0.34, 4.84, 0, H + 0.17, 0, limeHi));
     const attic = new THREE.Mesh(slabRect(8.7, 1.75, 4.1), stoneMat(lime));
     attic.position.y = H + 0.34;
     group.add(attic);
-    for (let i = 0; i < 9; i++)
-      for (const s of [-1, 1] as const)
-        group.add(block(0.42, 0.42, 0.08, -3.5 + i * 0.875, H + 1.35, s * 2.1, limeHi));
+    const shieldDisc = new THREE.CylinderGeometry(0.3, 0.3, 0.09, 14);
+    const shieldRim = new THREE.TorusGeometry(0.3, 0.045, 6, 16);
+    /** One bouclier - a named victory - laid flat against the attic wall. */
+    const bouclier = (x: number, z: number, axis: 'x' | 'z') => {
+      const d = new THREE.Mesh(shieldDisc, stoneMat(limeHi));
+      const r = new THREE.Mesh(shieldRim, stoneMat(limeLo));
+      d.position.set(x, 8.72, z);
+      r.position.set(x, 8.72, z);
+      if (axis === 'z') {
+        d.rotation.x = Math.PI / 2; // disc axis along Z - faces the main front
+      } else {
+        d.rotation.z = Math.PI / 2; // disc axis along X - faces the flank
+        r.rotation.y = Math.PI / 2;
+      }
+      group.add(d);
+      group.add(r);
+    };
+    for (const sz of [-1, 1] as const)
+      for (let i = 0; i < 10; i++) bouclier(-3.9 + i * 0.8667, sz * 2.095, 'z');
+    for (const sx of [-1, 1] as const)
+      for (let i = 0; i < 5; i++) bouclier(sx * 4.395, -1.6 + i * 0.8, 'x');
     group.add(block(8.9, 0.22, 4.3, 0, H + 2.09 + 0.11, 0, limeHi));
+    // The viewing terrace on the roof, inside its parapet.
+    group.add(block(7.9, 0.06, 3.32, 0, 9.84, 0, limeWorn));
+    for (const s of [-1, 1] as const) {
+      group.add(block(8.3, 0.17, 0.19, 0, 9.89, s * 1.72, limeHi));
+      group.add(block(0.19, 0.17, 3.64, s * 4.14, 9.89, 0, limeHi));
+    }
   } else if (model === 'louvre') {
     // The Louvre — three long classical stone ranges (regular window bays
     // under slate mansard roofs, punctuated by taller square pavilions)

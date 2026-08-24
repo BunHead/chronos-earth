@@ -5,10 +5,10 @@
     "note": "syze/scale looks to be on the sma;; side"
   },
   "amphitheatre": {
-    "note": "This has a time line effect, yes?",
+    "note": "This has a time line effect, yes? | Answer (modeller sweep 2026-08-24): yes. The Colosseum rises through its -b30/-b60/-b90 construction stages over a 10-year build window and becomes the ruin from 1349. Verified wired in all three places: export-models BUILD_STAGES, the workshop STAGE slider, and the globe timeline gate (builtYear 80, buildYears 10). The catch is that 10 years is a blink on a timeline spanning millennia, so you only see it if you scrub to 70-80 CE.",
     "ts": 1783891391985,
     "status": "allowed",
-    "rework": true
+    "rework": false
   },
   "tower-bridge": {
     "status": "allowed",
@@ -122,7 +122,7 @@
     "status": "allowed",
     "ts": 1783891453490,
     "note": "Continue adding detail",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "giza": {
