@@ -1166,6 +1166,7 @@
     },
     {
       "id": "antietam",
+      "hasBattleView": true,
       "name": "Battle of Antietam",
       "year": 1862,
       "dateLabel": "17 September 1862",
@@ -1269,6 +1270,7 @@
     },
     {
       "id": "tsushima",
+      "hasBattleView": true,
       "name": "Battle of Tsushima",
       "year": 1905,
       "dateLabel": "27–28 May 1905",
@@ -2033,6 +2035,7 @@
     },
     {
       "id": "stamford-bridge",
+      "hasBattleView": true,
       "name": "Battle of Stamford Bridge",
       "year": 1066,
       "dateLabel": "25 September 1066",
@@ -2613,6 +2616,7 @@
     },
     {
       "id": "marne-1914",
+      "hasBattleView": true,
       "name": "First Battle of the Marne",
       "year": 1914,
       "dateLabel": "Sept 1914",

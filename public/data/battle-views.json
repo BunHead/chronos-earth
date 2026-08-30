@@ -13733,6 +13733,2161 @@
       ],
       "loser": "a",
       "severity": 1.3
+    },
+    "marne-1914": {
+      "id": "marne-1914",
+      "title": "First Battle of the Marne",
+      "subtitle": "5–12 September 1914 — the counter-attack that saved Paris",
+      "sides": {
+        "a": {
+          "name": "France & Britain (Joffre)",
+          "color": "#2e5fa3"
+        },
+        "b": {
+          "name": "German Empire (Moltke)",
+          "color": "#5d6d7e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 12,
+          "y": 40,
+          "r": 4,
+          "label": "Paris"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              24,
+              18
+            ],
+            [
+              23,
+              28
+            ],
+            [
+              24,
+              38
+            ],
+            [
+              26,
+              46
+            ]
+          ],
+          "label": "The Ourcq"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              16,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              66,
+              38
+            ],
+            [
+              74,
+              30
+            ]
+          ],
+          "label": "The Marne"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              42,
+              52
+            ],
+            [
+              50,
+              51
+            ],
+            [
+              58,
+              52
+            ]
+          ],
+          "label": "Marshes of Saint-Gond"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              18,
+              12
+            ],
+            [
+              40,
+              10
+            ],
+            [
+              62,
+              11
+            ],
+            [
+              82,
+              12
+            ]
+          ],
+          "label": "The Aisne — the line they fell back to"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The armies on the Marne (5 September)",
+          "narration": "The month-long German advance has carried von Kluck’s First and von Bülow’s Second Army across the Marne east of Paris, chasing the French Fifth Army south. Joffre halts the retreat and turns to attack; behind Paris, Gallieni assembles a new Sixth Army the Germans do not know is there. The French still fight in blue coats and red trousers, with no steel helmet."
+        },
+        {
+          "name": "The Ourcq (5–6 September)",
+          "narration": "Maunoury’s Sixth Army strikes east from Paris and collides with Gronau’s reserve corps on the Ourcq. To meet the threat to his flank, Kluck wheels his whole army north-west — a march of some 130 km in two days that pulls the First Army away from the Marne.",
+          "arrows": [
+            {
+              "from": [
+                16,
+                34
+              ],
+              "to": [
+                24,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The gap opens (7 September)",
+          "narration": "As Kluck faces about toward Paris, a gap of nearly 50 km yawns between the German First and Second Armies, screened only by cavalry. British and French aircraft spot it."
+        },
+        {
+          "name": "The taxis of the Marne (7–8 September)",
+          "narration": "With the Ourcq fighting in the balance, Gallieni sends about 6,000 troops to the front in some 600 requisitioned Paris taxicabs — militarily slight, as historians note, but the gesture becomes legend. Kluck’s counter-thrust under von Quast almost breaks through toward Paris.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                33
+              ],
+              "to": [
+                16,
+                37
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Marshes of Saint-Gond (8 September)",
+          "narration": "Further east, Hausen’s Third Army and Bülow’s left launch a night bayonet attack, without artillery preparation, against Foch’s Ninth Army in the marshes. They drive Foch back some 13 km, then stall, exhausted. Foch holds and — by tradition — signals that he will attack.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                50
+              ],
+              "to": [
+                53,
+                52
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Into the gap (8–9 September)",
+          "narration": "The BEF and Franchet d’Espèrey’s Fifth Army push north across the Petit Morin and the Marne into the undefended gap. Slowly — the British make only 40 km in three days — but the advance threatens both German armies with encirclement.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                52
+              ],
+              "to": [
+                40,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                45,
+                52
+              ],
+              "to": [
+                48,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The retreat to the Aisne (9–12 September)",
+          "narration": "Moltke’s envoy, Lieutenant-Colonel Hentsch, tours the front and authorises withdrawal. Bülow, then a reluctant Kluck, disengage. Along a 400 km front the German infantry turns about and falls back some 65 km to the Aisne, where it digs in. The war of movement in the west is over.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                38
+              ],
+              "to": [
+                48,
+                20
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "sixth-army",
+          "side": "a",
+          "label": "Sixth Army (Maunoury)",
+          "helmet": "cap",
+          "strength": 150000,
+          "pos": [
+            [
+              14,
+              36
+            ],
+            [
+              20,
+              34
+            ],
+            [
+              22,
+              33
+            ],
+            [
+              22,
+              32
+            ],
+            [
+              22,
+              32
+            ],
+            [
+              24,
+              30
+            ],
+            [
+              30,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "bef",
+          "side": "a",
+          "label": "British Expeditionary Force (French)",
+          "helmet": "cap",
+          "strength": 100000,
+          "pos": [
+            [
+              34,
+              58
+            ],
+            [
+              34,
+              56
+            ],
+            [
+              35,
+              54
+            ],
+            [
+              36,
+              52
+            ],
+            [
+              37,
+              50
+            ],
+            [
+              40,
+              44
+            ],
+            [
+              44,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "fifth-army",
+          "side": "a",
+          "label": "Fifth Army (Franchet d’Espèrey)",
+          "helmet": "cap",
+          "strength": 250000,
+          "pos": [
+            [
+              44,
+              58
+            ],
+            [
+              44,
+              56
+            ],
+            [
+              45,
+              54
+            ],
+            [
+              45,
+              52
+            ],
+            [
+              46,
+              50
+            ],
+            [
+              48,
+              44
+            ],
+            [
+              52,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "ninth-army",
+          "side": "a",
+          "label": "Ninth Army (Foch)",
+          "helmet": "cap",
+          "strength": 100000,
+          "pos": [
+            [
+              52,
+              56
+            ],
+            [
+              52,
+              55
+            ],
+            [
+              52,
+              54
+            ],
+            [
+              52,
+              54
+            ],
+            [
+              53,
+              50
+            ],
+            [
+              53,
+              49
+            ],
+            [
+              56,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "paris-taxis",
+          "side": "a",
+          "label": "The taxis of the Marne",
+          "shape": "vehicle",
+          "size": 0.5,
+          "helmet": "cap",
+          "strength": 6000,
+          "pos": [
+            [
+              12,
+              41
+            ],
+            [
+              12,
+              41
+            ],
+            [
+              12,
+              41
+            ],
+            [
+              21,
+              30
+            ],
+            [
+              21,
+              30
+            ],
+            [
+              21,
+              30
+            ],
+            [
+              21,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "first-army",
+          "side": "b",
+          "label": "First Army (von Kluck)",
+          "helmet": "pickelhaube",
+          "strength": 230000,
+          "pos": [
+            [
+              30,
+              50
+            ],
+            [
+              28,
+              40
+            ],
+            [
+              26,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              26,
+              30
+            ],
+            [
+              32,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "second-army",
+          "side": "b",
+          "label": "Second Army (von Bülow)",
+          "helmet": "pickelhaube",
+          "strength": 200000,
+          "pos": [
+            [
+              46,
+              50
+            ],
+            [
+              46,
+              49
+            ],
+            [
+              47,
+              48
+            ],
+            [
+              47,
+              48
+            ],
+            [
+              48,
+              47
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              54,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "third-army",
+          "side": "b",
+          "label": "Third Army (von Hausen)",
+          "helmet": "pickelhaube",
+          "strength": 180000,
+          "pos": [
+            [
+              58,
+              52
+            ],
+            [
+              58,
+              51
+            ],
+            [
+              58,
+              50
+            ],
+            [
+              58,
+              50
+            ],
+            [
+              54,
+              49
+            ],
+            [
+              56,
+              46
+            ],
+            [
+              62,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "gronau-reserve",
+          "side": "b",
+          "label": "IV Reserve Corps (von Gronau)",
+          "helmet": "pickelhaube",
+          "strength": 24000,
+          "pos": [
+            [
+              26,
+              44
+            ],
+            [
+              24,
+              38
+            ],
+            [
+              24,
+              36
+            ],
+            [
+              24,
+              34
+            ],
+            [
+              24,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              30,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "cavalry-screen",
+          "side": "b",
+          "label": "Cavalry screen (in the gap)",
+          "shape": "cavalry",
+          "helmet": "pickelhaube",
+          "strength": 10000,
+          "pos": [
+            [
+              40,
+              48
+            ],
+            [
+              40,
+              46
+            ],
+            [
+              37,
+              42
+            ],
+            [
+              37,
+              42
+            ],
+            [
+              38,
+              42
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              48,
+              18
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.15
+    },
+    "antietam": {
+      "id": "antietam",
+      "title": "Battle of Antietam",
+      "subtitle": "17 September 1862 — the bloodiest single day in American history",
+      "sides": {
+        "a": {
+          "name": "Union (McClellan)",
+          "color": "#305d8a"
+        },
+        "b": {
+          "name": "Confederacy (Lee)",
+          "color": "#9c8459"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              63,
+              6
+            ],
+            [
+              62,
+              22
+            ],
+            [
+              61,
+              38
+            ],
+            [
+              62,
+              52
+            ],
+            [
+              63,
+              64
+            ]
+          ],
+          "label": "Antietam Creek"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              14,
+              4
+            ],
+            [
+              13,
+              24
+            ],
+            [
+              15,
+              44
+            ],
+            [
+              16,
+              60
+            ],
+            [
+              18,
+              68
+            ]
+          ],
+          "label": "The Potomac"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              37,
+              2
+            ],
+            [
+              37,
+              16
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              39,
+              44
+            ]
+          ],
+          "label": "Hagerstown Turnpike"
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 40,
+          "r": 3,
+          "label": "Sharpsburg"
+        },
+        {
+          "type": "town",
+          "x": 37,
+          "y": 14,
+          "r": 1.5,
+          "label": "Dunker Church"
+        },
+        {
+          "type": "forest",
+          "x": 33,
+          "y": 15,
+          "r": 4,
+          "label": "West Woods"
+        },
+        {
+          "type": "forest",
+          "x": 50,
+          "y": 11,
+          "r": 3,
+          "label": "East Woods"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Dawn in the Cornfield (5:30–7:30 a.m.)",
+          "narration": "Hooker’s I Corps attacks south down the Hagerstown Turnpike, through David Miller’s cornfield, into Jackson’s line. The corn changes hands perhaps fifteen times. Hood’s counter-attack at 7 a.m. restores the Confederate position at the cost of some 60 per cent of his division; Hooker is shot through the foot.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                4
+              ],
+              "to": [
+                42,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                42,
+                12
+              ],
+              "to": [
+                44,
+                7
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The West Woods (7:30–9:30 a.m.)",
+          "narration": "Mansfield’s XII Corps feeds in through the East Woods, where Mansfield is mortally wounded. Sumner then sends Sedgwick’s division into the West Woods in three close lines; McLaws and Walker strike it from three sides and 2,200 men fall in under half an hour.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                6
+              ],
+              "to": [
+                35,
+                15
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                31,
+                20
+              ],
+              "to": [
+                35,
+                16
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                22
+              ],
+              "to": [
+                37,
+                17
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Sunken Road (9:30 a.m.–1 p.m.)",
+          "narration": "The fight shifts south to a farm lane worn into a natural trench — “Bloody Lane” — held by D.H. Hill. French’s and Richardson’s divisions attack in successive brigades; a misheard order pulls the defenders out, and enfilade fire turns the lane into a mass grave. The Confederate centre is broken, but McClellan will not release his reserve.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                24
+              ],
+              "to": [
+                44,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                26
+              ],
+              "to": [
+                43,
+                31
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Burnside’s Bridge (10 a.m.–3 p.m.)",
+          "narration": "On the southern flank Burnside’s IX Corps spends three hours forcing a narrow stone bridge over Antietam Creek held by some 400 Georgians under Toombs. The 51st New York and 51st Pennsylvania rush it around 1 p.m.; the advance then stalls again for want of ammunition brought across.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                52
+              ],
+              "to": [
+                58,
+                50
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "A.P. Hill’s counter-attack (3:30–5:30 p.m.)",
+          "narration": "Burnside’s men push to the edge of Sharpsburg. A.P. Hill’s Light Division, after a 17-mile forced march from Harpers Ferry, arrives on the Union left and shatters the green 16th Connecticut in a cornfield. Burnside falls back to the creek. Tactically the day is a draw; strategically Lee’s invasion of the North is over, and he withdraws to Virginia the next night.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                50
+              ],
+              "to": [
+                48,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                54
+              ],
+              "to": [
+                48,
+                49
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "i-corps",
+          "side": "a",
+          "label": "I Corps (Hooker)",
+          "helmet": "cap",
+          "strength": 8600,
+          "pos": [
+            [
+              44,
+              4
+            ],
+            [
+              42,
+              14
+            ],
+            [
+              43,
+              8
+            ],
+            [
+              43,
+              8
+            ],
+            [
+              43,
+              9
+            ]
+          ]
+        },
+        {
+          "id": "xii-corps",
+          "side": "a",
+          "label": "XII Corps (Mansfield)",
+          "helmet": "cap",
+          "strength": 7200,
+          "pos": [
+            [
+              50,
+              3
+            ],
+            [
+              48,
+              12
+            ],
+            [
+              46,
+              12
+            ],
+            [
+              46,
+              12
+            ],
+            [
+              46,
+              13
+            ]
+          ]
+        },
+        {
+          "id": "sedgwick",
+          "side": "a",
+          "label": "II Corps — Sedgwick’s division",
+          "helmet": "cap",
+          "strength": 5400,
+          "pos": [
+            [
+              40,
+              2
+            ],
+            [
+              35,
+              15
+            ],
+            [
+              42,
+              10
+            ],
+            [
+              42,
+              10
+            ],
+            [
+              42,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "french-richardson",
+          "side": "a",
+          "label": "II Corps — French & Richardson",
+          "helmet": "cap",
+          "strength": 9000,
+          "pos": [
+            [
+              46,
+              2
+            ],
+            [
+              48,
+              20
+            ],
+            [
+              43,
+              30
+            ],
+            [
+              43,
+              31
+            ],
+            [
+              43,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "ix-corps",
+          "side": "a",
+          "label": "IX Corps (Burnside)",
+          "helmet": "cap",
+          "strength": 12500,
+          "pos": [
+            [
+              72,
+              52
+            ],
+            [
+              72,
+              51
+            ],
+            [
+              70,
+              51
+            ],
+            [
+              57,
+              50
+            ],
+            [
+              52,
+              47
+            ]
+          ]
+        },
+        {
+          "id": "v-corps",
+          "side": "a",
+          "label": "V Corps (Porter) — held in reserve",
+          "helmet": "cap",
+          "strength": 12000,
+          "pos": [
+            [
+              74,
+              30
+            ],
+            [
+              74,
+              30
+            ],
+            [
+              73,
+              30
+            ],
+            [
+              73,
+              30
+            ],
+            [
+              73,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "jackson-left",
+          "side": "b",
+          "label": "Jackson’s wing (Lawton, Jones, Hood)",
+          "helmet": "cap",
+          "strength": 10000,
+          "pos": [
+            [
+              40,
+              14
+            ],
+            [
+              38,
+              14
+            ],
+            [
+              36,
+              17
+            ],
+            [
+              36,
+              18
+            ],
+            [
+              37,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "mclaws-walker",
+          "side": "b",
+          "label": "McLaws & Walker’s divisions",
+          "helmet": "cap",
+          "strength": 8000,
+          "pos": [
+            [
+              38,
+              34
+            ],
+            [
+              35,
+              16
+            ],
+            [
+              37,
+              20
+            ],
+            [
+              37,
+              22
+            ],
+            [
+              38,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "dh-hill",
+          "side": "b",
+          "label": "D.H. Hill (the Sunken Road)",
+          "helmet": "cap",
+          "strength": 5000,
+          "pos": [
+            [
+              44,
+              30
+            ],
+            [
+              44,
+              31
+            ],
+            [
+              43,
+              34
+            ],
+            [
+              42,
+              37
+            ],
+            [
+              41,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "dr-jones",
+          "side": "b",
+          "label": "D.R. Jones & Toombs (the bridge)",
+          "helmet": "cap",
+          "strength": 3000,
+          "pos": [
+            [
+              52,
+              50
+            ],
+            [
+              52,
+              50
+            ],
+            [
+              51,
+              50
+            ],
+            [
+              46,
+              46
+            ],
+            [
+              43,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "ap-hill",
+          "side": "b",
+          "label": "A.P. Hill’s Light Division",
+          "helmet": "cap",
+          "strength": 3000,
+          "pos": [
+            [
+              16,
+              62
+            ],
+            [
+              22,
+              60
+            ],
+            [
+              30,
+              58
+            ],
+            [
+              38,
+              54
+            ],
+            [
+              46,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "lee-guns",
+          "side": "b",
+          "label": "Confederate artillery (Sharpsburg)",
+          "helmet": "cap",
+          "strength": 2000,
+          "pos": [
+            [
+              40,
+              40
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              41,
+              40
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              43,
+              44
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "stamford-bridge": {
+      "id": "stamford-bridge",
+      "title": "Battle of Stamford Bridge",
+      "subtitle": "25 September 1066 — the last great Viking battle in England",
+      "sides": {
+        "a": {
+          "name": "Anglo-Saxons (Harold Godwinson)",
+          "color": "#d6a93a"
+        },
+        "b": {
+          "name": "Norwegians (Harald Hardrada)",
+          "color": "#6c3483"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              40,
+              4
+            ],
+            [
+              39,
+              20
+            ],
+            [
+              40,
+              36
+            ],
+            [
+              41,
+              52
+            ],
+            [
+              40,
+              66
+            ]
+          ],
+          "label": "The River Derwent"
+        },
+        {
+          "type": "ridge",
+          "x": 62,
+          "y": 36,
+          "w": 28,
+          "h": 10,
+          "label": "Battle Flat (the higher ground)"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              2,
+              38
+            ],
+            [
+              16,
+              37
+            ],
+            [
+              30,
+              36
+            ]
+          ],
+          "label": "The road from York"
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 36,
+          "r": 1.5,
+          "label": "the bridge"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 66,
+          "r": 3,
+          "label": "Riccall — the ships, 16 miles south"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The Norse on the Derwent",
+          "narration": "Five days after crushing the northern earls at Fulford, Harald Hardrada’s army waits east of the Derwent to take hostages from York. The day is hot, and much of the army has left its mail behind with the ships at Riccall, sixteen miles to the south."
+        },
+        {
+          "name": "Harold’s march",
+          "narration": "Harold Godwinson has covered the roughly 185 miles from London in four days and passes through York unseen. The English appear on the ridge to the west. The sagas tell of a parley — the earldom offered back to Tostig, and to Hardrada “seven feet of English ground” — but whether it happened is uncertain."
+        },
+        {
+          "name": "The bridge",
+          "narration": "The English overrun the small Norse party caught on the west bank and press for the crossing. By a much-loved but late-recorded tale, a single Norseman with an axe holds the narrow bridge, cutting down many, until a spear is thrust up through the planks from below.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                34
+              ],
+              "to": [
+                39,
+                35
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The shield-wall on Battle Flat",
+          "narration": "The English cross and form line against Hardrada’s shield-ring on the higher ground. In the melee Hardrada is struck in the throat by an arrow and killed; Tostig takes up the raven banner and falls in his turn.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                34
+              ],
+              "to": [
+                52,
+                35
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                30
+              ],
+              "to": [
+                54,
+                34
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Orri’s Storm",
+          "narration": "Eystein Orri reaches the field with the men from the ships, mailed but spent from the run in the heat. Their counter-charge — remembered as “Orri’s Storm” — checks the English briefly, then breaks. The Norse army is destroyed; the survivors need only twenty-four of more than three hundred ships to carry them home.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                44
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                38
+              ],
+              "to": [
+                52,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "harold-housecarls",
+          "side": "a",
+          "label": "Harold & the housecarls",
+          "size": 1.2,
+          "helmet": "conical",
+          "strength": 3000,
+          "pos": [
+            [
+              6,
+              36
+            ],
+            [
+              24,
+              36
+            ],
+            [
+              34,
+              36
+            ],
+            [
+              50,
+              36
+            ],
+            [
+              56,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "english-van",
+          "side": "a",
+          "label": "English advance guard",
+          "helmet": "conical",
+          "strength": 2000,
+          "pos": [
+            [
+              10,
+              30
+            ],
+            [
+              26,
+              32
+            ],
+            [
+              39,
+              34
+            ],
+            [
+              52,
+              32
+            ],
+            [
+              58,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "english-right",
+          "side": "a",
+          "label": "English right",
+          "helmet": "conical",
+          "strength": 3000,
+          "pos": [
+            [
+              8,
+              44
+            ],
+            [
+              24,
+              42
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              56,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "english-left",
+          "side": "a",
+          "label": "English left",
+          "helmet": "conical",
+          "strength": 3000,
+          "pos": [
+            [
+              8,
+              28
+            ],
+            [
+              24,
+              26
+            ],
+            [
+              34,
+              28
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              56,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "english-fyrd",
+          "side": "a",
+          "label": "The fyrd (levies)",
+          "helmet": "conical",
+          "strength": 2500,
+          "pos": [
+            [
+              4,
+              36
+            ],
+            [
+              18,
+              36
+            ],
+            [
+              28,
+              36
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              50,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "hardrada-guard",
+          "side": "b",
+          "label": "Hardrada & the guard",
+          "size": 1.2,
+          "helmet": "conical",
+          "strength": 2500,
+          "pos": [
+            [
+              58,
+              34
+            ],
+            [
+              56,
+              34
+            ],
+            [
+              54,
+              34
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              58,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "tostig",
+          "side": "b",
+          "label": "Tostig Godwinson’s men",
+          "helmet": "conical",
+          "strength": 2000,
+          "pos": [
+            [
+              60,
+              40
+            ],
+            [
+              58,
+              40
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              60,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "norse-westbank",
+          "side": "b",
+          "label": "The party on the west bank",
+          "helmet": "conical",
+          "strength": 1200,
+          "pos": [
+            [
+              34,
+              34
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              41,
+              35
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              56,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "bridge-holder",
+          "side": "b",
+          "label": "The bridge-holder (by legend)",
+          "size": 0.3,
+          "helmet": "conical",
+          "strength": 1,
+          "pos": [
+            [
+              38,
+              36
+            ],
+            [
+              39,
+              36
+            ],
+            [
+              40,
+              36
+            ],
+            [
+              40,
+              36
+            ],
+            [
+              40,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "norse-main",
+          "side": "b",
+          "label": "The shield-wall",
+          "helmet": "conical",
+          "strength": 3000,
+          "pos": [
+            [
+              62,
+              36
+            ],
+            [
+              62,
+              36
+            ],
+            [
+              60,
+              36
+            ],
+            [
+              54,
+              36
+            ],
+            [
+              64,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "orri-relief",
+          "side": "b",
+          "label": "Eystein Orri’s relief from the ships",
+          "helmet": "conical",
+          "strength": 2500,
+          "pos": [
+            [
+              46,
+              66
+            ],
+            [
+              46,
+              60
+            ],
+            [
+              48,
+              54
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              52,
+              42
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "tsushima": {
+      "id": "tsushima",
+      "title": "Battle of Tsushima",
+      "subtitle": "27–28 May 1905 — a fleet destroyed in the strait",
+      "sides": {
+        "a": {
+          "name": "Russia — Second Pacific Squadron (Rozhestvensky)",
+          "color": "#33628f"
+        },
+        "b": {
+          "name": "Japan — Combined Fleet (Tōgō)",
+          "color": "#b03a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70,
+          "label": "Tsushima Strait"
+        },
+        {
+          "type": "town",
+          "x": 38,
+          "y": 42,
+          "r": 4,
+          "label": "Tsushima"
+        },
+        {
+          "type": "town",
+          "x": 54,
+          "y": 10,
+          "r": 2,
+          "label": "Takeshima"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Around the world to the strait (dawn, 27 May)",
+          "narration": "After sailing some 18,000 nautical miles from the Baltic, Rozhestvensky’s squadron enters Tsushima Strait in mist, steaming north-east in line-ahead for Vladivostok. At about 04:45 the auxiliary cruiser Shinano Maru sights the lights of a Russian hospital ship and signals Tōgō by wireless."
+        },
+        {
+          "name": "Tōgō crosses the T (13:40–14:10)",
+          "narration": "The Combined Fleet closes from the north. In full view of the Russian guns Tōgō turns his whole line in succession — the “Tōgō turn” — a risky manoeuvre that plants his battle line across the head of the Russian column, every Japanese broadside bearing while only the leading Russian ships can reply.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                30
+              ],
+              "to": [
+                48,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                45,
+                42
+              ],
+              "to": [
+                47,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The line is broken (14:10–15:00)",
+          "narration": "Superior Japanese gunnery and high-explosive shell tell at once. Oslyabya, hit repeatedly, capsizes and sinks — the first modern armoured warship lost to gunfire alone. The flagship Knyaz Suvorov, ablaze and out of control, falls out of line; Rozhestvensky is wounded and carried below.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                34
+              ],
+              "to": [
+                45,
+                38
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                36
+              ],
+              "to": [
+                46,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The stern chase (15:00–19:00)",
+          "narration": "The faster Japanese hold their station off the Russian bow, turning with every Russian attempt to break north or east. Borodino blows up under a hit from Fuji; Imperator Aleksandr III capsizes. By dusk four new battleships are gone and Japanese damage is slight. Nebogatov inherits the remnant.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                30
+              ],
+              "to": [
+                44,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The night of the torpedo boats (20:00–23:00)",
+          "narration": "Tōgō withdraws his heavy ships north and looses the destroyer and torpedo-boat flotillas — some sixty craft — against the scattered Russians from every bearing. Navarin is mined and torpedoed and lost with all but a handful of her crew; Sisoy Veliky, Nakhimov and Vladimir Monomakh are crippled and scuttled at dawn.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                26
+              ],
+              "to": [
+                44,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                26
+              ],
+              "to": [
+                45,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Nebogatov surrenders (28 May, 10:34)",
+          "narration": "At first light the Japanese battle line surrounds Nebogatov’s four survivors south of Takeshima. Outranged and unable to close or to run, he hoists the signal for surrender. Of the whole Russian fleet, two ships reach Vladivostok. The Treaty of Portsmouth follows in September."
+        }
+      ],
+      "units": [
+        {
+          "id": "first-div",
+          "side": "a",
+          "label": "1st Division (Suvorov, Borodino, Aleksandr III, Oryol)",
+          "shape": "ship",
+          "size": 1.2,
+          "strength": 3400,
+          "pos": [
+            [
+              44,
+              60
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              45,
+              37
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              44,
+              24
+            ],
+            [
+              46,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "second-div",
+          "side": "a",
+          "label": "2nd Division (Oslyabya, Sisoy, Navarin, Nakhimov)",
+          "shape": "ship",
+          "strength": 3000,
+          "pos": [
+            [
+              46,
+              66
+            ],
+            [
+              47,
+              50
+            ],
+            [
+              46,
+              42
+            ],
+            [
+              45,
+              34
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              45,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "nebogatov-div",
+          "side": "a",
+          "label": "3rd Division (Nebogatov)",
+          "shape": "ship",
+          "strength": 2800,
+          "pos": [
+            [
+              47,
+              69
+            ],
+            [
+              48,
+              55
+            ],
+            [
+              48,
+              47
+            ],
+            [
+              47,
+              38
+            ],
+            [
+              46,
+              32
+            ],
+            [
+              50,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "russian-cruisers",
+          "side": "a",
+          "label": "Cruiser division",
+          "shape": "ship",
+          "strength": 2600,
+          "pos": [
+            [
+              40,
+              64
+            ],
+            [
+              38,
+              52
+            ],
+            [
+              36,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              32,
+              42
+            ],
+            [
+              34,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "russian-destroyers",
+          "side": "a",
+          "label": "Destroyers & transports",
+          "shape": "ship",
+          "size": 0.7,
+          "strength": 1800,
+          "pos": [
+            [
+              42,
+              68
+            ],
+            [
+              40,
+              58
+            ],
+            [
+              38,
+              52
+            ],
+            [
+              36,
+              48
+            ],
+            [
+              34,
+              46
+            ],
+            [
+              30,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "togo-main",
+          "side": "b",
+          "label": "Tōgō’s battle line (Mikasa)",
+          "shape": "ship",
+          "size": 1.2,
+          "strength": 4000,
+          "pos": [
+            [
+              22,
+              18
+            ],
+            [
+              46,
+              34
+            ],
+            [
+              48,
+              32
+            ],
+            [
+              46,
+              28
+            ],
+            [
+              46,
+              20
+            ],
+            [
+              48,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "kamimura",
+          "side": "b",
+          "label": "Kamimura’s armoured cruisers",
+          "shape": "ship",
+          "strength": 3500,
+          "pos": [
+            [
+              26,
+              14
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              44,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "japanese-cruisers",
+          "side": "b",
+          "label": "Protected-cruiser divisions",
+          "shape": "ship",
+          "strength": 2500,
+          "pos": [
+            [
+              30,
+              24
+            ],
+            [
+              34,
+              42
+            ],
+            [
+              36,
+              46
+            ],
+            [
+              34,
+              46
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "torpedo-craft",
+          "side": "b",
+          "label": "Destroyer & torpedo-boat flotillas",
+          "shape": "ship",
+          "size": 0.6,
+          "strength": 2500,
+          "pos": [
+            [
+              16,
+              26
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              24,
+              26
+            ],
+            [
+              30,
+              24
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              40,
+              20
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.35
     }
   }
 }
