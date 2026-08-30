@@ -143,3 +143,40 @@ export function globeTextureSize(tier: RenderTier = renderTier()): { w: number; 
 export function mayWorkAhead(tier: RenderTier = renderTier()): boolean {
   return tier !== 'software';
 }
+
+/**
+ * How often the globe's HEAVY per-tick work may run while time is moving, in
+ * milliseconds — marker reassignment, border cross-fades, drift epochs.
+ *
+ * This was a flat 100 ms for every machine, which is ten full globe rebuilds a
+ * second on a box that is drawing every pixel with its CPU. The Captain's
+ * parents' laptops were the evidence: the globe sits at a comfortable 60 fps
+ * until you touch the timeline, and then falls to single figures. Rendering was
+ * never the problem — the work we ask for while time moves is.
+ *
+ * A software renderer gets a third of the rebuilds. Nothing is skipped: the
+ * throttle is trailing-edge, so the final position always lands.
+ */
+export function heavyThrottleMs(tier: RenderTier = renderTier()): number {
+  if (tier === 'software') return 300;
+  if (tier === 'modest') return 160;
+  return 100;
+}
+
+/**
+ * The shortest gap between playhead updates during playback, in milliseconds.
+ *
+ * The play loop runs on requestAnimationFrame, so it calls setYearsBP sixty
+ * times a second — and every one of those re-renders the whole React tree for
+ * a readout that has moved by a pixel. On a capable machine that is free. On a
+ * CPU renderer it competes with drawing the globe.
+ *
+ * 0 means "every frame", which stays the default where there are cycles to
+ * spare. 50 ms is 20 fps of PLAYHEAD movement, which still reads as smooth
+ * motion because the eye is watching the globe, not the tick marks.
+ */
+export function playFrameMs(tier: RenderTier = renderTier()): number {
+  if (tier === 'software') return 50;
+  if (tier === 'modest') return 25;
+  return 0;
+}

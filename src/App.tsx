@@ -31,7 +31,7 @@ import BattleMapFrame from './components/BattleMapFrame';
 import BattleMapSvg from './components/BattleMapSvg';
 import { clampDensity, inferLoser } from './lib/battleMath';
 import { casualtyScale } from './lib/synthBattle';
-import { renderTier } from './lib/renderTier';
+import { renderTier, heavyThrottleMs, playFrameMs } from './lib/renderTier';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
@@ -91,7 +91,13 @@ export default function App() {
   // The globe's heavy per-tick work (markers, borders, drift) follows a
   // throttled timeline value — ~10×/second instead of the play loop's 60 — so
   // playback stays smooth. The playhead + readout still use the raw `yearsBP`.
-  const heavyYearsBP = useThrottledValue(yearsBP, 100);
+  // How hard the globe is allowed to work while time is moving depends on the
+  // machine — a flat 100 ms meant ten full rebuilds a second on a laptop
+  // drawing every pixel with its CPU. See lib/renderTier.ts: the globe idles at
+  // 60 fps on such a machine and collapses only once the timeline moves, so the
+  // fix belongs here rather than in the renderer.
+  const heavyMs = useRef(heavyThrottleMs()).current;
+  const heavyYearsBP = useThrottledValue(yearsBP, heavyMs);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   // Timeline zoom level (index into ZOOM_SPANS). Default = full range (classic
@@ -544,9 +550,34 @@ export default function App() {
     loadFauna()
       .then(setFauna)
       .catch((err) => console.error('Could not load fauna:', err));
-    loadBattleViews()
-      .then(setBattleViews)
-      .catch((err) => console.error('Could not load battle views:', err));
+    // BATTLE CHOREOGRAPHY IS NOT A COLD-START COST. battle-views.json is 290 KB
+    // and rising — the choreographer routine added 2,635 lines in a single week
+    // — and its only consumer is visitBattle(), which cannot run until someone
+    // has found a battle and clicked it. Fetching it in the boot race made every
+    // visitor pay for a file most never open, on a connection and a CPU that
+    // were already busy drawing the globe.
+    //
+    // Deferred to idle, so it is almost certainly resident long before anyone
+    // reaches a battle. If someone is quicker than that, visitBattle already
+    // falls back to a synthesised view — the same thing that happens today
+    // whenever the fetch is simply slow, so this adds no new failure.
+    // Called ON window, not as a bare reference: a detached Web API function
+    // invoked with an undefined `this` throws "Illegal invocation" in Chrome,
+    // and the throw here is silent — the fetch simply never happens and every
+    // battle quietly falls back to synthesised choreography. Caught by
+    // measuring, which is the only way it ever would have been.
+    const w = window as unknown as {
+      requestIdleCallback?: (c: () => void, o?: { timeout: number }) => void;
+    };
+    const idle = (cb: () => void) =>
+      typeof w.requestIdleCallback === 'function'
+        ? w.requestIdleCallback(cb, { timeout: 4000 })
+        : window.setTimeout(cb, 1200);
+    idle(() => {
+      loadBattleViews()
+        .then(setBattleViews)
+        .catch((err) => console.error('Could not load battle views:', err));
+    });
     loadTours()
       .then(setTours)
       .catch((err) => console.error('Could not load tours:', err));
@@ -802,8 +833,18 @@ export default function App() {
     let raf = 0;
     let last = performance.now();
     const zoomedIn = zoomIdx < ZOOM_SPANS.length - 1;
+    // On a weak machine, don't re-render the whole tree sixty times a second
+    // for a readout that has moved by a pixel. 0 on a capable machine, so the
+    // path most visitors take is byte-for-byte what it always was.
+    const minStep = playFrameMs();
+    let lastPaint = 0;
 
     const tick = (now: number) => {
+      if (minStep > 0 && now - lastPaint < minStep) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastPaint = now;
       const dt = (now - last) / 1000;
       last = now;
 

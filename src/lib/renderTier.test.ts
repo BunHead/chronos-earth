@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { classifyRenderer, globeTextureSize, mayWorkAhead } from './renderTier';
+import { classifyRenderer, globeTextureSize, mayWorkAhead, heavyThrottleMs, playFrameMs } from './renderTier';
 
 describe('classifyRenderer — real driver strings', () => {
   it('spots a CPU rasteriser however it announces itself', () => {
@@ -50,5 +50,30 @@ describe('tier consequences', () => {
     expect(mayWorkAhead('software')).toBe(false);
     expect(mayWorkAhead('modest')).toBe(true);
     expect(mayWorkAhead('capable')).toBe(true);
+  });
+});
+
+describe('performance budgets scale with the machine', () => {
+  it('gives a CPU renderer a third of the globe rebuilds', () => {
+    expect(heavyThrottleMs('software')).toBe(300);
+    expect(heavyThrottleMs('modest')).toBe(160);
+    expect(heavyThrottleMs('capable')).toBe(100);
+  });
+
+  it('never lets a weaker machine do MORE work than a stronger one', () => {
+    expect(heavyThrottleMs('software')).toBeGreaterThan(heavyThrottleMs('modest'));
+    expect(heavyThrottleMs('modest')).toBeGreaterThan(heavyThrottleMs('capable'));
+    expect(playFrameMs('software')).toBeGreaterThan(playFrameMs('modest'));
+    expect(playFrameMs('modest')).toBeGreaterThan(playFrameMs('capable'));
+  });
+
+  it('leaves a capable machine entirely alone — every frame, as before', () => {
+    expect(playFrameMs('capable')).toBe(0);
+    expect(heavyThrottleMs('capable')).toBe(100);
+  });
+
+  it('keeps the playhead well above the flicker threshold', () => {
+    // 50 ms is 20 fps: slower than the display, still unambiguously motion.
+    expect(playFrameMs('software')).toBeLessThanOrEqual(50);
   });
 });

@@ -696,6 +696,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       viewer.resolutionScale = 0.75;
       viewer.scene.globe.maximumScreenSpaceError = 4; // default 2 — a quarter of the tiles
       viewer.scene.globe.showGroundAtmosphere = false;
+      // The star field is Cesium's Tycho catalogue skybox: six JPEGs, about
+      // 700 KB, downloaded on every cold start and re-drawn behind the globe
+      // every frame. It is pure decoration, and on a CPU renderer it is
+      // decoration paid for in the frames the visitor actually wants. Plain
+      // black space behind the Earth reads perfectly well.
+      if (viewer.scene.skyBox) viewer.scene.skyBox.show = false;
+      if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = false;
     }
 
     viewer.scene.globe.enableLighting = false;

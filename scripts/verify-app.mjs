@@ -87,6 +87,23 @@ const browser = await puppeteer.launch({
 try {
   const page = await browser.newPage();
   await page.setViewport({ width: W, height: H, deviceScaleFactor: 1 });
+
+  // --cpu <n> throttles the processor n-fold, and --net slow-3g the connection.
+  // This is how you test the Captain’s parents’ laptop without driving to
+  // their house: a modern dev machine will run almost anything, which is
+  // exactly why "works for me" is worthless as a performance claim.
+  const cpu = +val("--cpu", 1);
+  const slowNet = has("--net");
+  if (cpu > 1 || slowNet) {
+    const cdp = await page.createCDPSession();
+    if (cpu > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: cpu });
+    if (slowNet)
+      await cdp.send("Network.emulateNetworkConditions", {
+        offline: false, latency: 300,
+        downloadThroughput: (1.6 * 1024 * 1024) / 8, uploadThroughput: (750 * 1024) / 8,
+      });
+    console.log(`throttled: cpu x${cpu}${slowNet ? ", slow 3G" : ""}`);
+  }
   page.on('pageerror', (e) => console.error('  [page error]', e.message));
   page.on('console', (m) => { if (m.type() === 'error') console.error('  [console]', m.text()); });
 

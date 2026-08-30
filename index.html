@@ -53,7 +53,11 @@
       })();
     </script>
     <link rel="preload" as="fetch" href="./data/battles.json" crossorigin />
-    <link rel="preload" as="fetch" href="./data/battle-views.json" crossorigin />
+    <!-- battle-views.json is NOT preloaded. It is 290 KB and rising — the
+         choreographer routine added 2,635 lines to it in one week — and it is
+         needed only when a visitor opens a battle, which most never do. It was
+         costing every cold start on every machine for a file the majority never
+         read. It still loads, just when it is wanted. -->
     <link rel="preload" as="fetch" href="./data/ancient-sites.json" crossorigin />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <title>Chronos Earth</title>
