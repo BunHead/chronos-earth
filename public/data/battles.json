@@ -3487,6 +3487,244 @@
           "wiki": "Dương Văn Minh"
         }
       ]
+    },
+    {
+      "id": "pusan-perimeter",
+      "name": "The Pusan Perimeter",
+      "year": 1950,
+      "dateLabel": "4 August – 18 September 1950",
+      "lat": 35.18,
+      "lon": 129.08,
+      "belligerents": {
+        "side1": "United Nations Command and South Korea",
+        "side2": "North Korea"
+      },
+      "victor": "The line held",
+      "outcome": "Six weeks defending the last south-eastern corner of the peninsula, until Inchon cut the attackers off from behind.",
+      "significance": "The invasion came within a hundred miles of taking the whole country. Everything after Korea in the Cold War was shaped by the fact that it did not.",
+      "casualties": "Tens of thousands on both sides; North Korean losses the heavier",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Pusan Perimeter",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Pusan_Perimeter"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Walton Walker",
+          "side": 1,
+          "wiki": "Walton Walker"
+        },
+        {
+          "name": "Kim Chaek",
+          "side": 2,
+          "wiki": "Kim Chaek"
+        }
+      ]
+    },
+    {
+      "id": "chosin-reservoir",
+      "name": "The Chosin Reservoir",
+      "year": 1950,
+      "dateLabel": "27 November – 13 December 1950",
+      "lat": 40.47,
+      "lon": 127.25,
+      "belligerents": {
+        "side1": "United Nations Command",
+        "side2": "China (People’s Volunteer Army)"
+      },
+      "victor": "Chinese strategic victory; the encircled force broke out",
+      "outcome": "Surrounded by ten divisions at thirty degrees below freezing, the Marines fought seventy-eight miles to the sea and took their wounded and their dead with them.",
+      "significance": "China had entered the war, and the hope of a quick reunification died in the snow. The front settled near where it had started, and is still there.",
+      "casualties": "About 17,800 UN casualties, many from frostbite; Chinese losses far higher",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Chosin Reservoir",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Chosin_Reservoir"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oliver P. Smith",
+          "side": 1,
+          "wiki": "Oliver P. Smith"
+        },
+        {
+          "name": "Song Shilun",
+          "side": 2,
+          "wiki": "Song Shilun"
+        }
+      ]
+    },
+    {
+      "id": "suez-1956",
+      "name": "The Suez Crisis",
+      "year": 1956,
+      "dateLabel": "29 October – 7 November 1956",
+      "lat": 31.26,
+      "lon": 32.3,
+      "belligerents": {
+        "side1": "United Kingdom, France and Israel",
+        "side2": "Egypt"
+      },
+      "victor": "Military success, political defeat",
+      "outcome": "The canal zone was taken and then given straight back under American and Soviet pressure, with the pound under threat.",
+      "significance": "The moment Britain discovered it could no longer act as a great power without Washington’s consent. Eden resigned; the empire’s unwinding accelerated.",
+      "casualties": "Around 3,000 Egyptian and some 200 allied dead",
+      "links": [
+        {
+          "label": "Wikipedia: Suez Crisis",
+          "url": "https://en.wikipedia.org/wiki/Suez_Crisis"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles Keightley",
+          "side": 1,
+          "wiki": "Charles Keightley"
+        },
+        {
+          "name": "Gamal Abdel Nasser",
+          "side": 2,
+          "wiki": "Gamal Abdel Nasser"
+        }
+      ]
+    },
+    {
+      "id": "six-day-war",
+      "name": "The Six-Day War",
+      "year": 1967,
+      "dateLabel": "5–10 June 1967",
+      "lat": 31.78,
+      "lon": 35.22,
+      "belligerents": {
+        "side1": "Israel",
+        "side2": "Egypt, Jordan and Syria"
+      },
+      "victor": "Israeli victory",
+      "outcome": "The Egyptian air force destroyed on the ground in three hours; Sinai, Gaza, the West Bank, East Jerusalem and the Golan taken in under a week.",
+      "significance": "Redrew the map of the Middle East and created the occupations that define its politics still. Six days, and the argument has run for six decades.",
+      "casualties": "Around 800 Israeli dead; Arab losses estimated near 20,000",
+      "links": [
+        {
+          "label": "Wikipedia: Six-Day War",
+          "url": "https://en.wikipedia.org/wiki/Six-Day_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Moshe Dayan",
+          "side": 1,
+          "wiki": "Moshe Dayan"
+        },
+        {
+          "name": "Abdel Hakim Amer",
+          "side": 2,
+          "wiki": "Abdel Hakim Amer"
+        }
+      ]
+    },
+    {
+      "id": "yom-kippur-war",
+      "name": "The Yom Kippur War",
+      "year": 1973,
+      "dateLabel": "6–25 October 1973",
+      "lat": 30.58,
+      "lon": 32.35,
+      "belligerents": {
+        "side1": "Egypt and Syria",
+        "side2": "Israel"
+      },
+      "victor": "Israeli recovery after early Arab gains",
+      "outcome": "A surprise crossing of the Suez Canal on the holiest day of the Jewish year, and a counter-attack that ended with Israeli armour on the Cairo road.",
+      "significance": "Broke the invincibility won in 1967 on both sides — enough of a shock to Israel, and enough of a restored standing to Egypt, to make Camp David possible six years later. It also triggered the oil embargo that reordered the world economy.",
+      "casualties": "Around 2,700 Israeli dead; Arab losses perhaps 15,000",
+      "links": [
+        {
+          "label": "Wikipedia: Yom Kippur War",
+          "url": "https://en.wikipedia.org/wiki/Yom_Kippur_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Saad el-Shazly",
+          "side": 1,
+          "wiki": "Saad el-Shazly"
+        },
+        {
+          "name": "David Elazar",
+          "side": 2,
+          "wiki": "David Elazar"
+        }
+      ]
+    },
+    {
+      "id": "falklands-1982",
+      "name": "The Falklands War",
+      "year": 1982,
+      "dateLabel": "2 April – 14 June 1982",
+      "lat": -51.69,
+      "lon": -57.86,
+      "belligerents": {
+        "side1": "United Kingdom",
+        "side2": "Argentina"
+      },
+      "victor": "British victory",
+      "outcome": "A task force sailed eight thousand miles, landed at San Carlos, walked across the island and took Stanley in ten weeks.",
+      "significance": "The last war fought by a European power alone and at that distance. It ended the Argentine junta within days, and remade British politics for a decade.",
+      "casualties": "255 British and 649 Argentine dead",
+      "links": [
+        {
+          "label": "Wikipedia: Falklands War",
+          "url": "https://en.wikipedia.org/wiki/Falklands_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Jeremy Moore",
+          "side": 1,
+          "wiki": "Jeremy Moore"
+        },
+        {
+          "name": "Mario Menéndez",
+          "side": 2,
+          "wiki": "Mario Benjamín Menéndez"
+        }
+      ]
+    },
+    {
+      "id": "desert-storm",
+      "name": "Operation Desert Storm",
+      "year": 1991,
+      "dateLabel": "17 January – 28 February 1991",
+      "lat": 29.37,
+      "lon": 47.98,
+      "belligerents": {
+        "side1": "Coalition of thirty-five nations",
+        "side2": "Iraq"
+      },
+      "victor": "Coalition victory",
+      "outcome": "Five weeks of air attack, then a hundred hours of ground war that cleared Kuwait and stopped short of Baghdad.",
+      "significance": "The first war the world watched live, and the demonstration of precision air power that every military since has been built around — or against.",
+      "casualties": "Around 300 coalition dead; Iraqi military losses estimated in the tens of thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Gulf War",
+          "url": "https://en.wikipedia.org/wiki/Gulf_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Norman Schwarzkopf Jr.",
+          "side": 1,
+          "wiki": "Norman Schwarzkopf Jr."
+        },
+        {
+          "name": "Saddam Hussein",
+          "side": 2,
+          "wiki": "Saddam Hussein"
+        }
+      ]
     }
   ]
 }
