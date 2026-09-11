@@ -3317,6 +3317,176 @@
           "wiki": "William B. Travis"
         }
       ]
+    },
+    {
+      "id": "ia-drang",
+      "name": "Battle of Ia Drang",
+      "year": 1965,
+      "dateLabel": "14–18 November 1965",
+      "lat": 13.58,
+      "lon": 107.72,
+      "belligerents": {
+        "side1": "United States",
+        "side2": "North Vietnam (PAVN)"
+      },
+      "victor": "Both sides claimed victory",
+      "outcome": "Two savage engagements days apart — a held landing zone at X-Ray, then an ambushed column at Albany.",
+      "significance": "The first full battle between American regulars and the North Vietnamese Army, and the first fought from helicopters. Each side came away believing it could beat the other, which is why the war ran another decade.",
+      "casualties": "About 234 Americans killed; North Vietnamese losses far higher and never reliably counted",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ia Drang",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ia_Drang"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hal Moore",
+          "side": 1,
+          "wiki": "Hal Moore"
+        },
+        {
+          "name": "Nguyễn Hữu An",
+          "side": 2,
+          "wiki": "Nguyễn Hữu An"
+        }
+      ]
+    },
+    {
+      "id": "tet-offensive",
+      "name": "The Tet Offensive",
+      "year": 1968,
+      "dateLabel": "30 January – March 1968",
+      "lat": 10.78,
+      "lon": 106.7,
+      "belligerents": {
+        "side1": "North Vietnam and the Viet Cong",
+        "side2": "South Vietnam, United States and allies"
+      },
+      "victor": "Allied military victory; a political defeat for the United States",
+      "outcome": "Simultaneous attacks on more than a hundred towns during the lunar new year truce. All were retaken; the Viet Cong was destroyed as a fighting force.",
+      "significance": "The battle that was won and lost at the same time. American commanders had said the end was in sight; a country watching the embassy in Saigon under fire stopped believing them. Public support never recovered.",
+      "casualties": "Perhaps 45,000 communist dead; around 4,000 American and 5,000 South Vietnamese",
+      "links": [
+        {
+          "label": "Wikipedia: Tet Offensive",
+          "url": "https://en.wikipedia.org/wiki/Tet_Offensive"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Võ Nguyên Giáp",
+          "side": 1,
+          "wiki": "Võ Nguyên Giáp"
+        },
+        {
+          "name": "William Westmoreland",
+          "side": 2,
+          "wiki": "William Westmoreland"
+        }
+      ]
+    },
+    {
+      "id": "khe-sanh",
+      "name": "Siege of Khe Sanh",
+      "year": 1968,
+      "dateLabel": "21 January – 9 July 1968",
+      "lat": 16.65,
+      "lon": 106.73,
+      "belligerents": {
+        "side1": "United States and South Vietnam",
+        "side2": "North Vietnam (PAVN)"
+      },
+      "victor": "The base held",
+      "outcome": "Seventy-seven days of siege, broken by the heaviest tactical air support of the war. The base was abandoned five months later anyway.",
+      "significance": "Westmoreland was certain this was to be another Dien Bien Phu and fought it accordingly. Historians still argue whether it was the real objective or a feint to draw forces away from the cities before Tet.",
+      "casualties": "Around 700 Americans killed; North Vietnamese losses estimated in the thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Khe Sanh",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Khe_Sanh"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "David E. Lownds",
+          "side": 1,
+          "wiki": "David E. Lownds"
+        },
+        {
+          "name": "Trần Quý Hai",
+          "side": 2,
+          "wiki": "Trần Quý Hai"
+        }
+      ]
+    },
+    {
+      "id": "hue-1968",
+      "name": "Battle of Huế",
+      "year": 1968,
+      "dateLabel": "31 January – 2 March 1968",
+      "lat": 16.46,
+      "lon": 107.58,
+      "belligerents": {
+        "side1": "South Vietnam and the United States",
+        "side2": "North Vietnam and the Viet Cong"
+      },
+      "victor": "Allied victory",
+      "outcome": "A month of house-to-house fighting retook the old imperial capital. Most of the walled citadel was destroyed.",
+      "significance": "The bloodiest urban battle of the war, and the site of the Huế massacre — thousands of civilians and officials executed during the occupation, their graves found afterwards.",
+      "casualties": "Around 600 allied dead; some 5,000 communist; and an estimated 2,800 civilians murdered",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Huế",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Huế"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ngô Quang Trưởng",
+          "side": 1,
+          "wiki": "Ngô Quang Trưởng"
+        },
+        {
+          "name": "Trần Văn Quang",
+          "side": 2,
+          "wiki": "Trần Văn Quang"
+        }
+      ]
+    },
+    {
+      "id": "fall-of-saigon",
+      "name": "The Fall of Saigon",
+      "year": 1975,
+      "dateLabel": "30 April 1975",
+      "lat": 10.78,
+      "lon": 106.7,
+      "belligerents": {
+        "side1": "North Vietnam (PAVN)",
+        "side2": "South Vietnam"
+      },
+      "victor": "North Vietnamese victory",
+      "outcome": "Tanks through the palace gates, and the last helicopters off the embassy roof. South Vietnam surrendered unconditionally.",
+      "significance": "The end of thirty years of war in Vietnam, and of American involvement in it. The country was reunified the following year.",
+      "casualties": "Light by the standards of the war; the city largely fell without a siege",
+      "links": [
+        {
+          "label": "Wikipedia: Fall of Saigon",
+          "url": "https://en.wikipedia.org/wiki/Fall_of_Saigon"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Văn Tiến Dũng",
+          "side": 1,
+          "wiki": "Văn Tiến Dũng"
+        },
+        {
+          "name": "Dương Văn Minh",
+          "side": 2,
+          "wiki": "Dương Văn Minh"
+        }
+      ]
     }
   ]
 }
