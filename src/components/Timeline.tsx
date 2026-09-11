@@ -84,6 +84,45 @@ const CAT_COLOR: Record<string, string> = {
 };
 const FAUNA_COLOR = '#9ad36b';
 
+/**
+ * Where each era's name sits on the log minimap, and how much room it may use.
+ *
+ * The old layout centred every label on its band's midpoint with
+ * `white-space: nowrap` and nothing else, and guarded only on the BAND's width
+ * (`right - left < 0.04`). But the guard measured the band while the TEXT ran
+ * to whatever width it liked, so a long name in a narrow band simply spilled
+ * over its neighbour: measured in the live DOM at 11px of overlap between
+ * CRETACEOUS and PALEOGENE, and 12px between MEDIEVAL and EARLY MODERN.
+ *
+ * Clipping each label to its own band fixes the overlap but is too harsh — it
+ * truncates STONE AGE, whose band is narrow but whose neighbours are far away
+ * and leave plenty of empty rail either side.
+ *
+ * So each label gets a box CENTRED on its own era and half as wide as the
+ * distance to the nearer neighbouring label's midpoint. Because every box is
+ * symmetric about its centre and stops short of the midpoint between two
+ * centres, no two boxes can ever intersect — while each still claims all the
+ * space actually going spare. Anything that still will not fit ellipsises, and
+ * `title` keeps the full name a hover away.
+ *
+ * ERAS and the log scale are both constants, so this is computed ONCE at module
+ * load rather than on every timeline render.
+ */
+export const ERA_LABEL_BOXES: Array<{ name: string; left: number; width: number }> = (() => {
+  const shown = ERAS.map((e) => {
+    const left = yearsBPToPos(e.startBP);
+    const right = yearsBPToPos(e.endBP);
+    return { name: e.name, centre: (left + right) / 2, span: right - left };
+  }).filter((d) => d.span >= 0.04); // too thin to label at all
+
+  return shown.map((d, i) => {
+    const prevBound = i === 0 ? 0 : (shown[i - 1].centre + d.centre) / 2;
+    const nextBound = i === shown.length - 1 ? 1 : (d.centre + shown[i + 1].centre) / 2;
+    const halfWidth = Math.min(d.centre - prevBound, nextBound - d.centre);
+    return { name: d.name, left: d.centre - halfWidth, width: halfWidth * 2 };
+  });
+})();
+
 /** A datable thing that can sit on the mural — built from an event or a creature. */
 interface MuralSource {
   id: string;
@@ -817,17 +856,16 @@ export default function Timeline({
           <div className="rail" style={{ background: muralGradient }} />
           <MuralBackdrop />
 
-          {ERAS.map((e) => {
-            const left = yearsBPToPos(e.startBP);
-            const right = yearsBPToPos(e.endBP);
-            const center = (left + right) / 2;
-            if (right - left < 0.04) return null;
-            return (
-              <div key={e.name} className="era-label" style={{ left: `${center * 100}%` }} title={e.name}>
-                {e.name}
-              </div>
-            );
-          })}
+          {ERA_LABEL_BOXES.map((b) => (
+            <div
+              key={b.name}
+              className="era-label"
+              style={{ left: `${b.left * 100}%`, width: `${b.width * 100}%` }}
+              title={b.name}
+            >
+              {b.name}
+            </div>
+          ))}
 
           {enabledEventCats.has('battle') &&
             battles.map((battle) => {

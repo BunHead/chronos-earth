@@ -31,3 +31,11 @@ hg-out/
 
 # One-off re-export scratch scripts (use ONLY= filter on export-models.mjs instead)
 _exp.tmp.*
+
+# The Captain's own working assets — the demo recording and screen grabs.
+# Kept out of the repo so the roadmap sweep, which refuses to run on a dirty
+# tree, is not blocked by files that are not source.
+Chronos Earth.gif
+*.png
+!public/**/*.png
+!dist/**/*.png

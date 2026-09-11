@@ -115,7 +115,11 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'tower-of-london': { title: 'Tower of London', lat: 51.5081, lon: -0.0759 },
   shard: { title: 'The Shard', lat: 51.5045, lon: -0.0865 },
   gherkin: { title: '30 St Mary Axe (the Gherkin)', lat: 51.5145, lon: -0.0803 },
-  'opera-house': { title: 'Sydney Opera House', lat: 33.8568, lon: 151.2153 },
+  // SOUTHERN hemisphere — the sign matters. This latitude feeds sunDirection()
+  // and the SkyDial, so a positive 33.86 lit Bennelong Point with a northern
+  // sun (tracking the wrong side of the sky, seasons inverted). globeModels.ts
+  // always had it right at -33.8568; this table was the odd one out.
+  'opera-house': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
   settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
   megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },

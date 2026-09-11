@@ -1681,7 +1681,14 @@ textarea:focus-visible,
   height: 34px;
   display: grid;
   place-items: center;
-  transform: translate(-50%, -50%);
+  /* Positioned by its band's LEFT edge with the band's own width (both set
+     inline by Timeline.tsx), so the text centres inside the era it names and is
+     clipped — with an ellipsis — rather than spilling over the next era's
+     label. Only the vertical half-shift remains in the transform. */
+  transform: translateY(-50%);
+  box-sizing: border-box;
+  padding: 0 3px;
+  text-align: center;
   border: 1px solid #9af1ff;
   border-radius: 50%;
   background: rgba(10, 18, 28, 0.92);

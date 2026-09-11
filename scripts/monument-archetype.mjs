@@ -126,6 +126,10 @@ const KEYWORD_RULES = [
   { rule: 'Buckingham Palace keyword', model: 'buckingham', re: /buckingham/ },
   { rule: 'Palace of Westminster / Big Ben keyword', model: 'westminster', re: /palace of westminster|houses of parliament|big ben|elizabeth tower/ },
   { rule: 'Tower Bridge keyword', model: 'tower-bridge', re: /tower bridge/ },
+  // Macau's 'Ruins of St. Paul's' is a lone Jesuit baroque facade, not Wren's
+  // domed cathedral -- no model in the fleet resembles it, so it gets none.
+  // MUST stay ahead of the st-pauls rule below. Mirrors src/lib/panel.ts.
+  { rule: 'Ruins of St Paul, Macau -- a bare facade, no honest model', model: null, re: /ruins? of st\.? paul/ },
   { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },

@@ -101,6 +101,12 @@ export function monumentModelForName(name: string): string | null {
   // "Tower of London" gets the keep, not swept up as a generic "tower"). Placed
   // so "Tower Bridge" can't collide with "Tower of London" or "London Bridge".
   if (/tower bridge/.test(n)) return 'tower-bridge';
+  // Macau's "Ruins of St. Paul's" (1602, 22.20°N 113.54°E) is the surviving
+  // stone FAÇADE of a Jesuit church — a single wall with a stair. Wren's domed
+  // cathedral misrepresents it completely, and nothing in the fleet resembles
+  // it, so it gets no 3D at all: prefer none to a wrong one. Matched on the
+  // name rather than added to NO_3D_NAMES so the apostrophe can't defeat it.
+  if (/ruins? of st\.? paul/.test(n)) return null;
   if (/st\.? paul/.test(n)) return 'st-pauls';
   if (/tower of london|white tower/.test(n)) return 'tower-of-london';
   if (/the shard|shard london/.test(n)) return 'shard';
