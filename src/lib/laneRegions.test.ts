@@ -20,6 +20,54 @@ describe('laneRegionFor — timeline lanes name their patch of Earth', () => {
   it('open ocean falls into the catch-all lane', () => {
     expect(laneRegionFor(0, -140)).toBe(ELSEWHERE); // mid-Pacific
   });
+
+  // These six lanes were all being quietly stolen by a neighbour whose box was
+  // tested first. The symptom was a battle count of ZERO for Africa: Adwa and
+  // Omdurman existed in the data and were being filed under the Middle East.
+  it('Africa keeps the Horn and the Sudan, which the Middle East used to take', () => {
+    expect(laneRegionFor(14.19, 38.91)).toBe('Africa'); // Adwa, Ethiopia
+    expect(laneRegionFor(15.72, 32.47)).toBe('Africa'); // Omdurman, Sudan
+    expect(laneRegionFor(2.04, 45.34)).toBe('Africa'); // Mogadishu
+    // …but Arabia is still the Middle East, on the far side of the Red Sea.
+    expect(laneRegionFor(21.43, 39.83)).toBe('Middle East'); // Mecca
+    expect(laneRegionFor(15.35, 44.21)).toBe('Middle East'); // Sanaa
+  });
+
+  it('Carthage is African, and Sicily is still Italian', () => {
+    expect(laneRegionFor(36.85, 10.32)).toBe('North Africa'); // Carthage
+    expect(laneRegionFor(37.07, 15.29)).toBe('Italy'); // Syracuse
+    expect(laneRegionFor(37.8, 12.44)).toBe('Italy'); // Marsala, western Sicily
+  });
+
+  it('Oceania reaches New Guinea, and Indonesia stays in Southeast Asia', () => {
+    expect(laneRegionFor(-4.33, 152.38)).toBe('Oceania'); // Bita Paka, New Britain
+    expect(laneRegionFor(-8.88, 147.74)).toBe('Oceania'); // Kokoda
+    expect(laneRegionFor(-9.43, 160.0)).toBe('Oceania'); // Guadalcanal
+    expect(laneRegionFor(-31.95, 115.86)).toBe('Oceania'); // Perth
+    expect(laneRegionFor(-36.85, 174.76)).toBe('Oceania'); // Auckland
+    expect(laneRegionFor(-6.2, 106.85)).toBe('Southeast Asia'); // Jakarta
+  });
+
+  it('the central Pacific has a lane, but Hawaii stays with North America', () => {
+    expect(laneRegionFor(28.2, -177.4)).toBe('Pacific Islands'); // Midway
+    expect(laneRegionFor(13.44, 144.79)).toBe('Pacific Islands'); // Guam
+    expect(laneRegionFor(21.36, -157.95)).toBe('North America'); // Pearl Harbor
+  });
+
+  it('East Asia beats the steppe, and Indochina beats East Asia', () => {
+    expect(laneRegionFor(40.5, 127.3)).toBe('East Asia'); // Chosin Reservoir
+    expect(laneRegionFor(40.43, 115.5)).toBe('East Asia'); // Badger Mouth
+    expect(laneRegionFor(21.03, 105.85)).toBe('Southeast Asia'); // Hanoi
+    expect(laneRegionFor(22.32, 114.17)).toBe('East Asia'); // Hong Kong, not Indochina
+    // The steppe proper is untouched.
+    expect(laneRegionFor(47.89, 106.91)).toBe('Russia & Steppe'); // Ulaanbaatar
+    expect(laneRegionFor(53.5, 108.0)).toBe('Russia & Steppe'); // Lake Baikal
+  });
+
+  it('Transoxiana is Central Asia, not the catch-all', () => {
+    expect(laneRegionFor(39.65, 66.96)).toBe('Central Asia'); // Samarkand
+    expect(laneRegionFor(35.69, 51.39)).toBe('Middle East'); // Tehran, not Central Asia
+  });
 });
 
 describe('greatCircleKm', () => {

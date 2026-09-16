@@ -2,6 +2,41 @@
   "_comment": "Chronos Earth — curated battles dataset. See public/data/README.md for the schema. 'year' is a signed calendar year (negative = BCE). Casualty figures are rough historical estimates and vary by source. Add a battle by copying an entry. 'commanders' lists each side's leaders: side is 1 or 2 (matching belligerents), wiki is the English Wikipedia article title (used for the portrait + link; run scripts/fetch-portraits.mjs after adding). Set 'hasBattleView': true only if you also add phase data in battle-views.json.",
   "battles": [
     {
+      "id": "megiddo-1457bce",
+      "name": "Battle of Megiddo",
+      "year": -1457,
+      "dateLabel": "c. 1457 BCE",
+      "lat": 32.585,
+      "lon": 35.183,
+      "belligerents": {
+        "side1": "New Kingdom Egypt (Thutmose III)",
+        "side2": "Canaanite coalition"
+      },
+      "victor": "Egyptian victory",
+      "outcome": "Canaanite coalition besieged and defeated at Megiddo.",
+      "significance": "The earliest battle recorded with reliable detail, and the origin of the name 'Armageddon' (Har Megiddo).",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Megiddo (15th c. BC)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Megiddo_(15th_century_BC)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Thutmose III",
+          "side": 1,
+          "wiki": "Thutmose III"
+        },
+        {
+          "name": "King of Kadesh",
+          "side": 2,
+          "wiki": "Battle of Megiddo (15th century BC)",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
       "id": "kadesh",
       "name": "Battle of Kadesh",
       "year": -1274,
@@ -72,6 +107,40 @@
       ]
     },
     {
+      "id": "salamis",
+      "name": "Battle of Salamis",
+      "year": -480,
+      "dateLabel": "480 BCE",
+      "lat": 37.96,
+      "lon": 23.57,
+      "belligerents": {
+        "side1": "Greek allied navy (Themistocles)",
+        "side2": "Persian navy (Xerxes I)"
+      },
+      "victor": "Greek victory",
+      "outcome": "Persian fleet crushed in the straits.",
+      "significance": "A decisive naval victory that broke Persia's invasion of Greece and shifted the balance of the Greco-Persian Wars.",
+      "casualties": "~40 Greek ships; ~200+ Persian ships",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Salamis",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Salamis"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Themistocles",
+          "side": 1,
+          "wiki": "Themistocles"
+        },
+        {
+          "name": "Xerxes I",
+          "side": 2,
+          "wiki": "Xerxes I"
+        }
+      ]
+    },
+    {
       "id": "thermopylae",
       "name": "Battle of Thermopylae",
       "year": -480,
@@ -107,36 +176,70 @@
       "hasBattleView": true
     },
     {
-      "id": "salamis",
-      "name": "Battle of Salamis",
-      "year": -480,
-      "dateLabel": "480 BCE",
-      "lat": 37.96,
-      "lon": 23.57,
+      "id": "plataea",
+      "name": "Battle of Plataea",
+      "year": -479,
+      "dateLabel": "479 BCE",
+      "lat": 38.22,
+      "lon": 23.27,
       "belligerents": {
-        "side1": "Greek allied navy (Themistocles)",
-        "side2": "Persian navy (Xerxes I)"
+        "side1": "Greek alliance",
+        "side2": "Achaemenid Persia"
       },
       "victor": "Greek victory",
-      "outcome": "Persian fleet crushed in the straits.",
-      "significance": "A decisive naval victory that broke Persia's invasion of Greece and shifted the balance of the Greco-Persian Wars.",
-      "casualties": "~40 Greek ships; ~200+ Persian ships",
+      "outcome": "The Persian land army in Greece was destroyed.",
+      "significance": "The decisive land battle that ended the Persian invasion of Greece for good.",
+      "casualties": "Thousands Greek; tens of thousands Persian",
       "links": [
         {
-          "label": "Wikipedia: Battle of Salamis",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Salamis"
+          "label": "Wikipedia: Battle of Plataea",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Plataea"
         }
       ],
       "commanders": [
         {
-          "name": "Themistocles",
+          "name": "Pausanias",
           "side": 1,
-          "wiki": "Themistocles"
+          "wiki": "Pausanias (general)"
         },
         {
-          "name": "Xerxes I",
+          "name": "Mardonius",
           "side": 2,
-          "wiki": "Xerxes I"
+          "wiki": "Mardonius"
+        }
+      ]
+    },
+    {
+      "id": "issus",
+      "name": "Battle of Issus",
+      "year": -333,
+      "dateLabel": "333 BCE",
+      "lat": 36.85,
+      "lon": 36.18,
+      "belligerents": {
+        "side1": "Macedon (Alexander the Great)",
+        "side2": "Achaemenid Persia (Darius III)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Darius fled the field, abandoning his family.",
+      "significance": "Alexander's first direct victory over Darius, opening the Levant and Egypt to conquest.",
+      "casualties": "~7,000 Macedonian; heavy Persian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Issus",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Issus"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Darius III",
+          "side": 2,
+          "wiki": "Darius III"
         }
       ]
     },
@@ -172,6 +275,40 @@
           "name": "Darius III",
           "side": 2,
           "wiki": "Darius III"
+        }
+      ]
+    },
+    {
+      "id": "hydaspes",
+      "name": "Battle of the Hydaspes",
+      "year": -326,
+      "dateLabel": "326 BCE",
+      "lat": 32.5,
+      "lon": 73.6,
+      "belligerents": {
+        "side1": "Macedon (Alexander)",
+        "side2": "Paurava kingdom (Porus)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Porus defeated despite war elephants; Alexander's eastward limit.",
+      "significance": "Alexander's last great battle, at the edge of the known world, against war elephants in India.",
+      "casualties": "~1,000 Macedonian; ~12,000 Indian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Hydaspes",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Hydaspes"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Porus",
+          "side": 2,
+          "wiki": "Porus"
         }
       ]
     },
@@ -249,6 +386,108 @@
         }
       ],
       "hasBattleView": true
+    },
+    {
+      "id": "carthage-146bce",
+      "name": "Siege of Carthage",
+      "year": -146,
+      "dateLabel": "149 – 146 BCE",
+      "lat": 36.8528,
+      "lon": 10.3233,
+      "belligerents": {
+        "side1": "Roman Republic",
+        "side2": "Carthage"
+      },
+      "victor": "Roman victory",
+      "outcome": "The walls were breached and the city taken street by street over six days. Carthage was burned and its survivors sold into slavery.",
+      "significance": "The end of Carthage as a state, and of any rival to Rome in the western Mediterranean. Rome would face no serious competitor there for three hundred years. The story that the Romans sowed the ground with salt is a nineteenth-century invention.",
+      "casualties": "Perhaps 150,000 Carthaginians dead; some 50,000 survivors enslaved",
+      "links": [
+        {
+          "label": "Wikipedia: Third Punic War",
+          "url": "https://en.wikipedia.org/wiki/Third_Punic_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Scipio Aemilianus",
+          "side": 1,
+          "wiki": "Scipio Aemilianus"
+        },
+        {
+          "name": "Hasdrubal the Boetharch",
+          "side": 2,
+          "wiki": "Hasdrubal the Boetharch"
+        }
+      ]
+    },
+    {
+      "id": "carrhae",
+      "name": "Battle of Carrhae",
+      "year": -53,
+      "dateLabel": "53 BCE",
+      "lat": 36.86,
+      "lon": 39.03,
+      "belligerents": {
+        "side1": "Parthian Empire",
+        "side2": "Roman Republic (Crassus)"
+      },
+      "victor": "Parthian victory",
+      "outcome": "A Roman army destroyed by horse archers; Crassus killed.",
+      "significance": "One of Rome's worst defeats, exposing the limits of the legion against mobile cavalry.",
+      "casualties": "~20,000 Roman dead, ~10,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Carrhae",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Carrhae"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Surena",
+          "side": 1,
+          "wiki": "Surena"
+        },
+        {
+          "name": "Marcus Licinius Crassus",
+          "side": 2,
+          "wiki": "Marcus Licinius Crassus"
+        }
+      ]
+    },
+    {
+      "id": "alesia",
+      "name": "Siege of Alesia",
+      "year": -52,
+      "dateLabel": "52 BCE",
+      "lat": 47.54,
+      "lon": 4.5,
+      "belligerents": {
+        "side1": "Roman Republic (Julius Caesar)",
+        "side2": "Gallic confederation (Vercingetorix)"
+      },
+      "victor": "Roman victory",
+      "outcome": "Vercingetorix surrendered; Gaul was subdued.",
+      "significance": "Caesar's double-siege masterpiece completed the Roman conquest of Gaul.",
+      "casualties": "Heavy Gallic losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Alesia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Alesia"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Julius Caesar",
+          "side": 1,
+          "wiki": "Julius Caesar"
+        },
+        {
+          "name": "Vercingetorix",
+          "side": 2,
+          "wiki": "Vercingetorix"
+        }
+      ]
     },
     {
       "id": "pharsalus",
@@ -405,6 +644,113 @@
       ]
     },
     {
+      "id": "milvian-bridge",
+      "name": "Battle of the Milvian Bridge",
+      "year": 312,
+      "dateLabel": "312 CE",
+      "lat": 41.935,
+      "lon": 12.467,
+      "belligerents": {
+        "side1": "Constantine I",
+        "side2": "Maxentius"
+      },
+      "victor": "Constantine's victory",
+      "outcome": "Maxentius drowned in the Tiber; Constantine took Rome.",
+      "significance": "Led Constantine to embrace Christianity, changing the religious course of the Roman Empire and Europe.",
+      "casualties": "Thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Milvian Bridge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Milvian_Bridge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Constantine I",
+          "side": 1,
+          "wiki": "Constantine the Great"
+        },
+        {
+          "name": "Maxentius",
+          "side": 2,
+          "wiki": "Maxentius"
+        }
+      ]
+    },
+    {
+      "id": "adrianople-378",
+      "name": "Battle of Adrianople",
+      "year": 378,
+      "dateLabel": "378 CE",
+      "lat": 41.68,
+      "lon": 26.56,
+      "belligerents": {
+        "side1": "Goths",
+        "side2": "Eastern Roman Empire (Valens)"
+      },
+      "victor": "Gothic victory",
+      "outcome": "Emperor Valens killed and his army destroyed.",
+      "significance": "A catastrophic Roman defeat often seen as a milestone in the decline of the Western Roman Empire.",
+      "casualties": "~20,000 Roman dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Adrianople",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Adrianople"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Fritigern",
+          "side": 1,
+          "wiki": "Fritigern"
+        },
+        {
+          "name": "Valens",
+          "side": 2,
+          "wiki": "Valens"
+        }
+      ]
+    },
+    {
+      "id": "chalons",
+      "name": "Battle of the Catalaunian Plains",
+      "year": 451,
+      "dateLabel": "451 CE",
+      "lat": 48.95,
+      "lon": 4.36,
+      "belligerents": {
+        "side1": "Roman–Visigoth alliance (Aetius)",
+        "side2": "Huns (Attila)"
+      },
+      "victor": "Roman alliance victory",
+      "outcome": "Attila's westward advance was checked.",
+      "significance": "Halted Attila the Hun's invasion of Gaul, one of the last great victories of the Western Roman Empire.",
+      "casualties": "Very heavy on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Catalaunian Plains",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Catalaunian_Plains"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Flavius Aetius",
+          "side": 1,
+          "wiki": "Flavius Aetius"
+        },
+        {
+          "name": "Theodoric I",
+          "side": 1,
+          "wiki": "Theodoric I"
+        },
+        {
+          "name": "Attila",
+          "side": 2,
+          "wiki": "Attila"
+        }
+      ]
+    },
+    {
       "id": "yarmouk",
       "name": "Battle of the Yarmouk",
       "year": 636,
@@ -511,6 +857,41 @@
       "timeOfDay": "day"
     },
     {
+      "id": "stamford-bridge",
+      "hasBattleView": true,
+      "name": "Battle of Stamford Bridge",
+      "year": 1066,
+      "dateLabel": "25 September 1066",
+      "lat": 53.99,
+      "lon": -0.91,
+      "belligerents": {
+        "side1": "England (Harold Godwinson)",
+        "side2": "Norway (Harald Hardrada)"
+      },
+      "victor": "English victory",
+      "outcome": "The Norwegian invasion was crushed; Hardrada killed.",
+      "significance": "Ended the Viking Age in England — days before Harold marched south to meet William at Hastings.",
+      "casualties": "Heavy Norwegian losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Stamford Bridge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Stamford_Bridge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Harold Godwinson",
+          "side": 1,
+          "wiki": "Harold Godwinson"
+        },
+        {
+          "name": "Harald Hardrada",
+          "side": 2,
+          "wiki": "Harald Hardrada"
+        }
+      ]
+    },
+    {
       "id": "manzikert",
       "name": "Battle of Manzikert",
       "year": 1071,
@@ -575,6 +956,352 @@
           "name": "Guy of Lusignan",
           "side": 2,
           "wiki": "Guy of Lusignan"
+        }
+      ]
+    },
+    {
+      "id": "badger-mouth",
+      "name": "Battle of Yehuling (Badger Mouth)",
+      "year": 1211,
+      "dateLabel": "1211 CE",
+      "lat": 40.4,
+      "lon": 115.5,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Jin dynasty"
+      },
+      "victor": "Mongol victory",
+      "outcome": "The Jin field army was destroyed; northern China lay open.",
+      "significance": "Genghis Khan’s first great victory outside the steppe, and the beginning of the Mongol conquest of China.",
+      "casualties": "Jin losses in the hundreds of thousands, by Chinese accounts",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Yehuling",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Yehuling"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Genghis Khan",
+          "side": 1,
+          "wiki": "Genghis Khan"
+        },
+        {
+          "name": "Wanyan Chengyu",
+          "side": 2,
+          "wiki": "Wanyan Chengyu"
+        }
+      ]
+    },
+    {
+      "id": "samarkand-1220",
+      "name": "Siege of Samarkand",
+      "year": 1220,
+      "dateLabel": "1220 CE",
+      "lat": 39.65,
+      "lon": 66.96,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Khwarazmian Empire"
+      },
+      "victor": "Mongol victory",
+      "outcome": "Samarkand fell in days; the Khwarazmian Empire collapsed within two years.",
+      "significance": "The campaign that carried the Mongols into Persia and the Middle East, begun as revenge for murdered envoys.",
+      "casualties": "The garrison massacred; craftsmen deported east",
+      "links": [
+        {
+          "label": "Wikipedia: Siege of Samarkand (1220)",
+          "url": "https://en.wikipedia.org/wiki/Siege_of_Samarkand_(1220)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Genghis Khan",
+          "side": 1,
+          "wiki": "Genghis Khan"
+        },
+        {
+          "name": "Ala ad-Din Muhammad II",
+          "side": 2,
+          "wiki": "Muhammad II of Khwarazm"
+        }
+      ]
+    },
+    {
+      "id": "kalka-river",
+      "name": "Battle of the Kalka River",
+      "year": 1223,
+      "dateLabel": "31 May 1223",
+      "lat": 47.2,
+      "lon": 37.5,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Rus’ principalities and Cumans"
+      },
+      "victor": "Mongol victory",
+      "outcome": "A combined Rus’ army destroyed; the Mongols then withdrew east for fourteen years.",
+      "significance": "Europe’s first meeting with the Mongols — a reconnaissance in force that was not understood as a warning.",
+      "casualties": "Around nine tenths of the Rus’ army; six princes killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Kalka River",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Kalka_River"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Subutai",
+          "side": 1,
+          "wiki": "Subutai"
+        },
+        {
+          "name": "Mstislav the Bold",
+          "side": 2,
+          "wiki": "Mstislav Mstislavich"
+        }
+      ]
+    },
+    {
+      "id": "kirina",
+      "name": "Battle of Kirina",
+      "year": 1235,
+      "dateLabel": "c. 1235",
+      "lat": 12.7,
+      "lon": -8.05,
+      "belligerents": {
+        "side1": "Mali under Sundiata Keita",
+        "side2": "Sosso Empire under Sumanguru Kanté"
+      },
+      "victor": "Malian victory",
+      "outcome": "The Sosso army was broken and Sumanguru disappeared from the record. Sundiata was proclaimed mansa, and the Mali Empire was founded.",
+      "significance": "The founding battle of the Mali Empire, whose gold would later mint much of Europe's coinage. It survives chiefly through the oral Epic of Sundiata, so the date is approximate and the battlefield's location traditional rather than proven.",
+      "casualties": "Unrecorded",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Kirina",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Kirina"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Sundiata Keita",
+          "side": 1,
+          "wiki": "Sundiata Keita"
+        },
+        {
+          "name": "Sumanguru Kanté",
+          "side": 2,
+          "wiki": "Soumaoro Kanté"
+        }
+      ]
+    },
+    {
+      "id": "legnica",
+      "name": "Battle of Legnica",
+      "year": 1241,
+      "dateLabel": "9 April 1241",
+      "lat": 51.15,
+      "lon": 16.19,
+      "belligerents": {
+        "side1": "Mongol Empire",
+        "side2": "Poland, Moravia and the military orders"
+      },
+      "victor": "Mongol victory",
+      "outcome": "The Polish army destroyed two days before Mohi; central Europe lay open.",
+      "significance": "The western edge of the conquest. The Mongols turned back the next year on the death of the Great Khan, not through defeat.",
+      "casualties": "Most of the Polish force; Duke Henry II killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Legnica",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Legnica"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Baidar",
+          "side": 1,
+          "wiki": "Baidar"
+        },
+        {
+          "name": "Henry II the Pious",
+          "side": 2,
+          "wiki": "Henry II the Pious"
+        }
+      ]
+    },
+    {
+      "id": "ain-jalut",
+      "name": "Battle of Ain Jalut",
+      "year": 1260,
+      "dateLabel": "3 September 1260",
+      "lat": 32.55,
+      "lon": 35.35,
+      "belligerents": {
+        "side1": "Mamluk Sultanate",
+        "side2": "Mongol Ilkhanate"
+      },
+      "victor": "Mamluk victory",
+      "outcome": "The first strategic defeat the Mongols could not reverse; the advance west stopped here for good.",
+      "significance": "The limit of the empire Genghis began — and the reason Egypt and North Africa were never taken.",
+      "casualties": "The Mongol force largely destroyed; Kitbuqa executed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ain Jalut",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ain_Jalut"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Baibars",
+          "side": 1,
+          "wiki": "Baibars"
+        },
+        {
+          "name": "Kitbuqa",
+          "side": 2,
+          "wiki": "Kitbuqa"
+        }
+      ]
+    },
+    {
+      "id": "yamen",
+      "name": "Battle of Yamen",
+      "year": 1279,
+      "dateLabel": "19 March 1279",
+      "lat": 22.17,
+      "lon": 113,
+      "belligerents": {
+        "side1": "Yuan dynasty (Mongol)",
+        "side2": "Song dynasty"
+      },
+      "victor": "Yuan victory",
+      "outcome": "The Song fleet destroyed; the child emperor drowned. China united under Mongol rule.",
+      "significance": "The conquest Genghis began in 1211 completed by his grandson Kublai, sixty-eight years later.",
+      "casualties": "Reportedly over 100,000 Song dead, many by drowning",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Yamen",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Yamen"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Zhang Hongfan",
+          "side": 1,
+          "wiki": "Zhang Hongfan"
+        },
+        {
+          "name": "Lu Xiufu",
+          "side": 2,
+          "wiki": "Lu Xiufu"
+        }
+      ]
+    },
+    {
+      "id": "bannockburn",
+      "name": "Battle of Bannockburn",
+      "year": 1314,
+      "dateLabel": "1314 CE",
+      "lat": 56.09,
+      "lon": -3.93,
+      "belligerents": {
+        "side1": "Scotland (Robert the Bruce)",
+        "side2": "England (Edward II)"
+      },
+      "victor": "Scottish victory",
+      "outcome": "A larger English army routed.",
+      "significance": "Secured Scottish independence for a generation and became a national symbol.",
+      "casualties": "Heavy English losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bannockburn",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bannockburn"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Robert the Bruce",
+          "side": 1,
+          "wiki": "Robert the Bruce"
+        },
+        {
+          "name": "Edward II",
+          "side": 2,
+          "wiki": "Edward II of England"
+        }
+      ]
+    },
+    {
+      "id": "crecy",
+      "name": "Battle of Crécy",
+      "year": 1346,
+      "dateLabel": "26 August 1346",
+      "lat": 50.25,
+      "lon": 1.9,
+      "belligerents": {
+        "side1": "England (Edward III)",
+        "side2": "France (Philip VI)"
+      },
+      "victor": "English victory",
+      "outcome": "French cavalry shattered by English longbows.",
+      "significance": "An early, decisive English victory of the Hundred Years' War that announced the dominance of the longbow.",
+      "casualties": "~300 English; ~12,000 French",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Crécy",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Edward III",
+          "side": 1,
+          "wiki": "Edward III of England"
+        },
+        {
+          "name": "Philip VI",
+          "side": 2,
+          "wiki": "Philip VI of France"
+        }
+      ],
+      "hasBattleView": true
+    },
+    {
+      "id": "grunwald",
+      "name": "Battle of Grunwald (Tannenberg)",
+      "year": 1410,
+      "dateLabel": "15 July 1410",
+      "lat": 53.49,
+      "lon": 20.12,
+      "belligerents": {
+        "side1": "Poland–Lithuania",
+        "side2": "Teutonic Knights"
+      },
+      "victor": "Polish–Lithuanian victory",
+      "outcome": "The Teutonic Order's army destroyed.",
+      "significance": "One of the largest battles of medieval Europe; it broke the power of the Teutonic Knights.",
+      "casualties": "~8,000 Teutonic dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Grunwald",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Grunwald"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Władysław II Jagiełło",
+          "side": 1,
+          "wiki": "Władysław II Jagiełło"
+        },
+        {
+          "name": "Vytautas",
+          "side": 1,
+          "wiki": "Vytautas the Great"
+        },
+        {
+          "name": "Ulrich von Jungingen",
+          "side": 2,
+          "wiki": "Ulrich von Jungingen"
         }
       ]
     },
@@ -682,6 +1409,176 @@
       ]
     },
     {
+      "id": "noche-triste",
+      "name": "La Noche Triste",
+      "year": 1520,
+      "dateLabel": "30 June 1520",
+      "lat": 19.44,
+      "lon": -99.15,
+      "belligerents": {
+        "side1": "Aztec Empire (Mexica)",
+        "side2": "Spain and Tlaxcalan allies"
+      },
+      "victor": "Mexica victory",
+      "outcome": "Cortés driven out of Tenochtitlan overnight with heavy losses.",
+      "significance": "The night the conquest nearly failed. The Spanish returned a year later with smallpox ahead of them.",
+      "casualties": "Perhaps two thirds of the Spanish force and most of their allies",
+      "links": [
+        {
+          "label": "Wikipedia: La Noche Triste",
+          "url": "https://en.wikipedia.org/wiki/La_Noche_Triste"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Cuitláhuac",
+          "side": 1,
+          "wiki": "Cuitláhuac"
+        },
+        {
+          "name": "Hernán Cortés",
+          "side": 2,
+          "wiki": "Hernán Cortés"
+        }
+      ]
+    },
+    {
+      "id": "tenochtitlan",
+      "name": "Fall of Tenochtitlan",
+      "year": 1521,
+      "dateLabel": "1521 CE",
+      "lat": 19.435,
+      "lon": -99.14,
+      "belligerents": {
+        "side1": "Spanish & Tlaxcalan allies (Cortés)",
+        "side2": "Aztec Empire (Cuauhtémoc)"
+      },
+      "victor": "Spanish–Tlaxcalan victory",
+      "outcome": "The Aztec capital fell after a brutal siege.",
+      "significance": "Ended the Aztec Empire and began Spanish rule in Mexico — a turning point of the Columbian era.",
+      "casualties": "Tens of thousands (mostly Aztec, incl. disease)",
+      "links": [
+        {
+          "label": "Wikipedia: Fall of Tenochtitlan",
+          "url": "https://en.wikipedia.org/wiki/Fall_of_Tenochtitlan"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hernán Cortés",
+          "side": 1,
+          "wiki": "Hernán Cortés"
+        },
+        {
+          "name": "Cuauhtémoc",
+          "side": 2,
+          "wiki": "Cuauhtémoc"
+        }
+      ]
+    },
+    {
+      "id": "mohacs",
+      "name": "Battle of Mohács",
+      "year": 1526,
+      "dateLabel": "29 August 1526",
+      "lat": 45.98,
+      "lon": 18.65,
+      "belligerents": {
+        "side1": "Ottoman Empire (Suleiman)",
+        "side2": "Kingdom of Hungary"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "The Hungarian king and army destroyed.",
+      "significance": "Opened central Europe to Ottoman expansion and ended independent medieval Hungary.",
+      "casualties": "~14,000+ Hungarian dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Mohács",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Moh%C3%A1cs"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Suleiman the Magnificent",
+          "side": 1,
+          "wiki": "Suleiman the Magnificent"
+        },
+        {
+          "name": "Louis II of Hungary",
+          "side": 2,
+          "wiki": "Louis II of Hungary"
+        }
+      ]
+    },
+    {
+      "id": "panipat-1526",
+      "name": "First Battle of Panipat",
+      "year": 1526,
+      "dateLabel": "1526 CE",
+      "lat": 29.39,
+      "lon": 76.97,
+      "belligerents": {
+        "side1": "Mughals (Babur)",
+        "side2": "Delhi Sultanate (Ibrahim Lodi)"
+      },
+      "victor": "Mughal victory",
+      "outcome": "Lodi killed; Babur took Delhi.",
+      "significance": "Founded the Mughal Empire in India, partly through early use of gunpowder artillery.",
+      "casualties": "~15,000+ Lodi dead",
+      "links": [
+        {
+          "label": "Wikipedia: First Battle of Panipat",
+          "url": "https://en.wikipedia.org/wiki/First_Battle_of_Panipat"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Babur",
+          "side": 1,
+          "wiki": "Babur"
+        },
+        {
+          "name": "Ibrahim Lodi",
+          "side": 2,
+          "wiki": "Ibrahim Lodi"
+        }
+      ]
+    },
+    {
+      "id": "cajamarca",
+      "name": "Battle of Cajamarca",
+      "year": 1532,
+      "dateLabel": "16 November 1532",
+      "lat": -7.16,
+      "lon": -78.51,
+      "belligerents": {
+        "side1": "Spain",
+        "side2": "Inca Empire"
+      },
+      "victor": "Spanish victory",
+      "outcome": "Atahualpa seized in the square by fewer than 200 men; the Inca state decapitated in an afternoon.",
+      "significance": "An empire of millions taken by ambush — smallpox and a war of succession had come first.",
+      "casualties": "Thousands of Inca killed; almost no Spanish losses",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Cajamarca",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cajamarca"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Francisco Pizarro",
+          "side": 1,
+          "wiki": "Francisco Pizarro"
+        },
+        {
+          "name": "Atahualpa",
+          "side": 2,
+          "wiki": "Atahualpa"
+        }
+      ]
+    },
+    {
       "id": "lepanto",
       "name": "Battle of Lepanto",
       "year": 1571,
@@ -712,6 +1609,157 @@
           "name": "Müezzinzade Ali Pasha",
           "side": 2,
           "wiki": "Müezzinzade Ali Pasha"
+        }
+      ]
+    },
+    {
+      "id": "alcacer-quibir",
+      "name": "Battle of Alcácer Quibir",
+      "year": 1578,
+      "dateLabel": "4 August 1578",
+      "lat": 34.97,
+      "lon": -5.85,
+      "belligerents": {
+        "side1": "Saadi Morocco",
+        "side2": "Portugal and the deposed claimant Abu Abdallah"
+      },
+      "victor": "Moroccan victory",
+      "outcome": "The Portuguese army was surrounded and destroyed in an afternoon. King Sebastian was killed, the claimant drowned in the river, and the victorious sultan died of illness during the battle itself.",
+      "significance": "Three kings died in a single day, which is why it is also called the Battle of the Three Kings. Portugal lost its king, its nobility and its army, and within two years its independence to Spain. Morocco stayed free of European rule for another three centuries.",
+      "casualties": "Around 8,000 Portuguese dead and 15,000 taken prisoner",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Alcácer Quibir",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Alc%C3%A1cer_Quibir"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Abd al-Malik I",
+          "side": 1,
+          "wiki": "Abu Marwan Abd al-Malik I Saadi"
+        },
+        {
+          "name": "Sebastian of Portugal",
+          "side": 2,
+          "wiki": "Sebastian, King of Portugal"
+        }
+      ]
+    },
+    {
+      "id": "spanish-armada",
+      "name": "Defeat of the Spanish Armada",
+      "year": 1588,
+      "dateLabel": "1588 CE",
+      "lat": 50.7,
+      "lon": -0.8,
+      "belligerents": {
+        "side1": "England",
+        "side2": "Spain"
+      },
+      "victor": "English victory",
+      "outcome": "The Armada scattered and wrecked on the voyage home.",
+      "significance": "A pivotal moment that checked Spanish power and bolstered England as a naval nation.",
+      "casualties": "~15,000 Spanish (mostly storms/disease)",
+      "links": [
+        {
+          "label": "Wikipedia: Spanish Armada",
+          "url": "https://en.wikipedia.org/wiki/Spanish_Armada"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles Howard",
+          "side": 1,
+          "wiki": "Charles Howard, 1st Earl of Nottingham"
+        },
+        {
+          "name": "Francis Drake",
+          "side": 1,
+          "wiki": "Francis Drake"
+        },
+        {
+          "name": "Duke of Medina Sidonia",
+          "side": 2,
+          "wiki": "Alonso Pérez de Guzmán, 7th Duke of Medina Sidonia"
+        }
+      ]
+    },
+    {
+      "id": "tondibi",
+      "name": "Battle of Tondibi",
+      "year": 1591,
+      "dateLabel": "13 March 1591",
+      "lat": 16.6,
+      "lon": -0.1,
+      "belligerents": {
+        "side1": "Saadi Morocco",
+        "side2": "Songhai Empire"
+      },
+      "victor": "Moroccan victory",
+      "outcome": "A few thousand Moroccans with arquebuses and cannon broke a Songhai army many times their size. Gao fell within days, Timbuktu within weeks.",
+      "significance": "Gunpowder ended the age of the great West African empires. Timbuktu's scholars were arrested and deported, its libraries scattered, and the Niger trade never took its old shape again.",
+      "casualties": "Thousands of Songhai dead; Moroccan losses light",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tondibi",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tondibi"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Judar Pasha",
+          "side": 1,
+          "wiki": "Judar Pasha"
+        },
+        {
+          "name": "Askia Ishaq II",
+          "side": 2,
+          "wiki": "Askia Ishaq II"
+        }
+      ]
+    },
+    {
+      "id": "naseby",
+      "name": "Battle of Naseby",
+      "year": 1645,
+      "dateLabel": "14 June 1645",
+      "lat": 52.4,
+      "lon": -0.99,
+      "belligerents": {
+        "side1": "Parliament (New Model Army)",
+        "side2": "Royalists (Charles I)"
+      },
+      "victor": "Parliamentary victory",
+      "outcome": "The main Royalist army destroyed.",
+      "significance": "The decisive battle of the English Civil War, sealing the defeat of Charles I.",
+      "casualties": "~1,000 dead; thousands captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Naseby",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Naseby"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Thomas Fairfax",
+          "side": 1,
+          "wiki": "Thomas Fairfax, 3rd Lord Fairfax of Cameron"
+        },
+        {
+          "name": "Oliver Cromwell",
+          "side": 1,
+          "wiki": "Oliver Cromwell"
+        },
+        {
+          "name": "Charles I",
+          "side": 2,
+          "wiki": "Charles I of England"
+        },
+        {
+          "name": "Prince Rupert",
+          "side": 2,
+          "wiki": "Prince Rupert of the Rhine"
         }
       ]
     },
@@ -823,6 +1871,40 @@
       ]
     },
     {
+      "id": "culloden",
+      "name": "Battle of Culloden",
+      "year": 1746,
+      "dateLabel": "16 April 1746",
+      "lat": 57.48,
+      "lon": -4.1,
+      "belligerents": {
+        "side1": "British government",
+        "side2": "Jacobites (Charles Edward Stuart)"
+      },
+      "victor": "Government victory",
+      "outcome": "The Jacobite rising crushed in under an hour.",
+      "significance": "The last pitched battle on British soil; it ended the Jacobite cause and the clan system.",
+      "casualties": "~50 government; ~1,500 Jacobite",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Culloden",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Culloden"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Duke of Cumberland",
+          "side": 1,
+          "wiki": "Prince William, Duke of Cumberland"
+        },
+        {
+          "name": "Charles Edward Stuart",
+          "side": 2,
+          "wiki": "Charles Edward Stuart"
+        }
+      ]
+    },
+    {
       "id": "plassey",
       "name": "Battle of Plassey",
       "year": 1757,
@@ -853,6 +1935,40 @@
           "name": "Siraj ud-Daulah",
           "side": 2,
           "wiki": "Siraj ud-Daulah"
+        }
+      ]
+    },
+    {
+      "id": "plains-of-abraham",
+      "name": "Battle of the Plains of Abraham",
+      "year": 1759,
+      "dateLabel": "13 September 1759",
+      "lat": 46.8,
+      "lon": -71.22,
+      "belligerents": {
+        "side1": "Great Britain (Wolfe)",
+        "side2": "France (Montcalm)"
+      },
+      "victor": "British victory",
+      "outcome": "Quebec fell; both commanders died.",
+      "significance": "Decided the fate of New France and set North America on a British path.",
+      "casualties": "~650 each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Plains of Abraham",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Plains_of_Abraham"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "James Wolfe",
+          "side": 1,
+          "wiki": "James Wolfe"
+        },
+        {
+          "name": "Marquis de Montcalm",
+          "side": 2,
+          "wiki": "Louis-Joseph de Montcalm"
         }
       ]
     },
@@ -974,27 +2090,26 @@
       ]
     },
     {
-      "id": "trafalgar",
-      "name": "Battle of Trafalgar",
-      "year": 1805,
-      "dateLabel": "21 October 1805",
-      "lat": 36.27,
-      "lon": -6.27,
+      "id": "battle-of-the-nile",
+      "name": "Battle of the Nile",
+      "year": 1798,
+      "dateLabel": "1 – 3 August 1798",
+      "lat": 31.3333,
+      "lon": 30.1,
       "belligerents": {
-        "side1": "Royal Navy (Nelson)",
-        "side2": "Franco-Spanish fleet"
+        "side1": "Great Britain",
+        "side2": "French Republic"
       },
       "victor": "British victory",
-      "outcome": "Franco-Spanish fleet destroyed; Nelson killed.",
-      "significance": "Confirmed British naval supremacy for over a century and ended Napoleon's hopes of invading Britain.",
-      "casualties": "~1,700 British; ~13,000+ Franco-Spanish",
+      "outcome": "Eleven of the thirteen French ships of the line were captured or destroyed. The flagship L'Orient blew up at ten at night with her captain's young son aboard.",
+      "significance": "Nelson attacked at dusk and sent half his fleet between the French line and the shore, where the enemy had not run out their landward guns. It stranded Bonaparte's army in Egypt and made the Mediterranean a British sea.",
+      "casualties": "Around 5,000 French dead, wounded or captured; 218 British dead",
       "links": [
         {
-          "label": "Wikipedia: Battle of Trafalgar",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Trafalgar"
+          "label": "Wikipedia: Battle of the Nile",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Nile"
         }
       ],
-      "hasBattleView": true,
       "commanders": [
         {
           "name": "Horatio Nelson",
@@ -1002,12 +2117,11 @@
           "wiki": "Horatio Nelson"
         },
         {
-          "name": "Pierre-Charles Villeneuve",
+          "name": "François-Paul Brueys d'Aigalliers",
           "side": 2,
-          "wiki": "Pierre-Charles Villeneuve"
+          "wiki": "François-Paul Brueys d'Aigalliers"
         }
-      ],
-      "timeOfDay": "day"
+      ]
     },
     {
       "id": "austerlitz",
@@ -1049,6 +2163,86 @@
         }
       ],
       "timeOfDay": "dawn"
+    },
+    {
+      "id": "trafalgar",
+      "name": "Battle of Trafalgar",
+      "year": 1805,
+      "dateLabel": "21 October 1805",
+      "lat": 36.27,
+      "lon": -6.27,
+      "belligerents": {
+        "side1": "Royal Navy (Nelson)",
+        "side2": "Franco-Spanish fleet"
+      },
+      "victor": "British victory",
+      "outcome": "Franco-Spanish fleet destroyed; Nelson killed.",
+      "significance": "Confirmed British naval supremacy for over a century and ended Napoleon's hopes of invading Britain.",
+      "casualties": "~1,700 British; ~13,000+ Franco-Spanish",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Trafalgar",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Trafalgar"
+        }
+      ],
+      "hasBattleView": true,
+      "commanders": [
+        {
+          "name": "Horatio Nelson",
+          "side": 1,
+          "wiki": "Horatio Nelson"
+        },
+        {
+          "name": "Pierre-Charles Villeneuve",
+          "side": 2,
+          "wiki": "Pierre-Charles Villeneuve"
+        }
+      ],
+      "timeOfDay": "day"
+    },
+    {
+      "id": "jena-auerstedt",
+      "name": "Battle of Jena–Auerstedt",
+      "year": 1806,
+      "dateLabel": "14 October 1806",
+      "lat": 50.93,
+      "lon": 11.58,
+      "belligerents": {
+        "side1": "French Empire (Napoleon)",
+        "side2": "Prussia"
+      },
+      "victor": "French victory",
+      "outcome": "The Prussian army shattered in a single day.",
+      "significance": "Demonstrated French military supremacy and brought Prussia to its knees.",
+      "casualties": "~7,000 French; ~25,000 Prussian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Jena–Auerstedt",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Jena%E2%80%93Auerstedt"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Napoleon",
+          "side": 1,
+          "wiki": "Napoleon"
+        },
+        {
+          "name": "Louis-Nicolas Davout",
+          "side": 1,
+          "wiki": "Louis-Nicolas Davout"
+        },
+        {
+          "name": "Duke of Brunswick",
+          "side": 2,
+          "wiki": "Charles William Ferdinand, Duke of Brunswick"
+        },
+        {
+          "name": "Prince Hohenlohe",
+          "side": 2,
+          "wiki": "Frederick Louis, Prince of Hohenlohe-Ingelfingen"
+        }
+      ]
     },
     {
       "id": "borodino",
@@ -1165,6 +2359,210 @@
       "timeOfDay": "day"
     },
     {
+      "id": "pinjarra",
+      "name": "Pinjarra Massacre",
+      "year": 1834,
+      "dateLabel": "28 October 1834",
+      "lat": -32.6283,
+      "lon": 115.8733,
+      "belligerents": {
+        "side1": "British colonial force of Western Australia",
+        "side2": "Binjareb Noongar"
+      },
+      "victor": "Colonial force",
+      "outcome": "A dawn attack on a Binjareb camp on the Murray River, with the party divided to cut off retreat across the water.",
+      "significance": "One of the best-documented actions of the Australian Frontier Wars, and a case where the name itself is contested: the colonists called it the Battle of Pinjarra, and most historians and the Noongar community now call it a massacre.",
+      "casualties": "Between 15 and 80 Binjareb dead, including women and children; one colonial soldier killed",
+      "links": [
+        {
+          "label": "Wikipedia: Pinjarra massacre",
+          "url": "https://en.wikipedia.org/wiki/Pinjarra_massacre"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "James Stirling",
+          "side": 1,
+          "wiki": "James Stirling (Royal Navy officer)"
+        },
+        {
+          "name": "Calyute",
+          "side": 2,
+          "wiki": "Calyute"
+        }
+      ]
+    },
+    {
+      "id": "alamo",
+      "name": "Battle of the Alamo",
+      "year": 1836,
+      "dateLabel": "23 Feb – 6 Mar 1836",
+      "lat": 29.43,
+      "lon": -98.49,
+      "belligerents": {
+        "side1": "Mexico",
+        "side2": "Texian rebels"
+      },
+      "victor": "Mexican victory",
+      "outcome": "The mission stormed after a thirteen-day siege; nearly all defenders killed.",
+      "significance": "A tactical defeat that became the rallying cry of Texan independence six weeks later at San Jacinto.",
+      "casualties": "Around 200 Texian defenders; several hundred Mexican soldiers",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Alamo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Alamo"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Antonio López de Santa Anna",
+          "side": 1,
+          "wiki": "Antonio López de Santa Anna"
+        },
+        {
+          "name": "William B. Travis",
+          "side": 2,
+          "wiki": "William B. Travis"
+        }
+      ]
+    },
+    {
+      "id": "blood-river",
+      "name": "Battle of Blood River",
+      "year": 1838,
+      "dateLabel": "16 December 1838",
+      "lat": -28.1086,
+      "lon": 30.5386,
+      "belligerents": {
+        "side1": "Voortrekkers",
+        "side2": "Zulu Kingdom"
+      },
+      "victor": "Voortrekker victory",
+      "outcome": "Around 470 trekkers in a wagon laager, with cannon and muskets, held off a Zulu army attacking across open ground. The Ncome river is said to have run red.",
+      "significance": "A firepower massacre that became the founding myth of Afrikaner nationalism, kept as a public holiday for a century and a half. Since 1995 the same date has been South Africa's Day of Reconciliation.",
+      "casualties": "Around 3,000 Zulu dead; three Voortrekkers wounded and none killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Blood River",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Blood_River"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Andries Pretorius",
+          "side": 1,
+          "wiki": "Andries Pretorius"
+        },
+        {
+          "name": "Ndlela kaSompisi",
+          "side": 2,
+          "wiki": "Ndlela kaSompisi"
+        }
+      ]
+    },
+    {
+      "id": "ruapekapeka",
+      "name": "Siege of Ruapekapeka",
+      "year": 1846,
+      "dateLabel": "27 December 1845 – 11 January 1846",
+      "lat": -35.4167,
+      "lon": 174.2333,
+      "belligerents": {
+        "side1": "British Empire and Māori allies",
+        "side2": "Ngāpuhi under Te Ruki Kawiti and Hōne Heke"
+      },
+      "victor": "Inconclusive — the pā was entered only after it was abandoned",
+      "outcome": "The heaviest bombardment yet seen in New Zealand failed to drive out the garrison, who slipped away into the bush and left the British an empty fortress.",
+      "significance": "Kawiti built Ruapekapeka specifically to absorb artillery: earth bunkers, communication trenches and firing pits, with the palisade as bait rather than defence. Military engineers studied the design, which anticipated the trench systems of 1916 by seventy years.",
+      "casualties": "Around 12 British dead; Māori losses similar",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ruapekapeka",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ruapekapeka"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Henry Despard",
+          "side": 1,
+          "wiki": "Henry Despard"
+        },
+        {
+          "name": "Te Ruki Kawiti",
+          "side": 2,
+          "wiki": "Te Ruki Kawiti"
+        }
+      ]
+    },
+    {
+      "id": "balaclava",
+      "name": "Battle of Balaclava",
+      "year": 1854,
+      "dateLabel": "25 October 1854",
+      "lat": 44.5,
+      "lon": 33.6,
+      "belligerents": {
+        "side1": "Britain, France, Ottomans",
+        "side2": "Russia"
+      },
+      "victor": "Indecisive",
+      "outcome": "Famous for the doomed Charge of the Light Brigade.",
+      "significance": "A Crimean War battle remembered for a heroic but disastrous cavalry charge.",
+      "casualties": "~600 in the Light Brigade charge",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Balaclava",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Balaclava"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lord Raglan",
+          "side": 1,
+          "wiki": "FitzRoy Somerset, 1st Baron Raglan"
+        },
+        {
+          "name": "Alexander Menshikov",
+          "side": 2,
+          "wiki": "Alexander Sergeyevich Menshikov"
+        }
+      ]
+    },
+    {
+      "id": "eureka-stockade",
+      "name": "Eureka Stockade",
+      "year": 1854,
+      "dateLabel": "3 December 1854",
+      "lat": -37.5622,
+      "lon": 143.8628,
+      "belligerents": {
+        "side1": "Colonial forces of Victoria",
+        "side2": "Ballarat goldfield miners"
+      },
+      "victor": "Colonial victory — but the miners' demands were granted within a year",
+      "outcome": "Troops and police stormed the miners' timber stockade at dawn and took it in about fifteen minutes. Every miner later put on trial was acquitted by a Melbourne jury.",
+      "significance": "Australia's only armed rebellion. The hated licence fee was abolished, the miners got the vote, and the Southern Cross flag raised over the stockade became a national symbol claimed ever since by almost everyone.",
+      "casualties": "Around 22 miners and 6 soldiers killed",
+      "links": [
+        {
+          "label": "Wikipedia: Eureka Rebellion",
+          "url": "https://en.wikipedia.org/wiki/Eureka_Rebellion"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Robert Rede",
+          "side": 1,
+          "wiki": "Robert Rede"
+        },
+        {
+          "name": "Peter Lalor",
+          "side": 2,
+          "wiki": "Peter Lalor"
+        }
+      ]
+    },
+    {
       "id": "antietam",
       "hasBattleView": true,
       "name": "Battle of Antietam",
@@ -1235,6 +2633,108 @@
       ]
     },
     {
+      "id": "gate-pa",
+      "name": "Battle of Gate Pā",
+      "year": 1864,
+      "dateLabel": "29 April 1864",
+      "lat": -37.7167,
+      "lon": 176.1417,
+      "belligerents": {
+        "side1": "Ngāi Te Rangi and allies",
+        "side2": "British Empire"
+      },
+      "victor": "Māori victory",
+      "outcome": "A day-long bombardment appeared to flatten the pā, but the defenders were safe in bunkers. The British assault column walked into crossfire in the trenches and was thrown back with most of its officers down.",
+      "significance": "Remembered as much for the night that followed as for the defeat: the defenders gave water to wounded British soldiers lying in the ruins. The rules of conduct written before the battle by Hēnare Taratoa are still quoted in New Zealand.",
+      "casualties": "31 British dead and 80 wounded; around 25 Māori dead",
+      "links": [
+        {
+          "label": "Wikipedia: Tauranga campaign",
+          "url": "https://en.wikipedia.org/wiki/Tauranga_campaign"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Rāwiri Puhirake",
+          "side": 1,
+          "wiki": "Rawiri Puhirake"
+        },
+        {
+          "name": "Duncan Cameron",
+          "side": 2,
+          "wiki": "Duncan Cameron (British Army officer)"
+        }
+      ]
+    },
+    {
+      "id": "orakau",
+      "name": "Battle of Ōrākau",
+      "year": 1864,
+      "dateLabel": "31 March – 2 April 1864",
+      "lat": -38.0667,
+      "lon": 175.3667,
+      "belligerents": {
+        "side1": "British Empire",
+        "side2": "Ngāti Maniapoto and allies"
+      },
+      "victor": "British victory",
+      "outcome": "Around 300 defenders, out of water and reduced to firing wooden bullets, refused terms and broke out through the British lines in broad daylight. Many were cut down in the retreat.",
+      "significance": "Rewi Maniapoto's answer to the call to surrender — Ka whawhai tonu mātou, ake, ake, ake! We will fight on for ever — became the most quoted sentence in New Zealand history. The battle ended the invasion of the Waikato.",
+      "casualties": "Around 160 Māori dead; 17 British dead",
+      "links": [
+        {
+          "label": "Wikipedia: Invasion of the Waikato",
+          "url": "https://en.wikipedia.org/wiki/Invasion_of_the_Waikato"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "George Carey",
+          "side": 1,
+          "wiki": "George Jackson Carey"
+        },
+        {
+          "name": "Rewi Maniapoto",
+          "side": 2,
+          "wiki": "Rewi Maniapoto"
+        }
+      ]
+    },
+    {
+      "id": "koniggratz",
+      "name": "Battle of Königgrätz",
+      "year": 1866,
+      "dateLabel": "3 July 1866",
+      "lat": 50.29,
+      "lon": 15.75,
+      "belligerents": {
+        "side1": "Prussia",
+        "side2": "Austria & Saxony"
+      },
+      "victor": "Prussian victory",
+      "outcome": "Austria decisively beaten.",
+      "significance": "Settled the leadership of Germany in Prussia's favour, a key step toward German unification.",
+      "casualties": "~9,000 Prussian; ~44,000 Austrian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Königgrätz",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_K%C3%B6niggr%C3%A4tz"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Helmuth von Moltke",
+          "side": 1,
+          "wiki": "Helmuth von Moltke the Elder"
+        },
+        {
+          "name": "Ludwig von Benedek",
+          "side": 2,
+          "wiki": "Ludwig von Benedek"
+        }
+      ]
+    },
+    {
       "id": "sedan",
       "name": "Battle of Sedan",
       "year": 1870,
@@ -1265,6 +2765,181 @@
           "name": "Napoleon III",
           "side": 2,
           "wiki": "Napoleon III"
+        }
+      ]
+    },
+    {
+      "id": "little-bighorn",
+      "name": "Battle of the Little Bighorn",
+      "year": 1876,
+      "dateLabel": "25 June 1876",
+      "lat": 45.57,
+      "lon": -107.43,
+      "belligerents": {
+        "side1": "Lakota, Cheyenne & Arapaho",
+        "side2": "United States (Custer)"
+      },
+      "victor": "Native American victory",
+      "outcome": "Custer and his command annihilated.",
+      "significance": "A famous Native American victory ('Custer's Last Stand') during the Great Sioux War.",
+      "casualties": "~270 U.S. dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Little Bighorn",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Little_Bighorn"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Sitting Bull",
+          "side": 1,
+          "wiki": "Sitting Bull"
+        },
+        {
+          "name": "Crazy Horse",
+          "side": 1,
+          "wiki": "Crazy Horse"
+        },
+        {
+          "name": "George Armstrong Custer",
+          "side": 2,
+          "wiki": "George Armstrong Custer"
+        }
+      ]
+    },
+    {
+      "id": "isandlwana",
+      "name": "Battle of Isandlwana",
+      "year": 1879,
+      "dateLabel": "22 January 1879",
+      "lat": -28.36,
+      "lon": 30.6525,
+      "belligerents": {
+        "side1": "Zulu Kingdom",
+        "side2": "British Empire"
+      },
+      "victor": "Zulu victory",
+      "outcome": "A British camp of some 1,800 was enveloped by the Zulu horns-of-the-buffalo formation and destroyed almost to the last man, under a partial solar eclipse.",
+      "significance": "The heaviest defeat a modern European army ever suffered at the hands of a force armed mainly with spears. It stunned Victorian Britain and is still taught as the classic lesson in underestimating an opponent.",
+      "casualties": "Around 1,300 British and allied dead; perhaps 1,000 to 2,000 Zulu",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Isandlwana",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Isandlwana"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ntshingwayo kaMahole",
+          "side": 1,
+          "wiki": "Ntshingwayo Khoza"
+        },
+        {
+          "name": "Anthony Durnford",
+          "side": 2,
+          "wiki": "Anthony Durnford"
+        }
+      ]
+    },
+    {
+      "id": "rorkes-drift",
+      "name": "Battle of Rorke's Drift",
+      "year": 1879,
+      "dateLabel": "22 – 23 January 1879",
+      "lat": -28.3489,
+      "lon": 30.5347,
+      "belligerents": {
+        "side1": "British Empire",
+        "side2": "Zulu Kingdom"
+      },
+      "victor": "British victory",
+      "outcome": "About 150 men, a third of them sick, held a mission station behind mealie bags and biscuit boxes through a night of assaults by three to four thousand Zulu.",
+      "significance": "Eleven Victoria Crosses, the most ever awarded for a single action — given partly so the newspapers would have something creditable to print alongside Isandlwana, fought the same day a few miles away.",
+      "casualties": "17 British dead; around 350 Zulu dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Rorke's Drift",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Rorke%27s_Drift"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "John Chard",
+          "side": 1,
+          "wiki": "John Chard"
+        },
+        {
+          "name": "Dabulamanzi kaMpande",
+          "side": 2,
+          "wiki": "Dabulamanzi kaMpande"
+        }
+      ]
+    },
+    {
+      "id": "adwa",
+      "name": "Battle of Adwa",
+      "year": 1896,
+      "dateLabel": "1 March 1896",
+      "lat": 14.17,
+      "lon": 38.9,
+      "belligerents": {
+        "side1": "Ethiopian Empire (Menelik II)",
+        "side2": "Kingdom of Italy"
+      },
+      "victor": "Ethiopian victory",
+      "outcome": "The Italian invasion army defeated.",
+      "significance": "A landmark victory of an African state over a European colonial power, securing Ethiopian independence.",
+      "casualties": "~7,000 Italian; ~5,000 Ethiopian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Adwa",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Adwa"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Menelik II",
+          "side": 1,
+          "wiki": "Menelik II"
+        },
+        {
+          "name": "Oreste Baratieri",
+          "side": 2,
+          "wiki": "Oreste Baratieri"
+        }
+      ]
+    },
+    {
+      "id": "omdurman",
+      "name": "Battle of Omdurman",
+      "year": 1898,
+      "dateLabel": "2 September 1898",
+      "lat": 15.72,
+      "lon": 32.47,
+      "belligerents": {
+        "side1": "British Empire and Egypt",
+        "side2": "Mahdist Sudan"
+      },
+      "victor": "Anglo-Egyptian victory",
+      "outcome": "Maxim guns, artillery and Nile gunboats destroyed a Mahdist army of some 50,000 in about five hours of largely one-sided fire.",
+      "significance": "The plainest demonstration of what the machine gun had done to war: 47 dead on one side, around 12,000 on the other. A young Winston Churchill rode in the cavalry charge and wrote the account that made his name.",
+      "casualties": "Around 12,000 Mahdist dead; 47 Anglo-Egyptian dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Omdurman",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Omdurman"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Herbert Kitchener",
+          "side": 1,
+          "wiki": "Herbert Kitchener, 1st Earl Kitchener"
+        },
+        {
+          "name": "Abdallahi ibn Muhammad",
+          "side": 2,
+          "wiki": "Abdallahi ibn Muhammad"
         }
       ]
     },
@@ -1300,6 +2975,75 @@
           "name": "Zinovy Rozhestvensky",
           "side": 2,
           "wiki": "Zinovy Rozhestvensky"
+        }
+      ]
+    },
+    {
+      "id": "bita-paka",
+      "name": "Battle of Bita Paka",
+      "year": 1914,
+      "dateLabel": "11 September 1914",
+      "lat": -4.3333,
+      "lon": 152.3833,
+      "belligerents": {
+        "side1": "Australia",
+        "side2": "German New Guinea"
+      },
+      "victor": "Australian victory",
+      "outcome": "A naval landing party fought inland through the plantations to take the German wireless station. The colony surrendered a week later.",
+      "significance": "Australia's first action of the First World War and its first battle as a federated nation, fought five months before Gallipoli. The station was one of the wireless posts directing German raiders across the Pacific.",
+      "casualties": "6 Australian dead; around 30 German and Melanesian dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bita Paka",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bita_Paka"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "William Holmes",
+          "side": 1,
+          "wiki": "William Holmes (Australian general)"
+        },
+        {
+          "name": "Eduard Haber",
+          "side": 2,
+          "wiki": "Eduard Haber"
+        }
+      ]
+    },
+    {
+      "id": "marne-1914",
+      "hasBattleView": true,
+      "name": "First Battle of the Marne",
+      "year": 1914,
+      "dateLabel": "Sept 1914",
+      "lat": 48.96,
+      "lon": 3.4,
+      "belligerents": {
+        "side1": "France & Britain",
+        "side2": "German Empire"
+      },
+      "victor": "Allied victory",
+      "outcome": "The German advance on Paris was halted and reversed.",
+      "significance": "Ended Germany's hopes of a quick victory and began the long stalemate of trench warfare.",
+      "casualties": "~250,000 each side",
+      "links": [
+        {
+          "label": "Wikipedia: First Battle of the Marne",
+          "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Marne"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Joseph Joffre",
+          "side": 1,
+          "wiki": "Joseph Joffre"
+        },
+        {
+          "name": "Helmuth von Moltke the Younger",
+          "side": 2,
+          "wiki": "Helmuth von Moltke the Younger"
         }
       ]
     },
@@ -1343,36 +3087,36 @@
       ]
     },
     {
-      "id": "verdun",
-      "name": "Battle of Verdun",
+      "id": "jutland",
+      "name": "Battle of Jutland",
       "year": 1916,
-      "dateLabel": "Feb–Dec 1916",
-      "lat": 49.21,
-      "lon": 5.42,
+      "dateLabel": "31 May–1 June 1916",
+      "lat": 56.9,
+      "lon": 6,
       "belligerents": {
-        "side1": "France",
-        "side2": "German Empire"
+        "side1": "Royal Navy (Jellicoe)",
+        "side2": "German High Seas Fleet"
       },
-      "victor": "French defensive victory",
-      "outcome": "German offensive ground to a halt after months.",
-      "significance": "The longest battle of WWI and a symbol of the war's industrial-scale attrition ('They shall not pass').",
-      "casualties": "~700,000+ total casualties",
+      "victor": "Indecisive / British strategic",
+      "outcome": "Both fleets withdrew; British blockade held.",
+      "significance": "The largest naval battle of WWI; though tactically inconclusive, it kept the German fleet bottled up for the rest of the war.",
+      "casualties": "~6,800 British; ~3,000 German",
       "links": [
         {
-          "label": "Wikipedia: Battle of Verdun",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Verdun"
+          "label": "Wikipedia: Battle of Jutland",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Jutland"
         }
       ],
       "commanders": [
         {
-          "name": "Philippe Pétain",
+          "name": "John Jellicoe",
           "side": 1,
-          "wiki": "Philippe Pétain"
+          "wiki": "John Jellicoe, 1st Earl Jellicoe"
         },
         {
-          "name": "Erich von Falkenhayn",
+          "name": "Reinhard Scheer",
           "side": 2,
-          "wiki": "Erich von Falkenhayn"
+          "wiki": "Reinhard Scheer"
         }
       ]
     },
@@ -1411,36 +3155,36 @@
       ]
     },
     {
-      "id": "jutland",
-      "name": "Battle of Jutland",
+      "id": "verdun",
+      "name": "Battle of Verdun",
       "year": 1916,
-      "dateLabel": "31 May–1 June 1916",
-      "lat": 56.9,
-      "lon": 6,
+      "dateLabel": "Feb–Dec 1916",
+      "lat": 49.21,
+      "lon": 5.42,
       "belligerents": {
-        "side1": "Royal Navy (Jellicoe)",
-        "side2": "German High Seas Fleet"
+        "side1": "France",
+        "side2": "German Empire"
       },
-      "victor": "Indecisive / British strategic",
-      "outcome": "Both fleets withdrew; British blockade held.",
-      "significance": "The largest naval battle of WWI; though tactically inconclusive, it kept the German fleet bottled up for the rest of the war.",
-      "casualties": "~6,800 British; ~3,000 German",
+      "victor": "French defensive victory",
+      "outcome": "German offensive ground to a halt after months.",
+      "significance": "The longest battle of WWI and a symbol of the war's industrial-scale attrition ('They shall not pass').",
+      "casualties": "~700,000+ total casualties",
       "links": [
         {
-          "label": "Wikipedia: Battle of Jutland",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Jutland"
+          "label": "Wikipedia: Battle of Verdun",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Verdun"
         }
       ],
       "commanders": [
         {
-          "name": "John Jellicoe",
+          "name": "Philippe Pétain",
           "side": 1,
-          "wiki": "John Jellicoe, 1st Earl Jellicoe"
+          "wiki": "Philippe Pétain"
         },
         {
-          "name": "Reinhard Scheer",
+          "name": "Erich von Falkenhayn",
           "side": 2,
-          "wiki": "Reinhard Scheer"
+          "wiki": "Erich von Falkenhayn"
         }
       ]
     },
@@ -1478,6 +3222,184 @@
         }
       ],
       "timeOfDay": "day"
+    },
+    {
+      "id": "pearl-harbor",
+      "name": "Attack on Pearl Harbor",
+      "year": 1941,
+      "dateLabel": "7 December 1941",
+      "lat": 21.36,
+      "lon": -157.97,
+      "belligerents": {
+        "side1": "Empire of Japan",
+        "side2": "United States"
+      },
+      "victor": "Japanese tactical victory",
+      "outcome": "The U.S. Pacific Fleet battleships crippled in a surprise attack.",
+      "significance": "Brought the United States into World War II.",
+      "casualties": "~2,400 American dead",
+      "links": [
+        {
+          "label": "Wikipedia: Attack on Pearl Harbor",
+          "url": "https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Isoroku Yamamoto",
+          "side": 1,
+          "wiki": "Isoroku Yamamoto"
+        },
+        {
+          "name": "Chūichi Nagumo",
+          "side": 1,
+          "wiki": "Chūichi Nagumo"
+        },
+        {
+          "name": "Husband E. Kimmel",
+          "side": 2,
+          "wiki": "Husband E. Kimmel"
+        }
+      ],
+      "timeOfDay": "dawn",
+      "hasBattleView": true
+    },
+    {
+      "id": "coral-sea",
+      "name": "Battle of the Coral Sea",
+      "year": 1942,
+      "dateLabel": "4 – 8 May 1942",
+      "lat": -14,
+      "lon": 155,
+      "belligerents": {
+        "side1": "United States and Australia",
+        "side2": "Japan"
+      },
+      "victor": "Tactical draw; strategic Allied victory",
+      "outcome": "The invasion convoy bound for Port Moresby turned back. The Americans lost the carrier Lexington, the Japanese lost Shōhō and had Shōkaku crippled and Zuikaku's air groups gutted.",
+      "significance": "The first naval battle in history in which the opposing fleets never sighted one another — everything was done by aircraft. The two Japanese carriers knocked out here were missing from Midway a month later.",
+      "casualties": "Around 650 Allied dead; around 950 Japanese dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Coral Sea",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Coral_Sea"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Frank Jack Fletcher",
+          "side": 1,
+          "wiki": "Frank Jack Fletcher"
+        },
+        {
+          "name": "Shigeyoshi Inoue",
+          "side": 2,
+          "wiki": "Shigeyoshi Inoue"
+        }
+      ]
+    },
+    {
+      "id": "el-alamein",
+      "name": "Second Battle of El Alamein",
+      "year": 1942,
+      "dateLabel": "Oct–Nov 1942",
+      "lat": 30.9,
+      "lon": 28.95,
+      "belligerents": {
+        "side1": "Allies (Montgomery)",
+        "side2": "Axis (Rommel)"
+      },
+      "victor": "Allied victory",
+      "outcome": "Axis forces driven into retreat across North Africa.",
+      "significance": "A major turning point in the North African campaign — 'the end of the beginning' for the Allies.",
+      "casualties": "~13,500 Allied; ~30,000+ Axis",
+      "links": [
+        {
+          "label": "Wikipedia: Second Battle of El Alamein",
+          "url": "https://en.wikipedia.org/wiki/Second_Battle_of_El_Alamein"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bernard Montgomery",
+          "side": 1,
+          "wiki": "Bernard Montgomery, 1st Viscount Montgomery of Alamein"
+        },
+        {
+          "name": "Erwin Rommel",
+          "side": 2,
+          "wiki": "Erwin Rommel"
+        }
+      ],
+      "timeOfDay": "night"
+    },
+    {
+      "id": "guadalcanal",
+      "name": "Guadalcanal Campaign",
+      "year": 1942,
+      "dateLabel": "7 August 1942 – 9 February 1943",
+      "lat": -9.428,
+      "lon": 160,
+      "belligerents": {
+        "side1": "United States and Allies",
+        "side2": "Japan"
+      },
+      "victor": "Allied victory",
+      "outcome": "Six months of jungle fighting, night surface actions and carrier battles around one airstrip ended with Japan evacuating the island by destroyer.",
+      "significance": "The first Allied offensive of the Pacific war and its turning point — after Guadalcanal Japan never mounted another strategic advance. So many ships went down in the strait to the north that it is still called Ironbottom Sound.",
+      "casualties": "Around 7,100 Allied dead; around 31,000 Japanese dead",
+      "links": [
+        {
+          "label": "Wikipedia: Guadalcanal campaign",
+          "url": "https://en.wikipedia.org/wiki/Guadalcanal_campaign"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander Vandegrift",
+          "side": 1,
+          "wiki": "Alexander Vandegrift"
+        },
+        {
+          "name": "Harukichi Hyakutake",
+          "side": 2,
+          "wiki": "Harukichi Hyakutake"
+        }
+      ]
+    },
+    {
+      "id": "kokoda-track",
+      "name": "Kokoda Track Campaign",
+      "year": 1942,
+      "dateLabel": "21 July – 16 November 1942",
+      "lat": -8.8783,
+      "lon": 147.7358,
+      "belligerents": {
+        "side1": "Australia and Papua",
+        "side2": "Japan"
+      },
+      "victor": "Australian victory",
+      "outcome": "Japanese forces pushed within about 50 km of Port Moresby before starvation and Australian counterattacks drove them back over the Owen Stanley Range.",
+      "significance": "The closest a Japanese army came to Australia, fought in mud on a single-file mountain track where a stretcher case took eight men and several days. For Australians it carries the weight Gallipoli does — a story of endurance rather than of victory.",
+      "casualties": "Around 625 Australian dead; some 6,000 Japanese dead from all causes",
+      "links": [
+        {
+          "label": "Wikipedia: Kokoda Track campaign",
+          "url": "https://en.wikipedia.org/wiki/Kokoda_Track_campaign"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Arnold Potts",
+          "side": 1,
+          "wiki": "Arnold Potts"
+        },
+        {
+          "name": "Tomitarō Horii",
+          "side": 2,
+          "wiki": "Tomitarō Horii"
+        }
+      ]
     },
     {
       "id": "midway",
@@ -1526,39 +3448,38 @@
       "timeOfDay": "day"
     },
     {
-      "id": "el-alamein",
-      "name": "Second Battle of El Alamein",
+      "id": "milne-bay",
+      "name": "Battle of Milne Bay",
       "year": 1942,
-      "dateLabel": "Oct–Nov 1942",
-      "lat": 30.9,
-      "lon": 28.95,
+      "dateLabel": "25 August – 7 September 1942",
+      "lat": -10.3167,
+      "lon": 150.4833,
       "belligerents": {
-        "side1": "Allies (Montgomery)",
-        "side2": "Axis (Rommel)"
+        "side1": "Australia and the United States",
+        "side2": "Japan"
       },
       "victor": "Allied victory",
-      "outcome": "Axis forces driven into retreat across North Africa.",
-      "significance": "A major turning point in the North African campaign — 'the end of the beginning' for the Allies.",
-      "casualties": "~13,500 Allied; ~30,000+ Axis",
+      "outcome": "A Japanese amphibious landing was contained in the coconut plantations, beaten back, and finally evacuated by sea at night.",
+      "significance": "The first time in the war that a Japanese landing force was defeated outright on land. Field Marshal Slim later wrote that Milne Bay was where the myth of Japanese invincibility was broken.",
+      "casualties": "Around 170 Allied dead; around 750 Japanese dead",
       "links": [
         {
-          "label": "Wikipedia: Second Battle of El Alamein",
-          "url": "https://en.wikipedia.org/wiki/Second_Battle_of_El_Alamein"
+          "label": "Wikipedia: Battle of Milne Bay",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Milne_Bay"
         }
       ],
       "commanders": [
         {
-          "name": "Bernard Montgomery",
+          "name": "Cyril Clowes",
           "side": 1,
-          "wiki": "Bernard Montgomery, 1st Viscount Montgomery of Alamein"
+          "wiki": "Cyril Clowes"
         },
         {
-          "name": "Erwin Rommel",
+          "name": "Gunichi Mikawa",
           "side": 2,
-          "wiki": "Erwin Rommel"
+          "wiki": "Gunichi Mikawa"
         }
-      ],
-      "timeOfDay": "night"
+      ]
     },
     {
       "id": "stalingrad",
@@ -1637,6 +3558,51 @@
       "hasBattleView": true
     },
     {
+      "id": "bulge",
+      "name": "Battle of the Bulge",
+      "year": 1944,
+      "dateLabel": "Dec 1944–Jan 1945",
+      "lat": 50.15,
+      "lon": 5.9,
+      "belligerents": {
+        "side1": "Allies (mainly U.S.)",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Allied victory",
+      "outcome": "Germany's last major western offensive failed.",
+      "significance": "The costliest single battle for U.S. forces in WWII; it exhausted Germany's reserves in the west.",
+      "casualties": "~90,000 U.S.; ~100,000 German",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Bulge",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Dwight D. Eisenhower",
+          "side": 1,
+          "wiki": "Dwight D. Eisenhower"
+        },
+        {
+          "name": "George S. Patton",
+          "side": 1,
+          "wiki": "George S. Patton"
+        },
+        {
+          "name": "Gerd von Rundstedt",
+          "side": 2,
+          "wiki": "Gerd von Rundstedt"
+        },
+        {
+          "name": "Walter Model",
+          "side": 2,
+          "wiki": "Walter Model"
+        }
+      ],
+      "timeOfDay": "dawn"
+    },
+    {
       "id": "d-day",
       "name": "D-Day (Normandy Landings)",
       "year": 1944,
@@ -1683,1014 +3649,6 @@
       "timeOfDay": "dawn"
     },
     {
-      "id": "berlin-1945",
-      "name": "Battle of Berlin",
-      "year": 1945,
-      "dateLabel": "Apr–May 1945",
-      "lat": 52.52,
-      "lon": 13.4,
-      "belligerents": {
-        "side1": "Soviet Union",
-        "side2": "Nazi Germany"
-      },
-      "victor": "Soviet victory",
-      "outcome": "Berlin captured; Hitler died; Germany surrendered.",
-      "significance": "The final major battle in Europe, ending the Third Reich and the Second World War on the continent.",
-      "casualties": "~80,000 Soviet; ~100,000+ German (total)",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Berlin",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Berlin"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Georgy Zhukov",
-          "side": 1,
-          "wiki": "Georgy Zhukov"
-        },
-        {
-          "name": "Ivan Konev",
-          "side": 1,
-          "wiki": "Ivan Konev"
-        },
-        {
-          "name": "Helmuth Weidling",
-          "side": 2,
-          "wiki": "Helmuth Weidling"
-        }
-      ]
-    },
-    {
-      "id": "megiddo-1457bce",
-      "name": "Battle of Megiddo",
-      "year": -1457,
-      "dateLabel": "c. 1457 BCE",
-      "lat": 32.585,
-      "lon": 35.183,
-      "belligerents": {
-        "side1": "New Kingdom Egypt (Thutmose III)",
-        "side2": "Canaanite coalition"
-      },
-      "victor": "Egyptian victory",
-      "outcome": "Canaanite coalition besieged and defeated at Megiddo.",
-      "significance": "The earliest battle recorded with reliable detail, and the origin of the name 'Armageddon' (Har Megiddo).",
-      "casualties": "Uncertain",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Megiddo (15th c. BC)",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Megiddo_(15th_century_BC)"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Thutmose III",
-          "side": 1,
-          "wiki": "Thutmose III"
-        },
-        {
-          "name": "King of Kadesh",
-          "side": 2,
-          "wiki": "Battle of Megiddo (15th century BC)",
-          "noPortrait": true
-        }
-      ]
-    },
-    {
-      "id": "plataea",
-      "name": "Battle of Plataea",
-      "year": -479,
-      "dateLabel": "479 BCE",
-      "lat": 38.22,
-      "lon": 23.27,
-      "belligerents": {
-        "side1": "Greek alliance",
-        "side2": "Achaemenid Persia"
-      },
-      "victor": "Greek victory",
-      "outcome": "The Persian land army in Greece was destroyed.",
-      "significance": "The decisive land battle that ended the Persian invasion of Greece for good.",
-      "casualties": "Thousands Greek; tens of thousands Persian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Plataea",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Plataea"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Pausanias",
-          "side": 1,
-          "wiki": "Pausanias (general)"
-        },
-        {
-          "name": "Mardonius",
-          "side": 2,
-          "wiki": "Mardonius"
-        }
-      ]
-    },
-    {
-      "id": "issus",
-      "name": "Battle of Issus",
-      "year": -333,
-      "dateLabel": "333 BCE",
-      "lat": 36.85,
-      "lon": 36.18,
-      "belligerents": {
-        "side1": "Macedon (Alexander the Great)",
-        "side2": "Achaemenid Persia (Darius III)"
-      },
-      "victor": "Macedonian victory",
-      "outcome": "Darius fled the field, abandoning his family.",
-      "significance": "Alexander's first direct victory over Darius, opening the Levant and Egypt to conquest.",
-      "casualties": "~7,000 Macedonian; heavy Persian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Issus",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Issus"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Alexander the Great",
-          "side": 1,
-          "wiki": "Alexander the Great"
-        },
-        {
-          "name": "Darius III",
-          "side": 2,
-          "wiki": "Darius III"
-        }
-      ]
-    },
-    {
-      "id": "hydaspes",
-      "name": "Battle of the Hydaspes",
-      "year": -326,
-      "dateLabel": "326 BCE",
-      "lat": 32.5,
-      "lon": 73.6,
-      "belligerents": {
-        "side1": "Macedon (Alexander)",
-        "side2": "Paurava kingdom (Porus)"
-      },
-      "victor": "Macedonian victory",
-      "outcome": "Porus defeated despite war elephants; Alexander's eastward limit.",
-      "significance": "Alexander's last great battle, at the edge of the known world, against war elephants in India.",
-      "casualties": "~1,000 Macedonian; ~12,000 Indian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Hydaspes",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Hydaspes"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Alexander the Great",
-          "side": 1,
-          "wiki": "Alexander the Great"
-        },
-        {
-          "name": "Porus",
-          "side": 2,
-          "wiki": "Porus"
-        }
-      ]
-    },
-    {
-      "id": "alesia",
-      "name": "Siege of Alesia",
-      "year": -52,
-      "dateLabel": "52 BCE",
-      "lat": 47.54,
-      "lon": 4.5,
-      "belligerents": {
-        "side1": "Roman Republic (Julius Caesar)",
-        "side2": "Gallic confederation (Vercingetorix)"
-      },
-      "victor": "Roman victory",
-      "outcome": "Vercingetorix surrendered; Gaul was subdued.",
-      "significance": "Caesar's double-siege masterpiece completed the Roman conquest of Gaul.",
-      "casualties": "Heavy Gallic losses",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Alesia",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Alesia"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Julius Caesar",
-          "side": 1,
-          "wiki": "Julius Caesar"
-        },
-        {
-          "name": "Vercingetorix",
-          "side": 2,
-          "wiki": "Vercingetorix"
-        }
-      ]
-    },
-    {
-      "id": "carrhae",
-      "name": "Battle of Carrhae",
-      "year": -53,
-      "dateLabel": "53 BCE",
-      "lat": 36.86,
-      "lon": 39.03,
-      "belligerents": {
-        "side1": "Parthian Empire",
-        "side2": "Roman Republic (Crassus)"
-      },
-      "victor": "Parthian victory",
-      "outcome": "A Roman army destroyed by horse archers; Crassus killed.",
-      "significance": "One of Rome's worst defeats, exposing the limits of the legion against mobile cavalry.",
-      "casualties": "~20,000 Roman dead, ~10,000 captured",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Carrhae",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Carrhae"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Surena",
-          "side": 1,
-          "wiki": "Surena"
-        },
-        {
-          "name": "Marcus Licinius Crassus",
-          "side": 2,
-          "wiki": "Marcus Licinius Crassus"
-        }
-      ]
-    },
-    {
-      "id": "milvian-bridge",
-      "name": "Battle of the Milvian Bridge",
-      "year": 312,
-      "dateLabel": "312 CE",
-      "lat": 41.935,
-      "lon": 12.467,
-      "belligerents": {
-        "side1": "Constantine I",
-        "side2": "Maxentius"
-      },
-      "victor": "Constantine's victory",
-      "outcome": "Maxentius drowned in the Tiber; Constantine took Rome.",
-      "significance": "Led Constantine to embrace Christianity, changing the religious course of the Roman Empire and Europe.",
-      "casualties": "Thousands",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Milvian Bridge",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Milvian_Bridge"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Constantine I",
-          "side": 1,
-          "wiki": "Constantine the Great"
-        },
-        {
-          "name": "Maxentius",
-          "side": 2,
-          "wiki": "Maxentius"
-        }
-      ]
-    },
-    {
-      "id": "adrianople-378",
-      "name": "Battle of Adrianople",
-      "year": 378,
-      "dateLabel": "378 CE",
-      "lat": 41.68,
-      "lon": 26.56,
-      "belligerents": {
-        "side1": "Goths",
-        "side2": "Eastern Roman Empire (Valens)"
-      },
-      "victor": "Gothic victory",
-      "outcome": "Emperor Valens killed and his army destroyed.",
-      "significance": "A catastrophic Roman defeat often seen as a milestone in the decline of the Western Roman Empire.",
-      "casualties": "~20,000 Roman dead",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Adrianople",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Adrianople"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Fritigern",
-          "side": 1,
-          "wiki": "Fritigern"
-        },
-        {
-          "name": "Valens",
-          "side": 2,
-          "wiki": "Valens"
-        }
-      ]
-    },
-    {
-      "id": "chalons",
-      "name": "Battle of the Catalaunian Plains",
-      "year": 451,
-      "dateLabel": "451 CE",
-      "lat": 48.95,
-      "lon": 4.36,
-      "belligerents": {
-        "side1": "Roman–Visigoth alliance (Aetius)",
-        "side2": "Huns (Attila)"
-      },
-      "victor": "Roman alliance victory",
-      "outcome": "Attila's westward advance was checked.",
-      "significance": "Halted Attila the Hun's invasion of Gaul, one of the last great victories of the Western Roman Empire.",
-      "casualties": "Very heavy on both sides",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Catalaunian Plains",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Catalaunian_Plains"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Flavius Aetius",
-          "side": 1,
-          "wiki": "Flavius Aetius"
-        },
-        {
-          "name": "Theodoric I",
-          "side": 1,
-          "wiki": "Theodoric I"
-        },
-        {
-          "name": "Attila",
-          "side": 2,
-          "wiki": "Attila"
-        }
-      ]
-    },
-    {
-      "id": "stamford-bridge",
-      "hasBattleView": true,
-      "name": "Battle of Stamford Bridge",
-      "year": 1066,
-      "dateLabel": "25 September 1066",
-      "lat": 53.99,
-      "lon": -0.91,
-      "belligerents": {
-        "side1": "England (Harold Godwinson)",
-        "side2": "Norway (Harald Hardrada)"
-      },
-      "victor": "English victory",
-      "outcome": "The Norwegian invasion was crushed; Hardrada killed.",
-      "significance": "Ended the Viking Age in England — days before Harold marched south to meet William at Hastings.",
-      "casualties": "Heavy Norwegian losses",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Stamford Bridge",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Stamford_Bridge"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Harold Godwinson",
-          "side": 1,
-          "wiki": "Harold Godwinson"
-        },
-        {
-          "name": "Harald Hardrada",
-          "side": 2,
-          "wiki": "Harald Hardrada"
-        }
-      ]
-    },
-    {
-      "id": "bannockburn",
-      "name": "Battle of Bannockburn",
-      "year": 1314,
-      "dateLabel": "1314 CE",
-      "lat": 56.09,
-      "lon": -3.93,
-      "belligerents": {
-        "side1": "Scotland (Robert the Bruce)",
-        "side2": "England (Edward II)"
-      },
-      "victor": "Scottish victory",
-      "outcome": "A larger English army routed.",
-      "significance": "Secured Scottish independence for a generation and became a national symbol.",
-      "casualties": "Heavy English losses",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Bannockburn",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Bannockburn"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Robert the Bruce",
-          "side": 1,
-          "wiki": "Robert the Bruce"
-        },
-        {
-          "name": "Edward II",
-          "side": 2,
-          "wiki": "Edward II of England"
-        }
-      ]
-    },
-    {
-      "id": "crecy",
-      "name": "Battle of Crécy",
-      "year": 1346,
-      "dateLabel": "26 August 1346",
-      "lat": 50.25,
-      "lon": 1.9,
-      "belligerents": {
-        "side1": "England (Edward III)",
-        "side2": "France (Philip VI)"
-      },
-      "victor": "English victory",
-      "outcome": "French cavalry shattered by English longbows.",
-      "significance": "An early, decisive English victory of the Hundred Years' War that announced the dominance of the longbow.",
-      "casualties": "~300 English; ~12,000 French",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Crécy",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Edward III",
-          "side": 1,
-          "wiki": "Edward III of England"
-        },
-        {
-          "name": "Philip VI",
-          "side": 2,
-          "wiki": "Philip VI of France"
-        }
-      ],
-      "hasBattleView": true
-    },
-    {
-      "id": "grunwald",
-      "name": "Battle of Grunwald (Tannenberg)",
-      "year": 1410,
-      "dateLabel": "15 July 1410",
-      "lat": 53.49,
-      "lon": 20.12,
-      "belligerents": {
-        "side1": "Poland–Lithuania",
-        "side2": "Teutonic Knights"
-      },
-      "victor": "Polish–Lithuanian victory",
-      "outcome": "The Teutonic Order's army destroyed.",
-      "significance": "One of the largest battles of medieval Europe; it broke the power of the Teutonic Knights.",
-      "casualties": "~8,000 Teutonic dead",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Grunwald",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Grunwald"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Władysław II Jagiełło",
-          "side": 1,
-          "wiki": "Władysław II Jagiełło"
-        },
-        {
-          "name": "Vytautas",
-          "side": 1,
-          "wiki": "Vytautas the Great"
-        },
-        {
-          "name": "Ulrich von Jungingen",
-          "side": 2,
-          "wiki": "Ulrich von Jungingen"
-        }
-      ]
-    },
-    {
-      "id": "tenochtitlan",
-      "name": "Fall of Tenochtitlan",
-      "year": 1521,
-      "dateLabel": "1521 CE",
-      "lat": 19.435,
-      "lon": -99.14,
-      "belligerents": {
-        "side1": "Spanish & Tlaxcalan allies (Cortés)",
-        "side2": "Aztec Empire (Cuauhtémoc)"
-      },
-      "victor": "Spanish–Tlaxcalan victory",
-      "outcome": "The Aztec capital fell after a brutal siege.",
-      "significance": "Ended the Aztec Empire and began Spanish rule in Mexico — a turning point of the Columbian era.",
-      "casualties": "Tens of thousands (mostly Aztec, incl. disease)",
-      "links": [
-        {
-          "label": "Wikipedia: Fall of Tenochtitlan",
-          "url": "https://en.wikipedia.org/wiki/Fall_of_Tenochtitlan"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Hernán Cortés",
-          "side": 1,
-          "wiki": "Hernán Cortés"
-        },
-        {
-          "name": "Cuauhtémoc",
-          "side": 2,
-          "wiki": "Cuauhtémoc"
-        }
-      ]
-    },
-    {
-      "id": "mohacs",
-      "name": "Battle of Mohács",
-      "year": 1526,
-      "dateLabel": "29 August 1526",
-      "lat": 45.98,
-      "lon": 18.65,
-      "belligerents": {
-        "side1": "Ottoman Empire (Suleiman)",
-        "side2": "Kingdom of Hungary"
-      },
-      "victor": "Ottoman victory",
-      "outcome": "The Hungarian king and army destroyed.",
-      "significance": "Opened central Europe to Ottoman expansion and ended independent medieval Hungary.",
-      "casualties": "~14,000+ Hungarian dead",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Mohács",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Moh%C3%A1cs"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Suleiman the Magnificent",
-          "side": 1,
-          "wiki": "Suleiman the Magnificent"
-        },
-        {
-          "name": "Louis II of Hungary",
-          "side": 2,
-          "wiki": "Louis II of Hungary"
-        }
-      ]
-    },
-    {
-      "id": "panipat-1526",
-      "name": "First Battle of Panipat",
-      "year": 1526,
-      "dateLabel": "1526 CE",
-      "lat": 29.39,
-      "lon": 76.97,
-      "belligerents": {
-        "side1": "Mughals (Babur)",
-        "side2": "Delhi Sultanate (Ibrahim Lodi)"
-      },
-      "victor": "Mughal victory",
-      "outcome": "Lodi killed; Babur took Delhi.",
-      "significance": "Founded the Mughal Empire in India, partly through early use of gunpowder artillery.",
-      "casualties": "~15,000+ Lodi dead",
-      "links": [
-        {
-          "label": "Wikipedia: First Battle of Panipat",
-          "url": "https://en.wikipedia.org/wiki/First_Battle_of_Panipat"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Babur",
-          "side": 1,
-          "wiki": "Babur"
-        },
-        {
-          "name": "Ibrahim Lodi",
-          "side": 2,
-          "wiki": "Ibrahim Lodi"
-        }
-      ]
-    },
-    {
-      "id": "spanish-armada",
-      "name": "Defeat of the Spanish Armada",
-      "year": 1588,
-      "dateLabel": "1588 CE",
-      "lat": 50.7,
-      "lon": -0.8,
-      "belligerents": {
-        "side1": "England",
-        "side2": "Spain"
-      },
-      "victor": "English victory",
-      "outcome": "The Armada scattered and wrecked on the voyage home.",
-      "significance": "A pivotal moment that checked Spanish power and bolstered England as a naval nation.",
-      "casualties": "~15,000 Spanish (mostly storms/disease)",
-      "links": [
-        {
-          "label": "Wikipedia: Spanish Armada",
-          "url": "https://en.wikipedia.org/wiki/Spanish_Armada"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Charles Howard",
-          "side": 1,
-          "wiki": "Charles Howard, 1st Earl of Nottingham"
-        },
-        {
-          "name": "Francis Drake",
-          "side": 1,
-          "wiki": "Francis Drake"
-        },
-        {
-          "name": "Duke of Medina Sidonia",
-          "side": 2,
-          "wiki": "Alonso Pérez de Guzmán, 7th Duke of Medina Sidonia"
-        }
-      ]
-    },
-    {
-      "id": "naseby",
-      "name": "Battle of Naseby",
-      "year": 1645,
-      "dateLabel": "14 June 1645",
-      "lat": 52.4,
-      "lon": -0.99,
-      "belligerents": {
-        "side1": "Parliament (New Model Army)",
-        "side2": "Royalists (Charles I)"
-      },
-      "victor": "Parliamentary victory",
-      "outcome": "The main Royalist army destroyed.",
-      "significance": "The decisive battle of the English Civil War, sealing the defeat of Charles I.",
-      "casualties": "~1,000 dead; thousands captured",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Naseby",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Naseby"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Thomas Fairfax",
-          "side": 1,
-          "wiki": "Thomas Fairfax, 3rd Lord Fairfax of Cameron"
-        },
-        {
-          "name": "Oliver Cromwell",
-          "side": 1,
-          "wiki": "Oliver Cromwell"
-        },
-        {
-          "name": "Charles I",
-          "side": 2,
-          "wiki": "Charles I of England"
-        },
-        {
-          "name": "Prince Rupert",
-          "side": 2,
-          "wiki": "Prince Rupert of the Rhine"
-        }
-      ]
-    },
-    {
-      "id": "plains-of-abraham",
-      "name": "Battle of the Plains of Abraham",
-      "year": 1759,
-      "dateLabel": "13 September 1759",
-      "lat": 46.8,
-      "lon": -71.22,
-      "belligerents": {
-        "side1": "Great Britain (Wolfe)",
-        "side2": "France (Montcalm)"
-      },
-      "victor": "British victory",
-      "outcome": "Quebec fell; both commanders died.",
-      "significance": "Decided the fate of New France and set North America on a British path.",
-      "casualties": "~650 each side",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Plains of Abraham",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Plains_of_Abraham"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "James Wolfe",
-          "side": 1,
-          "wiki": "James Wolfe"
-        },
-        {
-          "name": "Marquis de Montcalm",
-          "side": 2,
-          "wiki": "Louis-Joseph de Montcalm"
-        }
-      ]
-    },
-    {
-      "id": "culloden",
-      "name": "Battle of Culloden",
-      "year": 1746,
-      "dateLabel": "16 April 1746",
-      "lat": 57.48,
-      "lon": -4.1,
-      "belligerents": {
-        "side1": "British government",
-        "side2": "Jacobites (Charles Edward Stuart)"
-      },
-      "victor": "Government victory",
-      "outcome": "The Jacobite rising crushed in under an hour.",
-      "significance": "The last pitched battle on British soil; it ended the Jacobite cause and the clan system.",
-      "casualties": "~50 government; ~1,500 Jacobite",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Culloden",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Culloden"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Duke of Cumberland",
-          "side": 1,
-          "wiki": "Prince William, Duke of Cumberland"
-        },
-        {
-          "name": "Charles Edward Stuart",
-          "side": 2,
-          "wiki": "Charles Edward Stuart"
-        }
-      ]
-    },
-    {
-      "id": "jena-auerstedt",
-      "name": "Battle of Jena–Auerstedt",
-      "year": 1806,
-      "dateLabel": "14 October 1806",
-      "lat": 50.93,
-      "lon": 11.58,
-      "belligerents": {
-        "side1": "French Empire (Napoleon)",
-        "side2": "Prussia"
-      },
-      "victor": "French victory",
-      "outcome": "The Prussian army shattered in a single day.",
-      "significance": "Demonstrated French military supremacy and brought Prussia to its knees.",
-      "casualties": "~7,000 French; ~25,000 Prussian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Jena–Auerstedt",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Jena%E2%80%93Auerstedt"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Napoleon",
-          "side": 1,
-          "wiki": "Napoleon"
-        },
-        {
-          "name": "Louis-Nicolas Davout",
-          "side": 1,
-          "wiki": "Louis-Nicolas Davout"
-        },
-        {
-          "name": "Duke of Brunswick",
-          "side": 2,
-          "wiki": "Charles William Ferdinand, Duke of Brunswick"
-        },
-        {
-          "name": "Prince Hohenlohe",
-          "side": 2,
-          "wiki": "Frederick Louis, Prince of Hohenlohe-Ingelfingen"
-        }
-      ]
-    },
-    {
-      "id": "balaclava",
-      "name": "Battle of Balaclava",
-      "year": 1854,
-      "dateLabel": "25 October 1854",
-      "lat": 44.5,
-      "lon": 33.6,
-      "belligerents": {
-        "side1": "Britain, France, Ottomans",
-        "side2": "Russia"
-      },
-      "victor": "Indecisive",
-      "outcome": "Famous for the doomed Charge of the Light Brigade.",
-      "significance": "A Crimean War battle remembered for a heroic but disastrous cavalry charge.",
-      "casualties": "~600 in the Light Brigade charge",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Balaclava",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Balaclava"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Lord Raglan",
-          "side": 1,
-          "wiki": "FitzRoy Somerset, 1st Baron Raglan"
-        },
-        {
-          "name": "Alexander Menshikov",
-          "side": 2,
-          "wiki": "Alexander Sergeyevich Menshikov"
-        }
-      ]
-    },
-    {
-      "id": "koniggratz",
-      "name": "Battle of Königgrätz",
-      "year": 1866,
-      "dateLabel": "3 July 1866",
-      "lat": 50.29,
-      "lon": 15.75,
-      "belligerents": {
-        "side1": "Prussia",
-        "side2": "Austria & Saxony"
-      },
-      "victor": "Prussian victory",
-      "outcome": "Austria decisively beaten.",
-      "significance": "Settled the leadership of Germany in Prussia's favour, a key step toward German unification.",
-      "casualties": "~9,000 Prussian; ~44,000 Austrian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Königgrätz",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_K%C3%B6niggr%C3%A4tz"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Helmuth von Moltke",
-          "side": 1,
-          "wiki": "Helmuth von Moltke the Elder"
-        },
-        {
-          "name": "Ludwig von Benedek",
-          "side": 2,
-          "wiki": "Ludwig von Benedek"
-        }
-      ]
-    },
-    {
-      "id": "little-bighorn",
-      "name": "Battle of the Little Bighorn",
-      "year": 1876,
-      "dateLabel": "25 June 1876",
-      "lat": 45.57,
-      "lon": -107.43,
-      "belligerents": {
-        "side1": "Lakota, Cheyenne & Arapaho",
-        "side2": "United States (Custer)"
-      },
-      "victor": "Native American victory",
-      "outcome": "Custer and his command annihilated.",
-      "significance": "A famous Native American victory ('Custer's Last Stand') during the Great Sioux War.",
-      "casualties": "~270 U.S. dead",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Little Bighorn",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Little_Bighorn"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Sitting Bull",
-          "side": 1,
-          "wiki": "Sitting Bull"
-        },
-        {
-          "name": "Crazy Horse",
-          "side": 1,
-          "wiki": "Crazy Horse"
-        },
-        {
-          "name": "George Armstrong Custer",
-          "side": 2,
-          "wiki": "George Armstrong Custer"
-        }
-      ]
-    },
-    {
-      "id": "adwa",
-      "name": "Battle of Adwa",
-      "year": 1896,
-      "dateLabel": "1 March 1896",
-      "lat": 14.17,
-      "lon": 38.9,
-      "belligerents": {
-        "side1": "Ethiopian Empire (Menelik II)",
-        "side2": "Kingdom of Italy"
-      },
-      "victor": "Ethiopian victory",
-      "outcome": "The Italian invasion army defeated.",
-      "significance": "A landmark victory of an African state over a European colonial power, securing Ethiopian independence.",
-      "casualties": "~7,000 Italian; ~5,000 Ethiopian",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Adwa",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Adwa"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Menelik II",
-          "side": 1,
-          "wiki": "Menelik II"
-        },
-        {
-          "name": "Oreste Baratieri",
-          "side": 2,
-          "wiki": "Oreste Baratieri"
-        }
-      ]
-    },
-    {
-      "id": "marne-1914",
-      "hasBattleView": true,
-      "name": "First Battle of the Marne",
-      "year": 1914,
-      "dateLabel": "Sept 1914",
-      "lat": 48.96,
-      "lon": 3.4,
-      "belligerents": {
-        "side1": "France & Britain",
-        "side2": "German Empire"
-      },
-      "victor": "Allied victory",
-      "outcome": "The German advance on Paris was halted and reversed.",
-      "significance": "Ended Germany's hopes of a quick victory and began the long stalemate of trench warfare.",
-      "casualties": "~250,000 each side",
-      "links": [
-        {
-          "label": "Wikipedia: First Battle of the Marne",
-          "url": "https://en.wikipedia.org/wiki/First_Battle_of_the_Marne"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Joseph Joffre",
-          "side": 1,
-          "wiki": "Joseph Joffre"
-        },
-        {
-          "name": "Helmuth von Moltke the Younger",
-          "side": 2,
-          "wiki": "Helmuth von Moltke the Younger"
-        }
-      ]
-    },
-    {
-      "id": "pearl-harbor",
-      "name": "Attack on Pearl Harbor",
-      "year": 1941,
-      "dateLabel": "7 December 1941",
-      "lat": 21.36,
-      "lon": -157.97,
-      "belligerents": {
-        "side1": "Empire of Japan",
-        "side2": "United States"
-      },
-      "victor": "Japanese tactical victory",
-      "outcome": "The U.S. Pacific Fleet battleships crippled in a surprise attack.",
-      "significance": "Brought the United States into World War II.",
-      "casualties": "~2,400 American dead",
-      "links": [
-        {
-          "label": "Wikipedia: Attack on Pearl Harbor",
-          "url": "https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Isoroku Yamamoto",
-          "side": 1,
-          "wiki": "Isoroku Yamamoto"
-        },
-        {
-          "name": "Chūichi Nagumo",
-          "side": 1,
-          "wiki": "Chūichi Nagumo"
-        },
-        {
-          "name": "Husband E. Kimmel",
-          "side": 2,
-          "wiki": "Husband E. Kimmel"
-        }
-      ],
-      "timeOfDay": "dawn",
-      "hasBattleView": true
-    },
-    {
       "id": "leyte-gulf",
       "name": "Battle of Leyte Gulf",
       "year": 1944,
@@ -2730,49 +3688,77 @@
       ]
     },
     {
-      "id": "bulge",
-      "name": "Battle of the Bulge",
-      "year": 1944,
-      "dateLabel": "Dec 1944–Jan 1945",
-      "lat": 50.15,
-      "lon": 5.9,
+      "id": "berlin-1945",
+      "name": "Battle of Berlin",
+      "year": 1945,
+      "dateLabel": "Apr–May 1945",
+      "lat": 52.52,
+      "lon": 13.4,
       "belligerents": {
-        "side1": "Allies (mainly U.S.)",
+        "side1": "Soviet Union",
         "side2": "Nazi Germany"
       },
-      "victor": "Allied victory",
-      "outcome": "Germany's last major western offensive failed.",
-      "significance": "The costliest single battle for U.S. forces in WWII; it exhausted Germany's reserves in the west.",
-      "casualties": "~90,000 U.S.; ~100,000 German",
+      "victor": "Soviet victory",
+      "outcome": "Berlin captured; Hitler died; Germany surrendered.",
+      "significance": "The final major battle in Europe, ending the Third Reich and the Second World War on the continent.",
+      "casualties": "~80,000 Soviet; ~100,000+ German (total)",
       "links": [
         {
-          "label": "Wikipedia: Battle of the Bulge",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Bulge"
+          "label": "Wikipedia: Battle of Berlin",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Berlin"
         }
       ],
       "commanders": [
         {
-          "name": "Dwight D. Eisenhower",
+          "name": "Georgy Zhukov",
           "side": 1,
-          "wiki": "Dwight D. Eisenhower"
+          "wiki": "Georgy Zhukov"
         },
         {
-          "name": "George S. Patton",
+          "name": "Ivan Konev",
           "side": 1,
-          "wiki": "George S. Patton"
+          "wiki": "Ivan Konev"
         },
         {
-          "name": "Gerd von Rundstedt",
+          "name": "Helmuth Weidling",
           "side": 2,
-          "wiki": "Gerd von Rundstedt"
-        },
+          "wiki": "Helmuth Weidling"
+        }
+      ]
+    },
+    {
+      "id": "chosin-reservoir",
+      "name": "The Chosin Reservoir",
+      "year": 1950,
+      "dateLabel": "27 November – 13 December 1950",
+      "lat": 40.47,
+      "lon": 127.25,
+      "belligerents": {
+        "side1": "United Nations Command",
+        "side2": "China (People’s Volunteer Army)"
+      },
+      "victor": "Chinese strategic victory; the encircled force broke out",
+      "outcome": "Surrounded by ten divisions at thirty degrees below freezing, the Marines fought seventy-eight miles to the sea and took their wounded and their dead with them.",
+      "significance": "China had entered the war, and the hope of a quick reunification died in the snow. The front settled near where it had started, and is still there.",
+      "casualties": "About 17,800 UN casualties, many from frostbite; Chinese losses far higher",
+      "links": [
         {
-          "name": "Walter Model",
-          "side": 2,
-          "wiki": "Walter Model"
+          "label": "Wikipedia: Battle of Chosin Reservoir",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Chosin_Reservoir"
         }
       ],
-      "timeOfDay": "dawn"
+      "commanders": [
+        {
+          "name": "Oliver P. Smith",
+          "side": 1,
+          "wiki": "Oliver P. Smith"
+        },
+        {
+          "name": "Song Shilun",
+          "side": 2,
+          "wiki": "Song Shilun"
+        }
+      ]
     },
     {
       "id": "inchon",
@@ -2809,6 +3795,40 @@
       ]
     },
     {
+      "id": "pusan-perimeter",
+      "name": "The Pusan Perimeter",
+      "year": 1950,
+      "dateLabel": "4 August – 18 September 1950",
+      "lat": 35.18,
+      "lon": 129.08,
+      "belligerents": {
+        "side1": "United Nations Command and South Korea",
+        "side2": "North Korea"
+      },
+      "victor": "The line held",
+      "outcome": "Six weeks defending the last south-eastern corner of the peninsula, until Inchon cut the attackers off from behind.",
+      "significance": "The invasion came within a hundred miles of taking the whole country. Everything after Korea in the Cold War was shaped by the fact that it did not.",
+      "casualties": "Tens of thousands on both sides; North Korean losses the heavier",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Pusan Perimeter",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Pusan_Perimeter"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Walton Walker",
+          "side": 1,
+          "wiki": "Walton Walker"
+        },
+        {
+          "name": "Kim Chaek",
+          "side": 2,
+          "wiki": "Kim Chaek"
+        }
+      ]
+    },
+    {
       "id": "dien-bien-phu",
       "name": "Battle of Dien Bien Phu",
       "year": 1954,
@@ -2839,6 +3859,380 @@
           "name": "Christian de Castries",
           "side": 2,
           "wiki": "Christian de Castries"
+        }
+      ]
+    },
+    {
+      "id": "suez-1956",
+      "name": "The Suez Crisis",
+      "year": 1956,
+      "dateLabel": "29 October – 7 November 1956",
+      "lat": 31.26,
+      "lon": 32.3,
+      "belligerents": {
+        "side1": "United Kingdom, France and Israel",
+        "side2": "Egypt"
+      },
+      "victor": "Military success, political defeat",
+      "outcome": "The canal zone was taken and then given straight back under American and Soviet pressure, with the pound under threat.",
+      "significance": "The moment Britain discovered it could no longer act as a great power without Washington’s consent. Eden resigned; the empire’s unwinding accelerated.",
+      "casualties": "Around 3,000 Egyptian and some 200 allied dead",
+      "links": [
+        {
+          "label": "Wikipedia: Suez Crisis",
+          "url": "https://en.wikipedia.org/wiki/Suez_Crisis"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Charles Keightley",
+          "side": 1,
+          "wiki": "Charles Keightley"
+        },
+        {
+          "name": "Gamal Abdel Nasser",
+          "side": 2,
+          "wiki": "Gamal Abdel Nasser"
+        }
+      ]
+    },
+    {
+      "id": "ia-drang",
+      "name": "Battle of Ia Drang",
+      "year": 1965,
+      "dateLabel": "14–18 November 1965",
+      "lat": 13.58,
+      "lon": 107.72,
+      "belligerents": {
+        "side1": "United States",
+        "side2": "North Vietnam (PAVN)"
+      },
+      "victor": "Both sides claimed victory",
+      "outcome": "Two savage engagements days apart — a held landing zone at X-Ray, then an ambushed column at Albany.",
+      "significance": "The first full battle between American regulars and the North Vietnamese Army, and the first fought from helicopters. Each side came away believing it could beat the other, which is why the war ran another decade.",
+      "casualties": "About 234 Americans killed; North Vietnamese losses far higher and never reliably counted",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ia Drang",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ia_Drang"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hal Moore",
+          "side": 1,
+          "wiki": "Hal Moore"
+        },
+        {
+          "name": "Nguyễn Hữu An",
+          "side": 2,
+          "wiki": "Nguyễn Hữu An"
+        }
+      ]
+    },
+    {
+      "id": "six-day-war",
+      "name": "The Six-Day War",
+      "year": 1967,
+      "dateLabel": "5–10 June 1967",
+      "lat": 31.78,
+      "lon": 35.22,
+      "belligerents": {
+        "side1": "Israel",
+        "side2": "Egypt, Jordan and Syria"
+      },
+      "victor": "Israeli victory",
+      "outcome": "The Egyptian air force destroyed on the ground in three hours; Sinai, Gaza, the West Bank, East Jerusalem and the Golan taken in under a week.",
+      "significance": "Redrew the map of the Middle East and created the occupations that define its politics still. Six days, and the argument has run for six decades.",
+      "casualties": "Around 800 Israeli dead; Arab losses estimated near 20,000",
+      "links": [
+        {
+          "label": "Wikipedia: Six-Day War",
+          "url": "https://en.wikipedia.org/wiki/Six-Day_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Moshe Dayan",
+          "side": 1,
+          "wiki": "Moshe Dayan"
+        },
+        {
+          "name": "Abdel Hakim Amer",
+          "side": 2,
+          "wiki": "Abdel Hakim Amer"
+        }
+      ]
+    },
+    {
+      "id": "hue-1968",
+      "name": "Battle of Huế",
+      "year": 1968,
+      "dateLabel": "31 January – 2 March 1968",
+      "lat": 16.46,
+      "lon": 107.58,
+      "belligerents": {
+        "side1": "South Vietnam and the United States",
+        "side2": "North Vietnam and the Viet Cong"
+      },
+      "victor": "Allied victory",
+      "outcome": "A month of house-to-house fighting retook the old imperial capital. Most of the walled citadel was destroyed.",
+      "significance": "The bloodiest urban battle of the war, and the site of the Huế massacre — thousands of civilians and officials executed during the occupation, their graves found afterwards.",
+      "casualties": "Around 600 allied dead; some 5,000 communist; and an estimated 2,800 civilians murdered",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Huế",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Huế"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ngô Quang Trưởng",
+          "side": 1,
+          "wiki": "Ngô Quang Trưởng"
+        },
+        {
+          "name": "Trần Văn Quang",
+          "side": 2,
+          "wiki": "Trần Văn Quang"
+        }
+      ]
+    },
+    {
+      "id": "khe-sanh",
+      "name": "Siege of Khe Sanh",
+      "year": 1968,
+      "dateLabel": "21 January – 9 July 1968",
+      "lat": 16.65,
+      "lon": 106.73,
+      "belligerents": {
+        "side1": "United States and South Vietnam",
+        "side2": "North Vietnam (PAVN)"
+      },
+      "victor": "The base held",
+      "outcome": "Seventy-seven days of siege, broken by the heaviest tactical air support of the war. The base was abandoned five months later anyway.",
+      "significance": "Westmoreland was certain this was to be another Dien Bien Phu and fought it accordingly. Historians still argue whether it was the real objective or a feint to draw forces away from the cities before Tet.",
+      "casualties": "Around 700 Americans killed; North Vietnamese losses estimated in the thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Khe Sanh",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Khe_Sanh"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "David E. Lownds",
+          "side": 1,
+          "wiki": "David E. Lownds"
+        },
+        {
+          "name": "Trần Quý Hai",
+          "side": 2,
+          "wiki": "Trần Quý Hai"
+        }
+      ]
+    },
+    {
+      "id": "tet-offensive",
+      "name": "The Tet Offensive",
+      "year": 1968,
+      "dateLabel": "30 January – March 1968",
+      "lat": 10.78,
+      "lon": 106.7,
+      "belligerents": {
+        "side1": "North Vietnam and the Viet Cong",
+        "side2": "South Vietnam, United States and allies"
+      },
+      "victor": "Allied military victory; a political defeat for the United States",
+      "outcome": "Simultaneous attacks on more than a hundred towns during the lunar new year truce. All were retaken; the Viet Cong was destroyed as a fighting force.",
+      "significance": "The battle that was won and lost at the same time. American commanders had said the end was in sight; a country watching the embassy in Saigon under fire stopped believing them. Public support never recovered.",
+      "casualties": "Perhaps 45,000 communist dead; around 4,000 American and 5,000 South Vietnamese",
+      "links": [
+        {
+          "label": "Wikipedia: Tet Offensive",
+          "url": "https://en.wikipedia.org/wiki/Tet_Offensive"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Võ Nguyên Giáp",
+          "side": 1,
+          "wiki": "Võ Nguyên Giáp"
+        },
+        {
+          "name": "William Westmoreland",
+          "side": 2,
+          "wiki": "William Westmoreland"
+        }
+      ]
+    },
+    {
+      "id": "yom-kippur-war",
+      "name": "The Yom Kippur War",
+      "year": 1973,
+      "dateLabel": "6–25 October 1973",
+      "lat": 30.58,
+      "lon": 32.35,
+      "belligerents": {
+        "side1": "Egypt and Syria",
+        "side2": "Israel"
+      },
+      "victor": "Israeli recovery after early Arab gains",
+      "outcome": "A surprise crossing of the Suez Canal on the holiest day of the Jewish year, and a counter-attack that ended with Israeli armour on the Cairo road.",
+      "significance": "Broke the invincibility won in 1967 on both sides — enough of a shock to Israel, and enough of a restored standing to Egypt, to make Camp David possible six years later. It also triggered the oil embargo that reordered the world economy.",
+      "casualties": "Around 2,700 Israeli dead; Arab losses perhaps 15,000",
+      "links": [
+        {
+          "label": "Wikipedia: Yom Kippur War",
+          "url": "https://en.wikipedia.org/wiki/Yom_Kippur_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Saad el-Shazly",
+          "side": 1,
+          "wiki": "Saad el-Shazly"
+        },
+        {
+          "name": "David Elazar",
+          "side": 2,
+          "wiki": "David Elazar"
+        }
+      ]
+    },
+    {
+      "id": "fall-of-saigon",
+      "name": "The Fall of Saigon",
+      "year": 1975,
+      "dateLabel": "30 April 1975",
+      "lat": 10.78,
+      "lon": 106.7,
+      "belligerents": {
+        "side1": "North Vietnam (PAVN)",
+        "side2": "South Vietnam"
+      },
+      "victor": "North Vietnamese victory",
+      "outcome": "Tanks through the palace gates, and the last helicopters off the embassy roof. South Vietnam surrendered unconditionally.",
+      "significance": "The end of thirty years of war in Vietnam, and of American involvement in it. The country was reunified the following year.",
+      "casualties": "Light by the standards of the war; the city largely fell without a siege",
+      "links": [
+        {
+          "label": "Wikipedia: Fall of Saigon",
+          "url": "https://en.wikipedia.org/wiki/Fall_of_Saigon"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Văn Tiến Dũng",
+          "side": 1,
+          "wiki": "Văn Tiến Dũng"
+        },
+        {
+          "name": "Dương Văn Minh",
+          "side": 2,
+          "wiki": "Dương Văn Minh"
+        }
+      ]
+    },
+    {
+      "id": "falklands-1982",
+      "name": "The Falklands War",
+      "year": 1982,
+      "dateLabel": "2 April – 14 June 1982",
+      "lat": -51.69,
+      "lon": -57.86,
+      "belligerents": {
+        "side1": "United Kingdom",
+        "side2": "Argentina"
+      },
+      "victor": "British victory",
+      "outcome": "A task force sailed eight thousand miles, landed at San Carlos, walked across the island and took Stanley in ten weeks.",
+      "significance": "The last war fought by a European power alone and at that distance. It ended the Argentine junta within days, and remade British politics for a decade.",
+      "casualties": "255 British and 649 Argentine dead",
+      "links": [
+        {
+          "label": "Wikipedia: Falklands War",
+          "url": "https://en.wikipedia.org/wiki/Falklands_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Jeremy Moore",
+          "side": 1,
+          "wiki": "Jeremy Moore"
+        },
+        {
+          "name": "Mario Menéndez",
+          "side": 2,
+          "wiki": "Mario Benjamín Menéndez"
+        }
+      ]
+    },
+    {
+      "id": "cuito-cuanavale",
+      "name": "Battle of Cuito Cuanavale",
+      "year": 1987,
+      "dateLabel": "August 1987 – March 1988",
+      "lat": -15.1667,
+      "lon": 19.1667,
+      "belligerents": {
+        "side1": "Angola, Cuba and SWAPO",
+        "side2": "South Africa and UNITA"
+      },
+      "victor": "Disputed — both sides claimed it",
+      "outcome": "South African and UNITA attacks failed to take the town, and Cuban reinforcements pushed south-west towards the Namibian border. Negotiations opened within months.",
+      "significance": "The largest battle fought in Africa since the Second World War. It led directly to Namibian independence and to South Africa's withdrawal from the region — and is still claimed as a victory by both sides.",
+      "casualties": "Estimates differ sharply; likely several thousand dead in all",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Cuito Cuanavale",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cuito_Cuanavale"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Arnaldo Ochoa",
+          "side": 1,
+          "wiki": "Arnaldo Ochoa"
+        },
+        {
+          "name": "Jannie Geldenhuys",
+          "side": 2,
+          "wiki": "Johannes Geldenhuys"
+        }
+      ]
+    },
+    {
+      "id": "desert-storm",
+      "name": "Operation Desert Storm",
+      "year": 1991,
+      "dateLabel": "17 January – 28 February 1991",
+      "lat": 29.37,
+      "lon": 47.98,
+      "belligerents": {
+        "side1": "Coalition of thirty-five nations",
+        "side2": "Iraq"
+      },
+      "victor": "Coalition victory",
+      "outcome": "Five weeks of air attack, then a hundred hours of ground war that cleared Kuwait and stopped short of Baghdad.",
+      "significance": "The first war the world watched live, and the demonstration of precision air power that every military since has been built around — or against.",
+      "casualties": "Around 300 coalition dead; Iraqi military losses estimated in the tens of thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Gulf War",
+          "url": "https://en.wikipedia.org/wiki/Gulf_War"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Norman Schwarzkopf Jr.",
+          "side": 1,
+          "wiki": "Norman Schwarzkopf Jr."
+        },
+        {
+          "name": "Saddam Hussein",
+          "side": 2,
+          "wiki": "Saddam Hussein"
         }
       ]
     },
@@ -2911,6 +4305,40 @@
       ]
     },
     {
+      "id": "kherson-counteroffensive",
+      "name": "Kherson counteroffensive",
+      "year": 2022,
+      "dateLabel": "Aug–Nov 2022",
+      "lat": 46.64,
+      "lon": 32.61,
+      "belligerents": {
+        "side1": "Ukraine",
+        "side2": "Russia"
+      },
+      "victor": "Ukrainian victory",
+      "outcome": "Russian forces abandoned the west bank of the Dnipro; Kherson was liberated on 11 November 2022.",
+      "significance": "The only regional capital taken by Russia in 2022 was recovered — a turning point of the year.",
+      "casualties": "Contested; heavy on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Kherson counteroffensive",
+          "url": "https://en.wikipedia.org/wiki/2022_Kherson_counteroffensive"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Andriy Kovalchuk",
+          "side": 1,
+          "wiki": "Andriy Kovalchuk"
+        },
+        {
+          "name": "Sergey Surovikin",
+          "side": 2,
+          "wiki": "Sergey Surovikin"
+        }
+      ]
+    },
+    {
       "id": "siege-of-mariupol",
       "name": "Siege of Mariupol",
       "year": 2022,
@@ -2975,754 +4403,6 @@
           "name": "Yevgeny Prigozhin",
           "side": 2,
           "wiki": "Yevgeny Prigozhin"
-        }
-      ]
-    },
-    {
-      "id": "kherson-counteroffensive",
-      "name": "Kherson counteroffensive",
-      "year": 2022,
-      "dateLabel": "Aug–Nov 2022",
-      "lat": 46.64,
-      "lon": 32.61,
-      "belligerents": {
-        "side1": "Ukraine",
-        "side2": "Russia"
-      },
-      "victor": "Ukrainian victory",
-      "outcome": "Russian forces abandoned the west bank of the Dnipro; Kherson was liberated on 11 November 2022.",
-      "significance": "The only regional capital taken by Russia in 2022 was recovered — a turning point of the year.",
-      "casualties": "Contested; heavy on both sides",
-      "links": [
-        {
-          "label": "Wikipedia: Kherson counteroffensive",
-          "url": "https://en.wikipedia.org/wiki/2022_Kherson_counteroffensive"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Andriy Kovalchuk",
-          "side": 1,
-          "wiki": "Andriy Kovalchuk"
-        },
-        {
-          "name": "Sergey Surovikin",
-          "side": 2,
-          "wiki": "Sergey Surovikin"
-        }
-      ]
-    },
-    {
-      "id": "badger-mouth",
-      "name": "Battle of Yehuling (Badger Mouth)",
-      "year": 1211,
-      "dateLabel": "1211 CE",
-      "lat": 40.4,
-      "lon": 115.5,
-      "belligerents": {
-        "side1": "Mongol Empire",
-        "side2": "Jin dynasty"
-      },
-      "victor": "Mongol victory",
-      "outcome": "The Jin field army was destroyed; northern China lay open.",
-      "significance": "Genghis Khan’s first great victory outside the steppe, and the beginning of the Mongol conquest of China.",
-      "casualties": "Jin losses in the hundreds of thousands, by Chinese accounts",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Yehuling",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Yehuling"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Genghis Khan",
-          "side": 1,
-          "wiki": "Genghis Khan"
-        },
-        {
-          "name": "Wanyan Chengyu",
-          "side": 2,
-          "wiki": "Wanyan Chengyu"
-        }
-      ]
-    },
-    {
-      "id": "samarkand-1220",
-      "name": "Siege of Samarkand",
-      "year": 1220,
-      "dateLabel": "1220 CE",
-      "lat": 39.65,
-      "lon": 66.96,
-      "belligerents": {
-        "side1": "Mongol Empire",
-        "side2": "Khwarazmian Empire"
-      },
-      "victor": "Mongol victory",
-      "outcome": "Samarkand fell in days; the Khwarazmian Empire collapsed within two years.",
-      "significance": "The campaign that carried the Mongols into Persia and the Middle East, begun as revenge for murdered envoys.",
-      "casualties": "The garrison massacred; craftsmen deported east",
-      "links": [
-        {
-          "label": "Wikipedia: Siege of Samarkand (1220)",
-          "url": "https://en.wikipedia.org/wiki/Siege_of_Samarkand_(1220)"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Genghis Khan",
-          "side": 1,
-          "wiki": "Genghis Khan"
-        },
-        {
-          "name": "Ala ad-Din Muhammad II",
-          "side": 2,
-          "wiki": "Muhammad II of Khwarazm"
-        }
-      ]
-    },
-    {
-      "id": "kalka-river",
-      "name": "Battle of the Kalka River",
-      "year": 1223,
-      "dateLabel": "31 May 1223",
-      "lat": 47.2,
-      "lon": 37.5,
-      "belligerents": {
-        "side1": "Mongol Empire",
-        "side2": "Rus’ principalities and Cumans"
-      },
-      "victor": "Mongol victory",
-      "outcome": "A combined Rus’ army destroyed; the Mongols then withdrew east for fourteen years.",
-      "significance": "Europe’s first meeting with the Mongols — a reconnaissance in force that was not understood as a warning.",
-      "casualties": "Around nine tenths of the Rus’ army; six princes killed",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Kalka River",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Kalka_River"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Subutai",
-          "side": 1,
-          "wiki": "Subutai"
-        },
-        {
-          "name": "Mstislav the Bold",
-          "side": 2,
-          "wiki": "Mstislav Mstislavich"
-        }
-      ]
-    },
-    {
-      "id": "legnica",
-      "name": "Battle of Legnica",
-      "year": 1241,
-      "dateLabel": "9 April 1241",
-      "lat": 51.15,
-      "lon": 16.19,
-      "belligerents": {
-        "side1": "Mongol Empire",
-        "side2": "Poland, Moravia and the military orders"
-      },
-      "victor": "Mongol victory",
-      "outcome": "The Polish army destroyed two days before Mohi; central Europe lay open.",
-      "significance": "The western edge of the conquest. The Mongols turned back the next year on the death of the Great Khan, not through defeat.",
-      "casualties": "Most of the Polish force; Duke Henry II killed",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Legnica",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Legnica"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Baidar",
-          "side": 1,
-          "wiki": "Baidar"
-        },
-        {
-          "name": "Henry II the Pious",
-          "side": 2,
-          "wiki": "Henry II the Pious"
-        }
-      ]
-    },
-    {
-      "id": "ain-jalut",
-      "name": "Battle of Ain Jalut",
-      "year": 1260,
-      "dateLabel": "3 September 1260",
-      "lat": 32.55,
-      "lon": 35.35,
-      "belligerents": {
-        "side1": "Mamluk Sultanate",
-        "side2": "Mongol Ilkhanate"
-      },
-      "victor": "Mamluk victory",
-      "outcome": "The first strategic defeat the Mongols could not reverse; the advance west stopped here for good.",
-      "significance": "The limit of the empire Genghis began — and the reason Egypt and North Africa were never taken.",
-      "casualties": "The Mongol force largely destroyed; Kitbuqa executed",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Ain Jalut",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Ain_Jalut"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Baibars",
-          "side": 1,
-          "wiki": "Baibars"
-        },
-        {
-          "name": "Kitbuqa",
-          "side": 2,
-          "wiki": "Kitbuqa"
-        }
-      ]
-    },
-    {
-      "id": "yamen",
-      "name": "Battle of Yamen",
-      "year": 1279,
-      "dateLabel": "19 March 1279",
-      "lat": 22.17,
-      "lon": 113,
-      "belligerents": {
-        "side1": "Yuan dynasty (Mongol)",
-        "side2": "Song dynasty"
-      },
-      "victor": "Yuan victory",
-      "outcome": "The Song fleet destroyed; the child emperor drowned. China united under Mongol rule.",
-      "significance": "The conquest Genghis began in 1211 completed by his grandson Kublai, sixty-eight years later.",
-      "casualties": "Reportedly over 100,000 Song dead, many by drowning",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Yamen",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Yamen"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Zhang Hongfan",
-          "side": 1,
-          "wiki": "Zhang Hongfan"
-        },
-        {
-          "name": "Lu Xiufu",
-          "side": 2,
-          "wiki": "Lu Xiufu"
-        }
-      ]
-    },
-    {
-      "id": "noche-triste",
-      "name": "La Noche Triste",
-      "year": 1520,
-      "dateLabel": "30 June 1520",
-      "lat": 19.44,
-      "lon": -99.15,
-      "belligerents": {
-        "side1": "Aztec Empire (Mexica)",
-        "side2": "Spain and Tlaxcalan allies"
-      },
-      "victor": "Mexica victory",
-      "outcome": "Cortés driven out of Tenochtitlan overnight with heavy losses.",
-      "significance": "The night the conquest nearly failed. The Spanish returned a year later with smallpox ahead of them.",
-      "casualties": "Perhaps two thirds of the Spanish force and most of their allies",
-      "links": [
-        {
-          "label": "Wikipedia: La Noche Triste",
-          "url": "https://en.wikipedia.org/wiki/La_Noche_Triste"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Cuitláhuac",
-          "side": 1,
-          "wiki": "Cuitláhuac"
-        },
-        {
-          "name": "Hernán Cortés",
-          "side": 2,
-          "wiki": "Hernán Cortés"
-        }
-      ]
-    },
-    {
-      "id": "cajamarca",
-      "name": "Battle of Cajamarca",
-      "year": 1532,
-      "dateLabel": "16 November 1532",
-      "lat": -7.16,
-      "lon": -78.51,
-      "belligerents": {
-        "side1": "Spain",
-        "side2": "Inca Empire"
-      },
-      "victor": "Spanish victory",
-      "outcome": "Atahualpa seized in the square by fewer than 200 men; the Inca state decapitated in an afternoon.",
-      "significance": "An empire of millions taken by ambush — smallpox and a war of succession had come first.",
-      "casualties": "Thousands of Inca killed; almost no Spanish losses",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Cajamarca",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Cajamarca"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Francisco Pizarro",
-          "side": 1,
-          "wiki": "Francisco Pizarro"
-        },
-        {
-          "name": "Atahualpa",
-          "side": 2,
-          "wiki": "Atahualpa"
-        }
-      ]
-    },
-    {
-      "id": "alamo",
-      "name": "Battle of the Alamo",
-      "year": 1836,
-      "dateLabel": "23 Feb – 6 Mar 1836",
-      "lat": 29.43,
-      "lon": -98.49,
-      "belligerents": {
-        "side1": "Mexico",
-        "side2": "Texian rebels"
-      },
-      "victor": "Mexican victory",
-      "outcome": "The mission stormed after a thirteen-day siege; nearly all defenders killed.",
-      "significance": "A tactical defeat that became the rallying cry of Texan independence six weeks later at San Jacinto.",
-      "casualties": "Around 200 Texian defenders; several hundred Mexican soldiers",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of the Alamo",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Alamo"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Antonio López de Santa Anna",
-          "side": 1,
-          "wiki": "Antonio López de Santa Anna"
-        },
-        {
-          "name": "William B. Travis",
-          "side": 2,
-          "wiki": "William B. Travis"
-        }
-      ]
-    },
-    {
-      "id": "ia-drang",
-      "name": "Battle of Ia Drang",
-      "year": 1965,
-      "dateLabel": "14–18 November 1965",
-      "lat": 13.58,
-      "lon": 107.72,
-      "belligerents": {
-        "side1": "United States",
-        "side2": "North Vietnam (PAVN)"
-      },
-      "victor": "Both sides claimed victory",
-      "outcome": "Two savage engagements days apart — a held landing zone at X-Ray, then an ambushed column at Albany.",
-      "significance": "The first full battle between American regulars and the North Vietnamese Army, and the first fought from helicopters. Each side came away believing it could beat the other, which is why the war ran another decade.",
-      "casualties": "About 234 Americans killed; North Vietnamese losses far higher and never reliably counted",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Ia Drang",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Ia_Drang"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Hal Moore",
-          "side": 1,
-          "wiki": "Hal Moore"
-        },
-        {
-          "name": "Nguyễn Hữu An",
-          "side": 2,
-          "wiki": "Nguyễn Hữu An"
-        }
-      ]
-    },
-    {
-      "id": "tet-offensive",
-      "name": "The Tet Offensive",
-      "year": 1968,
-      "dateLabel": "30 January – March 1968",
-      "lat": 10.78,
-      "lon": 106.7,
-      "belligerents": {
-        "side1": "North Vietnam and the Viet Cong",
-        "side2": "South Vietnam, United States and allies"
-      },
-      "victor": "Allied military victory; a political defeat for the United States",
-      "outcome": "Simultaneous attacks on more than a hundred towns during the lunar new year truce. All were retaken; the Viet Cong was destroyed as a fighting force.",
-      "significance": "The battle that was won and lost at the same time. American commanders had said the end was in sight; a country watching the embassy in Saigon under fire stopped believing them. Public support never recovered.",
-      "casualties": "Perhaps 45,000 communist dead; around 4,000 American and 5,000 South Vietnamese",
-      "links": [
-        {
-          "label": "Wikipedia: Tet Offensive",
-          "url": "https://en.wikipedia.org/wiki/Tet_Offensive"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Võ Nguyên Giáp",
-          "side": 1,
-          "wiki": "Võ Nguyên Giáp"
-        },
-        {
-          "name": "William Westmoreland",
-          "side": 2,
-          "wiki": "William Westmoreland"
-        }
-      ]
-    },
-    {
-      "id": "khe-sanh",
-      "name": "Siege of Khe Sanh",
-      "year": 1968,
-      "dateLabel": "21 January – 9 July 1968",
-      "lat": 16.65,
-      "lon": 106.73,
-      "belligerents": {
-        "side1": "United States and South Vietnam",
-        "side2": "North Vietnam (PAVN)"
-      },
-      "victor": "The base held",
-      "outcome": "Seventy-seven days of siege, broken by the heaviest tactical air support of the war. The base was abandoned five months later anyway.",
-      "significance": "Westmoreland was certain this was to be another Dien Bien Phu and fought it accordingly. Historians still argue whether it was the real objective or a feint to draw forces away from the cities before Tet.",
-      "casualties": "Around 700 Americans killed; North Vietnamese losses estimated in the thousands",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Khe Sanh",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Khe_Sanh"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "David E. Lownds",
-          "side": 1,
-          "wiki": "David E. Lownds"
-        },
-        {
-          "name": "Trần Quý Hai",
-          "side": 2,
-          "wiki": "Trần Quý Hai"
-        }
-      ]
-    },
-    {
-      "id": "hue-1968",
-      "name": "Battle of Huế",
-      "year": 1968,
-      "dateLabel": "31 January – 2 March 1968",
-      "lat": 16.46,
-      "lon": 107.58,
-      "belligerents": {
-        "side1": "South Vietnam and the United States",
-        "side2": "North Vietnam and the Viet Cong"
-      },
-      "victor": "Allied victory",
-      "outcome": "A month of house-to-house fighting retook the old imperial capital. Most of the walled citadel was destroyed.",
-      "significance": "The bloodiest urban battle of the war, and the site of the Huế massacre — thousands of civilians and officials executed during the occupation, their graves found afterwards.",
-      "casualties": "Around 600 allied dead; some 5,000 communist; and an estimated 2,800 civilians murdered",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Huế",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Huế"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Ngô Quang Trưởng",
-          "side": 1,
-          "wiki": "Ngô Quang Trưởng"
-        },
-        {
-          "name": "Trần Văn Quang",
-          "side": 2,
-          "wiki": "Trần Văn Quang"
-        }
-      ]
-    },
-    {
-      "id": "fall-of-saigon",
-      "name": "The Fall of Saigon",
-      "year": 1975,
-      "dateLabel": "30 April 1975",
-      "lat": 10.78,
-      "lon": 106.7,
-      "belligerents": {
-        "side1": "North Vietnam (PAVN)",
-        "side2": "South Vietnam"
-      },
-      "victor": "North Vietnamese victory",
-      "outcome": "Tanks through the palace gates, and the last helicopters off the embassy roof. South Vietnam surrendered unconditionally.",
-      "significance": "The end of thirty years of war in Vietnam, and of American involvement in it. The country was reunified the following year.",
-      "casualties": "Light by the standards of the war; the city largely fell without a siege",
-      "links": [
-        {
-          "label": "Wikipedia: Fall of Saigon",
-          "url": "https://en.wikipedia.org/wiki/Fall_of_Saigon"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Văn Tiến Dũng",
-          "side": 1,
-          "wiki": "Văn Tiến Dũng"
-        },
-        {
-          "name": "Dương Văn Minh",
-          "side": 2,
-          "wiki": "Dương Văn Minh"
-        }
-      ]
-    },
-    {
-      "id": "pusan-perimeter",
-      "name": "The Pusan Perimeter",
-      "year": 1950,
-      "dateLabel": "4 August – 18 September 1950",
-      "lat": 35.18,
-      "lon": 129.08,
-      "belligerents": {
-        "side1": "United Nations Command and South Korea",
-        "side2": "North Korea"
-      },
-      "victor": "The line held",
-      "outcome": "Six weeks defending the last south-eastern corner of the peninsula, until Inchon cut the attackers off from behind.",
-      "significance": "The invasion came within a hundred miles of taking the whole country. Everything after Korea in the Cold War was shaped by the fact that it did not.",
-      "casualties": "Tens of thousands on both sides; North Korean losses the heavier",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Pusan Perimeter",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Pusan_Perimeter"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Walton Walker",
-          "side": 1,
-          "wiki": "Walton Walker"
-        },
-        {
-          "name": "Kim Chaek",
-          "side": 2,
-          "wiki": "Kim Chaek"
-        }
-      ]
-    },
-    {
-      "id": "chosin-reservoir",
-      "name": "The Chosin Reservoir",
-      "year": 1950,
-      "dateLabel": "27 November – 13 December 1950",
-      "lat": 40.47,
-      "lon": 127.25,
-      "belligerents": {
-        "side1": "United Nations Command",
-        "side2": "China (People’s Volunteer Army)"
-      },
-      "victor": "Chinese strategic victory; the encircled force broke out",
-      "outcome": "Surrounded by ten divisions at thirty degrees below freezing, the Marines fought seventy-eight miles to the sea and took their wounded and their dead with them.",
-      "significance": "China had entered the war, and the hope of a quick reunification died in the snow. The front settled near where it had started, and is still there.",
-      "casualties": "About 17,800 UN casualties, many from frostbite; Chinese losses far higher",
-      "links": [
-        {
-          "label": "Wikipedia: Battle of Chosin Reservoir",
-          "url": "https://en.wikipedia.org/wiki/Battle_of_Chosin_Reservoir"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Oliver P. Smith",
-          "side": 1,
-          "wiki": "Oliver P. Smith"
-        },
-        {
-          "name": "Song Shilun",
-          "side": 2,
-          "wiki": "Song Shilun"
-        }
-      ]
-    },
-    {
-      "id": "suez-1956",
-      "name": "The Suez Crisis",
-      "year": 1956,
-      "dateLabel": "29 October – 7 November 1956",
-      "lat": 31.26,
-      "lon": 32.3,
-      "belligerents": {
-        "side1": "United Kingdom, France and Israel",
-        "side2": "Egypt"
-      },
-      "victor": "Military success, political defeat",
-      "outcome": "The canal zone was taken and then given straight back under American and Soviet pressure, with the pound under threat.",
-      "significance": "The moment Britain discovered it could no longer act as a great power without Washington’s consent. Eden resigned; the empire’s unwinding accelerated.",
-      "casualties": "Around 3,000 Egyptian and some 200 allied dead",
-      "links": [
-        {
-          "label": "Wikipedia: Suez Crisis",
-          "url": "https://en.wikipedia.org/wiki/Suez_Crisis"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Charles Keightley",
-          "side": 1,
-          "wiki": "Charles Keightley"
-        },
-        {
-          "name": "Gamal Abdel Nasser",
-          "side": 2,
-          "wiki": "Gamal Abdel Nasser"
-        }
-      ]
-    },
-    {
-      "id": "six-day-war",
-      "name": "The Six-Day War",
-      "year": 1967,
-      "dateLabel": "5–10 June 1967",
-      "lat": 31.78,
-      "lon": 35.22,
-      "belligerents": {
-        "side1": "Israel",
-        "side2": "Egypt, Jordan and Syria"
-      },
-      "victor": "Israeli victory",
-      "outcome": "The Egyptian air force destroyed on the ground in three hours; Sinai, Gaza, the West Bank, East Jerusalem and the Golan taken in under a week.",
-      "significance": "Redrew the map of the Middle East and created the occupations that define its politics still. Six days, and the argument has run for six decades.",
-      "casualties": "Around 800 Israeli dead; Arab losses estimated near 20,000",
-      "links": [
-        {
-          "label": "Wikipedia: Six-Day War",
-          "url": "https://en.wikipedia.org/wiki/Six-Day_War"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Moshe Dayan",
-          "side": 1,
-          "wiki": "Moshe Dayan"
-        },
-        {
-          "name": "Abdel Hakim Amer",
-          "side": 2,
-          "wiki": "Abdel Hakim Amer"
-        }
-      ]
-    },
-    {
-      "id": "yom-kippur-war",
-      "name": "The Yom Kippur War",
-      "year": 1973,
-      "dateLabel": "6–25 October 1973",
-      "lat": 30.58,
-      "lon": 32.35,
-      "belligerents": {
-        "side1": "Egypt and Syria",
-        "side2": "Israel"
-      },
-      "victor": "Israeli recovery after early Arab gains",
-      "outcome": "A surprise crossing of the Suez Canal on the holiest day of the Jewish year, and a counter-attack that ended with Israeli armour on the Cairo road.",
-      "significance": "Broke the invincibility won in 1967 on both sides — enough of a shock to Israel, and enough of a restored standing to Egypt, to make Camp David possible six years later. It also triggered the oil embargo that reordered the world economy.",
-      "casualties": "Around 2,700 Israeli dead; Arab losses perhaps 15,000",
-      "links": [
-        {
-          "label": "Wikipedia: Yom Kippur War",
-          "url": "https://en.wikipedia.org/wiki/Yom_Kippur_War"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Saad el-Shazly",
-          "side": 1,
-          "wiki": "Saad el-Shazly"
-        },
-        {
-          "name": "David Elazar",
-          "side": 2,
-          "wiki": "David Elazar"
-        }
-      ]
-    },
-    {
-      "id": "falklands-1982",
-      "name": "The Falklands War",
-      "year": 1982,
-      "dateLabel": "2 April – 14 June 1982",
-      "lat": -51.69,
-      "lon": -57.86,
-      "belligerents": {
-        "side1": "United Kingdom",
-        "side2": "Argentina"
-      },
-      "victor": "British victory",
-      "outcome": "A task force sailed eight thousand miles, landed at San Carlos, walked across the island and took Stanley in ten weeks.",
-      "significance": "The last war fought by a European power alone and at that distance. It ended the Argentine junta within days, and remade British politics for a decade.",
-      "casualties": "255 British and 649 Argentine dead",
-      "links": [
-        {
-          "label": "Wikipedia: Falklands War",
-          "url": "https://en.wikipedia.org/wiki/Falklands_War"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Jeremy Moore",
-          "side": 1,
-          "wiki": "Jeremy Moore"
-        },
-        {
-          "name": "Mario Menéndez",
-          "side": 2,
-          "wiki": "Mario Benjamín Menéndez"
-        }
-      ]
-    },
-    {
-      "id": "desert-storm",
-      "name": "Operation Desert Storm",
-      "year": 1991,
-      "dateLabel": "17 January – 28 February 1991",
-      "lat": 29.37,
-      "lon": 47.98,
-      "belligerents": {
-        "side1": "Coalition of thirty-five nations",
-        "side2": "Iraq"
-      },
-      "victor": "Coalition victory",
-      "outcome": "Five weeks of air attack, then a hundred hours of ground war that cleared Kuwait and stopped short of Baghdad.",
-      "significance": "The first war the world watched live, and the demonstration of precision air power that every military since has been built around — or against.",
-      "casualties": "Around 300 coalition dead; Iraqi military losses estimated in the tens of thousands",
-      "links": [
-        {
-          "label": "Wikipedia: Gulf War",
-          "url": "https://en.wikipedia.org/wiki/Gulf_War"
-        }
-      ],
-      "commanders": [
-        {
-          "name": "Norman Schwarzkopf Jr.",
-          "side": 1,
-          "wiki": "Norman Schwarzkopf Jr."
-        },
-        {
-          "name": "Saddam Hussein",
-          "side": 2,
-          "wiki": "Saddam Hussein"
         }
       ]
     }

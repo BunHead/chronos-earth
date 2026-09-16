@@ -20,11 +20,35 @@ const BOXES: Box[] = [
   { name: 'Britain & Ireland', s: 49.8, n: 61, w: -11, e: 1.8 },
   { name: 'France', s: 42.3, n: 51.5, w: -5, e: 8.3 },
   { name: 'Iberia', s: 35.9, n: 44, w: -10, e: 3.4 },
+  // Cape Bon pokes north into Italy's box: Carthage sits at 36.85°N, further
+  // north than Syracuse. Claim the Tunisian cape for Africa before Italy can
+  // take it, but stop at 37.5 so Sicily stays Italian.
+  { name: 'North Africa', s: 30, n: 37.5, w: 7, e: 12 },
   { name: 'Italy', s: 36.5, n: 47.1, w: 6.6, e: 18.6 },
   { name: 'Greece & Balkans', s: 34.8, n: 46.2, w: 13.4, e: 29.7 },
   { name: 'Central Europe', s: 45.8, n: 55.3, w: 5.5, e: 24 },
   { name: 'Scandinavia', s: 54.4, n: 71.5, w: 4, e: 31 },
   { name: 'Eastern Europe', s: 44, n: 60, w: 17, e: 40 },
+  // Africa west of the Red Sea, claimed BEFORE the Middle East. Without this
+  // the Middle East box (which starts at 12°N and runs east from 26°) quietly
+  // swallowed the Horn and the Sudan — Adwa and Omdurman were filed under the
+  // Middle East, which is why Africa read as having no battles at all.
+  // Stops at 44°E so Yemen and the Hijaz stay in the Middle East; the second
+  // box picks up Somalia, which reaches further east but stays below Arabia.
+  { name: 'Africa', s: -35, n: 18, w: -18, e: 44 },
+  { name: 'Africa', s: -35, n: 12, w: -18, e: 52 },
+  // Transoxiana and Khorasan had no box at all, so Samarkand — one of the
+  // great cities of the medieval world — came out as "Rest of the world".
+  // Ahead of Russia & Steppe, which otherwise claims everything above 40°N.
+  { name: 'Central Asia', s: 33, n: 48, w: 52, e: 80 },
+  // Indochina ahead of East Asia: the East Asia box starts at 18°N and would
+  // otherwise file Hanoi and Điện Biên Phủ under China. Stops at 110°E so
+  // Guangdong (Yamen, Hong Kong) is not dragged into Southeast Asia.
+  { name: 'Southeast Asia', s: 8, n: 23.5, w: 92, e: 110 },
+  // China, Korea and Japan ahead of Russia & Steppe for the same reason it
+  // claimed Chosin Reservoir and Badger Mouth. Capped at 46°N so Mongolia and
+  // Lake Baikal stay with the steppe, where they belong.
+  { name: 'East Asia', s: 18, n: 46, w: 92, e: 146 },
   { name: 'Russia & Steppe', s: 40, n: 78, w: 30, e: 180 },
   // North Africa before the Middle East so the Nile stays African; the Levant
   // (lon > 34) falls through to the Middle East box.
@@ -34,7 +58,16 @@ const BOXES: Box[] = [
   { name: 'South Asia', s: 5, n: 37, w: 60, e: 92 },
   { name: 'East Asia', s: 18, n: 54, w: 92, e: 146 },
   { name: 'Southeast Asia', s: -11, n: 23.5, w: 92, e: 141 },
-  { name: 'Oceania', s: -50, n: -8, w: 110, e: 180 },
+  // Reaches to the equator, not to 8°S: New Guinea, New Britain and the
+  // Bismarck Sea all sit north of the old edge, so Kokoda's northern half and
+  // Bita Paka fell off the map. Southeast Asia is tested first and stops at
+  // 141°E, which is very nearly the New Guinea border, so Indonesia is safe.
+  { name: 'Oceania', s: -50, n: 0, w: 110, e: 180 },
+  // Micronesia and the central Pacific: everything the island-hopping campaign
+  // was fought over had been landing in "Rest of the world". The eastern box
+  // stops at 160°W so Hawaii stays with North America.
+  { name: 'Pacific Islands', s: -50, n: 30, w: 141, e: 180 },
+  { name: 'Pacific Islands', s: -50, n: 30, w: -180, e: -160 },
   { name: 'North America', s: 7, n: 72, w: -170, e: -50 },
   { name: 'South America', s: -56, n: 13, w: -82, e: -34 },
 ];
