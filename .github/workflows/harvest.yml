@@ -20,7 +20,17 @@ concurrency:
 jobs:
   harvest:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    # THE BUDGET MUST FIT, AND IT DID NOT. This was 75 while the two fetch
+    # steps below are capped at 55m + 25m = 80m — so whenever the first fetch
+    # ran long (it always does; it exists to run until stopped) the JOB timeout
+    # killed the run partway through the second, and every step after it,
+    # INCLUDING THE COMMIT, was skipped. The nightly harvest ran for 75 minutes
+    # a night from at least 12 Sept 2026 and threw the results away every time.
+    #
+    # Keep this greater than the sum of the inner timeouts plus headroom for
+    # the index rebuild, the lint and the push:
+    #     55 (events) + 25 (people) + 20 (rebuild, lint, commit, slack) = 100
+    timeout-minutes: 100
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,21 +49,29 @@ jobs:
         # above — partial results are still worth keeping.
         run: timeout 25m node scripts/fetch-people.mjs || [ $? -eq 124 ]
       - name: Add the curated great disasters (idempotent)
+        # From here down, run even if a fetch step above failed outright: a
+        # crash in the people harvest must not throw away the events harvest.
+        # ("!cancelled()" still stops on a genuine job cancellation.)
+        if: '!cancelled()'
         # Pandemics have no coordinates, so the box-based harvest above can
         # never find them however the query is widened. These arrive by hand.
         run: node scripts/add-disasters.mjs
       - name: Add the curated legends (idempotent)
+        if: '!cancelled()'
         # Hand-written figures who defeat any query — no birthplace, no usable
         # date. Re-run each night so edits to the file take effect.
         run: node scripts/add-legends.mjs
       - name: Rebuild the core index
+        if: '!cancelled()'
         run: node scripts/build-core-index.mjs
       - name: Lint the data (report only — never lose a night's harvest)
+        if: '!cancelled()'
         # Warn-only: surfaces bad ids/coords/dates/categories in the log without
         # discarding the whole additive harvest over one bad row. Run `npm run
         # lint:data` locally (no --warn) to fail hard when cleaning up.
         run: node scripts/lint-data.mjs --warn
       - name: Commit & push if the dataset grew
+        if: '!cancelled()'
         run: |
           git config user.name "chronos-harvester"
           git config user.email "actions@users.noreply.github.com"
