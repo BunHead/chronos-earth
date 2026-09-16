@@ -31,7 +31,31 @@ const EVENT_BADGE: Record<string, string> = {
 };
 
 const yearLabel = (y: number) => (y < 0 ? `${-y} BCE` : `${y} CE`);
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+/**
+ * Fold a name to plain ASCII letters so an English keyboard can reach it.
+ *
+ * Without this, a visitor who types "Orakau" gets offered a web lookup while
+ * the Battle of Ōrākau sits in the dataset unreachable — and the same for Gate
+ * Pā, Alcácer Quibir, Königgrätz and Điện Biên Phủ. Measured, not guessed:
+ * every one of those failed a plain-ASCII search before this existed.
+ *
+ * NFD splits an accented letter into base + combining mark, which the range
+ * below deletes. A handful of letters are NOT accents but distinct characters
+ * and so survive decomposition untouched — those need naming outright.
+ */
+const STANDALONE: Record<string, string> = {
+  đ: 'd', ð: 'd', ø: 'o', ł: 'l', æ: 'ae', œ: 'oe', ß: 'ss', þ: 'th',
+};
+export const fold = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[đðøłæœßþ]/g, (c) => STANDALONE[c] ?? c);
+
+/** Fold, then strip everything but letters and digits — used to dedup names. */
+const norm = (s: string) => fold(s).replace(/[^a-z0-9]+/g, '');
 
 interface Result {
   key: string;
@@ -52,7 +76,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   const [focused, setFocused] = useState(false);
 
   const results = useMemo<Result[]>(() => {
-    const q = query.trim().toLowerCase();
+    const q = fold(query.trim());
     if (q.length < 2) return [];
     const out: Result[] = [];
     const taken = new Set<string>(); // normalised names already listed (dedup curated vs imported)
@@ -80,19 +104,19 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     }
 
     for (const b of battles) {
-      if (b.name.toLowerCase().includes(q)) {
+      if (fold(b.name).includes(q)) {
         taken.add(norm(b.name));
         out.push({ key: `b-${b.id}`, label: b.name, sub: b.dateLabel, badge: '⚔️ Battle', run: () => onPickBattle(b) });
       }
     }
     for (const s of sites) {
-      if (s.name.toLowerCase().includes(q)) {
+      if (fold(s.name).includes(q)) {
         taken.add(norm(s.name));
         out.push({ key: `s-${s.id}`, label: s.name, sub: s.builtYearLabel, badge: '🏛️ Site', run: () => onPickSite(s) });
       }
     }
     for (const e of ERAS) {
-      if (e.name.toLowerCase().includes(q)) {
+      if (fold(e.name).includes(q)) {
         out.push({ key: `e-${e.name}`, label: e.name, sub: e.kind === 'geological' ? 'Geological era' : 'Historical era', badge: 'Era', run: () => onPickEra(e) });
       }
     }
@@ -100,10 +124,10 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     // The whole imported world: people, monuments, cities, science, disasters.
     // Prefix matches first, then the most notable.
     const matched = events
-      .filter((e) => e.name.toLowerCase().includes(q) && !taken.has(norm(e.name)))
+      .filter((e) => fold(e.name).includes(q) && !taken.has(norm(e.name)))
       .sort((a, b) => {
-        const ap = a.name.toLowerCase().startsWith(q) ? 0 : 1;
-        const bp = b.name.toLowerCase().startsWith(q) ? 0 : 1;
+        const ap = fold(a.name).startsWith(q) ? 0 : 1;
+        const bp = fold(b.name).startsWith(q) ? 0 : 1;
         return ap !== bp ? ap - bp : (b.notability ?? 0) - (a.notability ?? 0);
       })
       .slice(0, 8);
@@ -118,7 +142,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     }
 
     for (const f of fauna) {
-      if (f.name.toLowerCase().includes(q)) {
+      if (fold(f.name).includes(q)) {
         out.push({ key: `f-${f.id}`, label: f.name, sub: `${f.fromMa}–${f.toMa} Mya`, badge: '🦕 Creature', run: () => onPickFauna(f) });
       }
     }
