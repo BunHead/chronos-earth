@@ -955,7 +955,12 @@ export default function App() {
         </button>
       )}
 
-      {showBorders && (
+      {/* The legend explains the border STATUS colours, and the red "war" stroke
+          is drawn from the campaign front lines. With War Front Lines switched
+          off there is no red on the globe, so the key was describing something
+          the viewer could not see — it now goes away with the layer it belongs
+          to. */}
+      {showBorders && showCampaigns && (
         <div className="border-legend">
           <span>
             <i className="bl-swatch bl-peace" /> Peace
