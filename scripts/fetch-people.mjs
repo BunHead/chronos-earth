@@ -10,6 +10,29 @@
  *
  * Merges (dedup by id) — preserves everything already in events.json. If a
  * region's query times out, the others still run.
+ *
+ * TWO BUGS LIVED HERE FROM 2026-07-20 TO 2026-09-18, and between them they
+ * meant this script had NEVER ONCE SAVED ANYTHING. The person count sat at 37
+ * — every one of them hand-added — while this ran nightly and appeared to
+ * succeed.
+ *
+ *   1. THE WRITE WAS AT THE END. Results accumulated in memory and were
+ *      written once, after every region. The workflow caps this step at 25
+ *      minutes, the script never finished inside that, and `timeout` kills a
+ *      process outright — so the single write was never reached. From the
+ *      17 Sept run: "South America documented +70", then nothing. Those 70
+ *      people were found, held, and thrown away, as they had been every night
+ *      for two months. It now saves after EVERY region.
+ *
+ *   2. NO REQUEST TIMEOUT, despite the line above promising one. `runQuery`
+ *      retried on 429 and 5xx but a socket that simply never answers is
+ *      neither — it hangs forever. The same run went silent for 24 minutes
+ *      after South America: one wedged query ate the entire budget, so the
+ *      other seven regions were never even attempted. Every request now
+ *      carries its own deadline.
+ *
+ * The lesson is the one the workflow taught a level up: a long job that only
+ * persists at the end persists nothing.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -26,6 +49,10 @@ const PER_REGION = 80;
  * sensitive material, so it takes only the genuinely famous. */
 const MIN_SL_TRADITIONAL = 40;
 const PER_REGION_TRADITIONAL = 30;
+/** Deadline for a single SPARQL request. Sixteen queries (eight regions, two
+ * sweeps) at this cap fit inside the workflow's 25-minute step with room for
+ * the retries and the courtesy sleeps. */
+const QUERY_MS = 90_000;
 
 const REGIONS = [
   { name: 'South America', west: '-82 -56', east: '-34 13' },
@@ -69,6 +96,18 @@ function buildQuery(west, east, humans) {
   const kind = humans
     ? '?item wdt:P31 wd:Q5 .'
     : 'FILTER NOT EXISTS { ?item wdt:P31 wd:Q5 }';
+  // A DATE OF DEATH IS REQUIRED, and this is an editorial line, not a technical
+  // one. Ranking is by Wikipedia sitelinks, which measures fame NOW — so the
+  // first honest run of this script returned South America's footballers. Among
+  // the 70 it brought back were Neymar, Vinícius Júnior, two Brazilian soap
+  // actresses and Joao Grimaldo, a squad player born in 2003, while the whole
+  // continent before 1700 got eleven people.
+  //
+  // Requiring P570 draws the line at "history" rather than at any judgement
+  // about who matters: Maradona and Bolívar come through, the current Peru
+  // squad does not. It costs us living figures of real weight, which is the
+  // price. To take them back, delete this line.
+  const dead = humans ? '?item wdt:P570 ?dod .' : '';
   return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
   SERVICE wikibase:box {
     ?bp wdt:P625 ?coord .
@@ -77,6 +116,7 @@ function buildQuery(west, east, humans) {
   }
   ${anchor}
   ${kind}
+  ${dead}
   ?item wdt:P569 ?date ; wikibase:sitelinks ?sl .
   FILTER(?sl >= ${humans ? MIN_SL : MIN_SL_TRADITIONAL})
   # Wikidata records an unknown date as "somevalue", which arrives as a blank
@@ -94,7 +134,13 @@ const TRADITIONAL_NOTE =
 async function runQuery(sparql) {
   const url = `${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`;
   for (let a = 0; ; a++) {
-    const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' } });
+    // AbortSignal.timeout, not just the retry below: a wedged socket returns
+    // no status at all, so it is neither a 429 nor a 5xx and would otherwise
+    // hang here until the whole step is killed.
+    const r = await fetch(url, {
+      headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
+      signal: AbortSignal.timeout(QUERY_MS),
+    });
     if (r.ok) return (await r.json()).results.bindings;
     if ((r.status === 429 || r.status >= 500) && a < 4) { await sleep(2500 * 2 ** a); continue; }
     throw new Error(`HTTP ${r.status}`);
@@ -108,6 +154,14 @@ const have = new Set(json.events.map((e) => e.id));
 const NOW = new Date().getFullYear();
 let added = 0;
 let addedTraditional = 0;
+
+/** Persist what we have so far. Called after every region, because this script
+ * is run under `timeout` and a killed process gets no chance to tidy up. */
+const save = async () => {
+  json.events.sort((a, b) => a.startYear - b.startYear);
+  await writeFile(FILE, JSON.stringify({ events: json.events }));
+};
+
 for (const region of REGIONS) {
   for (const humans of [true, false]) {
     let rows;
@@ -141,9 +195,10 @@ for (const region of REGIONS) {
     console.log(`  ${region.name.padEnd(15)} ${humans ? 'documented ' : 'traditional'} +${a}  (total ${added})`);
     await sleep(800);
   }
+  // After each region, not at the end: see the note at the top of this file.
+  await save();
 }
-json.events.sort((a, b) => a.startYear - b.startYear);
-await writeFile(FILE, JSON.stringify({ events: json.events }));
+await save();
 const ppl = json.events.filter((e) => e.category === 'person');
 console.log(
   `\nDone: +${added} people (${addedTraditional} of them traditional). ` +

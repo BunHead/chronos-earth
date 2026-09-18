@@ -211,11 +211,16 @@ async function main() {
       }
       console.log(`  ${cont.name.padEnd(14)} +${added}  (total ${byId.size})`);
       contTotals[cont.name] += added;
+      // Persist after each CONTINENT, not merely after each category. Per
+      // category was not often enough: on 17 Sept 2026 the run found one new
+      // event in South America, hung on a later continent in the same
+      // category, and was killed by the step's 55-minute cap before that
+      // category's single write — so the night's only find was lost, and the
+      // commit step reported "No new events this run". The union only ever
+      // grows, so writing more often costs nothing but a little I/O.
+      await writeFile(FILE, JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }));
       await sleep(700);
     }
-    // Persist after each category, so a capped or killed run keeps its progress
-    // (the union is always safe — it only grows).
-    await writeFile(FILE, JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }));
   }
 
   // WORLD SWEEP — the Captain's order: the TOP 3 MONUMENTS OF EVERY COUNTRY.
