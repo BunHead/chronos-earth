@@ -35,6 +35,10 @@ const FLEET = [
   ['stepped-pyramid', 'Stepped Pyramid'],
   ['sphinx', 'Great Sphinx'],
   ['circle', 'Stone Circle'],
+  // Mapped by two sites in panel.ts (Gunung Padang, Pumapunku) and listed in
+  // the workshop — but never exported, so the globe asked for a megalith.glb
+  // that had never existed and both sites came up empty. Added 2026-09-18.
+  ['megalith', 'Newgrange'],
   ['settlement', 'Ancient Settlement'],
   ['castle', 'Castle'],
   ['mansion', 'Mansion'],

@@ -251,5 +251,9 @@
       12
     ],
     "fromYear": 1272
+  },
+  "megalith": {
+    "footprint": 11,
+    "kb": 35
   }
 }
