@@ -1,1 +1,1 @@
-{"v":1,"id":["q180522"],"name":["Aqaba"],"lat":[29.5322],"lon":[35.0061],"year":[-4000],"endYear":[null],"category":["city"],"notability":[88],"wiki":[""],"cell":["2|3"],"attest":[null]}
+{"v":1,"id":["q180522","cur-city-hierakonpolis"],"name":["Aqaba","Hierakonpolis (Nekhen)"],"lat":[29.5322,25.0972],"lon":[35.0061,32.7794],"year":[-4000,-3500],"endYear":[null,null],"category":["city","city"],"notability":[88,75],"wiki":["","Hierakonpolis"],"cell":["2|3","2|3"],"attest":[null,null]}

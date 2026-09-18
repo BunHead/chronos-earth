@@ -61,6 +61,13 @@ jobs:
         # Hand-written figures who defeat any query — no birthplace, no usable
         # date. Re-run each night so edits to the file take effect.
         run: node scripts/add-legends.mjs
+      - name: Add the candidates for the first city (idempotent)
+        if: '!cancelled()'
+        # Uruk, Eridu, Harappa and the rest. Real coordinates, so the harvest
+        # COULD reach them — it just never swept those cells deeply enough.
+        # Re-run nightly so edits to the file take effect, and so a later sweep
+        # that does find them dedups instead of duplicating.
+        run: node scripts/add-first-cities.mjs
       - name: Rebuild the core index
         if: '!cancelled()'
         run: node scripts/build-core-index.mjs
