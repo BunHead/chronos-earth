@@ -83,6 +83,10 @@ const PLACEMENTS: Placement[] = [
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
+  // Built under Suryavarman II between about 1113 and 1150. Deliberately NO
+  // ruinYear: unlike most of Angkor it was never abandoned to the forest — it
+  // stayed in use as a Buddhist temple and is on Cambodia's flag today.
+  { model: 'angkor', title: 'Angkor Wat', lat: 13.4125, lon: 103.8667, builtYear: 1150, buildYears: 37 },
   // The flagged hypothesis: the ringed city stands on the Richat from deep
   // prehistory until the deluge of 9600 BCE takes her.
   { model: 'rings', title: 'Atlantis', lat: 21.124, lon: -11.396, builtYear: -11000, endYear: -9600 },

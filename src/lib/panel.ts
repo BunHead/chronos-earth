@@ -55,7 +55,6 @@ const NO_3D_NAMES = new Set([
   'church of saint george',
   'church of our lady mary of zion',
   'church of cristo obrero y nuestra señora de lourdes',
-  'angkor wat',
   // (Colosseum un-suppressed 2026-07-10: the amphitheatre model now has real
   // see-through arches and builds its own broken-ring ruin form.)
   // Overnight cheap-AI (Haiku) verify pass, 2026-07-07 — wrong-family cases.
@@ -80,7 +79,10 @@ const NO_3D_NAMES = new Set([
 export function monumentModelForName(name: string): string | null {
   const n = name.toLowerCase();
   if (NO_3D_NAMES.has(n.trim())) return null; // suppressed — would misrepresent it
-  if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
+  // Before the Mesoamerican row, which used to swallow Angkor and turn a Khmer
+  // temple-mountain into a Maya platform — which is why it was suppressed.
+  if (/angkor/.test(n)) return 'angkor';
+  if (/teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/.test(n))
     return 'stepped-pyramid';
   if (/sphinx/.test(n)) return 'sphinx'; // before pyramid — "Sphinx of Giza"
   if (/pyramid|giza/.test(n)) return 'pyramid';

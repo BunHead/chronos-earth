@@ -919,6 +919,138 @@ export function buildModel(
     spire(-4.2, -0.2, 1.7, 4, 0.65); // flanking lesser towers
     spire(4.2, -0.2, 1.7, 4, 0.65);
     spire(0, -4.4, 1.5, 3, 0.6);
+  } else if (model === 'angkor') {
+    // ANGKOR WAT — the largest religious monument on Earth, and the reason this
+    // archetype had to exist: the generic stepped-pyramid would have made it a
+    // Mesoamerican platform, so it sat on the NO_3D list for months instead.
+    //
+    // What must read correctly, because it is on Cambodia's flag: a QUINCUNX of
+    // five lotus-bud towers — one tall central prasat with four lesser ones at
+    // the corners of the upper terrace — standing on three concentric
+    // rectangular galleries that step upward. Get the five towers and the
+    // stepped rectangles right and it is unmistakable.
+    //
+    // Two facts the model is built around:
+    //  · It faces WEST, almost alone among major Khmer temples (fit table:
+    //    facingDeg 270). The front is authored at +Z as the fit maths requires.
+    //  · The temple proper is about 215 m east-west by 187 m north-south, which
+    //    is the 200 m in the fit table. The moat is deliberately NOT modelled:
+    //    it is 1.3 km across, so at this scale it could only ever be a lie.
+    ground = '#5d6b3f';
+    const sand = '#9c8f76'; // Khmer sandstone, warm grey-brown
+    const sandLt = '#a99c82';
+    const sandDk = '#8a7d66';
+
+    /** A Khmer prasat: a redented tower of receding storeys under a lotus bud.
+     * "Redented" is what gives it that fluted, many-cornered silhouette — a
+     * square core with a shallow projection on each face, repeated at every
+     * storey so the whole tower reads as a cluster of vertical ribs. */
+    const prasat = (cx: number, cz: number, base: number, storeys: number, bodyH: number) => {
+      // The sanctuary body: core plus its four projections (a Greek-cross plan).
+      const tier = (w: number, h: number, y: number, col: string) => {
+        group.add(block(w, h, w, cx, y, cz, col));
+        const proj = w * 0.40; // how wide each face's projection is
+        const reach = w * 1.16; // how far it stands proud of the core
+        group.add(block(proj, h * 0.97, reach, cx, y, cz, col));
+        group.add(block(reach, h * 0.97, proj, cx, y, cz, col));
+      };
+      tier(base, bodyH, 0.5 + bodyH / 2, sand);
+      // Receding storeys — each a miniature of the body, which is the actual
+      // Khmer rule rather than a taper for its own sake.
+      let y = 0.5 + bodyH;
+      let w = base * 0.86;
+      for (let i = 0; i < storeys; i++) {
+        const h = bodyH * 0.30 * Math.pow(0.92, i);
+        tier(w, h, y + h / 2, i % 2 ? sandLt : sand);
+        y += h;
+        w *= 0.82;
+      }
+      // The lotus bud: bulbous, then drawn to a point.
+      const bud = new THREE.Mesh(
+        new THREE.SphereGeometry(w * 0.78, 12, 10),
+        stoneLike({ color: sandLt }),
+      );
+      bud.scale.set(1, 1.5, 1);
+      bud.position.set(cx, y + w * 0.85, cz);
+      group.add(bud);
+      const tip = new THREE.Mesh(
+        new THREE.ConeGeometry(w * 0.34, w * 0.95, 10),
+        stoneLike({ color: '#b3a482' }),
+      );
+      tip.position.set(cx, y + w * 1.9, cz);
+      group.add(tip);
+    };
+
+    /** A gallery: a rectangular ring of roofed colonnade. Built as four walls
+     * with a pier rhythm and a ridged roof, never a solid box — from above the
+     * galleries must show as rings with a courtyard inside them. */
+    const gallery = (halfX: number, halfZ: number, y: number, h: number, thick: number) => {
+      const run = (w: number, d: number, x: number, z: number) => {
+        group.add(block(w, h, d, x, y + h / 2, z, sand));
+        // Corbelled roof, sitting proud so it never shares a plane with the
+        // wall. The eaves must overhang ACROSS the wall, never along it: an
+        // earlier version scaled whichever dimension came second, so the two
+        // side galleries grew half as long again and shot out past the corners
+        // like scaffolding poles.
+        const eave = thick * 0.5;
+        const alongX = w > d;
+        group.add(
+          block(
+            w + (alongX ? 0.18 : eave * 2),
+            h * 0.28,
+            d + (alongX ? eave * 2 : 0.18),
+            x,
+            y + h + h * 0.13,
+            z,
+            sandDk,
+          ),
+        );
+      };
+      run(halfX * 2, thick, 0, halfZ - thick / 2); // west (front)
+      run(halfX * 2, thick, 0, -halfZ + thick / 2); // east
+      run(thick, (halfZ - thick) * 2, -halfX + thick / 2, 0); // south
+      run(thick, (halfZ - thick) * 2, halfX - thick / 2, 0); // north
+    };
+
+    // --- Ground platform and the three enclosures, each smaller and higher.
+    group.add(block(19.6, 0.5, 22.6, 0, 0.25, 0, '#7d7560'));
+
+    // Third (outer) gallery — 187 m × 215 m in reality.
+    gallery(9.35, 10.75, 0.5, 1.5, 1.1);
+    // The western entrance pavilion, projecting toward the front (+Z).
+    group.add(block(5.2, 1.7, 1.6, 0, 1.35, 11.3, sandLt));
+    prasat(0, 11.3, 1.5, 3, 1.9); // the western gopura tower
+
+    // Second enclosure, raised.
+    group.add(block(13.2, 1.5, 15.0, 0, 1.25, 0, sandDk));
+    gallery(6.2, 7.1, 2.0, 1.4, 1.0);
+
+    // First (inner) enclosure on the highest terrace — this is the one the
+    // quincunx stands on.
+    group.add(block(8.6, 1.9, 8.6, 0, 2.95, 0, sandDk));
+    group.add(block(7.8, 0.5, 7.8, 0, 4.15, 0, sandLt));
+    gallery(3.9, 3.9, 4.4, 1.2, 0.85);
+
+    // --- The quincunx. Central tower tallest by a clear margin (65 m against
+    // about 40 m), which is what stops the group reading as five equal spikes.
+    const top = 4.4;
+    const at = (cx: number, cz: number, b: number, s: number, bh: number) => {
+      const g = new THREE.Group();
+      g.position.y = top;
+      const before = group.children.length;
+      prasat(cx, cz, b, s, bh);
+      // Re-parent what prasat just added so the whole tower sits on the terrace.
+      while (group.children.length > before) g.add(group.children[before]);
+      group.add(g);
+    };
+    at(0, 0, 2.5, 6, 3.4); // central sanctuary
+    at(-2.7, 2.7, 1.5, 5, 2.0); // four corner towers
+    at(2.7, 2.7, 1.5, 5, 2.0);
+    at(-2.7, -2.7, 1.5, 5, 2.0);
+    at(2.7, -2.7, 1.5, 5, 2.0);
+
+    // Causeway stub running west from the entrance, on the temple's axis.
+    group.add(block(2.2, 0.35, 3.0, 0, 0.67, 12.8, sandLt));
   } else if (model === 'cathedral') {
     // A French-Gothic cathedral in the Notre-Dame de Paris mould: twin west
     // towers with pierced belfry openings over three recessed portals and a

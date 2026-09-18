@@ -255,5 +255,9 @@
   "megalith": {
     "footprint": 11,
     "kb": 35
+  },
+  "angkor": {
+    "footprint": 25.6,
+    "kb": 201
   }
 }

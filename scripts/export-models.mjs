@@ -43,6 +43,7 @@ const FLEET = [
   ['castle', 'Castle'],
   ['mansion', 'Mansion'],
   ['temple-tower', 'Temple Tower'],
+  ['angkor', 'Angkor Wat'],
   ['pagoda', 'Pagoda'],
   ['lighthouse', 'Lighthouse'],
   ['impact', 'Impact Crater'],

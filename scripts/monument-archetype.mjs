@@ -46,7 +46,6 @@ export const NO_3D_NAMES = new Set([
   'church of saint george',
   'church of our lady mary of zion',
   'church of cristo obrero y nuestra señora de lourdes',
-  'angkor wat',
   // (Colosseum un-suppressed 2026-07-10: the amphitheatre model now has real
   // see-through arches and builds its own broken-ring ruin form.)
   // From the overnight cheap-AI (Haiku) verify pass, 2026-07-07 — WRONG-FAMILY
@@ -112,7 +111,10 @@ export const MODEL_BY_ID = {
 // panel.ts monumentModelForName — keep them in lock-step (the parity test will
 // shout if they diverge).
 const KEYWORD_RULES = [
-  { rule: 'mesoamerican/temple-mountain keyword', model: 'stepped-pyramid', re: /teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|angkor|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/ },
+  // Before the Mesoamerican row, which used to swallow Angkor and turn a Khmer
+  // temple-mountain into a Maya platform — which is why it was suppressed.
+  { rule: '"angkor" keyword', model: 'angkor', re: /angkor/ },
+  { rule: 'mesoamerican/temple-mountain keyword', model: 'stepped-pyramid', re: /teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/ },
   { rule: '"sphinx" keyword', model: 'sphinx', re: /sphinx/ },
   { rule: '"pyramid"/"giza" keyword', model: 'pyramid', re: /pyramid|giza/ },
   { rule: '"stonehenge" keyword', model: 'stonehenge', re: /stonehenge/ },

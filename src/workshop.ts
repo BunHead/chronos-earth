@@ -72,6 +72,7 @@ const MODELS: Array<[string, string]> = [
   ['opera-house', 'Sydney Opera House'],
   ['circle', 'Stone circle'],
   ['settlement', 'Neolithic settlement'],
+  ['angkor', 'Angkor Wat'],
   ['megalith', 'Generic megalith'],
   ['impact', 'Comet impact'],
 ];
@@ -98,7 +99,10 @@ const LIVE_SITES: Record<string, LiveSite> = {
   cathedral: { title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499 },
   castle: { title: 'Nottingham Castle', lat: 52.9497, lon: -1.1542 },
   mansion: { title: 'Chatsworth House', lat: 53.227, lon: -1.61 },
-  'temple-tower': { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
+  angkor: { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
+  // Was Angkor Wat until Angkor got its own archetype (2026-09-18); Prambanan
+  // is what this generic spired-temple form was actually shaped like.
+  'temple-tower': { title: 'Prambanan', lat: -7.752, lon: 110.4915 },
   aqueduct: { title: 'Pont du Gard', lat: 43.9475, lon: 4.535 },
   pagoda: { title: 'Tō-ji Pagoda', lat: 34.9806, lon: 135.7477 },
   lighthouse: { title: 'Eddystone Lighthouse', lat: 50.18, lon: -4.27 },
