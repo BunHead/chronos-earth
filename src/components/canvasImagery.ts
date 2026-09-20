@@ -34,6 +34,33 @@
  * that is not in any layer but in the machinery all five of them share. Ablation
  * can never find such a thing. A profile finds it in eight seconds:
  * `node scripts/verify-app.mjs --cpu 6 --click ".btn.primary" --profile 8000`.
+ *
+ * ────────────────────────────────────────────────────────────────────────────
+ * DO NOT REVERT THIS ON AN FPS MEASUREMENT. It will look like a regression.
+ *
+ * Measure frames during playback at 6x throttle and generation 2 wins, clearly
+ * and repeatably: ~10-13 fps against this file's ~6-8. Four runs each way, both
+ * dev and production. On that number alone you would revert it.
+ *
+ * You would be reverting continental drift. Those extra frames were bought by
+ * not drawing anything. Nine seconds into a deep-time play-through, measured on
+ * the globe's own pixels:
+ *
+ *     generation 2 (toBlob):    97 land pixels    — a blank blue ocean planet
+ *     generation 3 (this file): 52,000 land pixels — Miocene continents
+ *
+ * The PNG encode could not keep up with the playhead, so during playback the
+ * epochs simply never arrived and the globe ran fast and empty. The headline
+ * feature of the whole site — "drag the timeline and watch the continents
+ * drift" — was silently not happening, and the frame counter applauded.
+ *
+ * So the honest summary of this change is NOT "it made playback faster". It is:
+ * it removed 56% of the main-thread work AND made the continents show up, and
+ * the frame rate fell because there is finally something real to draw. If you
+ * want those frames back, the lever is the resident-layer budget in
+ * `gpuBudget.ts` (software tier holds 3 epochs) or the texture size in
+ * `renderTier.ts` — not this file.
+ * ────────────────────────────────────────────────────────────────────────────
  */
 import * as Cesium from 'cesium';
 

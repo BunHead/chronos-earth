@@ -47,6 +47,9 @@
  *                    whether a moving thing is actually on screen, rather than
  *                    inferring it from a still.
  *   --film-out <p>   filename stem for --film (default ./film)
+ *   --frames <ms>    measure frame timing ONLY (no profiler overhead) —
+ *                    the instrument for "is it smoother", where --profile is
+ *                    the instrument for "what is slow". Run it several times.
  *   --profile <ms>   record a real CPU profile for this long and print the
  *                    heaviest functions and files by SELF time, alongside the
  *                    frame timings measured over the same seconds. Use this
@@ -163,6 +166,51 @@ try {
   //
   // --profile-out writes the raw .cpuprofile, loadable in Chrome DevTools'
   // Performance tab if you want the flame graph as well as the leaderboard.
+  // --frames <ms> measures FRAME TIMING ONLY, with no profiler attached.
+  //
+  // Separate from --profile on purpose. The sampling profiler is what tells you
+  // WHICH function is slow, but it costs something to run, so it is the wrong
+  // instrument for answering "is it smoother now". This one just watches rAF.
+  // Run it several times: over a short window the run-to-run spread on this
+  // machine is larger than most effects you will be trying to measure, and a
+  // single run has fooled at least two sessions of this project already.
+  //
+  //   node scripts/verify-app.mjs --base http://localhost:4173 --cpu 6 \
+  //        --click ".btn.primary" --frames 20000
+  const framesMs = +val('--frames', 0);
+  if (framesMs) {
+    console.log(`measuring frames for ${framesMs}ms…`);
+    const stats = await page.evaluate((ms) => new Promise((resolve) => {
+      const gaps = [];
+      let prev = performance.now();
+      const started = prev;
+      const step = (t) => {
+        gaps.push(t - prev);
+        prev = t;
+        if (t - started < ms) requestAnimationFrame(step);
+        else {
+          const g = gaps.slice(1); // first gap straddles the start
+          const sorted = [...g].sort((a, b) => a - b);
+          const pc = (p) => sorted[Math.min(sorted.length - 1, Math.floor((p / 100) * sorted.length))] ?? 0;
+          const mean = g.reduce((a, b) => a + b, 0) / (g.length || 1);
+          resolve({
+            seconds: +((t - started) / 1000).toFixed(1),
+            frames: g.length,
+            fps: +(1000 / mean).toFixed(1),
+            medianMs: +pc(50).toFixed(1),
+            p95Ms: +pc(95).toFixed(1),
+            p99Ms: +pc(99).toFixed(1),
+            worstMs: +(sorted[sorted.length - 1] ?? 0).toFixed(1),
+            over50ms: g.filter((x) => x > 50).length,
+            over100ms: g.filter((x) => x > 100).length,
+          });
+        }
+      };
+      requestAnimationFrame(step);
+    }), framesMs);
+    console.log(JSON.stringify(stats));
+  }
+
   const profileMs = +val('--profile', 0);
   if (profileMs) {
     const cdp = await page.createCDPSession();
