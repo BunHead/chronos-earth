@@ -439,5 +439,13 @@
       "northM": -10
     },
     "ts": 1786009830394
+  },
+  "ziggurat": {
+    "status": "allowed",
+    "rework": true,
+    "ts": 1783891624719,
+    "focus": "Eridu — push the through-time sequence as deep as the archaeology honestly supports",
+    "note": "Captain's brief (2026-09-20): Eridu is your FIRST TEST under the widened dirty-tree rule. It currently has five dated stages (b15 Ubaid shrine, b35 tripartite, b55 platform temple, b78 great terrace temple, base = Amar-Sin's ziggurat c.2050 BCE), wired through STAGE_TABLE in src/lib/stageTable.ts. He asks: can it handle all EIGHTEEN excavated levels? The MACHINERY can — STAGE_TABLE and BUILD_STAGES both take arbitrary lists, one glb loads at a time, so cost is repo size not runtime. The CONSTRAINT IS EVIDENCE, not code: only about six of Eridu's levels (XVI, XI, VIII, VII, VI and the Ur III ziggurat) have published plans distinct enough to model without inventing. Go as deep as the sources genuinely support, say in the commit how many levels you could justify and why you stopped there, and do NOT pad the sequence with invented rebuilds — prefer no 3D to a wrong one applies to phases as much as to geometry.",
+    "queueNote": "ts set one second below the oldest existing flag ON PURPOSE (2026-09-20), because the sweep picks oldest-first and the Captain asked for Eridu to go FIRST. Not a real review date."
   }
 }
