@@ -1,7 +1,8 @@
 # Chronos Earth — handover to the next Number One
 
-**Written 2026-09-20.** Working tree clean, everything pushed, 392 tests green,
-`npx tsc --noEmit` clean. Live at https://bunhead.github.io/chronos-earth
+**Written 2026-09-20 (evening).** Working tree clean, everything pushed,
+402 tests green, `npx tsc --noEmit` clean, `lint-data` clean.
+Live at https://bunhead.github.io/chronos-earth
 
 ---
 
@@ -9,221 +10,237 @@
 
 Spencer Austin — **the Captain**. He calls you **Number One**. He is a
 **non-coder**: plain English, no jargon dumps, and never ask him to do setup you
-could do yourself. (The one standing exception is his GitHub token — see below.)
+could do yourself. (The one standing exception is his GitHub token.)
 
 He is generous, funny, and sharper about the product than about the code. When
-he says something is wrong, it is wrong — twice in my run I "explained" a
-symptom away and he turned out to be right both times.
+he says something is wrong, it is wrong.
 
 ### Standing rules — these do not bend
 
 - **ZERO running cost.** Free/open data only. No API keys, no CDN calls at
   runtime, self-host every asset and decoder.
 - **His GitHub PAT lives ONLY in his browser localStorage.** Never in the site,
-  never committed, never pasted into chat. He offered to show it to me on
-  2026-09-20 and the answer is no. You never need it.
+  never committed, never pasted into chat. If he offers it, decline.
 - **"Prefer no 3D to a wrong one."** Never invent borders. Contested theories
   (Atlantis, Younger Dryas) only ever as flagged hypotheses. This applies to
   DATES and PHASES as much as to geometry.
 - **`npx tsc --noEmit` and `npx vitest run` must both be green before you
-  commit.** A pipe is not a gate — check the exit code, not grep output.
-- **Stage ONLY your own files.** Other sessions and four scheduled sweeps work
-  this repo concurrently. Never `git add -A`.
-- **Verify behaviour live before claiming it works.** Screenshots and
-  measurements, never reasoning. See "The verification rule" below.
-- **Checkpoint to** `C:\Users\spenc\Documents\Claude-WorkLog\YYYY-MM-DD.md`
-  (append, never overwrite).
-- **Finish every request before moving on.** He had to stop a tool call once and
-  I drifted to the next topic without going back. He said: *"in fact always make
-  sure that all requests are complete before moving on."* Keep an explicit list
-  each turn and close every item.
+  commit.** Check the exit code, not grep output.
+- **Stage ONLY your own files.** Never `git add -A`.
+- **Verify behaviour live before claiming it works.** Measurements and
+  screenshots, never reasoning.
+- **Checkpoint to** `C:\Users\spenc\Documents\Claude-WorkLog\YYYY-MM-DD.md`.
+- **Don't leave work uncommitted overnight** — it starves the scheduled sweeps.
+- **Finish every request before moving on.**
 
 ### His own list — do NOT do these for him
 
 Demo GIF, outreach (Kottke is next), founding-star tier line, the workshop
 gallery backlog, Atlantis map image, the Friday Patreon paste. He cannot post
-from HN/Reddit accounts — draft only.
-
----
-
-## The verification rule, and why it exists
-
-**The agent Browser pane lies.** Hidden tabs don't run rAF, throttle timers to
-~1/minute, read back WebGL as blank, and freeze camera flights. A whole day was
-lost to this before `scripts/verify-app.mjs` existed.
-
-**Use `node scripts/verify-app.mjs`** — a foreground headless Chromium. Flags:
-`--base --url --size --wait --click --menu --eval --eval-wait --probe --shot
---globe --hold --film --gpu --cpu --net`. It only serves the ROOT page; for
-`workshop.html` use the Browser pane's `javascript_tool` (DOM reads are fine
-there, it's only rAF/WebGL that lie).
-
-For 3D models: **`scripts/render-model.mjs <model> <outDir> "<Title>"`**, and
-read `MODELLER-CRAFT.md` first. Two hard-won rules:
-- **Verify by render, never by code.** You cannot judge 3D from source.
-- **Port-ownership check** before trusting any render: `curl -s
-  localhost:5173/src/components/Monument3D.tsx | grep -c <yourNewToken>`.
-  Use a token from CODE, not a comment — Vite strips comments and you'll get a
-  false negative (I did).
+from HN/Reddit — draft only.
 
 ---
 
 ## Where things stand
 
-| | |
-|---|---|
-| events | **3,768** — battle 1143 · city 1031 · monument 717 · disaster 530 · **person 237** · event 45 · discovery 37 · invention 28 |
-| battles | **124**, of which **42** hand-choreographed |
-| 3D models | **43** base archetypes (68 `.glb` with stages/ruins) |
-| tests | **392** green |
+| | 11 Sept | **now** |
+|---|---|---|
+| events | 3,768 | **13,473** |
+| battle | 1,143 | **2,895** |
+| person | 237 | **5,740** |
+| city | 1,031 | **1,686** |
+| monument | 717 | **1,343** |
+| disaster | 530 | **1,114** |
+| discovery | 37 | **583** |
+| invention | 28 | **67** |
+| tests | 392 | **402** |
 
-### Recently landed (my run, 11–20 Sept)
+---
 
-- Africa + Oceania: 20 battles, plus a **lane-classifier bug** where Adwa and
-  Omdurman were filed under "Middle East" so Africa read as zero.
-- Search now **folds accents** — "Orakau", "Koniggratz", "Alcacer" all failed
-  before.
-- **The first cities**: Uruk, Eridu, Nippur, Lagash, Harappa, Liangzhu,
-  Hierakonpolis, Solnitsata, Maidanetske, Nebelivka, Dhar Tichitt, and the
-  Indus four (Dholavira, Lothal, Rakhigarhi, Kalibangan). Curated via
-  `scripts/add-first-cities.mjs`, idempotent, wired into the nightly workflow.
-- **Angkor Wat** archetype (quincunx of five lotus towers) — it had been
-  suppressed in `NO_3D_NAMES` because the keyword cascade made it a Maya
-  platform.
-- **Eridu ziggurat with a 5-stage through-time sequence**, 5400 BCE → 2050 BCE.
-  The mound grows as `frac^2.1`. See `STAGE_TABLE` in `src/lib/stageTable.ts`.
-- **Three harvester bugs** (below) and **the headline-tier bug** (below).
+## THE BIG ONE: the harvest was dead, not saturated
+
+**Read this before you believe any claim about the data.** The previous
+handover recorded "the events sweep is saturated — +1 across the whole world on
+17 Sept". It was not saturated. It had stopped working, and so had the people
+sweep. From the Actions logs:
+
+```
+16 Sept  most regions returned (+0/+1 — genuinely saturated)
+17 Sept  about half failed
+19 Sept  nearly all failed
+20 Sept  ALL of them. Seven regions, 55 minutes, nothing harvested.
+```
+
+Every step reported **success**, because both fetch steps end in
+`|| [ $? -eq 124 ]`.
+
+**The cause.** `SERVICE wikibase:box` resolves the GEOGRAPHY first — every
+coordinate-bearing item on the continent, millions — and only then joins to
+"…and is a battle". As Wikidata grew, that crossed WDQS's own 60-second
+ceiling. Measured:
+
+```
+battle / Europe SW  (box)   aborted at 120,000 ms
+battle / N. America (box)   HTTP 504 after 104,202 ms
+```
+
+**A longer client timeout cannot fix a server-side 504.** That is the sentence
+to remember.
+
+**The fix: ask for the CLASS first.** ~50k battles exist; millions of
+coordinates exist in Europe. Start from the small set.
+
+```
+battle   GLOBAL class-first   2,893 distinct in 10,844 ms
+city     GLOBAL class-first   1,645 distinct in 27,744 ms
+disaster GLOBAL class-first   1,401 distinct in 41,421 ms
+```
+
+The continent boxes are gone. They existed so a top-120 ranking would not be
+all-Europe; these queries return the COMPLETE set above the notability floor,
+so balance falls out instead of being engineered. The 655 new cities bear it
+out: Beit She'an, Stellenbosch, Kwekwe, Sidi Bennour, Tulcán.
+
+**People needed a different anchor.** Class-first does NOT transfer to people —
+there are ten million humans, so `wdt:P31 wd:Q5` is not a small set (still
+504). Century-slicing does not work either: `YEAR()` is computed, not indexed.
+**Occupation (`wdt:P106`) is indexed and small enough.** Sixteen occupation
+groups, one query each, kept separate so one failure cannot take the run down.
 
 ---
 
 ## Live issues and traps
 
-### 1. The headline tier — the trap that bit hardest
-`public/data/core-index/headline.json` is what loads before any map cell
-streams in, so **from a cold start it is the only thing SEARCH CAN FIND.** It
-used to be a straight top-600 by notability, and that cut-off is a *moving
-target* — every harvested name pushes it up. It reached 116 and silently threw
-**33 curated rows** out of reach (Eridu, Uruk, Harappa, Gilgamesh, King Arthur,
-Beowulf, the Chicxulub impact, the 1918 flu…). Fixed: every `cur-*` row now
-rides in the tier regardless of notability, cap raised to 1000.
-**`src/lib/headlineTier.test.ts` checks the PROPERTY, not a threshold.** If you
-add a new curated source, that test is your safety net — do not weaken it.
+### 1. The headline tier is a FRACTION, not a number
+`public/data/core-index/headline.json` is what loads before any map cell, so
+from a cold start **it is the only thing search can find.** The cap has now
+moved twice (600 → 1000 → 2500) for the same reason: a fixed cap against a
+growing dataset is a silent tightening. When the data doubled today the
+cut-off rose 69 → 75 and dropped Çatalhöyük, Thebes, Cyrene and Leptis Magna
+out of reach. At 2,500 the cut-off is 33.
 
-### 2. The nightly harvest — three bugs, all fixed, one lesson
-- The **workflow job timeout was 75 min** while the two fetch steps inside it
-  were capped at 55 + 25 = 80. The commit step was skipped **every night** for
-  five days. Budget now 100 min, with the arithmetic written into the file.
-- **`fetch-people.mjs` had never saved a single person** since 20 July: its only
-  `writeFile` sat after every region, and `timeout` kills the process first.
-  Now saves per region. Person count went **37 → 237** the first night it worked.
-- **`fetch-wikidata-events.mjs` wrote per CATEGORY, not per continent**, so a
-  mid-category hang lost that category's work. Now writes per continent.
+**If the dataset doubles again, this doubles.** Keep it near a third.
+`src/lib/headlineTier.test.ts` guards the property and measures the GZIPPED
+size (64 KB now), because that is what the visitor pays for — the raw figure
+overstates it threefold.
 
-**The lesson, and it generalises: a long job that only persists at the end
-persists nothing.** Also — *a green step is not a working step.* All three of
-these passed their step checks while doing nothing. **Read the run LOGS.**
+### 2. Duplicate pins — fixed, and guarded
+Sixteen of the most famous places on the site were pinned twice (Great Pyramid,
+Colosseum, Angkor Wat, Machu Picchu, Taj Mahal, Statue of Liberty…). Curated
+rows carry **no `wikidataId`**, and every harvester deduped on the Q-id alone,
+so nothing the harvest found could ever match a curated row.
 
-### 3. Still open on the harvest
-- The **commit step is not conflict-tolerant.** If you push to `public/data`
-  while a harvest is running, its `git pull --rebase` hits conflicts on
-  generated files and the whole night is lost (happened 18 Sept). Worth making
-  it resolve additively — the union can only grow.
-- **The events sweep is saturated** for its four categories: +1 across the whole
-  world on 17 Sept. Growth now needs wider queries or curation.
-- **There is NO query anywhere for `invention`, `discovery` or `event`.** Those
-  three categories (28/37/45) can only ever grow by hand. Not broken — never
-  written. This is the biggest content gap on the site.
+All harvesters now also key on **category + English Wikipedia article**.
+`src/lib/duplicatePins.test.ts` guards it and was checked against the pre-fix
+data: it reports all sixteen before, none after.
 
-### 4. The sweeps
-Four scheduled tasks (`C:\Users\spenc\.claude\scheduled-tasks\`):
-choreographer (Sun), modeller (Sat), roadmap (Tue/Fri), Patreon (Fri).
+**The rule is narrow on purpose** — same article, same category, within 25 km,
+within 200 years. A looser rule would have deleted Nagasaki:
+- `cur-hiroshima-bomb` and `cur-nagasaki-bomb` share one article, 298 km apart
+- `q935` is Isaac Newton the man; `cur-newton-gravity` is the 1687 publication
+- `q7341` is the Auschwitz camp; `cur-auschwitz-liberation` is the liberation
 
-The modeller, roadmap and Patreon sweeps had a blanket *"if the tree is dirty,
-stop"* rule. **It starved the modeller for a month** — 24 Aug to 20 Sept, zero
-output, because the Captain's own WIP is nearly always in the tree, and a
-21-second do-nothing run looks identical to a healthy one. The guard is now
-**file-scoped** per sweep. **Don't leave WIP uncommitted overnight** — that's
-what caused it.
+### 3. One global event is one pin
+The first class-first run brought back 289 per-country COVID articles and 302
+of the new disasters were dated 2020. `LOCAL_CHAPTER` in
+`fetch-wikidata-events.mjs` excludes them by name. Excluding anything `part of`
+a pandemic was tried first and caught only 47 of 289.
 
-**The roadmap queue is EMPTY** (`docs/roadmap-queue.md`), which is why that
-sweep exits clean. Not a fault.
+### 4. DO NOT REVERT canvasImagery.ts ON AN FPS MEASUREMENT
+Measure frames during playback and the OLD PNG-encode path *wins* — ~10-13 fps
+against ~6-8. You would be reverting continental drift. Nine seconds into a
+deep-time play-through:
 
-**Modeller queue order:** `ziggurat` → leaning-tower → pharos → london-eye →
-liberty → louvre → colossus → stepped-pyramid → buckingham → giza → d-day.
+```
+old (toBlob):        97 land pixels   — a blank blue ocean planet
+new (canvas-direct): 52,000 land      — Miocene continents, as intended
+```
 
----
-
-## What's in flight
-
-### Eridu is the modeller sweep's next job
-Flagged `rework: true` in `public/data/model-review.json` with a `ts` set one
-second below the oldest flag **on purpose** (the sweep picks oldest-first). The
-brief carries the Captain's question: **can the sequence hold all eighteen
-excavated levels?**
-
-The answer to give, and it is already in the brief: **the machinery scales** —
-an 18-entry stage table resolves all eighteen suffixes, verified. **The
-evidence does not.** Only about six of Eridu's levels (XVI, XI, VIII, VII, VI,
-and the Ur III ziggurat) have published plans distinct enough to model without
-inventing. Go as deep as the sources support, say in the commit how deep and
-why you stopped, and never pad.
-
-### He is mid-way through fixing his GitHub token
-His workshop PAT expired (HTTP 401). On 2026-09-20 he generated a new
-fine-grained token: repo `BunHead/chronos-earth`, **Contents: Read and write** +
-Metadata read-only. The last thing he said was that it worked.
-**If he offers to show you the token, decline.** He may need help pasting it
-into the workshop → Save key → *Maker's mode on*. Diagnose by the message only:
-401 = expired · *"can read but cannot save"* = permissions · *"could not
-verify"* = network.
+The encode could not keep up with the playhead, so the epochs never arrived and
+the globe ran fast and empty. There is a long comment at the top of the file.
 
 ---
 
 ## Performance — measured, don't re-derive
 
-Cold load of the live site: **2,470 KB / 50 requests / load at 2.36 s**.
-**Cesium is 1,845 KB of that — ~95% of the blocking path.** The Wikipedia
-thumbnails (14 requests, 236 KB) all arrive *after* the load event, so they are
-already correctly deferred.
+- **`toBlob` was 56% of all main-thread work** during playback (production
+  build, 6× throttle). Gone: Cesium takes the canvas directly.
+- **Real GPU (GTX 1070) + 6× CPU throttle: 27.8 fps**, median 33 ms, one frame
+  over 100 ms in 20 s. Playback is fine on anything with hardware WebGL.
+- **No GPU at all (SwiftShader): 6-8 fps.** That is the remaining pain.
+  Halving the software-tier texture to 1024×512 was tried: **within noise.**
+  Texture size is not the lever. The levers left are the resident-layer budget
+  (`gpuBudget.ts`, software tier holds 3 epochs) and the number of layers.
+- Cold load unchanged by the data doubling: the app fetches
+  `core-index/headline.json` (capped), **not** the monolithic `core-index.json`.
 
-Runtime at 6× CPU throttle: idle globe **59 fps**; **during timeline playback
-29.5 fps, worst frame 211 ms, 33 stutters >50 ms in 6 s.** That is the
-"extremely slow on my parents' laptops" complaint, measured.
-
-**I could not attribute the playback stutter to a layer.** Ablation gave a clean
-negative — worst frames of 150–195 ms appear in *every* configuration including
-borders-only, and run-to-run variance is large. **It needs a real CPU profile
-via CDP, not more ablation.** Don't repeat that experiment.
-
-Agreed priority list, cheapest first:
-1. Prune what ships but is never fetched (`dist` is 73 MB; basis_transcoder,
-   google-earth-dbroot-parser, much of Cesium's Assets) — ~1 hr, no risk.
-2. **WebP the 181 portraits/battle maps** (~24 MB, zero WebP today) — half a
-   day. Improves panel-open on slow connections, not cold start.
-3. Switch off unused Cesium features (waterNormals 287 KB,
-   approximateTerrainHeights 292 KB) — half a day.
-4. **Profile the playback frame properly** — 1–2 days. *This is the one that
-   fixes his parents' machines.* Highest user value.
-5. Service-worker precache of Cesium for repeat visits — 1–2 days.
-6. Tree-shake Cesium into a custom build — a week+, high risk, biggest prize.
+### Tools
+- **`node scripts/verify-app.mjs`** — foreground headless Chromium. The Browser
+  pane lies about rAF, timers and WebGL readback.
+  - `--profile <ms>` — real CDP CPU profile, heaviest functions by self time.
+    **This is what ablation could never find**: a cost shared by all five
+    imagery layers survives every ablation.
+  - `--frames <ms>` — frame timing with NO profiler overhead. `--profile`
+    answers "what is slow"; this answers "is it smoother". **Run it more than
+    once** — the 20 s spread on this machine is larger than most real effects,
+    and it has now fooled two sessions.
+  - `--gpu` — real D3D11 instead of SwiftShader. Use it before concluding
+    anything about frame rate.
 
 ---
 
-## Content gaps worth filling
+## What I would do next, in order
 
-- **People, inventions, discoveries.** 237 / 28 / 37 against 1,143 battles.
-  The human and ideas layer is the thinnest part of the site.
-- **Choreography: 42 of 124 battles.** Everything added recently (Vietnam,
-  Korea, Africa, Oceania, the Gulf) runs the generic template.
-- Africa and Oceania now have battles but few monuments.
+1. **Finish the people harvest.** Six of the sixteen occupation groups were not
+   reached when I stopped the run. Re-running is additive and idempotent —
+   just run `node scripts/fetch-people.mjs`. **"politicians" (Q82955) is too
+   large and 504s every time**; it needs splitting into narrower occupations
+   (statesperson, diplomat, jurist…) before it will ever answer.
+2. **Watch tonight's harvest run and read the LOG, not the status.**
+   Everything here is new tonight. `gh run view <id> --log` and check each
+   step actually added rows.
+3. **Four curation calls only the Captain can make.** Petra, Cusco, Benin City
+   and Mesa Verde each have two rows a few hundred metres apart that **disagree
+   about the date** by 434 to 1,306 years. Both stand; picking one would be
+   inventing a date. Ask him.
+4. **Choreography: 42 of 124 battles**, and there are now 2,895 battles. The
+   generic template covers everything else.
+5. **`event` (45 rows) still has no query.** Note that `public/data/regions/`
+   holds ~1,900 more 'event' rows served by a separate streaming layer
+   (`regionChunks.ts`) — so the site is not as thin there as the core-index
+   count suggests. Check before "fixing" it.
+
+---
+
+## The sweeps
+
+Four scheduled tasks (`C:\Users\spenc\.claude\scheduled-tasks\`):
+choreographer (Sun), modeller (Sat), roadmap (Tue/Fri), Patreon (Fri).
+Guards are file-scoped per sweep. **The roadmap queue is empty** — every
+engineering item is ticked; what remains unchecked is all on the Captain's own
+list.
+
+**Modeller queue order:** `ziggurat` → leaning-tower → pharos → london-eye →
+liberty → louvre → colossus → stepped-pyramid → buckingham → giza → d-day.
+**Eridu is flagged `rework: true`** with the oldest timestamp so the sweep takes
+it first. The brief carries the Captain's question — can the sequence hold all
+eighteen excavated levels? The answer: the machinery scales, the evidence does
+not. Only about six levels have published plans distinct enough to model
+without inventing. Say in the commit how deep you went and why you stopped.
+
+**The harvest commit step is now conflict-tolerant.** A push to `public/data`
+mid-harvest used to bin the whole night. `scripts/resolve-data-conflicts.mjs`
+unions `events.json` by id, rebuilds the derived files, and **refuses anything
+outside `public/data`**. Verified against a real bare remote and a genuine
+three-way conflict.
 
 ---
 
 ## Last thing
 
-He responds best to being told the truth plainly, including when something you
-shipped was wrong. Several of the best finds in my run came from him saying
-"this doesn't work" and me going to look properly instead of explaining why it
-should. Measure it, show him the number, and say what you're going to do.
+Two of today's best finds came from distrusting a green tick: the harvest that
+"succeeded" every night while doing nothing, and the frame counter that
+applauded an empty globe. **A green step is not a working step, and a good
+number is not a good outcome.** Read the logs. Look at the pixels.
 
 Good luck, Number One.
