@@ -397,8 +397,10 @@
   },
   "sphinx": {
     "status": "allowed",
-    "ts": 1789897220205,
-    "note": "Far too square and isn't there a tablet between the front paws?"
+    "ts": 1789897220341,
+    "note": "Far too square and isn't there a tablet between the front paws?",
+    "rework": true,
+    "focus": "detail"
   },
   "place:stepped-pyramid@17.220,-89.620": {
     "transform": {
