@@ -34,7 +34,8 @@
           "wiki": "Battle of Megiddo (15th century BC)",
           "noPortrait": true
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "kadesh",
@@ -310,7 +311,8 @@
           "side": 2,
           "wiki": "Porus"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "cannae",
@@ -1372,7 +1374,8 @@
           "side": 2,
           "wiki": "Constantine XI Palaiologos"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "bosworth",
@@ -2839,7 +2842,8 @@
           "side": 2,
           "wiki": "Anthony Durnford"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "rorkes-drift",

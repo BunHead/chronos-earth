@@ -15888,6 +15888,2177 @@
       ],
       "loser": "a",
       "severity": 1.35
+    },
+    "megiddo-1457bce": {
+      "title": "Battle of Megiddo",
+      "subtitle": "c. 1457 BCE — New Kingdom Egypt vs a Canaanite coalition at Megiddo",
+      "sides": {
+        "a": {
+          "name": "Canaanite coalition (King of Kadesh)",
+          "color": "#6b3fa0"
+        },
+        "b": {
+          "name": "New Kingdom Egypt (Thutmose III)",
+          "color": "#c9a646"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 72,
+          "y": 12,
+          "r": 4,
+          "label": "Megiddo"
+        },
+        {
+          "type": "ridge",
+          "x": 40,
+          "y": 45,
+          "w": 55,
+          "h": 14,
+          "label": "The Carmel ridge, pierced by three roads"
+        },
+        {
+          "type": "forest",
+          "x": 32,
+          "y": 48,
+          "r": 5,
+          "label": "The Aruna defile — the narrow, risky route"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The debate at Yehem",
+          "narration": "Thutmose III's army, some 10,800 strong, camps at Yehem after an eleven-day march from the border. His generals urge the safe roads around the Carmel ridge; the coalition of Canaanite princes, roughly 10,700 men under the King of Kadesh, spreads detachments to guard both. Thutmose chooses the third way: the narrow Aruna defile, barely wide enough for a column of one."
+        },
+        {
+          "name": "Through the needle's eye",
+          "narration": "Thutmose leads his men single-file through the defile by night, at the head of the column himself. A handful of defenders posted in the pass could have destroyed the army piecemeal — but the coalition has guessed wrong, and the Egyptians emerge onto the plain unopposed.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                60
+              ],
+              "to": [
+                35,
+                45
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Battle lines at dawn",
+          "narration": "Word reaches the coalition too late. Its scattered wings scramble back toward Megiddo while Thutmose deploys his own army in a concave three-wing formation on the plain before the city, the King of Kadesh drawn up with his back to the walls."
+        },
+        {
+          "name": "The charge and the rout",
+          "narration": "Thutmose himself leads the center forward; the Egyptian wings curl in around both Canaanite flanks. The coalition's line breaks almost at once and streams back toward the city gates in disorder.",
+          "arrows": [
+            {
+              "from": [
+                55,
+                35
+              ],
+              "to": [
+                58,
+                28
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                68,
+                33
+              ],
+              "to": [
+                70,
+                25
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                42,
+                33
+              ],
+              "to": [
+                45,
+                25
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Plunder costs a swift victory",
+          "narration": "With the enemy running, Egyptian soldiers stop to loot the abandoned camp — 924 chariots and 200 suits of armor are hauled off. The delay lets the fleeing kings, including of Kadesh and Megiddo, reach the walls, where the defenders haul them up by knotted clothing into the city."
+        },
+        {
+          "name": "The siege",
+          "narration": "Denied a swift victory, Thutmose surrounds Megiddo with a moat and a timber palisade and settles in for a blockade — even naming it after himself. The King of Kadesh slips away during the siege; the garrison does not."
+        },
+        {
+          "name": "Surrender",
+          "narration": "After seven months, hunger forces the city to capitulate. Thutmose spares Megiddo and its people but strips it of chariots, armor, horses and grain, restoring Egyptian authority over the whole Jezreel Valley."
+        }
+      ],
+      "units": [
+        {
+          "id": "kadesh-king",
+          "side": "a",
+          "label": "King of Kadesh's chariots",
+          "shape": "cavalry",
+          "size": 0.8,
+          "helmet": "cap",
+          "strength": 500,
+          "pos": [
+            [
+              85,
+              45
+            ],
+            [
+              85,
+              45
+            ],
+            [
+              55,
+              20
+            ],
+            [
+              58,
+              17
+            ],
+            [
+              68,
+              12
+            ],
+            [
+              74,
+              9
+            ],
+            [
+              25,
+              55
+            ]
+          ]
+        },
+        {
+          "id": "canaanite-chariots",
+          "side": "a",
+          "label": "Coalition chariotry",
+          "shape": "cavalry",
+          "size": 0.8,
+          "helmet": "cap",
+          "strength": 500,
+          "pos": [
+            [
+              30,
+              50
+            ],
+            [
+              30,
+              50
+            ],
+            [
+              60,
+              22
+            ],
+            [
+              66,
+              17
+            ],
+            [
+              74,
+              13
+            ],
+            [
+              68,
+              9
+            ],
+            [
+              73,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "megiddo-garrison",
+          "side": "a",
+          "label": "Megiddo's garrison",
+          "shape": "block",
+          "helmet": "none",
+          "strength": 2700,
+          "pos": [
+            [
+              72,
+              14
+            ],
+            [
+              72,
+              14
+            ],
+            [
+              65,
+              18
+            ],
+            [
+              68,
+              14
+            ],
+            [
+              72,
+              11
+            ],
+            [
+              72,
+              12
+            ],
+            [
+              72,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "canaanite-levy",
+          "side": "a",
+          "label": "Coalition levy (Syria, Aram, Canaan)",
+          "shape": "block",
+          "size": 1.3,
+          "helmet": "none",
+          "strength": 7000,
+          "pos": [
+            [
+              65,
+              20
+            ],
+            [
+              63,
+              20
+            ],
+            [
+              58,
+              22
+            ],
+            [
+              60,
+              18
+            ],
+            [
+              70,
+              13
+            ],
+            [
+              70,
+              10
+            ],
+            [
+              71,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "thutmose-vanguard",
+          "side": "b",
+          "label": "Thutmose III & chariot vanguard",
+          "shape": "cavalry",
+          "size": 0.9,
+          "helmet": "none",
+          "strength": 1000,
+          "pos": [
+            [
+              20,
+              60
+            ],
+            [
+              35,
+              45
+            ],
+            [
+              55,
+              35
+            ],
+            [
+              58,
+              28
+            ],
+            [
+              58,
+              27
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              72,
+              15
+            ]
+          ]
+        },
+        {
+          "id": "egypt-center",
+          "side": "b",
+          "label": "Center infantry",
+          "shape": "block",
+          "size": 1.1,
+          "helmet": "none",
+          "strength": 4000,
+          "pos": [
+            [
+              22,
+              62
+            ],
+            [
+              30,
+              50
+            ],
+            [
+              55,
+              38
+            ],
+            [
+              58,
+              30
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              12
+            ],
+            [
+              70,
+              13
+            ]
+          ]
+        },
+        {
+          "id": "egypt-right",
+          "side": "b",
+          "label": "Right wing",
+          "shape": "block",
+          "helmet": "none",
+          "strength": 2900,
+          "pos": [
+            [
+              24,
+              64
+            ],
+            [
+              28,
+              53
+            ],
+            [
+              68,
+              33
+            ],
+            [
+              70,
+              25
+            ],
+            [
+              65,
+              24
+            ],
+            [
+              85,
+              12
+            ],
+            [
+              76,
+              13
+            ]
+          ]
+        },
+        {
+          "id": "egypt-left",
+          "side": "b",
+          "label": "Left wing",
+          "shape": "block",
+          "helmet": "none",
+          "strength": 2900,
+          "pos": [
+            [
+              18,
+              64
+            ],
+            [
+              33,
+              48
+            ],
+            [
+              42,
+              33
+            ],
+            [
+              45,
+              25
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              72,
+              4
+            ],
+            [
+              68,
+              13
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 0.9
+    },
+    "hydaspes": {
+      "title": "Battle of the Hydaspes",
+      "subtitle": "326 BCE — Alexander’s Macedonians cross the monsoon-swollen Hydaspes to face Porus",
+      "sides": {
+        "a": {
+          "name": "Paurava kingdom (Porus)",
+          "color": "#b5651d"
+        },
+        "b": {
+          "name": "Macedon (Alexander)",
+          "color": "#3b5b92"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              58,
+              0
+            ],
+            [
+              57,
+              15
+            ],
+            [
+              58,
+              30
+            ],
+            [
+              59,
+              45
+            ],
+            [
+              58,
+              60
+            ],
+            [
+              57,
+              70
+            ]
+          ],
+          "label": "The Hydaspes (Jhelum)"
+        },
+        {
+          "type": "forest",
+          "x": 58,
+          "y": 8,
+          "r": 3,
+          "label": "The wooded island — Alexander's crossing point"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deadlock on the Hydaspes",
+          "narration": "Alexander camps on the western bank of the swollen Hydaspes; Porus holds the eastern bank with a force modern estimates put at 20,000+ infantry, several thousand cavalry, a thousand chariots and upward of a hundred war elephants. Neither dares the crossing in the open, and Alexander shadows the bank nightly to wear down Porus’s watchfulness."
+        },
+        {
+          "name": "The night crossing",
+          "narration": "Leaving Craterus with the bulk of the army to feint a crossing at the main camp, Alexander marches a strike force upstream by night and ferries it across at a wooded island on hide floats and half-built boats, a providential storm covering the noise.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                35
+              ],
+              "to": [
+                60,
+                10
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Young Porus routed",
+          "narration": "Porus's son rushes cavalry and chariots north to throw the crossing back into the river. The chariots bog down in the wet ground; Alexander's cavalry cuts the force to pieces before it can reform.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                32
+              ],
+              "to": [
+                63,
+                15
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                10
+              ],
+              "to": [
+                63,
+                13
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Porus deploys the line",
+          "narration": "Porus marches his main army north to meet the threat: elephants spaced along the center, infantry massed behind them, cavalry on both wings. He rides his largest elephant himself, in chain mail, without a howdah."
+        },
+        {
+          "name": "Coenus's encirclement",
+          "narration": "Alexander's Companion cavalry crashes into the Indian left while horse-archers harass the right. When Porus's right-wing cavalry shifts across to help, Coenus's squadron — sent wide beforehand — swings in behind and strikes them from the rear.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                16
+              ],
+              "to": [
+                60,
+                17
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                78,
+                20
+              ],
+              "to": [
+                68,
+                19
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                66,
+                10
+              ],
+              "to": [
+                70,
+                21
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The elephants turn",
+          "narration": "With the cavalry broken, the war elephants drive into the Macedonian phalanx, impaling men on their tusks. But javelins blind the mahouts and infantry hamstring the beasts; maddened and riderless, the elephants turn and trample their own ranks.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                20
+              ],
+              "to": [
+                63,
+                20
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Rout and surrender",
+          "narration": "The phalanx locks shields and advances into the wreckage as Alexander's and Coenus's cavalry close from the rear in a hammer-and-anvil, and the Indian army collapses. Porus, exhausted and wounded, is asked how he wishes to be treated. ‘As a king should treat another king,’ he replies.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                20
+              ],
+              "to": [
+                65,
+                21
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                58,
+                15
+              ],
+              "to": [
+                63,
+                18
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                68,
+                22
+              ],
+              "to": [
+                66,
+                23
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "porus-elephants",
+          "side": "a",
+          "label": "Porus & the war elephants",
+          "shape": "cavalry",
+          "size": 1.4,
+          "helmet": "none",
+          "strength": 130,
+          "pos": [
+            [
+              75,
+              35
+            ],
+            [
+              75,
+              35
+            ],
+            [
+              75,
+              35
+            ],
+            [
+              68,
+              20
+            ],
+            [
+              68,
+              20
+            ],
+            [
+              63,
+              20
+            ],
+            [
+              70,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "young-porus-chariots",
+          "side": "a",
+          "label": "Young Porus's cavalry & chariots",
+          "shape": "cavalry",
+          "helmet": "none",
+          "strength": 2000,
+          "pos": [
+            [
+              70,
+              32
+            ],
+            [
+              70,
+              32
+            ],
+            [
+              63,
+              15
+            ],
+            [
+              75,
+              26
+            ],
+            [
+              77,
+              27
+            ],
+            [
+              78,
+              28
+            ],
+            [
+              82,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "paurava-infantry",
+          "side": "a",
+          "label": "Paurava infantry",
+          "shape": "block",
+          "size": 1.4,
+          "helmet": "none",
+          "strength": 20000,
+          "pos": [
+            [
+              80,
+              35
+            ],
+            [
+              80,
+              35
+            ],
+            [
+              80,
+              35
+            ],
+            [
+              72,
+              22
+            ],
+            [
+              72,
+              23
+            ],
+            [
+              68,
+              22
+            ],
+            [
+              73,
+              27
+            ]
+          ]
+        },
+        {
+          "id": "paurava-cavalry-left",
+          "side": "a",
+          "label": "Left-wing cavalry",
+          "shape": "cavalry",
+          "helmet": "none",
+          "strength": 2000,
+          "pos": [
+            [
+              72,
+              40
+            ],
+            [
+              72,
+              40
+            ],
+            [
+              72,
+              40
+            ],
+            [
+              60,
+              18
+            ],
+            [
+              62,
+              19
+            ],
+            [
+              65,
+              15
+            ],
+            [
+              55,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "paurava-cavalry-right",
+          "side": "a",
+          "label": "Right-wing cavalry",
+          "shape": "cavalry",
+          "helmet": "none",
+          "strength": 1000,
+          "pos": [
+            [
+              72,
+              30
+            ],
+            [
+              72,
+              30
+            ],
+            [
+              72,
+              30
+            ],
+            [
+              78,
+              20
+            ],
+            [
+              68,
+              19
+            ],
+            [
+              72,
+              17
+            ],
+            [
+              85,
+              25
+            ]
+          ]
+        },
+        {
+          "id": "alexander-companions",
+          "side": "b",
+          "label": "Alexander & the Companion cavalry",
+          "shape": "cavalry",
+          "size": 1.1,
+          "helmet": "crest",
+          "strength": 2000,
+          "pos": [
+            [
+              30,
+              35
+            ],
+            [
+              60,
+              10
+            ],
+            [
+              63,
+              13
+            ],
+            [
+              58,
+              16
+            ],
+            [
+              60,
+              17
+            ],
+            [
+              58,
+              15
+            ],
+            [
+              63,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "coenus-squadron",
+          "side": "b",
+          "label": "Coenus's squadron",
+          "shape": "cavalry",
+          "helmet": "crest",
+          "strength": 1000,
+          "pos": [
+            [
+              25,
+              38
+            ],
+            [
+              58,
+              12
+            ],
+            [
+              60,
+              14
+            ],
+            [
+              66,
+              10
+            ],
+            [
+              70,
+              21
+            ],
+            [
+              68,
+              22
+            ],
+            [
+              66,
+              23
+            ]
+          ]
+        },
+        {
+          "id": "macedon-horsearchers",
+          "side": "b",
+          "label": "Dahae horse-archers",
+          "shape": "cavalry",
+          "helmet": "cap",
+          "strength": 1000,
+          "pos": [
+            [
+              28,
+              42
+            ],
+            [
+              62,
+              9
+            ],
+            [
+              65,
+              12
+            ],
+            [
+              74,
+              14
+            ],
+            [
+              72,
+              15
+            ],
+            [
+              70,
+              13
+            ],
+            [
+              75,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "macedon-phalanx",
+          "side": "b",
+          "label": "Macedonian phalanx",
+          "shape": "block",
+          "size": 1.3,
+          "helmet": "crest",
+          "strength": 6000,
+          "pos": [
+            [
+              20,
+              38
+            ],
+            [
+              55,
+              14
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              55,
+              18
+            ],
+            [
+              58,
+              19
+            ],
+            [
+              60,
+              20
+            ],
+            [
+              65,
+              21
+            ]
+          ]
+        },
+        {
+          "id": "craterus-reserve",
+          "side": "b",
+          "label": "Craterus's reserve (feint, then pursuit)",
+          "shape": "block",
+          "size": 1.3,
+          "helmet": "crest",
+          "strength": 9000,
+          "pos": [
+            [
+              15,
+              35
+            ],
+            [
+              15,
+              35
+            ],
+            [
+              15,
+              35
+            ],
+            [
+              15,
+              35
+            ],
+            [
+              15,
+              35
+            ],
+            [
+              15,
+              35
+            ],
+            [
+              40,
+              20
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.15
+    },
+    "isandlwana": {
+      "title": "Battle of Isandlwana",
+      "subtitle": "22 January 1879 — the Zulu Kingdom destroys a British camp under a darkening sun",
+      "sides": {
+        "a": {
+          "name": "Zulu Kingdom (Ntshingwayo kaMahole)",
+          "color": "#4a2e1a"
+        },
+        "b": {
+          "name": "British Empire & colonial troops",
+          "color": "#a8201a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "hill",
+          "x": 50,
+          "y": 45,
+          "r": 5,
+          "label": "Isandlwana (the hill; camp at its foot)"
+        },
+        {
+          "type": "ridge",
+          "x": 55,
+          "y": 8,
+          "w": 70,
+          "h": 10,
+          "label": "The Nqutu plateau — the main impi lay hidden beyond it, in the Ngwebeni valley"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              38
+            ],
+            [
+              20,
+              38
+            ],
+            [
+              35,
+              35
+            ]
+          ],
+          "label": "Road to Rorke’s Drift"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              60,
+              55
+            ],
+            [
+              75,
+              62
+            ],
+            [
+              95,
+              68
+            ]
+          ],
+          "label": "Road to the Buffalo River (Fugitives’ Drift)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The column marches out",
+          "narration": "Lord Chelmsford, underestimating the Zulu army, declines to laager the camp — \"it would take a week to make.\" At dawn he marches off with half the column to hunt the main Zulu force, leaving roughly 1,800 men under Pulleine to hold Isandlwana. He is looking in the wrong place: some 20,000 Zulu warriors already lie hidden in a valley beyond the plateau."
+        },
+        {
+          "name": "Raw stumbles on the impi",
+          "narration": "Mid-morning, Lieutenant Raw's mounted scouts chase Zulu skirmishers into the Ngwebeni valley and find the entire main army sitting in silence. Discovered, the impi leaps to its feet and attacks at once, before its commanders can fully order it.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                10
+              ],
+              "to": [
+                50,
+                15
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The horns of the buffalo close",
+          "narration": "The Zulu 'chest' advances to pin the British firing line while the 'horns' race wide around both flanks — the right horn sweeping west to cut the Rorke's Drift road, the left horn east toward the Buffalo River. For an hour, disciplined volleys and shellfire from the two 7-pounders hold the chest at bay.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                14
+              ],
+              "to": [
+                50,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                30,
+                15
+              ],
+              "to": [
+                20,
+                25
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                75,
+                15
+              ],
+              "to": [
+                85,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Ammunition runs dry",
+          "narration": "Durnford's men, fighting longest on the right, begin to run low on ammunition — the boxes' screwed-down lids are slow to open, and standing orders forbid breaking into a fresh one early. As his line thins and falls back, the British right is exposed and the horns close the gap behind the camp.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                25
+              ],
+              "to": [
+                10,
+                35
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                85,
+                30
+              ],
+              "to": [
+                85,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The line collapses",
+          "narration": "Pulleine orders a fighting withdrawal into the camp, but the retreat exposes the flank of G Company, which is overrun in minutes. The Zulu horns meet behind Isandlwana, sealing off the roads to both Rorke’s Drift and Natal.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                23
+              ],
+              "to": [
+                50,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                10,
+                35
+              ],
+              "to": [
+                35,
+                50
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                85,
+                40
+              ],
+              "to": [
+                65,
+                52
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The eclipse and the last stand",
+          "narration": "At 2:30pm a solar eclipse darkens the field. Small knots of survivors — some 150 men in a square on the nek, Durnford’s troopers nearby — fight on hand-to-hand until they are overwhelmed; no quarter is given. Only a handful escape south toward Fugitives’ Drift. It is the worst defeat a modern European army ever suffered at the hands of a force armed mainly with spears.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                32
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                35,
+                50
+              ],
+              "to": [
+                40,
+                50
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                65,
+                52
+              ],
+              "to": [
+                60,
+                52
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "zulu-chest",
+          "side": "a",
+          "label": "The chest (umCijo, uKhandempemvu)",
+          "shape": "block",
+          "size": 1.4,
+          "helmet": "none",
+          "strength": 8000,
+          "pos": [
+            [
+              50,
+              10
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              50,
+              23
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              50,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "zulu-right-horn",
+          "side": "a",
+          "label": "Right horn (uDududu, uNokenke)",
+          "shape": "block",
+          "size": 1.1,
+          "helmet": "none",
+          "strength": 3500,
+          "pos": [
+            [
+              48,
+              8
+            ],
+            [
+              30,
+              15
+            ],
+            [
+              20,
+              25
+            ],
+            [
+              10,
+              35
+            ],
+            [
+              35,
+              50
+            ],
+            [
+              40,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "zulu-left-horn",
+          "side": "a",
+          "label": "Left horn (uNgobamakhosi, uMbonambi, uVe)",
+          "shape": "block",
+          "size": 1.2,
+          "helmet": "none",
+          "strength": 5500,
+          "pos": [
+            [
+              60,
+              8
+            ],
+            [
+              75,
+              15
+            ],
+            [
+              85,
+              30
+            ],
+            [
+              85,
+              40
+            ],
+            [
+              65,
+              52
+            ],
+            [
+              60,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "zulu-reserve",
+          "side": "a",
+          "label": "The loins (Undi corps, reserve)",
+          "shape": "block",
+          "size": 1.1,
+          "helmet": "none",
+          "strength": 4500,
+          "pos": [
+            [
+              55,
+              5
+            ],
+            [
+              55,
+              7
+            ],
+            [
+              55,
+              10
+            ],
+            [
+              55,
+              15
+            ],
+            [
+              52,
+              25
+            ],
+            [
+              50,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "british-24th",
+          "side": "b",
+          "label": "24th Regiment firing line",
+          "shape": "block",
+          "helmet": "none",
+          "strength": 600,
+          "pos": [
+            [
+              50,
+              28
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              55,
+              27
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              55,
+              48
+            ]
+          ]
+        },
+        {
+          "id": "durnford-column",
+          "side": "b",
+          "label": "Durnford's mounted troops & rocket battery",
+          "shape": "cavalry",
+          "helmet": "none",
+          "strength": 500,
+          "pos": [
+            [
+              75,
+              30
+            ],
+            [
+              75,
+              29
+            ],
+            [
+              75,
+              28
+            ],
+            [
+              70,
+              35
+            ],
+            [
+              65,
+              40
+            ],
+            [
+              62,
+              45
+            ]
+          ]
+        },
+        {
+          "id": "nnc-contingent",
+          "side": "b",
+          "label": "Natal Native Contingent",
+          "shape": "block",
+          "helmet": "none",
+          "strength": 550,
+          "pos": [
+            [
+              30,
+              30
+            ],
+            [
+              30,
+              29
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              35,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              45,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "artillery-guns",
+          "side": "b",
+          "label": "Two 7-pounder guns",
+          "shape": "vehicle",
+          "size": 0.6,
+          "helmet": "none",
+          "strength": 100,
+          "pos": [
+            [
+              50,
+              30
+            ],
+            [
+              50,
+              29
+            ],
+            [
+              50,
+              27
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              50,
+              35
+            ],
+            [
+              50,
+              40
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "constantinople-1453": {
+      "title": "Fall of Constantinople",
+      "subtitle": "29 May 1453 — the Ottoman Empire ends the Roman/Byzantine Empire after a 53-day siege",
+      "sides": {
+        "a": {
+          "name": "Byzantine Empire (Constantine XI)",
+          "color": "#5b2a86"
+        },
+        "b": {
+          "name": "Ottoman Empire (Mehmed II)",
+          "color": "#2e7d55"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 60,
+          "y": 35,
+          "w": 4,
+          "h": 70,
+          "label": "The Theodosian land walls"
+        },
+        {
+          "type": "sea",
+          "x": 78,
+          "y": 6,
+          "w": 45,
+          "h": 8,
+          "label": "Golden Horn"
+        },
+        {
+          "type": "sea",
+          "x": 78,
+          "y": 66,
+          "w": 45,
+          "h": 8,
+          "label": "Sea of Marmara"
+        },
+        {
+          "type": "town",
+          "x": 80,
+          "y": 1,
+          "r": 2.5,
+          "label": "Galata — ships were hauled overland from here"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              52,
+              30
+            ],
+            [
+              58,
+              33
+            ],
+            [
+              64,
+              37
+            ]
+          ],
+          "label": "The Lycus — the Mesoteichion, weakest point in the walls"
+        },
+        {
+          "type": "town",
+          "x": 62,
+          "y": 10,
+          "r": 2,
+          "label": "Blachernae (the older, weaker walls)"
+        },
+        {
+          "type": "town",
+          "x": 85,
+          "y": 35,
+          "r": 5,
+          "label": "Constantinople"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The land walls invested",
+          "narration": "Mehmed II’s army — modern estimates put it at 50,000 to 80,000 men — encamps facing the 5.5km Theodosian land walls on the city’s western side. His fleet blockades the sea approaches but cannot force the great chain barring the Golden Horn. Behind the walls, barely 7,000 Byzantine and allied defenders man twenty kilometres of fortification."
+        },
+        {
+          "name": "Orban's bombard opens fire",
+          "narration": "Seventy cannon, hauled 150 miles from Edirne, batter the walls. The largest, cast by the Hungarian engineer Orban, can hurl a 600-pound stone over a mile and is trained on the Mesoteichion, where the Lycus stream crosses the ramparts — the wall’s weakest stretch, commanded by Constantine XI himself. Each night the defenders patch the breach faster than the slow-firing gun can widen it.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                35
+              ],
+              "to": [
+                58,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Ships over the hill",
+          "narration": "Unable to break the chain, Mehmed has some seventy ships hauled overland on a road of greased logs across the ridge behind Galata and launched straight into the Golden Horn, outflanking the sea walls and shattering defender morale at a stroke.",
+          "arrows": [
+            {
+              "from": [
+                90,
+                60
+              ],
+              "to": [
+                80,
+                8
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "War beneath the walls",
+          "narration": "Through mid-May, Serbian sappers dig tunnels toward the Blachernae sector to bring the walls down from below. The Genoese engineer Johannes Grant organizes counter-mines, and Byzantine parties intercept and burn tunnel after tunnel with Greek fire.",
+          "arrows": [
+            {
+              "from": [
+                35,
+                15
+              ],
+              "to": [
+                50,
+                20
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                20
+              ],
+              "to": [
+                52,
+                20
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The last night",
+          "narration": "After weeks of bombardment, Mehmed orders an all-out assault before dawn on 29 May. Wave after wave will be thrown at the walls until one of them succeeds; Constantine and Giustiniani mass what men they have at the Mesoteichion."
+        },
+        {
+          "name": "Irregulars, then Anatolians",
+          "narration": "Christian auxiliaries and lightly-armed irregulars storm the older Blachernae walls first and are thrown back with heavy loss. Disciplined Anatolian regulars follow at the Mesoteichion and are also repelled — but the exhausted defenders have nothing left to throw at a third wave.",
+          "arrows": [
+            {
+              "from": [
+                45,
+                12
+              ],
+              "to": [
+                60,
+                12
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                45,
+                35
+              ],
+              "to": [
+                58,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Janissaries and the Kerkoporta",
+          "narration": "The elite Janissary corps goes in under Mehmed’s own eye. Giustiniani is gravely wounded and carried from the ramparts, and his evacuation panics the Genoese line. In the confusion, a small postern gate, the Kerkoporta, is found open, letting Ottoman troops onto the wall from behind.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                35
+              ],
+              "to": [
+                59,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                12
+              ],
+              "to": [
+                61,
+                12
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The walls fall",
+          "narration": "With the Genoese gone and troops now inside the wall, the defense collapses. Constantine XI reportedly throws off his imperial regalia and charges into the fighting, never to be found. Ottoman troops pour into the city; by midday it is over, and three days of sack follow.",
+          "arrows": [
+            {
+              "from": [
+                59,
+                34
+              ],
+              "to": [
+                70,
+                35
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                53,
+                33
+              ],
+              "to": [
+                68,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                61,
+                12
+              ],
+              "to": [
+                65,
+                15
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "constantine-guard",
+          "side": "a",
+          "label": "Constantine XI & the Byzantine guard",
+          "shape": "block",
+          "helmet": "roman",
+          "strength": 2000,
+          "pos": [
+            [
+              60,
+              35
+            ],
+            [
+              60,
+              35
+            ],
+            [
+              60,
+              35
+            ],
+            [
+              60,
+              35
+            ],
+            [
+              59,
+              35
+            ],
+            [
+              59,
+              35
+            ],
+            [
+              59,
+              35
+            ],
+            [
+              62,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "giustiniani-genoese",
+          "side": "a",
+          "label": "Giustiniani's Genoese",
+          "shape": "block",
+          "helmet": "greathelm",
+          "strength": 700,
+          "pos": [
+            [
+              60,
+              12
+            ],
+            [
+              60,
+              12
+            ],
+            [
+              61,
+              10
+            ],
+            [
+              60,
+              18
+            ],
+            [
+              59,
+              33
+            ],
+            [
+              59,
+              33
+            ],
+            [
+              55,
+              30
+            ],
+            [
+              50,
+              25
+            ]
+          ]
+        },
+        {
+          "id": "venetian-marines",
+          "side": "a",
+          "label": "Venetian marines (sea walls)",
+          "shape": "block",
+          "helmet": "conical",
+          "strength": 1000,
+          "pos": [
+            [
+              63,
+              6
+            ],
+            [
+              63,
+              6
+            ],
+            [
+              65,
+              8
+            ],
+            [
+              64,
+              7
+            ],
+            [
+              63,
+              8
+            ],
+            [
+              63,
+              8
+            ],
+            [
+              65,
+              9
+            ],
+            [
+              70,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "byzantine-militia",
+          "side": "a",
+          "label": "Byzantine militia & monks",
+          "shape": "block",
+          "size": 1.3,
+          "helmet": "roman",
+          "strength": 3300,
+          "pos": [
+            [
+              60,
+              55
+            ],
+            [
+              60,
+              55
+            ],
+            [
+              60,
+              50
+            ],
+            [
+              60,
+              20
+            ],
+            [
+              60,
+              50
+            ],
+            [
+              60,
+              50
+            ],
+            [
+              61,
+              48
+            ],
+            [
+              65,
+              45
+            ]
+          ]
+        },
+        {
+          "id": "mehmed-bombard",
+          "side": "b",
+          "label": "Orban's great bombard",
+          "shape": "vehicle",
+          "size": 1.2,
+          "helmet": "none",
+          "strength": 300,
+          "pos": [
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "ottoman-irregulars",
+          "side": "b",
+          "label": "Bashi-bazouks & irregulars",
+          "shape": "block",
+          "size": 1.5,
+          "helmet": "cap",
+          "strength": 20000,
+          "pos": [
+            [
+              35,
+              15
+            ],
+            [
+              35,
+              15
+            ],
+            [
+              35,
+              15
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              45,
+              12
+            ],
+            [
+              60,
+              12
+            ],
+            [
+              61,
+              12
+            ],
+            [
+              65,
+              15
+            ]
+          ]
+        },
+        {
+          "id": "anatolian-regulars",
+          "side": "b",
+          "label": "Anatolian regulars",
+          "shape": "block",
+          "size": 1.5,
+          "helmet": "cap",
+          "strength": 20000,
+          "pos": [
+            [
+              35,
+              35
+            ],
+            [
+              35,
+              35
+            ],
+            [
+              35,
+              35
+            ],
+            [
+              35,
+              35
+            ],
+            [
+              45,
+              35
+            ],
+            [
+              58,
+              35
+            ],
+            [
+              53,
+              33
+            ],
+            [
+              68,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "janissaries",
+          "side": "b",
+          "label": "The Janissary corps",
+          "shape": "block",
+          "size": 1.2,
+          "helmet": "cap",
+          "strength": 10000,
+          "pos": [
+            [
+              35,
+              45
+            ],
+            [
+              35,
+              45
+            ],
+            [
+              35,
+              45
+            ],
+            [
+              35,
+              45
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              59,
+              34
+            ],
+            [
+              70,
+              35
+            ]
+          ]
+        },
+        {
+          "id": "ottoman-fleet",
+          "side": "b",
+          "label": "The Ottoman fleet",
+          "shape": "ship",
+          "size": 1.1,
+          "helmet": "none",
+          "strength": 70,
+          "pos": [
+            [
+              90,
+              60
+            ],
+            [
+              90,
+              60
+            ],
+            [
+              80,
+              8
+            ],
+            [
+              80,
+              8
+            ],
+            [
+              80,
+              8
+            ],
+            [
+              80,
+              8
+            ],
+            [
+              80,
+              8
+            ],
+            [
+              78,
+              10
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.35
     }
   }
 }
