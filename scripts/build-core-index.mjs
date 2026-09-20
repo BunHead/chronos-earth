@@ -69,9 +69,17 @@ export const bucketFor = (startYear) => {
 /** A tile's on-disk name — cell (|→_ for Windows) plus its era bucket. */
 export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${bucket}.json`;
 
-/** How many of the most-notable events ride in the always-loaded headline
- * LOD tier, so the globe is never empty while cells stream in. */
-const HEADLINE_COUNT = 600;
+/** How many events ride in the always-loaded headline LOD tier, so the globe is
+ * never empty while cells stream in — and so search has something to find at a
+ * cold start.
+ *
+ * Raised 600 → 1000 on 20 Sept 2026. Every curated row now rides here (see the
+ * headline build below), and at 278 of them they were taking nearly half the
+ * old budget, which would have pushed genuinely famous harvested entries out
+ * instead. Measured before changing it: the packed file is ~85 bytes an event,
+ * so 600 rows cost 51 KB and 1000 cost about 85 KB — against a 2.47 MB cold
+ * load of which Cesium alone is 1.85 MB. It is not the thing to economise on. */
+const HEADLINE_COUNT = 1000;
 
 /** Pack a list of already-year-sorted events into the columnar shape the app's
  * eventsFromColumns() reconstructs — identical schema to core-index.json.
@@ -197,12 +205,27 @@ async function main() {
   }
   for (const cell of Object.keys(availByCell)) availByCell[cell].sort((a, b) => a - b);
 
-  // Headline LOD tier: the most-notable events worldwide, kept year-sorted so
-  // the app can reuse the same columnar decode. Never empty at cold start.
-  const headline = [...rows]
+  // Headline LOD tier: what is loaded before any cell streams in — and so, in
+  // practice, THE ONLY THING SEARCH CAN FIND from a cold start.
+  //
+  // EVERY HAND-CURATED ROW RIDES HERE, whatever its notability. This was a
+  // straight ranking by notability, and the consequence only showed up once the
+  // corpus grew: the cut-off is a moving target, and by 20 Sept 2026 it had
+  // climbed to 116 and quietly thrown 33 curated entries out of reach. Typing
+  // "Eridu" — or Uruk, Harappa, Gilgamesh, King Arthur, Beowulf, the Chicxulub
+  // impact, the 1918 influenza pandemic — returned nothing but an offer to
+  // search the web, while the row sat in the dataset all along. Harvested
+  // footballers were outranking the things a person had chosen by hand.
+  //
+  // A curated row exists precisely because someone decided it mattered. That
+  // decision should not be re-litigated every time the harvest adds a name.
+  const isCurated = (r) => String(r.id).startsWith('cur-');
+  const curated = rows.filter(isCurated);
+  const byFame = rows
+    .filter((r) => !isCurated(r))
     .sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0))
-    .slice(0, HEADLINE_COUNT)
-    .sort((a, b) => a.startYear - b.startYear);
+    .slice(0, Math.max(0, HEADLINE_COUNT - curated.length));
+  const headline = [...curated, ...byFame].sort((a, b) => a.startYear - b.startYear);
   await writeFile(join(TILE_DIR, 'headline.json'), JSON.stringify(packColumns(headline)));
 
   // Manifest so the client never 404-probes: which era buckets each cell holds.
