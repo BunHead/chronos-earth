@@ -78,8 +78,19 @@ export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${buc
  * old budget, which would have pushed genuinely famous harvested entries out
  * instead. Measured before changing it: the packed file is ~85 bytes an event,
  * so 600 rows cost 51 KB and 1000 cost about 85 KB — against a 2.47 MB cold
- * load of which Cesium alone is 1.85 MB. It is not the thing to economise on. */
-const HEADLINE_COUNT = 1000;
+ * load of which Cesium alone is 1.85 MB. It is not the thing to economise on.
+ *
+ * Raised again 1000 → 2500 later the same day, because the dataset more than
+ * doubled (3,768 → 7,970) when the harvest was repaired, and a fixed cap
+ * against a doubled dataset is a TIGHTENING. Measured: the notability cut-off
+ * rose from 69 sitelinks to 75, and eighty-odd entries fell out of reach of a
+ * cold search — Çatalhöyük, Thebes, Cyrene, Leptis Magna, Prambanan. Exactly
+ * the failure this tier exists to prevent, arriving by the back door.
+ *
+ * This cap has now moved twice for the same reason, so state the rule rather
+ * than the number: IT IS A FRACTION OF THE DATASET, not a constant. Keep it
+ * near a third. If the dataset doubles again, this doubles. */
+const HEADLINE_COUNT = 2500;
 
 /** Pack a list of already-year-sorted events into the columnar shape the app's
  * eventsFromColumns() reconstructs — identical schema to core-index.json.

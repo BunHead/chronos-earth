@@ -1,1 +1,1 @@
-{"v":1,"id":["q733610"],"name":["Erebuni Fortress"],"lat":[40.1406],"lon":[44.5379],"year":[-781],"endYear":[null],"category":["monument"],"notability":[41],"wiki":[""],"cell":["4|4"],"attest":[null]}
+{"v":1,"id":["q2586542","q733610"],"name":["Nokalakevi","Erebuni Fortress"],"lat":[42.3572,40.1406],"lon":[42.1939,44.5379],"year":[-1000,-781],"endYear":[null,null],"category":["monument","monument"],"notability":[20,41],"wiki":["",""],"cell":["4|4","4|4"],"attest":[null,null]}

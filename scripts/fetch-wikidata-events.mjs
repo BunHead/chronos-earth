@@ -10,10 +10,57 @@
  *
  *   node scripts/fetch-wikidata-events.mjs
  *
- * Pulls the TOP events PER CONTINENT (via wikibase:box) so the result is
- * globally balanced rather than Euro-skewed. Hand-curated entries (ids "cur-*")
- * are preserved across re-runs, and if too few rows come back (box-service
- * hiccup) it keeps the existing file rather than clobbering good data.
+ * Additive: hand-curated entries (ids "cur-*") and everything already on file
+ * are preserved across re-runs. The union can only ever grow.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * THE HARVEST WAS DEAD. 20 Sept 2026, read out of the Actions logs.
+ *
+ * This script used to ask `SERVICE wikibase:box` for one continent at a time.
+ * By 20 Sept EVERY REGION OF EVERY CATEGORY WAS FAILING, and had been getting
+ * worse for a week:
+ *
+ *     16 Sept  most regions returned (+0/+1 — genuinely saturated)
+ *     17 Sept  about half failed
+ *     19 Sept  nearly all failed
+ *     20 Sept  all of them: "South America: failed (This operation was
+ *              aborted)" … seven regions, 55 minutes, nothing harvested
+ *
+ * The step still reported success, because it ends in `|| [ $? -eq 124 ]`.
+ * The handover had recorded this as "the events sweep is saturated". It was
+ * not saturated. It was broken, and quietly.
+ *
+ * WHY. The box service resolves the GEOGRAPHY first: every coordinate-bearing
+ * item on the continent — millions — and only then joins to "…and is a battle".
+ * As Wikidata grew, that join crossed WDQS's own 60-second ceiling and started
+ * returning 504. Measured from this machine, on the real queries:
+ *
+ *     battle / Europe SW   (box)    aborted at 120,000 ms
+ *     battle / N. America  (box)    HTTP 504 after 104,202 ms
+ *     city   / Europe SW   (box)    HTTP 504 after  65,199 ms
+ *
+ * Raising the client timeout cannot fix a server-side 504. The query has to
+ * get cheaper.
+ *
+ * THE FIX, and it is one line of reasoning: ask for the CLASS first. There are
+ * only ~50k battles in Wikidata; there are millions of coordinates in Europe.
+ * Starting from the small set and reading off its coordinates is the same
+ * answer by a vastly cheaper route:
+ *
+ *     battle   GLOBAL, class-first   2,893 distinct in  10,844 ms
+ *     city     GLOBAL, class-first   1,645 distinct in  27,744 ms
+ *     disaster GLOBAL, class-first   1,401 distinct in  41,421 ms
+ *
+ * Four queries of about two minutes total, in place of 56 that all failed.
+ *
+ * AND THE CONTINENT BOXES ARE NO LONGER NEEDED. They existed to stop one
+ * global TOP-120 ranking being all-Europe — a real problem when each query
+ * returned only the most notable 120. These queries return the COMPLETE set
+ * that clears the notability floor (all 2,893 battles, not the best 120), so
+ * balance is no longer something to engineer; it falls out. Sitelink BANDING
+ * was tried as a way past the row cap and was both slower and unnecessary:
+ * banded, the same battle query totals the same 2,893.
+ * ───────────────────────────────────────────────────────────────────────────
  */
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -31,35 +78,47 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MIN_YEAR = -12000;
 const MAX_YEAR = new Date().getFullYear();
 
-/** Continent bounding boxes (cornerWest = SW, cornerEast = NE), so each region
- * gets its own quota instead of Europe winning a single global ranking. */
-const CONTINENTS = [
-  { name: 'South America', west: '-82 -56', east: '-34 13' },
-  { name: 'North America', west: '-170 7', east: '-50 84' },
-  // Europe is Wikidata's densest region — one big box always timed out on the
-  // query service (it starved every run). Four quarter-boxes each answer fast.
-  { name: 'Europe SW', west: '-25 35', east: '15 50' },
-  { name: 'Europe NW', west: '-25 50', east: '15 72' },
-  { name: 'Europe SE', west: '15 35', east: '45 50' },
-  { name: 'Europe NE', west: '15 50', east: '45 72' },
-  { name: 'Africa', west: '-20 -36', east: '52 38' },
-  // Asia was one giant box — the subcontinent and the Pacific rim were being
-  // starved by its densest corners, exactly like Europe was. Quarter it, and
-  // give the western Pacific its own box (a box cannot cross the antimeridian;
-  // Hawaii and the far Pacific ride in the North America box).
-  { name: 'Asia SW (subcontinent)', west: '40 -11', east: '95 35' },
-  { name: 'Asia NW', west: '40 35', east: '95 78' },
-  { name: 'Asia SE', west: '95 -11', east: '150 35' },
-  { name: 'Asia NE', west: '95 35', east: '150 78' },
-  { name: 'Pacific West', west: '150 -50', east: '180 30' },
-  { name: 'Oceania', west: '110 -50', east: '180 0' },
-];
-
-/** Each category's selector triples + a minimum sitelink (notability) filter. */
+/**
+ * One global, class-first query per category.
+ *
+ * `min` is the sitelink (notability) floor, and it is load-bearing: it is the
+ * difference between a query that answers and one that 504s. `monument` at
+ * sl>=1 took 59 s for 608 rows where sl>=3 took 20 s for 535; the extra 73
+ * rows are not worth a query that dies. Likewise the monument TYPE sweep at
+ * sl>=8 never returned at all, while sl>=20 answers in 38 s.
+ */
 const CATEGORIES = [
-  { category: 'battle', selector: '?item wdt:P31 wd:Q178561 ; wdt:P585 ?date .', min: 6 },
-  { category: 'city', selector: '?item wdt:P31 wd:Q515 ; wdt:P571 ?date .', min: 18 },
-  { category: 'monument', selector: '?item wdt:P1435 wd:Q9259 ; wdt:P571 ?date .', min: 0 },
+  {
+    category: 'battle',
+    selector: '?item wdt:P31 wd:Q178561 ; wdt:P585 ?date .',
+    min: 6,
+  },
+  {
+    category: 'city',
+    selector: '?item wdt:P31 wd:Q515 ; wdt:P571 ?date .',
+    min: 18,
+  },
+  {
+    category: 'monument',
+    selector: '?item wdt:P1435 wd:Q9259 ; wdt:P571 ?date .',
+    min: 3,
+  },
+  {
+    // The Captain's order, from the old per-country sweep: the famous
+    // monuments of the world, by TYPE rather than by heritage designation —
+    // castles, palaces, cathedrals, towers. This used to be a single query
+    // with a UNION and a `wdt:P17 ?country` join so it could keep the top
+    // three per country; that combination is what killed it (502/504 on every
+    // attempt, measured). Split out and asked plainly it answers in 38 s, and
+    // since we now take everything above the floor there is nothing left for
+    // the per-country grouping to do.
+    category: 'monument',
+    selector:
+      'VALUES ?mtype { wd:Q4989906 wd:Q839954 wd:Q570116 wd:Q12518 wd:Q16970 wd:Q23413 } ' +
+      '?item wdt:P31 ?mtype ; wdt:P571 ?date .',
+    min: 20,
+    label: 'monument (by type)',
+  },
   {
     // The Captain found Great Fires 0, Plagues 0 and Impacts 0 in the Layers
     // sub-list (2026-07-23). Two causes lived here, both fixed below.
@@ -74,8 +133,8 @@ const CATEGORIES = [
     // Death and COVID-19 all record P580 ("start time") instead and matched
     // nothing. COALESCE takes whichever the event actually has.
     //
-    // Still unreachable from here, by design of the box service rather than any
-    // fault in this query: events with no coordinates at all (the Black Death,
+    // Still unreachable from here, by design of Wikidata rather than any fault
+    // in this query: events with no coordinates at all (the Black Death,
     // COVID-19, the 1918 flu — a pandemic is not a place). Those are curated by
     // hand in add-disasters.mjs, which explains where each one is pinned.
     category: 'disaster',
@@ -88,25 +147,29 @@ const CATEGORIES = [
     min: 4,
   },
 ];
-const PER_BOX = 120; // widened from 40 — reach past the current top tier (additive union keeps it safe)
 
-function buildQuery(selector, min, west, east) {
+/** Generous: the largest real answer is under 3,000 distinct items, so this is
+ * a safety rail rather than a ranking cut-off. There is deliberately no
+ * ORDER BY — sorting the whole match set is pure cost when we intend to keep
+ * every row anyway. */
+const LIMIT = 6000;
+
+function buildQuery(selector, min) {
   return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
-  SERVICE wikibase:box {
-    ?item wdt:P625 ?coord .
-    bd:serviceParam wikibase:cornerWest "Point(${west})"^^geo:wktLiteral .
-    bd:serviceParam wikibase:cornerEast "Point(${east})"^^geo:wktLiteral .
-  }
   ${selector}
-  ?item wikibase:sitelinks ?sl .
+  ?item wdt:P625 ?coord ; wikibase:sitelinks ?sl .
   FILTER(?sl >= ${min})
   OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-} ORDER BY DESC(?sl) LIMIT ${PER_BOX}`;
+} LIMIT ${LIMIT}`;
 }
 
-const MAX_ATTEMPTS = 6;
-const REQ_TIMEOUT_MS = 45_000; // WDQS can hang; abort and retry rather than stall forever
+const MAX_ATTEMPTS = 4;
+/** WDQS gives up on its own at 60 s, so anything past ~75 s is waiting for a
+ * 504 that has already been decided. The old value was 45 s, which threw away
+ * queries that WOULD have answered — the city sweep needs 28 s on a good day
+ * and considerably more on a bad one. */
+const REQ_TIMEOUT_MS = 75_000;
 
 async function runQuery(sparql) {
   const url = `${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`;
@@ -119,17 +182,23 @@ async function runQuery(sparql) {
         signal: ctrl.signal,
       });
       if (res.ok) return (await res.json()).results.bindings;
-      // 429 (rate-limit) and 5xx (incl. 504 query timeout) are retryable.
-      if ((res.status === 429 || res.status >= 500) && attempt < MAX_ATTEMPTS) {
-        await sleep(2000 * 2 ** attempt);
+      // 429 means WDQS is asking us to slow down, and it usually says by how
+      // much. Honour it — guessing shorter is how you get banned, and the
+      // GitHub runners share an address with a great many other people.
+      if (res.status === 429 && attempt < MAX_ATTEMPTS) {
+        const wait = Math.min(120, +res.headers.get('retry-after') || 30);
+        console.log(`  rate-limited; waiting ${wait}s as asked`);
+        await sleep(wait * 1000);
+        continue;
+      }
+      if (res.status >= 500 && attempt < MAX_ATTEMPTS) {
+        await sleep(5000 * 2 ** attempt);
         continue;
       }
       throw new Error(`HTTP ${res.status}`);
     } catch (e) {
-      // Aborted (our timeout) or a network error (ECONNRESET/DNS) — back off and
-      // retry a few times before giving up on this one box.
-      if (attempt < MAX_ATTEMPTS && (e.name === 'AbortError' || e.name === 'TypeError' || /HTTP (429|5\d\d)/.test(e.message))) {
-        await sleep(2000 * 2 ** attempt);
+      if (attempt < MAX_ATTEMPTS && (e.name === 'AbortError' || e.name === 'TypeError')) {
+        await sleep(5000 * 2 ** attempt);
         continue;
       }
       throw e;
@@ -153,14 +222,34 @@ function parseCoord(wkt) {
   return m ? { lon: parseFloat(m[1]), lat: parseFloat(m[2]) } : null;
 }
 
+/**
+ * ONE GLOBAL EVENT IS ONE PIN, not two hundred.
+ *
+ * Wikidata has a national chapter article for almost every country's COVID-19
+ * experience, and each is an instance of "pandemic" with its own coordinates.
+ * The first run of the class-first query brought back 289 of them — "COVID-19
+ * pandemic in Tunisia", "…in Vatican City", "…in Tanzania" — and 302 of the
+ * 873 new disasters were dated 2020. On a timeline that is not history, it is
+ * a wall.
+ *
+ * Tried first and rejected: excluding anything `part of` (P361) a pandemic.
+ * Principled, but it only caught 47 of the 289 — most of these articles simply
+ * are not modelled that way. The name is the reliable signal, so the name is
+ * what this matches, narrowly and legibly.
+ *
+ * The site already carries the pandemic itself, once, pinned by hand in
+ * add-disasters.mjs with a note explaining where and why.
+ */
+const LOCAL_CHAPTER = /\b(pandemic|epidemic|outbreak)\s+(in|on|aboard)\b/i;
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const FILE = join(OUT_DIR, 'events.json');
 
-  // Seed with the ENTIRE existing dataset (keyed by Wikidata id), so a partial or
-  // flaky harvest only ever ADDS events — it can never lose the ones already on
-  // file. (A 504-storm on one region used to wipe it; a timeout before the write
-  // discarded the whole run. Union fixes both.)
+  // Seed with the ENTIRE existing dataset (keyed by Wikidata id), so a partial
+  // or flaky harvest only ever ADDS events — it can never lose the ones already
+  // on file. (A 504-storm on one region used to wipe it; a timeout before the
+  // write discarded the whole run. Union fixes both.)
   const byId = new Map();
   // THE SECOND KEY, and it took a duplicate globe to find. The curated rows
   // carry NO wikidataId, so `byId` (keyed on the Q-id) could never match one —
@@ -187,123 +276,67 @@ async function main() {
   } catch {
     /* first run */
   }
-  const contTotals = Object.fromEntries(CONTINENTS.map((c) => [c.name, 0]));
-  for (const { category, selector, min } of CATEGORIES) {
-    process.stdout.write(`\n=== ${category} ===\n`);
-    for (const cont of CONTINENTS) {
-      let rows;
-      try {
-        rows = await runQuery(buildQuery(selector, min, cont.west, cont.east));
-      } catch (e) {
-        console.error(`  ${cont.name}: failed (${e.message})`);
-        await sleep(700);
-        continue;
-      }
-      let added = 0;
-      for (const r of rows) {
-        try {
-          const qid = r.item?.value?.split('/').pop();
-          if (!qid || byId.has(qid)) continue;
-          const name = r.itemLabel?.value ?? '';
-          if (!name || /^Q\d+$/.test(name)) continue;
-          const coord = parseCoord(r.coord?.value ?? '');
-          const year = parseYear(r.date?.value ?? '');
-          if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
-          // Already on the globe under a curated name? Leave it alone — the
-          // curated row has the better title, the notes and the headline slot.
-          const wk = wikiCatKey(category, r.enwiki?.value ?? null);
-          if (wk && byWikiCat.has(wk)) continue;
-          byId.set(qid, {
-            id: qid.toLowerCase(),
-            name,
-            startYear: year,
-            lat: +coord.lat.toFixed(4),
-            lon: +coord.lon.toFixed(4),
-            category,
-            wikidataId: qid,
-            ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
-            notability: parseInt(r.sl?.value ?? '0', 10) || 0,
-          });
-          // Claim the article too, so two boxes overlapping the same site
-          // cannot both add it within one run.
-          if (wk) byWikiCat.set(wk, byId.get(qid));
-          added++;
-        } catch {
-          /* skip a malformed row rather than crash the whole harvest */
-        }
-      }
-      console.log(`  ${cont.name.padEnd(14)} +${added}  (total ${byId.size})`);
-      contTotals[cont.name] += added;
-      // Persist after each CONTINENT, not merely after each category. Per
-      // category was not often enough: on 17 Sept 2026 the run found one new
-      // event in South America, hung on a later continent in the same
-      // category, and was killed by the step's 55-minute cap before that
-      // category's single write — so the night's only find was lost, and the
-      // commit step reported "No new events this run". The union only ever
-      // grows, so writing more often costs nothing but a little I/O.
-      await writeFile(FILE, JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }));
-      await sleep(700);
-    }
-  }
 
-  // WORLD SWEEP — the Captain's order: the TOP 3 MONUMENTS OF EVERY COUNTRY.
-  // One global query (famous monuments/heritage sites with a country and a
-  // date, ranked by sitelinks), grouped per country client-side, keeping each
-  // country's three most famous. Feeds both the map and the modeller pipeline
-  // (names flow through the same archetype classifier as everything else).
-  process.stdout.write('\n=== world: top 3 monuments per country ===\n');
-  try {
-    const rows = await runQuery(`SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki ?country WHERE {
-  VALUES ?mtype { wd:Q4989906 wd:Q839954 wd:Q570116 wd:Q12518 wd:Q16970 wd:Q23413 wd:Q9259 }
-  { ?item wdt:P31 ?mtype . } UNION { ?item wdt:P1435 wd:Q9259 . }
-  ?item wdt:P17 ?country ; wdt:P625 ?coord ; wdt:P571 ?date ; wikibase:sitelinks ?sl .
-  FILTER(?sl >= 20)
-  OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-} ORDER BY DESC(?sl) LIMIT 3000`);
-    const perCountry = new Map();
+  for (const { category, selector, min, label } of CATEGORIES) {
+    const title = label ?? category;
+    process.stdout.write(`\n=== ${title} (sl >= ${min}) ===\n`);
+    let rows;
+    const t0 = Date.now();
+    try {
+      rows = await runQuery(buildQuery(selector, min));
+    } catch (e) {
+      console.error(`  ${title}: failed (${e.message})`);
+      await sleep(3000);
+      continue;
+    }
     let added = 0;
+    let dupWiki = 0;
+    let chapters = 0;
     for (const r of rows) {
       try {
         const qid = r.item?.value?.split('/').pop();
-        const country = r.country?.value ?? '';
-        if (!qid || !country) continue;
-        const taken = perCountry.get(country) ?? 0;
-        if (taken >= 3 && !byId.has(qid)) continue; // three per country is the order
+        if (!qid || byId.has(qid)) continue;
         const name = r.itemLabel?.value ?? '';
         if (!name || /^Q\d+$/.test(name)) continue;
+        if (LOCAL_CHAPTER.test(name)) { chapters++; continue; }
         const coord = parseCoord(r.coord?.value ?? '');
         const year = parseYear(r.date?.value ?? '');
         if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
-        perCountry.set(country, taken + 1);
-        if (byId.has(qid)) continue;
-        // This sweep is where most of the duplicated monuments came from: it
-        // asks for the top three of every country, which is precisely the set
-        // the curated rows already cover. It still COUNTS against the country's
-        // three (it is one of that country's monuments either way), it just
-        // does not get pinned a second time.
-        const wk = wikiCatKey('monument', r.enwiki?.value ?? null);
-        if (wk && byWikiCat.has(wk)) continue;
+        // Already on the globe under a curated name? Leave it alone — the
+        // curated row has the better title, the notes and the headline slot.
+        const wk = wikiCatKey(category, r.enwiki?.value ?? null);
+        if (wk && byWikiCat.has(wk)) { dupWiki++; continue; }
         byId.set(qid, {
           id: qid.toLowerCase(),
           name,
           startYear: year,
           lat: +coord.lat.toFixed(4),
           lon: +coord.lon.toFixed(4),
-          category: 'monument',
+          category,
           wikidataId: qid,
           ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
           notability: parseInt(r.sl?.value ?? '0', 10) || 0,
         });
+        // Claim the article too, so a later category cannot re-add it.
         if (wk) byWikiCat.set(wk, byId.get(qid));
         added++;
       } catch {
-        /* skip malformed rows */
+        /* skip a malformed row rather than crash the whole harvest */
       }
     }
-    console.log(`  world monuments  +${added} across ${perCountry.size} countries (total ${byId.size})`);
-  } catch (e) {
-    console.error(`  world monuments: failed (${e.message})`);
+    console.log(
+      `  ${rows.length} rows in ${((Date.now() - t0) / 1000).toFixed(1)}s  ` +
+        `→ +${added} new, ${dupWiki} already on the globe under another name` +
+        `${chapters ? `, ${chapters} local chapters of a global event skipped` : ''}` +
+        `  (total ${byId.size})`,
+    );
+    // Persist after EVERY category. The lesson this repo keeps re-learning: a
+    // long job that only persists at the end persists nothing.
+    await writeFile(
+      FILE,
+      JSON.stringify({ events: [...byId.values()].sort((a, b) => a.startYear - b.startYear) }),
+    );
+    await sleep(3000); // courtesy gap; WDQS is a free service and we are a guest
   }
 
   // The union can never shrink below what was already on file, so it's always

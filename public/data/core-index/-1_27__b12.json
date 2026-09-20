@@ -1,1 +1,1 @@
-{"v":1,"id":["q4574136"],"name":["1970 Peru-Ecuador earthquake"],"lat":[-4.026],"lon":[-80.542],"year":[1970],"endYear":[null],"category":["disaster"],"notability":[4],"wiki":["1970 Peru–Ecuador earthquake"],"cell":["-1|27"],"attest":[null]}
+{"v":1,"id":["q1026284","q4574136"],"name":["Salinas","1970 Peru-Ecuador earthquake"],"lat":[-2.2083,-4.026],"lon":[-80.9681,-80.542],"year":[1929,1970],"endYear":[null,null],"category":["city","disaster"],"notability":[24,4],"wiki":["Salinas, Ecuador","1970 Peru–Ecuador earthquake"],"cell":["-1|27","-1|27"],"attest":[null,null]}
