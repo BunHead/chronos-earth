@@ -89,16 +89,64 @@ jobs:
         run: node scripts/lint-data.mjs --warn
       - name: Commit & push if the dataset grew
         if: '!cancelled()'
+        # CONFLICT-TOLERANT ON PURPOSE. This step used to be a bare
+        # `git pull --rebase` + `git push`, and on 18 Sept 2026 somebody pushed
+        # to public/data while the harvest was running: the rebase stopped on a
+        # conflict in generated JSON, the step failed, and the ENTIRE NIGHT'S
+        # CATCH was thrown away. The harvest runs for over an hour, so that
+        # window is wide, and four scheduled sweeps share this repo.
+        #
+        # It was never a real conflict. events.json is an additive union keyed
+        # by row id — two writers adding different events both belong — and
+        # everything else under public/data is DERIVED from it, so the right
+        # answer there is not to merge at all but to rebuild. That is exactly
+        # what happens below. resolve-data-conflicts.mjs refuses anything
+        # outside public/data, so a genuine code conflict still stops the run.
         run: |
+          set -u
           git config user.name "chronos-harvester"
           git config user.email "actions@users.noreply.github.com"
           git add public/data
           if git diff --cached --quiet; then
             echo "No new events this run."
-          else
-            git commit -m "Data: automated nightly harvest (additive)"
-            # The branch may have moved during the long harvest (deploys, other
-            # harvesters) — rebase our data commit on top rather than failing.
-            git pull --rebase origin main
-            git push
+            exit 0
           fi
+          git commit -m "Data: automated nightly harvest (additive)"
+
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main; then
+              if git push; then
+                echo "Harvest landed cleanly on attempt $attempt."
+                exit 0
+              fi
+              echo "Push rejected — the branch moved again. Retrying."
+              continue
+            fi
+
+            echo "Rebase hit conflicts on attempt $attempt — resolving additively."
+            if ! node scripts/resolve-data-conflicts.mjs; then
+              echo "Not an additive-data conflict; this needs a human." >&2
+              git rebase --abort || true
+              exit 1
+            fi
+            git add public/data
+            if ! GIT_EDITOR=true git rebase --continue; then
+              echo "Rebase still stuck after resolution." >&2
+              git rebase --abort || true
+              exit 1
+            fi
+            # The derived files were taken from one side to clear the conflict.
+            # Rebuild them from the merged source before anything ships, or the
+            # index would disagree with the events it is built from.
+            node scripts/build-core-index.mjs
+            git add public/data
+            git diff --cached --quiet || git commit -m "Data: rebuild index after additive merge"
+            if git push; then
+              echo "Harvest landed after an additive merge, attempt $attempt."
+              exit 0
+            fi
+            echo "Push rejected after the merge — retrying."
+          done
+
+          echo "Could not land the harvest after 3 attempts." >&2
+          exit 1
