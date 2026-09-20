@@ -102,6 +102,55 @@ const CITIES = [
       'Occupied from about 3300 BCE, a full city by 2600. It gave its name to the Harappan civilisation, whose script has still never been read.',
   },
 
+  {
+    id: 'cur-city-dholavira',
+    name: 'Dholavira',
+    startYear: -3000,
+    lat: 23.8861,
+    lon: 70.2167,
+    wikidataId: 'Q9468',
+    wikiTitle: 'Dholavira',
+    notability: 74,
+    dateNote:
+      'Built on a salt desert island with no river, and solved it: sixteen reservoirs, dams and stone channels catching two seasonal streams. A tenth of the walled city is water storage.',
+  },
+  {
+    id: 'cur-city-lothal',
+    name: 'Lothal',
+    startYear: -2400,
+    lat: 22.5214,
+    lon: 72.2494,
+    wikidataId: 'Q9443',
+    wikiTitle: 'Lothal',
+    notability: 72,
+    dateNote:
+      'A trading port with what is usually called the oldest known dock — a baked-brick basin connected to the river by a channel. Whether it is a dock or a reservoir is still argued.',
+  },
+  {
+    id: 'cur-city-rakhigarhi',
+    name: 'Rakhigarhi',
+    startYear: -2600,
+    lat: 29.2937,
+    lon: 76.1147,
+    wikidataId: 'Q3418050',
+    wikiTitle: 'Rakhigarhi',
+    notability: 66,
+    dateNote:
+      'The largest Indus site known, and still mostly unexcavated — a modern village sits on top of it. DNA from a burial here in 2019 found no trace of Steppe ancestry, which reopened a very old argument about who the Harappans were.',
+  },
+  {
+    id: 'cur-city-kalibangan',
+    name: 'Kalibangan',
+    startYear: -2900,
+    lat: 29.4739,
+    lon: 74.1297,
+    wikidataId: 'Q1722226',
+    wikiTitle: 'Kalibangan',
+    notability: 64,
+    dateNote:
+      'Two things were found here that exist almost nowhere else: a ploughed field from before 2800 BCE, its furrows still crossing at right angles, and rows of fire altars nobody can securely explain.',
+  },
+
   /* ── Ukraine: bigger than Uruk, and nobody calls them cities ─────────── */
   {
     id: 'cur-city-maidanetske',
