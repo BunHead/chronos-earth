@@ -1,1 +1,1 @@
-{"v":1,"id":["q44243"],"name":["San Luis"],"lat":[-33.2994],"lon":[-66.3392],"year":[1594],"endYear":[null],"category":["city"],"notability":[53],"wiki":["San Luis, Argentina"],"cell":["-4|29"],"attest":[null]}
+{"v":1,"id":["q1031478","q44243"],"name":["Campo del Cielo","San Luis"],"lat":[-34,-33.2994],"lon":[-64,-66.3392],"year":[1576,1594],"endYear":[null,null],"category":["discovery","city"],"notability":[16,53],"wiki":["","San Luis, Argentina"],"cell":["-4|29","-4|29"],"attest":[null,null]}

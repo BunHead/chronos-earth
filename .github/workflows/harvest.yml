@@ -29,8 +29,9 @@ jobs:
     #
     # Keep this greater than the sum of the inner timeouts plus headroom for
     # the index rebuild, the lint and the push:
-    #     55 (events) + 25 (people) + 20 (rebuild, lint, commit, slack) = 100
-    timeout-minutes: 100
+    #     55 (events) + 25 (people) + 10 (inventions/discoveries)
+    #   + 20 (rebuild, lint, commit, slack) = 110
+    timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -48,6 +49,15 @@ jobs:
         # committed, and then never actually run. Same timeout treatment as
         # above — partial results are still worth keeping.
         run: timeout 25m node scripts/fetch-people.mjs || [ $? -eq 124 ]
+      - name: Fetch inventions and discoveries (additive)
+        if: '!cancelled()'
+        # The categories nothing had ever queried. The box-based sweep above
+        # CANNOT reach them — it needs coordinates on the item itself, and an
+        # invention is not a place. This asks Wikidata for P575 (time of
+        # discovery or invention) and takes the pin from the related place
+        # instead. Two whole-graph queries, ~45 s each, so 10m is generous;
+        # same partial-results treatment as the fetches above.
+        run: timeout 10m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
       - name: Add the curated great disasters (idempotent)
         # From here down, run even if a fetch step above failed outright: a
         # crash in the people harvest must not throw away the events harvest.
