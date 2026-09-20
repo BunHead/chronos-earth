@@ -919,6 +919,144 @@ export function buildModel(
     spire(-4.2, -0.2, 1.7, 4, 0.65); // flanking lesser towers
     spire(4.2, -0.2, 1.7, 4, 0.65);
     spire(0, -4.4, 1.5, 3, 0.6);
+  } else if (model === 'ziggurat') {
+    // A MESOPOTAMIAN ZIGGURAT, built for Eridu — and `buildFrac` here walks
+    // something no other model in the fleet does: not one building going up,
+    // but THREE AND A HALF THOUSAND YEARS of rebuilding.
+    //
+    // Eridu's temple was excavated in eighteen superimposed levels. Each
+    // generation levelled the last temple and built on top of it, so the ground
+    // itself climbed: a single mud-brick room barely three metres square in the
+    // Ubaid, and in the end Amar-Sin's ziggurat standing on the accumulated
+    // mound of every shrine that came before. The Sumerians called Eridu the
+    // place where kingship descended from heaven, and the tell is the reason —
+    // you could see the whole of your own history stacked underneath you.
+    //
+    // So the mound GROWS with frac and the building on it changes kind. That is
+    // the honest reading of the archaeology, and it is a better story than
+    // watching courses of brick stack up.
+    ground = '#b9a97e';
+    const mud = '#c2a878'; // sun-dried mud brick, buff
+    const mudDk = '#a88f62';
+    const mudLt = '#d4bd8f';
+    const reed = '#9d8b5e';
+    const frac = buildFrac ?? 1;
+
+    /** Buttressed facade — the shallow vertical pilasters and recesses that are
+     * the signature of Mesopotamian mud-brick from the Ubaid onward. Without
+     * them a ziggurat is just a wedding cake. */
+    const buttress = (w: number, h: number, d: number, cx: number, y: number, cz: number, n: number, col: string) => {
+      for (let i = 0; i < n; i++) {
+        const t = (i + 0.5) / n - 0.5;
+        group.add(block(w / n * 0.42, h, d + 0.22, cx + t * w, y, cz, col));
+      }
+    };
+
+    // --- THE TELL. Each level sits on the rubble of the one before.
+    const levels = Math.max(1, Math.round(1 + 4 * frac));
+    // Cubed, not linear: at the first shrine the "mound" is barely a rise in
+    // the ground, and almost all of the height arrives in the last thousand
+    // years. That IS the shape of the excavation.
+    const moundH = 0.14 + 3.3 * Math.pow(frac, 2.1);
+    let my = 0;
+    for (let i = 0; i < levels; i++) {
+      const t = i / levels;
+      const h = moundH / levels;
+      const w = (17.5 - 5.5 * t) * (0.55 + 0.45 * frac);
+      const d = (13.5 - 4.2 * t) * (0.55 + 0.45 * frac);
+      group.add(block(w, h, d, 0, my + h / 2, 0, i % 2 ? mudDk : '#b09772'));
+      my += h;
+    }
+    const topW = (12.0) * (0.55 + 0.45 * frac);
+    const topD = (9.3) * (0.55 + 0.45 * frac);
+
+    if (frac < 0.28) {
+      // LEVEL XVII — the first shrine. One room, a niche for the god and an
+      // offering table, in reeds and mud brick. It is almost nothing, and that
+      // is the point.
+      // Built as four walls, not a solid lump, so it reads as a room you could
+      // stand in — which at three metres square is about all you could do.
+      const wall = (w: number, d: number, x: number, z: number) =>
+        group.add(block(w, 1.15, d, x, my + 0.58, z, mudLt));
+      wall(2.6, 0.26, 0, -1.07); // back wall, with the niche below
+      wall(0.95, 0.26, -0.83, 1.07); // front, either side of the doorway
+      wall(0.95, 0.26, 0.83, 1.07);
+      wall(0.26, 1.9, -1.17, 0);
+      wall(0.26, 1.9, 1.17, 0);
+      group.add(block(0.62, 0.72, 0.3, 0, my + 0.56, -1.22, reed)); // the god's niche
+      group.add(block(0.72, 0.26, 0.6, 0, my + 0.13, 0.35, mudDk)); // offering table
+      group.add(block(2.7, 0.14, 2.0, 0, my + 1.22, 0, reed)); // reed-bundle roof
+    } else if (frac < 0.5) {
+      // The tripartite temple: a long central hall with rooms down both sides,
+      // the plan that every later Mesopotamian temple is a variation on.
+      group.add(block(5.4, 1.5, 4.2, 0, my + 0.75, 0, mudLt));
+      buttress(5.4, 1.4, 4.2, 0, my + 0.7, 0, 6, mud);
+      group.add(block(2.0, 0.34, 4.5, 0, my + 1.6, 0, mudDk)); // roofed nave
+    } else if (frac < 0.72) {
+      // On its own raised platform now, buttressed all round — the temple has
+      // begun to lift itself off the town.
+      group.add(block(8.2, 0.9, 6.4, 0, my + 0.45, 0, mudDk));
+      group.add(block(6.6, 1.9, 5.0, 0, my + 1.85, 0, mudLt));
+      buttress(6.6, 1.8, 5.0, 0, my + 1.8, 0, 8, mud);
+      group.add(block(2.4, 0.36, 5.3, 0, my + 2.98, 0, mudDk));
+    } else if (frac < 0.94) {
+      // The great terrace temple: high platform, deep recessed facade, and a
+      // single stair climbing the front (+Z).
+      group.add(block(10.0, 1.6, 7.6, 0, my + 0.8, 0, mudDk));
+      buttress(10.0, 1.5, 7.6, 0, my + 0.78, 0, 10, mud);
+      group.add(block(7.4, 2.4, 5.6, 0, my + 2.8, 0, mudLt));
+      buttress(7.4, 2.3, 5.6, 0, my + 2.75, 0, 9, mud);
+      group.add(block(2.6, 0.4, 5.9, 0, my + 4.2, 0, mudDk));
+      for (let i = 0; i < 7; i++) {
+        group.add(block(2.0, 0.24, 0.42, 0, my + 0.2 + i * 0.22, 3.9 + i * 0.2, mudLt));
+      }
+    } else {
+      // AMAR-SIN'S ZIGGURAT, c. 2050 BCE — three receding stages, buttressed on
+      // every face, with the triple staircase: one flight running straight out
+      // from the front and two climbing along the facade to meet it at the
+      // first terrace. (It was never actually finished. We show the intent.)
+      const stage = (w: number, d: number, h: number, y: number, n: number, col: string) => {
+        group.add(block(w, h, d, 0, y + h / 2, 0, col));
+        buttress(w, h * 0.94, d, 0, y + h / 2, 0, n, col === mudLt ? mud : mudLt);
+        // Side buttressing, rotated a quarter turn.
+        for (let i = 0; i < Math.round(n * 0.7); i++) {
+          const t = (i + 0.5) / Math.round(n * 0.7) - 0.5;
+          group.add(block(w + 0.22, h * 0.94, d / Math.round(n * 0.7) * 0.42, 0, y + h / 2, t * d, col === mudLt ? mud : mudLt));
+        }
+      };
+      stage(topW, topD, 2.3, my, 11, mudLt);
+      stage(topW * 0.74, topD * 0.70, 1.7, my + 2.3, 9, mud);
+      stage(topW * 0.50, topD * 0.46, 1.25, my + 4.0, 7, mudDk);
+      // The high temple — the small shrine the whole mountain exists to carry,
+      // and a direct descendant of that first one-room hut at frac 0.15.
+      group.add(block(topW * 0.34, 1.05, topD * 0.30, 0, my + 5.78, 0, mudLt));
+
+      // Triple staircase on the front (+Z).
+      const sz = topD / 2;
+      const steps = 12;
+      // The central flight projects well clear of the terrace, so it needs the
+      // SPINE WALL that carried the real thing — without it the steps hang in
+      // mid-air, which is exactly how the first render came out.
+      for (let i = 0; i < steps; i++) {
+        const t = i / steps;
+        const y = my + 0.1 + t * 2.2;
+        const cz = sz + 0.3 + (1 - t) * 3.4;
+        // Central flight, running straight out from the face — each tread
+        // carried on its own riser down to the mound, which is the spine wall
+        // the real ramp rode on. Built per-step rather than as one box so it
+        // can never protrude above the low end of the flight.
+        const riseH = y - my;
+        group.add(block(1.34, riseH, 0.54, 0, my + riseH / 2, cz, mud));
+        group.add(block(1.5, 0.22, 0.52, 0, y, cz, mudLt));
+        // Two flights climbing ALONG the facade to meet it at the terrace.
+        const lx = topW * 0.46 * (1 - t) + 1.1 * t;
+        const fRise = y - my;
+        group.add(block(0.78, fRise, 0.44, -lx, my + fRise / 2, sz + 0.26, mud));
+        group.add(block(0.78, fRise, 0.44, lx, my + fRise / 2, sz + 0.26, mud));
+        group.add(block(0.9, 0.22, 0.5, -lx, y, sz + 0.26, mudLt));
+        group.add(block(0.9, 0.22, 0.5, lx, y, sz + 0.26, mudLt));
+      }
+    }
   } else if (model === 'angkor') {
     // ANGKOR WAT — the largest religious monument on Earth, and the reason this
     // archetype had to exist: the generic stepped-pyramid would have made it a

@@ -259,5 +259,25 @@
   "angkor": {
     "footprint": 25.6,
     "kb": 201
+  },
+  "ziggurat": {
+    "footprint": 17.5,
+    "kb": 171
+  },
+  "ziggurat-b15": {
+    "footprint": 10.806,
+    "kb": 36
+  },
+  "ziggurat-b35": {
+    "footprint": 12.381,
+    "kb": 36
+  },
+  "ziggurat-b55": {
+    "footprint": 13.956,
+    "kb": 41
+  },
+  "ziggurat-b78": {
+    "footprint": 15.767,
+    "kb": 62
   }
 }

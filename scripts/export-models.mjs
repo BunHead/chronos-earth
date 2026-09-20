@@ -43,6 +43,7 @@ const FLEET = [
   ['castle', 'Castle'],
   ['mansion', 'Mansion'],
   ['temple-tower', 'Temple Tower'],
+  ['ziggurat', 'Eridu'],
   ['angkor', 'Angkor Wat'],
   ['pagoda', 'Pagoda'],
   ['lighthouse', 'Lighthouse'],
@@ -85,6 +86,11 @@ const BUILD_STAGES = [
   // b50 the impact flash, b72 the fresh raw crater; the base impact.glb is the
   // settled, weathered crater long ages on.
   ['impact', 'Impact Crater', [15, 30, 50, 72]],
+  // Eridu's temple levels: b15 the one-room Ubaid shrine, b35 the tripartite
+  // temple, b55 the buttressed temple on its platform, b78 the great terrace
+  // temple; the base glb is Amar-Sin's ziggurat, c. 2050 BCE. The mound itself
+  // grows through the sequence. Dates live in STAGE_TABLE (lib/stageTable.ts).
+  ['ziggurat', 'Eridu', [15, 35, 55, 78]],
   // The Tower of London as dated fortress phases: b15 timber corner-fort,
   // b35 the White Tower alone, b55 the inner ward, b80 the concentric outer
   // ward + wet moat; the base glb is the modern drained-moat plan.

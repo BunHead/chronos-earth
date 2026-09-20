@@ -114,6 +114,10 @@ const KEYWORD_RULES = [
   // Before the Mesoamerican row, which used to swallow Angkor and turn a Khmer
   // temple-mountain into a Maya platform — which is why it was suppressed.
   { rule: '"angkor" keyword', model: 'angkor', re: /angkor/ },
+  // Mesopotamian temple-mountains, before the Mesoamerican row below claims
+  // them: a ziggurat is buttressed mud brick with a triple stair, not a Maya
+  // platform. Eridu, Ur, Uruk, Nippur, Lagash all resolve here.
+  { rule: 'mesopotamian ziggurat keyword', model: 'ziggurat', re: /ziggurat|eridu|nippur|lagash|\buruk\b|\bur\b|babylon|etemenanki/ },
   { rule: 'mesoamerican/temple-mountain keyword', model: 'stepped-pyramid', re: /teotihuac|tikal|chich[eé]n|taj[ií]n|monte alb|borobudur|ziggurat|uxmal|cop[aá]n|caracol|cahokia|templo mayor|step pyramid/ },
   { rule: '"sphinx" keyword', model: 'sphinx', re: /sphinx/ },
   { rule: '"pyramid"/"giza" keyword', model: 'pyramid', re: /pyramid|giza/ },

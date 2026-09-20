@@ -73,6 +73,7 @@ const MODELS: Array<[string, string]> = [
   ['circle', 'Stone circle'],
   ['settlement', 'Neolithic settlement'],
   ['angkor', 'Angkor Wat'],
+  ['ziggurat', 'Ziggurat (Eridu)'],
   ['megalith', 'Generic megalith'],
   ['impact', 'Comet impact'],
 ];
@@ -99,6 +100,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   cathedral: { title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499 },
   castle: { title: 'Nottingham Castle', lat: 52.9497, lon: -1.1542 },
   mansion: { title: 'Chatsworth House', lat: 53.227, lon: -1.61 },
+  ziggurat: { title: 'Eridu', lat: 30.8158, lon: 45.9958 },
   angkor: { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
   // Was Angkor Wat until Angkor got its own archetype (2026-09-18); Prambanan
   // is what this generic spired-temple form was actually shaped like.
@@ -149,6 +151,9 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // The Tower of London's five reigns: timber corner-fort → White Tower → inner
   // ward → concentric castle + wet moat → the modern drained-moat plan. The
   // globe swaps its -b15/-b35/-b55/-b80 stages by date (see globeModels STAGE_TABLE).
+  // Eridu's frac is not one building going up: it walks eighteen temple levels
+  // over 3,400 years, the mound itself rising as each is built on the last.
+  ziggurat: { label: 'Eridu — shrine · tripartite · terrace · great temple · ziggurat', max: 1, kind: 'build' },
   'tower-of-london': { label: 'Fortress phases — fort · keep · wards · moat', max: 1, kind: 'build' },
 };
 

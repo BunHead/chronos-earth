@@ -46,6 +46,11 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'taj mahal', widthM: 95 },
   { match: 'angkor wat', widthM: 200, facingDeg: 270 }, // Angkor Wat faces west
   { match: 'borobudur', widthM: 123 },
+  // Eridu's ziggurat platform is about 61 m × 46 m; the model carries the tell
+  // it stands on as well, so the fit is set to the mound, not the brickwork.
+  // Amar-Sin's stair faced north-east → θ = 180 − 45 = 135, so facingDeg 45.
+  { match: 'eridu', widthM: 95, facingDeg: 45 },
+  { match: 'ziggurat', widthM: 85, facingDeg: 45 },
   { match: 'chich', widthM: 55 },
   { match: 'kukulc', widthM: 55 },
   { match: 'tikal', widthM: 55 },

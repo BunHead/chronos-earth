@@ -83,6 +83,11 @@ const PLACEMENTS: Placement[] = [
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
+  // ERIDU. No buildYears window: this is not one building going up, it is
+  // eighteen temple levels over 3,400 years, so its phases are listed by real
+  // date in STAGE_TABLE (see lib/stageTable.ts) exactly as the Tower of London
+  // is. builtYear is the LAST of them — Amar-Sin's ziggurat, c. 2050 BCE.
+  { model: 'ziggurat', title: 'Eridu', lat: 30.8158, lon: 45.9958, builtYear: -2050 },
   // Built under Suryavarman II between about 1113 and 1150. Deliberately NO
   // ruinYear: unlike most of Angkor it was never abandoned to the forest — it
   // stayed in use as a Buddhist temple and is on Cambodia's flag today.

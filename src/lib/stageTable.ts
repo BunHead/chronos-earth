@@ -24,6 +24,19 @@ export interface RelStage {
 // (giza, stonehenge, amphitheatre) are registered from their builtYear/buildYears
 // at globe load via buildStages() below, so everything resolves through one path.
 export const STAGE_TABLE: Record<string, DatedStage[]> = {
+  // ERIDU — the longest build sequence in the fleet by a wide margin, and the
+  // only one where what grows is mostly the GROUND. Eighteen superimposed
+  // temple levels were excavated here; each generation levelled the last and
+  // built on top, so the mound climbed with the centuries until Amar-Sin's
+  // ziggurat stood on the accumulated ruins of every shrine before it. Dates
+  // are the conventional period boundaries, not precise foundation years.
+  ziggurat: [
+    { from: -5400, suffix: '-b15' }, // Ubaid: one mud-brick room, a niche, an altar
+    { from: -4500, suffix: '-b35' }, // the tripartite temple plan appears
+    { from: -3800, suffix: '-b55' }, // buttressed temple on its own platform
+    { from: -3000, suffix: '-b78' }, // the great terrace temple, mound high
+    { from: -2050, suffix: '' },     // Amar-Sin's ziggurat — the base glb
+  ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort
     { from: 1100, suffix: '-b35' }, // the White Tower alone
