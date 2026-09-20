@@ -45,13 +45,13 @@ from HN/Reddit — draft only.
 
 | | 11 Sept | **now** |
 |---|---|---|
-| events | 3,768 | **13,473** |
+| events | 3,768 | **13,474** |
 | battle | 1,143 | **2,895** |
 | person | 237 | **5,740** |
 | city | 1,031 | **1,686** |
 | monument | 717 | **1,343** |
 | disaster | 530 | **1,114** |
-| discovery | 37 | **583** |
+| discovery | 37 | **584** |
 | invention | 28 | **67** |
 | tests | 392 | **402** |
 
@@ -161,6 +161,52 @@ the globe ran fast and empty. There is a long comment at the top of the file.
 
 ---
 
+## The site at 13,473 events — verified, don't re-measure
+
+The dataset more than tripled today, so this was checked rather than assumed.
+All at **4× CPU throttle**:
+
+| | |
+|---|---|
+| search latency | **19-65 ms** ("battle" 65, "Spartacus" 19) |
+| panel open | **277 ms** to open; the prose arrives later from Wikipedia |
+| tile streaming (zoomed to Europe) | 82 requests, 643 KB, slowest **73 ms** |
+| cold load | **unchanged** — see below |
+| visible markers | capped by tier, balanced by category |
+
+**The architecture absorbs growth by design, in three places, and all three
+were confirmed working:**
+
+1. **Cold load doesn't grow.** The app fetches `core-index/headline.json`
+   (capped) and **never** the monolithic `core-index.json`.
+2. **Tiles stream per cell + era bucket**, and only once you zoom — at global
+   view the effect no-ops because `viewRegion` is null, which is why a
+   playback test shows zero tile requests. That is correct, not a fault.
+3. **Visible markers are capped per zoom tier** — `EVENT_MAX_VISIBLE_BY_TIER`
+   `[34, 52, 80, 130]` after a per-category `[10, 16, 25, 42]`. The
+   per-category pass runs FIRST, which is what stops 5,740 people crowding out
+   the battles. Measured mixes:
+   - Europe 1000 CE: 30 monument, 11 city, 10 person
+   - Europe 1800 CE: 46 monument, 42 person, 26 discovery, 9 battle, 8 invention
+   - Middle East 526 CE: 13 person, 11 monument
+
+**Harness note:** search results are wired to `onMouseDown`, not `onClick` (so
+blur can't close the list first). A synthetic `.click()` does nothing and looks
+exactly like a broken panel. Dispatch `new MouseEvent('mousedown')`.
+
+### Two runtime calls to outside services — pre-existing, worth a decision
+Not introduced today, and not fixed, because they are the Captain's call:
+
+- **`query.wikidata.org`** — `fetchNearbyHistory()` in `src/lib/liveFetch.ts`
+  fires a live SPARQL query when you zoom into a region. Free and keyless, so
+  it clears the zero-cost rule, but it is a runtime dependency that **429s when
+  rate-limited** (seen repeatedly today). Worth asking whether it still earns
+  its keep now the shipped dataset is 13,474 events rather than 3,768.
+- **`elevation3d.arcgis.com`** — Cesium terrain, fetched at runtime. Also free,
+  also external. Worth a conscious decision against "self-host every asset".
+
+---
+
 ## Performance — measured, don't re-derive
 
 - **`toBlob` was 56% of all main-thread work** during playback (production
@@ -196,9 +242,12 @@ the globe ran fast and empty. There is a long comment at the top of the file.
    just run `node scripts/fetch-people.mjs`. **"politicians" (Q82955) is too
    large and 504s every time**; it needs splitting into narrower occupations
    (statesperson, diplomat, jurist…) before it will ever answer.
-2. **Watch tonight's harvest run and read the LOG, not the status.**
-   Everything here is new tonight. `gh run view <id> --log` and check each
-   step actually added rows.
+2. **Watch tonight's harvest run.** Everything here is new tonight.
+   `gh run view <id> --log`. All three fetchers now **exit 1 and print a
+   banner if every query failed**, so a totally dead harvest turns the Actions
+   page red instead of green — but a PARTIAL failure is still green by design
+   (a partial harvest is a good night), so read the per-category lines too.
+   "politicians" is expected to fail; everything else is not.
 3. **Four curation calls only the Captain can make.** Petra, Cusco, Benin City
    and Mesa Verde each have two rows a few hundred metres apart that **disagree
    about the date** by 434 to 1,306 years. Both stand; picking one would be
