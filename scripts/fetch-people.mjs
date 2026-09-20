@@ -1,38 +1,64 @@
 /**
  * fetch-people.mjs
  * ----------------
- * Pulls the most notable PEOPLE per region from Wikidata into events.json as
- * category 'person', placed at their birthplace and dated to their birth year.
- * This is the systematic answer to "stop hand-adding Tesla/Edison/Estienne":
- * one run brings in the world's notable figures, region by region.
+ * Pulls notable PEOPLE from Wikidata into events.json as category 'person',
+ * placed at their birthplace and dated to their birth year. This is the
+ * systematic answer to "stop hand-adding Tesla/Edison/Estienne".
  *
  *   node scripts/fetch-people.mjs
  *
- * Merges (dedup by id) — preserves everything already in events.json. If a
- * region's query times out, the others still run.
+ * Additive: merges by id and preserves everything already on file.
  *
- * TWO BUGS LIVED HERE FROM 2026-07-20 TO 2026-09-18, and between them they
- * meant this script had NEVER ONCE SAVED ANYTHING. The person count sat at 37
- * — every one of them hand-added — while this ran nightly and appeared to
- * succeed.
+ * ───────────────────────────────────────────────────────────────────────────
+ * THREE BUGS HAVE LIVED HERE. The first two were fixed on 18 Sept 2026; the
+ * third is what this file is about, and it meant the script was STILL adding
+ * nothing.
  *
  *   1. THE WRITE WAS AT THE END. Results accumulated in memory and were
- *      written once, after every region. The workflow caps this step at 25
- *      minutes, the script never finished inside that, and `timeout` kills a
- *      process outright — so the single write was never reached. From the
- *      17 Sept run: "South America documented +70", then nothing. Those 70
- *      people were found, held, and thrown away, as they had been every night
- *      for two months. It now saves after EVERY region.
+ *      written once, after every region. The workflow caps this step, and
+ *      `timeout` kills a process outright — so the single write was never
+ *      reached. It now saves as it goes. (Still true below.)
  *
- *   2. NO REQUEST TIMEOUT, despite the line above promising one. `runQuery`
- *      retried on 429 and 5xx but a socket that simply never answers is
- *      neither — it hangs forever. The same run went silent for 24 minutes
- *      after South America: one wedged query ate the entire budget, so the
- *      other seven regions were never even attempted. Every request now
- *      carries its own deadline.
+ *   2. NO REQUEST TIMEOUT. A wedged socket is neither a 429 nor a 5xx, so it
+ *      hung until the whole step was killed. Every request now has a deadline.
  *
- * The lesson is the one the workflow taught a level up: a long job that only
- * persists at the end persists nothing.
+ *   3. THE QUERY ITSELF WAS TOO EXPENSIVE — and fixing 1 and 2 only made that
+ *      visible. On 20 Sept 2026 EVERY region of BOTH sweeps failed, on the
+ *      GitHub runner and on a developer machine alike:
+ *
+ *          South America (documented): failed (aborted)
+ *          North America (documented): failed (HTTP 504)
+ *          Europe West   (documented): failed (HTTP 504)
+ *          …
+ *
+ *      The person count had sat at 237 with zero of them "traditional",
+ *      because the traditional sweep has never once succeeded either.
+ *
+ * WHAT WAS WRONG, and it is the same disease `fetch-wikidata-events.mjs` had:
+ * the query led with `SERVICE wikibase:box`, which resolves the GEOGRAPHY
+ * first — every coordinate-bearing birthplace on a continent — and only then
+ * asks "…and is this a person?". That crossed WDQS's 60-second ceiling.
+ *
+ * TWO FIXES WERE TRIED AND REJECTED, both measured:
+ *
+ *   • Class-first on `wdt:P31 wd:Q5`, the trick that rescued the events
+ *     harvest. It does not transfer: there are ten million humans, so "the
+ *     class" is not a small set. Still 504.
+ *   • Slicing by birth century, `FILTER(YEAR(?date) >= 1500 …)`. YEAR() is
+ *     computed, not indexed, so it prunes nothing. Still 504.
+ *
+ * WHAT WORKS is anchoring on OCCUPATION. `wdt:P106` is indexed, and any one
+ * occupation is a few tens of thousands of people rather than ten million:
+ *
+ *     philosophers            1,687 in 44 s
+ *     monarchs + generals     1,945 in 93 s
+ *
+ * It also improves the EDITORIAL shape, not just the speed. Ranking humans by
+ * sitelinks alone is what returned South America's footballers on the first
+ * honest run; asking for rulers, soldiers, thinkers, makers and explorers asks
+ * for the people a history globe is actually about. The P570 rule below
+ * remains the other half of that guard.
+ * ───────────────────────────────────────────────────────────────────────────
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -44,25 +70,40 @@ const ENDPOINT = 'https://query.wikidata.org/sparql';
 const UA = 'ChronosEarth-educational-app/1.0 (personal history project; spenceraustin1978@googlemail.com)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MIN_SL = 25; // notability floor (sitelinks)
-const PER_REGION = 80;
-/** The traditional sweep is deliberately stricter and smaller: it is the more
- * sensitive material, so it takes only the genuinely famous. */
+/** The traditional sweep is deliberately stricter: it is the more sensitive
+ * material, so it takes only the genuinely famous. */
 const MIN_SL_TRADITIONAL = 40;
-const PER_REGION_TRADITIONAL = 30;
-/** Deadline for a single SPARQL request. Sixteen queries (eight regions, two
- * sweeps) at this cap fit inside the workflow's 25-minute step with room for
- * the retries and the courtesy sleeps. */
-const QUERY_MS = 90_000;
+const LIMIT = 5000;
+/** WDQS gives up on its own at 60 s. Past ~80 s we are waiting for a 504 that
+ * has already been decided. */
+const QUERY_MS = 80_000;
 
-const REGIONS = [
-  { name: 'South America', west: '-82 -56', east: '-34 13' },
-  { name: 'North America', west: '-170 7', east: '-50 84' },
-  { name: 'Europe West', west: '-25 35', east: '3 72' },
-  { name: 'Europe Central', west: '3 35', east: '18 72' },
-  { name: 'Europe East', west: '18 35', east: '45 72' },
-  { name: 'Africa', west: '-20 -36', east: '52 38' },
-  { name: 'Asia', west: '40 -11', east: '150 78' },
-  { name: 'Oceania', west: '110 -50', east: '180 0' },
+/**
+ * The occupations a history globe is about, one query each.
+ *
+ * Kept as SEPARATE groups rather than one big VALUES list because query cost
+ * scales with the size of the anchor set: philosophers alone answered in 44 s,
+ * monarchs and generals together took 93 s. Smaller anchors, more queries,
+ * each of which either succeeds or fails on its own without taking the rest
+ * of the run down with it.
+ */
+const OCCUPATIONS = [
+  { name: 'monarchs', qids: ['wd:Q116'] },
+  { name: 'politicians', qids: ['wd:Q82955'] },
+  { name: 'military', qids: ['wd:Q47064'] },
+  { name: 'scientists', qids: ['wd:Q901'] },
+  { name: 'philosophers', qids: ['wd:Q4964182'] },
+  { name: 'mathematicians', qids: ['wd:Q170790'] },
+  { name: 'astronomers', qids: ['wd:Q11063'] },
+  { name: 'physicians', qids: ['wd:Q39631'] },
+  { name: 'engineers + inventors', qids: ['wd:Q81096', 'wd:Q205375'] },
+  { name: 'explorers', qids: ['wd:Q11900058'] },
+  { name: 'writers', qids: ['wd:Q36180'] },
+  { name: 'historians', qids: ['wd:Q201788'] },
+  { name: 'composers', qids: ['wd:Q36834'] },
+  { name: 'painters + sculptors', qids: ['wd:Q1028181', 'wd:Q1281618'] },
+  { name: 'architects', qids: ['wd:Q42973'] },
+  { name: 'religious figures', qids: ['wd:Q1234713', 'wd:Q42603'] },
 ];
 
 /**
@@ -83,19 +124,18 @@ const REGIONS = [
  * by hand in add-legends.mjs, so that no script ever makes that call about
  * somebody's faith.
  *
- * A global (unboxed) version of the second sweep times out on Wikidata; boxing
- * it by region first makes it cheap, so it rides the same region loop.
+ * A figure with no recorded occupation cannot be reached from here at all now
+ * that the anchor is P106. That is a real gap and it is covered deliberately:
+ * add-legends.mjs curates exactly those by hand.
  */
-function buildQuery(west, east, humans) {
+function buildQuery(qids, humans) {
   // Documented people are anchored at birth. Traditional figures often have no
   // birthplace recorded, so fall back to where they died, then to the place the
   // story itself is set — all real places, never an invented one.
   const anchor = humans
     ? '?item wdt:P19 ?bp .'
     : 'VALUES ?anchorProp { wdt:P19 wdt:P20 wdt:P840 } ?item ?anchorProp ?bp .';
-  const kind = humans
-    ? '?item wdt:P31 wd:Q5 .'
-    : 'FILTER NOT EXISTS { ?item wdt:P31 wd:Q5 }';
+  const kind = humans ? '?item wdt:P31 wd:Q5 .' : 'FILTER NOT EXISTS { ?item wdt:P31 wd:Q5 }';
   // A DATE OF DEATH IS REQUIRED, and this is an editorial line, not a technical
   // one. Ranking is by Wikipedia sitelinks, which measures fame NOW — so the
   // first honest run of this script returned South America's footballers. Among
@@ -109,14 +149,12 @@ function buildQuery(west, east, humans) {
   // price. To take them back, delete this line.
   const dead = humans ? '?item wdt:P570 ?dod .' : '';
   return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
-  SERVICE wikibase:box {
-    ?bp wdt:P625 ?coord .
-    bd:serviceParam wikibase:cornerWest "Point(${west})"^^geo:wktLiteral .
-    bd:serviceParam wikibase:cornerEast "Point(${east})"^^geo:wktLiteral .
-  }
-  ${anchor}
+  VALUES ?occ { ${qids.join(' ')} }
+  ?item wdt:P106 ?occ .
   ${kind}
   ${dead}
+  ${anchor}
+  ?bp wdt:P625 ?coord .
   ?item wdt:P569 ?date ; wikibase:sitelinks ?sl .
   FILTER(?sl >= ${humans ? MIN_SL : MIN_SL_TRADITIONAL})
   # Wikidata records an unknown date as "somevalue", which arrives as a blank
@@ -124,61 +162,100 @@ function buildQuery(west, east, humans) {
   FILTER(DATATYPE(?date) = xsd:dateTime)
   OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-} ORDER BY DESC(?sl) LIMIT ${humans ? PER_REGION : PER_REGION_TRADITIONAL}`;
+} LIMIT ${LIMIT}`;
 }
 
 /** Shown wherever a swept traditional figure's date appears. Neutral by
  * design: it describes the evidence, not the person and not the belief. */
 const TRADITIONAL_NOTE =
   'A traditional date. This figure is known from scripture and later tradition rather than from records made at the time.';
+
 async function runQuery(sparql) {
   const url = `${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`;
   for (let a = 0; ; a++) {
-    // AbortSignal.timeout, not just the retry below: a wedged socket returns
-    // no status at all, so it is neither a 429 nor a 5xx and would otherwise
-    // hang here until the whole step is killed.
-    const r = await fetch(url, {
-      headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
-      signal: AbortSignal.timeout(QUERY_MS),
-    });
-    if (r.ok) return (await r.json()).results.bindings;
-    if ((r.status === 429 || r.status >= 500) && a < 4) { await sleep(2500 * 2 ** a); continue; }
-    throw new Error(`HTTP ${r.status}`);
+    try {
+      const r = await fetch(url, {
+        headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
+        signal: AbortSignal.timeout(QUERY_MS),
+      });
+      if (r.ok) return (await r.json()).results.bindings;
+      // 429 means WDQS is asking us to slow down and usually says by how much.
+      // Honour it: the runners share an address with a great many other people.
+      if (r.status === 429 && a < 4) {
+        const wait = Math.min(120, +r.headers.get('retry-after') || 30);
+        console.log(`  rate-limited; waiting ${wait}s as asked`);
+        await sleep(wait * 1000);
+        continue;
+      }
+      if (r.status >= 500 && a < 4) {
+        await sleep(4000 * 2 ** a);
+        continue;
+      }
+      throw new Error(`HTTP ${r.status}`);
+    } catch (e) {
+      // SyntaxError belongs in this list and was missing: WDQS sometimes cuts a
+      // large response off mid-array, and `r.json()` then throws "Unexpected
+      // non-whitespace character after JSON". That is a transport failure
+      // wearing a parser's clothes, and it cost the mathematicians sweep a whole
+      // run before it was noticed.
+      if (
+        a < 4 &&
+        (e.name === 'TimeoutError' || e.name === 'AbortError' ||
+         e.name === 'TypeError' || e.name === 'SyntaxError')
+      ) {
+        await sleep(4000 * 2 ** a);
+        continue;
+      }
+      throw e;
+    }
   }
 }
+
 const parseYear = (iso) => { const m = /^([+-]?)0*(\d+)/.exec(iso); return m ? (m[1] === '-' ? -+m[2] : +m[2]) : null; };
 const parseCoord = (w) => { const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(w); return m ? { lon: +m[1], lat: +m[2] } : null; };
 
 const json = JSON.parse(await readFile(FILE, 'utf-8'));
 const have = new Set(json.events.map((e) => e.id));
+/** Second key, for the same reason the events harvest needed one: the curated
+ * rows carry no wikidataId, so `cur-person-atahualpa` could never match
+ * Wikidata's Atahualpa by id, and both ended up on the globe. */
+const wikiKey = (t) => (t ? `person|${t.toLowerCase().trim()}` : null);
+const haveWiki = new Set(
+  json.events.filter((e) => e.category === 'person' && e.wikiTitle).map((e) => wikiKey(e.wikiTitle)),
+);
 const NOW = new Date().getFullYear();
 let added = 0;
 let addedTraditional = 0;
 
-/** Persist what we have so far. Called after every region, because this script
- * is run under `timeout` and a killed process gets no chance to tidy up. */
+/** Persist what we have so far. Called after every occupation, because this
+ * script is run under `timeout` and a killed process gets no chance to tidy
+ * up. A long job that only persists at the end persists nothing. */
 const save = async () => {
   json.events.sort((a, b) => a.startYear - b.startYear);
   await writeFile(FILE, JSON.stringify({ events: json.events }));
 };
 
-for (const region of REGIONS) {
+for (const occ of OCCUPATIONS) {
   for (const humans of [true, false]) {
     let rows;
+    const t0 = Date.now();
     try {
-      rows = await runQuery(buildQuery(region.west, region.east, humans));
+      rows = await runQuery(buildQuery(occ.qids, humans));
     } catch (e) {
-      console.error(`  ${region.name} (${humans ? 'documented' : 'traditional'}): failed (${e.message})`);
-      await sleep(800);
+      console.error(`  ${occ.name} (${humans ? 'documented' : 'traditional'}): failed (${e.message})`);
+      await sleep(2000);
       continue;
     }
     let a = 0;
+    let dupWiki = 0;
     for (const r of rows) {
       const qid = r.item.value.split('/').pop();
       const id = qid.toLowerCase();
       if (have.has(id)) continue; // also dedups the P19/P20/P840 anchor variants
       const name = r.itemLabel?.value;
       if (!name || /^Q\d+$/.test(name)) continue;
+      const wk = wikiKey(r.enwiki?.value ?? null);
+      if (wk && haveWiki.has(wk)) { dupWiki++; continue; }
       const c = parseCoord(r.coord.value);
       const y = parseYear(r.date.value);
       if (!c || y === null || y < -3000 || y > NOW) continue;
@@ -189,14 +266,20 @@ for (const region of REGIONS) {
         notability: +r.sl.value,
         ...(humans ? {} : { attestation: 'traditional', dateNote: TRADITIONAL_NOTE }),
       });
-      have.add(id); a++; added++;
+      have.add(id);
+      if (wk) haveWiki.add(wk);
+      a++; added++;
       if (!humans) addedTraditional++;
     }
-    console.log(`  ${region.name.padEnd(15)} ${humans ? 'documented ' : 'traditional'} +${a}  (total ${added})`);
-    await sleep(800);
+    console.log(
+      `  ${occ.name.padEnd(22)} ${humans ? 'documented ' : 'traditional'} ` +
+        `${String(rows.length).padStart(5)} rows in ${((Date.now() - t0) / 1000).toFixed(0)}s ` +
+        `→ +${a}${dupWiki ? `, ${dupWiki} already on the globe` : ''}  (total +${added})`,
+    );
+    // After each sweep, not at the end: see the note at the top of this file.
+    await save();
+    await sleep(2500); // courtesy gap; WDQS is a free service and we are a guest
   }
-  // After each region, not at the end: see the note at the top of this file.
-  await save();
 }
 await save();
 const ppl = json.events.filter((e) => e.category === 'person');

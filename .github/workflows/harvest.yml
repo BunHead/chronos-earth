@@ -29,35 +29,43 @@ jobs:
     #
     # Keep this greater than the sum of the inner timeouts plus headroom for
     # the index rebuild, the lint and the push:
-    #     55 (events) + 25 (people) + 10 (inventions/discoveries)
-    #   + 20 (rebuild, lint, commit, slack) = 110
-    timeout-minutes: 110
+    # REBALANCED 20 Sept 2026, after the harvest was repaired. The events
+    # sweep used to need 55 minutes because every query failed six times over;
+    # class-first it does the whole world in about three. The people sweep now
+    # runs 32 queries (16 occupations x 2 sweeps) instead of 16, so the time
+    # moves from one to the other rather than being added.
+    #     25 (events) + 45 (people) + 15 (inventions/discoveries)
+    #   + 20 (rebuild, lint, commit) = 105, with headroom for WDQS having a
+    # bad night:
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Fetch new events from Wikidata (additive)
-        # Cap the fetch itself (a full sweep can outlast the job) — exit 124 is
-        # fine: the script writes incrementally, so whatever it gathered still
-        # gets committed below. The Captain's first button-run was cancelled at
-        # the job timeout WITH data in hand; never again.
-        run: timeout 55m node scripts/fetch-wikidata-events.mjs || [ $? -eq 124 ]
+        # Cap the fetch itself — exit 124 is fine: the script writes after every
+        # category, so whatever it gathered still gets committed below. The
+        # Captain's first button-run was cancelled at the job timeout WITH data
+        # in hand; never again. 25m is far more than the ~3 minutes the
+        # class-first queries need, and exists for the nights WDQS is unwell.
+        run: timeout 25m node scripts/fetch-wikidata-events.mjs || [ $? -eq 124 ]
       - name: Fetch notable people (documented + traditional)
         # This step did not exist until 2026-07-20, which is why every single
         # person in events.json was hand-added: the people harvest was written,
         # committed, and then never actually run. Same timeout treatment as
         # above — partial results are still worth keeping.
-        run: timeout 25m node scripts/fetch-people.mjs || [ $? -eq 124 ]
+        run: timeout 45m node scripts/fetch-people.mjs || [ $? -eq 124 ]
       - name: Fetch inventions and discoveries (additive)
         if: '!cancelled()'
         # The categories nothing had ever queried. The box-based sweep above
         # CANNOT reach them — it needs coordinates on the item itself, and an
         # invention is not a place. This asks Wikidata for P575 (time of
         # discovery or invention) and takes the pin from the related place
-        # instead. Two whole-graph queries, ~45 s each, so 10m is generous;
-        # same partial-results treatment as the fetches above.
-        run: timeout 10m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
+        # instead. Two whole-graph queries of ~45 s, plus a chunked follow-up
+        # that flags the country-level pins; ~5 minutes observed, 15m of room.
+        # Same partial-results treatment as the fetches above.
+        run: timeout 15m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
       - name: Add the curated great disasters (idempotent)
         # From here down, run even if a fetch step above failed outright: a
         # crash in the people harvest must not throw away the events harvest.
