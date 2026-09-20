@@ -395,7 +395,10 @@
     },
     "ts": 1784196866529
   },
-  "sphinx": {},
+  "sphinx": {
+    "status": "allowed",
+    "ts": 1789897180926
+  },
   "place:stepped-pyramid@17.220,-89.620": {
     "transform": {
       "eastM": -330,
