@@ -458,5 +458,13 @@
   "gherkin": {
     "status": "allowed",
     "ts": 1789897149373
+  },
+  "place:ziggurat@30.962,46.104": {
+    "transform": {
+      "headingDeg": -122.5,
+      "eastM": -120,
+      "northM": 60
+    },
+    "ts": 1789914166772
   }
 }
