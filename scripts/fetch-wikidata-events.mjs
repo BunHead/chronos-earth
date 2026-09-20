@@ -162,10 +162,26 @@ async function main() {
   // file. (A 504-storm on one region used to wipe it; a timeout before the write
   // discarded the whole run. Union fixes both.)
   const byId = new Map();
+  // THE SECOND KEY, and it took a duplicate globe to find. The curated rows
+  // carry NO wikidataId, so `byId` (keyed on the Q-id) could never match one —
+  // and the harvest cheerfully added its own Colosseum on top of
+  // `cur-colosseum`, its own Great Pyramid on top of `cur-great-pyramid`, and
+  // fourteen more. Every one of the site's most famous monuments was pinned
+  // twice, a few metres apart, for months.
+  //
+  // Two rows citing the same English Wikipedia article ARE the same subject.
+  // Scoped to the same CATEGORY on purpose: `cur-auschwitz-liberation` (the
+  // 1945 event) and the camp itself both cite "Auschwitz concentration camp"
+  // and are legitimately two different pins, as are Newton the man and the
+  // publication of universal gravitation.
+  const wikiCatKey = (cat, title) => (title ? `${cat}|${title.toLowerCase().trim()}` : null);
+  const byWikiCat = new Map();
   let before = 0;
   try {
     for (const e of JSON.parse(await readFile(FILE, 'utf-8')).events ?? []) {
       byId.set(e.wikidataId ?? e.id, e);
+      const wk = wikiCatKey(e.category, e.wikiTitle);
+      if (wk && !byWikiCat.has(wk)) byWikiCat.set(wk, e);
     }
     before = byId.size;
   } catch {
@@ -193,6 +209,10 @@ async function main() {
           const coord = parseCoord(r.coord?.value ?? '');
           const year = parseYear(r.date?.value ?? '');
           if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
+          // Already on the globe under a curated name? Leave it alone — the
+          // curated row has the better title, the notes and the headline slot.
+          const wk = wikiCatKey(category, r.enwiki?.value ?? null);
+          if (wk && byWikiCat.has(wk)) continue;
           byId.set(qid, {
             id: qid.toLowerCase(),
             name,
@@ -204,6 +224,9 @@ async function main() {
             ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
             notability: parseInt(r.sl?.value ?? '0', 10) || 0,
           });
+          // Claim the article too, so two boxes overlapping the same site
+          // cannot both add it within one run.
+          if (wk) byWikiCat.set(wk, byId.get(qid));
           added++;
         } catch {
           /* skip a malformed row rather than crash the whole harvest */
@@ -254,6 +277,13 @@ async function main() {
         if (!coord || year === null || year < MIN_YEAR || year > MAX_YEAR) continue;
         perCountry.set(country, taken + 1);
         if (byId.has(qid)) continue;
+        // This sweep is where most of the duplicated monuments came from: it
+        // asks for the top three of every country, which is precisely the set
+        // the curated rows already cover. It still COUNTS against the country's
+        // three (it is one of that country's monuments either way), it just
+        // does not get pinned a second time.
+        const wk = wikiCatKey('monument', r.enwiki?.value ?? null);
+        if (wk && byWikiCat.has(wk)) continue;
         byId.set(qid, {
           id: qid.toLowerCase(),
           name,
@@ -265,6 +295,7 @@ async function main() {
           ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
           notability: parseInt(r.sl?.value ?? '0', 10) || 0,
         });
+        if (wk) byWikiCat.set(wk, byId.get(qid));
         added++;
       } catch {
         /* skip malformed rows */
