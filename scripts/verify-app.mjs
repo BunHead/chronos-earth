@@ -47,6 +47,12 @@
  *                    whether a moving thing is actually on screen, rather than
  *                    inferring it from a still.
  *   --film-out <p>   filename stem for --film (default ./film)
+ *   --profile <ms>   record a real CPU profile for this long and print the
+ *                    heaviest functions and files by SELF time, alongside the
+ *                    frame timings measured over the same seconds. Use this
+ *                    instead of guessing which layer is slow — ablation was
+ *                    tried on the playback stutter and gave a clean negative.
+ *   --profile-out <f> also write the raw .cpuprofile (opens in DevTools)
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
@@ -145,6 +151,109 @@ try {
   }
 
   if (HOLD) { console.log(`holding ${HOLD}ms…`); await sleep(HOLD); }
+
+  // --profile <ms> records a REAL CPU profile of whatever the app is doing
+  // right now, and summarises it here. This exists because ablation — turning
+  // layers off one at a time — gave a clean negative on the playback stutter:
+  // 150-195 ms frames showed up in every configuration including borders-only.
+  // A sampling profile does not care what you believe; it tells you which
+  // function actually held the main thread.
+  //
+  //   node scripts/verify-app.mjs --cpu 6 --click ".btn.primary" --profile 8000
+  //
+  // --profile-out writes the raw .cpuprofile, loadable in Chrome DevTools'
+  // Performance tab if you want the flame graph as well as the leaderboard.
+  const profileMs = +val('--profile', 0);
+  if (profileMs) {
+    const cdp = await page.createCDPSession();
+    await cdp.send('Profiler.enable');
+    // 100 µs sampling: fine enough to catch a 3 ms layout, cheap enough not to
+    // distort the thing being measured.
+    await cdp.send('Profiler.setSamplingInterval', { interval: 100 });
+
+    // Long-task and frame timing measured IN THE PAGE alongside the profile, so
+    // "the profile says X is hot" and "frames were janky" describe the same
+    // seconds rather than two different runs.
+    await page.evaluate(() => {
+      window.__long = [];
+      window.__frameGaps = [];
+      try {
+        window.__lo = new PerformanceObserver((l) => {
+          for (const e of l.getEntries()) window.__long.push(Math.round(e.duration));
+        });
+        window.__lo.observe({ entryTypes: ['longtask'] });
+      } catch { /* longtask unsupported — the profile still stands alone */ }
+      let prev = performance.now();
+      const step = (t) => {
+        window.__frameGaps.push(+(t - prev).toFixed(1));
+        prev = t;
+        window.__rafId = requestAnimationFrame(step);
+      };
+      window.__rafId = requestAnimationFrame(step);
+    });
+
+    console.log(`profiling ${profileMs}ms…`);
+    await cdp.send('Profiler.start');
+    await sleep(profileMs);
+    const { profile } = await cdp.send('Profiler.stop');
+
+    const live = await page.evaluate(() => {
+      cancelAnimationFrame(window.__rafId);
+      window.__lo?.disconnect();
+      const g = window.__frameGaps.slice(1);
+      const sorted = [...g].sort((a, b) => a - b);
+      const pc = (p) => sorted[Math.min(sorted.length - 1, Math.floor((p / 100) * sorted.length))] ?? 0;
+      return {
+        frames: g.length,
+        fps: g.length ? +(1000 / (g.reduce((a, b) => a + b, 0) / g.length)).toFixed(1) : 0,
+        medianMs: pc(50), p95Ms: pc(95), worstMs: sorted[sorted.length - 1] ?? 0,
+        stutters50: g.filter((x) => x > 50).length,
+        longTasks: window.__long.length,
+        longTaskMs: window.__long.sort((a, b) => b - a).slice(0, 8),
+      };
+    });
+
+    const out = val('--profile-out', null);
+    if (out) await save(out, Buffer.from(JSON.stringify(profile)));
+
+    // Self time per node, from samples x timeDeltas. hitCount would weight
+    // every sample equally; timeDeltas is the real wall clock between them.
+    const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+    const self = new Map();
+    let total = 0;
+    const { samples = [], timeDeltas = [] } = profile;
+    for (let i = 0; i < samples.length; i++) {
+      const d = timeDeltas[i] || 0;
+      if (d < 0) continue;
+      total += d;
+      self.set(samples[i], (self.get(samples[i]) || 0) + d);
+    }
+    const strip = (u) => String(u || '').replace(/^https?:\/\/[^/]+/, '') || '(native)';
+    const key = new Map();
+    const file = new Map();
+    let idle = 0;
+    for (const [id, us] of self) {
+      const f = byId.get(id)?.callFrame || {};
+      const name = f.functionName || '(anonymous)';
+      if (name === '(idle)' || name === '(program)') { idle += us; continue; }
+      const url = strip(f.url);
+      const k = `${name}  ${url}:${(f.lineNumber ?? -1) + 1}`;
+      key.set(k, (key.get(k) || 0) + us);
+      file.set(url, (file.get(url) || 0) + us);
+    }
+    const busy = total - idle;
+    const ms = (us) => (us / 1000).toFixed(0).padStart(6);
+    const share = (us) => `${((100 * us) / (busy || 1)).toFixed(1).padStart(5)}%`;
+    const top = (m, n) => [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, n);
+
+    console.log('\n=== FRAMES (measured live, same seconds as the profile) ===');
+    console.log(JSON.stringify(live));
+    console.log(`\n=== CPU: ${(total / 1000).toFixed(0)}ms sampled, ${(busy / 1000).toFixed(0)}ms busy, ${(100 * busy / (total || 1)).toFixed(0)}% on the main thread ===`);
+    console.log('\n-- heaviest FUNCTIONS by self time --');
+    for (const [k, us] of top(key, 25)) console.log(`${ms(us)}ms ${share(us)}  ${k}`);
+    console.log('\n-- heaviest FILES by self time --');
+    for (const [k, us] of top(file, 15)) console.log(`${ms(us)}ms ${share(us)}  ${k}`);
+  }
 
   if (has('--probe')) {
     const p = await page.evaluate(() => {
