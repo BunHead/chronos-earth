@@ -235,12 +235,22 @@ const save = async () => {
   await writeFile(FILE, JSON.stringify({ events: json.events }));
 };
 
+// A HARVEST THAT DOES NO WORK MUST NOT REPORT SUCCESS. "Found nothing new" is
+// success — the union is saturated. "Could not ask" is failure. Only the second
+// is worth shouting about, and only when EVERY query failed. See the banner at
+// the bottom, and the week in September this script spent going green while
+// every region of both its sweeps 504'd.
+let attempted = 0;
+let succeeded = 0;
+
 for (const occ of OCCUPATIONS) {
   for (const humans of [true, false]) {
     let rows;
     const t0 = Date.now();
+    attempted++;
     try {
       rows = await runQuery(buildQuery(occ.qids, humans));
+      succeeded++;
     } catch (e) {
       console.error(`  ${occ.name} (${humans ? 'documented' : 'traditional'}): failed (${e.message})`);
       await sleep(2000);
@@ -288,3 +298,13 @@ console.log(
     `${ppl.length} people, ${json.events.length} events total.`,
 );
 console.log('Spot-check:', ppl.filter((p) => /Tesla|Edison|Newton|Einstein|Curie|Napoleon/.test(p.name)).map((p) => `${p.name} (${p.startYear})`));
+
+if (attempted > 0 && succeeded === 0) {
+  console.error(
+    `\n${'!'.repeat(72)}\n` +
+      `PEOPLE HARVEST DID NO WORK. All ${attempted} queries failed — not one\n` +
+      `answered. This is NOT saturation. Read the errors above; do not read\n` +
+      `the step's exit status, which is what hid this for two months.\n${'!'.repeat(72)}`,
+  );
+  process.exitCode = 1;
+}

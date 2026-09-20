@@ -277,13 +277,28 @@ async function main() {
     /* first run */
   }
 
+  // A HARVEST THAT DOES NO WORK MUST NOT REPORT SUCCESS. This is the whole
+  // lesson of 12-20 Sept 2026: every query of every region failed for a week
+  // and every step went green, because the step ends in `|| [ $? -eq 124 ]`
+  // and this script exits 0 on purpose so one bad night cannot break the
+  // chain. Nobody had reason to look.
+  //
+  // The distinction that matters, and the one that was missed: "found nothing
+  // new" is SUCCESS (the union is saturated), while "could not ask" is
+  // FAILURE. Only the second is worth shouting about, and only when EVERY
+  // query failed — a partial harvest is still a good night.
+  let attempted = 0;
+  let succeeded = 0;
+
   for (const { category, selector, min, label } of CATEGORIES) {
     const title = label ?? category;
     process.stdout.write(`\n=== ${title} (sl >= ${min}) ===\n`);
     let rows;
     const t0 = Date.now();
+    attempted++;
     try {
       rows = await runQuery(buildQuery(selector, min));
+      succeeded++;
     } catch (e) {
       console.error(`  ${title}: failed (${e.message})`);
       await sleep(3000);
@@ -349,6 +364,18 @@ async function main() {
   const byCat = {};
   for (const e of events) byCat[e.category] = (byCat[e.category] ?? 0) + 1;
   console.log('By category:', byCat);
+
+  if (attempted > 0 && succeeded === 0) {
+    console.error(
+      `\n${'!'.repeat(72)}\n` +
+        `HARVEST DID NO WORK. All ${attempted} queries failed — not one answered.\n` +
+        `This is NOT saturation. Something is wrong with the queries or with\n` +
+        `WDQS, and the dataset has not grown. Read the errors above; do not\n` +
+        `read the step's exit status, which is what hid this for a week in\n` +
+        `September 2026.\n${'!'.repeat(72)}`,
+    );
+    process.exitCode = 1;
+  }
 }
 
 main().catch((e) => {

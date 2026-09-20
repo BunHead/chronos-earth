@@ -189,13 +189,20 @@ async function main() {
   const byName = new Map(events.map((e) => [fold(e.name), e]));
   const byWiki = new Map(events.filter((e) => e.wikiTitle).map((e) => [wikiKey(e.wikiTitle), e]));
 
+  // A HARVEST THAT DOES NO WORK MUST NOT REPORT SUCCESS. "Found nothing new"
+  // is success; "could not ask" is failure. See the banner at the end.
+  let attempted = 0;
+  let succeeded = 0;
+
   for (const { category, prop, label } of SOURCES) {
     process.stdout.write(`\n=== ${label} ===\n`);
+    attempted++;
     const rows = await runQuery(buildQuery(prop));
     if (!rows) {
       console.error(`  ${category}: no rows — leaving the dataset untouched and moving on.`);
       continue;
     }
+    succeeded++;
     console.log(`  ${rows.length} rows returned`);
 
     // Collect candidates first, so phase two can ask about every place at once.
@@ -289,6 +296,16 @@ async function main() {
   console.log(`\nTotal events: ${before} -> ${events.length}`);
   for (const c of ['invention', 'discovery']) {
     console.log(`  ${c.padEnd(10)} ${beforeByCat[c] ?? 0} -> ${afterByCat[c] ?? 0}`);
+  }
+
+  if (attempted > 0 && succeeded === 0) {
+    console.error(
+      `\n${'!'.repeat(72)}\n` +
+        `IDEAS HARVEST DID NO WORK. All ${attempted} queries failed — not one\n` +
+        `answered. This is NOT saturation. Read the errors above, not the\n` +
+        `step's exit status.\n${'!'.repeat(72)}`,
+    );
+    process.exitCode = 1;
   }
 }
 
