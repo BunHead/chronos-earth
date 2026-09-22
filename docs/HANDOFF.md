@@ -1,6 +1,6 @@
 # Chronos Earth — handover to the next Number One
 
-**Written 2026-09-20 (evening).** Working tree clean, everything pushed,
+**Written 2026-09-20, updated 2026-09-22 after the first nightly runs.** Working tree clean, everything pushed,
 402 tests green, `npx tsc --noEmit` clean, `lint-data` clean.
 Live at https://bunhead.github.io/chronos-earth
 
@@ -43,17 +43,17 @@ from HN/Reddit — draft only.
 
 ## Where things stand
 
-| | 11 Sept | **now** |
-|---|---|---|
-| events | 3,768 | **13,474** |
-| battle | 1,143 | **2,895** |
-| person | 237 | **5,740** |
-| city | 1,031 | **1,686** |
-| monument | 717 | **1,343** |
-| disaster | 530 | **1,114** |
-| discovery | 37 | **584** |
-| invention | 28 | **67** |
-| tests | 392 | **402** |
+| | 11 Sept | 20 Sept | **now (22nd)** |
+|---|---|---|---|
+| events | 3,768 | 13,474 | **22,576** |
+| battle | 1,143 | 2,895 | **2,895** |
+| person | 237 | 5,740 | **14,842** |
+| city | 1,031 | 1,686 | **1,686** |
+| monument | 717 | 1,343 | **1,343** |
+| disaster | 530 | 1,114 | **1,114** |
+| discovery | 37 | 584 | **584** |
+| invention | 28 | 67 | **67** |
+| tests | 392 | 402 | **402** |
 
 ---
 
@@ -111,18 +111,37 @@ groups, one query each, kept separate so one failure cannot take the run down.
 
 ## Live issues and traps
 
-### 1. The headline tier is a FRACTION, not a number
+### 1. The headline tier is bounded by the WIRE BUDGET (and I got this wrong once)
 `public/data/core-index/headline.json` is what loads before any map cell, so
 from a cold start **it is the only thing search can find.** The cap has now
-moved twice (600 → 1000 → 2500) for the same reason: a fixed cap against a
-growing dataset is a silent tightening. When the data doubled today the
-cut-off rose 69 → 75 and dropped Çatalhöyük, Thebes, Cyrene and Leptis Magna
-out of reach. At 2,500 the cut-off is 33.
+moved three times (600 → 1000 → 2500 → 4500) for the same reason: a fixed cap
+against a growing dataset is a silent tightening. On the 20th, when the data
+tripled, the cut-off rose 69 → 75 and dropped Çatalhöyük, Thebes, Cyrene and
+Leptis Magna out of reach.
 
-**If the dataset doubles again, this doubles.** Keep it near a third.
-`src/lib/headlineTier.test.ts` guards the property and measures the GZIPPED
-size (64 KB now), because that is what the visitor pays for — the raw figure
-overstates it threefold.
+It happened AGAIN overnight on the 21st and the cap moved a third time,
+2,500 → 4,500: the people harvest landed 9,102 figures, the cut-off sprang
+back 33 → 77, and 878 rows that were findable the day before were not (the
+1556 Shaanxi earthquake, Joseph I, Georg Simmel, Surtsey). 4,500 recovers all
+878 at a cut-off of 58.
+
+**THE RULE I WROTE HERE ON THE 20TH WAS WRONG.** It said the cap "is a
+FRACTION of the dataset — keep it near a third". A third of 22,576 is 7,500
+rows, or 183 KB gzipped, well past what belongs on the critical path. The
+fraction only looked right while the dataset was small.
+
+The honest rule: **the cap is bounded by the WIRE BUDGET, not by a fraction.**
+About 120 KB gzipped (what `headlineTier.test.ts` guards, measuring the
+gzipped size because that is what the visitor pays for), which at ~25 gzipped
+bytes a row is roughly 4,800 rows. **We are near that ceiling now — 103 KB.**
+
+**So do NOT raise it a fourth time**; that just chooses which famous thing goes
+missing. One tier is doing two jobs: drawing the globe before cells stream
+(full rows, but never more than 130 markers drawn) and being the only thing
+search can reach (every row, but only name/id/year/coords). Split them and
+load the search index LAZILY after first paint — off the critical path, where
+its size stops mattering and everything becomes findable. That is the next
+real piece of work here, and it is the Captain's call.
 
 ### 2. Duplicate pins — fixed, and guarded
 Sixteen of the most famous places on the site were pinned twice (Great Pyramid,
@@ -237,17 +256,21 @@ Not introduced today, and not fixed, because they are the Captain's call:
 
 ## What I would do next, in order
 
-1. **Finish the people harvest.** Six of the sixteen occupation groups were not
-   reached when I stopped the run. Re-running is additive and idempotent —
-   just run `node scripts/fetch-people.mjs`. **"politicians" (Q82955) is too
-   large and 504s every time**; it needs splitting into narrower occupations
-   (statesperson, diplomat, jurist…) before it will ever answer.
-2. **Watch tonight's harvest run.** Everything here is new tonight.
-   `gh run view <id> --log`. All three fetchers now **exit 1 and print a
-   banner if every query failed**, so a totally dead harvest turns the Actions
-   page red instead of green — but a PARTIAL failure is still green by design
-   (a partial harvest is a good night), so read the per-category lines too.
-   "politicians" is expected to fail; everything else is not.
+1. ~~Finish the people harvest~~ **DONE by the nightly run of 21 Sept** — it
+   collected all sixteen occupation groups and added 9,102 people in 44
+   minutes. And **I was wrong about "politicians" (Q82955)**: I recorded it as
+   "too large, 504s every time and needs splitting". It does not. On the
+   runner it returned 5,000 rows in 30 seconds and contributed +3,148. It only
+   failed for me because I had been hammering WDQS all afternoon and was being
+   rate-limited. **Do not split it.** A lesson worth keeping: a query failing
+   on this machine after a day's testing says nothing about the runner.
+2. **The harvest is now VERIFIED WORKING in production**, not just locally —
+   21 Sept, 44 minutes against the old 80, events sweep answering all five
+   categories in ~40 s and reporting a genuine +0. Keep reading the LOG and not
+   the status: all three fetchers **exit 1 with a banner if every query
+   failed**, so a totally dead harvest goes red, but a PARTIAL failure stays
+   green by design. Some "traditional" sweeps still 504 most nights; that is
+   expected and costs nothing.
 3. **Four curation calls only the Captain can make.** Petra, Cusco, Benin City
    and Mesa Verde each have two rows a few hundred metres apart that **disagree
    about the date** by 434 to 1,306 years. Both stand; picking one would be
