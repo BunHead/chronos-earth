@@ -261,6 +261,34 @@ async function main() {
   const headline = [...curated, ...byFame].sort((a, b) => a.startYear - b.startYear);
   await writeFile(join(TILE_DIR, 'headline.json'), JSON.stringify(packColumns(headline)));
 
+  // THE SEARCH INDEX — every row, so search can find ANYTHING, not just what
+  // the headline tier had room for.
+  //
+  // This is the exit ramp the headline comment describes, taken. That tier was
+  // doing two jobs at once: drawing the globe before cells stream, and being
+  // the only thing search could reach. The first needs full rows but never
+  // draws more than 130 markers; the second needs EVERY row but only enough to
+  // list a result and fly to it. Tied together, every time the dataset grew
+  // something famous quietly stopped being findable — three times in a week.
+  //
+  // Split, the cap stops being a rationing decision. This file is deliberately
+  // lean (no notability, wiki title, cell or attestation: 367 KB gzipped against
+  // 470 KB if it reused the skeleton shape) and is NOT on the critical path —
+  // the app fetches it when the visitor first focuses the search box, so anyone
+  // who never searches never pays for it. Coordinates go to 2 decimals, which
+  // is ~1 km: ample to fly the camera, and the real row arrives with its cell.
+  const searchRows = [...events].sort((a, b) => a.startYear - b.startYear);
+  const search = { v: 1, id: [], name: [], lat: [], lon: [], year: [], category: [] };
+  for (const e of searchRows) {
+    search.id.push(e.id);
+    search.name.push(e.name);
+    search.lat.push(+e.lat.toFixed(2));
+    search.lon.push(+e.lon.toFixed(2));
+    search.year.push(e.startYear);
+    search.category.push(e.category);
+  }
+  await writeFile(join(TILE_DIR, 'search.json'), JSON.stringify(search));
+
   // Manifest so the client never 404-probes: which era buckets each cell holds.
   const manifest = { v: 1, cell: CELL, buckets: BUCKET_COUNT, headline: headline.length, tiles: availByCell };
   await writeFile(join(TILE_DIR, 'manifest.json'), JSON.stringify(manifest));

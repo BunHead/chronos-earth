@@ -1020,6 +1020,7 @@ export default function App() {
         onPickYear={handlePickYear}
         onPickFauna={handlePickFauna}
         onWebSearch={handleWebSearch}
+        baseUrl={import.meta.env.BASE_URL}
       />
 
       <LayersPanel

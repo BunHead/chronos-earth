@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
+import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -17,6 +18,9 @@ interface SearchBoxProps {
   onPickYear: (year: number) => void;
   /** Fetch a place we don't have from the web (Wikidata) and add it live. */
   onWebSearch: (query: string) => void;
+  /** Where the data lives — `import.meta.env.BASE_URL`. The search index is
+   * fetched from here on first focus. */
+  baseUrl?: string;
 }
 
 const EVENT_BADGE: Record<string, string> = {
@@ -71,9 +75,30 @@ interface Result {
  * A single search field that finds battles, ancient sites and eras by name and
  * jumps the app to them.
  */
-export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch }: SearchBoxProps) {
+export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, baseUrl = '/' }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
+
+  // THE FIND-ANYTHING INDEX, fetched the first time the box is focused.
+  //
+  // Not at load: 367 KB that a visitor who never searches should never pay
+  // for. Not on every keystroke either — one shared promise, so focusing,
+  // clicking away and focusing again fetches once. Results from what is
+  // already in memory appear instantly; these widen them a moment later,
+  // which is why this is a separate list rather than something to await.
+  const [indexRows, setIndexRows] = useState<SearchRow[]>([]);
+  const asked = useRef(false);
+  const wantIndex = () => {
+    if (asked.current) return;
+    asked.current = true;
+    void loadSearchIndex(baseUrl).then(setIndexRows);
+  };
+  // Someone who arrives by keyboard (tab into the box, or the / shortcut) and
+  // types immediately would otherwise race the fetch; asking again on the
+  // first real query costs nothing because the promise is shared.
+  useEffect(() => {
+    if (query.trim().length >= 2) wantIndex();
+  }, [query]);
 
   const results = useMemo<Result[]>(() => {
     const q = fold(query.trim());
@@ -132,6 +157,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       })
       .slice(0, 8);
     for (const e of matched) {
+      taken.add(norm(e.name));
       out.push({
         key: `ev-${e.id}`,
         label: e.name,
@@ -141,13 +167,39 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       });
     }
 
+    // Everything else on the globe. These rows are NOT in memory — they are the
+    // 18,000-odd the headline tier has no room for — so they carry only enough
+    // to be listed and flown to. The full row arrives with its map cell once
+    // the camera gets there.
+    if (out.length < 9) {
+      const seenIds = new Set(matched.map((e) => e.id));
+      const extra = indexRows
+        .filter((r) => !seenIds.has(r.id) && !taken.has(norm(r.name)) && fold(r.name).includes(q))
+        .sort((a, b) => {
+          const ap = fold(a.name).startsWith(q) ? 0 : 1;
+          const bp = fold(b.name).startsWith(q) ? 0 : 1;
+          return ap !== bp ? ap - bp : a.name.length - b.name.length;
+        })
+        .slice(0, 9 - out.length);
+      for (const r of extra) {
+        taken.add(norm(r.name));
+        out.push({
+          key: `ix-${r.id}`,
+          label: r.name,
+          sub: yearLabel(r.startYear),
+          badge: EVENT_BADGE[r.category] ?? 'Event',
+          run: () => onPickEvent(rowToEvent(r)),
+        });
+      }
+    }
+
     for (const f of fauna) {
       if (fold(f.name).includes(q)) {
         out.push({ key: `f-${f.id}`, label: f.name, sub: `${f.fromMa}–${f.toMa} Mya`, badge: '🦕 Creature', run: () => onPickFauna(f) });
       }
     }
     return out.slice(0, 9);
-  }, [query, battles, sites, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear]);
+  }, [query, battles, sites, events, fauna, indexRows, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear]);
 
   const pick = (r: Result) => {
     r.run();
@@ -171,7 +223,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         placeholder="🔍 Search people, places, battles, eras…"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => setFocused(true)}
+        onFocus={() => { setFocused(true); wantIndex(); }}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') { if (results[0]) pick(results[0]); else if (q2.length >= 2) doWeb(); }
