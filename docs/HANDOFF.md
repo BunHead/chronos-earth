@@ -143,6 +143,39 @@ load the search index LAZILY after first paint — off the critical path, where
 its size stops mattering and everything becomes findable. That is the next
 real piece of work here, and it is the Captain's call.
 
+### 1b. Search is now SPLIT from the headline tier — the cap-chasing is over
+`core-index/search.json` carries EVERY row (23,077 at the last harvest), lean
+— id/name/year/lat/lon/category only — at 367 KB gzipped, and it is **not on
+the critical path**: SearchBox fetches it when the box is first focused, so
+anyone who never searches never pays. Results from memory appear instantly and
+the index widens them.
+
+So the headline cap is no longer a rationing decision and **should not need
+raising again**. It is now only "what draws before cells stream".
+
+`scripts/build-core-index.mjs` writes it, so the nightly workflow keeps it in
+step automatically — verified: the 22 Sept harvest rebuilt it to 23,077 without
+anyone touching it. If you ever hand-edit events.json, rebuild.
+
+### 1c. The video layer
+`public/data/videos.json` + `scripts/add-videos.mjs`. A video is a pin with a
+place, a date, a placeNote and `covers` — the ids of globe events it talks
+about, which the panel turns into clickable rows.
+
+**Zero running cost, and this is the constraint that shaped it.** The YouTube
+Data API needs a key. **oEmbed does not** — `youtube.com/oembed` is public and
+keyless and returns title, channel, channel URL and thumbnail. The script calls
+it at AUTHORING time; the running site never talks to YouTube. The channel RSS
+feed (`youtube.com/feeds/videos.xml?channel_id=UC…`) is also keyless and gives
+the latest 15 videos — that is the route to bulk, and it is untaken.
+
+Two traps, both already paid for:
+- `covers` must resolve through the SEARCH INDEX, not loaded events. The first
+  version checked memory only; both events the Picts film covers are below the
+  headline cut-off, so it rendered nothing and said nothing.
+- `covers` ids are hand-typed. Checked in add-videos.mjs (exits 1) and in
+  videos.test.ts.
+
 ### 2. Duplicate pins — fixed, and guarded
 Sixteen of the most famous places on the site were pinned twice (Great Pyramid,
 Colosseum, Angkor Wat, Machu Picchu, Taj Mahal, Statue of Liberty…). Curated
