@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
+import type { VideoPin } from '../lib/videos';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -21,6 +22,9 @@ interface SearchBoxProps {
   /** Where the data lives — `import.meta.env.BASE_URL`. The search index is
    * fetched from here on first focus. */
   baseUrl?: string;
+  /** The curated video layer — searchable by title and by channel. */
+  videos?: VideoPin[];
+  onPickVideo?: (video: VideoPin) => void;
 }
 
 const EVENT_BADGE: Record<string, string> = {
@@ -75,7 +79,7 @@ interface Result {
  * A single search field that finds battles, ancient sites and eras by name and
  * jumps the app to them.
  */
-export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, baseUrl = '/' }: SearchBoxProps) {
+export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, videos = [], onPickVideo, baseUrl = '/' }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
 
@@ -193,13 +197,30 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       }
     }
 
+    // The curated video layer. Matched on title AND channel, so "a history of
+    // peoples" finds everything from that channel, not just one film.
+    if (onPickVideo) {
+      for (const v of videos) {
+        if (!fold(v.title).includes(q) && !fold(v.author).includes(q)) continue;
+        if (taken.has(norm(v.title))) continue;
+        taken.add(norm(v.title));
+        out.push({
+          key: `vid-${v.id}`,
+          label: v.title,
+          sub: `${v.author} · ${v.year < 0 ? `${-v.year} BCE` : `${v.year} CE`}`,
+          badge: '📺 Video',
+          run: () => onPickVideo(v),
+        });
+      }
+    }
+
     for (const f of fauna) {
       if (fold(f.name).includes(q)) {
         out.push({ key: `f-${f.id}`, label: f.name, sub: `${f.fromMa}–${f.toMa} Mya`, badge: '🦕 Creature', run: () => onPickFauna(f) });
       }
     }
     return out.slice(0, 9);
-  }, [query, battles, sites, events, fauna, indexRows, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear]);
+  }, [query, battles, sites, events, fauna, indexRows, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo]);
 
   const pick = (r: Result) => {
     r.run();

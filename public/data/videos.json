@@ -1,0 +1,23 @@
+{
+  "_comment": "Curated video layer. Add a video by pasting its URL into the list in scripts/add-videos.mjs and running that script — it fills in title, channel and thumbnail from YouTube's keyless oEmbed endpoint. Never edit title/author/thumb by hand; they are refreshed from oEmbed on every run. 'covers' lists the ids of globe events this video talks about, which is what makes the cross-reference clickable in both directions.",
+  "videos": [
+    {
+      "id": "bzXRIEQumGE",
+      "url": "https://www.youtube.com/watch?v=bzXRIEQumGE",
+      "title": "What They Never Tell You About the Picts",
+      "author": "A History of Peoples",
+      "authorUrl": "https://www.youtube.com/@AHistoryOfPeoples",
+      "thumb": "https://i.ytimg.com/vi/bzXRIEQumGE/hqdefault.jpg",
+      "lat": 56.63,
+      "lon": -2.8,
+      "year": 685,
+      "endYear": 900,
+      "startSeconds": 2661,
+      "placeNote": "Pinned at Dunnichen in Angus, the likely site of the Battle of Dun Nechtain in 685 — the victory that stopped Northumbrian expansion and kept Pictland independent. The Picts were a people rather than a place, so any single pin is a convenience; this is the spot where their history turns.",
+      "covers": [
+        "q961243",
+        "q298263"
+      ]
+    }
+  ]
+}

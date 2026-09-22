@@ -37,6 +37,8 @@ import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
 import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna } from './lib/data';
+import { loadVideos, relatedFor, watchUrl, timestampLabel, type VideoPin } from './lib/videos';
+import { loadSearchIndex, rowToEvent } from './lib/searchIndex';
 import { cellsForRect } from './lib/eventIndex';
 import { bucketsForWindow } from './lib/buckets';
 import { loadTileManifest, loadHeadline, loadTile, tilesToLoad, type TileManifest } from './lib/coreTiles';
@@ -109,6 +111,7 @@ export default function App() {
   const [battles, setBattles] = useState<Battle[]>([]);
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [fauna, setFauna] = useState<Fauna[]>([]);
+  const [videos, setVideos] = useState<VideoPin[]>([]);
   const [showSites, setShowSites] = useState(layerStartsOn('sites'));
   const [showBorders, setShowBorders] = useState(layerStartsOn('borders'));
   const [showFlags, setShowFlags] = useState(layerStartsOn('flags'));
@@ -550,6 +553,12 @@ export default function App() {
     loadFauna()
       .then(setFauna)
       .catch((err) => console.error('Could not load fauna:', err));
+    // One small file and a handful of rows, and it makes the videos searchable
+    // from the first keystroke — so it rides along here rather than waiting
+    // for idle like the battle choreography below.
+    loadVideos(import.meta.env.BASE_URL)
+      .then(setVideos)
+      .catch((err) => console.error('Could not load videos:', err));
     // BATTLE CHOREOGRAPHY IS NOT A COLD-START COST. battle-views.json is 290 KB
     // and rising — the choreographer routine added 2,635 lines in a single week
     // — and its only consumer is visitBattle(), which cannot run until someone
@@ -801,6 +810,58 @@ export default function App() {
     showToast(`Added ${ev.name} · ${ev.startYear < 0 ? `${-ev.startYear} BCE` : `${ev.startYear} CE`}`);
   };
 
+  // Every event currently in memory, for the video panel's cross-reference.
+  // Built from `events`, so a covered row that has not streamed in yet simply
+  // does not appear — `relatedFor` skips it rather than listing a dead row.
+  const eventById = useMemo(() => new Map(events.map((e) => [e.id, e])), [events]);
+
+  /**
+   * Open a video pin.
+   *
+   * The cross-reference is the point: `related` turns the video's `covers`
+   * into clickable rows, so you can walk from a film about the Picts straight
+   * to the battle it turns on without leaving the globe.
+   */
+  const handlePickVideo = async (v: VideoPin) => {
+    setIsPlaying(false);
+    setYearsBP(yearToYearsBP(v.year));
+    // Resolve the cross-reference against the WHOLE globe, not just what is in
+    // memory. Both events the Picts film covers sit below the headline tier's
+    // cut-off, so checking loaded events alone produced an empty list every
+    // time — a cross-reference that works only for the most famous few hundred
+    // rows is not one. `loadSearchIndex` shares a single promise with the
+    // search box, and the visitor got here by searching, so in practice this
+    // is already resolved and returns instantly.
+    const indexRows = await loadSearchIndex(import.meta.env.BASE_URL);
+    const byIndex = new Map(indexRows.map((r) => [r.id, r]));
+    const resolve = (id: string) => {
+      const loaded = eventById.get(id);
+      if (loaded) return loaded;
+      const row = byIndex.get(id);
+      return row ? rowToEvent(row) : undefined;
+    };
+    const span = v.endYear && v.endYear !== v.year
+      ? `${v.year < 0 ? `${-v.year} BCE` : `${v.year} CE`} – ${v.endYear < 0 ? `${-v.endYear} BCE` : `${v.endYear} CE`}`
+      : v.year < 0 ? `${-v.year} BCE` : `${v.year} CE`;
+    setPanel({
+      kicker: '📺 Video',
+      title: v.title,
+      date: span,
+      summary: `${v.author} · YouTube`,
+      sections: v.placeNote ? [{ heading: 'Why it is shown here', body: v.placeNote }] : undefined,
+      links: [
+        {
+          label: v.startSeconds ? `Watch from ${timestampLabel(v.startSeconds)}` : 'Watch on YouTube',
+          url: watchUrl(v),
+        },
+        ...(v.authorUrl ? [{ label: `More from ${v.author}`, url: v.authorUrl }] : []),
+      ],
+      related: relatedFor(v, resolve, handlePickEvent),
+      fly: { lon: v.lon, lat: v.lat, altitude: 600_000 },
+    });
+    globeRef.current?.flyTo(v.lon, v.lat, 600_000);
+  };
+
   const handlePickFauna = (f: Fauna) => {
     setIsPlaying(false);
     setYearsBP(((f.fromMa + f.toMa) / 2) * 1_000_000);
@@ -1020,6 +1081,8 @@ export default function App() {
         onPickYear={handlePickYear}
         onPickFauna={handlePickFauna}
         onWebSearch={handleWebSearch}
+        videos={videos}
+        onPickVideo={handlePickVideo}
         baseUrl={import.meta.env.BASE_URL}
       />
 
