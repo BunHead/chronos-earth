@@ -7,6 +7,7 @@ export const SCENE_LAYER_KEYS = [
   'battles',
   'campaigns',
   'fauna',
+  'videos',
   'seas',
   'rivers',
   'cities',

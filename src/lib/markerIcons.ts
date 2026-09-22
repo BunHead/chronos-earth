@@ -95,7 +95,15 @@ const EVENT_ICON: Record<string, [string, string]> = {
   discovery: ['discovery', '#6a4cae'],
   person: ['person', '#3a7d6e'],
   event: ['event', '#8a6d3b'],
+  // Plum, so a film reads as its own kind of thing rather than as another
+  // battle or monument sitting in the same place.
+  video: ['video', '#8c3a5a'],
 };
+
+/** Badge for a curated video pin. */
+export function videoIcon(): string {
+  return makeIcon('video', 'video', '#8c3a5a');
+}
 
 export function eventIcon(category: string): string {
   const [emoji, bg] = EVENT_ICON[category] ?? ['•', '#777777'];

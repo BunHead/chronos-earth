@@ -6,12 +6,13 @@ import * as Cesium from 'cesium';
 // stylesheet (a duplicate download on every page load). Loading it only via the
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
+import { videoVisibleAt, type VideoPin } from '../lib/videos';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
 import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
-import { siteIcon, eventIcon, ICONS } from '../lib/markerIcons';
+import { siteIcon, eventIcon, videoIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
 import { SeaLevelController } from './seaLevel';
 import { OceanDrainController } from './oceanDrain';
@@ -51,6 +52,11 @@ const MARKER_DEPTH_TEST_DISTANCE = 1_000_000;
  * everything we have. Index = zoom tier (0 orbit … 3 low). */
 const EVENT_MAX_VISIBLE_BY_TIER = [34, 52, 80, 130];
 const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
+/** How empty a deep-zoomed view has to be before we ask Wikidata to fill it in
+ * live. Below the lowest tier's marker budget on purpose: if the globe cannot
+ * even fill a fraction of what it is allowed to draw here, it genuinely has
+ * little to say about this place. */
+const LIVE_LOOKUP_WHEN_FEWER_THAN = 12;
 /** Reusable marker pool: only ever as many entities as can be shown at once
  * (max visible + focus + headroom), NOT one per import — so the globe's cost is
  * flat whether there are 2,000 events or 200,000. Assigned in the visibility
@@ -171,6 +177,10 @@ interface GlobeProps {
   showBattles: boolean;
   showCampaigns: boolean;
   showFauna: boolean;
+  /** Curated video pins — films about a place, shown while their subject is. */
+  videos?: VideoPin[];
+  showVideos?: boolean;
+  onPickVideo?: (video: VideoPin) => void;
   /** Fade in the Ice Age exposed-shelf land bridges as the seas fall. */
   showSeaLevel: boolean;
   /** Draw the curated great rivers whose courses shifted over time. */
@@ -217,7 +227,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, videos = [], showVideos = true, onPickVideo, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -267,6 +277,10 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   onSeekRef.current = onSeek;
   const onDiveRef = useRef(onDive);
   onDiveRef.current = onDive;
+  const onPickVideoRef = useRef(onPickVideo);
+  onPickVideoRef.current = onPickVideo;
+  /** One entity per curated video, keyed by video id. */
+  const videoEntitiesRef = useRef<Map<string, Cesium.Entity>>(new Map());
   /** Bumped per empty-ground click, so a stale live-fetch can't repaint a newer dossier. */
   const dossierSeqRef = useRef(0);
   /** Markers for live-fetched finds — replaced whenever a new area is asked,
@@ -307,11 +321,37 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     bordersRef.current?.setDetailRegion(zoomTier >= 2 && viewRect ? viewRect : null);
   }, [zoomTier, viewRect]);
 
-  // Linger deep over ANY region and it quietly asks Wikidata for its own
-  // history — Derbyshire summons its silk mills, Greece its ancients. The
-  // per-area cache means each patch of Earth is only ever asked once.
+  /**
+   * Linger deep over a region the globe has little to say about, and it quietly
+   * asks Wikidata for that region's own history — Derbyshire summons its silk
+   * mills, Greece its ancients. The per-area cache means each patch of Earth is
+   * only ever asked once.
+   *
+   * IT NOW ONLY ASKS WHERE THE GLOBE IS ACTUALLY THIN, and that is a change of
+   * behaviour worth explaining. This used to fire on EVERY deep zoom anywhere.
+   * It was written when the dataset was 3,768 rows and almost anywhere you
+   * looked was empty; there are now 23,000, and over Europe the globe already
+   * has far more to show than this can add. So the call was being spent where
+   * it was least needed — and being spent constantly, which is how it started
+   * collecting HTTP 429s from a service that is free and that we are a guest of.
+   *
+   * Gating on what is genuinely in view keeps the magic exactly where the
+   * Captain wants it: the bare parts of the map. Asia, Africa and South America
+   * hold 11%, 7% and 3% of the pins, so those are the places a visitor lingers
+   * over an empty coastline — and those are now the only places this fires.
+   */
   useEffect(() => {
     if (zoomTier < 3 || !viewRect) return;
+    const { w, s, e, n } = viewRect;
+    const inside = (ev: TimelineEvent) =>
+      ev.lat >= s && ev.lat <= n && (e >= w ? ev.lon >= w && ev.lon <= e : ev.lon >= w || ev.lon <= e);
+    // Counting is cheap next to a network round trip, and we only need to know
+    // whether it is thin — so stop as soon as it plainly is not.
+    let held = 0;
+    for (const ev of events) {
+      if (inside(ev) && ++held >= LIVE_LOOKUP_WHEN_FEWER_THAN) break;
+    }
+    if (held >= LIVE_LOOKUP_WHEN_FEWER_THAN) return;
     const timer = window.setTimeout(() => {
       const lat = (viewRect.s + viewRect.n) / 2;
       const lon =
@@ -322,7 +362,76 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }, 1500);
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomTier, viewRect]);
+  }, [zoomTier, viewRect, events]);
+  /**
+   * VIDEO PINS. A film is a pin like anything else — it has a place, a date and
+   * a reason for being there — so it belongs on the globe, not only in search.
+   *
+   * There are a handful of these, not thousands, so each gets its own entity
+   * and is simply shown or hidden as the timeline moves: no pooling, no
+   * per-tier budget, and deliberately OUTSIDE the event marker cull. A curated
+   * video is a chosen thing and should not lose its slot to the twelfth-most
+   * notable castle in view.
+   */
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return;
+    const year = yearsBPToYear(currentYearsBP);
+    const live = videoEntitiesRef.current;
+
+    const ids = new Set(videos.map((v) => v.id));
+    for (const [id, ent] of [...live]) {
+      if (!ids.has(id)) {
+        viewer.entities.remove(ent);
+        live.delete(id);
+      }
+    }
+
+    for (const v of videos) {
+      const shouldShow = showVideos && videoVisibleAt(v, year);
+      const ent = live.get(v.id);
+      if (!ent) {
+        if (!shouldShow) continue; // don't build it until it is wanted
+        const created = viewer.entities.add({
+          position: Cesium.Cartesian3.fromDegrees(v.lon, v.lat),
+          show: false,
+          billboard: {
+            image: videoIcon(),
+            scale: 0.46,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            // A video is pinned AT the thing it is about, so by design it lands
+            // on top of that marker — the Picts film sits exactly on the Battle
+            // of Dun Nechtain. Lifting it clear in screen space makes it read as
+            // attached to its subject rather than as a badge that has eaten it.
+            pixelOffset: new Cesium.Cartesian2(0, -30),
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+          },
+          label: {
+            text: v.title,
+            font: '12px "Segoe UI", sans-serif',
+            fillColor: Cesium.Color.WHITE,
+            outlineColor: Cesium.Color.BLACK,
+            outlineWidth: 3,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -60),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2_500_000),
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
+          },
+        });
+        const tagged = created as Cesium.Entity & { chronosVideo?: VideoPin; chronosScale?: number };
+        tagged.chronosVideo = v;
+        tagged.chronosScale = 0.46;
+        live.set(v.id, created);
+        setShownPop(created, true);
+        continue;
+      }
+      if (Boolean(ent.show) !== shouldShow) setShownPop(ent, shouldShow);
+    }
+  }, [videos, showVideos, currentYearsBP]);
+
   // Markers mid-pop (grow-in animation) and the timer driving them.
   const popAnimsRef = useRef<Map<Cesium.Entity, { t0: number; base: number }>>(new Map());
   const popTimerRef = useRef<number | null>(null);
@@ -1006,6 +1115,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         const panel = faunaRef.current.panelFor(fauna);
         onSelectRef.current(panel);
         if (panel.fly) flyTo(panel.fly.lon, panel.fly.lat, panel.fly.altitude);
+        return;
+      }
+      const video: VideoPin | undefined = picked?.id?.chronosVideo;
+      if (video && onPickVideoRef.current) {
+        onPickVideoRef.current(video);
         return;
       }
       const event: TimelineEvent | undefined = picked?.id?.chronosEvent;

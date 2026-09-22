@@ -118,6 +118,10 @@ export default function App() {
   const [showBattles, setShowBattles] = useState(layerStartsOn('battles'));
   const [showCampaigns, setShowCampaigns] = useState(layerStartsOn('campaigns'));
   const [showFauna, setShowFauna] = useState(layerStartsOn('fauna'));
+  // Videos are a small, curated layer and they are ON by default: there are a
+  // handful, they never crowd anything, and a film the Captain chose is worth
+  // more screen than the twelfth castle in view.
+  const [showVideos, setShowVideos] = useState(layerStartsOn('videos'));
   const [showSeaLevel, setShowSeaLevel] = useState(layerStartsOn('seas'));
   const [showRivers, setShowRivers] = useState(layerStartsOn('rivers'));
   // Imported-event categories — each gets its own Layers switch. Battles fold
@@ -960,6 +964,9 @@ export default function App() {
         showBattles={showBattles}
         showCampaigns={showCampaigns}
         showFauna={showFauna}
+        videos={videos}
+        showVideos={showVideos}
+        onPickVideo={handlePickVideo}
         showSeaLevel={showSeaLevel}
         showRivers={showRivers}
         events={events}
@@ -1099,6 +1106,8 @@ export default function App() {
         onToggleCampaigns={setShowCampaigns}
         showFauna={showFauna}
         onToggleFauna={setShowFauna}
+        showVideos={showVideos}
+        onToggleVideos={setShowVideos}
         showSeaLevel={showSeaLevel}
         onToggleSeaLevel={setShowSeaLevel}
         showRivers={showRivers}

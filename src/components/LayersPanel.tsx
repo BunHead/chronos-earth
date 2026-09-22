@@ -26,6 +26,8 @@ interface LayersPanelProps {
   onTogglePeople: (value: boolean) => void;
   showFauna: boolean;
   onToggleFauna: (value: boolean) => void;
+  showVideos: boolean;
+  onToggleVideos: (value: boolean) => void;
   showSeaLevel: boolean;
   onToggleSeaLevel: (value: boolean) => void;
   showRivers: boolean;
@@ -90,6 +92,8 @@ export default function LayersPanel({
   onTogglePeople,
   showFauna,
   onToggleFauna,
+  showVideos,
+  onToggleVideos,
   showSeaLevel,
   onToggleSeaLevel,
   showRivers,
@@ -119,6 +123,7 @@ export default function LayersPanel({
       sub: { label: '⚑ Flags Inside Borders', on: showFlags, set: onToggleFlags },
     },
     { label: 'Prehistoric Life', glyph: 'fauna', on: showFauna, set: onToggleFauna },
+    { label: 'Films & Documentaries', glyph: 'video', on: showVideos, set: onToggleVideos },
     { label: 'Science & Discoveries', glyph: 'discovery', on: showScience, set: onToggleScience },
     { label: 'Shifting Rivers', glyph: 'rivers', on: showRivers, set: onToggleRivers },
     { label: 'Sites & Monuments', glyph: 'monument', on: showSites, set: onToggleSites },

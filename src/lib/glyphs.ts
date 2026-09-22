@@ -42,6 +42,9 @@ export const GLYPHS: Record<string, string> = {
   /** A scroll, for treaties and events. */
   event: 'M6 3.5 h11 v17 h-11 Z M6 3.5 a2 2 0 0 0 0 4 h2 M17 20.5 a2 2 0 0 0 0-4 h-2 M9.5 9 h5 M9.5 12.5 h5',
   /** Two roofs — a settlement. */
+  /** A screen with a play triangle — stroked like every other mark here, so
+   * the Layers panel stays a true legend for the globe. */
+  video: 'M3 6 h18 v12 h-18 Z M10.2 9.6 l4.8 2.4 l-4.8 2.4 Z',
   settlement: 'M2.5 20.5 V13 L7 9 l4.5 4 v7.5 Z M12.5 20.5 V15 l4-3.5 l4 3.5 v5.5 Z',
   /** A comet, head and tail. */
   impact: 'M17 7 a3.2 3.2 0 1 0 0.01 0 M14.6 9.4 L4 20 M17.5 11.5 L9 20 M12.2 7.2 L4.5 14.5',
