@@ -468,7 +468,8 @@
     "ts": 1789914172297
   },
   "hanging-gardens": {
-    "ts": 1790087400782,
+    "status": "allowed",
+    "ts": 1790087402332,
     "note": "Not as large as the structure on the GPS image"
   }
 }
