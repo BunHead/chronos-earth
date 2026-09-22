@@ -87,10 +87,32 @@ export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${buc
  * cold search — Çatalhöyük, Thebes, Cyrene, Leptis Magna, Prambanan. Exactly
  * the failure this tier exists to prevent, arriving by the back door.
  *
- * This cap has now moved twice for the same reason, so state the rule rather
- * than the number: IT IS A FRACTION OF THE DATASET, not a constant. Keep it
- * near a third. If the dataset doubles again, this doubles. */
-const HEADLINE_COUNT = 2500;
+ * Raised a third time 2,500 → 4,500 on 22 Sept, when the repaired people
+ * harvest landed 9,102 figures overnight (13,474 → 22,576 events) and the
+ * cut-off sprang back from 33 to 77. 878 rows that had been findable the day
+ * before were not: the 1556 Shaanxi earthquake, Joseph I, Georg Simmel,
+ * Surtsey. 4,500 brings back every one of them and costs ~110 KB gzipped.
+ *
+ * AND THE RULE I WROTE HERE TWO DAYS AGO WAS WRONG, so here is the correction
+ * rather than a quiet edit. It said: "it is a FRACTION of the dataset, keep it
+ * near a third." A third of 22,576 is 7,500 rows — 183 KB gzipped, well past
+ * what belongs on the critical path. The fraction rule only looked right while
+ * the dataset was small.
+ *
+ * The honest rule is: THIS CAP IS BOUNDED BY THE WIRE BUDGET, NOT BY A
+ * FRACTION. It can have roughly 120 KB gzipped of the cold load (the limit
+ * `headlineTier.test.ts` guards), which at ~25 gzipped bytes a row is about
+ * 4,800 rows. We are near that ceiling now.
+ *
+ * SO WHEN THIS NEXT BINDS, DO NOT RAISE IT AGAIN — raise it and you are simply
+ * choosing which famous thing becomes unfindable. The exit ramp is to stop
+ * making one tier do two jobs. It currently both (a) draws the globe before
+ * cells stream and (b) is the only thing search can reach. Job (a) needs full
+ * rows but only ever draws ≤130 markers; job (b) needs every row but only
+ * name/id/year/coords. Split them, and let the search index load LAZILY after
+ * first paint — off the critical path entirely, where its size stops mattering
+ * and everything becomes findable. */
+const HEADLINE_COUNT = 4500;
 
 /** Pack a list of already-year-sorted events into the columnar shape the app's
  * eventsFromColumns() reconstructs — identical schema to core-index.json.
