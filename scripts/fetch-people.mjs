@@ -10,9 +10,11 @@
  * Additive: merges by id and preserves everything already on file.
  *
  * ───────────────────────────────────────────────────────────────────────────
- * THREE BUGS HAVE LIVED HERE. The first two were fixed on 18 Sept 2026; the
- * third is what this file is about, and it meant the script was STILL adding
- * nothing.
+ * FOUR BUGS HAVE LIVED HERE, and every one of them looked like success from
+ * the outside. The first two were fixed on 18 Sept 2026, the third on the 20th,
+ * the fourth on the 23rd — see `fetchComplete` for that one, which is the most
+ * instructive: a query returning exactly LIMIT rows has not finished, it has
+ * been cut off, and nothing in the output says so.
  *
  *   1. THE WRITE WAS AT THE END. Results accumulated in memory and were
  *      written once, after every region. The workflow caps this step, and
@@ -128,7 +130,7 @@ const OCCUPATIONS = [
  * that the anchor is P106. That is a real gap and it is covered deliberately:
  * add-legends.mjs curates exactly those by hand.
  */
-function buildQuery(qids, humans) {
+function buildQuery(qids, humans, band = null) {
   // Documented people are anchored at birth. Traditional figures often have no
   // birthplace recorded, so fall back to where they died, then to the place the
   // story itself is set — all real places, never an invented one.
@@ -156,7 +158,7 @@ function buildQuery(qids, humans) {
   ${anchor}
   ?bp wdt:P625 ?coord .
   ?item wdt:P569 ?date ; wikibase:sitelinks ?sl .
-  FILTER(?sl >= ${humans ? MIN_SL : MIN_SL_TRADITIONAL})
+  FILTER(?sl >= ${band ? band[0] : humans ? MIN_SL : MIN_SL_TRADITIONAL}${band && band[1] !== null ? ` && ?sl < ${band[1]}` : ''})
   # Wikidata records an unknown date as "somevalue", which arrives as a blank
   # node and would parse to nonsense. Gilgamesh's own date of birth is one.
   FILTER(DATATYPE(?date) = xsd:dateTime)
@@ -211,6 +213,78 @@ async function runQuery(sparql) {
   }
 }
 
+/**
+ * A QUERY THAT RETURNS EXACTLY `LIMIT` ROWS HAS NOT FINISHED — IT HAS BEEN CUT
+ * OFF, and this is the second time that distinction has cost this project real
+ * data.
+ *
+ * Two occupations outgrew the limit without anyone noticing, because a
+ * truncated query looks exactly like a successful one. Counted on 23 Sept:
+ *
+ *     politicians   5,928 qualify   we were taking 5,000
+ *     writers       6,621 qualify   we were taking 5,000
+ *
+ * ~2,550 people permanently out of reach — and since there is no ORDER BY,
+ * WHICH 5,000 came back changed from night to night, which is why these two
+ * kept dribbling in a couple of hundred new rows every run and never settled.
+ * It also skewed the globe: the complete politician set is 59.7% European
+ * against the 68.2% actually on file, so the rows being dropped were
+ * disproportionately the rest of the world — exactly the crowding the Captain
+ * could see.
+ *
+ * So: run the query, and if it comes back at the limit, run it again in
+ * sitelink bands and union the results. Verified on politicians — the three
+ * bands union to exactly 5,928, matching the COUNT.
+ *
+ * It is ADAPTIVE on purpose. Fourteen of the sixteen occupations fit
+ * comfortably and pay nothing for this; the two that do not are fixed
+ * automatically, as is any occupation that outgrows the limit in future. The
+ * failure mode this replaces was silent, so the replacement says so out loud.
+ */
+const BAND_EDGES = [40, 80];
+
+function bandsFrom(min) {
+  const edges = [min, ...BAND_EDGES.filter((e) => e > min), null];
+  const out = [];
+  for (let i = 0; i < edges.length - 1; i++) out.push([edges[i], edges[i + 1]]);
+  return out;
+}
+
+async function fetchComplete(qids, humans) {
+  const rows = await runQuery(buildQuery(qids, humans));
+  if (rows.length < LIMIT) return rows;
+
+  const min = humans ? MIN_SL : MIN_SL_TRADITIONAL;
+  const bands = bandsFrom(min);
+  console.log(
+    `    ${rows.length} rows = the limit, so this was CUT OFF, not finished. ` +
+      `Re-asking in ${bands.length} notability bands.`,
+  );
+  const byUri = new Map();
+  for (const band of bands) {
+    let part;
+    try {
+      part = await runQuery(buildQuery(qids, humans, band));
+    } catch (e) {
+      // Keep the unbanded rows rather than losing the lot over one bad band.
+      console.error(`    band ${band[0]}-${band[1] ?? '∞'}: failed (${e.message})`);
+      continue;
+    }
+    for (const r of part) byUri.set(r.item.value, r);
+    if (part.length >= LIMIT) {
+      console.warn(`    band ${band[0]}-${band[1] ?? '∞'} is ITSELF at the limit — it needs splitting further.`);
+    }
+    await sleep(2500);
+  }
+  // A band that failed could leave us worse off than the single query did.
+  if (byUri.size < rows.length) {
+    console.warn(`    banded union (${byUri.size}) came out smaller than the cut-off query (${rows.length}); keeping both.`);
+    for (const r of rows) byUri.set(r.item.value, r);
+  }
+  console.log(`    banded union: ${byUri.size} rows`);
+  return [...byUri.values()];
+}
+
 const parseYear = (iso) => { const m = /^([+-]?)0*(\d+)/.exec(iso); return m ? (m[1] === '-' ? -+m[2] : +m[2]) : null; };
 const parseCoord = (w) => { const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(w); return m ? { lon: +m[1], lat: +m[2] } : null; };
 
@@ -249,7 +323,7 @@ for (const occ of OCCUPATIONS) {
     const t0 = Date.now();
     attempted++;
     try {
-      rows = await runQuery(buildQuery(occ.qids, humans));
+      rows = await fetchComplete(occ.qids, humans);
       succeeded++;
     } catch (e) {
       console.error(`  ${occ.name} (${humans ? 'documented' : 'traditional'}): failed (${e.message})`);
