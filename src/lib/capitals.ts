@@ -33,6 +33,30 @@ export interface CapitalRole {
  * narrow enough that it means "about now" rather than "this century". */
 export const CHANGE_WINDOW_YEARS = 30;
 
+/**
+ * How near the MOMENT a marker has to be before it pulses.
+ *
+ * Much tighter than CHANGE_WINDOW_YEARS, and deliberately. That window is about
+ * PROMINENCE — it lifts a city into view in good time so you are already
+ * looking at Kyoto when it hands Japan to Tokyo. This one is about the ANIMATION,
+ * and the Captain's instruction was "only pulse when they're founded or change".
+ * Thirty years of pulsing either side is not a moment, it is a mood; ten years
+ * reads as an event even when the timeline is running fast.
+ */
+export const PULSE_WINDOW_YEARS = 10;
+
+/**
+ * Should this place be drawing attention to itself right now?
+ *
+ * Two occasions, and only two: the year it appears at all, and the year the
+ * capital role changes hands — gained or lost, because Kyoto dimming and Tokyo
+ * brightening are one movement seen from two places.
+ */
+export function pulseAt(e: TimelineEvent, year: number): boolean {
+  if (Math.abs(year - e.startYear) <= PULSE_WINDOW_YEARS) return true;
+  return capitalChangeAt(e, year, PULSE_WINDOW_YEARS) !== null;
+}
+
 function roles(e: TimelineEvent): CapitalRole[] {
   return (e as TimelineEvent & { capitalOf?: CapitalRole[] }).capitalOf ?? [];
 }

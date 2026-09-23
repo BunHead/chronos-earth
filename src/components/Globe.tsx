@@ -7,7 +7,8 @@ import * as Cesium from 'cesium';
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { videoVisibleAt, type VideoPin } from '../lib/videos';
-import { capitalAt, capitalChangeAt, cityProminence, isPlaceRow } from '../lib/capitals';
+import { capitalAt, capitalChangeAt, cityProminence, isPlaceRow, pulseAt } from '../lib/capitals';
+import { spreadPick, withinHorizon } from '../lib/markerSpread';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
@@ -53,6 +54,14 @@ const MARKER_DEPTH_TEST_DISTANCE = 1_000_000;
  * everything we have. Index = zoom tier (0 orbit … 3 low). */
 const EVENT_MAX_VISIBLE_BY_TIER = [34, 52, 80, 130];
 const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
+// HOW FAR APART PLACE MARKERS PREFER TO SIT, in km, per zoom tier.
+//
+// Tier 0 is the whole planet in one view, where Paris and London are the same
+// dot and spending two of ten slots on them costs the map Cairo and Delhi. As
+// you zoom, the separation collapses and the neighbours come straight back.
+// See lib/markerSpread.ts — this is the cure for "Europe looks crowded, while
+// the rest of the world is bare".
+const PLACE_MIN_SEPARATION_KM_BY_TIER = [1500, 600, 200, 50];
 /** How empty a deep-zoomed view has to be before we ask Wikidata to fill it in
  * live. Below the lowest tier's marker budget on purpose: if the globe cannot
  * even fill a fraction of what it is allowed to draw here, it genuinely has
@@ -327,6 +336,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const [viewRect, setViewRect] = useState<{ w: number; s: number; e: number; n: number } | null>(
     null,
   );
+  // Where the camera is, for the horizon test at orbital tiers. Rounded hard:
+  // this drives the marker pick, and a value that changed on every drag frame
+  // would re-pick constantly.
+  const [camPoint, setCamPoint] = useState<{ lon: number; lat: number; height: number } | null>(null);
+  const camPointKeyRef = useRef('');
   const viewRectKeyRef = useRef('');
 
   // Tell the app what region we're looking at (null at orbit / whole globe).
@@ -1120,6 +1134,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const c = viewer.camera.positionCartographic;
       const clat = Math.round(Cesium.Math.toDegrees(c.latitude) * 4) / 4;
       const clon = Math.round(Cesium.Math.toDegrees(c.longitude) * 4) / 4;
+      {
+        // 2 degrees and 500 km are far coarser than the eye can tell apart at
+        // orbit, and they keep this from re-picking markers as you drag.
+        const hLon = Math.round(Cesium.Math.toDegrees(c.longitude) / 2) * 2;
+        const hLat = Math.round(Cesium.Math.toDegrees(c.latitude) / 2) * 2;
+        const hH = Math.round(c.height / 500_000) * 500_000;
+        const key = `${hLon}|${hLat}|${hH}`;
+        if (key !== camPointKeyRef.current && Number.isFinite(hLon) && Number.isFinite(hLat)) {
+          camPointKeyRef.current = key;
+          setCamPoint({ lon: hLon, lat: hLat, height: hH });
+        }
+      }
       if (Number.isFinite(clat) && Number.isFinite(clon)) {
         const key = `${clon}|${clat}`;
         if (key !== viewCentreKeyRef.current) {
@@ -1626,6 +1652,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         // Category switch AND the finer sub-kind switches (lib/subLayers).
         if (!eventPasses(ev, enabledEventCats, offSubs)) return false;
+        // At orbital tiers nothing scopes to a rectangle, so without this the
+        // budget is spent on markers behind the planet. See markerSpread.
+        if (!scopeToView && camPoint && !withinHorizon(camPoint, ev)) return false;
         return inView(ev) && eventVisibleAt(ev, year);
       });
       const byCat = new Map<string, TimelineEvent[]>();
@@ -1641,9 +1670,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // by notability alone. See lib/capitals.ts for why this exists.
       const rank = (e: TimelineEvent) =>
         isPlaceRow(e) ? cityProminence(e, year) : (e.notability ?? 0);
-      for (const list of byCat.values()) {
+      const slots = EVENT_PER_CATEGORY_BY_TIER[zoomTier];
+      for (const [cat, list] of byCat) {
         list.sort((a, b) => rank(b) - rank(a));
-        picked.push(...list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]));
+        // Places get SPREAD across the view; everything else still takes the
+        // top N outright. A battle or a discovery is an event at a point in
+        // time, and two of them near each other is not the same kind of
+        // redundancy as two city dots overlapping at orbital distance.
+        const isPlaceCat = cat === 'city' || cat === 'monument';
+        const chosen = isPlaceCat
+          ? spreadPick(list, slots, PLACE_MIN_SEPARATION_KM_BY_TIER[zoomTier])
+          : list.slice(0, slots);
+        picked.push(...chosen);
       }
       picked.sort((a, b) => rank(b) - rank(a));
       visList = picked.slice(0, EVENT_MAX_VISIBLE_BY_TIER[zoomTier]);
@@ -1680,6 +1718,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // be something you SEE happen, not something you find by reading labels.
       const role = isPlaceRow(ev) ? capitalAt(ev, year) : null;
       const handover = role ? capitalChangeAt(ev, year) : null;
+      // "Only pulse when they're founded or change" — see lib/capitals.pulseAt.
+      const pulsing = isPlaceRow(ev) && pulseAt(ev, year);
       const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4) * (role ? 1.25 : 1) * (handover ? 1.2 : 1);
       (ent.position as Cesium.ConstantPositionProperty).setValue(Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat));
       const bb = ent.billboard!;
@@ -1693,7 +1733,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       };
       tagged.chronosEvent = ev;
       tagged.chronosScale = scale;
-      tagged.chronosPulse = Boolean(handover);
+      tagged.chronosPulse = pulsing;
       if (tagged.chronosPulse) pulsingRef.current.add(ent);
       else pulsingRef.current.delete(ent);
       // A capital label has to survive further out than an ordinary city's,
@@ -1702,7 +1742,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         .setValue(new Cesium.DistanceDisplayCondition(0, 6_000_000));
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
-  }, [currentYearsBP, enabledEventCats, offSubs, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById, eventIndex]);
+  }, [currentYearsBP, enabledEventCats, offSubs, events, muralEventIds, focusEventId, zoomTier, viewRect, camPoint, eventById, eventIndex]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.

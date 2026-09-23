@@ -107,7 +107,12 @@ const EVENT_ICON: Record<string, [string, string]> = {
  * one: a capital is a city, and giving it a different shape as well as a
  * different colour would say it is a different kind of thing. */
 export function capitalIcon(): string {
-  return makeIcon('capital', 'city', '#c9a227');
+  // YELLOW, not the old dark goldenrod. Against a lit globe #c9a227 sat in the
+  // same register as the monument amber (#b9892e) and read as "another brown
+  // pin"; the Captain asked for yellow and he was right that it was not one.
+  // Non-capital cities keep their blue (#2f6fb0), so losing the role is a
+  // visible thing: Kyoto goes back to blue in 1869, Philadelphia in 1800.
+  return makeIcon('capital', 'city', '#ffd21f');
 }
 
 /** Badge for a curated video pin. */
