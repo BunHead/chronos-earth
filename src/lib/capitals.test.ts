@@ -11,7 +11,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  capitalAt, capitalChangeAt, isCapitalRow, cityProminence, CHANGE_WINDOW_YEARS,
+  capitalAt, capitalChangeAt, isCapitalRow, isPlaceRow, cityProminence, CHANGE_WINDOW_YEARS,
   type CapitalRole,
 } from './capitals';
 import type { TimelineEvent } from './types';
@@ -126,5 +126,42 @@ describe('the shipped data says what the Captain said it does', () => {
     const withHandover = caps.filter((e) =>
       (e as TimelineEvent & { capitalOf: CapitalRole[] }).capitalOf.some((r) => r.to !== null));
     expect(withHandover.length).toBeGreaterThan(50);
+  });
+});
+
+describe('the handover bonus decays, and a capital filed as a monument still counts', () => {
+  it('the bonus is strongest at the moment and gone by the edge of the window', () => {
+    const e = make([{ of: 'Ruritania', from: 2000, to: null }]);
+    const at = (y: number) => cityProminence(e, y);
+    // Flat, it was +150 anywhere inside the window, and at 2026 that put Kabul,
+    // Astana, Rabat, Katowice, Malabo and Bujumbura above Paris and London and
+    // knocked Washington DC off a globe with ten city slots.
+    expect(at(2000)).toBeGreaterThan(at(2010));
+    expect(at(2010)).toBeGreaterThan(at(2025));
+    expect(at(2000 + CHANGE_WINDOW_YEARS)).toBeCloseTo(at(2000 + CHANGE_WINDOW_YEARS + 50), 5);
+  });
+
+  it('a handover never outweighs simply being a more famous capital', () => {
+    const famous = make([{ of: 'France', from: 987, to: null }], 366); // Paris
+    const obscure = make([{ of: 'Kazakhstan', from: 1997, to: null }], 180); // Astana
+    expect(cityProminence(famous, 1997)).toBeGreaterThan(cityProminence(obscure, 1997));
+  });
+
+  it('city and monument are one family — Brasília is filed as a monument', () => {
+    const b = events.find((e) => e.wikidataId === 'Q2844');
+    expect(b, 'Brasília is missing from the globe').toBeTruthy();
+    expect(isPlaceRow(b!), 'a place filed as a monument must still be a place').toBe(true);
+    const br = (b as TimelineEvent & { capitalOf?: CapitalRole[] }).capitalOf
+      ?.find((r) => r.of === 'Brazil');
+    expect(br, 'Brasília has no capital-of-Brazil record').toBeTruthy();
+    expect(br!.from).toBe(1960);
+    // The whole point: the prominence must actually apply to it.
+    expect(cityProminence(b!, 2026)).toBeGreaterThan(b!.notability ?? 0);
+  });
+
+  it('is not a place row for things that are not places', () => {
+    expect(isPlaceRow({ category: 'battle' } as TimelineEvent)).toBe(false);
+    expect(isPlaceRow({ category: 'person' } as TimelineEvent)).toBe(false);
+    expect(isPlaceRow({ category: 'monument' } as TimelineEvent)).toBe(true);
   });
 });

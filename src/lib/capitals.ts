@@ -37,6 +37,20 @@ function roles(e: TimelineEvent): CapitalRole[] {
   return (e as TimelineEvent & { capitalOf?: CapitalRole[] }).capitalOf ?? [];
 }
 
+/**
+ * Is this row a PLACE — somewhere that can hold the capital role?
+ *
+ * City and monument are one family. Wikidata files a place under either
+ * depending on who edited it, which is why the duplicate-pin dedupe already
+ * treats them as one, and why Brasília — a purpose-built national capital —
+ * sits on the globe typed as a monument. Gating the capital treatment on
+ * `category === 'city'` alone gave it no gold badge and none of the
+ * prominence that goes with it, so the Captain could not find it.
+ */
+export function isPlaceRow(e: TimelineEvent): boolean {
+  return e.category === 'city' || e.category === 'monument';
+}
+
 export function isCapitalRow(e: TimelineEvent): boolean {
   return roles(e).length > 0;
 }
@@ -102,6 +116,21 @@ export function cityProminence(e: TimelineEvent, year: number): number {
   const base = e.notability ?? 0;
   const role = capitalAt(e, year);
   if (!role) return base;
-  const changing = capitalChangeAt(e, year) ? 150 : 0;
-  return base + 250 + changing;
+  const change = capitalChangeAt(e, year);
+  // THE HANDOVER BONUS DECAYS, and it has to.
+  //
+  // It was a flat +150 anywhere inside the window, and at 2026 that quietly
+  // wrecked the modern map: Kabul, Astana, Rabat, Katowice, Malabo and Bujumbura
+  // all outranked Paris, London, Rome and Washington DC — not because they are
+  // more important but because their capital status happened to change within
+  // the last thirty years. Washington fell to 18th of 1,200 and off a globe with
+  // ten city slots, which is precisely what the Captain could not find.
+  //
+  // The bonus exists to catch the eye AT the moment, so it is strongest at the
+  // moment and gone by the edge of the window. Smaller, too: a handover is
+  // worth noticing, not worth more than being Paris.
+  const boost = change
+    ? 90 * (1 - Math.min(1, Math.abs(year - change.year) / CHANGE_WINDOW_YEARS))
+    : 0;
+  return base + 250 + boost;
 }

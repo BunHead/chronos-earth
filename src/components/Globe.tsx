@@ -7,7 +7,7 @@ import * as Cesium from 'cesium';
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { videoVisibleAt, type VideoPin } from '../lib/videos';
-import { capitalAt, capitalChangeAt, cityProminence } from '../lib/capitals';
+import { capitalAt, capitalChangeAt, cityProminence, isPlaceRow } from '../lib/capitals';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
@@ -119,8 +119,26 @@ function eventVisibleAt(ev: TimelineEvent, year: number): boolean {
   // Treaties & agreements: they take effect at signing and matter for
   // generations after — but never before.
   if (ev.category === 'event') return year >= from && year <= from + 120 * age;
-  // Milestones (cities, monuments, discoveries…): wide symmetric window, or
-  // their whole span when they have one.
+  // A PLACE DOES NOT STOP EXISTING 150 YEARS AFTER IT WAS FOUNDED.
+  //
+  // Cities and monuments used to share the symmetric window below, and the
+  // consequence was quietly absurd: Washington DC (founded 1790) vanished from
+  // the globe in 1940, Melbourne in 1985, Perth in 1979. At 2026 only 2,763 of
+  // 18,316 cities were visible — 15% — and 120 cities with 180+ sitelinks were
+  // missing, Carthage and Timbuktu and Cusco and Tenochtitlan among them. The
+  // Captain reported the symptom twice before the cause turned up: first that
+  // Melbourne and Perth "took a while to even show", then that he could not
+  // find Washington DC.
+  //
+  // The rule was right for a MOMENT and wrong for a THING. A discovery happens
+  // and recedes; a city is founded and then it is there. So a place is visible
+  // from its founding onward, and stops only when the record says it stopped —
+  // which is what `endYear` already means.
+  if (ev.category === 'city' || ev.category === 'monument') {
+    return year >= from && (ev.endYear === undefined || year <= ev.endYear);
+  }
+  // Milestones that really are moments (discoveries, inventions…): wide
+  // symmetric window, or their whole span when they have one.
   return (
     Math.abs(from - year) <= 150 * age ||
     (ev.endYear !== undefined && year >= from && year <= ev.endYear)
@@ -1622,7 +1640,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // is the most interesting thing on the map. Everything else still ranks
       // by notability alone. See lib/capitals.ts for why this exists.
       const rank = (e: TimelineEvent) =>
-        e.category === 'city' ? cityProminence(e, year) : (e.notability ?? 0);
+        isPlaceRow(e) ? cityProminence(e, year) : (e.notability ?? 0);
       for (const list of byCat.values()) {
         list.sort((a, b) => rank(b) - rank(a));
         picked.push(...list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]));
@@ -1660,7 +1678,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // A capital wears gold, and a capital in the middle of a handover is
       // drawn larger and pulsed — the moment Kyoto hands Japan to Tokyo should
       // be something you SEE happen, not something you find by reading labels.
-      const role = ev.category === 'city' ? capitalAt(ev, year) : null;
+      const role = isPlaceRow(ev) ? capitalAt(ev, year) : null;
       const handover = role ? capitalChangeAt(ev, year) : null;
       const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4) * (role ? 1.25 : 1) * (handover ? 1.2 : 1);
       (ent.position as Cesium.ConstantPositionProperty).setValue(Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat));

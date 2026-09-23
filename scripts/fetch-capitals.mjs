@@ -9,7 +9,8 @@
  * expensive and WDQS returns an error document for it every time, at 60 s.
  * Split, both halves are trivial:
  *
- *   pass 1   truthy `wdt:P1376`, which is indexed        1.7 s for 19,104
+ *   pass 1   truthy `wdt:P1376`, subjects supplied in    ~1 s per 1,200
+ *            VALUES so the answer cannot be truncated
  *   pass 2   the statement walk, but with the subjects   0.45 s for 7 cities
  *            supplied in a VALUES block
  *
@@ -45,8 +46,16 @@ const CHUNK = 60;
 async function runQuery(sparql, label) {
   for (let a = 0; a < 4; a++) {
     try {
-      const res = await fetch(`${ENDPOINT}?format=json&query=${encodeURIComponent(sparql)}`, {
-        headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
+      // POST, NOT GET. A VALUES block holding 1,200 Q-ids is ~14 KB of URL and
+      // WDQS answers that with HTTP 414. The query belongs in the body.
+      const res = await fetch(`${ENDPOINT}?format=json`, {
+        method: 'POST',
+        headers: {
+          'User-Agent': UA,
+          Accept: 'application/sparql-results+json',
+          'Content-Type': 'application/sparql-query',
+        },
+        body: sparql,
         signal: AbortSignal.timeout(70_000),
       });
       if (res.status === 429) {
@@ -85,26 +94,54 @@ export function yearOf(iso) {
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const events = doc.events ?? [];
-  // Only cities we actually hold, keyed by Q-id — this enriches, never invents.
+  // CITY *AND* MONUMENT, because a capital is not always filed as a city.
+  //
+  // The Captain looked at the Americas and asked where Brasília was. It is on
+  // the globe — sl=226 — but Wikidata types it as a MONUMENT, and this pass
+  // only ever looked at cities, so a purpose-built national capital got no
+  // capital record, no gold badge and none of the prominence that goes with
+  // it. The same trap as the duplicate pins: city and monument are one family
+  // because Wikidata files a place under either, depending on who edited it.
+  //
+  // This enriches rows we already hold and never invents one.
+  const PLACE = new Set(['city', 'monument']);
   const byQid = new Map(
-    events.filter((e) => e.category === 'city' && e.wikidataId).map((e) => [e.wikidataId, e]),
+    events.filter((e) => PLACE.has(e.category) && e.wikidataId).map((e) => [e.wikidataId, e]),
   );
-  console.log(`${byQid.size} city rows on the globe carry a Wikidata id`);
+  console.log(`${byQid.size} city/monument rows on the globe carry a Wikidata id`);
 
+  // PASS 1 ASKS ABOUT OUR PLACES, NOT ABOUT THE WORLD.
+  //
+  // It used to pull every P1376 statement on Wikidata under `LIMIT 40000` and
+  // intersect. There are 99,475 of them. A query that returns exactly LIMIT
+  // rows has been CUT OFF, not finished — so we were judging our 7,675 places
+  // against an arbitrary 40% of the evidence, and a city whose only capital
+  // statement fell in the unseen 60% was simply not a capital as far as this
+  // globe was concerned. That is a silent wrong answer, which is worse than a
+  // slow one. It is a large part of why the Captain found capitals sparse.
+  //
+  // Supplying the subjects in a VALUES block cannot truncate: the answer is
+  // bounded by how many places we hold, and we know that number.
   console.log('\npass 1: which of them are (or were) a capital…');
-  const capRows = await runQuery(
-    `SELECT ?city WHERE { ?city wdt:P1376 ?of . } LIMIT 40000`,
-    'pass 1',
-  );
-  if (!capRows) {
-    console.error('\npass 1 failed — nothing to attach.');
-    process.exitCode = 1;
-    return;
+  const ASK = 1200;
+  const all = [...byQid.keys()];
+  const capitalQids = new Set();
+  for (let i = 0; i < all.length; i += ASK) {
+    const ids = all.slice(i, i + ASK).map((q) => `wd:${q}`);
+    const rows = await runQuery(
+      `SELECT ?city WHERE { VALUES ?city { ${ids.join(' ')} } ?city wdt:P1376 ?of . }`,
+      `pass 1 batch ${Math.floor(i / ASK) + 1}`,
+    );
+    if (!rows) {
+      console.error('\npass 1 batch failed — refusing to attach a partial answer.');
+      process.exitCode = 1;
+      return;
+    }
+    for (const b of rows) capitalQids.add(b.city.value.split('/').pop());
+    process.stdout.write(`\r  ${Math.min(i + ASK, all.length)}/${all.length} places asked…`);
+    await sleep(900);
   }
-  const capitalQids = new Set(
-    capRows.map((b) => b.city.value.split('/').pop()).filter((q) => byQid.has(q)),
-  );
-  console.log(`  ${capRows.length} capital statements; ${capitalQids.size} of them are cities we hold`);
+  console.log(`\n  ${capitalQids.size} of our ${all.length} places are (or were) a capital of something`);
 
   console.log('\npass 2: when, and of what…');
   const list = [...capitalQids];
