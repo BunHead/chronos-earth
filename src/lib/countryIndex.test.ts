@@ -1,0 +1,96 @@
+/**
+ * Countries in search, and naming the island you clicked.
+ *
+ * The Captain typed "Barbados" and got nothing, then clicked a Caribbean island
+ * and got a dossier that did not say which island it was. These hold the real
+ * shipped country index and the distance maths behind the click to account.
+ */
+import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import {
+  countriesFromColumns, frameFor, yearToShow, spanLabel, altitudeFor,
+  type CountryColumns, type CountryRow,
+} from './countryIndex';
+import { distanceToRingKm } from '../components/borders';
+
+const index = countriesFromColumns(
+  JSON.parse(readFileSync(join(process.cwd(), 'public', 'data', 'borders', 'countries.json'), 'utf8')) as CountryColumns,
+);
+const find = (name: string) => index.rows.find((r) => r.name === name);
+
+describe('the shipped country index', () => {
+  it('has Barbados — the search that found nothing', () => {
+    const b = find('Barbados');
+    expect(b, 'Barbados is not searchable').toBeTruthy();
+    // Its point must be ON the island, not in the Atlantic.
+    expect(b!.lat).toBeGreaterThan(13);
+    expect(b!.lat).toBeLessThan(13.4);
+    expect(b!.lon).toBeGreaterThan(-59.7);
+    expect(b!.lon).toBeLessThan(-59.4);
+  });
+
+  it('puts the United States on the mainland, not on Long Island', () => {
+    // One country can be several features in a snapshot; taking whichever came
+    // last put it on Long Island with a span of two degrees.
+    const us = find('United States')!;
+    expect(us.span).toBeGreaterThan(30);
+    expect(us.lon).toBeLessThan(-80);
+  });
+
+  it('knows the Caribbean', () => {
+    for (const n of ['Jamaica', 'Cuba', 'Haiti', 'Grenada', 'Saint Lucia', 'Bahamas', 'Trinidad']) {
+      expect(find(n), `${n} missing from the country index`).toBeTruthy();
+    }
+  });
+});
+
+describe('which year a country result shows', () => {
+  const frames = [1800, 1900, 1994, 2022];
+  const roman: CountryRow = { name: 'Rome', years: [1800, 1900], lat: 0, lon: 0, span: 1 };
+  const modern: CountryRow = { name: 'Now', years: [1994, 2022], lat: 0, lon: 0, span: 1 };
+
+  it('the snapshot for a year is the latest at or before it', () => {
+    expect(frameFor(frames, 1950)).toBe(1900);
+    expect(frameFor(frames, 2026)).toBe(2022);
+    expect(frameFor(frames, 1994)).toBe(1994);
+  });
+
+  it('stays put when the country is already on the map', () => {
+    expect(yearToShow(modern, frames, 2026)).toBe(2026);
+  });
+
+  it('jumps to the nearest year it exists when it is not', () => {
+    expect(yearToShow(roman, frames, 2026)).toBe(1900);
+    expect(yearToShow(modern, frames, 1850)).toBe(1994);
+  });
+
+  it('says when it is on the map', () => {
+    expect(spanLabel(modern, 2022)).toBe('on the map 1994–today');
+    expect(spanLabel(roman, 2022)).toBe('on the map 1800–1900');
+    expect(spanLabel({ ...roman, years: [-323] }, 2022)).toBe('on the map 323 BCE');
+  });
+
+  it('frames an island closer than an empire', () => {
+    expect(altitudeFor({ ...modern, span: 0.3 })).toBeLessThan(altitudeFor({ ...modern, span: 50 }));
+  });
+});
+
+describe('distance to a coastline', () => {
+  // A one-degree square at the equator.
+  const square = [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]];
+
+  it('measures the gap from a point outside to the nearest edge', () => {
+    const km = distanceToRingKm(1.5, 0.5, square);
+    expect(km).toBeGreaterThan(50);
+    expect(km).toBeLessThan(60); // half a degree of longitude at the equator
+  });
+
+  it('gives up early on a ring whose box is already too far away', () => {
+    expect(distanceToRingKm(10, 10, square, 100)).toBe(Infinity);
+  });
+
+  it('is zero on the edge itself', () => {
+    expect(distanceToRingKm(1, 0.5, square)).toBeCloseTo(0, 5);
+  });
+});

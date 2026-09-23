@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
+import { altitudeFor, yearToShow, type CountryRow } from './lib/countryIndex';
 import {
   cellKeysForRect,
   loadRegionChunk,
@@ -794,6 +795,35 @@ export default function App() {
     globeRef.current?.flyTo(e.lon, e.lat, 600_000);
   };
 
+  // Search picks a COUNTRY: show a year it is on the map, fly to it, and open the
+  // same "On the map" dossier a click opens. The dossier is built inside the
+  // globe from the border snapshot — which, after a timeline jump, is still
+  // loading — so it is re-applied a few times until the country's name lands.
+  // Superseded the moment the visitor opens anything else.
+  const countryTimers = useRef<number[]>([]);
+  const handlePickCountry = (c: CountryRow, frames: number[]) => {
+    setIsPlaying(false);
+    countryTimers.current.forEach((t) => window.clearTimeout(t));
+    countryTimers.current = [];
+    const current = Math.round(yearsBPToYear(yearsBPRef.current));
+    const year = yearToShow(c, frames, current);
+    if (year !== current) setYearsBP(yearToYearsBP(year));
+    globeRef.current?.flyTo(c.lon, c.lat, altitudeFor(c));
+    const open = (first: boolean) => {
+      const cur = panelRef.current;
+      // After the first, stop if the visitor has since opened something else.
+      if (!first && !(cur?.kicker?.startsWith('On the map') && cur.fly?.lat === c.lat && cur.fly?.lon === c.lon)) return;
+      // The name is passed as a hint: we KNOW which country was picked, and the
+      // border snapshot that would otherwise name it may still be loading.
+      const next = globeRef.current?.rebuildDossier(c.lat, c.lon, c.name);
+      if (next) setPanel(next);
+    };
+    open(true);
+    // Re-applied as the snapshot arrives, so the dossier's own list of that
+    // country's events fills in. Generous, because a slow machine is slow.
+    for (const ms of [500, 1500, 3000, 5000, 8000]) countryTimers.current.push(window.setTimeout(() => open(false), ms));
+  };
+
   // "Look it up online": fetch a place we don't have from Wikidata, add it as a
   // live event (marker + panel), and remember it for next time.
   const handleWebSearch = async (query: string) => {
@@ -1090,6 +1120,7 @@ export default function App() {
         onWebSearch={handleWebSearch}
         videos={videos}
         onPickVideo={handlePickVideo}
+        onPickCountry={handlePickCountry}
         baseUrl={import.meta.env.BASE_URL}
       />
 

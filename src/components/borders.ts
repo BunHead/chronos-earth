@@ -63,6 +63,14 @@ const LABEL_FADE_FAR = 3_000_000; // gone by here — a regional-zoom cutoff (m)
 /** A polity smaller than this (deg² of its largest polygon) gets no label, so
  * micro-states and tiny slivers don't clutter the map. */
 const LABEL_MIN_AREA = 1.2;
+// SMALL COUNTRIES GET A NAME TOO, just later. Below LABEL_MIN_AREA a polity used
+// to get no label at all — not Barbados, not Grenada, not Malta, not even
+// Jamaica (0.69 deg²) — so the Caribbean was a scatter of anonymous coloured
+// specks and the Captain could not tell which island he was looking at. They
+// are labelled now, but only inside this distance, where there is room for
+// them: at a regional zoom the Lesser Antilles would be one illegible smear.
+const SMALL_LABEL_FAR = 1_400_000;
+const SMALL_LABEL_NEAR = 250_000;
 
 interface FrameEntry {
   year: number;
@@ -275,6 +283,15 @@ export class BordersController {
   private loading = new Set<number>();
   private ready = false;
   private activeYear: number | undefined;
+  /**
+   * The snapshot that ANSWERS "which country is this?", kept apart from the one
+   * being DRAWN. Borders stop drawing below 400 km (they would smear over the
+   * ground), and identification used to switch off with them — so zooming in
+   * to click a small island disabled the very thing that names it. The
+   * Captain clicked a Caribbean island and got a dossier with no name; this is
+   * half of why. It follows the timeline whether or not the layer is visible.
+   */
+  private identifyYear: number | undefined;
   private pending: { year: number; visible: boolean; paleoActive: boolean } | undefined;
   /** Paint real flag artwork inside borders (toggleable from the Layers panel). */
   private flagsOn = true;
@@ -886,6 +903,7 @@ export class BordersController {
 
     const minYear = this.frames[0]?.year ?? 0;
     const active = visible && !paleoActive && year >= minYear;
+    this.identifyYear = !paleoActive && year >= minYear ? this.floorFrameYear(year) : undefined;
 
     if (!active) {
       for (const frame of this.cache.values()) {
@@ -1299,17 +1317,17 @@ export class BordersController {
       this.labels.add({
         position: Cesium.Cartesian3.fromDegrees(at.lon, at.lat),
         text: polity.name,
-        font: '600 15px "Segoe UI", system-ui, sans-serif',
+        font: at.small ? '600 13px "Segoe UI", system-ui, sans-serif' : '600 15px "Segoe UI", system-ui, sans-serif',
         fillColor: Cesium.Color.fromCssColorString('#fdf6e3'),
         outlineColor: Cesium.Color.fromCssColorString('#1a140a').withAlpha(0.85),
         outlineWidth: 3,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         // Only visible on a regional zoom; faint far off, brighter up close.
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, LABEL_FADE_FAR),
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, at.small ? SMALL_LABEL_FAR : LABEL_FADE_FAR),
         translucencyByDistance: new Cesium.NearFarScalar(
-          LABEL_FADE_NEAR,
+          at.small ? SMALL_LABEL_NEAR : LABEL_FADE_NEAR,
           0.9,
-          LABEL_FADE_FAR,
+          at.small ? SMALL_LABEL_FAR : LABEL_FADE_FAR,
           0.0,
         ),
         scaleByDistance: new Cesium.NearFarScalar(LABEL_FADE_NEAR, 1.0, LABEL_FADE_FAR, 0.72),
@@ -1319,19 +1337,44 @@ export class BordersController {
     this.debug.labels = { floorYear, count: this.labels.length };
   }
 
-  /** Identify the polity at a lon/lat in the active snapshot, or null. */
-  hitTest(lon: number, lat: number): { name: string; year: number } | null {
-    if (this.activeYear === undefined) return null;
-    const frame = this.cache.get(this.activeYear);
+  /**
+   * Identify the polity at a lon/lat in the active snapshot, or null.
+   *
+   * `toleranceKm` is for CLICKS. An exact point-in-polygon test is right for
+   * France and useless for Barbados: the island is a handful of vertices, a
+   * few pixels across at any sensible zoom, and the Captain clicked it and got
+   * a dossier with no name. So an exact hit always wins — a click inside
+   * Spain can never be claimed by nearby Portugal — and only a click that
+   * lands on NO polity falls back to the nearest coastline within tolerance.
+   * The caller sizes the tolerance to what one click covers on screen.
+   */
+  hitTest(lon: number, lat: number, toleranceKm = 0): { name: string; year: number } | null {
+    const year = this.activeYear ?? this.identifyYear;
+    if (year === undefined) return null;
+    const frame = this.cache.get(year);
     if (!frame) return null;
     for (const polity of frame.polities) {
       for (const poly of polity.mp) {
         if (pointInRing(lon, lat, poly[0]) && !poly.slice(1).some((h) => pointInRing(lon, lat, h))) {
-          return { name: polity.name, year: this.activeYear };
+          return { name: polity.name, year };
         }
       }
     }
-    return null;
+    if (toleranceKm <= 0) return null;
+    let best: string | null = null;
+    let bestKm = toleranceKm;
+    for (const polity of frame.polities) {
+      for (const poly of polity.mp) {
+        const ring = poly[0];
+        if (!ring || ring.length < 2) continue;
+        const km = distanceToRingKm(lon, lat, ring, bestKm);
+        if (km < bestKm) {
+          bestKm = km;
+          best = polity.name;
+        }
+      }
+    }
+    return best ? { name: best, year } : null;
   }
 
   dispose() {
@@ -1388,7 +1431,7 @@ function ringCentroid(ring: number[][]): { lon: number; lat: number } {
 
 /** Where to anchor a polity's name: the centroid of its largest polygon, or
  * undefined when the polity is too small to bother labelling. */
-function polityLabelPoint(polity: Polity): { lon: number; lat: number } | undefined {
+function polityLabelPoint(polity: Polity): { lon: number; lat: number; small: boolean } | undefined {
   let best: number[][] | undefined;
   let bestArea = 0;
   for (const poly of polity.mp) {
@@ -1400,8 +1443,54 @@ function polityLabelPoint(polity: Polity): { lon: number; lat: number } | undefi
       best = ring;
     }
   }
-  if (!best || (bestArea < LABEL_MIN_AREA && !polity.alwaysLabel)) return undefined;
-  return ringCentroid(best);
+  if (!best) return undefined;
+  const small = bestArea < LABEL_MIN_AREA && !polity.alwaysLabel;
+  return { ...ringCentroid(best), small };
+}
+
+/** Ring bounding boxes, computed once per ring and kept while the frame lives. */
+const ringBoxes = new WeakMap<number[][], [number, number, number, number]>();
+function ringBox(ring: number[][]): [number, number, number, number] {
+  let box = ringBoxes.get(ring);
+  if (!box) {
+    let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
+    for (const [x, y] of ring) {
+      if (x < w) w = x;
+      if (x > e) e = x;
+      if (y < s) s = y;
+      if (y > n) n = y;
+    }
+    box = [w, s, e, n];
+    ringBoxes.set(ring, box);
+  }
+  return box;
+}
+
+/**
+ * Shortest distance in km from a point to a ring's edge, or Infinity when the
+ * ring's bounding box is already further away than `withinKm` — which is the
+ * common case, and why a click can afford to ask this of every polity.
+ * Equirectangular about the click's latitude: exact enough over the few
+ * hundred km a click tolerance ever spans.
+ */
+export function distanceToRingKm(lon: number, lat: number, ring: number[][], withinKm = Infinity): number {
+  const KM = 111.32;
+  const k = Math.cos((lat * Math.PI) / 180);
+  const [w, s, e, n] = ringBox(ring);
+  const dx = lon < w ? (w - lon) * KM * k : lon > e ? (lon - e) * KM * k : 0;
+  const dy = lat < s ? (s - lat) * KM : lat > n ? (lat - n) * KM : 0;
+  if (Math.hypot(dx, dy) > withinKm) return Infinity;
+  let best = Infinity;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const ax = (ring[j][0] - lon) * KM * k, ay = (ring[j][1] - lat) * KM;
+    const bx = (ring[i][0] - lon) * KM * k, by = (ring[i][1] - lat) * KM;
+    const vx = bx - ax, vy = by - ay;
+    const len2 = vx * vx + vy * vy;
+    const t = len2 > 0 ? Math.max(0, Math.min(1, -(ax * vx + ay * vy) / len2)) : 0;
+    const d = Math.hypot(ax + t * vx, ay + t * vy);
+    if (d < best) best = d;
+  }
+  return best;
 }
 
 /** Standard ray-casting point-in-polygon test. */

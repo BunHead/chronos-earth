@@ -62,6 +62,14 @@ const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
 // See lib/markerSpread.ts — this is the cure for "Europe looks crowded, while
 // the rest of the world is bare".
 const PLACE_MIN_SEPARATION_KM_BY_TIER = [1500, 600, 200, 50];
+// A click this many pixels off a small island still names it (see the click
+// handler). Capped, so a click in mid-ocean is not claimed by a distant coast.
+const CLICK_SLOP_PX = 14;
+const CLICK_SLOP_MAX_KM = 250;
+// A coastal city can sit just outside a coarse island outline — Bridgetown
+// against a nine-vertex Barbados. This lets it still count as that country's,
+// and only when it falls inside NO polity, so it never crosses a land border.
+const COASTAL_ALLOWANCE_KM = 30;
 /** How empty a deep-zoomed view has to be before we ask Wikidata to fill it in
  * live. Below the lowest tier's marker budget on purpose: if the globe cannot
  * even fill a fraction of what it is allowed to draw here, it genuinely has
@@ -188,7 +196,10 @@ export interface GlobeHandle {
   captureFrame: () => string | null;
   /** Recompute the open "on the map" dossier for the current year so its ruling
    * polity + flag follow the timeline instead of freezing at the clicked year. */
-  rebuildDossier: (lat: number, lon: number) => PanelContent;
+  /** `polityHint` names the country when the caller already knows it (a search
+   * pick) and the border snapshot has not finished loading yet. The snapshot
+   * wins whenever it can answer. */
+  rebuildDossier: (lat: number, lon: number, polityHint?: string) => PanelContent;
 }
 
 interface GlobeProps {
@@ -341,6 +352,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   // would re-pick constantly.
   const [camPoint, setCamPoint] = useState<{ lon: number; lat: number; height: number } | null>(null);
   const camPointKeyRef = useRef('');
+  // The click tolerance an open dossier was created with (see the click handler).
+  const dossierToleranceKmRef = useRef(0);
   const viewRectKeyRef = useRef('');
 
   // Tell the app what region we're looking at (null at orbit / whole globe).
@@ -749,14 +762,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   // follow history — otherwise the flag "sticks" at whatever year you clicked.
   // Local only (no live Wikidata fetch — that stays on the fresh click). Mirrors
   // the click handler's dossier build; keep the two in step.
-  const rebuildDossier = (lat: number, lon: number): PanelContent => {
+  const rebuildDossier = (lat: number, lon: number, polityHint?: string): PanelContent => {
     const year = Math.round(yearsBPToYear(yearsBPRef.current));
-    const hit = bordersRef.current?.hitTest(lon, lat);
+    // The same tolerance the original click used, or a dossier opened on
+    // Barbados would lose its name the moment the timeline moved.
+    const hit =
+      bordersRef.current?.hitTest(lon, lat, dossierToleranceKmRef.current) ??
+      (polityHint ? { name: polityHint, year } : null);
     const box = eventsRef.current.filter(
       (e) => !dupEventIdsRef.current.has(e.id) && Math.abs(e.lat - lat) < 7 && Math.abs(e.lon - lon) < 9,
     );
     const candidates = hit
-      ? box.filter((e) => bordersRef.current?.hitTest(e.lon, e.lat)?.name === hit.name)
+      ? box.filter((e) => bordersRef.current?.hitTest(e.lon, e.lat, COASTAL_ALLOWANCE_KM)?.name === hit.name)
       : box.filter((e) => Math.abs(e.startYear - year) <= 150);
     const nearby = candidates
       .sort((a, b) => {
@@ -1225,7 +1242,17 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         const lon = Cesium.Math.toDegrees(carto.longitude);
         const lat = Cesium.Math.toDegrees(carto.latitude);
         const year = Math.round(yearsBPToYear(yearsBPRef.current));
-        const hit = bordersRef.current?.hitTest(lon, lat);
+        // HOW MUCH GROUND ONE CLICK COVERS. A small island is a few pixels
+        // across, so a click that misses it by a hair must still name it. The
+        // allowance is what CLICK_SLOP_PX of screen spans at this camera height
+        // — generous from orbit, a few km up close — and an exact hit always
+        // beats it, so a click inside Spain is never handed to Portugal.
+        const camH = viewer.camera.positionCartographic.height;
+        const fovy = (viewer.camera.frustum as Cesium.PerspectiveFrustum).fovy ?? Math.PI / 3;
+        const kmPerPx = (camH * 2 * Math.tan(fovy / 2)) / 1000 / Math.max(1, viewer.canvas.clientHeight);
+        const toleranceKm = Math.min(CLICK_SLOP_MAX_KM, Math.max(2, kmPerPx * CLICK_SLOP_PX));
+        dossierToleranceKmRef.current = toleranceKm;
+        const hit = bordersRef.current?.hitTest(lon, lat, toleranceKm);
         // On-the-fly dossier: events within range, then kept to the same country
         // you clicked (so France doesn't list London's Big Ben), ranked by
         // notability AND closeness in time so the era's own events rise.
@@ -1239,7 +1266,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         // geography): show the ones nearest the set year, so a sparse country
         // reveals its real history from another decade, never a neighbour's.
         const candidates = hit
-          ? box.filter((e) => bordersRef.current?.hitTest(e.lon, e.lat)?.name === hit.name)
+          ? box.filter((e) => bordersRef.current?.hitTest(e.lon, e.lat, COASTAL_ALLOWANCE_KM)?.name === hit.name)
           : box.filter((e) => Math.abs(e.startYear - year) <= 150);
         const nearby = candidates
           .sort((a, b) => {

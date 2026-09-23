@@ -3,6 +3,7 @@ import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
+import { loadCountryIndex, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -25,6 +26,8 @@ interface SearchBoxProps {
   /** The curated video layer — searchable by title and by channel. */
   videos?: VideoPin[];
   onPickVideo?: (video: VideoPin) => void;
+  /** Countries from the border snapshots — "Barbados" used to find nothing. */
+  onPickCountry?: (country: CountryRow, frames: number[]) => void;
 }
 
 const EVENT_BADGE: Record<string, string> = {
@@ -79,7 +82,7 @@ interface Result {
  * A single search field that finds battles, ancient sites and eras by name and
  * jumps the app to them.
  */
-export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, videos = [], onPickVideo, baseUrl = '/' }: SearchBoxProps) {
+export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, videos = [], onPickVideo, onPickCountry, baseUrl = '/' }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
 
@@ -91,11 +94,13 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   // already in memory appear instantly; these widen them a moment later,
   // which is why this is a separate list rather than something to await.
   const [indexRows, setIndexRows] = useState<SearchRow[]>([]);
+  const [countries, setCountries] = useState<CountryIndex | null>(null);
   const asked = useRef(false);
   const wantIndex = () => {
     if (asked.current) return;
     asked.current = true;
     void loadSearchIndex(baseUrl).then(setIndexRows);
+    void loadCountryIndex(baseUrl).then(setCountries);
   };
   // Someone who arrives by keyboard (tab into the box, or the / shortcut) and
   // types immediately would otherwise race the fetch; asking again on the
@@ -130,6 +135,32 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         out.push({ key: `evy-${e.id}`, label: e.name, sub: yearLabel(e.startYear), badge: EVENT_BADGE[e.category] ?? 'Event', run: () => onPickEvent(e) });
       }
       return out.slice(0, 9);
+    }
+
+    // COUNTRIES FIRST, when the name is what was typed. "Barbados" found
+    // nothing until these were added; someone typing a country's name almost
+    // always means the country. Exact and prefix matches only, and at most
+    // three, so "rom" does not bury every Roman event under Romania.
+    if (countries && onPickCountry) {
+      const hits = countries.rows
+        .filter((c) => fold(c.name).startsWith(q))
+        .sort((a, b) => {
+          const ae = fold(a.name) === q ? 0 : 1;
+          const be = fold(b.name) === q ? 0 : 1;
+          if (ae !== be) return ae - be;
+          // The one on the map most recently is the likelier meaning.
+          return b.years[b.years.length - 1] - a.years[a.years.length - 1];
+        })
+        .slice(0, 3);
+      for (const c of hits) {
+        out.push({
+          key: `c-${c.name}`,
+          label: c.name,
+          sub: spanLabel(c, countries.latestFrame),
+          badge: '🗺️ Country',
+          run: () => onPickCountry(c, countries.frames),
+        });
+      }
     }
 
     for (const b of battles) {
@@ -220,7 +251,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       }
     }
     return out.slice(0, 9);
-  }, [query, battles, sites, events, fauna, indexRows, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo]);
+  }, [query, battles, sites, events, fauna, indexRows, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
     r.run();
