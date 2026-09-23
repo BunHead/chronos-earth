@@ -471,5 +471,11 @@
     "status": "allowed",
     "ts": 1790087437331,
     "note": "Not as large as the structure on the GPS image, should follow the layout of the image more closely"
+  },
+  "battle:battle-of-bakhmut": {},
+  "battle:siege-of-mariupol": {},
+  "megalith": {
+    "note": "Is this acturate to what was there?",
+    "ts": 1790149343012
   }
 }
