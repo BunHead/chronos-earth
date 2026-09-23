@@ -96,6 +96,12 @@ jobs:
         # a human waves each one through. The unmatched pile is the valuable
         # half: on the first run, 12 of 14 named Scottish battles the globe does
         # not have, which is an audit of the gaps as much as a video feed.
+        # The key is handed to THIS STEP ONLY. It is a repository secret, so it
+        # never exists in the repo, never reaches the built site, and is not
+        # available to a workflow triggered from a fork. Without it the step
+        # still runs, on the public Atom feed.
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: timeout 10m node scripts/fetch-video-feeds.mjs || [ $? -eq 124 ]
       - name: Refresh the curated video metadata (idempotent)
         if: '!cancelled()'

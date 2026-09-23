@@ -1,17 +1,35 @@
 /**
- * fetch-video-feeds.mjs — follow YouTube channels, keylessly.
+ * fetch-video-feeds.mjs — follow YouTube channels.
  *
  * `add-videos.mjs` refreshes videos somebody has already chosen. This one goes
  * looking: it reads the channels listed in videos.json, pulls their latest
  * uploads, and works out which ones the globe can already place.
  *
- * ZERO RUNNING COST, and there is exactly one trick to it. The YouTube Data API
- * needs a key, so it is out. But every channel publishes a plain Atom feed:
+ * TWO WAYS IN, and it prefers the better one when it can.
+ *
+ * WITHOUT A KEY — every channel publishes a plain Atom feed:
  *
  *     https://www.youtube.com/feeds/videos.xml?channel_id=UC…
  *
- * Public, keyless, unauthenticated, and it carries the last 15 uploads with
- * their ids, titles and publication dates. That is the whole dependency.
+ * Public, unauthenticated, and it carries the LAST 15 uploads. It is also
+ * unreliable: on the morning of 23 Sept 2026 YouTube served 404 to every
+ * channel tried, including ones with millions of subscribers, from an address
+ * that had read the same feeds the day before — and then served them again
+ * normally that afternoon. Transient, then, but not something to depend on.
+ *
+ * WITH A KEY (`YOUTUBE_API_KEY`, a GitHub Actions secret — never in the repo,
+ * never in the site) — the uploads playlist, which is strictly better and, it
+ * turns out, CHEAPER than the obvious approach:
+ *
+ *     search.list         100 quota units per call
+ *     playlistItems.list    1 quota unit per call, 50 videos at a time
+ *
+ * Every channel has an "uploads" playlist whose id is its channel id with the
+ * UC swapped for UU, so no lookup call is needed to find it. That is the whole
+ * trick: a channel's ENTIRE upload history costs a single unit per fifty
+ * videos, against a daily budget of 10,000 — where the free feed caps at the
+ * most recent fifteen and search would burn a hundred units to do worse.
+ *
  * (A channel's UC… id can be read out of its page: fetch the @handle URL and
  * look for "externalId":"UC…".)
  *
@@ -54,6 +72,13 @@ const EVENTS = join(__dirname, '..', 'public', 'data', 'imported', 'events.json'
 const UA = 'ChronosEarth-educational-app/1.0 (personal history-teaching project)';
 const CHECK_ONLY = process.argv.includes('--check');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+/** Supplied by the workflow from a repository secret. Absent locally, and that
+ * is deliberate — a key that only exists in CI cannot leak from a laptop. */
+const API_KEY = process.env.YOUTUBE_API_KEY || '';
+/** 50 is the API's own page size. Six pages is 300 videos for 6 quota units,
+ * which is more history than any channel we follow has, at a rounding error
+ * against the daily 10,000. */
+const MAX_PAGES = 6;
 
 /** Fold for matching a video title against an event name. */
 export const fold = (s) =>
@@ -121,6 +146,52 @@ async function fetchText(url) {
   return res.text();
 }
 
+/**
+ * A channel's whole upload history, via the Data API.
+ *
+ * The uploads playlist id is the channel id with UC swapped for UU — a
+ * documented convention, so finding it costs nothing. Each page is 50 videos
+ * for ONE quota unit against a daily 10,000, which is why this is used in
+ * preference to `search.list` at 100 units a call for a worse answer.
+ *
+ * Throws on a bad key or an exhausted quota rather than returning nothing,
+ * because those two need saying out loud — a silent empty result is how this
+ * project has lost weeks before.
+ */
+async function fetchViaApi(channelId) {
+  const uploads = `UU${channelId.slice(2)}`;
+  const out = [];
+  let pageToken = '';
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const url =
+      `https://www.googleapis.com/youtube/v3/playlistItems` +
+      `?part=snippet&maxResults=50&playlistId=${uploads}` +
+      `&key=${API_KEY}${pageToken ? `&pageToken=${pageToken}` : ''}`;
+    const res = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) });
+    const body = await res.json().catch(() => null);
+    if (!res.ok) {
+      const reason = body?.error?.errors?.[0]?.reason ?? `HTTP ${res.status}`;
+      // Worth naming precisely: these three mean three different actions.
+      if (reason === 'quotaExceeded') throw new Error('quota exhausted for today (10,000 units)');
+      if (reason === 'keyInvalid' || res.status === 400) throw new Error(`key rejected (${reason})`);
+      if (res.status === 403) throw new Error(`forbidden (${reason}) — is the YouTube Data API enabled on the key's project?`);
+      throw new Error(reason);
+    }
+    for (const item of body.items ?? []) {
+      const sn = item.snippet ?? {};
+      const id = sn.resourceId?.videoId;
+      if (!id || !sn.title) continue;
+      // Private and deleted videos still appear, with their titles replaced.
+      if (sn.title === 'Private video' || sn.title === 'Deleted video') continue;
+      out.push({ id, title: sn.title, published: sn.publishedAt ?? null });
+    }
+    pageToken = body.nextPageToken ?? '';
+    if (!pageToken) break;
+    await sleep(300);
+  }
+  return out;
+}
+
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const channels = doc.channels ?? [];
@@ -145,16 +216,36 @@ async function main() {
   let promoted = 0;
   let ok = 0;
 
+  console.log(
+    API_KEY
+      ? 'using the Data API (uploads playlist, 1 quota unit per 50 videos)'
+      : 'no YOUTUBE_API_KEY — falling back to the public Atom feed (last 15 only)',
+  );
+
   for (const ch of channels) {
-    let xml;
-    try {
-      xml = await fetchText(`https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channelId}`);
-      ok++;
-    } catch (err) {
-      console.error(`  ${ch.name}: feed failed (${err.message})`);
-      continue;
+    let entries = null;
+    if (API_KEY) {
+      try {
+        entries = await fetchViaApi(ch.channelId);
+        ok++;
+      } catch (err) {
+        // A key problem is not a channel problem, and pretending otherwise
+        // would send the next person off re-resolving channel ids that were
+        // never wrong. Say which it is, then try the free route anyway.
+        console.error(`  ${ch.name}: API failed — ${err.message}`);
+      }
     }
-    const entries = parseFeed(xml);
+    if (!entries) {
+      try {
+        entries = parseFeed(
+          await fetchText(`https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channelId}`),
+        );
+        ok++;
+      } catch (err) {
+        console.error(`  ${ch.name}: feed failed (${err.message})`);
+        continue;
+      }
+    }
     let fresh = 0;
     for (const v of entries) {
       if (known.has(v.id) || seenSuggest.has(v.id)) continue;
@@ -177,7 +268,7 @@ async function main() {
       added++;
       if (hit) reachable++;
     }
-    console.log(`  ${ch.name.padEnd(26)} ${entries.length} in feed, ${fresh} new`);
+    console.log(`  ${ch.name.padEnd(26)} ${String(entries.length).padStart(4)} videos found, ${fresh} new`);
     await sleep(700);
   }
 
