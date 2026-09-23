@@ -125,3 +125,61 @@ describe('the globe never pins the same thing twice', () => {
     }
   });
 });
+
+/**
+ * The second way a place gets two pins: by NAME, from two different harvesters.
+ *
+ * The rule above matches on the shared Wikipedia article, and a Pleiades row
+ * has none — no Q-id, no wiki title, nothing to match on. fetch-pleiades.mjs
+ * guards its own writes spatially, but the city harvest that runs later dedupes
+ * by wiki title and cannot see a Pleiades row at all. So whichever arrived
+ * first stayed, and Pompeii, Cyrene, Ostia, Frankfurt, Babylon and Sparta each
+ * carried a second nameless marker a few hundred metres away.
+ *
+ * On a globe with ten city slots at a wide view, the duplicate is a slot taken
+ * from somewhere else in the world. scripts/dedupe-places.mjs is the fix.
+ */
+describe('one place, one pin — by name as well as by article', () => {
+  const places = events.filter(
+    (e) => (e.category === 'city' || e.category === 'monument') && Number.isFinite(e.lat),
+  );
+
+  it('no place carries a second pin of the same name in the same spot and era', () => {
+    const cells = new Map<string, Row[]>();
+    for (const e of places) {
+      const k = `${Math.round(e.lat * 20)}|${Math.round(e.lon * 20)}`;
+      const l = cells.get(k) ?? [];
+      l.push(e);
+      cells.set(k, l);
+    }
+
+    const doubled: string[] = [];
+    for (const l of cells.values()) {
+      for (let i = 0; i < l.length; i++) {
+        for (let j = i + 1; j < l.length; j++) {
+          if (String(l[i].name).trim() !== String(l[j].name).trim()) continue;
+          if (km(l[i], l[j]) > 2) continue;
+          // Dates far apart are a SOURCE DISAGREEMENT about one place, not a
+          // duplicate to delete — Çatalhöyük is -10000 and -7499. Those are
+          // reported in date-disagreements.json for curation, never resolved
+          // by code, because picking one invents history to tidy the map.
+          if (Math.abs((l[i].startYear ?? 0) - (l[j].startYear ?? 0)) > SAME_TIME_YEARS) continue;
+          doubled.push(`${l[i].name} (${l[i].id} / ${l[j].id})`);
+        }
+      }
+    }
+    expect(doubled, `doubled pins: ${doubled.slice(0, 10).join(', ')}`).toEqual([]);
+  });
+
+  it('no pin is nameless — "Untitled" is Pleiades saying it has no name', () => {
+    // 1,430 of these got in: no name, no Wikidata id, two sitelinks, and a
+    // marker on the globe reading "Untitled". A pin that cannot tell you what
+    // it is has nothing to offer a reader, and they crowd the Mediterranean,
+    // which is already the densest part of this layer.
+    const nameless = events.filter((e) => {
+      const n = String(e.name ?? '').trim();
+      return !n || /^untitled$/i.test(n);
+    });
+    expect(nameless.map((e) => e.id).slice(0, 10)).toEqual([]);
+  });
+});

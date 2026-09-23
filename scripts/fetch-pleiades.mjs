@@ -127,6 +127,14 @@ async function main() {
       if (r[ix.locationPrecision] !== 'precise') { skipped++; continue; }
       const lat = +r[ix.reprLat], lon = +r[ix.reprLong];
       const title = (r[ix.title] || '').trim();
+      // "Untitled" IS PLEIADES SAYING IT HAS NO NAME, and an empty-string check
+      // walks straight past it. 1,430 rows got in that way: no name, no
+      // Wikidata id, two sitelinks, and a pin on the globe reading "Untitled".
+      // A marker that cannot tell you what it is has nothing to offer a reader,
+      // and it crowds the Mediterranean, which is already the densest part of
+      // this layer. Somewhere real with no recorded name is still a place we
+      // cannot name, so it does not get a pin.
+      if (/^untitled$/i.test(title)) { skipped++; continue; }
       const minD = r[ix.minDate] === '' ? null : Number(r[ix.minDate]);
       if (!Number.isFinite(lat) || !Number.isFinite(lon) || !title || minD === null || !Number.isFinite(minD)) { skipped++; continue; }
       const category = categoryFor(r[ix.featureTypes]);
