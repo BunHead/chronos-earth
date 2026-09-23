@@ -476,6 +476,15 @@
   "battle:siege-of-mariupol": {},
   "megalith": {
     "note": "Is this acturate to what was there?",
-    "ts": 1790149343012
+    "ts": 1790149343088,
+    "status": "allowed"
+  },
+  "place:megalith@-6.995,107.056": {
+    "transform": {
+      "northM": -590,
+      "eastM": -140,
+      "headingDeg": -80
+    },
+    "ts": 1790149344247
   }
 }
