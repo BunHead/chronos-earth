@@ -48,6 +48,21 @@
       ],
       "authorUrl": "https://www.youtube.com/@AHistoryOfPeoples",
       "thumb": "https://i.ytimg.com/vi/8FXsl7TX5uY/hqdefault.jpg"
+    },
+    {
+      "id": "XxMjCRl2cYA",
+      "url": "https://www.youtube.com/watch?v=XxMjCRl2cYA",
+      "title": "What They Don’t Say About Dunnottar Castle  ",
+      "author": "A History of Peoples",
+      "lat": 56.9457,
+      "lon": -2.1968,
+      "year": 1400,
+      "placeNote": "Pinned at Dunnottar Castle, which this film is about — the marker sits where the event does. The link below it goes to the event itself.",
+      "covers": [
+        "q746983"
+      ],
+      "authorUrl": "https://www.youtube.com/@AHistoryOfPeoples",
+      "thumb": "https://i.ytimg.com/vi/XxMjCRl2cYA/hqdefault.jpg"
     }
   ],
   "channels": [
@@ -196,6 +211,42 @@
       "title": "Was This Scotland’s Most Important Fort? ",
       "author": "A History of Peoples",
       "published": "2024-07-28",
+      "covers": [],
+      "lat": null,
+      "lon": null,
+      "year": null,
+      "matchedTo": null
+    },
+    {
+      "id": "uaE39wzDCKE",
+      "url": "https://www.youtube.com/watch?v=uaE39wzDCKE",
+      "title": "What They Don’t Say About the Battle of the Shirts (1544)",
+      "author": "A History of Peoples",
+      "published": "2024-06-16",
+      "covers": [],
+      "lat": null,
+      "lon": null,
+      "year": 1544,
+      "matchedTo": null
+    },
+    {
+      "id": "vg96yuUFKfk",
+      "url": "https://www.youtube.com/watch?v=vg96yuUFKfk",
+      "title": "Incredible Cloud Inversion & Pictish Fort on Bennachie",
+      "author": "A History of Peoples",
+      "published": "2024-01-21",
+      "covers": [],
+      "lat": null,
+      "lon": null,
+      "year": null,
+      "matchedTo": null
+    },
+    {
+      "id": "nAl-3SQw-NM",
+      "url": "https://www.youtube.com/watch?v=nAl-3SQw-NM",
+      "title": "Walking Through New Slains Castle Clifftop Ruins",
+      "author": "A History of Peoples",
+      "published": "2023-12-12",
       "covers": [],
       "lat": null,
       "lon": null,
