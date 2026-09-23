@@ -319,13 +319,43 @@ Verified live at his own view, measured not reasoned:
   - 1800 — Washington DC gold **and pulsing**, his own example working
   - 1869 — Kyoto and Tokyo both gold and pulsing, the handover as one movement
 
-**Still open, and it is the real cure for the bare map: a per-region notability
-floor.** Melbourne has its correct record (capital of Australia 1901-1927) and
-is still culled at 1910, because on one global ranking it loses to Paris,
-Helsinki, Vienna, Stockholm, Istanbul and Prague. Nothing is wrong with the
-data. Ten city slots shared by one worldwide sort will always fill from Europe.
-Until the slots are allotted by region, "Europe crowded, the rest bare" is
-arithmetic, not a bug.
+**DONE, and it was bigger than a ranking problem** — see the next section. I
+had recommended a per-region notability floor as the cure. It was the right
+diagnosis of the arithmetic and the wrong diagnosis of the map: Moscow, Lisbon
+and Madrid were not ranked too low, they **were not in the database at all**.
+
+### THE BARE MAP: three data faults and two rendering ones (24 Sept)
+
+The Captain listed what he could not find at 2026 — Moscow, Lisbon, Madrid,
+"practically all African capitals", Oz, NZ, Borneo, India, Pakistan, Nepal.
+Fixed in `d2fda59` and `3e59166`. **Read this before trusting any harvest count.**
+
+1. **The city query was truncated.** `LIMIT 6000` against 9,638 matches, no
+   `ORDER BY`. Nairobi has 238 sitelinks and was missing because it happened to
+   fall outside an arbitrary 6,000. Now banded by sitelink and unioned, and it
+   logs loudly when a band comes back full. `DISTINCT` added as well — a city
+   with five P1249 statements was spending five rows of the budget.
+2. **It demanded `P571`.** Wikidata records no inception for most old cities.
+   It records `P1249`, first written mention. Now a fallback, labelled in
+   `dateNote` so we never claim a founding date we do not have.
+3. **Madrid is not a city.** Its only `P31` is "municipality of Spain", not a
+   subclass of Q515. **No class-first query can ever reach it.** `add-capitals.mjs`
+   asks what a place DOES (capital of a sovereign state) instead of what it is.
+4. **Half the markers were behind the planet.** At orbital tiers nothing scoped
+   to a view, so the whole globe competed and roughly half the winners were on
+   the far side — picked, counted, occluded. Now culled to the visible cap.
+5. **One global sort always fills from Europe.** Places are spread by a minimum
+   separation that collapses as you zoom. `lib/markerSpread.ts`.
+
+**STILL OPEN — 19 capitals have no date anywhere, including BEIJING.** Kampala,
+Khartoum, Tunis, Bamako, Conakry, Bandar Seri Begawan, Lomé, Niamey, Porto-Novo,
+Muscat, Yamoussoukro, Nouakchott, Suva, Sofia, Dhaka, Amman, Podgorica, Abu
+Dhabi. Wikidata has no P571, no P1249 and no P580 for them, and **DBpedia has a
+founding date for only 1 of 17** — that route is thinner than it looks, which is
+worth knowing before anyone invests in it. They cannot go on a TIMELINE without
+a year. Dating them from their country's founding would put Beijing at 1949,
+which is worse than absent. The honest fix is a curated row each, like
+`add-first-cities.mjs` — ask the Captain.
 
 ### Two pin defects found while checking the above
 

@@ -129,6 +129,14 @@ jobs:
         # Re-run nightly so edits to the file take effect, and so a later sweep
         # that does find them dedups instead of duplicating.
         run: node scripts/add-first-cities.mjs
+      - name: Guarantee every country's capital (idempotent)
+        if: '!cancelled()'
+        # Madrid is typed only as "municipality of Spain", so no class-first
+        # city query can ever reach it — nor any capital an editor filed as a
+        # district or a governorate. This asks what a place DOES rather than
+        # what it IS. Cheap (~200 rows) and it is the one thing a history globe
+        # must not get wrong.
+        run: node scripts/add-capitals.mjs
       - name: Merge places pinned twice (idempotent)
         if: '!cancelled()'
         # Each harvester dedupes against what it can see, and they see different
