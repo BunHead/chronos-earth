@@ -60,11 +60,18 @@ const SAME_PLACE_KM = 25;
 const SAME_TIME_YEARS = 200;
 
 describe('the globe never pins the same thing twice', () => {
-  it('no two same-category rows share an article within 25 km and 200 years', () => {
+  it('no two same-family rows share an article within 25 km and 200 years', () => {
+    // CITY AND MONUMENT ARE ONE FAMILY, and that was learned the hard way.
+    // Wikidata types an ancient site either way depending on who edited it, so
+    // the moment the city query was widened to walk subclasses it pinned
+    // Machu Picchu, Persepolis, Chichen Itza, Cahokia and Karakorum a second
+    // time — each one already on the globe under the other category, so a
+    // per-category check waved them all through. A place is a place.
+    const family = (c: string) => (c === 'city' || c === 'monument' ? 'place' : c);
     const byArticle = new Map<string, Row[]>();
     for (const e of events) {
       if (!e.wikiTitle) continue;
-      const k = `${e.category}|${e.wikiTitle.toLowerCase().trim()}`;
+      const k = `${family(e.category)}|${e.wikiTitle.toLowerCase().trim()}`;
       if (!byArticle.has(k)) byArticle.set(k, []);
       byArticle.get(k)!.push(e);
     }

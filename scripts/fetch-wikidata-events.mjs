@@ -94,8 +94,29 @@ const CATEGORIES = [
     min: 6,
   },
   {
+    // THE GLOBE HAD NO PARIS. Nor Cairo, Delhi, Washington DC, Kyoto or
+    // Philadelphia — the Captain noticed the symptom first, that Melbourne and
+    // Perth took far too long to appear, and pulling that thread found this.
+    //
+    // `wdt:P31 wd:Q515` asks for things that are an instance of "city", and the
+    // world's largest cities are NOT that. Wikidata types them one rung down:
+    //
+    //     Paris            megacity, metropolis, global city
+    //     Cairo            megacity, metropolis, tourist destination
+    //     Delhi            municipality, megacity, metropolis
+    //     Washington DC    federal capital, human settlement
+    //     Philadelphia     county seat, consolidated city-county
+    //
+    // Every one of those is a SUBCLASS of city, so walking `P279*` finds them
+    // and asking for Q515 alone never could. Measured: 1,645 cities before,
+    // 4,982 after, and the walk costs 3.5 s against 0.9 s — which is nothing
+    // for triple the cities and every capital we were missing.
+    //
+    // Still out of reach from here: cities with no inception date at all.
+    // Beijing is one. A timeline needs a year and guessing one would be
+    // inventing history, so those stay absent until somebody curates them.
     category: 'city',
-    selector: '?item wdt:P31 wd:Q515 ; wdt:P571 ?date .',
+    selector: '?item wdt:P31/wdt:P279* wd:Q515 ; wdt:P571 ?date .',
     min: 18,
   },
   {
@@ -263,7 +284,18 @@ async function main() {
   // 1945 event) and the camp itself both cite "Auschwitz concentration camp"
   // and are legitimately two different pins, as are Newton the man and the
   // publication of universal gravitation.
-  const wikiCatKey = (cat, title) => (title ? `${cat}|${title.toLowerCase().trim()}` : null);
+  // CITY AND MONUMENT ARE ONE FAMILY for this purpose, and that is not a
+  // tidiness preference. Wikidata types an ancient site either way depending on
+  // who edited it: Machu Picchu is a city to one source and a monument to
+  // another, and so are Persepolis, Chichen Itza, Cahokia and Karakorum. Keying
+  // them separately let the harvest pin the same stones twice — it happened the
+  // moment the city query was widened to walk subclasses. A place is a place.
+  //
+  // The families stay separate everywhere else, because elsewhere the
+  // distinction is real: `q935` is Isaac Newton the man and
+  // `cur-newton-gravity` is the 1687 publication.
+  const family = (cat) => (cat === 'city' || cat === 'monument' ? 'place' : cat);
+  const wikiCatKey = (cat, title) => (title ? `${family(cat)}|${title.toLowerCase().trim()}` : null);
   const byWikiCat = new Map();
   let before = 0;
   try {

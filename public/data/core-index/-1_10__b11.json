@@ -1,1 +1,1 @@
-{"v":1,"id":["q107354813"],"name":["1699 Java earthquake"],"lat":[-6.078],"lon":[105.913],"year":[1699],"endYear":[null],"category":["disaster"],"notability":[4],"wiki":[""],"cell":["-1|10"],"attest":[null]}
+{"v":1,"id":["q3630","q107354813"],"name":["Jakarta","1699 Java earthquake"],"lat":[-6.1753,-6.078],"lon":[106.8269,105.913],"year":[1527,1699],"endYear":[null,null],"category":["city","disaster"],"notability":[251,4],"wiki":["",""],"cell":["-1|10","-1|10"],"attest":[null,null],"cap":[[[null,null],[null,null],[null,null]],null]}

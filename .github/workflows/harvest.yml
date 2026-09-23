@@ -35,10 +35,10 @@ jobs:
     # runs 32 queries (16 occupations x 2 sweeps) instead of 16, so the time
     # moves from one to the other rather than being added.
     #     25 (events) + 45 (people) + 15 (inventions/discoveries)
-    #   + 15 (pleiades) + 10 (video feeds) + 5 (video metadata)
+    #   + 20 (capitals) + 15 (pleiades) + 10 (video feeds) + 5 (video metadata)
     #   + 20 (rebuild, lint, commit) = 120, with headroom for WDQS having a
     # bad night:
-    timeout-minutes: 150
+    timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -67,6 +67,14 @@ jobs:
         # that flags the country-level pins; ~5 minutes observed, 15m of room.
         # Same partial-results treatment as the fetches above.
         run: timeout 15m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
+      - name: Mark which cities were capitals, and when
+        if: '!cancelled()'
+        # Attaches capitalOf to city rows already on the globe; never creates a
+        # row. Two queries on purpose — the truthy P1376 is indexed and cheap,
+        # the statement walk with its date qualifiers is only affordable with
+        # the subjects supplied in chunks. Run AFTER the city harvest so the
+        # night's new cities get marked in the same pass.
+        run: timeout 20m node scripts/fetch-capitals.mjs || [ $? -eq 124 ]
       - name: Ancient places from Pleiades (additive)
         if: '!cancelled()'
         # The standing gazetteer of the ancient world, NYU's ISAW, CC-BY 3.0,

@@ -244,6 +244,22 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
   // pinned somewhere by choice. Say where, and why, rather than let the marker
   // imply the Black Death happened at a point in Sicily.
   if (e.placeNote) sections.push({ heading: 'Why it is shown here', body: e.placeNote });
+  // A gold marker has to be able to explain itself. The years matter as much as
+  // the fact — "capital of Japan, 794 to 1869" is the whole story of Kyoto, and
+  // an undated role says so rather than implying it held forever.
+  const roles = (e as TimelineEvent & { capitalOf?: Array<{ of: string; from: number | null; to: number | null }> }).capitalOf;
+  if (roles && roles.length > 0 && roles.some((r) => r.of)) {
+    const span = (r: { from: number | null; to: number | null }) => {
+      if (r.from === null && r.to === null) return 'dates not recorded';
+      if (r.from === null) return `until ${yearLabel(r.to!)}`;
+      if (r.to === null) return `from ${yearLabel(r.from)}`;
+      return `${yearLabel(r.from)} – ${yearLabel(r.to)}`;
+    };
+    sections.push({
+      heading: roles.length > 1 ? 'Capital of' : 'A capital',
+      bullets: roles.filter((r) => r.of).map((r) => `${r.of} · ${span(r)}`),
+    });
+  }
   if (e.attestation) {
     sections.push({
       heading: e.attestation === 'legendary' ? 'A figure of legend' : 'Traditionally dated',

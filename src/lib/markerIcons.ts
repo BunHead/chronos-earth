@@ -100,6 +100,16 @@ const EVENT_ICON: Record<string, [string, string]> = {
   video: ['video', '#8c3a5a'],
 };
 
+/** Badge for a CAPITAL city.
+ *
+ * Gold, and the only gold badge on the globe, so "this place runs something"
+ * reads at a glance without a legend. The glyph is the city mark, not a new
+ * one: a capital is a city, and giving it a different shape as well as a
+ * different colour would say it is a different kind of thing. */
+export function capitalIcon(): string {
+  return makeIcon('capital', 'city', '#c9a227');
+}
+
 /** Badge for a curated video pin. */
 export function videoIcon(): string {
   return makeIcon('video', 'video', '#8c3a5a');

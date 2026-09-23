@@ -29,6 +29,11 @@ export interface CoreColumns {
    * In the skeleton so the globe can mark them without opening a panel.
    * Optional: an index built before this column existed still loads. */
   attest?: (string | null)[];
+  /** Capital roles as bare year pairs, [[from, to], …] or null — enough for the
+   * globe to badge, rank and pulse a capital without opening a panel. The
+   * polity names stay in the cell detail, which is what makes this cheap
+   * enough to sit on the critical path. Optional: an older index still loads. */
+  cap?: (Array<[number | null, number | null]> | null)[];
 }
 
 /**
@@ -67,6 +72,13 @@ export function eventsFromColumns(cols: CoreColumns): TimelineEvent[] {
     if (wiki !== null) e.wikiTitle = wiki === '' ? e.name : wiki;
     const att = cols.attest?.[i];
     if (att === 'legendary' || att === 'traditional') e.attestation = att;
+    const cap = cols.cap?.[i];
+    if (Array.isArray(cap) && cap.length > 0) {
+      // `of` is empty here by design — see the cap column's note. The globe
+      // never reads it; the panel replaces the whole list on hydration.
+      (e as TimelineEvent & { capitalOf?: unknown }).capitalOf =
+        cap.map(([from, to]) => ({ of: '', from, to }));
+    }
     const qid = qidFromId(e.id);
     if (qid) e.wikidataId = qid;
     out[i] = e;

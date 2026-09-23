@@ -120,7 +120,7 @@ const HEADLINE_COUNT = 4500;
 export function packColumns(rows) {
   const cols = {
     v: 1, id: [], name: [], lat: [], lon: [], year: [], endYear: [],
-    category: [], notability: [], wiki: [], cell: [], attest: [],
+    category: [], notability: [], wiki: [], cell: [], attest: [], cap: [],
   };
   for (const e of rows) {
     cols.id.push(e.id);
@@ -136,6 +136,7 @@ export function packColumns(rows) {
     // Rides in the SKELETON, not the flesh: a legendary or traditional figure
     // must be distinguishable on the globe itself, before any panel is opened.
     cols.attest.push(e.attestation ?? null);
+    cols.cap.push(packCapital(e));
   }
   return cols;
 }
@@ -145,6 +146,31 @@ const SKELETON_KEYS = new Set([
   'id', 'name', 'lat', 'lon', 'startYear', 'endYear', 'category', 'notability', 'wikiTitle',
   'attestation',
 ]);
+// NOTE `capitalOf` is deliberately NOT in that set. It rides in BOTH places and
+// they carry different things: the skeleton gets the compact `cap` column (bare
+// years, for the badge and the pulse) and the detail keeps the full list WITH
+// the polity names, because "capital of the Empire of Japan, 1868-1947" is what
+// the panel has to be able to say.
+
+/**
+ * Capital roles, packed down to the years alone: [[from, to], …] or null.
+ *
+ * The globe needs to know THAT a city holds the role now and WHEN that last
+ * changed — enough to pick the gold badge, lift it up the marker ranking and
+ * pulse it through a handover. It does not need the polity's name for any of
+ * that; the name is a panel concern and the panel loads the full `capitalOf`
+ * from the cell detail anyway.
+ *
+ * Dropping the names is what makes this affordable in the skeleton, which is on
+ * the critical path. Carrying them would have put roughly 116 KB of
+ * "United States", "Kingdom of Great Britain" into a file that is budgeted in
+ * tens of kilobytes.
+ */
+function packCapital(e) {
+  const roles = e.capitalOf;
+  if (!Array.isArray(roles) || roles.length === 0) return null;
+  return roles.map((r) => [r.from ?? null, r.to ?? null]);
+}
 
 /**
  * Split events into columnar skeleton + per-cell detail maps.
@@ -157,7 +183,7 @@ export function buildCoreIndex(events) {
   const cols = {
     v: 1, // format version
     id: [], name: [], lat: [], lon: [], year: [], endYear: [],
-    category: [], notability: [], wiki: [], cell: [], attest: [],
+    category: [], notability: [], wiki: [], cell: [], attest: [], cap: [],
   };
   const detailByCell = new Map();
   for (const e of rows) {
@@ -178,6 +204,7 @@ export function buildCoreIndex(events) {
     // Rides in the SKELETON: a legendary or traditional figure must be
     // distinguishable on the globe before any panel is opened.
     cols.attest.push(e.attestation ?? null);
+    cols.cap.push(packCapital(e));
     const detail = {};
     for (const [k, v] of Object.entries(e)) if (!SKELETON_KEYS.has(k)) detail[k] = v;
     if (Object.keys(detail).length > 0) {

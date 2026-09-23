@@ -7,12 +7,13 @@ import * as Cesium from 'cesium';
 // plugin keeps the critical CSS lean.
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { videoVisibleAt, type VideoPin } from '../lib/videos';
+import { capitalAt, capitalChangeAt, cityProminence } from '../lib/capitals';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
 import { buildEventIndex } from '../lib/eventIndex';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
-import { siteIcon, eventIcon, videoIcon, ICONS } from '../lib/markerIcons';
+import { siteIcon, eventIcon, videoIcon, capitalIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
 import { SeaLevelController } from './seaLevel';
 import { OceanDrainController } from './oceanDrain';
@@ -435,6 +436,40 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   // Markers mid-pop (grow-in animation) and the timer driving them.
   const popAnimsRef = useRef<Map<Cesium.Entity, { t0: number; base: number }>>(new Map());
   const popTimerRef = useRef<number | null>(null);
+  /** Capitals mid-handover. They breathe until the playhead moves on. */
+  const pulsingRef = useRef<Set<Cesium.Entity>>(new Set());
+  const pulseTimerRef = useRef<number | null>(null);
+
+  /**
+   * The handover glow.
+   *
+   * A slow scale breath rather than a flash: the globe already pops markers in
+   * and flashes disasters, and a third kind of sudden movement would just read
+   * as noise. Breathing says "still happening" for as long as the playhead
+   * sits near the moment, which is what a handover is — a decade, not an
+   * instant.
+   *
+   * Skipped entirely when the machine has asked for reduced motion.
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    pulseTimerRef.current = window.setInterval(() => {
+      const t = performance.now() / 900;
+      for (const ent of pulsingRef.current) {
+        const bb = ent.billboard as unknown as { scale: number } | undefined;
+        const base = (ent as Cesium.Entity & { chronosScale?: number }).chronosScale;
+        if (!bb || base === undefined || !ent.show) continue;
+        // popIn owns the scale while a marker is arriving; leave it alone.
+        if (popAnimsRef.current.has(ent)) continue;
+        bb.scale = base * (1 + 0.16 * Math.sin(t));
+      }
+    }, 90);
+    return () => {
+      if (pulseTimerRef.current !== null) window.clearInterval(pulseTimerRef.current);
+      pulseTimerRef.current = null;
+    };
+  }, []);
 
   /** Animate a marker's billboard from tiny to its full size with a bounce.
    * `delay` staggers a batch into a cascade instead of a simultaneous blink. */
@@ -1582,11 +1617,17 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         byCat.set(ev.category, list);
       }
       const picked: TimelineEvent[] = [];
+      // Cities rank by PROMINENCE, not raw sitelinks: a capital is important in
+      // a way Wikipedia link counts do not measure, and a capital mid-handover
+      // is the most interesting thing on the map. Everything else still ranks
+      // by notability alone. See lib/capitals.ts for why this exists.
+      const rank = (e: TimelineEvent) =>
+        e.category === 'city' ? cityProminence(e, year) : (e.notability ?? 0);
       for (const list of byCat.values()) {
-        list.sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0));
+        list.sort((a, b) => rank(b) - rank(a));
         picked.push(...list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]));
       }
-      picked.sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0));
+      picked.sort((a, b) => rank(b) - rank(a));
       visList = picked.slice(0, EVENT_MAX_VISIBLE_BY_TIER[zoomTier]);
     }
     // Whatever the user just searched for / clicked always keeps its marker.
@@ -1616,17 +1657,31 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       if (!ent) break; // pool exhausted (shouldn't happen within the caps)
       assign.set(id, ent);
       const isBattle = ev.category === 'battle';
-      const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4);
+      // A capital wears gold, and a capital in the middle of a handover is
+      // drawn larger and pulsed — the moment Kyoto hands Japan to Tokyo should
+      // be something you SEE happen, not something you find by reading labels.
+      const role = ev.category === 'city' ? capitalAt(ev, year) : null;
+      const handover = role ? capitalChangeAt(ev, year) : null;
+      const scale = fameScale(ev.notability, isBattle ? 0.44 : 0.4) * (role ? 1.25 : 1) * (handover ? 1.2 : 1);
       (ent.position as Cesium.ConstantPositionProperty).setValue(Cesium.Cartesian3.fromDegrees(ev.lon, ev.lat));
       const bb = ent.billboard!;
-      (bb.image as Cesium.ConstantProperty).setValue(eventIcon(ev.category));
+      (bb.image as Cesium.ConstantProperty).setValue(role ? capitalIcon() : eventIcon(ev.category));
       const lbl = ent.label!;
       (lbl.text as Cesium.ConstantProperty).setValue(ev.name);
       (lbl.pixelOffset as Cesium.ConstantProperty).setValue(new Cesium.Cartesian2(0, isBattle ? -32 : -28));
       (lbl.distanceDisplayCondition as Cesium.ConstantProperty).setValue(new Cesium.DistanceDisplayCondition(0, isBattle ? 6_000_000 : 1_500_000));
-      const tagged = ent as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
+      const tagged = ent as Cesium.Entity & {
+        chronosEvent?: TimelineEvent; chronosScale?: number; chronosPulse?: boolean;
+      };
       tagged.chronosEvent = ev;
       tagged.chronosScale = scale;
+      tagged.chronosPulse = Boolean(handover);
+      if (tagged.chronosPulse) pulsingRef.current.add(ent);
+      else pulsingRef.current.delete(ent);
+      // A capital label has to survive further out than an ordinary city's,
+      // or the gold badge appears with nothing to say who it is.
+      if (role) (lbl.distanceDisplayCondition as Cesium.ConstantProperty)
+        .setValue(new Cesium.DistanceDisplayCondition(0, 6_000_000));
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
   }, [currentYearsBP, enabledEventCats, offSubs, events, muralEventIds, focusEventId, zoomTier, viewRect, eventById, eventIndex]);
