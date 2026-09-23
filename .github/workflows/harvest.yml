@@ -35,10 +35,10 @@ jobs:
     # runs 32 queries (16 occupations x 2 sweeps) instead of 16, so the time
     # moves from one to the other rather than being added.
     #     25 (events) + 45 (people) + 15 (inventions/discoveries)
-    #   + 10 (video feeds) + 5 (video metadata)
+    #   + 15 (pleiades) + 10 (video feeds) + 5 (video metadata)
     #   + 20 (rebuild, lint, commit) = 120, with headroom for WDQS having a
     # bad night:
-    timeout-minutes: 135
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -67,6 +67,16 @@ jobs:
         # that flags the country-level pins; ~5 minutes observed, 15m of room.
         # Same partial-results treatment as the fetches above.
         run: timeout 15m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
+      - name: Ancient places from Pleiades (additive)
+        if: '!cancelled()'
+        # The standing gazetteer of the ancient world, NYU's ISAW, CC-BY 3.0,
+        # republished as a CSV dump every morning. No key, no quota.
+        #
+        # It is a Greco-Roman gazetteer — 78% Mediterranean — so it does NOT
+        # fill Asia or Africa and should not be expected to. What it fills is
+        # TIME: 17,479 of the rows it contributed begin BCE, at a point in the
+        # timeline where the globe was nearly empty everywhere.
+        run: timeout 15m node scripts/fetch-pleiades.mjs || [ $? -eq 124 ]
       - name: Follow the video channels (suggest only, never publishes)
         if: '!cancelled()'
         # Keyless: every YouTube channel publishes a plain Atom feed at
