@@ -287,6 +287,33 @@ Not introduced today, and not fixed, because they are the Captain's call:
 
 ---
 
+## OPEN: capitals look sparse in the Americas (Captain, 23 Sept)
+
+He switched to 2026, looked at the Americas, and asked where Brasília and
+Washington DC were. Half-diagnosed before he had to leave — pick this up first.
+
+**Brasília is a `monument`, not a `city`.** That is the bug. `fetch-capitals.mjs`
+only scans rows where `category === 'city'`, so Brasília — a purpose-built
+national capital, sl=226 — has NO capital record, no gold badge and none of the
+prominence boost. Almost certainly not alone: any capital Wikidata happens to
+type as a monument, site or settlement is invisible to the capital pass.
+
+  Fix: widen the scan beyond `city`, or reclassify. Check how many capitals
+  are hiding in other categories before choosing — measure first.
+
+**Washington DC is a different problem.** It IS in the data with the right
+record (`CAPITAL: Union, United States`), so the harvest is fine and something
+downstream is not drawing it. Suspects, in order: the per-category marker cap
+at that zoom tier, the label `distanceDisplayCondition`, or the in-view filter.
+Reproduce at his exact view — 2026 CE, Americas, globe zoomed out — and
+measure what `visList` actually contains before changing anything.
+
+Checked and NOT the problem: Ottawa, Mexico City, Buenos Aires, Lima, Bogotá,
+Santiago and Havana all carry correct capital records. 1,936 capitals in the
+dataset, 827 of them in the headline tier.
+
+---
+
 ## What I would do next, in order
 
 1. ~~Finish the people harvest~~ **DONE by the nightly run of 21 Sept** — it
