@@ -116,7 +116,27 @@ const CATEGORIES = [
     // Beijing is one. A timeline needs a year and guessing one would be
     // inventing history, so those stay absent until somebody curates them.
     category: 'city',
-    selector: '?item wdt:P31/wdt:P279* wd:Q515 ; wdt:P571 ?date .',
+    // A CITY WITH NO INCEPTION DATE IS STILL A CITY.
+    //
+    // The Captain went looking for Moscow, Lisbon and Madrid and found none
+    // of them on a globe holding 47,000 rows. Requiring wdt:P571 was why:
+    // Wikidata does not record an inception for most old cities, because
+    // nobody founded them on a Tuesday. It records P1249, FIRST WRITTEN
+    // MENTION, which is a real, cited, datable fact — Madrid 871, Lisbon
+    // -204, Moscow 1147 — and it is the date a historian would quote.
+    //
+    // Moscow needed one further guard. It HAS a P571, but the value is an
+    // "unknown value" marker that comes back as a URI rather than a date, so
+    // a plain COALESCE would have picked the rubbish over the good mention.
+    // Both optionals therefore insist on a real dateTime literal.
+    //
+    // Rows dated this way carry a dateNote saying so. We are not claiming a
+    // founding date we do not have — that is the whole doctrine.
+    selector: `?item wdt:P31/wdt:P279* wd:Q515 .
+    OPTIONAL { ?item wdt:P571 ?inception . FILTER(DATATYPE(?inception) = xsd:dateTime) }
+    OPTIONAL { ?item wdt:P1249 ?mention . FILTER(DATATYPE(?mention) = xsd:dateTime) }
+    BIND(COALESCE(?inception, ?mention) AS ?date)
+    FILTER(BOUND(?date))`,
     min: 18,
   },
   {
@@ -175,11 +195,47 @@ const CATEGORIES = [
  * every row anyway. */
 const LIMIT = 6000;
 
-function buildQuery(selector, min) {
-  return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
+/**
+ * A QUERY THAT RETURNS EXACTLY LIMIT HAS BEEN CUT OFF, NOT FINISHED.
+ *
+ * The comment above used to say "the largest real answer is under 3,000
+ * distinct items", and it was simply wrong: the city selector matches 9,638.
+ * We kept an arbitrary 6,000 of them — arbitrary because there is no ORDER BY
+ * — and threw the rest away in silence. That is how a globe ends up with no
+ * Nairobi despite Nairobi clearing every filter by a mile.
+ *
+ * Sitelink count is the one dimension we already filter on, so it is the
+ * natural axis to cut along: ask again in bands and union the answers. Each
+ * band is a smaller query, so this is also gentler on WDQS than one huge one.
+ */
+const BAND_EDGES = [30, 60, 120];
+
+async function fetchComplete(selector, min, label) {
+  const rows = await runQuery(buildQuery(selector, min));
+  if (rows.length < LIMIT) return rows;
+  console.log(
+    `  ${label}: returned exactly ${LIMIT} rows — TRUNCATED. Re-asking in sitelink bands…`,
+  );
+  const edges = [min, ...BAND_EDGES.filter((e) => e > min), null];
+  const seen = new Map();
+  for (let i = 0; i < edges.length - 1; i++) {
+    const band = await runQuery(buildQuery(selector, edges[i], edges[i + 1]));
+    const upper = edges[i + 1] ?? "no cap";
+    if (band.length >= LIMIT) {
+      console.log(`  ${label}: band ${edges[i]}-${upper} is ALSO full at ${LIMIT}; it needs a finer split.`);
+    }
+    for (const r of band) seen.set(r.item?.value, r);
+    console.log(`    sl ${edges[i]}-${upper}: ${band.length} rows (union ${seen.size})`);
+    await sleep(1500);
+  }
+  return [...seen.values()];
+}
+
+function buildQuery(selector, min, max = null) {
+  return `SELECT DISTINCT ?item ?itemLabel ?coord ?date ?sl ?enwiki ?mention WHERE {
   ${selector}
   ?item wdt:P625 ?coord ; wikibase:sitelinks ?sl .
-  FILTER(?sl >= ${min})
+  FILTER(?sl >= ${min})${max === null ? '' : `\n  FILTER(?sl < ${max})`}
   OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 } LIMIT ${LIMIT}`;
@@ -329,7 +385,7 @@ async function main() {
     const t0 = Date.now();
     attempted++;
     try {
-      rows = await runQuery(buildQuery(selector, min));
+      rows = await fetchComplete(selector, min, title);
       succeeded++;
     } catch (e) {
       console.error(`  ${title}: failed (${e.message})`);
@@ -363,6 +419,11 @@ async function main() {
           wikidataId: qid,
           ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
           notability: parseInt(r.sl?.value ?? '0', 10) || 0,
+          // Say WHICH fact the year is. A first written mention is not a
+          // founding date, and the panel should not pretend otherwise.
+          ...(r.mention?.value && r.mention.value === r.date?.value
+            ? { dateNote: 'first written mention' }
+            : {}),
         });
         // Claim the article too, so a later category cannot re-add it.
         if (wk) byWikiCat.set(wk, byId.get(qid));

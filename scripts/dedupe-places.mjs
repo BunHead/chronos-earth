@@ -51,11 +51,26 @@ const distKm = (a, b) => {
   return Math.hypot((a.lat - b.lat) * R, (a.lon - b.lon) * R * Math.cos((a.lat * Math.PI) / 180));
 };
 
-/** Better provenance wins: a Wikidata id beats none, then sitelink count. */
+/**
+ * A Pleiades row. All 18,405 of them carry the `pl` prefix and NOT ONE has a
+ * Wikidata id, so the test is exact rather than a guess at a naming habit.
+ */
+const isPleiades = (e) => /^pl/.test(e.id) && !e.wikidataId;
+
+/** Curated rows are the Captain's own hand-written ones. */
+const isCurated = (e) => /^cur-/.test(e.id);
+
+/**
+ * Better provenance wins, and CURATED WINS FIRST.
+ *
+ * This order matters more than it looks. `cur-petra` carries no Wikidata id,
+ * so a rule of "a Q-id beats none" would have thrown away a hand-written row
+ * in favour of a harvested one — exactly backwards, and the overview layer
+ * already resolves twins the other way (dupEventIdsRef, "curated twin wins").
+ */
 function better(a, b) {
-  const idA = a.wikidataId ? 1 : 0;
-  const idB = b.wikidataId ? 1 : 0;
-  if (idA !== idB) return idA > idB ? a : b;
+  const rank = (e) => (isCurated(e) ? 2 : e.wikidataId ? 1 : 0);
+  if (rank(a) !== rank(b)) return rank(a) > rank(b) ? a : b;
   return (a.notability ?? 0) >= (b.notability ?? 0) ? a : b;
 }
 
@@ -94,7 +109,24 @@ export function groupDuplicates(events) {
       if (km > NEAR_KM) continue;
       seen.add(pair);
       const gap = Math.abs((a.startYear ?? 0) - (b.startYear ?? 0));
-      if (gap > SAME_ERA_YEARS) {
+      // A DATE GAP AGAINST A PLEIADES ROW IS NOT A DISAGREEMENT.
+      //
+      // I held 88 pairs back as "sources disagree" and the Captain, looking at
+      // the globe, saw Eridu wearing two markers 50 m apart. He was right and
+      // the caution was misapplied. Pleiades dates are COARSE PERIOD BUCKETS —
+      // -10000, -6500, -6000, -5500, -4500, -3300 — not site-specific dates, and
+      // 80 of those 88 pairs were one such bucket sitting beside a properly
+      // sourced year. A bucket differing from a real date is not two scholars
+      // disagreeing; it is one place listed twice at two levels of precision.
+      //
+      // So the gap test only applies when BOTH sides are sourced. Then, and only
+      // then, it is a real dispute and it stays for the Captain. Exactly one
+      // pair in the whole dataset qualifies: Petra, -799 against -300.
+      // Two buckets at one spot say nothing to each other either, so the gap
+      // only carries meaning when NEITHER side is one.
+      const bucketed = isPleiades(a) || isPleiades(b);
+      const onlyOneBucket = isPleiades(a) !== isPleiades(b);
+      if (gap > SAME_ERA_YEARS && !bucketed) {
         const [x, y] = [a, b].sort((p, q) => (p.startYear ?? 0) - (q.startYear ?? 0));
         disagreements.push({
           name: String(a.name).trim(),
@@ -104,7 +136,11 @@ export function groupDuplicates(events) {
         });
         continue;
       }
-      const keep = better(a, b);
+      let keep = better(a, b);
+      // When the merge is only allowed because one side is a coarse Pleiades
+      // bucket, the row we drop must be THAT side — never the sourced one,
+      // whatever the sitelink counts happen to say.
+      if (onlyOneBucket) keep = isPleiades(a) ? b : a;
       merges.push({ keep, drop: keep === a ? b : a, km: +km.toFixed(2) });
     }
   }
@@ -125,7 +161,11 @@ async function main() {
     if (dropped.has(drop.id) || dropped.has(keep.id)) continue;
     // Merging must never lose what the loser knew and the winner did not —
     // a capital record above all. The winner keeps its own date.
-    for (const k of ['wikidataId', 'wikiTitle', 'capitalOf', 'dateNote', 'endYear']) {
+    // NOT endYear. It belongs to the loser's OWN date range, and copying it
+    // onto a winner with a different startYear produced rows that ended 1,281
+    // years before they began — the data lint caught two of them. Only identity
+    // and the capital record travel; dates stay with the row that owns them.
+    for (const k of ['wikidataId', 'wikiTitle', 'capitalOf']) {
       if (keep[k] === undefined && drop[k] !== undefined) keep[k] = drop[k];
     }
     dropped.add(drop.id);
@@ -136,7 +176,7 @@ async function main() {
   // rewrite the file every night whether or not anything changed, and a file
   // that always has a diff is a file you stop reading.
   const report = {
-    note: 'Same place, same spot, sources disagree on the founding date. Not resolved automatically — picking one would be inventing history to tidy the map.',
+    note: 'Same place, same spot, and BOTH sides are properly sourced — a real dispute, not a Pleiades period bucket. Not resolved automatically: picking one would be inventing history to tidy the map.',
     disagreements: disagreements.sort((a, b) => a.name.localeCompare(b.name)),
   };
 
