@@ -1,1 +1,1 @@
-{"v":1,"id":["q215992"],"name":["Los Glaciares National Park"],"lat":[-50.3305],"lon":[-73.2342],"year":[1937],"endYear":[null],"category":["monument"],"notability":[61],"wiki":[""],"cell":["-6|28"],"attest":[null],"cap":[null]}
+{"v":1,"id":["q1001339","q215992"],"name":["Puerto Natales","Los Glaciares National Park"],"lat":[-51.7263,-50.3305],"lon":[-72.5062,-73.2342],"year":[1911,1937],"endYear":[null,null],"category":["city","monument"],"notability":[42,61],"wiki":["",""],"cell":["-6|28","-6|28"],"attest":[null,null],"cap":[[[null,null]],null]}
