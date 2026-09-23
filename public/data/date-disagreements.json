@@ -1,19 +1,4 @@
 {
  "note": "Same place, same spot, and BOTH sides are properly sourced — a real dispute, not a Pleiades period bucket. Not resolved automatically: picking one would be inventing history to tidy the map.",
- "disagreements": [
-  {
-   "name": "Petra",
-   "km": 0.21,
-   "earlier": {
-    "id": "q5788",
-    "year": -799,
-    "sitelinks": 116
-   },
-   "later": {
-    "id": "cur-petra",
-    "year": -300,
-    "sitelinks": 400
-   }
-  }
- ]
+ "disagreements": []
 }

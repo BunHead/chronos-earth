@@ -44,6 +44,21 @@ const CHECK_ONLY = process.argv.includes('--check');
 /** City and monument are one family — Wikidata files a place under either. */
 const PLACE = new Set(['city', 'monument']);
 const NEAR_KM = 2;
+
+/**
+ * THE CAPTAIN'S CURATION CALLS, by Wikidata id of the row to DROP.
+ *
+ * Reserved for the one case the evidence cannot settle: both rows properly
+ * sourced, the same place, and the founding dates genuinely disputed. Exactly
+ * one such pair exists in the whole dataset.
+ *
+ * PETRA. q5788 dates it -799, from earlier Edomite occupation of the site;
+ * cur-petra dates it -300, the Nabataean city — the rock-cut capital everyone
+ * pictures when they hear the name, and the date most books give. Asked on
+ * 24 Sept 2026, he chose the Nabataean city. Recorded here so the nightly
+ * harvest cannot quietly re-open a question he has already answered.
+ */
+const CURATED_DROPS = new Map([['q5788', "Petra: the Captain chose -300, the Nabataean city, over -799"]]);
 const SAME_ERA_YEARS = 200;
 
 const distKm = (a, b) => {
@@ -108,6 +123,12 @@ export function groupDuplicates(events) {
       const km = distKm(a, b);
       if (km > NEAR_KM) continue;
       seen.add(pair);
+      // A call he has already made outranks every rule below it.
+      const ruled = CURATED_DROPS.has(a.id) ? a : CURATED_DROPS.has(b.id) ? b : null;
+      if (ruled) {
+        merges.push({ keep: ruled === a ? b : a, drop: ruled, km: +km.toFixed(2), ruling: CURATED_DROPS.get(ruled.id) });
+        continue;
+      }
       const gap = Math.abs((a.startYear ?? 0) - (b.startYear ?? 0));
       // A DATE GAP AGAINST A PLEIADES ROW IS NOT A DISAGREEMENT.
       //
@@ -157,7 +178,7 @@ async function main() {
   console.log(`${disagreements.length} same place, DATES DISAGREE — left alone, for curation`);
 
   const dropped = new Set();
-  for (const { keep, drop } of merges) {
+  for (const { keep, drop, ruling } of merges) {
     if (dropped.has(drop.id) || dropped.has(keep.id)) continue;
     // Merging must never lose what the loser knew and the winner did not —
     // a capital record above all. The winner keeps its own date.
@@ -170,6 +191,7 @@ async function main() {
     }
     dropped.add(drop.id);
     console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keep.id} · drop ${drop.id}`);
+    if (ruling) console.log(`      ^ curation call: ${ruling}`);
   }
 
   // NO TIMESTAMP IN HERE. This runs nightly; a generated-on date would

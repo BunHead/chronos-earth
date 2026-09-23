@@ -347,7 +347,24 @@ Fixed in `d2fda59` and `3e59166`. **Read this before trusting any harvest count.
 5. **One global sort always fills from Europe.** Places are spread by a minimum
    separation that collapses as you zoom. `lib/markerSpread.ts`.
 
-**STILL OPEN — 19 capitals have no date anywhere, including BEIJING.** Kampala,
+**RESOLVED for 10 of them, including Beijing** (`add-curated-capitals.mjs`).
+Dated by hand from the English Wikipedia infobox or lead, each row carrying the
+quote in `dateNote`. I wrote a scraper first and threw it away: it read
+"1 January 1921" as the year 1 and "16th century" as the year 16, and could not
+parse eleven of nineteen at all. A date parser good enough to trust here is a
+bigger and more dangerous thing than a table of ten rows.
+
+**NINE ARE STILL MISSING ON PURPOSE** — Abu Dhabi, Kampala, Bamako, Conakry,
+Lomé, Muscat, Yamoussoukro, Nouakchott, Suva. No establishment row in the
+infobox, no founding sentence in the lead, nothing to cite. **Do not fill them
+in from memory.** A sourced date is the only thing that gets them on.
+
+**PETRA IS SETTLED.** Asked 24 Sept: he chose -300, the Nabataean city, over
+q5788's -799. Recorded in `CURATED_DROPS` in `dedupe-places.mjs` so the nightly
+harvest cannot re-open it. There are now ZERO unresolved date disagreements.
+
+The original note, for the record:
+**19 capitals had no date anywhere, including BEIJING.** Kampala,
 Khartoum, Tunis, Bamako, Conakry, Bandar Seri Begawan, Lomé, Niamey, Porto-Novo,
 Muscat, Yamoussoukro, Nouakchott, Suva, Sofia, Dhaka, Amman, Podgorica, Abu
 Dhabi. Wikidata has no P571, no P1249 and no P580 for them, and **DBpedia has a

@@ -137,6 +137,13 @@ jobs:
         # what it IS. Cheap (~200 rows) and it is the one thing a history globe
         # must not get wrong.
         run: node scripts/add-capitals.mjs
+      - name: Add the capitals no query can date (idempotent)
+        if: '!cancelled()'
+        # Ten capitals, Beijing among them, that Wikidata records no date for at
+        # all. Dated by hand from the English Wikipedia infobox or lead, with the
+        # quote kept in dateNote. Nine more are deliberately still missing: there
+        # was nothing to cite. See the script header before adding any.
+        run: node scripts/add-curated-capitals.mjs
       - name: Merge places pinned twice (idempotent)
         if: '!cancelled()'
         # Each harvester dedupes against what it can see, and they see different
