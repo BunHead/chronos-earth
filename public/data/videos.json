@@ -18,6 +18,36 @@
         "q961243",
         "q298263"
       ]
+    },
+    {
+      "id": "Utx8ty4xTdI",
+      "url": "https://www.youtube.com/watch?v=Utx8ty4xTdI",
+      "title": "What They Don’t Say About the Battle of Mons Graupius (83 AD)",
+      "author": "A History of Peoples",
+      "lat": 56.9167,
+      "lon": -3,
+      "year": 84,
+      "placeNote": "Pinned at Battle of Mons Graupius, which this film is about — the marker sits where the event does. The link below it goes to the event itself.",
+      "covers": [
+        "q1127337"
+      ],
+      "authorUrl": "https://www.youtube.com/@AHistoryOfPeoples",
+      "thumb": "https://i.ytimg.com/vi/Utx8ty4xTdI/hqdefault.jpg"
+    },
+    {
+      "id": "8FXsl7TX5uY",
+      "url": "https://www.youtube.com/watch?v=8FXsl7TX5uY",
+      "title": "What They Don’t Say About the Battle of Harlaw (1411)",
+      "author": "A History of Peoples",
+      "lat": 57.3081,
+      "lon": -2.4119,
+      "year": 1411,
+      "placeNote": "Pinned at Battle of Harlaw, which this film is about — the marker sits where the event does. The link below it goes to the event itself.",
+      "covers": [
+        "q766136"
+      ],
+      "authorUrl": "https://www.youtube.com/@AHistoryOfPeoples",
+      "thumb": "https://i.ytimg.com/vi/8FXsl7TX5uY/hqdefault.jpg"
     }
   ],
   "channels": [
@@ -51,20 +81,6 @@
       "lon": null,
       "year": null,
       "matchedTo": null
-    },
-    {
-      "id": "Utx8ty4xTdI",
-      "url": "https://www.youtube.com/watch?v=Utx8ty4xTdI",
-      "title": "What They Don’t Say About the Battle of Mons Graupius (83 AD)",
-      "author": "A History of Peoples",
-      "published": "2025-04-20",
-      "covers": [
-        "q1127337"
-      ],
-      "lat": 56.9167,
-      "lon": -3,
-      "year": 84,
-      "matchedTo": "Battle of Mons Graupius"
     },
     {
       "id": "f5G1OFLZb1s",
@@ -161,20 +177,6 @@
       "lon": null,
       "year": 1484,
       "matchedTo": null
-    },
-    {
-      "id": "8FXsl7TX5uY",
-      "url": "https://www.youtube.com/watch?v=8FXsl7TX5uY",
-      "title": "What They Don’t Say About the Battle of Harlaw (1411)",
-      "author": "A History of Peoples",
-      "published": "2024-08-11",
-      "covers": [
-        "q766136"
-      ],
-      "lat": 57.3081,
-      "lon": -2.4119,
-      "year": 1411,
-      "matchedTo": "Battle of Harlaw"
     },
     {
       "id": "-Y1hCBGRzIs",

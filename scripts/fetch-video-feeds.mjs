@@ -15,16 +15,23 @@
  * (A channel's UC… id can be read out of its page: fetch the @handle URL and
  * look for "externalId":"UC…".)
  *
- * WHAT IT DOES WITH THEM, and this is the part worth understanding. It does
- * NOT put videos on the globe by itself — a pin needs a place and a reason,
- * and no script should invent either. It sorts each new video into one of two
- * piles and writes both into videos.json for a human to wave through:
+ * WHAT IT DOES WITH THEM. A pin needs a place and a reason, and no script
+ * should invent either — so each video is sorted by whether those two things
+ * can be had honestly:
  *
- *   matched   — the title names something the globe already has, so the pin
- *               and the cross-reference can be proposed outright. Titles on
- *               this sort of channel carry the subject AND the year:
- *               "What They Don't Say About the Battle of Barra (1308)".
- *   unmatched — the globe has no such row. These are the interesting ones.
+ *   matched   — the title names something the globe already has, so BOTH are
+ *               in hand: the place is the event's own coordinates and the
+ *               reason is "this film is about that event". These go straight
+ *               on. Titles on this sort of channel carry the subject and the
+ *               year: "What They Don't Say About the Battle of Barra (1308)".
+ *   unmatched — the globe has no such row, so there is no honest place to put
+ *               it. These wait for a human, and they are the interesting pile.
+ *
+ * THE GATE USED TO CATCH BOTH, AND THAT WAS WRONG. Everything waited for
+ * approval, so the layer sat at ONE film while two perfectly placeable ones
+ * queued behind it — which is exactly what the Captain found when he switched
+ * the Films layer on and saw a single pin. Asking for a decision where there
+ * is nothing to decide is not caution, it is a stalled queue.
  *
  * THE UNMATCHED PILE IS THE POINT. Tested against A History of Peoples on
  * 22 Sept: 2 of 15 titles matched. The other 13 were real Scottish battles —
@@ -132,8 +139,10 @@ async function main() {
   const seenSuggest = new Set((doc.suggested ?? []).map((v) => v.id));
   const suggested = doc.suggested ?? [];
 
+  const videos = doc.videos ?? [];
   let added = 0;
   let reachable = 0;
+  let promoted = 0;
   let ok = 0;
 
   for (const ch of channels) {
@@ -172,31 +181,76 @@ async function main() {
     await sleep(700);
   }
 
+  // PROMOTE whatever needs no decision — and do it BEFORE worrying about
+  // whether the feeds answered.
+  //
+  // A matched suggestion already has the two things a pin requires: the place
+  // is the event's own coordinates, the reason is "this film is about that
+  // event". There is nothing for a human to decide, and the approval gate used
+  // to catch these anyway — so the layer sat at ONE film while two perfectly
+  // placeable ones queued behind it, which is what the Captain found when he
+  // switched the Films layer on.
+  //
+  // Doing it before the feed check matters: YouTube served 404 to every channel
+  // on 23 Sept, and returning early on that would have kept two videos waiting
+  // that had been ready since the day before. A dead feed is a reason to fetch
+  // nothing new. It is not a reason to sit on what is already in hand.
+  const stillWaiting = [];
+  const onGlobe = new Set(videos.map((v) => v.id));
+  for (const sug of suggested) {
+    if (onGlobe.has(sug.id)) continue;
+    if (!sug.matchedTo || sug.lat === null || sug.lon === null) {
+      stillWaiting.push(sug);
+      continue;
+    }
+    videos.push({
+      id: sug.id,
+      url: sug.url,
+      title: sug.title,
+      author: sug.author,
+      lat: sug.lat,
+      lon: sug.lon,
+      year: sug.year,
+      // The same contract every other pin keeps: say why the marker is here.
+      placeNote:
+        `Pinned at ${sug.matchedTo}, which this film is about — the marker sits ` +
+        `where the event does. The link below it goes to the event itself.`,
+      covers: sug.covers,
+    });
+    onGlobe.add(sug.id);
+    promoted++;
+  }
+
+  console.log(
+    `\n${added} new video(s) found${reachable ? `, ${reachable} of them placeable` : ''}.` +
+      (promoted > 0 ? `\n${promoted} promoted onto the globe — they needed no decision.` : '') +
+      (stillWaiting.length > 0
+        ? `\n${stillWaiting.length} still waiting: the globe has no row to hang them on, which makes them a list of GAPS.`
+        : ''),
+  );
+
+  if (CHECK_ONLY) {
+    console.log('(--check: nothing written)');
+  } else if (added > 0 || promoted > 0) {
+    doc.videos = videos;
+    doc.suggested = stillWaiting;
+    await writeFile(FILE, `${JSON.stringify(doc, null, 2)}\n`);
+    console.log(`videos.json: ${videos.length} on the globe, ${stillWaiting.length} waiting for a place.`);
+  }
+
+  // Now complain about the feeds, having first saved everything that did not
+  // depend on them.
   if (ok === 0 && channels.length > 0) {
     console.error(
       `\n${'!'.repeat(72)}\n` +
         `NO CHANNEL FEED COULD BE READ. All ${channels.length} failed — this is not\n` +
-        `"nothing new", it is a fault. Read the errors above, not the exit status\n` +
-        `of the step.\n${'!'.repeat(72)}`,
+        `"nothing new", it is a fault.\n\n` +
+        `On 23 Sept 2026 YouTube served 404 to EVERY channel tried, including ones\n` +
+        `with millions of subscribers, from an address that had read the same feeds\n` +
+        `the day before. So read a total failure as "we are being refused", not as\n` +
+        `"the channel moved" — re-resolving the channel id will not help.\n${'!'.repeat(72)}`,
     );
     process.exitCode = 1;
-    return;
-  }
-
-  console.log(
-    `\n${added} new video(s) suggested; ${reachable} of them the globe can already place.` +
-      (added - reachable > 0
-        ? `\n${added - reachable} name something the globe does NOT have — those are gaps worth a look.`
-        : ''),
-  );
-  if (CHECK_ONLY) {
-    console.log('(--check: nothing written)');
-    return;
-  }
-  if (added > 0) {
-    doc.suggested = suggested;
-    await writeFile(FILE, `${JSON.stringify(doc, null, 2)}\n`);
-    console.log('Written to the "suggested" list in videos.json — nothing goes on the globe unreviewed.');
   }
 }
 
