@@ -129,6 +129,15 @@ jobs:
         # Re-run nightly so edits to the file take effect, and so a later sweep
         # that does find them dedups instead of duplicating.
         run: node scripts/add-first-cities.mjs
+      - name: Merge places pinned twice (idempotent)
+        if: '!cancelled()'
+        # Each harvester dedupes against what it can see, and they see different
+        # things: the Pleiades import guards spatially, the city sweep guards by
+        # wiki title, which a Pleiades row has not got. So arrival order decided
+        # it and Pompeii, Ostia, Cyrene and Frankfurt each got a second pin. This
+        # merges only where the sources agree, and leaves date disagreements for
+        # the Captain. MUST run before the index is built from it.
+        run: node scripts/dedupe-places.mjs
       - name: Rebuild the core index
         if: '!cancelled()'
         run: node scripts/build-core-index.mjs
@@ -189,6 +198,9 @@ jobs:
             # The derived files were taken from one side to clear the conflict.
             # Rebuild them from the merged source before anything ships, or the
             # index would disagree with the events it is built from.
+            # An additive union can bring back a row another writer merged
+            # away, so dedupe again before rebuilding from it.
+            node scripts/dedupe-places.mjs
             node scripts/build-core-index.mjs
             git add public/data
             git diff --cached --quiet || git commit -m "Data: rebuild index after additive merge"

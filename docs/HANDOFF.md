@@ -287,30 +287,72 @@ Not introduced today, and not fixed, because they are the Captain's call:
 
 ---
 
-## OPEN: capitals look sparse in the Americas (Captain, 23 Sept)
+## CLOSED: capitals looked sparse in the Americas (Captain, 23 Sept)
 
-He switched to 2026, looked at the Americas, and asked where Brasília and
-Washington DC were. Half-diagnosed before he had to leave — pick this up first.
+Fixed and shipped the same day — `779be5e` and `408677b`. Three faults, all
+silent, none of them the one I first suspected.
 
-**Brasília is a `monument`, not a `city`.** That is the bug. `fetch-capitals.mjs`
-only scans rows where `category === 'city'`, so Brasília — a purpose-built
-national capital, sl=226 — has NO capital record, no gold badge and none of the
-prominence boost. Almost certainly not alone: any capital Wikidata happens to
-type as a monument, site or settlement is invisible to the capital pass.
+**1. The scan was reading 40% of the evidence.** `fetch-capitals.mjs` pass 1
+pulled every P1376 statement on Wikidata under `LIMIT 40000`. There are
+**99,475**. A query that returns exactly LIMIT rows has been cut off, not
+finished — the rule was already written down and I still walked into it. A city
+whose only capital statement sat in the unseen 60% simply was not a capital as
+far as this globe was concerned. Pass 1 now supplies our own Q-ids in a VALUES
+block, which cannot truncate. **WDQS calls are POST now**: 1,200 Q-ids is ~14 KB
+of URL and GET answers that with HTTP 414. 2,384 -> 2,513 capitals, 157 -> 177
+handovers.
 
-  Fix: widen the scan beyond `city`, or reclassify. Check how many capitals
-  are hiding in other categories before choosing — measure first.
+**2. Brasília is a `monument`, not a `city`** — and so were all three capital
+gates in `Globe.tsx`, which checked `category === 'city'`. City and monument are
+one family; the duplicate-pin dedupe already knew that and the capital layer did
+not. `isPlaceRow()` in `lib/capitals.ts` now says it in one place. 39 capitals
+were hiding in `monument`.
 
-**Washington DC is a different problem.** It IS in the data with the right
-record (`CAPITAL: Union, United States`), so the harvest is fine and something
-downstream is not drawing it. Suspects, in order: the per-category marker cap
-at that zoom tier, the label `distanceDisplayCondition`, or the in-view filter.
-Reproduce at his exact view — 2026 CE, Americas, globe zoomed out — and
-measure what `visList` actually contains before changing anything.
+**3. The handover bonus was flat +150 anywhere in the 30-year window**, which at
+2026 put Kabul, Astana, Rabat, Katowice, Malabo and Bujumbura above Paris and
+London, and pushed Washington DC to **18th of 1,200** — off a globe with ten
+city slots. That is what he could not find. It decays to nothing across the
+window now and peaks at 90: worth noticing, not worth more than being Paris.
 
-Checked and NOT the problem: Ottawa, Mexico City, Buenos Aires, Lima, Bogotá,
-Santiago and Havana all carry correct capital records. 1,936 capitals in the
-dataset, 827 of them in the headline tier.
+Verified live at his own view, measured not reasoned:
+  - 2026 — Washington DC drawn at (580,145) gold, Brasília at (804,619) gold
+  - 1800 — Washington DC gold **and pulsing**, his own example working
+  - 1869 — Kyoto and Tokyo both gold and pulsing, the handover as one movement
+
+**Still open, and it is the real cure for the bare map: a per-region notability
+floor.** Melbourne has its correct record (capital of Australia 1901-1927) and
+is still culled at 1910, because on one global ranking it loses to Paris,
+Helsinki, Vienna, Stockholm, Istanbul and Prague. Nothing is wrong with the
+data. Ten city slots shared by one worldwide sort will always fill from Europe.
+Until the slots are allotted by region, "Europe crowded, the rest bare" is
+arithmetic, not a bug.
+
+### Two pin defects found while checking the above
+
+Both were stealing slots from the rest of the world, so they belong to the same
+complaint. Fixed in `408677b`.
+
+**1,430 pins read "Untitled".** That is Pleiades' own placeholder for a place it
+cannot name, and our importer guarded with `!title`, which a real string sails
+straight past. No name, no Wikidata id, two sitelinks. They never reached the
+wide view but they were in the search index and drew as soon as you zoomed into
+the Mediterranean. Rejected at import now, so the sweeps cannot re-add them.
+
+**23 places were pinned twice** — Pompeii, Cyrene, Ostia, Frankfurt, Babylon,
+Sparta and more. Each harvester dedupes against what it can see and they see
+different things: `fetch-pleiades.mjs` guards spatially (Pleiades calls Rome
+"Roma"), the city harvest dedupes by wiki title, which a Pleiades row has not
+got. So arrival order decided it. **`scripts/dedupe-places.mjs` is the standing
+fix — run it after any harvest**, before `build-core-index.mjs`. It merges only
+where the sources agree (same name, same family, 2 km, dates within 200 years),
+keeps the better-provenanced row and fills anything it was missing from the
+loser, so a capital record cannot be lost in a merge.
+
+**88 date disagreements are now listed, not resolved.** `public/data/date-disagreements.json`.
+Çatalhöyük is -10000 and -7499; Petra -799 and -300. Same place, real
+scholarly disagreement, and picking one to tidy the map would be inventing
+history for the sake of a pin. **This list supersedes the "four curation calls"
+item below — Petra, Cusco, Benin City and Mesa Verde are four of the 88.**
 
 ---
 
@@ -331,10 +373,12 @@ dataset, 827 of them in the headline tier.
    failed**, so a totally dead harvest goes red, but a PARTIAL failure stays
    green by design. Some "traditional" sweeps still 504 most nights; that is
    expected and costs nothing.
-3. **Four curation calls only the Captain can make.** Petra, Cusco, Benin City
-   and Mesa Verde each have two rows a few hundred metres apart that **disagree
-   about the date** by 434 to 1,306 years. Both stand; picking one would be
-   inventing a date. Ask him.
+3. **88 curation calls only the Captain can make**, listed in
+   `public/data/date-disagreements.json`. Each is one place with two rows a few
+   hundred metres apart that **disagree about the founding date**. Petra, Cusco,
+   Benin City and Mesa Verde are four of them. Both rows stand; picking one
+   would be inventing a date. Ask him — and consider asking about the worst
+   dozen rather than all 88.
 4. **Choreography: 42 of 124 battles**, and there are now 2,895 battles. The
    generic template covers everything else.
 5. **`event` (45 rows) still has no query.** Note that `public/data/regions/`

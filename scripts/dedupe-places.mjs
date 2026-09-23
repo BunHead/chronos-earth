@@ -132,9 +132,11 @@ async function main() {
     console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keep.id} · drop ${drop.id}`);
   }
 
+  // NO TIMESTAMP IN HERE. This runs nightly; a generated-on date would
+  // rewrite the file every night whether or not anything changed, and a file
+  // that always has a diff is a file you stop reading.
   const report = {
     note: 'Same place, same spot, sources disagree on the founding date. Not resolved automatically — picking one would be inventing history to tidy the map.',
-    generated: new Date().toISOString().slice(0, 10),
     disagreements: disagreements.sort((a, b) => a.name.localeCompare(b.name)),
   };
 
