@@ -493,5 +493,12 @@
     "rework": true,
     "new": true,
     "note": "NEW MODEL — the Captain asked for it on 24 Sept 2026. There is NO branch in buildModel yet; build one. Anchor it to the existing pin cur-machu-picchu (-13.163, -72.545). Work from published site plans and photographs, never from memory: the saddle between Machu Picchu and Huayna Picchu (to the NORTH), the agricultural terraces stepping down the east and west flanks, the main plaza, the Temple of the Sun (the curved Torreón), the Intihuatana, the Temple of the Three Windows. Calibrate orientation against a map before trusting any render — see MODELLER-CRAFT.md. Prefer no model to a wrong one; say in the commit how far you got and why you stopped."
+  },
+  "roden-crater": {
+    "status": "requested",
+    "ts": 1790273718677,
+    "rework": true,
+    "new": true,
+    "note": "NEW MODEL — the Captain asked for it on 24 Sept 2026 (\"would dearly like to visit one day\"). There is NO branch in buildModel yet; build one. Anchor it to the pin cur-roden-crater (35.4256, -111.259), James Turrell's naked-eye observatory in a dormant cinder cone in the Painted Desert, Arizona. Work from published plans, drawings and photographs (rodencrater.com, Turrell's own site drawings), never from memory: the shaped crater bowl, the 854-foot East Tunnel, the Sun & Moon Chamber, the East Portal, the Crater's Eye. It is UNFINISHED — model what exists, not the planned 24 spaces, and say so. Its alignments are astronomical, so calibrate orientation against a map before trusting any render (MODELLER-CRAFT.md). Prefer no model to a wrong one; say in the commit how far you got and why you stopped."
   }
 }
