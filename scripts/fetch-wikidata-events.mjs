@@ -65,6 +65,7 @@
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { wdqsBindings } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, '..', 'public', 'data', 'imported');
@@ -116,6 +117,7 @@ const CATEGORIES = [
     // Beijing is one. A timeline needs a year and guessing one would be
     // inventing history, so those stay absent until somebody curates them.
     category: 'city',
+    band: true, // see fetchComplete — too big to ask in one piece
     // A CITY WITH NO INCEPTION DATE IS STILL A CITY.
     //
     // The Captain went looking for Moscow, Lisbon and Madrid and found none
@@ -210,17 +212,33 @@ const LIMIT = 6000;
  */
 const BAND_EDGES = [30, 60, 120];
 
-async function fetchComplete(selector, min, label) {
-  const rows = await runQuery(buildQuery(selector, min));
-  if (rows.length < LIMIT) return rows;
-  console.log(
-    `  ${label}: returned exactly ${LIMIT} rows — TRUNCATED. Re-asking in sitelink bands…`,
-  );
+async function fetchComplete(selector, min, label, alwaysBand = false) {
+  // ALWAYS BAND the big ones. The city query as ONE request came back with
+  // 3.5 MB on one night and was aborted at the time limit the next: it is at
+  // the edge of what WDQS will answer at all. Four smaller questions each sit
+  // well inside the limit, and one failing no longer loses the other three.
+  if (!alwaysBand) {
+    const rows = await runQuery(buildQuery(selector, min));
+    if (rows.length < LIMIT) return rows;
+    console.log(
+      `  ${label}: returned exactly ${LIMIT} rows — TRUNCATED. Re-asking in sitelink bands…`,
+    );
+  }
   const edges = [min, ...BAND_EDGES.filter((e) => e > min), null];
   const seen = new Map();
+  let bandsFailed = 0;
   for (let i = 0; i < edges.length - 1; i++) {
-    const band = await runQuery(buildQuery(selector, edges[i], edges[i + 1]));
     const upper = edges[i + 1] ?? "no cap";
+    let band;
+    try {
+      band = await runQuery(buildQuery(selector, edges[i], edges[i + 1]));
+    } catch (e) {
+      // The harvest only ever ADDS, so the bands that did answer are still
+      // worth keeping — tomorrow night asks again.
+      bandsFailed++;
+      console.log(`    sl ${edges[i]}-${upper}: FAILED (${e.message}) — keeping the bands that answered`);
+      continue;
+    }
     if (band.length >= LIMIT) {
       console.log(`  ${label}: band ${edges[i]}-${upper} is ALSO full at ${LIMIT}; it needs a finer split.`);
     }
@@ -228,6 +246,7 @@ async function fetchComplete(selector, min, label) {
     console.log(`    sl ${edges[i]}-${upper}: ${band.length} rows (union ${seen.size})`);
     await sleep(1500);
   }
+  if (bandsFailed === edges.length - 1) throw new Error(`every sitelink band failed`);
   return [...seen.values()];
 }
 
@@ -258,7 +277,7 @@ async function runQuery(sparql) {
         headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
         signal: ctrl.signal,
       });
-      if (res.ok) return (await res.json()).results.bindings;
+      if (res.ok) return await wdqsBindings(res);
       // 429 means WDQS is asking us to slow down, and it usually says by how
       // much. Honour it — guessing shorter is how you get banned, and the
       // GitHub runners share an address with a great many other people.
@@ -378,14 +397,14 @@ async function main() {
   let attempted = 0;
   let succeeded = 0;
 
-  for (const { category, selector, min, label } of CATEGORIES) {
+  for (const { category, selector, min, label, band } of CATEGORIES) {
     const title = label ?? category;
     process.stdout.write(`\n=== ${title} (sl >= ${min}) ===\n`);
     let rows;
     const t0 = Date.now();
     attempted++;
     try {
-      rows = await fetchComplete(selector, min, title);
+      rows = await fetchComplete(selector, min, title, Boolean(band));
       succeeded++;
     } catch (e) {
       console.error(`  ${title}: failed (${e.message})`);

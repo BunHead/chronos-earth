@@ -38,6 +38,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
+import { coreName } from './dedupe-places.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -117,9 +118,9 @@ async function main() {
   // within 2 km, within 200 years.
   const existing = events
     .filter((e) => e.category === 'city' || e.category === 'monument')
-    .map((e) => ({ lat: e.lat, lon: e.lon, y: e.startYear, c: e.category }));
+    .map((e) => ({ lat: e.lat, lon: e.lon, y: e.startYear, c: e.category, n: coreName(e.name), pl: /^pl/.test(e.id) && !e.wikidataId }));
 
-  let added = 0, dupSpace = 0, skipped = 0;
+  let added = 0, dupSpace = 0, dupName = 0, skipped = 0;
   const fresh = [];
 
   for (const r of data) {
@@ -147,6 +148,20 @@ async function main() {
 
       if (existing.some((e) => e.c === category && Math.abs(e.y - minD) <= 200 && km(e.lat, e.lon, lat, lon) < 2)) {
         dupSpace++;
+        continue;
+      }
+      // THE SAME RULE AS THE CLEANER, applied at the door. dedupe-places.mjs
+      // removes a Pleiades row that shares its core name with a sourced place
+      // within 8 km, whatever the dates say — Pleiades dates are period
+      // buckets. This import did not know that, so every night it re-added the
+      // same ~110 twins (Eridu, Babylon, Stonehenge, Alexandria…) and the
+      // cleaner removed them again: 128 "merges" a night that changed nothing.
+      const core = coreName(title);
+      // Only against a SOURCED place: two Pleiades rows that differ by a
+      // bracket (Oinoe in Corinthia and in Attica) are Pleiades telling places
+      // apart on purpose, and the cleaner leaves those alone too.
+      if (core && existing.some((e) => !e.pl && e.n === core && km(e.lat, e.lon, lat, lon) < 8)) {
+        dupName++;
         continue;
       }
 
@@ -187,6 +202,7 @@ async function main() {
   const bce = fresh.filter((r) => r.startYear < 0).length;
   console.log(`  ${added} new  (${JSON.stringify(byCat)})`);
   console.log(`  ${dupSpace} skipped: a pin of the same kind is already within 2 km and 200 years`);
+  console.log(`  ${dupName} skipped: the same place is already on the globe under the same name, within 8 km`);
   console.log(`  ${skipped} skipped: imprecise, undated, or not a place you could stand in`);
   console.log(`  ${bce} of the new rows begin BCE`);
 

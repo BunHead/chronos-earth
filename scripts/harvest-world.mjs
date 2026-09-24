@@ -26,6 +26,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { wdqsBindings } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = join(__dirname, '..', 'public', 'data');
@@ -105,7 +106,7 @@ LIMIT 250`;
         headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return (await res.json()).results.bindings;
+      return await wdqsBindings(res);
     } catch (err) {
       if (attempt >= 3) {
         console.warn(`  ${key}: FAILED after retries (${err.message}) — will retry next run`);

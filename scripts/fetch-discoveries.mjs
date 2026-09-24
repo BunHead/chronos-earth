@@ -39,6 +39,7 @@
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
+import { parseWdqs } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, '..', 'public', 'data', 'imported');
@@ -101,7 +102,7 @@ async function runQuery(sparql) {
         signal: ctrl.signal,
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
+      const json = parseWdqs(await res.text());
       return json.results.bindings;
     } catch (err) {
       if (attempt >= MAX_ATTEMPTS - 1) {

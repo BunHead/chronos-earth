@@ -65,6 +65,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { wdqsBindings } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -180,7 +181,7 @@ async function runQuery(sparql) {
         headers: { 'User-Agent': UA, Accept: 'application/sparql-results+json' },
         signal: AbortSignal.timeout(QUERY_MS),
       });
-      if (r.ok) return (await r.json()).results.bindings;
+      if (r.ok) return await wdqsBindings(r);
       // 429 means WDQS is asking us to slow down and usually says by how much.
       // Honour it: the runners share an address with a great many other people.
       if (r.status === 429 && a < 4) {

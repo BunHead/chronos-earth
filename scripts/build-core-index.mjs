@@ -206,7 +206,14 @@ export function buildCoreIndex(events) {
     cols.attest.push(e.attestation ?? null);
     cols.cap.push(packCapital(e));
     const detail = {};
-    for (const [k, v] of Object.entries(e)) if (!SKELETON_KEYS.has(k)) detail[k] = v;
+    for (const [k, v] of Object.entries(e)) {
+      if (SKELETON_KEYS.has(k)) continue;
+      // An EMPTY capitalOf is fetch-capitals' bookkeeping — "checked; not a
+      // country's capital" — so it is not asked again every night. It means
+      // nothing to a visitor and costs bytes in every cell, so it stays home.
+      if (k === 'capitalOf' && Array.isArray(v) && v.length === 0) continue;
+      detail[k] = v;
+    }
     if (Object.keys(detail).length > 0) {
       if (!detailByCell.has(cell)) detailByCell.set(cell, {});
       detailByCell.get(cell)[e.id] = detail;

@@ -30,6 +30,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { parseWdqs } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -48,6 +49,9 @@ const ONLY = (() => {
   const i = process.argv.indexOf('--only');
   return i >= 0 && process.argv[i + 1] ? new Set(process.argv[i + 1].split(',').map((q) => q.trim())) : null;
 })();
+/** `--full`: re-ask every capital, not just new ones. For when the rules change. */
+const FULL = process.argv.includes('--full');
+const POLITY_CACHE = join(__dirname, 'data', 'polity-class.json');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** How notable the POLITY must be before its capital counts. 20 sitelinks
@@ -79,7 +83,7 @@ async function runQuery(sparql, label) {
       const text = await res.text();
       if (!res.ok) { console.error(`  ${label}: HTTP ${res.status}`); await sleep(8000); continue; }
       try {
-        return JSON.parse(text).results.bindings;
+        return parseWdqs(text).results.bindings;
       } catch {
         // WDQS answers an over-expensive query with an HTML/text error page,
         // not JSON. That is a transport failure wearing a parser's clothes.
@@ -135,7 +139,8 @@ async function main() {
   // Supplying the subjects in a VALUES block cannot truncate: the answer is
   // bounded by how many places we hold, and we know that number.
   console.log('\npass 1: which of them are (or were) a capital…');
-  const ASK = 1200;
+  // 400, not 1,200: on the runner the 1,200-id batches timed out under load.
+  const ASK = 400;
   const all = [...byQid.keys()].filter((q) => !ONLY || ONLY.has(q));
   const capitalQids = new Set();
   for (let i = 0; i < all.length; i += ASK) {
@@ -155,8 +160,19 @@ async function main() {
   }
   console.log(`\n  ${capitalQids.size} of our ${all.length} places are (or were) a capital of something`);
 
-  console.log('\npass 2: when, and of what…');
-  const list = [...capitalQids];
+  // NIGHTLY, ONLY THE NEW ONES. Re-asking all ~3,100 capitals every night took
+  // 37 minutes on 24 Sept 2026 with WDQS struggling, and the country check that
+  // follows was cut off by the step's time limit — so the night did nothing.
+  // A city's capital history does not change overnight. By default pass 2
+  // asks only about places with NO capitalOf yet; an EMPTY capitalOf means
+  // "already checked: not a country's capital" and is not asked again.
+  // `--full` re-asks everything — run it when the rules change.
+  const list = [...capitalQids].filter((q) => FULL || ONLY || byQid.get(q)?.capitalOf === undefined);
+  console.log(`\npass 2: when, and of what… (${list.length} to ask${FULL || ONLY ? '' : `; ${capitalQids.size - list.length} already checked`})`);
+  if (list.length === 0) {
+    console.log('  nothing new tonight — every capital on the globe has already been checked.');
+    return;
+  }
   const found = new Map();
   // Cities whose chunk actually answered. Only these may have their record
   // REPLACED or REMOVED — a city in a failed chunk keeps what it had.
@@ -229,10 +245,21 @@ async function main() {
   // judgement call: Scotland, England and Wales count as countries, so
   // Edinburgh and Cardiff stay yellow — which is defensible, because they are.
   const NATIONAL = ['Q6256', 'Q3624078', 'Q3024240', 'Q48349', 'Q417175', 'Q133442', 'Q12759805', 'Q1250464', 'Q15634554'];
-  const polities = [...new Set([...found.values()].flat().map((e) => e.ofId))];
-  const national = new Set();
+  const allPolities = [...new Set([...found.values()].flat().map((e) => e.ofId))];
+  // What a polity IS does not change, so the answer is kept: committed to
+  // scripts/data/polity-class.json and only unknown polities are asked.
+  let cache = { national: [], other: [] };
+  try {
+    cache = JSON.parse(await readFile(POLITY_CACHE, 'utf8'));
+  } catch {
+    /* first run */
+  }
+  const national = new Set(cache.national);
+  const known = new Set([...cache.national, ...cache.other]);
+  const polities = allPolities.filter((q) => !known.has(q));
   let classFailed = 0;
-  console.log(`\npass 3: which of ${polities.length} polities are countries…`);
+  console.log(`\npass 3: which of ${allPolities.length} polities are countries… (${polities.length} not yet known)`);
+  const askedNow = new Set();
   for (let i = 0; i < polities.length; i += 150) {
     const ids = polities.slice(i, i + 150).map((q) => `wd:${q}`);
     const rows = await runQuery(
@@ -244,8 +271,20 @@ async function main() {
       `pass 3 batch ${Math.floor(i / 150) + 1}`,
     );
     if (!rows) { classFailed++; continue; }
+    for (const q of polities.slice(i, i + 150)) askedNow.add(q);
     for (const b of rows) national.add(b.of.value.split('/').pop());
     await sleep(900);
+  }
+  // Remember every polity that was actually classified, even on a run that
+  // then refuses to write: the next attempt starts from where this one got to.
+  if (!CHECK_ONLY && askedNow.size) {
+    const other = new Set(cache.other);
+    for (const q of askedNow) if (!national.has(q)) other.add(q);
+    await writeFile(POLITY_CACHE, JSON.stringify({
+      note: 'fetch-capitals pass 3: is this polity country-level? Cached because the answer does not change.',
+      national: [...national].sort(),
+      other: [...other].sort(),
+    }));
   }
   if (classFailed) {
     // Half an answer here would silently strip real capitals or keep false
@@ -254,7 +293,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  console.log(`  ${national.size} are countries, empires, kingdoms or colonies; ${polities.length - national.size} are subdivisions and do not count`);
+  const nationalHere = allPolities.filter((q) => national.has(q)).length;
+  console.log(`  ${nationalHere} are countries, empires, kingdoms or colonies; ${allPolities.length - nationalHere} are subdivisions and do not count`);
   for (const [qid, entries] of found) {
     const kept = entries.filter((e) => national.has(e.ofId)).map(({ ofId, ...e }) => e);
     if (kept.length) found.set(qid, kept);
@@ -264,11 +304,18 @@ async function main() {
   // A city that WAS marked but whose every role turned out to be a province's
   // loses the mark — this is how Sydney goes back to blue. Only for cities
   // whose chunk answered; a failed chunk proves nothing.
+  // It is left with an EMPTY list rather than none: "checked, not a country's
+  // capital", so the nightly run does not ask about Sydney again every night.
+  // The index builder never ships the empty list.
   let unmarked = 0;
+  let checkedNone = 0;
   for (const qid of answered) {
     if (found.has(qid)) continue;
     const row = byQid.get(qid);
-    if (row?.capitalOf) { delete row.capitalOf; unmarked++; }
+    if (!row) continue;
+    if (row.capitalOf?.length) unmarked++;
+    else if (row.capitalOf === undefined) checkedNone++;
+    row.capitalOf = [];
   }
   console.log(`  ${unmarked} cities lose a badge they only had for a subdivision`);
 
@@ -285,7 +332,9 @@ async function main() {
   console.log(`\n${attached} city rows marked as a capital; ${handovers} of them record a HANDOVER (an end date)`);
 
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
-  if (attached === 0 && unmarked === 0) {
+  if (attached === 0 && unmarked === 0 && checkedNone === 0) {
+    // Every chunk failed if we got here with something to ask. That is worth
+    // a red step; a quiet night with nothing new returned much earlier.
     console.error('\nNothing attached — not writing.');
     process.exitCode = 1;
     return;

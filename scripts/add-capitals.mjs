@@ -36,6 +36,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { parseWdqs } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -102,7 +103,7 @@ async function runQuery(sparql) {
         continue;
       }
       try {
-        return JSON.parse(text).results.bindings;
+        return parseWdqs(text).results.bindings;
       } catch {
         console.error('  WDQS returned an error document (query too expensive?)');
         await new Promise((r) => setTimeout(r, 8000));
