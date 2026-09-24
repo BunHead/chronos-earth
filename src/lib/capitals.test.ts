@@ -122,7 +122,15 @@ describe('the shipped data says what the Captain said it does', () => {
 
   it('carries enough capitals to be a layer, and enough handovers to be worth animating', () => {
     const caps = events.filter((e) => isCapitalRow(e));
-    expect(caps.length).toBeGreaterThan(500);
+    // 300, not 500 — and FEWER is the fix, not a regression. This counted
+    // every seat of every province, state and county (2,590 rows), which is why
+    // the Captain could not see the capitals for the capitals. Since 24 Sept
+    // 2026 only a COUNTRY's capital counts: the ~200 of today plus the
+    // historical ones (Kyoto, Philadelphia, Persepolis…) — 379 at the change.
+    // Far below 300 would mean the country check is throwing away real ones.
+    expect(caps.length).toBeGreaterThan(300);
+    // …and a layer this small must not be carrying provinces again.
+    expect(caps.length).toBeLessThan(1000);
     const withHandover = caps.filter((e) =>
       (e as TimelineEvent & { capitalOf: CapitalRole[] }).capitalOf.some((r) => r.to !== null));
     expect(withHandover.length).toBeGreaterThan(50);
