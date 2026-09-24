@@ -39,3 +39,6 @@ Chronos Earth.gif
 *.png
 !public/**/*.png
 !dist/**/*.png
+
+# Build-time downloads (Natural Earth etc.) — used to build the maps, never shipped.
+.cache/

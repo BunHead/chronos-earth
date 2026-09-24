@@ -103,7 +103,12 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
             <li>
               <b>Historical borders:</b> the{' '}
               <a href="https://github.com/aourednik/historical-basemaps" target="_blank" rel="noopener noreferrer">historical-basemaps</a>{' '}
-              dataset by André Ourednik (ODbL).
+              dataset by André Ourednik (ODbL). Modern countries that dataset leaves out — South
+              Sudan, Singapore, Timor-Leste, the small island states — are added from{' '}
+              <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a>{' '}
+              (public domain), and the Vatican City boundary is{' '}
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>{' '}
+              (ODbL).
             </li>
             <li>
               <b>Globe imagery:</b> Natural Earth II, bundled with{' '}
