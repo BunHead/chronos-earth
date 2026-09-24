@@ -198,6 +198,14 @@ jobs:
           set -u
           git config user.name "chronos-harvester"
           git config user.email "actions@users.noreply.github.com"
+          # ONLY public/data is ever committed, so nothing else may be left
+          # dirty: `git pull --rebase` refuses to run over unstaged changes,
+          # and on 24 Sept 2026 that is exactly what threw away a night that
+          # had recovered 847 cities. fetch-capitals updates its polity cache
+          # (scripts/data/polity-class.json) as it goes; that cache is only a
+          # speed-up, the committed copy is kept current by the one-off
+          # re-check workflow, so the runner's copy is simply discarded.
+          git checkout -- scripts/data 2>/dev/null || true
           git add public/data
           if git diff --cached --quiet; then
             echo "No new events this run."
@@ -206,7 +214,7 @@ jobs:
           git commit -m "Data: automated nightly harvest (additive)"
 
           for attempt in 1 2 3; do
-            if git pull --rebase origin main; then
+            if git pull --rebase --autostash origin main; then
               if git push; then
                 echo "Harvest landed cleanly on attempt $attempt."
                 exit 0

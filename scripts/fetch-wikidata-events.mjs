@@ -210,7 +210,10 @@ const LIMIT = 6000;
  * natural axis to cut along: ask again in bands and union the answers. Each
  * band is a smaller query, so this is also gentler on WDQS than one huge one.
  */
-const BAND_EDGES = [30, 60, 120];
+// Narrow bands where the cities are thickest. 30-60 as one band came back
+// cut off mid-stream (3.7 MB, "Expected property name" at the break) — WDQS
+// stops sending when it hits its limit and the tail of the JSON never arrives.
+const BAND_EDGES = [25, 30, 40, 60, 90, 120];
 
 async function fetchComplete(selector, min, label, alwaysBand = false) {
   // ALWAYS BAND the big ones. The city query as ONE request came back with
@@ -293,7 +296,9 @@ async function runQuery(sparql) {
       }
       throw new Error(`HTTP ${res.status}`);
     } catch (e) {
-      if (attempt < MAX_ATTEMPTS && (e.name === 'AbortError' || e.name === 'TypeError')) {
+      // SyntaxError too: a response cut off mid-stream parses as broken JSON,
+      // and it is as transient as a timeout — ask again.
+      if (attempt < MAX_ATTEMPTS && (e.name === 'AbortError' || e.name === 'TypeError' || e.name === 'SyntaxError')) {
         await sleep(5000 * 2 ** attempt);
         continue;
       }
