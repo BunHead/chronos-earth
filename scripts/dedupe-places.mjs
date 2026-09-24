@@ -48,17 +48,34 @@ const NEAR_KM = 2;
 /**
  * THE CAPTAIN'S CURATION CALLS, by Wikidata id of the row to DROP.
  *
- * Reserved for the one case the evidence cannot settle: both rows properly
- * sourced, the same place, and the founding dates genuinely disputed. Exactly
- * one such pair exists in the whole dataset.
+ * Reserved for the case the evidence cannot settle: both rows properly
+ * sourced, the same place, and the founding dates genuinely disputed. Every
+ * such pair in the dataset has now been ruled on. Recorded here so the nightly
+ * harvest cannot quietly re-open a question he has already answered.
  *
  * PETRA. q5788 dates it -799, from earlier Edomite occupation of the site;
  * cur-petra dates it -300, the Nabataean city — the rock-cut capital everyone
- * pictures when they hear the name, and the date most books give. Asked on
- * 24 Sept 2026, he chose the Nabataean city. Recorded here so the nightly
- * harvest cannot quietly re-open a question he has already answered.
+ * pictures when they hear the name. He chose the Nabataean city (24 Sept 2026).
+ *
+ * CUSCO. cur-cusco dates it c. 1100, the Inca capital; q5582862 dates it 1534,
+ * the Spanish refoundation. He chose the Inca city (24 Sept 2026). The curated
+ * row keeps its name and date and takes the Wikidata id and capital record.
+ *
+ * MEROË. q5780 dates it -2500; cur-meroe "Meroë (Kush)" dated it -800. He chose
+ * -2500 (24 Sept 2026) — a ruling on the DATE, not on which row. So the curated
+ * row, with its name and its prominence, stays and takes his date (see
+ * CURATED_DATES), and the Wikidata row is folded into it.
  */
-const CURATED_DROPS = new Map([['q5788', "Petra: the Captain chose -300, the Nabataean city, over -799"]]);
+const CURATED_DROPS = new Map([
+  ['q5788', 'Petra: the Captain chose -300, the Nabataean city, over -799'],
+  ['q5582862', 'Cusco: the Captain chose the Inca city, c. 1100, over the Spanish 1534'],
+  ['q5780', 'Meroë: folded into the curated row, which takes the date the Captain chose (-2500)'],
+]);
+
+/** His rulings on a curated row's DATE, applied every run. id -> [year, why]. */
+const CURATED_DATES = new Map([
+  ['cur-meroe', [-2500, 'the Captain chose -2500 over -800 (24 Sept 2026)']],
+]);
 const SAME_ERA_YEARS = 200;
 
 const distKm = (a, b) => {
@@ -238,6 +255,16 @@ export function groupDuplicates(events) {
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const events = doc.events ?? [];
+  // His date rulings first, so the merge below sees the dates he chose.
+  let redated = 0;
+  for (const e of events) {
+    const ruling = CURATED_DATES.get(e.id);
+    if (ruling && e.startYear !== ruling[0]) {
+      console.log(`  ${e.name}: ${e.startYear} -> ${ruling[0]} (${ruling[1]})`);
+      e.startYear = ruling[0];
+      redated++;
+    }
+  }
   const { merges, disagreements } = groupDuplicates(events);
 
   console.log(`${events.length} rows in`);
