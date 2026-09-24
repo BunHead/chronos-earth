@@ -257,31 +257,44 @@ async function main() {
   const allPolities = [...new Set([...found.values()].flat().map((e) => e.ofId))];
   // What a polity IS does not change, so the answer is kept: committed to
   // scripts/data/polity-class.json and only unknown polities are asked.
-  let cache = { national: [], other: [] };
+  // v2 of the cache also keeps each country's own LIFESPAN (below). A v1 cache
+  // has no lifespans and let a micronation through, so it is not trusted.
+  let cache = { v: 2, national: {}, other: [] };
   try {
-    cache = JSON.parse(await readFile(POLITY_CACHE, 'utf8'));
+    const c = JSON.parse(await readFile(POLITY_CACHE, 'utf8'));
+    if (c.v === 2) cache = c;
   } catch {
     /* first run */
   }
-  const national = new Set(cache.national);
-  const known = new Set([...cache.national, ...cache.other]);
+  /** polity id -> [first year, last year] of the polity itself (null = unknown / still exists). */
+  const national = new Map(Object.entries(cache.national));
+  const known = new Set([...national.keys(), ...cache.other]);
   const polities = allPolities.filter((q) => !known.has(q));
   let classFailed = 0;
   console.log(`\npass 3: which of ${allPolities.length} polities are countries… (${polities.length} not yet known)`);
   const askedNow = new Set();
   for (let i = 0; i < polities.length; i += 150) {
     const ids = polities.slice(i, i + 150).map((q) => `wd:${q}`);
+    // NOT A MICRONATION. Montreal was yellow in 2026 as the capital of the
+    // "Aerican Empire", a joke micronation, which Wikidata's class tree lets
+    // through as a country. And the polity's OWN inception and dissolution
+    // come back with it — see the lifespan rule below.
     const rows = await runQuery(
-      `SELECT DISTINCT ?of WHERE {
+      `SELECT ?of (MIN(?s) AS ?start) (MAX(?e) AS ?end) WHERE {
   VALUES ?of { ${ids.join(' ')} }
   VALUES ?level { ${NATIONAL.map((q) => `wd:${q}`).join(' ')} }
   ?of wdt:P31/wdt:P279* ?level .
-}`,
+  FILTER NOT EXISTS { ?of wdt:P31/wdt:P279* wd:Q188443 }
+  OPTIONAL { ?of wdt:P571 ?s . FILTER(DATATYPE(?s) = xsd:dateTime) }
+  OPTIONAL { ?of wdt:P576 ?e . FILTER(DATATYPE(?e) = xsd:dateTime) }
+} GROUP BY ?of`,
       `pass 3 batch ${Math.floor(i / 150) + 1}`,
     );
     if (!rows) { classFailed++; continue; }
     for (const q of polities.slice(i, i + 150)) askedNow.add(q);
-    for (const b of rows) national.add(b.of.value.split('/').pop());
+    for (const b of rows) {
+      national.set(b.of.value.split('/').pop(), [yearOf(b.start?.value), yearOf(b.end?.value)]);
+    }
     await sleep(900);
   }
   // Remember every polity that was actually classified, even on a run that
@@ -290,8 +303,9 @@ async function main() {
     const other = new Set(cache.other);
     for (const q of askedNow) if (!national.has(q)) other.add(q);
     await writeFile(POLITY_CACHE, JSON.stringify({
-      note: 'fetch-capitals pass 3: is this polity country-level? Cached because the answer does not change.',
-      national: [...national].sort(),
+      v: 2,
+      note: 'fetch-capitals pass 3: country-level polities with their own [inception, dissolution] years, and the rest. Cached because the answer does not change.',
+      national: Object.fromEntries([...national].sort(([a], [b]) => a.localeCompare(b))),
       other: [...other].sort(),
     }));
   }
@@ -304,11 +318,28 @@ async function main() {
   }
   const nationalHere = allPolities.filter((q) => national.has(q)).length;
   console.log(`  ${nationalHere} are countries, empires, kingdoms or colonies; ${allPolities.length - nationalHere} are subdivisions and do not count`);
+  // A ROLE CANNOT OUTLIVE ITS COUNTRY. An undated role used to mean "capital
+  // whenever the city exists", so Ho Chi Minh City was yellow in 2026 as the
+  // capital of French Indochina, which ended in 1954. Where Wikidata gives the
+  // role no dates but does date the POLITY, the role takes the polity's own
+  // inception and dissolution. That is not inventing a date: whatever else is
+  // uncertain, nobody was capital of French Indochina after it ceased to
+  // exist. Dates the role DOES carry are never overridden.
+  let bounded = 0;
   for (const [qid, entries] of found) {
-    const kept = entries.filter((e) => national.has(e.ofId)).map(({ ofId, ...e }) => e);
+    const kept = entries
+      .filter((e) => national.has(e.ofId))
+      .map(({ ofId, ...e }) => {
+        const [born, ended] = national.get(ofId) ?? [null, null];
+        const out = { ...e };
+        if (out.from === null && born !== null) { out.from = born; bounded++; }
+        if (out.to === null && ended !== null) { out.to = ended; bounded++; }
+        return out;
+      });
     if (kept.length) found.set(qid, kept);
     else found.delete(qid);
   }
+  console.log(`  ${bounded} undated role ends bounded by the polity's own lifespan`);
 
   // A city that WAS marked but whose every role turned out to be a province's
   // loses the mark — this is how Sydney goes back to blue. Only for cities
