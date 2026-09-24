@@ -1,33 +1,4 @@
 {
  "note": "Same place, same spot, and BOTH sides are properly sourced — a real dispute, not a Pleiades period bucket. Not resolved automatically: picking one would be inventing history to tidy the map.",
- "disagreements": [
-  {
-   "name": "Cusco (Inca capital)",
-   "km": 0.99,
-   "earlier": {
-    "id": "cur-cusco",
-    "year": 1100,
-    "sitelinks": 400
-   },
-   "later": {
-    "id": "q5582862",
-    "year": 1534,
-    "sitelinks": 115
-   }
-  },
-  {
-   "name": "Meroë",
-   "km": 3.32,
-   "earlier": {
-    "id": "q5780",
-    "year": -2500,
-    "sitelinks": 66
-   },
-   "later": {
-    "id": "cur-meroe",
-    "year": -800,
-    "sitelinks": 400
-   }
-  }
- ]
+ "disagreements": []
 }

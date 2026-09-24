@@ -1,1 +1,1 @@
-{"v":1,"id":["q1763364"],"name":["Rapa Nui National Park"],"lat":[-27.0729],"lon":[-109.3486],"year":[1935],"endYear":[null],"category":["monument"],"notability":[38],"wiki":[""],"cell":["-3|25"],"attest":[null],"cap":[null]}
+{"v":1,"id":["q233369","q1763364"],"name":["Hanga Roa","Rapa Nui National Park"],"lat":[-27.1492,-27.0729],"lon":[-109.4323,-109.3486],"year":[1888,1935],"endYear":[null,null],"category":["city","monument"],"notability":[59,38],"wiki":["",""],"cell":["-3|25","-3|25"],"attest":[null,null],"cap":[null,null]}

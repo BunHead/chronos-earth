@@ -1,1 +1,1 @@
-{"v":1,"id":["q189138"],"name":["Hermosillo"],"lat":[29.075],"lon":[-110.9583],"year":[1700],"endYear":[null],"category":["city"],"notability":[77],"wiki":[""],"cell":["2|24"],"attest":[null],"cap":[null]}
+{"v":1,"id":["q214215","q189138"],"name":["La Paz","Hermosillo"],"lat":[24.1486,29.075],"lon":[-110.3067,-110.9583],"year":[1535,1700],"endYear":[null,null],"category":["city","city"],"notability":[69,77],"wiki":["La Paz, Baja California Sur",""],"cell":["2|24","2|24"],"attest":[null,null],"cap":[null,null]}
