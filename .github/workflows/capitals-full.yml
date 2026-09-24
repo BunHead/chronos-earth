@@ -1,0 +1,60 @@
+# ONE-OFF: re-check every capital on the globe against the current rules.
+#
+# The nightly harvest only asks about capitals it has never seen (see
+# scripts/fetch-capitals.mjs). When the RULES change — as on 24 Sept 2026, when
+# only a country's capital was allowed to count, so Sydney, Perth and Chicago
+# stop being yellow — every existing record has to be re-asked once. That is
+# ~3,100 cities and ~3,500 polities, which does not fit in the nightly step's
+# budget when the query service is busy, and a desktop connection that has
+# queried all day gets throttled to a crawl. So it runs here, on demand.
+#
+# Shares the `harvest` concurrency group: it queues behind a running harvest
+# instead of racing it for events.json.
+name: Re-check every capital (one-off)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: harvest
+  cancel-in-progress: false
+
+jobs:
+  capitals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Re-check every capital (--full)
+        # Writes nothing unless every pass completes: half a classification
+        # would strip real capitals or keep false ones.
+        run: timeout 130m node scripts/fetch-capitals.mjs --full
+      - name: Rebuild the core index
+        run: node scripts/build-core-index.mjs
+      - name: Lint the data
+        run: node scripts/lint-data.mjs --warn
+      - name: Commit & push
+        run: |
+          set -u
+          git config user.name "chronos-harvester"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/data scripts/data/polity-class.json
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Data: every capital re-checked — only a country's capital counts"
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Could not land on attempt $attempt — retrying." >&2
+            git rebase --abort 2>/dev/null || true
+            sleep 20
+          done
+          echo "Could not push; this needs a human." >&2
+          exit 1
