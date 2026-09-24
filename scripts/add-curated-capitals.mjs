@@ -4,7 +4,7 @@
  * THE GAP THIS FILLS. add-capitals.mjs guarantees every sovereign state's
  * capital is on the globe, but only with a date it can cite from Wikidata —
  * inception, first written mention, or the year the capital role began.
- * Nineteen capitals have none of the three, and one of them was BEIJING. A
+ * Thirty-five capitals had none of the three, and one of them was BEIJING. A
  * globe of human history with no Beijing is not a globe of human history.
  *
  * WHY THIS IS A TABLE AND NOT A SCRAPER. I wrote the scraper first. It read
@@ -21,11 +21,18 @@
  * have. Where the earliest date is a settlement rather than a founding — Amman's
  * 7000 BC, Beijing's Ji — the note says that too.
  *
- * NINE ARE STILL MISSING ON PURPOSE: Abu Dhabi, Kampala, Bamako, Conakry, Lomé,
- * Muscat, Yamoussoukro, Nouakchott and Suva. Their Wikipedia infoboxes carry no
- * establishment row and their leads no founding sentence, so there is nothing
- * here to cite. They stay off the globe until there is. Do not fill them in
- * from memory.
+ * TWO CAPITALS ARE LEFT OFF ON PURPOSE, and it is not an oversight:
+ *   Rawalpindi — Wikidata lists it as a capital of Pakistan with no end date,
+ *     but it was the INTERIM capital in the 1960s. Islamabad is on the globe;
+ *     a second gold pin for Pakistan would be wrong.
+ *   East Jerusalem — Palestine's claimed capital, 2 km from the Jerusalem pin
+ *     already there. A second pin would be a near-duplicate on contested ground.
+ * Wikidata also calls a few dozen eleventh-century taifas, the Kingdom of
+ * Pontus and several micronations "sovereign states" whose capitals never
+ * ended. Those are not what "every country's capital" means.
+ *
+ * Coverage is checked the right way round — every existing sovereign state,
+ * its capital — not from a list someone thought to check.
  *
  * Idempotent: re-run nightly, it adds only what is absent.
  *
@@ -76,6 +83,89 @@ export const CURATED = [
   { name: 'Khartoum', sitelinks: 183, wikiTitle: 'Khartoum', wikidataId: 'Q1963', lat: 15.6, lon: 32.5,
     startYear: 1821,
     dateNote: 'Wikipedia: "founded in 1821 by Muhammad Ali Pasha, north of the ancient city of Soba"' },
+  // --- 24 Sept 2026: the rest. The Captain said the capitals were not complete,
+  // and he was right: I had checked a hand-picked list of nineteen. Asked the
+  // other way round — every existing sovereign state, its capital (P36) — 27
+  // were missing. 25 are below. Each date is the earliest dated statement
+  // about the TOWN ITSELF in its own English Wikipedia article, and the note
+  // says what kind of statement it is: a founding, a settlement, a first
+  // record, or only the earliest date the article gives for a place that is
+  // plainly older.
+  { name: "Oslo", sitelinks: 245, wikiTitle: "Oslo", wikidataId: 'Q585', lat: 59.9133, lon: 10.7389,
+    startYear: 1040,
+    dateNote: "Wikipedia: \"founded as a city at the end of the Viking Age in 1040 under the name Ánslo\"" },
+  { name: "Abu Dhabi", sitelinks: 184, wikiTitle: "Abu Dhabi", wikidataId: 'Q1519', lat: 24.4511, lon: 54.3969,
+    startYear: 1761,
+    dateNote: "Wikipedia: \"Qasr Al Hosn is the oldest building in the Emirate of Abu Dhabi, built by the Bani Yas tribe in 1761\"" },
+  { name: "Kampala", sitelinks: 183, wikiTitle: "Kampala", wikidataId: 'Q3894', lat: 0.3136, lon: 32.5811,
+    startYear: 1860,
+    dateNote: "first written description of the Kibuga (royal capital) — Wikipedia: Burton, The Lake Region of East Africa, 1860" },
+  { name: "Bamako", sitelinks: 177, wikiTitle: "Bamako", wikidataId: 'Q3703', lat: 12.6458, lon: -7.9922,
+    startYear: 1650,
+    dateNote: "Wikipedia: \"The kafu of Bamako was founded around 1650 by the Niare family\" — shown from 1650, a circa date" },
+  { name: "Conakry", sitelinks: 163, wikiTitle: "Conakry", wikidataId: 'Q3733', lat: 9.5092, lon: -13.7122,
+    startYear: 1887,
+    dateNote: "Wikipedia: \"The city was essentially founded after Britain ceded the island to France in 1887\"" },
+  { name: "Lomé", sitelinks: 162, wikiTitle: "Lomé", wikidataId: 'Q3792', lat: 6.1300, lon: 1.2158,
+    startYear: 1880,
+    dateNote: "Wikipedia: founded by the Ewes; trade \"favored the expansion of Lomé around 1880\" — the founding itself is undated, shown from c. 1880" },
+  { name: "Muscat", sitelinks: 159, wikiTitle: "Muscat", wikidataId: 'Q3826', lat: 23.6139, lon: 58.5922,
+    startYear: 1507,
+    dateNote: "earliest dated event in Wikipedia's history: \"Afonso de Albuquerque sailed to Muscat in 1507\" — the town is older" },
+  { name: "Pristina", sitelinks: 158, wikiTitle: "Pristina", wikidataId: 'Q25270', lat: 42.6667, lon: 21.1667,
+    startYear: 1315,
+    dateNote: "first recorded — Wikipedia: \"The first historical record mentioning Pristina by its name dates back to 1315–1318\"" },
+  { name: "Yamoussoukro", sitelinks: 156, wikiTitle: "Yamoussoukro", wikidataId: 'Q3768', lat: 6.8161, lon: -5.2742,
+    startYear: 1919,
+    dateNote: "earliest dated mention of the town in Wikipedia's history: \"In 1919, the civil station of Yamoussoukro was removed\" — it is older" },
+  { name: "Nouakchott", sitelinks: 155, wikiTitle: "Nouakchott", wikidataId: 'Q3688', lat: 18.0858, lon: -15.9785,
+    startYear: 1958,
+    dateNote: "Wikipedia: a fishing village until \"construction began in March 1958\" to build the capital" },
+  { name: "Colombo", sitelinks: 152, wikiTitle: "Colombo", wikidataId: 'Q35381', lat: 6.9267, lon: 79.8606,
+    startYear: 1517,
+    dateNote: "Wikipedia: the Portuguese \"began to build a fort in 1517\" at Colombo — the port is older" },
+  { name: "Victoria", sitelinks: 146, wikiTitle: "Victoria, Seychelles", wikidataId: 'Q3940', lat: -4.6236, lon: 55.4544,
+    startYear: 1778,
+    dateNote: "Wikipedia: \"originally settled in 1778 by French colonists\"" },
+  { name: "Moroni", sitelinks: 143, wikiTitle: "Moroni, Comoros", wikidataId: 'Q3901', lat: -11.7036, lon: 43.2536,
+    startYear: 1427,
+    dateNote: "Wikipedia: \"a well-established town\" by the mid-second millennium; \"the Badjanani mosque, built in 1427\"" },
+  { name: "Port of Spain", sitelinks: 140, wikiTitle: "Port of Spain", wikidataId: 'Q39178', lat: 10.6667, lon: -61.5167,
+    startYear: 1560,
+    dateNote: "settled — Wikipedia infobox: \"1560\"" },
+  { name: "Suva", sitelinks: 139, wikiTitle: "Suva", wikidataId: 'Q38807', lat: -18.1333, lon: 178.4333,
+    startYear: 1868,
+    dateNote: "Wikipedia: \"In 1868, when Suva was still a small village\" — capital from 1877" },
+  { name: "Port Vila", sitelinks: 134, wikiTitle: "Port Vila", wikidataId: 'Q37806', lat: -17.7333, lon: 168.3167,
+    startYear: 1889,
+    dateNote: "Wikipedia: the municipality of Franceville (Port Vila) \"declared independence on 9 August 1889\"" },
+  { name: "Roseau", sitelinks: 125, wikiTitle: "Roseau", wikidataId: 'Q36281', lat: 15.3000, lon: -61.3833,
+    startYear: 1699,
+    dateNote: "Wikipedia: \"In 1699, the French built a fort to protect Roseau\" — Amerindian settlement there is older" },
+  { name: "Majuro", sitelinks: 123, wikiTitle: "Majuro", wikidataId: 'Q12919', lat: 7.0918, lon: 171.3802,
+    startYear: 1,
+    dateNote: "Wikipedia: excavations \"suggest habitation around the 1st century AD\" (radiocarbon 93 BC–127 AD)" },
+  { name: "Sri Jayawardenepura Kotte", sitelinks: 122, wikiTitle: "Sri Jayawardenepura Kotte", wikidataId: 'Q41963', lat: 6.9000, lon: 79.9164,
+    startYear: 1391,
+    dateNote: "Wikipedia: \"In 1391 … Kotte was given the epithet Sri Jayawardenepura\" — capital of Sri Lanka from 1982" },
+  { name: "Funafuti", sitelinks: 122, wikiTitle: "Funafuti", wikidataId: 'Q34126', lat: -8.5048, lon: 179.1174,
+    startYear: 1819,
+    dateNote: "first European record — Wikipedia: \"in May 1819, de Peyster … sighted Funafuti\"; capital of Tuvalu from 1978" },
+  { name: "Palikir", sitelinks: 120, wikiTitle: "Palikir", wikidataId: 'Q42751', lat: 6.9178, lon: 158.1850,
+    startYear: 1989,
+    dateNote: "Wikipedia: \"It was declared the capital of Micronesia in 1989\"" },
+  { name: "Yaren", sitelinks: 114, wikiTitle: "Yaren", wikidataId: 'Q31026', lat: -0.5477, lon: 166.9209,
+    startYear: 1968,
+    dateNote: "Wikipedia: \"The district was created in 1968\" — Nauru has no official capital; Yaren is the seat of government" },
+  { name: "South Tarawa", sitelinks: 97, wikiTitle: "South Tarawa", wikidataId: 'Q131233', lat: 1.3333, lon: 172.9667,
+    startYear: 1895,
+    dateNote: "Wikipedia: \"selected in 1895 as the seat of colonial government\"" },
+  { name: "Lobamba", sitelinks: 96, wikiTitle: "Lobamba", wikidataId: 'Q101418', lat: -26.4465, lon: 31.2064,
+    startYear: 1968,
+    dateNote: "Wikipedia: independence \"was announced at a cattle byre in Lobamba\" in 1968 — an older Old Lobamba (1750) lay elsewhere" },
+  { name: "Honiara", sitelinks: 127, wikiTitle: "Honiara", wikidataId: 'Q40921', lat: -9.4333, lon: 159.9500,
+    startYear: 1952,
+    dateNote: "Wikipedia: \"Honiara officially became the capital of the British Protectorate of Solomon Islands in 1952\"" },
 ];
 
 /** City and monument are one family, as everywhere else in this repo. */

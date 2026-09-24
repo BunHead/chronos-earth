@@ -36,6 +36,18 @@ const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
 const ENDPOINT = 'https://query.wikidata.org/sparql';
 const UA = 'ChronosEarth-educational-app/1.0 (personal history-teaching project)';
 const CHECK_ONLY = process.argv.includes('--check');
+/**
+ * --only Q956,Q585,…  — ask about these places and no others.
+ *
+ * For the day WDQS is limping. A full pass walks ~3,000 cities in 60-id
+ * chunks; on 24 Sept 2026 chunks were timing out one after another and the
+ * run would have taken an hour to attach records to the 35 capitals that had
+ * just been added. Rows not asked about keep the records they already have.
+ */
+const ONLY = (() => {
+  const i = process.argv.indexOf('--only');
+  return i >= 0 && process.argv[i + 1] ? new Set(process.argv[i + 1].split(',').map((q) => q.trim())) : null;
+})();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** How notable the POLITY must be before its capital counts. 20 sitelinks
@@ -124,7 +136,7 @@ async function main() {
   // bounded by how many places we hold, and we know that number.
   console.log('\npass 1: which of them are (or were) a capital…');
   const ASK = 1200;
-  const all = [...byQid.keys()];
+  const all = [...byQid.keys()].filter((q) => !ONLY || ONLY.has(q));
   const capitalQids = new Set();
   for (let i = 0; i < all.length; i += ASK) {
     const ids = all.slice(i, i + ASK).map((q) => `wd:${q}`);

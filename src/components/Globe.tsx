@@ -1156,7 +1156,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         // orbit, and they keep this from re-picking markers as you drag.
         const hLon = Math.round(Cesium.Math.toDegrees(c.longitude) / 2) * 2;
         const hLat = Math.round(Cesium.Math.toDegrees(c.latitude) / 2) * 2;
-        const hH = Math.round(c.height / 500_000) * 500_000;
+        // Rounded UP, never down: a lower height means a smaller horizon, and
+        // rounding 200 km down to 0 would cull markers you can actually see.
+        const hH = Math.ceil(c.height / 500_000) * 500_000;
         const key = `${hLon}|${hLat}|${hH}`;
         if (key !== camPointKeyRef.current && Number.isFinite(hLon) && Number.isFinite(hLat)) {
           camPointKeyRef.current = key;
@@ -1679,9 +1681,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         // Category switch AND the finer sub-kind switches (lib/subLayers).
         if (!eventPasses(ev, enabledEventCats, offSubs)) return false;
-        // At orbital tiers nothing scopes to a rectangle, so without this the
-        // budget is spent on markers behind the planet. See markerSpread.
-        if (!scopeToView && camPoint && !withinHorizon(camPoint, ev)) return false;
+        // Nothing behind the planet, at ANY tier. This used to run only at tier
+        // 0, on the theory that higher tiers scope to the view rectangle — but
+        // at 9,000 km, with the planet's edge on screen, that rectangle IS the
+        // whole world, and the Pacific view was spending its slots on Paris,
+        // Berlin and Madrid. The horizon is a hard geometric bound: nothing
+        // past it can ever be seen, so applying it everywhere cannot hide
+        // anything visible. See markerSpread.withinHorizon.
+        if (camPoint && !withinHorizon(camPoint, ev)) return false;
         return inView(ev) && eventVisibleAt(ev, year);
       });
       const byCat = new Map<string, TimelineEvent[]>();
@@ -1698,6 +1705,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       const rank = (e: TimelineEvent) =>
         isPlaceRow(e) ? cityProminence(e, year) : (e.notability ?? 0);
       const slots = EVENT_PER_CATEGORY_BY_TIER[zoomTier];
+      // Spacing follows the REAL camera height, not the tier. Tiers are coarse:
+      // at 9,000 km the whole disc is still on screen but the tier table gave
+      // it 600 km spacing, and Africa's view filled with Berlin, Budapest,
+      // Oslo and Kyiv. About a ninth of the height matches the old tier-0 value
+      // at the Captain's usual 14,000 km and shrinks smoothly as you descend.
+      const placeSeparationKm = camPoint
+        ? Math.max(30, Math.min(1600, (camPoint.height / 1000) * 0.11))
+        : PLACE_MIN_SEPARATION_KM_BY_TIER[zoomTier];
       for (const [cat, list] of byCat) {
         list.sort((a, b) => rank(b) - rank(a));
         // Places get SPREAD across the view; everything else still takes the
@@ -1706,7 +1721,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         // redundancy as two city dots overlapping at orbital distance.
         const isPlaceCat = cat === 'city' || cat === 'monument';
         const chosen = isPlaceCat
-          ? spreadPick(list, slots, PLACE_MIN_SEPARATION_KM_BY_TIER[zoomTier])
+          ? spreadPick(list, slots, placeSeparationKm)
           : list.slice(0, slots);
         picked.push(...chosen);
       }
