@@ -18059,6 +18059,2675 @@
       ],
       "loser": "a",
       "severity": 1.35
+    },
+    "bannockburn": {
+      "title": "Battle of Bannockburn",
+      "subtitle": "23–24 June 1314 — Robert the Bruce breaks Edward II’s army below Stirling",
+      "sides": {
+        "a": {
+          "name": "Scotland (Robert the Bruce)",
+          "color": "#1f4e9c"
+        },
+        "b": {
+          "name": "England (Edward II)",
+          "color": "#b3202a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 15,
+          "y": 6,
+          "r": 3,
+          "label": "Stirling Castle (English-held, under siege)"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 18,
+          "r": 2,
+          "label": "St Ninians"
+        },
+        {
+          "type": "forest",
+          "x": 22,
+          "y": 34,
+          "r": 11,
+          "label": "New Park"
+        },
+        {
+          "type": "hill",
+          "x": 10,
+          "y": 16,
+          "r": 4,
+          "label": "Coxet Hill"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              34,
+              70
+            ],
+            [
+              32,
+              50
+            ],
+            [
+              30,
+              30
+            ],
+            [
+              22,
+              12
+            ],
+            [
+              16,
+              6
+            ]
+          ],
+          "label": "Road to Stirling"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              50
+            ],
+            [
+              25,
+              48
+            ],
+            [
+              45,
+              46
+            ],
+            [
+              62,
+              44
+            ],
+            [
+              78,
+              38
+            ],
+            [
+              90,
+              22
+            ],
+            [
+              96,
+              6
+            ]
+          ],
+          "label": "Bannock Burn"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              40,
+              14
+            ],
+            [
+              60,
+              16
+            ],
+            [
+              78,
+              14
+            ],
+            [
+              94,
+              8
+            ]
+          ],
+          "label": "Pelstream"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              58,
+              2
+            ],
+            [
+              80,
+              4
+            ],
+            [
+              100,
+              3
+            ]
+          ],
+          "label": "River Forth"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Holding the road to Stirling",
+          "narration": "Edward II marches north to relieve Stirling Castle with perhaps 20,000–25,000 men — the chroniclers’ 100,000 is far too high. Bruce, with roughly 5,000–8,000, waits in the cover of New Park astride the road, his spearmen in tight schiltrons."
+        },
+        {
+          "name": "Bruce and de Bohun",
+          "narration": "The English vanguard under Gloucester and Hereford crosses the burn on 23 June. Sir Henry de Bohun spots Bruce riding a small palfrey before his lines and charges; Bruce sidesteps the lance and splits his helmet with an axe, and the vanguard is driven back over the Bannock Burn.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                58
+              ],
+              "to": [
+                32,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                30,
+                42
+              ],
+              "to": [
+                32,
+                45
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Clifford and Beaumont turned back",
+          "narration": "A second body of about 300 horse under Clifford and Beaumont swings east across the low ground to reach the castle. Moray’s schiltron comes out from St Ninians to block it; the knights break against the hedge of spears and fall back to the main army.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                58
+              ],
+              "to": [
+                46,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                30,
+                22
+              ],
+              "to": [
+                42,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "A night on the carse",
+          "narration": "The English cross the burn in the dark and camp on the carse — wet, pool-cut flat ground between the Bannock Burn and the Pelstream, drained farmland today, so the modern map hides how hemmed in they were. A Scottish knight in English service, Alexander Seton, deserts to tell Bruce their morale is low. The exact site of the second day is still debated."
+        },
+        {
+          "name": "The schiltrons advance",
+          "narration": "At dawn on the 24th the Scots do what nobody expected of spearmen: they attack. As they kneel to pray, Edward takes it for a plea for mercy. The young Earl of Gloucester, taunted with cowardice, charges the leading schiltron, is surrounded and killed.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                19
+              ],
+              "to": [
+                56,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                26
+              ],
+              "to": [
+                56,
+                28
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                36
+              ],
+              "to": [
+                56,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                33
+              ],
+              "to": [
+                53,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Keith scatters the archers",
+          "narration": "Crammed between the streams, the English cannot deploy. Their archers work round to shoot into the schiltrons’ flank — until Sir Robert Keith’s 500 light horse ride them down. English archers shooting from behind hit their own men and are ordered to stop.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                34
+              ],
+              "to": [
+                60,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                42,
+                42
+              ],
+              "to": [
+                56,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The rout at the burn",
+          "narration": "The schiltrons press on, Bruce commits his own division, and the camp followers — the ‘small folk’ — pour down from Coxet Hill, looking to the English like a fresh army. The line breaks; many drown in the Bannock Burn. Edward is dragged from the field, refused entry at Stirling, and escapes by sea from Dunbar.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                28
+              ],
+              "to": [
+                66,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                36
+              ],
+              "to": [
+                70,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                20,
+                20
+              ],
+              "to": [
+                38,
+                24
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "moray",
+          "side": "a",
+          "label": "Moray’s schiltron",
+          "strength": 1500,
+          "helmet": "conical",
+          "pos": [
+            [
+              30,
+              22
+            ],
+            [
+              30,
+              22
+            ],
+            [
+              40,
+              25
+            ],
+            [
+              32,
+              24
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              55,
+              27
+            ],
+            [
+              62,
+              28
+            ]
+          ]
+        },
+        {
+          "id": "edward-bruce",
+          "side": "a",
+          "label": "Edward Bruce’s schiltron",
+          "strength": 1500,
+          "helmet": "conical",
+          "pos": [
+            [
+              22,
+              38
+            ],
+            [
+              22,
+              38
+            ],
+            [
+              22,
+              38
+            ],
+            [
+              28,
+              36
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              55,
+              36
+            ],
+            [
+              62,
+              37
+            ]
+          ]
+        },
+        {
+          "id": "douglas",
+          "side": "a",
+          "label": "Douglas & Stewart",
+          "strength": 1000,
+          "helmet": "conical",
+          "pos": [
+            [
+              20,
+              28
+            ],
+            [
+              20,
+              28
+            ],
+            [
+              22,
+              28
+            ],
+            [
+              28,
+              30
+            ],
+            [
+              52,
+              19
+            ],
+            [
+              54,
+              20
+            ],
+            [
+              62,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "bruce",
+          "side": "a",
+          "label": "Robert the Bruce",
+          "strength": 1500,
+          "helmet": "conical",
+          "pos": [
+            [
+              30,
+              42
+            ],
+            [
+              32,
+              44
+            ],
+            [
+              30,
+              42
+            ],
+            [
+              30,
+              40
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              46,
+              30
+            ],
+            [
+              58,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "keith",
+          "side": "a",
+          "label": "Keith’s light horse",
+          "shape": "cavalry",
+          "strength": 500,
+          "helmet": "conical",
+          "pos": [
+            [
+              14,
+              34
+            ],
+            [
+              14,
+              34
+            ],
+            [
+              14,
+              34
+            ],
+            [
+              26,
+              42
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              56,
+              44
+            ],
+            [
+              60,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "small-folk",
+          "side": "a",
+          "label": "The small folk",
+          "strength": 2000,
+          "helmet": "none",
+          "pos": [
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              40,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "vanguard",
+          "side": "b",
+          "label": "Vanguard (Gloucester, Hereford)",
+          "shape": "cavalry",
+          "strength": 800,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              34,
+              60
+            ],
+            [
+              32,
+              46
+            ],
+            [
+              38,
+              56
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              54,
+              33
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              72,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "clifford",
+          "side": "b",
+          "label": "Clifford & Beaumont",
+          "shape": "cavalry",
+          "strength": 300,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              46,
+              62
+            ],
+            [
+              46,
+              58
+            ],
+            [
+              46,
+              28
+            ],
+            [
+              60,
+              24
+            ],
+            [
+              60,
+              24
+            ],
+            [
+              62,
+              24
+            ],
+            [
+              74,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "edward",
+          "side": "b",
+          "label": "Edward II & household",
+          "shape": "cavalry",
+          "strength": 1200,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              40,
+              66
+            ],
+            [
+              40,
+              64
+            ],
+            [
+              40,
+              62
+            ],
+            [
+              66,
+              28
+            ],
+            [
+              66,
+              28
+            ],
+            [
+              66,
+              28
+            ],
+            [
+              22,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "foot",
+          "side": "b",
+          "label": "English & Welsh foot",
+          "size": 1.4,
+          "strength": 14000,
+          "helmet": "cap",
+          "pos": [
+            [
+              30,
+              68
+            ],
+            [
+              30,
+              68
+            ],
+            [
+              34,
+              66
+            ],
+            [
+              70,
+              34
+            ],
+            [
+              68,
+              32
+            ],
+            [
+              66,
+              32
+            ],
+            [
+              76,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "archers",
+          "side": "b",
+          "label": "Longbowmen",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              48,
+              68
+            ],
+            [
+              48,
+              66
+            ],
+            [
+              50,
+              64
+            ],
+            [
+              74,
+              26
+            ],
+            [
+              72,
+              32
+            ],
+            [
+              60,
+              42
+            ],
+            [
+              80,
+              48
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "blenheim": {
+      "title": "Battle of Blenheim",
+      "subtitle": "13 August 1704 — Marlborough and Eugene destroy Tallard’s army on the Danube",
+      "sides": {
+        "a": {
+          "name": "Grand Alliance (Marlborough & Eugene)",
+          "color": "#b3202a"
+        },
+        "b": {
+          "name": "France & Bavaria (Tallard, Marsin, Max Emanuel)",
+          "color": "#2a4f9e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              66
+            ],
+            [
+              50,
+              67
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "label": "Danube"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              56,
+              0
+            ],
+            [
+              53,
+              20
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              47,
+              66
+            ]
+          ],
+          "label": "Nebel (marshy stream)"
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 56,
+          "r": 4,
+          "label": "Blindheim (Blenheim)"
+        },
+        {
+          "type": "town",
+          "x": 36,
+          "y": 30,
+          "r": 3,
+          "label": "Oberglauheim"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 10,
+          "r": 3,
+          "label": "Lutzingen"
+        },
+        {
+          "type": "forest",
+          "x": 14,
+          "y": 8,
+          "r": 8,
+          "label": "Wooded hills"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The march in the dark",
+          "narration": "The allies — some 52,000 men — march from 2 a.m. and appear east of the Nebel at dawn. The 56,000 French and Bavarians had expected them to retreat. They deploy west of the stream, Tallard choosing to let the allies cross and then smash them against it."
+        },
+        {
+          "name": "Cutts storms Blenheim",
+          "narration": "After hours of cannonade, at about 1 p.m. Lord Cutts sends Rowe’s brigade against the barricaded village. Rowe falls at the palisade and the Gens d’Armes charge the broken flank, but Hessian infantry by the marsh drive them off with steady volleys.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                56
+              ],
+              "to": [
+                44,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                46
+              ],
+              "to": [
+                46,
+                52
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Blenheim crammed, Oberglauheim in crisis",
+          "narration": "Alarmed, Clérambault pours Tallard’s reserve into Blenheim until the men are packed too tight to fire — and Marlborough simply pens them in. Across the field, Holstein-Beck’s attack on Oberglauheim is mauled by the Irish brigade; Marlborough restores it himself with cavalry borrowed from Eugene.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                30
+              ],
+              "to": [
+                42,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                38,
+                30
+              ],
+              "to": [
+                46,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                68,
+                44
+              ],
+              "to": [
+                50,
+                34
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Eugene thrown back at Lutzingen",
+          "narration": "On the right, Eugene’s Prussians and Danes under Anhalt-Dessau attack the Bavarian battery at Lutzingen across open ground and are driven back over the Nebel three times. His cavalry, too, is pushed back. But the pressure holds Marsin and the Elector in place.",
+          "arrows": [
+            {
+              "from": [
+                64,
+                12
+              ],
+              "to": [
+                38,
+                11
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                62,
+                20
+              ],
+              "to": [
+                40,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                32,
+                22
+              ],
+              "to": [
+                52,
+                20
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The centre crosses the Nebel",
+          "narration": "Marlborough brings his centre over the stream, infantry and cavalry interleaved so each can shelter the other. The Gens d’Armes charge again and are sent reeling by Palmes’s squadrons. Tallard asks Marsin for help and is refused.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                40
+              ],
+              "to": [
+                46,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                34,
+                44
+              ],
+              "to": [
+                42,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                46
+              ],
+              "to": [
+                44,
+                46
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The breakthrough",
+          "narration": "Around 5.30 p.m. some eighty allied squadrons roll forward. Tallard’s cavalry breaks; many are driven into the Danube and drown, and nine young French battalions left in the centre are cut down where they stand. Tallard is taken prisoner. Marsin and the Elector, hit again by Eugene, withdraw west.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                40
+              ],
+              "to": [
+                28,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                42
+              ],
+              "to": [
+                32,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                52,
+                12
+              ],
+              "to": [
+                34,
+                10
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Blenheim surrenders",
+          "narration": "Surrounded and without orders, the garrison of Blenheim lays down its arms at nightfall — some 10,000 men. In all around 13,000 French and Bavarians are taken, and Vienna is saved.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                50
+              ],
+              "to": [
+                40,
+                54
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "cutts",
+          "side": "a",
+          "label": "Cutts’s column",
+          "strength": 9000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              70,
+              56
+            ],
+            [
+              48,
+              56
+            ],
+            [
+              50,
+              56
+            ],
+            [
+              50,
+              56
+            ],
+            [
+              49,
+              56
+            ],
+            [
+              47,
+              56
+            ],
+            [
+              42,
+              57
+            ]
+          ]
+        },
+        {
+          "id": "churchill",
+          "side": "a",
+          "label": "Churchill’s infantry (centre)",
+          "strength": 11000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              72,
+              40
+            ],
+            [
+              68,
+              40
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              44,
+              42
+            ],
+            [
+              40,
+              44
+            ],
+            [
+              38,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "allied-horse",
+          "side": "a",
+          "label": "Marlborough’s cavalry",
+          "shape": "cavalry",
+          "strength": 12000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              78,
+              46
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              66,
+              42
+            ],
+            [
+              68,
+              44
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              28,
+              52
+            ],
+            [
+              30,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "holstein-beck",
+          "side": "a",
+          "label": "Holstein-Beck",
+          "strength": 4000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              74,
+              28
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              48,
+              30
+            ],
+            [
+              46,
+              30
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              40,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "anhalt",
+          "side": "a",
+          "label": "Anhalt-Dessau (Prussians & Danes)",
+          "strength": 9000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              82,
+              10
+            ],
+            [
+              64,
+              10
+            ],
+            [
+              60,
+              12
+            ],
+            [
+              54,
+              12
+            ],
+            [
+              52,
+              12
+            ],
+            [
+              36,
+              10
+            ],
+            [
+              30,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "eugene-horse",
+          "side": "a",
+          "label": "Eugene’s cavalry",
+          "shape": "cavalry",
+          "strength": 7000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              82,
+              20
+            ],
+            [
+              64,
+              20
+            ],
+            [
+              60,
+              20
+            ],
+            [
+              56,
+              20
+            ],
+            [
+              52,
+              20
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              30,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "blenheim-garrison",
+          "side": "b",
+          "label": "Blenheim garrison (Clérambault)",
+          "strength": 12000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              40,
+              56
+            ],
+            [
+              40,
+              56
+            ],
+            [
+              38,
+              56
+            ],
+            [
+              38,
+              56
+            ],
+            [
+              38,
+              56
+            ],
+            [
+              38,
+              56
+            ],
+            [
+              36,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "tallard-horse",
+          "side": "b",
+          "label": "Tallard’s cavalry & Gens d’Armes",
+          "shape": "cavalry",
+          "strength": 13000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              34,
+              44
+            ],
+            [
+              38,
+              44
+            ],
+            [
+              28,
+              60
+            ],
+            [
+              22,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "centre-bns",
+          "side": "b",
+          "label": "Nine battalions (centre)",
+          "strength": 4000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              30,
+              42
+            ],
+            [
+              30,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "oberglauheim",
+          "side": "b",
+          "label": "Marsin’s foot & Irish brigade",
+          "strength": 10000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              36,
+              30
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              14,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "marsin-horse",
+          "side": "b",
+          "label": "Marsin’s cavalry",
+          "shape": "cavalry",
+          "strength": 7000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              32,
+              22
+            ],
+            [
+              32,
+              22
+            ],
+            [
+              32,
+              22
+            ],
+            [
+              48,
+              20
+            ],
+            [
+              36,
+              22
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              10,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "bavarians",
+          "side": "b",
+          "label": "Bavarians at Lutzingen (the Elector)",
+          "strength": 9000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              30,
+              10
+            ],
+            [
+              30,
+              10
+            ],
+            [
+              30,
+              10
+            ],
+            [
+              34,
+              11
+            ],
+            [
+              34,
+              11
+            ],
+            [
+              22,
+              8
+            ],
+            [
+              10,
+              6
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "culloden": {
+      "title": "Battle of Culloden",
+      "subtitle": "16 April 1746 — the last pitched battle on British soil",
+      "sides": {
+        "a": {
+          "name": "British government (Cumberland)",
+          "color": "#b3202a"
+        },
+        "b": {
+          "name": "Jacobites (Charles Edward Stuart)",
+          "color": "#2c4a7c"
+        }
+      },
+      "terrain": [
+        {
+          "type": "road",
+          "points": [
+            [
+              8,
+              4
+            ],
+            [
+              26,
+              6
+            ],
+            [
+              32,
+              10
+            ]
+          ],
+          "label": "Culloden Park walls"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              36,
+              50
+            ],
+            [
+              40,
+              58
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              74,
+              62
+            ]
+          ],
+          "label": "Culwhiniac enclosure walls"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 34,
+          "r": 2,
+          "label": "Leanach"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              68
+            ],
+            [
+              50,
+              69
+            ],
+            [
+              100,
+              66
+            ]
+          ],
+          "label": "River Nairn"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Drummossie Moor",
+          "narration": "Exhausted and hungry after a failed night march on Cumberland’s camp at Nairn, about 5,400 Jacobites form up on open, boggy moor between two sets of walls, facing north-east into sleet. Some 7,000 government troops deploy opposite in two lines. The moor was bare heather then; later plantations and the modern road have changed it."
+        },
+        {
+          "name": "The cannonade",
+          "narration": "At about 1 p.m. the guns open. The Highlanders stand waiting for the order to charge; later accounts of hundreds killed here are probably too high — modern analysis suggests a few dozen at first — but the wait under fire frays the line."
+        },
+        {
+          "name": "The Highland charge",
+          "narration": "The Jacobite right and centre charge. The centre swerves right to escape canister or follow firmer ground, and the regiments pile together into one mass that smashes into Barrell’s and Munro’s on the government left, taking one of Barrell’s colours.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                46
+              ],
+              "to": [
+                52,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                32,
+                30
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Caught on three sides",
+          "narration": "Huske brings the second line up and Wolfe’s regiment swings forward along the enclosure wall, so the charge is fired into from front and flank by five battalions. On the left the MacDonalds, with further to go over worse ground, stall and trade musketry; Keppoch is killed. Dragoons are breaking through the walls to the south.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                38
+              ],
+              "to": [
+                54,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                54
+              ],
+              "to": [
+                52,
+                48
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                24,
+                14
+              ],
+              "to": [
+                36,
+                16
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                26
+              ],
+              "to": [
+                40,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Collapse and pursuit",
+          "narration": "The Jacobite front line breaks within an hour of the first shot. The Irish Picquets and Royal Écossais hold off the dragoons long enough for the Prince to be led away, while the MacDonalds are cut off and driven towards Inverness. Around 1,500–2,000 Jacobites are killed or wounded, many in the pursuit; the government loses 50 dead.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                62
+              ],
+              "to": [
+                22,
+                54
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                10
+              ],
+              "to": [
+                30,
+                12
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "barrell-munro",
+          "side": "a",
+          "label": "Barrell’s & Munro’s",
+          "strength": 800,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              54,
+              44
+            ],
+            [
+              54,
+              44
+            ],
+            [
+              53,
+              44
+            ],
+            [
+              56,
+              46
+            ],
+            [
+              52,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "gov-front",
+          "side": "a",
+          "label": "Front line (right & centre)",
+          "strength": 2200,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              56,
+              26
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              48,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "huske",
+          "side": "a",
+          "label": "Huske’s second line",
+          "strength": 2400,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              66,
+              36
+            ],
+            [
+              66,
+              36
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              54,
+              40
+            ],
+            [
+              46,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "wolfe",
+          "side": "a",
+          "label": "Wolfe’s regiment",
+          "strength": 400,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              64,
+              50
+            ],
+            [
+              64,
+              50
+            ],
+            [
+              60,
+              54
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              44,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "hawley",
+          "side": "a",
+          "label": "Hawley’s dragoons & Argyll militia",
+          "shape": "cavalry",
+          "strength": 800,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              68,
+              62
+            ],
+            [
+              60,
+              64
+            ],
+            [
+              46,
+              64
+            ],
+            [
+              36,
+              62
+            ],
+            [
+              20,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "cobham",
+          "side": "a",
+          "label": "Cobham’s dragoons",
+          "shape": "cavalry",
+          "strength": 150,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              64,
+              8
+            ],
+            [
+              64,
+              8
+            ],
+            [
+              62,
+              8
+            ],
+            [
+              52,
+              10
+            ],
+            [
+              30,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "jac-right",
+          "side": "b",
+          "label": "Atholl Brigade, Camerons, Appin",
+          "strength": 1450,
+          "helmet": "cap",
+          "pos": [
+            [
+              34,
+              46
+            ],
+            [
+              34,
+              46
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              18,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "jac-centre",
+          "side": "b",
+          "label": "Clan Chattan & Frasers",
+          "strength": 1300,
+          "helmet": "cap",
+          "pos": [
+            [
+              30,
+              30
+            ],
+            [
+              30,
+              30
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              49,
+              39
+            ],
+            [
+              18,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "macdonalds",
+          "side": "b",
+          "label": "MacDonald regiments",
+          "strength": 1100,
+          "helmet": "cap",
+          "pos": [
+            [
+              24,
+              14
+            ],
+            [
+              24,
+              14
+            ],
+            [
+              34,
+              16
+            ],
+            [
+              36,
+              16
+            ],
+            [
+              14,
+              8
+            ]
+          ]
+        },
+        {
+          "id": "second-line",
+          "side": "b",
+          "label": "Lowland regiments & Royal Écossais",
+          "strength": 1100,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              20,
+              34
+            ],
+            [
+              20,
+              34
+            ],
+            [
+              22,
+              36
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              14,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "picquets",
+          "side": "b",
+          "label": "Irish Picquets",
+          "strength": 300,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              18,
+              24
+            ],
+            [
+              18,
+              24
+            ],
+            [
+              18,
+              24
+            ],
+            [
+              22,
+              20
+            ],
+            [
+              24,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "prince",
+          "side": "b",
+          "label": "The Prince & Jacobite horse",
+          "shape": "cavalry",
+          "strength": 200,
+          "helmet": "cap",
+          "pos": [
+            [
+              10,
+              32
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              4,
+              50
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "balaclava": {
+      "title": "Battle of Balaclava",
+      "subtitle": "25 October 1854 — the Thin Red Line, the Heavy Brigade and the Light Brigade",
+      "sides": {
+        "a": {
+          "name": "Britain, France & the Ottomans",
+          "color": "#b3202a"
+        },
+        "b": {
+          "name": "Russia (Liprandi)",
+          "color": "#2f6b3a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 6,
+          "y": 34,
+          "w": 8,
+          "h": 56,
+          "label": "Sapouné Heights (Raglan watching)"
+        },
+        {
+          "type": "ridge",
+          "x": 58,
+          "y": 38,
+          "w": 70,
+          "h": 5,
+          "label": "Causeway Heights & Ottoman redoubts"
+        },
+        {
+          "type": "ridge",
+          "x": 62,
+          "y": 8,
+          "w": 50,
+          "h": 6,
+          "label": "Fedyukhin Heights"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              4,
+              40
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              70,
+              38
+            ],
+            [
+              96,
+              36
+            ]
+          ],
+          "label": "Woronzov Road"
+        },
+        {
+          "type": "town",
+          "x": 70,
+          "y": 38,
+          "r": 1.5,
+          "label": "No. 1 (Canrobert’s Hill)"
+        },
+        {
+          "type": "town",
+          "x": 28,
+          "y": 56,
+          "r": 2,
+          "label": "Kadikoi"
+        },
+        {
+          "type": "sea",
+          "x": 30,
+          "y": 67,
+          "w": 16,
+          "h": 6,
+          "label": "Balaclava harbour"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              92,
+              0
+            ],
+            [
+              95,
+              30
+            ],
+            [
+              98,
+              70
+            ]
+          ],
+          "label": "Chernaya"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The redoubts fall",
+          "narration": "Before dawn, Liprandi’s columns — some 16,000 men, later about 25,000 — storm the Ottoman redoubts along the Causeway Heights, the outer defence of the British supply port. The Turkish gunners in No. 1 fight hard and lose about 170 men; Nos. 2–4 are abandoned by 8 a.m.",
+          "arrows": [
+            {
+              "from": [
+                84,
+                44
+              ],
+              "to": [
+                70,
+                39
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                80,
+                40
+              ],
+              "to": [
+                62,
+                37
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Thin Red Line",
+          "narration": "Russian cavalry crosses the heights into the South Valley. A body of about 400 rides at Kadikoi, where Sir Colin Campbell has the 93rd Highlanders with Turkish troops in a line only two deep. A few volleys turn the horsemen away — ‘the thin red streak’ of the Times correspondent.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                34
+              ],
+              "to": [
+                34,
+                48
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                28,
+                50
+              ],
+              "to": [
+                32,
+                48
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Charge of the Heavy Brigade",
+          "narration": "The main Russian cavalry, perhaps 2,000, comes over the ridge and meets Scarlett’s Heavy Brigade. Scarlett charges uphill with about 300 men in the first line, the rest joining, and in some ten minutes the Russian horse is broken back into the North Valley. The Light Brigade, close by, does not join in.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                44
+              ],
+              "to": [
+                46,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The ambiguous order",
+          "narration": "From the Sapouné Heights Raglan sees the Russians carrying off guns from the redoubts and orders the cavalry to stop them. Down in the valley Lord Lucan can see no redoubt guns — only a Russian battery at the far end of the North Valley — and Captain Nolan’s gesture points him there."
+        },
+        {
+          "name": "Into the valley",
+          "narration": "At 11.10 Cardigan leads some 670 men of the Light Brigade down the mile-long North Valley, under fire from the Fedyukhin Heights, the captured redoubts and the battery ahead. About half reach the guns. The French Chasseurs d’Afrique charge the Fedyukhin batteries and silence them.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                22
+              ],
+              "to": [
+                80,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                16,
+                16
+              ],
+              "to": [
+                46,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                82,
+                22
+              ],
+              "to": [
+                70,
+                22
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                36
+              ],
+              "to": [
+                56,
+                26
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                60,
+                12
+              ],
+              "to": [
+                56,
+                18
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The return",
+          "narration": "Survivors cut through the gunners, fight off Russian cavalry and lancers, and ride back up the valley under fire. Of about 670 riders, 271 are killed, wounded or captured, and 375 horses lost. The Russians keep the outer redoubts and the Woronzov Road; the battle is indecisive.",
+          "arrows": [
+            {
+              "from": [
+                80,
+                20
+              ],
+              "to": [
+                60,
+                22
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "ottomans",
+          "side": "a",
+          "label": "Ottoman redoubt garrisons",
+          "strength": 1000,
+          "helmet": "cap",
+          "pos": [
+            [
+              62,
+              38
+            ],
+            [
+              32,
+              52
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              30,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "93rd",
+          "side": "a",
+          "label": "93rd Highlanders (Campbell)",
+          "strength": 650,
+          "helmet": "cap",
+          "pos": [
+            [
+              26,
+              52
+            ],
+            [
+              28,
+              50
+            ],
+            [
+              28,
+              50
+            ],
+            [
+              28,
+              50
+            ],
+            [
+              28,
+              50
+            ],
+            [
+              28,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "heavy",
+          "side": "a",
+          "label": "Heavy Brigade (Scarlett)",
+          "shape": "cavalry",
+          "strength": 800,
+          "helmet": "shako",
+          "pos": [
+            [
+              22,
+              34
+            ],
+            [
+              32,
+              46
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              24,
+              30
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              24,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "light",
+          "side": "a",
+          "label": "Light Brigade (Cardigan)",
+          "shape": "cavalry",
+          "strength": 670,
+          "helmet": "shako",
+          "pos": [
+            [
+              20,
+              30
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              20,
+              22
+            ],
+            [
+              80,
+              22
+            ],
+            [
+              22,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "chasseurs",
+          "side": "a",
+          "label": "Chasseurs d’Afrique",
+          "shape": "cavalry",
+          "strength": 150,
+          "helmet": "cap",
+          "pos": [
+            [
+              10,
+              20
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              14,
+              16
+            ],
+            [
+              46,
+              12
+            ],
+            [
+              18,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "allied-inf",
+          "side": "a",
+          "label": "1st & 4th Divisions (arriving)",
+          "strength": 8000,
+          "helmet": "shako",
+          "pos": [
+            [
+              4,
+              44
+            ],
+            [
+              4,
+              44
+            ],
+            [
+              8,
+              44
+            ],
+            [
+              14,
+              44
+            ],
+            [
+              30,
+              40
+            ],
+            [
+              38,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "liprandi",
+          "side": "b",
+          "label": "Liprandi’s infantry",
+          "size": 1.3,
+          "strength": 11000,
+          "helmet": "cap",
+          "pos": [
+            [
+              86,
+              44
+            ],
+            [
+              64,
+              38
+            ],
+            [
+              58,
+              38
+            ],
+            [
+              54,
+              38
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              56,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "ryzhov",
+          "side": "b",
+          "label": "Ryzhov’s cavalry",
+          "shape": "cavalry",
+          "strength": 2000,
+          "helmet": "cap",
+          "pos": [
+            [
+              86,
+              20
+            ],
+            [
+              56,
+              32
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              82,
+              18
+            ],
+            [
+              84,
+              20
+            ],
+            [
+              80,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "kadikoi-detachment",
+          "side": "b",
+          "label": "Cavalry detachment (vs Kadikoi)",
+          "shape": "cavalry",
+          "strength": 400,
+          "helmet": "cap",
+          "pos": [
+            [
+              84,
+              26
+            ],
+            [
+              36,
+              47
+            ],
+            [
+              62,
+              32
+            ],
+            [
+              80,
+              22
+            ],
+            [
+              82,
+              24
+            ],
+            [
+              80,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "battery",
+          "side": "b",
+          "label": "Don Cossack battery (8 guns)",
+          "strength": 300,
+          "helmet": "cap",
+          "pos": [
+            [
+              84,
+              22
+            ],
+            [
+              84,
+              22
+            ],
+            [
+              84,
+              22
+            ],
+            [
+              84,
+              22
+            ],
+            [
+              82,
+              22
+            ],
+            [
+              84,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "fedyukhin",
+          "side": "b",
+          "label": "Zhabokritsky on the Fedyukhin Heights",
+          "strength": 5000,
+          "helmet": "cap",
+          "pos": [
+            [
+              68,
+              6
+            ],
+            [
+              68,
+              8
+            ],
+            [
+              68,
+              8
+            ],
+            [
+              66,
+              10
+            ],
+            [
+              64,
+              10
+            ],
+            [
+              66,
+              10
+            ]
+          ]
+        }
+      ],
+      "severity": 0.9
     }
   }
 }

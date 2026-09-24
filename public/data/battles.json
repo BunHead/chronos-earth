@@ -1231,7 +1231,8 @@
           "side": 2,
           "wiki": "Edward II of England"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "crecy",
@@ -1837,7 +1838,8 @@
           "side": 2,
           "wiki": "Camille d'Hostun, duc de Tallard"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "poltava",
@@ -1905,7 +1907,8 @@
           "side": 2,
           "wiki": "Charles Edward Stuart"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "plassey",
@@ -2529,7 +2532,8 @@
           "side": 2,
           "wiki": "Alexander Sergeyevich Menshikov"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "eureka-stockade",
