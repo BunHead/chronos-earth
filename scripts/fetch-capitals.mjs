@@ -208,7 +208,16 @@ async function main() {
       const cur = found.get(qid) ?? [];
       // One polity can appear twice through different statements; keep the
       // dated one, because an undated duplicate would mask a real handover.
-      const dup = cur.find((x) => x.of === entry.of);
+      //
+      // Matched by the polity's ID and by its DATES, never by its label. By
+      // label, two things went wrong at once: Tallinn was Estonia's capital
+      // twice (1918-41 and from 1991) and only the first stint survived, so
+      // Tallinn was not a capital today; and Taipei's two different "Taiwan"s
+      // (the state from 1949, the province 1945-67) collapsed into one, the
+      // province won, and Taipei went blue. Two DATED stints are two stints.
+      const dup = cur.find(
+        (x) => x.ofId === entry.ofId && (x.from === null || entry.from === null || x.from === entry.from),
+      );
       if (dup) {
         if (dup.from === null && entry.from !== null) Object.assign(dup, entry);
         continue;
@@ -318,6 +327,48 @@ async function main() {
     row.capitalOf = [];
   }
   console.log(`  ${unmarked} cities lose a badge they only had for a subdivision`);
+
+  // PASS 4: A COUNTRY'S OWN WORD ON ITS CAPITAL.
+  //
+  // Everything above reads the CITY's claim ("capital of…", P1376). A few
+  // present-day capitals make no such claim: Singapore is a city-state — the
+  // city IS the country, and nobody writes "Singapore is the capital of
+  // Singapore" — so its only role was the Straits Settlements, ending 1946.
+  // The COUNTRY's claim (P36, "capital is…") covers exactly that gap, and it
+  // is authoritative for the present. So every existing sovereign state's P36
+  // capital that we hold is guaranteed a role running to today, dated from the
+  // statement's start where Wikidata gives one, undated where it does not.
+  const p36 = await runQuery(
+    `SELECT DISTINCT ?country ?countryLabel ?cap ?since WHERE {
+  ?country wdt:P31 wd:Q3624078 ; p:P36 ?st .
+  ?st ps:P36 ?cap .
+  FILTER NOT EXISTS { ?country wdt:P576 ?dissolved }
+  FILTER NOT EXISTS { ?st pq:P582 ?ended }
+  OPTIONAL { ?st pq:P580 ?since . FILTER(DATATYPE(?since) = xsd:dateTime) }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}`,
+    'pass 4',
+  );
+  let guaranteed = 0;
+  if (p36) {
+    const today = new Date().getFullYear();
+    for (const b of p36) {
+      const capId = b.cap.value.split('/').pop();
+      if (ONLY && !ONLY.has(capId)) continue;
+      const row = byQid.get(capId);
+      if (!row) continue;
+      const of = b.countryLabel?.value;
+      if (!of || /^Q\d+$/.test(of)) continue;
+      const roles = found.get(capId) ?? (Array.isArray(row.capitalOf) ? row.capitalOf.map((r) => ({ ...r })) : []);
+      if (roles.some((r) => r.of === of && (r.from === null || r.from <= today) && r.to === null)) continue;
+      roles.push({ of, from: yearOf(b.since?.value), to: null });
+      found.set(capId, roles);
+      guaranteed++;
+    }
+    console.log(`\npass 4: ${guaranteed} present-day capitals given the role their COUNTRY names them in`);
+  } else {
+    console.log('\npass 4: could not ask — present-day capitals keep what the cities claim');
+  }
 
   let attached = 0, handovers = 0;
   for (const [qid, entries] of found) {
