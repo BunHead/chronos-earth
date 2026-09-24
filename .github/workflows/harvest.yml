@@ -40,7 +40,14 @@ jobs:
     # bad night:
     timeout-minutes: 170
     steps:
+      # ref: main — the LATEST main when the job actually starts. Without it a
+      # dispatched run checks out the commit it was QUEUED at, and a run that
+      # waits an hour behind another in the `harvest` group then works on stale
+      # code and clashes with everything pushed meanwhile. On 24 Sept 2026 the
+      # capitals re-check ran an hour-old snapshot and could not push.
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
