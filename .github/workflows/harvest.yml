@@ -67,14 +67,6 @@ jobs:
         # that flags the country-level pins; ~5 minutes observed, 15m of room.
         # Same partial-results treatment as the fetches above.
         run: timeout 15m node scripts/fetch-discoveries.mjs || [ $? -eq 124 ]
-      - name: Mark which cities were capitals, and when
-        if: '!cancelled()'
-        # Attaches capitalOf to city rows already on the globe; never creates a
-        # row. Two queries on purpose — the truthy P1376 is indexed and cheap,
-        # the statement walk with its date qualifiers is only affordable with
-        # the subjects supplied in chunks. Run AFTER the city harvest so the
-        # night's new cities get marked in the same pass.
-        run: timeout 20m node scripts/fetch-capitals.mjs || [ $? -eq 124 ]
       - name: Ancient places from Pleiades (additive)
         if: '!cancelled()'
         # The standing gazetteer of the ancient world, NYU's ISAW, CC-BY 3.0,
@@ -144,6 +136,20 @@ jobs:
         # quote kept in dateNote. Nine more are deliberately still missing: there
         # was nothing to cite. See the script header before adding any.
         run: node scripts/add-curated-capitals.mjs
+      - name: Mark which cities were capitals, and when
+        if: '!cancelled()'
+        # Attaches capitalOf to city rows already on the globe; never creates a
+        # row. Two queries on purpose — the truthy P1376 is indexed and cheap,
+        # the statement walk with its date qualifiers is only affordable with
+        # the subjects supplied in chunks. A third pass keeps only COUNTRY-level
+        # roles, so a state or county seat is not painted as a capital.
+        #
+        # Runs AFTER the city harvest AND after add-capitals / add-curated-
+        # capitals. It used to run before those two, so a capital they added
+        # stayed blue until the following night. 40 minutes, not 20: the
+        # country check is an extra pass, and when WDQS is struggling a pass
+        # that times out writes nothing — by design, never half a layer.
+        run: timeout 40m node scripts/fetch-capitals.mjs || [ $? -eq 124 ]
       - name: Merge places pinned twice (idempotent)
         if: '!cancelled()'
         # Each harvester dedupes against what it can see, and they see different
@@ -153,6 +159,12 @@ jobs:
         # merges only where the sources agree, and leaves date disagreements for
         # the Captain. MUST run before the index is built from it.
         run: node scripts/dedupe-places.mjs
+      - name: Tell apart different things that share a label (idempotent)
+        if: '!cancelled()'
+        # Two battles of Canton in 1841, two of Thessalonica in 1040, Lexington
+        # in Kentucky and in North Carolina: identical labels, different
+        # articles. Each takes its article title so they stop looking doubled.
+        run: node scripts/disambiguate-names.mjs
       - name: Rebuild the core index
         if: '!cancelled()'
         run: node scripts/build-core-index.mjs
@@ -216,6 +228,7 @@ jobs:
             # An additive union can bring back a row another writer merged
             # away, so dedupe again before rebuilding from it.
             node scripts/dedupe-places.mjs
+            node scripts/disambiguate-names.mjs
             node scripts/build-core-index.mjs
             git add public/data
             git diff --cached --quiet || git commit -m "Data: rebuild index after additive merge"

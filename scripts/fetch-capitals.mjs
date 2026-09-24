@@ -158,6 +158,9 @@ async function main() {
   console.log('\npass 2: when, and of what…');
   const list = [...capitalQids];
   const found = new Map();
+  // Cities whose chunk actually answered. Only these may have their record
+  // REPLACED or REMOVED — a city in a failed chunk keeps what it had.
+  const answered = new Set();
   let chunks = 0, failed = 0;
   for (let i = 0; i < list.length; i += CHUNK) {
     const ids = list.slice(i, i + CHUNK).map((q) => `wd:${q}`);
@@ -175,12 +178,15 @@ async function main() {
     );
     chunks++;
     if (!rows) { failed++; continue; }
+    for (const q of list.slice(i, i + CHUNK)) answered.add(q);
     for (const b of rows) {
       const qid = b.city.value.split('/').pop();
       const entry = {
         of: b.ofLabel?.value ?? '',
         from: yearOf(b.start?.value),
         to: yearOf(b.end?.value),
+        // Kept only until pass 3 has classified it; never written out.
+        ofId: b.of.value.split('/').pop(),
       };
       if (!entry.of) continue;
       const cur = found.get(qid) ?? [];
@@ -200,6 +206,72 @@ async function main() {
   console.log(`\n  ${found.size} cities have a capital record of a notable polity` +
     (failed ? `  (${failed} of ${chunks} chunks failed)` : ''));
 
+  // PASS 3: ONLY A COUNTRY'S CAPITAL IS A CAPITAL.
+  //
+  // The Captain: "change any non capital cities to a blue pin, so capitals are
+  // easier to see." They were hard to see because nearly everything was one.
+  // Wikidata records the seat of every state, province, prefecture and county,
+  // and the sitelink floor on the polity does not stop a well-documented
+  // subdivision: Sydney was yellow as the capital of New South Wales, Perth of
+  // Western Australia, Chicago of Cook County. A gold badge on every big city is
+  // no badge at all.
+  //
+  // So each polity must POSITIVELY be country-level — a country, sovereign
+  // state, historical country, empire, kingdom, sultanate, realm, colony — and
+  // every other role is dropped. Kyoto keeps Japan, Philadelphia keeps the
+  // United States for 1790-1800, Melbourne keeps Australia until 1927.
+  //
+  // Asked this way round on purpose. The obvious test — "is it an
+  // administrative subdivision?" — was tried first and fails both ways:
+  // Wikidata files COUNTRIES as administrative entities too, and Moscow Oblast
+  // is not under its "first-level subdivision" class at all. Measured against
+  // 34 known cases, the positive list got every subdivision right. Its one
+  // judgement call: Scotland, England and Wales count as countries, so
+  // Edinburgh and Cardiff stay yellow — which is defensible, because they are.
+  const NATIONAL = ['Q6256', 'Q3624078', 'Q3024240', 'Q48349', 'Q417175', 'Q133442', 'Q12759805', 'Q1250464', 'Q15634554'];
+  const polities = [...new Set([...found.values()].flat().map((e) => e.ofId))];
+  const national = new Set();
+  let classFailed = 0;
+  console.log(`\npass 3: which of ${polities.length} polities are countries…`);
+  for (let i = 0; i < polities.length; i += 150) {
+    const ids = polities.slice(i, i + 150).map((q) => `wd:${q}`);
+    const rows = await runQuery(
+      `SELECT DISTINCT ?of WHERE {
+  VALUES ?of { ${ids.join(' ')} }
+  VALUES ?level { ${NATIONAL.map((q) => `wd:${q}`).join(' ')} }
+  ?of wdt:P31/wdt:P279* ?level .
+}`,
+      `pass 3 batch ${Math.floor(i / 150) + 1}`,
+    );
+    if (!rows) { classFailed++; continue; }
+    for (const b of rows) national.add(b.of.value.split('/').pop());
+    await sleep(900);
+  }
+  if (classFailed) {
+    // Half an answer here would silently strip real capitals or keep false
+    // ones, and the badge is only worth anything if it can be trusted.
+    console.error(`\npass 3: ${classFailed} batch(es) failed — refusing to write a half-classified layer.`);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`  ${national.size} are countries, empires, kingdoms or colonies; ${polities.length - national.size} are subdivisions and do not count`);
+  for (const [qid, entries] of found) {
+    const kept = entries.filter((e) => national.has(e.ofId)).map(({ ofId, ...e }) => e);
+    if (kept.length) found.set(qid, kept);
+    else found.delete(qid);
+  }
+
+  // A city that WAS marked but whose every role turned out to be a province's
+  // loses the mark — this is how Sydney goes back to blue. Only for cities
+  // whose chunk answered; a failed chunk proves nothing.
+  let unmarked = 0;
+  for (const qid of answered) {
+    if (found.has(qid)) continue;
+    const row = byQid.get(qid);
+    if (row?.capitalOf) { delete row.capitalOf; unmarked++; }
+  }
+  console.log(`  ${unmarked} cities lose a badge they only had for a subdivision`);
+
   let attached = 0, handovers = 0;
   for (const [qid, entries] of found) {
     const row = byQid.get(qid);
@@ -213,7 +285,7 @@ async function main() {
   console.log(`\n${attached} city rows marked as a capital; ${handovers} of them record a HANDOVER (an end date)`);
 
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
-  if (attached === 0) {
+  if (attached === 0 && unmarked === 0) {
     console.error('\nNothing attached — not writing.');
     process.exitCode = 1;
     return;

@@ -89,21 +89,68 @@ function better(a, b) {
   return (a.notability ?? 0) >= (b.notability ?? 0) ? a : b;
 }
 
+/**
+ * SAME PLACE, DIFFERENT NAME.
+ *
+ * Exact names only caught half of it. The Captain's Machu Picchu had a second
+ * pin 6.7 km away called "Historic Sanctuary of Machu Picchu"; Sucre had
+ * "Historic City of Sucre"; Kyoto had "Kyoto Prefecture"; Hațeg was spelled
+ * once with a cedilla and once with a comma-below. So names are also compared
+ * by their CORE: accents folded, known wrapper phrases and a trailing bracket
+ * or comma-clause removed, and what is left must match EXACTLY. Containment is
+ * never enough — "Paris" is inside "Notre-Dame de Paris", and that is a
+ * cathedral, not a second Paris.
+ */
+const WRAPPERS = [
+  /^historic sanctuary of /, /^historic cent(re|er) of /, /^historic (city|town|district|quarter) of /,
+  /^archaeological (site|zone|park|ruins) of /, /^ruins of /, /^ancient city of /, /^old (town|city) of /,
+  /^the /, /^city of /, /^town of /, /^site of /,
+  / archaeological (site|zone|park)$/, / (ruins|ruin)$/, / prefecture$/, / historic (centre|center|district)$/,
+  / \([^)]*\)$/, /,.*$/,
+];
+export function coreName(name) {
+  let s = String(name).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  let prev;
+  do {
+    prev = s;
+    for (const w of WRAPPERS) s = s.replace(w, '').trim();
+  } while (s !== prev);
+  return s.replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+/**
+ * A LISTING, not a place: "Historic Sanctuary of X", "Archaeological Site of
+ * X", "Old City of X". These are World Heritage inscriptions, and Wikidata dates
+ * them by the year they were INSCRIBED — "Archaeological Site of Delphi" is
+ * 1987. Merged the ordinary way, the better-sourced row would win and Delphi
+ * would move to 1987. A listing therefore always loses to the place it lists,
+ * and lends it nothing.
+ */
+const LISTING = /^(historic (sanctuary|cent(re|er)|city|town|district|quarter)|archaeological (site|zone|park|ruins)|old (town|city)|ruins|ancient city) of |\sprefecture$/i;
+// (" Prefecture" too: Kyoto Prefecture is a REGION, not a second Kyoto, and
+// it was pinned 1.5 km from the city dated 1868 — the year prefectures were
+// created. That is not a dispute about when Kyoto began.)
+
+/** Name variants are allowed a little further apart than exact twins: a
+ * sanctuary's centroid sits in the middle of a protected area, not on the
+ * ruins — Machu Picchu's is 6.7 km from the citadel. */
+const VARIANT_KM = 8;
+
 export function groupDuplicates(events) {
   const places = events.filter((e) => PLACE.has(e.category) && Number.isFinite(e.lat));
   const cells = new Map();
   for (const e of places) {
-    // A 0.05 degree cell is comfortably wider than NEAR_KM, and neighbours are
+    // A 0.1 degree cell (~11 km) is wider than VARIANT_KM, and neighbours are
     // checked too, so nothing near a cell edge is missed.
-    const ci = Math.round(e.lat * 20);
-    const cj = Math.round(e.lon * 20);
+    const ci = Math.round(e.lat * 10);
+    const cj = Math.round(e.lon * 10);
     const k = `${ci}|${cj}`;
     if (!cells.has(k)) cells.set(k, []);
     cells.get(k).push(e);
   }
   const near = (e) => {
-    const ci = Math.round(e.lat * 20);
-    const cj = Math.round(e.lon * 20);
+    const ci = Math.round(e.lat * 10);
+    const cj = Math.round(e.lon * 10);
     const out = [];
     for (let di = -1; di <= 1; di++) {
       for (let dj = -1; dj <= 1; dj++) out.push(...(cells.get(`${ci + di}|${cj + dj}`) ?? []));
@@ -119,10 +166,30 @@ export function groupDuplicates(events) {
       if (a === b) continue;
       const pair = a.id < b.id ? `${a.id}|${b.id}` : `${b.id}|${a.id}`;
       if (seen.has(pair)) continue;
-      if (String(a.name).trim() !== String(b.name).trim()) continue;
+      const exact = String(a.name).trim() === String(b.name).trim();
       const km = distKm(a, b);
-      if (km > NEAR_KM) continue;
+      if (exact) {
+        if (km > NEAR_KM) continue;
+      } else {
+        if (km > VARIANT_KM) continue;
+        const ca = coreName(a.name);
+        if (!ca || ca !== coreName(b.name)) continue;
+        // Two Pleiades rows whose names differ only by a bracket are Pleiades
+        // DISTINGUISHING them on purpose — Oinoe (Corinthia) and Oinoe
+        // (Attica), Klazomenai (earlier) and (later), two different mounds at
+        // Banat al-Hassan. Leave those alone.
+        if (isPleiades(a) && isPleiades(b)) continue;
+      }
       seen.add(pair);
+      if (!exact) {
+        const la = LISTING.test(String(a.name).trim());
+        const lb = LISTING.test(String(b.name).trim());
+        if (la !== lb) {
+          const listing = la ? a : b;
+          merges.push({ keep: listing === a ? b : a, drop: listing, km: +km.toFixed(2), listing: true });
+          continue;
+        }
+      }
       // A call he has already made outranks every rule below it.
       const ruled = CURATED_DROPS.has(a.id) ? a : CURATED_DROPS.has(b.id) ? b : null;
       if (ruled) {
@@ -178,8 +245,16 @@ async function main() {
   console.log(`${disagreements.length} same place, DATES DISAGREE — left alone, for curation`);
 
   const dropped = new Set();
-  for (const { keep, drop, ruling } of merges) {
+  for (const { keep, drop, ruling, listing } of merges) {
     if (dropped.has(drop.id) || dropped.has(keep.id)) continue;
+    // A World Heritage listing lends NOTHING: its Wikidata id and article are
+    // the listing's, not the place's, and handing them to a Pleiades Delphi
+    // would make the panel describe an inscription instead of a city.
+    if (listing) {
+      dropped.add(drop.id);
+      console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keep.id} · drop listing ${drop.id} ("${drop.name}")`);
+      continue;
+    }
     // Merging must never lose what the loser knew and the winner did not —
     // a capital record above all. The winner keeps its own date.
     // NOT endYear. It belongs to the loser's OWN date range, and copying it
