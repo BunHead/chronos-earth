@@ -279,5 +279,13 @@
   "ziggurat-b78": {
     "footprint": 15.767,
     "kb": 62
+  },
+  "machu-picchu": {
+    "footprint": 112,
+    "kb": 233
+  },
+  "machu-picchu-ruin": {
+    "footprint": 112,
+    "kb": 215
   }
 }

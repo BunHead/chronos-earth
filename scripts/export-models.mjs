@@ -65,6 +65,7 @@ const FLEET = [
   ['shard', 'The Shard'],
   ['gherkin', '30 St Mary Axe (The Gherkin)'],
   ['opera-house', 'Sydney Opera House'],
+  ['machu-picchu', 'Machu Picchu'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -74,6 +75,7 @@ const RUINS = [
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
+  ['machu-picchu', 'Machu Picchu'],
 ];
 
 // Construction stages — building-over-time. Only monuments whose buildModel

@@ -7,6 +7,8 @@ import SkyDial from './SkyDial';
 import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
 import { fitFor, computeFit } from '../lib/monumentFit';
 import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
@@ -564,6 +566,622 @@ function operaShell(
     g.add(gm);
   }
   return g;
+}
+
+/** Machu Picchu — the Inca citadel on its saddle, built from SURVEY, not memory.
+ *
+ * Everything is placed in true site metres around the placement pin (x east,
+ * z SOUTH — the scene's map frame, north = −Z) and scaled to model units at
+ * the end, so the fit's facing is 0 and the globe stands it where it stood:
+ *  - the ground is the real ridge (DEM, lib/machuPicchuSurvey.ts) cut into
+ *    2.5 m terraces along its own contours — the agricultural sector, the
+ *    flank terraces and the stepped main plaza all fall out of one pass, and
+ *    the forested flanks fall away beyond the worked edge;
+ *  - every house is an OpenStreetMap footprint: stone walls, the steep Inca
+ *    gable ends, one doorway facing downhill, ichu thatch when intact;
+ *  - the named pieces are built by hand on their OSM points: the curved
+ *    Torreón (Temple of the Sun) on its rock over the Royal Tomb, the
+ *    Principal Temple and the Temple of the Three Windows on the Sacred
+ *    Plaza, the Intihuatana on its terraced hill, the Condor's court, the
+ *    Sacred Rock at the Huayna Picchu end, the city gate, and the
+ *    guardhouse up by the Funerary Rock.
+ * Front (+Z) is the south — the city gate and the classic guardhouse view
+ * north along the ridge to Huayna Picchu.
+ *
+ * RUIN (today, and from the abandonment on): the thatch is gone, the gables
+ * mostly stand, a few wall heads have dropped — the citadel is famous for how
+ * little fell. The guardhouse and the terrace storehouses keep their roofs:
+ * they were re-thatched and stand roofed today. */
+function buildMachuPicchu(group: THREE.Group, ruined: boolean): void {
+  const U = 0.2; // metres → model units (the fit then sizes it true on the globe)
+  const BASE = 2385; // m a.s.l. where the forested flanks meet the ground plane
+  const STEP = 2.5; // terrace riser (m)
+  const G = 5; // terrain grid (m)
+  const COLLAR = 45; // forested fall beyond the worked edge (m)
+  const rnd = (i: number, k = 0) => {
+    const s = Math.sin(i * 127.1 + k * 311.7) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const smooth = (a: number, b: number, v: number) => {
+    const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  };
+
+  // --- Polygon tests over the survey outlines.
+  const inPoly = (poly: ReadonlyArray<readonly [number, number]>, x: number, z: number) => {
+    let inside = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [xi, zi] = poly[i];
+      const [xj, zj] = poly[j];
+      if (zi > z !== zj > z && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) inside = !inside;
+    }
+    return inside;
+  };
+  const edgeDist = (poly: ReadonlyArray<readonly [number, number]>, x: number, z: number) => {
+    let best = Infinity;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [ax, az] = poly[j];
+      const [bx, bz] = poly[i];
+      const dx = bx - ax;
+      const dz = bz - az;
+      const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz)));
+      best = Math.min(best, Math.hypot(x - ax - t * dx, z - az - t * dz));
+    }
+    return best;
+  };
+  /** Signed distance to the worked site: negative inside. */
+  const sdSite = (x: number, z: number) => (inPoly(MP_SITE, x, z) ? -1 : 1) * edgeDist(MP_SITE, x, z);
+
+  const D = MP_DEM;
+  const dem = (x: number, z: number) => {
+    const fx = Math.min(D.cols - 1.001, Math.max(0, (x - D.x0) / D.step));
+    const fz = Math.min(D.rows - 1.001, Math.max(0, (z - D.z0) / D.step));
+    const i = Math.floor(fx);
+    const k = Math.floor(fz);
+    const a = fx - i;
+    const b = fz - k;
+    const g = (r: number, c: number) => D.h[r * D.cols + c];
+    return D.base + (g(k, i) * (1 - a) + g(k, i + 1) * a) * (1 - b) + (g(k + 1, i) * (1 - a) + g(k + 1, i + 1) * a) * b;
+  };
+  const [ix, iz] = MP_POINTS.intihuatana;
+  const INTI_TOP = 2451; // the Intihuatana's summit platform, ~15 m over the plaza
+  /** Ground height (m a.s.l.) BEFORE terracing. */
+  const surf = (x: number, z: number): number => {
+    const d = sdSite(x, z);
+    let h = dem(x, z);
+    if (d > 0) return h + (BASE - h) * smooth(0, COLLAR, d);
+    // The main plaza is the sunken lawn between the sectors: a few metres
+    // under the ridge line the 30 m DEM smooths across it, so it terraces into
+    // its levels. Relative, not absolute, so on the globe the real terrain
+    // (which follows the same smoothed ridge) never swallows it. Blended in
+    // over its edge so the drop from the sectors terraces cleanly.
+    if (inPoly(MP_PLAZA, x, z)) h -= 3.5 * smooth(0, 7, edgeDist(MP_PLAZA, x, z));
+    // The Intihuatana hill: a steep cone the terracing turns into its famous
+    // stepped flanks, flat-topped for the stone.
+    h = Math.max(h, Math.min(INTI_TOP + 0.3, INTI_TOP + 3.3 - 0.7 * Math.hypot(x - ix, z - iz)));
+    return h;
+  };
+  /** Terraced ground height (m above BASE) — where a building's pad must sit. */
+  const terr = (x: number, z: number) => Math.floor(Math.max(0, surf(x, z) - BASE) / STEP) * STEP;
+
+  // ================= TERRAIN: contour terracing of the DEM =================
+  let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+  for (const [x, z] of MP_SITE) {
+    minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+    minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z);
+  }
+  minX -= COLLAR; maxX += COLLAR; minZ -= COLLAR; maxZ += COLLAR;
+  const nx = Math.ceil((maxX - minX) / G);
+  const nz = Math.ceil((maxZ - minZ) / G);
+  const vh: number[] = [];
+  const vd: number[] = [];
+  for (let k = 0; k <= nz; k++) {
+    for (let i = 0; i <= nx; i++) {
+      const x = minX + i * G;
+      const z = minZ + k * G;
+      const d = sdSite(x, z);
+      vd.push(d);
+      // (+0.013 m: the DEM's half-metre values land exactly ON terrace levels,
+      // which makes zero-width risers whose normals cancel — break the tie.)
+      vh.push(d >= COLLAR ? 0.013 : Math.max(0, surf(x, z) - BASE) + 0.013);
+    }
+  }
+  const treadPos: number[] = [];
+  const treadCol: number[] = [];
+  const treadIdx: number[] = [];
+  const treadMap = new Map<string, number>();
+  const wallPos: number[] = [];
+  const wallCol: number[] = [];
+  const wallNrm: number[] = [];
+  const wallUv: number[] = [];
+  const wallIdx: number[] = [];
+  const wallMap = new Map<string, number>();
+  const wallLast: number[] = []; // each vertex's latest facing, if its sum cancels
+  const treadVert = (x: number, y: number, z: number, c: THREE.Color, tag: number) => {
+    const key = `${x.toFixed(2)},${z.toFixed(2)},${y},${tag}`;
+    let n = treadMap.get(key);
+    if (n == null) {
+      n = treadPos.length / 3;
+      treadPos.push(x, y, z);
+      treadCol.push(c.r, c.g, c.b);
+      treadMap.set(key, n);
+    }
+    return n;
+  };
+  const wallVert = (x: number, y: number, z: number, nxv: number, nzv: number, c: THREE.Color) => {
+    const key = `${x.toFixed(2)},${z.toFixed(2)},${y}`;
+    let n = wallMap.get(key);
+    if (n == null) {
+      n = wallPos.length / 3;
+      wallPos.push(x, y, z);
+      wallNrm.push(0, 0, 0);
+      wallCol.push(c.r, c.g, c.b);
+      // Planar-ish UVs: the stone map wraps along whichever horizontal axis the
+      // wall runs, so the masonry never smears to a streak.
+      wallUv.push((Math.abs(nxv) > Math.abs(nzv) ? z : x) * 0.3, y * 0.3);
+      wallMap.set(key, n);
+    }
+    wallNrm[n * 3] += nxv;
+    wallNrm[n * 3 + 2] += nzv;
+    wallLast[n * 2] = nxv;
+    wallLast[n * 2 + 1] = nzv;
+    return n;
+  };
+  type TV = [number, number, number]; // x, z, h (m above BASE)
+  const clip = (poly: TV[], level: number, keepAbove: boolean): TV[] => {
+    const out: TV[] = [];
+    for (let i = 0; i < poly.length; i++) {
+      const a = poly[i];
+      const b = poly[(i + 1) % poly.length];
+      const ia = keepAbove ? a[2] >= level : a[2] < level;
+      const ib = keepAbove ? b[2] >= level : b[2] < level;
+      if (ia) out.push(a);
+      if (ia !== ib) {
+        const t = (level - a[2]) / (b[2] - a[2]);
+        out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, level]);
+      }
+    }
+    return out;
+  };
+  const GRASS_A = new THREE.Color('#6f8d3e');
+  const GRASS_B = new THREE.Color('#7b9a47');
+  const LAWN = new THREE.Color('#86ad4c');
+  const FOREST_A = new THREE.Color('#2f4626');
+  const WALL_IN = new THREE.Color('#a39c8e');
+  const WALL_OUT = new THREE.Color('#32472a'); // overgrown — reads as forest, not masonry
+  const tri = (A: TV, B: TV, C: TV) => {
+    const lo = Math.min(A[2], B[2], C[2]);
+    const hi = Math.max(A[2], B[2], C[2]);
+    const k0 = Math.floor(lo / STEP);
+    const k1 = Math.floor(hi / STEP);
+    const cx = (A[0] + B[0] + C[0]) / 3;
+    const cz = (A[1] + B[1] + C[1]) / 3;
+    const worked = sdSite(cx, cz) <= 0;
+    const lawn = worked && inPoly(MP_PLAZA, cx, cz);
+    // Downhill direction in this triangle (−∇h) — the way every riser faces.
+    const e1x = B[0] - A[0], e1z = B[1] - A[1], e1h = B[2] - A[2];
+    const e2x = C[0] - A[0], e2z = C[1] - A[1], e2h = C[2] - A[2];
+    const det = e1x * e2z - e2x * e1z;
+    const gx = (e1h * e2z - e2h * e1z) / det;
+    const gz = (e1x * e2h - e2x * e1h) / det;
+    const gl = Math.hypot(gx, gz) || 1;
+    for (let k = k0; k <= k1; k++) {
+      let band: TV[] = [A, B, C];
+      if (k > k0) band = clip(band, k * STEP, true);
+      if (k < k1) band = clip(band, (k + 1) * STEP, false);
+      if (band.length < 3) continue;
+      const y = k * STEP;
+      const c = lawn ? LAWN : worked ? (k % 2 ? GRASS_A : GRASS_B) : FOREST_A;
+      const tag = lawn ? 2 : worked ? 1 : 0;
+      const ids = band.map((v) => treadVert(v[0], y, v[1], c, tag));
+      for (let t = 1; t < ids.length - 1; t++) treadIdx.push(ids[0], ids[t + 1], ids[t]);
+      if (k > k0) {
+        // The riser between band k−1 and band k runs along the isoline h = k·STEP.
+        const L = k * STEP;
+        const pts: Array<[number, number]> = [];
+        for (const [P, Q] of [[A, B], [B, C], [C, A]] as const) {
+          if (P[2] < L !== Q[2] < L) {
+            const t = (L - P[2]) / (Q[2] - P[2]);
+            pts.push([P[0] + (Q[0] - P[0]) * t, P[1] + (Q[1] - P[1]) * t]);
+          }
+        }
+        if (pts.length === 2) {
+          const wc = worked ? WALL_IN : WALL_OUT;
+          const [p, q] = pts;
+          const nxv = -gx / gl;
+          const nzv = -gz / gl;
+          const a0 = wallVert(p[0], L - STEP, p[1], nxv, nzv, wc);
+          const b0 = wallVert(q[0], L - STEP, q[1], nxv, nzv, wc);
+          const a1 = wallVert(p[0], L, p[1], nxv, nzv, wc);
+          const b1 = wallVert(q[0], L, q[1], nxv, nzv, wc);
+          // Wind so the face looks downhill.
+          const fx = (q[1] - p[1]) * 1; // (q−p) × up, x-component
+          const fz = -(q[0] - p[0]);
+          if (fx * nxv + fz * nzv > 0) wallIdx.push(a0, a1, b1, a0, b1, b0);
+          else wallIdx.push(a0, b1, a1, a0, b0, b1);
+        }
+      }
+    }
+  };
+  for (let k = 0; k < nz; k++) {
+    for (let i = 0; i < nx; i++) {
+      const id = (ii: number, kk: number) => kk * (nx + 1) + ii;
+      const corners = [id(i, k), id(i + 1, k), id(i + 1, k + 1), id(i, k + 1)];
+      if (corners.every((c) => vd[c] >= COLLAR)) continue;
+      const V = corners.map((c, n): TV => [minX + (i + (n === 1 || n === 2 ? 1 : 0)) * G, minZ + (k + (n >= 2 ? 1 : 0)) * G, vh[c]]);
+      if ((i + k) % 2) {
+        tri(V[0], V[1], V[2]);
+        tri(V[0], V[2], V[3]);
+      } else {
+        tri(V[0], V[1], V[3]);
+        tri(V[1], V[2], V[3]);
+      }
+    }
+  }
+  {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(treadPos, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(new Array(treadPos.length / 3).fill(0).flatMap(() => [0, 1, 0]), 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(treadCol, 3));
+    g.setIndex(treadIdx);
+    g.scale(U, U, U);
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 }));
+    m.name = 'mp-terraces';
+    group.add(m);
+  }
+  {
+    for (let n = 0; n < wallNrm.length; n += 3) {
+      const l = Math.hypot(wallNrm[n], wallNrm[n + 2]);
+      if (l < 1e-3) {
+        wallNrm[n] = wallLast[(n / 3) * 2];
+        wallNrm[n + 2] = wallLast[(n / 3) * 2 + 1];
+      } else {
+        wallNrm[n] /= l;
+        wallNrm[n + 2] /= l;
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(wallPos, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(wallNrm, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(wallCol, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(wallUv, 2));
+    g.setIndex(wallIdx);
+    g.scale(U, U, U);
+    // Plain lit stone: the procedural stone canvas turns this pale granite
+    // brown-black at terrace scale.
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 }));
+    m.name = 'mp-terrace-walls';
+    group.add(m);
+  }
+
+  // ================= MASONRY: merged per material =================
+  const parts: Record<'wall' | 'fine' | 'plat' | 'thatch' | 'rock' | 'dark', THREE.BufferGeometry[]> = {
+    wall: [], fine: [], plat: [], thatch: [], rock: [], dark: [],
+  };
+  type Part = keyof typeof parts;
+  const eul = new THREE.Euler();
+  const quat = new THREE.Quaternion();
+  const mtx = new THREE.Matrix4();
+  const ONE = new THREE.Vector3(1, 1, 1);
+  const put = (key: Part, geo: THREE.BufferGeometry, x: number, y: number, z: number, ry = 0, rx = 0) => {
+    eul.set(rx, ry, 0, 'YXZ');
+    quat.setFromEuler(eul);
+    mtx.compose(new THREE.Vector3(x, y, z), quat, ONE);
+    const g = geo.index ? geo.toNonIndexed() : geo;
+    g.applyMatrix4(mtx);
+    parts[key].push(g);
+  };
+  const box = (key: Part, w: number, h: number, d: number, x: number, y: number, z: number, ry = 0, rx = 0) =>
+    put(key, new THREE.BoxGeometry(w, h, d), x, y, z, ry, rx);
+  /** A rectangle's local frame: lx along its long axis, lz across it. */
+  const frame = (cx: number, cz: number, deg: number) => {
+    const a = (deg * Math.PI) / 180;
+    const ca = Math.cos(a);
+    const sa = Math.sin(a);
+    return {
+      ry: -a,
+      at: (lx: number, lz: number): [number, number] => [cx + lx * ca - lz * sa, cz + lx * sa + lz * ca],
+    };
+  };
+  const gableGeo = (W: number, R: number, t: number) => {
+    const s = new THREE.Shape();
+    s.moveTo(-W / 2, 0);
+    s.lineTo(W / 2, 0);
+    s.lineTo(0, R);
+    s.lineTo(-W / 2, 0);
+    const g = new THREE.ExtrudeGeometry(s, { depth: t, bevelEnabled: false });
+    g.translate(0, 0, -t / 2);
+    return g;
+  };
+
+  interface HouseOpts {
+    key?: Part; // masonry grade
+    E?: number; // eave height (m)
+    open?: [number, number]; // leave the long side facing this point open (wayrona / temple)
+    windows?: number; // trapezoid-ish windows in the back wall (Three Windows)
+    roofAlways?: boolean; // re-thatched and roofed today
+    seed: number;
+  }
+  /** One Inca building on its levelled pad. Returns the floor level (m). */
+  const house = (cx: number, cz: number, L: number, W: number, deg: number, o: HouseOpts): number => {
+    const key = o.key ?? 'wall';
+    const t = Math.min(0.8, W * 0.14);
+    const E = o.E ?? 3.1;
+    const R = W * 0.85; // the steep Inca gable (~60° pitch)
+    const f = frame(cx, cz, deg);
+    // Pad: level with the highest ground under the footprint, walled down to the lowest.
+    let hi = -Infinity;
+    let lo = Infinity;
+    for (const [lx, lz] of [[0, 0], [-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]]) {
+      const [x, z] = f.at(lx, lz);
+      const h = terr(x, z);
+      hi = Math.max(hi, h);
+      lo = Math.min(lo, h);
+    }
+    const y0 = hi + 0.25;
+    const padH = y0 - lo + 1.2;
+    {
+      const [x, z] = f.at(0, 0);
+      box('plat', L + 1.4, padH, W + 1.4, x, y0 - padH / 2, z, f.ry);
+    }
+    // Which long side is the "front": toward the open-side target, else downhill.
+    let front = 1;
+    if (o.open) {
+      const [px, pz] = f.at(0, 1);
+      const [mx, mz] = f.at(0, -1);
+      front = Math.hypot(px - o.open[0], pz - o.open[1]) < Math.hypot(mx - o.open[0], mz - o.open[1]) ? 1 : -1;
+    } else {
+      const [px, pz] = f.at(0, W / 2 + 5);
+      const [mx, mz] = f.at(0, -W / 2 - 5);
+      front = surf(px, pz) <= surf(mx, mz) ? 1 : -1;
+    }
+    const drop = ruined && !o.roofAlways && rnd(o.seed, 1) < 0.28 ? 0.4 + rnd(o.seed, 2) * 0.9 : 0;
+    const Eh = E - drop;
+    const wallAt = (lx: number, lz: number, w: number, h: number, d: number, y: number, ry = 0) => {
+      const [x, z] = f.at(lx, lz);
+      box(key, w, h, d, x, y0 + y, z, f.ry + ry);
+    };
+    // Long walls: the back always, the front with its doorway unless open.
+    const backZ = -front * (W / 2 - t / 2);
+    const frontZ = front * (W / 2 - t / 2);
+    if (o.windows) {
+      // Back wall pierced by n windows between the sill and the lintel course.
+      const n = o.windows;
+      const sill = 1.3;
+      const top = 2.9;
+      const ww = 1.05;
+      wallAt(0, backZ, L, sill, t, sill / 2);
+      wallAt(0, backZ, L, Eh - top, t, top + (Eh - top) / 2);
+      const pier = (L - n * ww) / (n + 1);
+      for (let i = 0; i <= n; i++) {
+        const lx = -L / 2 + pier / 2 + i * (pier + ww);
+        wallAt(lx, backZ, pier, top - sill, t, sill + (top - sill) / 2);
+      }
+    } else {
+      wallAt(0, backZ, L, Eh, t, Eh / 2);
+    }
+    if (!o.open) {
+      const dw = Math.min(1.1, L * 0.2);
+      const dh = Math.min(2.0, Eh - 0.5);
+      const seg = (L - dw) / 2;
+      wallAt(-(dw / 2 + seg / 2), frontZ, seg, Eh, t, Eh / 2);
+      wallAt(dw / 2 + seg / 2, frontZ, seg, Eh, t, Eh / 2);
+      wallAt(0, frontZ, dw, Eh - dh, t, dh + (Eh - dh) / 2);
+    } else if (o.windows) {
+      // The Three Windows' open side is carried on a single monolithic post.
+      const [x, z] = f.at(0, frontZ);
+      box(key, 0.7, E, 0.7, x, y0 + E / 2, z, f.ry);
+    }
+    // Gable end walls (short sides) rising into the steep triangle.
+    // The temples' fine-ashlar side walls stand square today; only their lost
+    // roofs had gables.
+    const gable = !ruined || o.roofAlways || (key !== 'fine' && rnd(o.seed, 3) > 0.2);
+    for (const s of [-1, 1] as const) {
+      const lx = s * (L / 2 - t / 2);
+      wallAt(lx, 0, t, Eh, W - 2 * t, Eh / 2);
+      if (gable && drop === 0) {
+        const [x, z] = f.at(lx, 0);
+        put(key, gableGeo(W, R, t), x, y0 + E, z, f.ry + Math.PI / 2);
+      }
+    }
+    // Ichu thatch — steep, thick, overhanging.
+    if (!ruined || o.roofAlways) {
+      const ov = 0.6;
+      const ang = Math.atan2(R, W / 2);
+      const slope = Math.hypot(W / 2, R) + ov;
+      for (const s of [-1, 1] as const) {
+        const [x, z] = f.at(0, (s * (W / 2 - ov * Math.cos(ang))) / 2);
+        box('thatch', L + 2 * ov, 0.45, slope, x, y0 + E + R / 2 + 0.2 - (ov * Math.sin(ang)) / 2, z, f.ry, s * ang);
+      }
+    }
+    return y0;
+  };
+
+  // --- Which survey rectangles the hand-built pieces replace or dress.
+  const near = (r: readonly [number, number, ...unknown[]], x: number, z: number) => Math.hypot(r[0] - x, r[1] - z) < 1.5;
+  const [spx, spz] = MP_POINTS.sacredPlaza;
+  MP_BUILDINGS.forEach((r, i) => {
+    const [x, z, L, W, deg] = r;
+    if (near(r, 26.4, 122.1)) return torreon(x, z, L, W, deg);
+    if (near(r, 53.8, 64.9)) return condor(x, z, L, W, deg);
+    if (near(r, -41.1, 65.6)) {
+      // The Principal Temple: three walls of giant polished blocks, open to
+      // the Sacred Plaza, the great altar stone against its back wall.
+      const y0 = house(x, z, L, W, deg, { key: 'fine', E: 4.4, open: [spx, spz], seed: i });
+      const f = frame(x, z, deg);
+      const [px, pz] = f.at(0, 1);
+      const [mx, mz] = f.at(0, -1);
+      const back = Math.hypot(px - spx, pz - spz) > Math.hypot(mx - spx, mz - spz) ? 1 : -1;
+      const [ax, az] = f.at(0, back * (W / 2 - 1.6));
+      box('fine', L * 0.55, 1.2, 1.2, ax, y0 + 0.6, az, f.ry);
+      return;
+    }
+    if (near(r, -27.6, 67.6)) {
+      house(x, z, L, W, deg, { key: 'fine', E: 4.2, open: [spx, spz], windows: 3, seed: i });
+      return;
+    }
+    if (near(r, 81.4, 255)) {
+      // The guardhouse — three-walled, open toward the citadel, roofed today.
+      house(x, z, L, W, deg, { open: [0, 0], roofAlways: true, seed: i });
+      return;
+    }
+    // The storehouses at the head of the agricultural terraces — re-thatched.
+    const store = x > 135 && z > 185;
+    house(x, z, L, W, deg, { roofAlways: store, seed: i });
+  });
+
+  // --- The Torreón: a D-shaped tower of the finest ashlar, its curved wall
+  // (the solstice windows) to the east, built on a granite outcrop with the
+  // Royal Tomb's dark cave under it.
+  function torreon(cx: number, cz: number, L: number, W: number, deg: number) {
+    const f = frame(cx, cz, deg);
+    const g0 = Math.min(terr(cx, cz), terr(...f.at(-L / 2, 0)), terr(...f.at(L / 2, 0)));
+    const rockH = 4.2;
+    // The outcrop: two rough blocks, the tomb's black mouth on the west face.
+    box('rock', L * 0.9, rockH + 1.5, W * 0.95, cx, g0 + (rockH + 1.5) / 2 - 1.5, cz, f.ry + 0.12);
+    {
+      const [x, z] = f.at(L * 0.18, -W * 0.3);
+      box('rock', L * 0.55, rockH - 0.8, W * 0.6, x, g0 + (rockH - 0.8) / 2, z, f.ry - 0.3);
+    }
+    // Which lz side faces east (+x)? The curve goes there.
+    const east = f.at(0, 1)[0] > f.at(0, -1)[0] ? 1 : -1;
+    {
+      const [x, z] = f.at(0, -east * (W * 0.48));
+      box('dark', 2.2, 1.6, 0.5, x, g0 + 0.8, z, f.ry);
+    }
+    const y0 = g0 + rockH;
+    const R = W * 0.62;
+    const H = 4.6;
+    const t = 0.9;
+    const n = 16;
+    // The straight west wall runs along the rectangle's long axis.
+    {
+      const [x, z] = f.at(0, -east * 0.2);
+      box('fine', 2 * R + t, ruined ? H - 0.4 : H, t, x, y0 + (ruined ? H - 0.4 : H) / 2, z, f.ry);
+    }
+    // Curved wall: n chord segments around the half-circle, two of them the
+    // trapezoid windows (a sill course and a lintel course only).
+    for (let i = 0; i < n; i++) {
+      const a0 = (i / n) * Math.PI;
+      const a1 = ((i + 1) / n) * Math.PI;
+      const am = (a0 + a1) / 2;
+      const segL = 2 * R * Math.sin((a1 - a0) / 2) + 0.12;
+      const lx = R * Math.cos(am);
+      const lz = east * (R * Math.sin(am) - 0.2);
+      const [x, z] = f.at(lx, lz);
+      // Orient each segment tangent to the arc.
+      const segRy = f.ry - Math.atan2(east * Math.cos(am), -Math.sin(am));
+      const hh = ruined ? H - 0.3 * rnd(i, 7) : H;
+      if (i === 5 || i === 10) {
+        box('fine', segL, 1.3, t, x, y0 + 0.65, z, segRy);
+        box('fine', segL, hh - 2.6, t, x, y0 + 2.6 + (hh - 2.6) / 2, z, segRy);
+      } else {
+        box('fine', segL, hh, t, x, y0 + hh / 2, z, segRy);
+      }
+    }
+    if (!ruined) {
+      // A conical ichu roof over the drum.
+      const cone = new THREE.ConeGeometry(R + 0.9, R * 1.5, 18, 1, true);
+      const [x, z] = f.at(0, east * R * 0.3);
+      put('thatch', cone, x, y0 + H + (R * 1.5) / 2, z);
+    }
+  }
+
+  // --- The Temple of the Condor: a walled court, the two dark outcrops read
+  // as the bird's spread wings, the carved head-and-collar stone on the floor.
+  function condor(cx: number, cz: number, L: number, W: number, deg: number) {
+    const f = frame(cx, cz, deg);
+    const y0 = terr(cx, cz) + 0.2;
+    const t = 0.9;
+    const E = ruined ? 3.0 : 3.4;
+    for (const s of [-1, 1] as const) {
+      const [x, z] = f.at(0, s * (W / 2 - t / 2));
+      box('wall', L, E, t, x, y0 + E / 2, z, f.ry);
+      const [x2, z2] = f.at(s * (L / 2 - t / 2), 0);
+      box('wall', t, E, W - 2 * t, x2, y0 + E / 2, z2, f.ry);
+    }
+    box('plat', L + 1.4, 2.5, W + 1.4, cx, y0 - 1.25, cz, f.ry);
+    for (const s of [-1, 1] as const) {
+      const [x, z] = f.at(s * L * 0.2, -W * 0.18);
+      box('rock', L * 0.3, 4.5, W * 0.35, x, y0 + 2.0, z, f.ry + s * 0.35);
+    }
+    const [hx, hz] = f.at(0, W * 0.2);
+    const head = new THREE.CylinderGeometry(1.6, 1.8, 0.45, 3);
+    put('fine', head, hx, y0 + 0.22, hz, f.ry);
+  }
+
+  // --- The Intihuatana on its terraced summit.
+  {
+    const y0 = terr(ix, iz);
+    box('rock', 3.6, 1.0, 2.6, ix, y0 + 0.5, iz, 0.4);
+    box('fine', 1.8, 0.9, 1.3, ix + 0.2, y0 + 1.45, iz, 0.4);
+    box('fine', 0.45, 1.8, 0.55, ix + 0.3, y0 + 2.8, iz, 0.4);
+  }
+  // --- The Sacred Rock at the north end, its outline echoing the peaks behind,
+  // turned to face down the plaza.
+  {
+    const [rx, rz] = MP_POINTS.sacredRock;
+    const s = new THREE.Shape();
+    const prof: Array<[number, number]> = [[-3.8, 0], [3.8, 0], [3.6, 1.4], [2.2, 2.4], [1.1, 3.1], [-0.4, 2.7], [-1.6, 3.3], [-3.0, 2.2], [-3.8, 1.1]];
+    s.moveTo(...prof[0]);
+    for (const p of prof.slice(1)) s.lineTo(...p);
+    const g = new THREE.ExtrudeGeometry(s, { depth: 1.0, bevelEnabled: false });
+    g.translate(0, 0, -0.5);
+    const y0 = terr(rx, rz);
+    box('plat', 9.5, 1.2, 3.2, rx, y0 + 0.1, rz, Math.atan2(-60 - rx, -20 - rz));
+    put('rock', g, rx, y0 + 0.7, rz, Math.atan2(-60 - rx, -20 - rz));
+  }
+  // --- The city gate: a double-jambed doorway through the southern wall,
+  // where the road from the guardhouse enters.
+  {
+    const [gx, gz] = MP_POINTS.cityGate;
+    const f = frame(gx, gz, 150);
+    const y0 = terr(gx, gz);
+    const H = 4.0;
+    const t = 1.3;
+    const dw = 2.3;
+    const dh = 3.3;
+    const seg = 11;
+    for (const s of [-1, 1] as const) {
+      const [x, z] = f.at(s * (dw / 2 + seg / 2), 0);
+      box('wall', seg, H, t, x, y0 + H / 2, z, f.ry);
+    }
+    box('fine', dw + 0.8, H - dh, t + 0.1, gx, y0 + dh + (H - dh) / 2, gz, f.ry); // the lintel
+    box('plat', 2 * seg + dw + 1, 1.5, t + 1.2, gx, y0 - 0.7, gz, f.ry);
+  }
+  // --- The Funerary Rock by the guardhouse: a carved, flat-topped boulder.
+  {
+    const [fx, fz] = MP_POINTS.funeraryRock;
+    const y0 = terr(fx, fz);
+    box('rock', 4.2, 1.4, 2.4, fx, y0 + 0.7, fz, 0.5);
+    box('rock', 1.6, 1.0, 2.2, fx - 2.4, y0 + 1.1, fz - 1.2, 0.5);
+  }
+
+  // Machu Picchu's white-grey granite, smooth-lit (the stone canvas reads as
+  // brown timber on it); the ruin's stone a shade more weathered.
+  const granite = (c: string) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.92, flatShading: true });
+  const mats: Record<Part, THREE.Material> = {
+    wall: granite(ruined ? '#a8a296' : '#b7b1a4'),
+    fine: granite(ruined ? '#c2bdb1' : '#d2cdc0'),
+    plat: granite('#948e82'),
+    thatch: new THREE.MeshStandardMaterial({ color: '#a38748', roughness: 1, flatShading: true }),
+    rock: granite('#86827a'),
+    dark: new THREE.MeshStandardMaterial({ color: '#1d1b18', roughness: 1 }),
+  };
+  for (const k of Object.keys(parts) as Part[]) {
+    if (!parts[k].length) continue;
+    const merged = mergeGeometries(parts[k].map((g) => {
+      // Uniform attribute sets (Extrude/Cone/Box differ in groups only).
+      g.clearGroups();
+      return g;
+    }), false);
+    if (!merged) continue;
+    merged.scale(U, U, U);
+    const m = new THREE.Mesh(merged, mats[k]);
+    m.name = `mp-${k}`;
+    group.add(m);
+  }
+  if (ruined) group.userData.selfRuined = true;
 }
 
 export function buildModel(
@@ -5274,6 +5892,9 @@ export function buildModel(
     }
     // A slim cornice capping the colonnade, tying the bays into one arcade.
     group.add(matBlock(arcSpan + 1.4, 0.55, 2.1, 0, arcY + arcH + 0.25, arcZ, granDk));
+  } else if (model === 'machu-picchu') {
+    ground = '#3d5a2c';
+    buildMachuPicchu(group, ruined);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

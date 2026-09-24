@@ -28,6 +28,13 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
   });
 
+  it('Machu Picchu wears its surveyed citadel — only the citadel does', () => {
+    expect(monumentModelForName('Machu Picchu')).toBe('machu-picchu');
+    expect(monumentModelForName('Citadel of Machu Picchu')).toBe('machu-picchu');
+    // The wider sanctuary's pin sits 6.7 km away; the citadel there would be wrong.
+    expect(monumentModelForName('Historic Sanctuary of Machu Picchu')).toBeNull();
+  });
+
   it('castles, forts and palaces get their own castle model (not a settlement box)', () => {
     // Examples chosen to sit OUTSIDE the suppression list (NO_3D_NAMES), which
     // runs first — these exercise the keyword rule itself, one per sub-pattern.

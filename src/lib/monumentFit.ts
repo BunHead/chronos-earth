@@ -54,7 +54,11 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'chich', widthM: 55 },
   { match: 'kukulc', widthM: 55 },
   { match: 'tikal', widthM: 55 },
-  { match: 'machu picchu', widthM: 200 },
+  // Machu Picchu is authored in TRUE site metres around its pin (x east, z
+  // south; OSM footprints + DEM), so its facing is 0 and its width is simply
+  // the model's own span: the citadel, its terraces and the forested fall
+  // around them run 560 m north–south.
+  { match: 'machu picchu', widthM: 560, facingDeg: 0 },
   { match: 'petra', widthM: 40 },
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
@@ -125,6 +129,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // Liberty Island: Fort Wood's star is ~100 m across; she faces ~SE (bearing
   // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
   liberty: { widthM: 100, facingDeg: 45 },
+  'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
 };
 

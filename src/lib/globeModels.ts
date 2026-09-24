@@ -46,6 +46,11 @@ interface Placement {
    * course over this span, swapping through exported `{model}-b30/-b60/-b90`
    * stages before standing complete at builtYear. */
   buildYears?: number;
+  /** Metres to sink the model below the clamped ground — for a model that
+   * carries its own landform (Machu Picchu's ridge), so it sits INTO the real
+   * terrain instead of standing on it as a raised plinth. The maker's upM trim
+   * still adds on top. */
+  sinkM?: number;
 }
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
@@ -80,6 +85,13 @@ const PLACEMENTS: Placement[] = [
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
   { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
+  // Built for Pachacuti c.1450; abandoned by c.1572, as the Inca state fell to
+  // the Spanish — the thatch went, the stone stayed: the ruin we know.
+  // It carries its OWN ridge (DEM, terraced), so it is sunk into the real
+  // terrain: its base is 2385 m and the globe's ground at the pin is 2439 m
+  // (ArcGIS, sampled 2026-09-24) — 51 m down leaves its terraces ~3 m proud of
+  // the real slope and lets its forest collar run into the real flanks.
+  { model: 'machu-picchu', title: 'Machu Picchu', lat: -13.163, lon: -72.545, builtYear: 1450, ruinYear: 1572, sinkM: 51 },
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
@@ -130,7 +142,7 @@ function seat(entity: Cesium.Entity, p: Placement): void {
   const mPerDeg = 111_320;
   const lat = p.lat + (t.northM ?? 0) / mPerDeg;
   const lon = p.lon + (t.eastM ?? 0) / (mPerDeg * Math.cos((p.lat * Math.PI) / 180));
-  const up = t.upM ?? 0;
+  const up = (t.upM ?? 0) - (p.sinkM ?? 0);
   const position = Cesium.Cartesian3.fromDegrees(lon, lat, up);
   entity.position = new Cesium.ConstantPositionProperty(position);
   const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL + (t.headingDeg ?? 0));

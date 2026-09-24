@@ -121,6 +121,10 @@ export function monumentModelForName(name: string): string | null {
   // a bare "opera house" (London's neoclassical Royal Opera House, Vienna's, …)
   // must NOT be dressed in them — it gets no 3D, per "prefer none to a wrong one".
   if (/sydney opera/.test(n)) return 'opera-house';
+  // Machu Picchu — the citadel ITSELF (its model is surveyed in true metres on
+  // the ridge). The 'Historic Sanctuary of Machu Picchu' pin sits 6.7 km away
+  // and must not wear the citadel.
+  if (/^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/.test(n)) return 'machu-picchu';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before

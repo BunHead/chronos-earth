@@ -70,6 +70,7 @@ const MODELS: Array<[string, string]> = [
   ['buckingham', 'Buckingham Palace'],
   ['london-eye', 'London Eye'],
   ['opera-house', 'Sydney Opera House'],
+  ['machu-picchu', 'Machu Picchu (Inca citadel)'],
   ['circle', 'Stone circle'],
   ['settlement', 'Neolithic settlement'],
   ['angkor', 'Angkor Wat'],
@@ -126,6 +127,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   // sun (tracking the wrong side of the sky, seasons inverted). globeModels.ts
   // always had it right at -33.8568; this table was the odd one out.
   'opera-house': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
+  'machu-picchu': { title: 'Machu Picchu', lat: -13.163, lon: -72.545 },
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
   settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
   megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },
@@ -647,6 +649,8 @@ function applyWeather() {
 function transportFor(model: string, site?: LiveSite): string {
   if (['buckingham', 'westminster', 'london-eye', 'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin', 'opera-house', 'liberty', 'eiffel', 'arc-triomphe', 'louvre'].includes(model)) return 'bus';
   if (['pharos', 'lighthouse', 'colossus', 'rings'].includes(model)) return 'trireme';
+  // The Inca Andes had no horses (nor wheels) — walkers only on the citadel.
+  if (model === 'machu-picchu') return 'person';
   if (site && site.lat > 10 && site.lat < 37 && site.lon > -18 && site.lon < 65) return 'camel';
   return 'horse';
 }
