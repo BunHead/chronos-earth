@@ -129,6 +129,11 @@ jobs:
         # what it IS. Cheap (~200 rows) and it is the one thing a history globe
         # must not get wrong.
         run: node scripts/add-capitals.mjs
+      - name: Add the places the Captain asked for by name (idempotent)
+        if: '!cancelled()'
+        # Roden Crater and the like: too few sitelinks for any query to reach,
+        # and no "founded" date to find. Re-run nightly so edits take effect.
+        run: node scripts/add-curated-places.mjs
       - name: Add the capitals no query can date (idempotent)
         if: '!cancelled()'
         # Ten capitals, Beijing among them, that Wikidata records no date for at
