@@ -183,3 +183,42 @@ describe('one place, one pin — by name as well as by article', () => {
     expect(nameless.map((e) => e.id).slice(0, 10)).toEqual([]);
   });
 });
+
+/**
+ * Same place, different name — and the opposite mistake, different things with
+ * one name. See scripts/dedupe-places.mjs and scripts/disambiguate-names.mjs.
+ */
+describe('one place, one pin — even under two names', () => {
+  const named = (n: string) => events.filter((e) => e.name === n);
+
+  it('a World Heritage listing never stands beside the place it lists', () => {
+    // "Historic Sanctuary of Machu Picchu" sat 6.7 km from Machu Picchu.
+    for (const n of ['Historic Sanctuary of Machu Picchu', 'Historic City of Sucre', 'Old City of Zamość', 'archaeological Site of Delphi']) {
+      expect(named(n), `${n} is back`).toEqual([]);
+    }
+  });
+
+  it('a listing never lends the place its inscription date', () => {
+    // Wikidata dates "Archaeological Site of Delphi" by UNESCO inscription:
+    // 1987. Merged the ordinary way, Delphi would have moved to 1987.
+    const delphi = events.filter((e) => e.name === 'Delphi' && e.category !== 'person');
+    expect(delphi.length).toBeGreaterThan(0);
+    for (const d of delphi) expect(d.startYear).toBeLessThan(0);
+  });
+
+  it('a region is not a second copy of its city', () => {
+    expect(named('Kyoto Prefecture')).toEqual([]);
+  });
+});
+
+describe('different things with one label are told apart, not deleted', () => {
+  it('both battles of Canton (1841) and of Thessalonica (1040) survive, by their own names', () => {
+    // They LOOKED doubled: identical labels, same spot, same year. They are two
+    // battles each, and deleting one would have erased a real battle.
+    const names = new Set(events.map((e) => e.name));
+    for (const n of ['Battle of Canton (March 1841)', 'Battle of Canton (May 1841)',
+      'Battle of Thessalonica (1040)', 'Battle of Thessalonica (2nd 1040)']) {
+      expect(names.has(n), `${n} missing`).toBe(true);
+    }
+  });
+});

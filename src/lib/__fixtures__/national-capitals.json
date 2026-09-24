@@ -1,0 +1,1645 @@
+{
+ "note": "Every existing sovereign state and its capital (Wikidata P36), frozen 2026-09-24 so the test needs no network. Regenerate with the query in capitalsCoverage.test.ts.",
+ "capitals": [
+  {
+   "qid": "Q5838",
+   "name": "Kabul",
+   "wikiTitle": "Kabul",
+   "countries": [
+    "Afghanistan"
+   ]
+  },
+  {
+   "qid": "Q19689",
+   "name": "Tirana",
+   "wikiTitle": "Tirana",
+   "countries": [
+    "Albania"
+   ]
+  },
+  {
+   "qid": "Q3561",
+   "name": "Algiers",
+   "wikiTitle": "Algiers",
+   "countries": [
+    "Algeria"
+   ]
+  },
+  {
+   "qid": "Q1863",
+   "name": "Andorra la Vella",
+   "wikiTitle": "Andorra la Vella",
+   "countries": [
+    "Andorra"
+   ]
+  },
+  {
+   "qid": "Q3897",
+   "name": "Luanda",
+   "wikiTitle": "Luanda",
+   "countries": [
+    "Angola"
+   ]
+  },
+  {
+   "qid": "Q36262",
+   "name": "Q36262",
+   "wikiTitle": "St. John's, Antigua and Barbuda",
+   "countries": [
+    "Antigua and Barbuda"
+   ]
+  },
+  {
+   "qid": "Q1486",
+   "name": "Buenos Aires",
+   "wikiTitle": "Buenos Aires",
+   "countries": [
+    "Argentina"
+   ]
+  },
+  {
+   "qid": "Q1953",
+   "name": "Yerevan",
+   "wikiTitle": "Yerevan",
+   "countries": [
+    "Armenia"
+   ]
+  },
+  {
+   "qid": "Q3114",
+   "name": "Canberra",
+   "wikiTitle": "Canberra",
+   "countries": [
+    "Australia"
+   ]
+  },
+  {
+   "qid": "Q1741",
+   "name": "Vienna",
+   "wikiTitle": "Vienna",
+   "countries": [
+    "Austria"
+   ]
+  },
+  {
+   "qid": "Q9248",
+   "name": "Baku",
+   "wikiTitle": "Baku",
+   "countries": [
+    "Azerbaijan"
+   ]
+  },
+  {
+   "qid": "Q3882",
+   "name": "Manama",
+   "wikiTitle": "Manama",
+   "countries": [
+    "Bahrain"
+   ]
+  },
+  {
+   "qid": "Q1354",
+   "name": "Dhaka",
+   "wikiTitle": "Dhaka",
+   "countries": [
+    "Bangladesh"
+   ]
+  },
+  {
+   "qid": "Q36168",
+   "name": "Bridgetown",
+   "wikiTitle": "Bridgetown",
+   "countries": [
+    "Barbados"
+   ]
+  },
+  {
+   "qid": "Q2280",
+   "name": "Minsk",
+   "wikiTitle": "Minsk",
+   "countries": [
+    "Belarus"
+   ]
+  },
+  {
+   "qid": "Q239",
+   "name": "Brussels",
+   "wikiTitle": "City of Brussels",
+   "countries": [
+    "Belgium"
+   ]
+  },
+  {
+   "qid": "Q3043",
+   "name": "Belmopan",
+   "wikiTitle": "Belmopan",
+   "countries": [
+    "Belize"
+   ]
+  },
+  {
+   "qid": "Q3799",
+   "name": "Porto-Novo",
+   "wikiTitle": "Porto-Novo",
+   "countries": [
+    "Benin"
+   ]
+  },
+  {
+   "qid": "Q9270",
+   "name": "Thimphu",
+   "wikiTitle": "Thimphu",
+   "countries": [
+    "Bhutan"
+   ]
+  },
+  {
+   "qid": "Q1491",
+   "name": "La Paz",
+   "wikiTitle": "La Paz",
+   "countries": [
+    "Bolivia"
+   ]
+  },
+  {
+   "qid": "Q2907",
+   "name": "Sucre",
+   "wikiTitle": "Sucre",
+   "countries": [
+    "Bolivia"
+   ]
+  },
+  {
+   "qid": "Q11194",
+   "name": "Sarajevo",
+   "wikiTitle": "Sarajevo",
+   "countries": [
+    "Bosnia and Herzegovina"
+   ]
+  },
+  {
+   "qid": "Q3919",
+   "name": "Gaborone",
+   "wikiTitle": "Gaborone",
+   "countries": [
+    "Botswana"
+   ]
+  },
+  {
+   "qid": "Q2844",
+   "name": "Brasília",
+   "wikiTitle": "Brasília",
+   "countries": [
+    "Brazil"
+   ]
+  },
+  {
+   "qid": "Q9279",
+   "name": "Bandar Seri Begawan",
+   "wikiTitle": "Bandar Seri Begawan",
+   "countries": [
+    "Brunei"
+   ]
+  },
+  {
+   "qid": "Q472",
+   "name": "Sofia",
+   "wikiTitle": "Sofia",
+   "countries": [
+    "Bulgaria"
+   ]
+  },
+  {
+   "qid": "Q3777",
+   "name": "Ouagadougou",
+   "wikiTitle": "Ouagadougou",
+   "countries": [
+    "Burkina Faso"
+   ]
+  },
+  {
+   "qid": "Q167551",
+   "name": "Gitega",
+   "wikiTitle": "Gitega",
+   "countries": [
+    "Burundi"
+   ]
+  },
+  {
+   "qid": "Q1850",
+   "name": "Phnom Penh",
+   "wikiTitle": "Phnom Penh",
+   "countries": [
+    "Cambodia"
+   ]
+  },
+  {
+   "qid": "Q3808",
+   "name": "Yaoundé",
+   "wikiTitle": "Yaoundé",
+   "countries": [
+    "Cameroon"
+   ]
+  },
+  {
+   "qid": "Q1930",
+   "name": "Ottawa",
+   "wikiTitle": "Ottawa",
+   "countries": [
+    "Canada"
+   ]
+  },
+  {
+   "qid": "Q3751",
+   "name": "Praia",
+   "wikiTitle": "Praia",
+   "countries": [
+    "Cape Verde"
+   ]
+  },
+  {
+   "qid": "Q3832",
+   "name": "Bangui",
+   "wikiTitle": "Bangui",
+   "countries": [
+    "Central African Republic"
+   ]
+  },
+  {
+   "qid": "Q3659",
+   "name": "N'Djamena",
+   "wikiTitle": "N'Djamena",
+   "countries": [
+    "Chad"
+   ]
+  },
+  {
+   "qid": "Q2887",
+   "name": "Santiago",
+   "wikiTitle": "Santiago",
+   "countries": [
+    "Chile"
+   ]
+  },
+  {
+   "qid": "Q2841",
+   "name": "Bogotá",
+   "wikiTitle": "Bogotá",
+   "countries": [
+    "Colombia"
+   ]
+  },
+  {
+   "qid": "Q3901",
+   "name": "Moroni",
+   "wikiTitle": "Moroni, Comoros",
+   "countries": [
+    "Comoros"
+   ]
+  },
+  {
+   "qid": "Q3070",
+   "name": "San José",
+   "wikiTitle": "San José, Costa Rica",
+   "countries": [
+    "Costa Rica"
+   ]
+  },
+  {
+   "qid": "Q1435",
+   "name": "Zagreb",
+   "wikiTitle": "Zagreb",
+   "countries": [
+    "Croatia"
+   ]
+  },
+  {
+   "qid": "Q1563",
+   "name": "Havana",
+   "wikiTitle": "Havana",
+   "countries": [
+    "Cuba"
+   ]
+  },
+  {
+   "qid": "Q3856",
+   "name": "Nicosia",
+   "wikiTitle": "Nicosia",
+   "countries": [
+    "Cyprus"
+   ]
+  },
+  {
+   "qid": "Q1085",
+   "name": "Prague",
+   "wikiTitle": "Prague",
+   "countries": [
+    "Czech Republic"
+   ]
+  },
+  {
+   "qid": "Q3838",
+   "name": "Kinshasa",
+   "wikiTitle": "Kinshasa",
+   "countries": [
+    "Democratic Republic of the Congo"
+   ]
+  },
+  {
+   "qid": "Q3604",
+   "name": "Djibouti",
+   "wikiTitle": "Djibouti City",
+   "countries": [
+    "Djibouti"
+   ]
+  },
+  {
+   "qid": "Q36281",
+   "name": "Roseau",
+   "wikiTitle": "Roseau",
+   "countries": [
+    "Dominica"
+   ]
+  },
+  {
+   "qid": "Q34820",
+   "name": "Santo Domingo",
+   "wikiTitle": "Santo Domingo",
+   "countries": [
+    "Dominican Republic"
+   ]
+  },
+  {
+   "qid": "Q2900",
+   "name": "Quito",
+   "wikiTitle": "Quito",
+   "countries": [
+    "Ecuador"
+   ]
+  },
+  {
+   "qid": "Q85",
+   "name": "Cairo",
+   "wikiTitle": "Cairo",
+   "countries": [
+    "Egypt"
+   ]
+  },
+  {
+   "qid": "Q3110",
+   "name": "San Salvador",
+   "wikiTitle": "San Salvador",
+   "countries": [
+    "El Salvador"
+   ]
+  },
+  {
+   "qid": "Q1140136",
+   "name": "Ciudad de la Paz",
+   "wikiTitle": "Ciudad de la Paz",
+   "countries": [
+    "Equatorial Guinea"
+   ]
+  },
+  {
+   "qid": "Q3642",
+   "name": "Asmara",
+   "wikiTitle": "Asmara",
+   "countries": [
+    "Eritrea"
+   ]
+  },
+  {
+   "qid": "Q1770",
+   "name": "Tallinn",
+   "wikiTitle": "Tallinn",
+   "countries": [
+    "Estonia"
+   ]
+  },
+  {
+   "qid": "Q3904",
+   "name": "Mbabane",
+   "wikiTitle": "Mbabane",
+   "countries": [
+    "Eswatini"
+   ]
+  },
+  {
+   "qid": "Q101418",
+   "name": "Lobamba",
+   "wikiTitle": "Lobamba",
+   "countries": [
+    "Eswatini"
+   ]
+  },
+  {
+   "qid": "Q3624",
+   "name": "Addis Ababa",
+   "wikiTitle": "Addis Ababa",
+   "countries": [
+    "Ethiopia"
+   ]
+  },
+  {
+   "qid": "Q42751",
+   "name": "Palikir",
+   "wikiTitle": "Palikir",
+   "countries": [
+    "Federated States of Micronesia"
+   ]
+  },
+  {
+   "qid": "Q38807",
+   "name": "Suva",
+   "wikiTitle": "Suva",
+   "countries": [
+    "Fiji"
+   ]
+  },
+  {
+   "qid": "Q1757",
+   "name": "Helsinki",
+   "wikiTitle": "Helsinki",
+   "countries": [
+    "Finland"
+   ]
+  },
+  {
+   "qid": "Q90",
+   "name": "Paris",
+   "wikiTitle": "Paris",
+   "countries": [
+    "France"
+   ]
+  },
+  {
+   "qid": "Q3825",
+   "name": "Libreville",
+   "wikiTitle": "Libreville",
+   "countries": [
+    "Gabon"
+   ]
+  },
+  {
+   "qid": "Q994",
+   "name": "Tbilisi",
+   "wikiTitle": "Tbilisi",
+   "countries": [
+    "Georgia"
+   ]
+  },
+  {
+   "qid": "Q64",
+   "name": "Berlin",
+   "wikiTitle": "Berlin",
+   "countries": [
+    "Germany"
+   ]
+  },
+  {
+   "qid": "Q3761",
+   "name": "Accra",
+   "wikiTitle": "Accra",
+   "countries": [
+    "Ghana"
+   ]
+  },
+  {
+   "qid": "Q1524",
+   "name": "Athens",
+   "wikiTitle": "Athens",
+   "countries": [
+    "Greece"
+   ]
+  },
+  {
+   "qid": "Q41547",
+   "name": "St. George's",
+   "wikiTitle": "St. George's, Grenada",
+   "countries": [
+    "Grenada"
+   ]
+  },
+  {
+   "qid": "Q1555",
+   "name": "Guatemala City",
+   "wikiTitle": "Guatemala City",
+   "countries": [
+    "Guatemala"
+   ]
+  },
+  {
+   "qid": "Q3733",
+   "name": "Conakry",
+   "wikiTitle": "Conakry",
+   "countries": [
+    "Guinea"
+   ]
+  },
+  {
+   "qid": "Q3739",
+   "name": "Bissau",
+   "wikiTitle": "Bissau",
+   "countries": [
+    "Guinea-Bissau"
+   ]
+  },
+  {
+   "qid": "Q10717",
+   "name": "Georgetown",
+   "wikiTitle": "Georgetown, Guyana",
+   "countries": [
+    "Guyana"
+   ]
+  },
+  {
+   "qid": "Q34261",
+   "name": "Port-au-Prince",
+   "wikiTitle": "Port-au-Prince",
+   "countries": [
+    "Haiti"
+   ]
+  },
+  {
+   "qid": "Q3238",
+   "name": "Tegucigalpa",
+   "wikiTitle": "Tegucigalpa",
+   "countries": [
+    "Honduras"
+   ]
+  },
+  {
+   "qid": "Q1781",
+   "name": "Budapest",
+   "wikiTitle": "Budapest",
+   "countries": [
+    "Hungary"
+   ]
+  },
+  {
+   "qid": "Q1764",
+   "name": "Reykjavík",
+   "wikiTitle": "Reykjavík",
+   "countries": [
+    "Iceland"
+   ]
+  },
+  {
+   "qid": "Q987",
+   "name": "New Delhi",
+   "wikiTitle": "New Delhi",
+   "countries": [
+    "India"
+   ]
+  },
+  {
+   "qid": "Q3630",
+   "name": "Jakarta",
+   "wikiTitle": "Jakarta",
+   "countries": [
+    "Indonesia"
+   ]
+  },
+  {
+   "qid": "Q3616",
+   "name": "Tehran",
+   "wikiTitle": "Tehran",
+   "countries": [
+    "Iran"
+   ]
+  },
+  {
+   "qid": "Q1530",
+   "name": "Baghdad",
+   "wikiTitle": "Baghdad",
+   "countries": [
+    "Iraq"
+   ]
+  },
+  {
+   "qid": "Q1761",
+   "name": "Dublin",
+   "wikiTitle": "Dublin",
+   "countries": [
+    "Ireland"
+   ]
+  },
+  {
+   "qid": "Q1218",
+   "name": "Jerusalem",
+   "wikiTitle": "Jerusalem",
+   "countries": [
+    "Israel"
+   ]
+  },
+  {
+   "qid": "Q220",
+   "name": "Rome",
+   "wikiTitle": "Rome",
+   "countries": [
+    "Italy"
+   ]
+  },
+  {
+   "qid": "Q3768",
+   "name": "Yamoussoukro",
+   "wikiTitle": "Yamoussoukro",
+   "countries": [
+    "Ivory Coast"
+   ]
+  },
+  {
+   "qid": "Q34692",
+   "name": "Kingston",
+   "wikiTitle": "Kingston, Jamaica",
+   "countries": [
+    "Jamaica"
+   ]
+  },
+  {
+   "qid": "Q1490",
+   "name": "Tokyo",
+   "wikiTitle": "Tokyo",
+   "countries": [
+    "Japan"
+   ]
+  },
+  {
+   "qid": "Q3805",
+   "name": "Amman",
+   "wikiTitle": "Amman",
+   "countries": [
+    "Jordan"
+   ]
+  },
+  {
+   "qid": "Q1520",
+   "name": "Astana",
+   "wikiTitle": "Astana",
+   "countries": [
+    "Kazakhstan"
+   ]
+  },
+  {
+   "qid": "Q3870",
+   "name": "Nairobi",
+   "wikiTitle": "Nairobi",
+   "countries": [
+    "Kenya"
+   ]
+  },
+  {
+   "qid": "Q1748",
+   "name": "Copenhagen",
+   "wikiTitle": "Copenhagen",
+   "countries": [
+    "Kingdom of Denmark"
+   ]
+  },
+  {
+   "qid": "Q727",
+   "name": "Amsterdam",
+   "wikiTitle": "Amsterdam",
+   "countries": [
+    "Kingdom of the Netherlands"
+   ]
+  },
+  {
+   "qid": "Q131233",
+   "name": "South Tarawa",
+   "wikiTitle": "South Tarawa",
+   "countries": [
+    "Kiribati"
+   ]
+  },
+  {
+   "qid": "Q25270",
+   "name": "Pristina",
+   "wikiTitle": "Pristina",
+   "countries": [
+    "Kosovo"
+   ]
+  },
+  {
+   "qid": "Q35178",
+   "name": "Kuwait City",
+   "wikiTitle": "Kuwait City",
+   "countries": [
+    "Kuwait"
+   ]
+  },
+  {
+   "qid": "Q9361",
+   "name": "Bishkek",
+   "wikiTitle": "Bishkek",
+   "countries": [
+    "Kyrgyzstan"
+   ]
+  },
+  {
+   "qid": "Q9326",
+   "name": "Vientiane",
+   "wikiTitle": "Vientiane",
+   "countries": [
+    "Laos"
+   ]
+  },
+  {
+   "qid": "Q1773",
+   "name": "Riga",
+   "wikiTitle": "Riga",
+   "countries": [
+    "Latvia"
+   ]
+  },
+  {
+   "qid": "Q3820",
+   "name": "Beirut",
+   "wikiTitle": "Beirut",
+   "countries": [
+    "Lebanon"
+   ]
+  },
+  {
+   "qid": "Q3909",
+   "name": "Maseru",
+   "wikiTitle": "Maseru",
+   "countries": [
+    "Lesotho"
+   ]
+  },
+  {
+   "qid": "Q3748",
+   "name": "Monrovia",
+   "wikiTitle": "Monrovia",
+   "countries": [
+    "Liberia"
+   ]
+  },
+  {
+   "qid": "Q3579",
+   "name": "Tripoli",
+   "wikiTitle": "Tripoli, Libya",
+   "countries": [
+    "Libya"
+   ]
+  },
+  {
+   "qid": "Q1844",
+   "name": "Vaduz",
+   "wikiTitle": "Vaduz",
+   "countries": [
+    "Liechtenstein"
+   ]
+  },
+  {
+   "qid": "Q216",
+   "name": "Vilnius",
+   "wikiTitle": "Vilnius",
+   "countries": [
+    "Lithuania"
+   ]
+  },
+  {
+   "qid": "Q1842",
+   "name": "Luxembourg",
+   "wikiTitle": "Luxembourg City",
+   "countries": [
+    "Luxembourg"
+   ]
+  },
+  {
+   "qid": "Q3915",
+   "name": "Antananarivo",
+   "wikiTitle": "Antananarivo",
+   "countries": [
+    "Madagascar"
+   ]
+  },
+  {
+   "qid": "Q3876",
+   "name": "Lilongwe",
+   "wikiTitle": "Lilongwe",
+   "countries": [
+    "Malawi"
+   ]
+  },
+  {
+   "qid": "Q1865",
+   "name": "Kuala Lumpur",
+   "wikiTitle": "Kuala Lumpur",
+   "countries": [
+    "Malaysia"
+   ]
+  },
+  {
+   "qid": "Q9347",
+   "name": "Malé",
+   "wikiTitle": "Malé",
+   "countries": [
+    "Maldives"
+   ]
+  },
+  {
+   "qid": "Q3703",
+   "name": "Bamako",
+   "wikiTitle": "Bamako",
+   "countries": [
+    "Mali"
+   ]
+  },
+  {
+   "qid": "Q23800",
+   "name": "Valletta",
+   "wikiTitle": "Valletta",
+   "countries": [
+    "Malta"
+   ]
+  },
+  {
+   "qid": "Q12919",
+   "name": "Majuro",
+   "wikiTitle": "Majuro",
+   "countries": [
+    "Marshall Islands"
+   ]
+  },
+  {
+   "qid": "Q3688",
+   "name": "Nouakchott",
+   "wikiTitle": "Nouakchott",
+   "countries": [
+    "Mauritania"
+   ]
+  },
+  {
+   "qid": "Q3929",
+   "name": "Port Louis",
+   "wikiTitle": "Port Louis",
+   "countries": [
+    "Mauritius"
+   ]
+  },
+  {
+   "qid": "Q1489",
+   "name": "Mexico City",
+   "wikiTitle": "Mexico City",
+   "countries": [
+    "Mexico"
+   ]
+  },
+  {
+   "qid": "Q21197",
+   "name": "Chișinău",
+   "wikiTitle": "Chișinău",
+   "countries": [
+    "Moldova"
+   ]
+  },
+  {
+   "qid": "Q235",
+   "name": "Monaco",
+   "wikiTitle": "Monaco",
+   "countries": [
+    "Monaco"
+   ]
+  },
+  {
+   "qid": "Q23430",
+   "name": "Ulaanbaatar",
+   "wikiTitle": "Ulaanbaatar",
+   "countries": [
+    "Mongolia"
+   ]
+  },
+  {
+   "qid": "Q23564",
+   "name": "Podgorica",
+   "wikiTitle": "Podgorica",
+   "countries": [
+    "Montenegro"
+   ]
+  },
+  {
+   "qid": "Q3551",
+   "name": "Rabat",
+   "wikiTitle": "Rabat",
+   "countries": [
+    "Morocco"
+   ]
+  },
+  {
+   "qid": "Q3889",
+   "name": "Maputo",
+   "wikiTitle": "Maputo",
+   "countries": [
+    "Mozambique"
+   ]
+  },
+  {
+   "qid": "Q37400",
+   "name": "Naypyidaw",
+   "wikiTitle": "Naypyidaw",
+   "countries": [
+    "Myanmar"
+   ]
+  },
+  {
+   "qid": "Q3935",
+   "name": "Windhoek",
+   "wikiTitle": "Windhoek",
+   "countries": [
+    "Namibia"
+   ]
+  },
+  {
+   "qid": "Q31026",
+   "name": "Yaren District",
+   "wikiTitle": "Yaren",
+   "countries": [
+    "Nauru"
+   ]
+  },
+  {
+   "qid": "Q3037",
+   "name": "Kathmandu",
+   "wikiTitle": "Kathmandu",
+   "countries": [
+    "Nepal"
+   ]
+  },
+  {
+   "qid": "Q23661",
+   "name": "Wellington",
+   "wikiTitle": "Wellington",
+   "countries": [
+    "New Zealand"
+   ]
+  },
+  {
+   "qid": "Q3274",
+   "name": "Managua",
+   "wikiTitle": "Managua",
+   "countries": [
+    "Nicaragua"
+   ]
+  },
+  {
+   "qid": "Q3674",
+   "name": "Niamey",
+   "wikiTitle": "Niamey",
+   "countries": [
+    "Niger"
+   ]
+  },
+  {
+   "qid": "Q3787",
+   "name": "Abuja",
+   "wikiTitle": "Abuja",
+   "countries": [
+    "Nigeria"
+   ]
+  },
+  {
+   "qid": "Q18808",
+   "name": "Pyongyang",
+   "wikiTitle": "Pyongyang",
+   "countries": [
+    "North Korea"
+   ]
+  },
+  {
+   "qid": "Q384",
+   "name": "Skopje",
+   "wikiTitle": "Skopje",
+   "countries": [
+    "North Macedonia"
+   ]
+  },
+  {
+   "qid": "Q585",
+   "name": "Q585",
+   "wikiTitle": "Oslo",
+   "countries": [
+    "Norway"
+   ]
+  },
+  {
+   "qid": "Q3826",
+   "name": "Muscat",
+   "wikiTitle": "Muscat",
+   "countries": [
+    "Oman"
+   ]
+  },
+  {
+   "qid": "Q1362",
+   "name": "Islamabad",
+   "wikiTitle": "Islamabad",
+   "countries": [
+    "Pakistan"
+   ]
+  },
+  {
+   "qid": "Q93230",
+   "name": "Rawalpindi",
+   "wikiTitle": "Rawalpindi",
+   "countries": [
+    "Pakistan"
+   ]
+  },
+  {
+   "qid": "Q515229",
+   "name": "Ngerulmud",
+   "wikiTitle": "Ngerulmud",
+   "countries": [
+    "Palau"
+   ]
+  },
+  {
+   "qid": "Q212938",
+   "name": "East Jerusalem",
+   "wikiTitle": "East Jerusalem",
+   "countries": [
+    "Palestine"
+   ]
+  },
+  {
+   "qid": "Q158119",
+   "name": "Ramallah",
+   "wikiTitle": "Ramallah",
+   "countries": [
+    "Palestine"
+   ]
+  },
+  {
+   "qid": "Q3306",
+   "name": "Panama City",
+   "wikiTitle": "Panama City",
+   "countries": [
+    "Panama"
+   ]
+  },
+  {
+   "qid": "Q36526",
+   "name": "Port Moresby",
+   "wikiTitle": "Port Moresby",
+   "countries": [
+    "Papua New Guinea"
+   ]
+  },
+  {
+   "qid": "Q2933",
+   "name": "Asunción",
+   "wikiTitle": "Asunción",
+   "countries": [
+    "Paraguay"
+   ]
+  },
+  {
+   "qid": "Q956",
+   "name": "Beijing",
+   "wikiTitle": "Beijing",
+   "countries": [
+    "People's Republic of China"
+   ]
+  },
+  {
+   "qid": "Q2868",
+   "name": "Lima",
+   "wikiTitle": "Lima",
+   "countries": [
+    "Peru"
+   ]
+  },
+  {
+   "qid": "Q1461",
+   "name": "Manila",
+   "wikiTitle": "Manila",
+   "countries": [
+    "Philippines"
+   ]
+  },
+  {
+   "qid": "Q270",
+   "name": "Warsaw",
+   "wikiTitle": "Warsaw",
+   "countries": [
+    "Poland"
+   ]
+  },
+  {
+   "qid": "Q597",
+   "name": "Lisbon",
+   "wikiTitle": "Lisbon",
+   "countries": [
+    "Portugal"
+   ]
+  },
+  {
+   "qid": "Q3861",
+   "name": "Doha",
+   "wikiTitle": "Doha",
+   "countries": [
+    "Qatar"
+   ]
+  },
+  {
+   "qid": "Q3844",
+   "name": "Brazzaville",
+   "wikiTitle": "Brazzaville",
+   "countries": [
+    "Republic of the Congo"
+   ]
+  },
+  {
+   "qid": "Q19660",
+   "name": "Bucharest",
+   "wikiTitle": "Bucharest",
+   "countries": [
+    "Romania"
+   ]
+  },
+  {
+   "qid": "Q649",
+   "name": "Moscow",
+   "wikiTitle": "Moscow",
+   "countries": [
+    "Russia"
+   ]
+  },
+  {
+   "qid": "Q3859",
+   "name": "Kigali",
+   "wikiTitle": "Kigali",
+   "countries": [
+    "Rwanda"
+   ]
+  },
+  {
+   "qid": "Q41295",
+   "name": "Basseterre",
+   "wikiTitle": "Basseterre",
+   "countries": [
+    "Saint Kitts and Nevis"
+   ]
+  },
+  {
+   "qid": "Q41699",
+   "name": "Castries",
+   "wikiTitle": "Castries",
+   "countries": [
+    "Saint Lucia"
+   ]
+  },
+  {
+   "qid": "Q41474",
+   "name": "Kingstown",
+   "wikiTitle": "Kingstown",
+   "countries": [
+    "Saint Vincent and the Grenadines"
+   ]
+  },
+  {
+   "qid": "Q36260",
+   "name": "Apia",
+   "wikiTitle": "Apia",
+   "countries": [
+    "Samoa"
+   ]
+  },
+  {
+   "qid": "Q1848",
+   "name": "San Marino",
+   "wikiTitle": "City of San Marino",
+   "countries": [
+    "San Marino"
+   ]
+  },
+  {
+   "qid": "Q3932",
+   "name": "São Tomé",
+   "wikiTitle": "São Tomé",
+   "countries": [
+    "São Tomé and Príncipe"
+   ]
+  },
+  {
+   "qid": "Q3692",
+   "name": "Riyadh",
+   "wikiTitle": "Riyadh",
+   "countries": [
+    "Saudi Arabia"
+   ]
+  },
+  {
+   "qid": "Q3718",
+   "name": "Dakar",
+   "wikiTitle": "Dakar",
+   "countries": [
+    "Senegal"
+   ]
+  },
+  {
+   "qid": "Q3711",
+   "name": "Belgrade",
+   "wikiTitle": "Belgrade",
+   "countries": [
+    "Serbia"
+   ]
+  },
+  {
+   "qid": "Q3940",
+   "name": "Victoria",
+   "wikiTitle": "Victoria, Seychelles",
+   "countries": [
+    "Seychelles"
+   ]
+  },
+  {
+   "qid": "Q3780",
+   "name": "Freetown",
+   "wikiTitle": "Freetown",
+   "countries": [
+    "Sierra Leone"
+   ]
+  },
+  {
+   "qid": "Q334",
+   "name": "Singapore",
+   "wikiTitle": "Singapore",
+   "countries": [
+    "Singapore"
+   ]
+  },
+  {
+   "qid": "Q1780",
+   "name": "Bratislava",
+   "wikiTitle": "Bratislava",
+   "countries": [
+    "Slovakia"
+   ]
+  },
+  {
+   "qid": "Q437",
+   "name": "Ljubljana",
+   "wikiTitle": "Ljubljana",
+   "countries": [
+    "Slovenia"
+   ]
+  },
+  {
+   "qid": "Q40921",
+   "name": "Honiara",
+   "wikiTitle": "Honiara",
+   "countries": [
+    "Solomon Islands"
+   ]
+  },
+  {
+   "qid": "Q2449",
+   "name": "Mogadishu",
+   "wikiTitle": "Mogadishu",
+   "countries": [
+    "Somalia"
+   ]
+  },
+  {
+   "qid": "Q3926",
+   "name": "Pretoria",
+   "wikiTitle": "Pretoria",
+   "countries": [
+    "South Africa"
+   ]
+  },
+  {
+   "qid": "Q5465",
+   "name": "Cape Town",
+   "wikiTitle": "Cape Town",
+   "countries": [
+    "South Africa"
+   ]
+  },
+  {
+   "qid": "Q37701",
+   "name": "Bloemfontein",
+   "wikiTitle": "Bloemfontein",
+   "countries": [
+    "South Africa"
+   ]
+  },
+  {
+   "qid": "Q8684",
+   "name": "Seoul",
+   "wikiTitle": "Seoul",
+   "countries": [
+    "South Korea"
+   ]
+  },
+  {
+   "qid": "Q1947",
+   "name": "Juba",
+   "wikiTitle": "Juba",
+   "countries": [
+    "South Sudan"
+   ]
+  },
+  {
+   "qid": "Q2807",
+   "name": "Madrid",
+   "wikiTitle": "Madrid",
+   "countries": [
+    "Spain"
+   ]
+  },
+  {
+   "qid": "Q41963",
+   "name": "Sri Jayawardenepura Kotte",
+   "wikiTitle": "Sri Jayawardenepura Kotte",
+   "countries": [
+    "Sri Lanka"
+   ]
+  },
+  {
+   "qid": "Q35381",
+   "name": "Colombo",
+   "wikiTitle": "Colombo",
+   "countries": [
+    "Sri Lanka"
+   ]
+  },
+  {
+   "qid": "Q1963",
+   "name": "Khartoum",
+   "wikiTitle": "Khartoum",
+   "countries": [
+    "Sudan"
+   ]
+  },
+  {
+   "qid": "Q3001",
+   "name": "Paramaribo",
+   "wikiTitle": "Paramaribo",
+   "countries": [
+    "Suriname"
+   ]
+  },
+  {
+   "qid": "Q1754",
+   "name": "Stockholm",
+   "wikiTitle": "Stockholm",
+   "countries": [
+    "Sweden"
+   ]
+  },
+  {
+   "qid": "Q70",
+   "name": "Bern",
+   "wikiTitle": "Bern",
+   "countries": [
+    "Switzerland"
+   ]
+  },
+  {
+   "qid": "Q3766",
+   "name": "Damascus",
+   "wikiTitle": "Damascus",
+   "countries": [
+    "Syria"
+   ]
+  },
+  {
+   "qid": "Q1867",
+   "name": "Taipei",
+   "wikiTitle": "Taipei",
+   "countries": [
+    "Taiwan"
+   ]
+  },
+  {
+   "qid": "Q9365",
+   "name": "Dushanbe",
+   "wikiTitle": "Dushanbe",
+   "countries": [
+    "Tajikistan"
+   ]
+  },
+  {
+   "qid": "Q3866",
+   "name": "Dodoma",
+   "wikiTitle": "Dodoma",
+   "countries": [
+    "Tanzania"
+   ]
+  },
+  {
+   "qid": "Q1861",
+   "name": "Bangkok",
+   "wikiTitle": "Bangkok",
+   "countries": [
+    "Thailand"
+   ]
+  },
+  {
+   "qid": "Q2467",
+   "name": "Nassau",
+   "wikiTitle": "Nassau, Bahamas",
+   "countries": [
+    "The Bahamas"
+   ]
+  },
+  {
+   "qid": "Q3726",
+   "name": "Banjul",
+   "wikiTitle": "Banjul",
+   "countries": [
+    "The Gambia"
+   ]
+  },
+  {
+   "qid": "Q9310",
+   "name": "Dili",
+   "wikiTitle": "Dili",
+   "countries": [
+    "Timor-Leste"
+   ]
+  },
+  {
+   "qid": "Q3792",
+   "name": "Lomé",
+   "wikiTitle": "Lomé",
+   "countries": [
+    "Togo"
+   ]
+  },
+  {
+   "qid": "Q38834",
+   "name": "Nukuʻalofa",
+   "wikiTitle": "Nukuʻalofa",
+   "countries": [
+    "Tonga"
+   ]
+  },
+  {
+   "qid": "Q39178",
+   "name": "Port of Spain",
+   "wikiTitle": "Port of Spain",
+   "countries": [
+    "Trinidad and Tobago"
+   ]
+  },
+  {
+   "qid": "Q3572",
+   "name": "Tunis",
+   "wikiTitle": "Tunis",
+   "countries": [
+    "Tunisia"
+   ]
+  },
+  {
+   "qid": "Q3640",
+   "name": "Ankara",
+   "wikiTitle": "Ankara",
+   "countries": [
+    "Turkey"
+   ]
+  },
+  {
+   "qid": "Q23438",
+   "name": "Ashgabat",
+   "wikiTitle": "Ashgabat",
+   "countries": [
+    "Turkmenistan"
+   ]
+  },
+  {
+   "qid": "Q34126",
+   "name": "Funafuti",
+   "wikiTitle": "Funafuti",
+   "countries": [
+    "Tuvalu"
+   ]
+  },
+  {
+   "qid": "Q3894",
+   "name": "Kampala",
+   "wikiTitle": "Kampala",
+   "countries": [
+    "Uganda"
+   ]
+  },
+  {
+   "qid": "Q1899",
+   "name": "Kyiv",
+   "wikiTitle": "Kyiv",
+   "countries": [
+    "Ukraine"
+   ]
+  },
+  {
+   "qid": "Q1519",
+   "name": "Abu Dhabi",
+   "wikiTitle": "Abu Dhabi",
+   "countries": [
+    "United Arab Emirates"
+   ]
+  },
+  {
+   "qid": "Q84",
+   "name": "London",
+   "wikiTitle": "London",
+   "countries": [
+    "United Kingdom"
+   ]
+  },
+  {
+   "qid": "Q61",
+   "name": "Washington, D.C.",
+   "wikiTitle": "Washington, D.C.",
+   "countries": [
+    "United States"
+   ]
+  },
+  {
+   "qid": "Q1335",
+   "name": "Montevideo",
+   "wikiTitle": "Montevideo",
+   "countries": [
+    "Uruguay"
+   ]
+  },
+  {
+   "qid": "Q269",
+   "name": "Tashkent",
+   "wikiTitle": "Tashkent",
+   "countries": [
+    "Uzbekistan"
+   ]
+  },
+  {
+   "qid": "Q37806",
+   "name": "Port Vila",
+   "wikiTitle": "Port Vila",
+   "countries": [
+    "Vanuatu"
+   ]
+  },
+  {
+   "qid": "Q237",
+   "name": "Vatican City",
+   "wikiTitle": "Vatican City",
+   "countries": [
+    "Vatican City"
+   ]
+  },
+  {
+   "qid": "Q1533",
+   "name": "Caracas",
+   "wikiTitle": "Caracas",
+   "countries": [
+    "Venezuela"
+   ]
+  },
+  {
+   "qid": "Q1858",
+   "name": "Hanoi",
+   "wikiTitle": "Hanoi",
+   "countries": [
+    "Vietnam"
+   ]
+  },
+  {
+   "qid": "Q2471",
+   "name": "Sanaa",
+   "wikiTitle": "Sanaa",
+   "countries": [
+    "Yemen"
+   ]
+  },
+  {
+   "qid": "Q131694",
+   "name": "Aden",
+   "wikiTitle": "Aden",
+   "countries": [
+    "Yemen"
+   ]
+  },
+  {
+   "qid": "Q3881",
+   "name": "Lusaka",
+   "wikiTitle": "Lusaka",
+   "countries": [
+    "Zambia"
+   ]
+  },
+  {
+   "qid": "Q3921",
+   "name": "Harare",
+   "wikiTitle": "Harare",
+   "countries": [
+    "Zimbabwe"
+   ]
+  }
+ ]
+}
