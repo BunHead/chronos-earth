@@ -1,4 +1,19 @@
 {
  "note": "Same place, same spot, and BOTH sides are properly sourced — a real dispute, not a Pleiades period bucket. Not resolved automatically: picking one would be inventing history to tidy the map.",
- "disagreements": []
+ "disagreements": [
+  {
+   "name": "Sault Ste. Marie, Michigan",
+   "km": 4.07,
+   "earlier": {
+    "id": "q986634",
+    "year": 1668,
+    "sitelinks": 52
+   },
+   "later": {
+    "id": "q463165",
+    "year": 1888,
+    "sitelinks": 51
+   }
+  }
+ ]
 }
