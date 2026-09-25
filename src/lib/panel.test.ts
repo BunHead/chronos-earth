@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { eventToPanel, monumentModelForName, resolveMonumentModel } from './panel';
+import { DISPUTED_NOTES, eventToPanel, monumentModelForName, placeDossierPanel, resolveMonumentModel } from './panel';
 import type { AncientSite, TimelineEvent } from './types';
 
 describe('monumentModelForName — honest 3D or nothing', () => {
@@ -166,4 +166,26 @@ describe('eventToPanel — a marker must not claim precision the history lacks',
     expect(headings).not.toContain('Why it is shown here');
     expect(headings).not.toContain('About the date');
   });
+});
+
+describe('a disputed territory says what the dispute is', () => {
+  const names = new Set(
+    (JSON.parse(readFileSync(join(process.cwd(), 'public', 'data', 'borders', 'countries.json'), 'utf8')) as { name: string[] }).name,
+  );
+
+  it('every territory named "(disputed)" on the map has a note', () => {
+    for (const n of names) if (n.includes('(disputed)')) expect(DISPUTED_NOTES[n], `${n} has no note`).toBeTruthy();
+  });
+
+  it('the note appears in the dossier', () => {
+    const p = placeDossierPanel(42.6, 21.1, 2026, 'Kosovo (disputed)', [], () => {});
+    expect(p.sections?.[0].heading).toBe('Disputed territory');
+    expect(placeDossierPanel(48.8, 2.3, 2026, 'France', [], () => {}).sections).toBeUndefined();
+  });
+});
+
+it('keeps "(disputed)" out of the middle of a sentence', () => {
+  const p = placeDossierPanel(42.6, 21.1, 2026, 'Kosovo (disputed)', [], () => {});
+  expect(p.title).toBe('Kosovo (disputed)');
+  expect(p.summary).not.toContain('(disputed)');
 });

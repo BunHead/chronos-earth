@@ -346,6 +346,24 @@ function fmtCoord(lat: number, lon: number): string {
 }
 
 /**
+ * Territories drawn as Natural Earth draws them — the Captain's choice, 24 Sept
+ * 2026 — whose status is contested. "(disputed)" in the name says so in one
+ * word; this says what the dispute IS, without taking a side. Keyed by the
+ * exact border name (scripts/add-missing-countries.mjs).
+ */
+export const DISPUTED_NOTES: Record<string, string> = {
+  'Kosovo (disputed)':
+    'Kosovo declared independence from Serbia in 2008. About half of the UN\'s member states ' +
+    'recognise it; Serbia, and others including Russia, China and Spain, do not, and Serbia ' +
+    'regards it as its own province. It is not a UN member.',
+  'Palestine (disputed)':
+    'The State of Palestine is recognised by most UN member states and has been a UN ' +
+    'non-member observer state since 2012; Israel and several others do not recognise it. ' +
+    'Its borders are not settled, and much of the West Bank and Gaza is under Israeli control ' +
+    'or occupation.',
+};
+
+/**
  * Assemble an on-the-fly "what's here, at this time" dossier purely from local
  * data — the ruling polity (from the borders layer) plus the most notable
  * events nearby in the same era, each clickable to dive in. No network calls.
@@ -359,19 +377,24 @@ export function placeDossierPanel(
   onOpenEvent: (e: TimelineEvent) => void,
 ): PanelContent {
   const when = yearLabel(year);
-  const ruler = polityName
-    ? `Around ${when}, this spot lay within ${polityName}.`
+  // "(disputed)" belongs in the title; mid-sentence it reads "Kosovo (disputed)'s".
+  const inText = polityName?.replace(/ \(disputed\)$/, '');
+  const ruler = inText
+    ? `Around ${when}, this spot lay within ${inText}.`
     : `We have no border data for this spot in ${when}.`;
   return {
     kicker: `On the map · ${when}`,
     title: polityName ?? 'This place',
     date: fmtCoord(lat, lon),
     ...(polityName ? { flag: { name: polityName, year } } : {}),
+    ...(polityName && DISPUTED_NOTES[polityName]
+      ? { sections: [{ heading: 'Disputed territory', body: DISPUTED_NOTES[polityName] }] }
+      : {}),
     summary:
       nearby.length > 0
-        ? `${ruler} ${polityName ? `${polityName}'s` : 'Nearby'} history nearest to then:`
+        ? `${ruler} ${inText ? `${inText}'s` : 'Nearby'} history nearest to then:`
         : polityName
-          ? `${ruler} We haven't imported ${polityName}'s own events yet.`
+          ? `${ruler} We haven't imported ${inText}'s own events yet.`
           : ruler,
     related: nearby.map((e) => ({
       label: e.name,
