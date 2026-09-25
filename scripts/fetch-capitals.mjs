@@ -52,6 +52,27 @@ const ONLY = (() => {
 /** `--full`: re-ask every capital, not just new ones. For when the rules change. */
 const FULL = process.argv.includes('--full');
 const POLITY_CACHE = join(__dirname, 'data', 'polity-class.json');
+/** Where Wikidata gives a long-gone polity NO dissolution date, the lifespan
+ * rule below has nothing to bound its capital's role with, and the capital is
+ * yellow to this day. Found 25 Sept 2026: Scythian Neapolis, Athens (as
+ * Classical Athens) and Cairo/El-Fustat (as Medieval Egypt) all showed as
+ * capitals in 1950. Only used when Wikidata has no end year of its own. */
+const KNOWN_ENDS = {
+  Q844930: -322, // Classical Athens — democracy abolished after the Lamian War, 322 BCE
+  Q845909: 300, // Scythia — the Crimean Scythian kingdom fell to the Goths in the 3rd century CE; 300 is the latest it could have lasted
+  Q11696332: 1517, // Medieval Egypt — the Ottoman conquest, 1517
+};
+/** Undated roles that Wikidata leaves running to the present for a city that
+ * is NOT that country's capital today (its own P36 names another). city ->
+ * polity -> last year, or null to drop a role the city never held. Each was
+ * checked by hand on 25 Sept 2026; the capitalsCoverage test fails on any new
+ * city that turns up yellow today without being a country's capital. */
+const ROLE_FIXES = {
+  Q37995: { Q836: 2005 }, // Yangon — the government moved to Naypyidaw in November 2005
+  Q36600: { Q55: null, Q29999: null }, // The Hague — the seat of government; the constitution names Amsterdam the capital
+};
+// (Tel Aviv was yellow too, but only through a P36 statement Wikidata itself
+// marks deprecated — pass 4 now skips those, which fixed it without a hand edit.)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** How notable the POLITY must be before its capital counts. 20 sitelinks
@@ -254,6 +275,14 @@ async function main() {
   // judgement call: Scotland, England and Wales count as countries, so
   // Edinburgh and Cardiff stay yellow — which is defensible, because they are.
   const NATIONAL = ['Q6256', 'Q3624078', 'Q3024240', 'Q48349', 'Q417175', 'Q133442', 'Q12759805', 'Q1250464', 'Q15634554'];
+  // ...EXCEPT these, which Wikidata's class tree files under "country" but are
+  // not. Found 25 Sept 2026, when Mumbai, Bengaluru and six DR Congo provincial
+  // seats were yellow: "states and union territories of India" is a subclass
+  // of "constituent country" (the same route that rightly lets in Scotland and
+  // Greenland), "Province of the Democratic Republic of the Congo" is filed
+  // straight under "country", and Basel-Stadt is a "city-state". Blocking the
+  // three classes removed 28 polities, every one a subdivision.
+  const NOT_NATIONAL = ['Q131541', 'Q141463208', 'Q23058'];
   const allPolities = [...new Set([...found.values()].flat().map((e) => e.ofId))];
   // What a polity IS does not change, so the answer is kept: committed to
   // scripts/data/polity-class.json and only unknown polities are asked.
@@ -285,6 +314,7 @@ async function main() {
   VALUES ?level { ${NATIONAL.map((q) => `wd:${q}`).join(' ')} }
   ?of wdt:P31/wdt:P279* ?level .
   FILTER NOT EXISTS { ?of wdt:P31/wdt:P279* wd:Q188443 }
+  FILTER NOT EXISTS { VALUES ?no { ${NOT_NATIONAL.map((q) => `wd:${q}`).join(' ')} } ?of wdt:P31/wdt:P279* ?no }
   OPTIONAL { ?of wdt:P571 ?s . FILTER(DATATYPE(?s) = xsd:dateTime) }
   OPTIONAL { ?of wdt:P576 ?e . FILTER(DATATYPE(?e) = xsd:dateTime) }
 } GROUP BY ?of`,
@@ -327,10 +357,14 @@ async function main() {
   // exist. Dates the role DOES carry are never overridden.
   let bounded = 0;
   for (const [qid, entries] of found) {
+    const fix = ROLE_FIXES[qid] ?? {};
     const kept = entries
       .filter((e) => national.has(e.ofId))
+      .filter((e) => fix[e.ofId] !== null)
+      .map((e) => (e.ofId in fix && e.to === null ? { ...e, to: fix[e.ofId] } : e))
       .map(({ ofId, ...e }) => {
-        const [born, ended] = national.get(ofId) ?? [null, null];
+        const [born, endedWd] = national.get(ofId) ?? [null, null];
+        const ended = endedWd ?? KNOWN_ENDS[ofId] ?? null;
         const out = { ...e };
         if (out.from === null && born !== null) { out.from = born; bounded++; }
         if (out.to === null && ended !== null) { out.to = ended; bounded++; }
@@ -375,6 +409,7 @@ async function main() {
   ?st ps:P36 ?cap .
   FILTER NOT EXISTS { ?country wdt:P576 ?dissolved }
   FILTER NOT EXISTS { ?st pq:P582 ?ended }
+  FILTER NOT EXISTS { ?st wikibase:rank wikibase:DeprecatedRank }
   OPTIONAL { ?st pq:P580 ?since . FILTER(DATATYPE(?since) = xsd:dateTime) }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 }`,
@@ -390,6 +425,9 @@ async function main() {
       if (!row) continue;
       const of = b.countryLabel?.value;
       if (!of || /^Q\d+$/.test(of)) continue;
+      // A statement Wikidata marks deprecated is filtered above; a role checked
+      // by hand (ROLE_FIXES) is not put back by the country's other statements.
+      if (ROLE_FIXES[capId]?.[b.country.value.split('/').pop()] !== undefined) continue;
       const roles = found.get(capId) ?? (Array.isArray(row.capitalOf) ? row.capitalOf.map((r) => ({ ...r })) : []);
       if (roles.some((r) => r.of === of && (r.from === null || r.from <= today) && r.to === null)) continue;
       roles.push({ of, from: yearOf(b.since?.value), to: null });

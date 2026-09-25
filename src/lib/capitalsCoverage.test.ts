@@ -89,4 +89,26 @@ describe('every national capital is yellow TODAY', () => {
     }
     expect(blue, `national capitals not yellow in 2026: ${blue.join(', ')}`).toEqual([]);
   });
+
+  // The other direction. Found 25 Sept 2026: 39 cities were yellow today
+  // without being any country's capital — Mumbai and Bengaluru (Wikidata files
+  // Indian states under "constituent country"), six DR Congo provincial seats,
+  // Basel, Scythian Neapolis (Scythia has no end date), Yangon, The Hague and
+  // Tel Aviv. These are the ones left on purpose; anything else is a leak.
+  const YELLOW_BUT_NOT_IN_FIXTURE: Record<string, string> = {
+    Q23436: 'Edinburgh — Scotland', Q10690: 'Cardiff — Wales',
+    Q226: 'Nuuk — Greenland', Q132679: 'Willemstad — Curaçao', Q131243: 'Oranjestad — Aruba',
+    Q1410: 'Gibraltar', Q132572: 'Tiraspol — Transnistria, a de facto state',
+    Q3818: 'Malabo — Equatorial Guinea, while Ciudad de la Paz is built',
+    Q182378: "Putrajaya — Malaysia's administrative capital",
+    Q110601629: "Nusantara — Indonesia's designated capital",
+  };
+  it('nothing else is yellow today', () => {
+    const capitalQids = new Set(capitals.map((c) => c.qid));
+    const leaks = places
+      .filter((e) => e.capitalOf && capitalAt(e as unknown as TimelineEvent, 2026))
+      .filter((e) => !capitalQids.has(e.wikidataId ?? '') && !YELLOW_BUT_NOT_IN_FIXTURE[e.wikidataId ?? ''])
+      .map((e) => `${e.name} (${e.wikidataId})`);
+    expect(leaks, `yellow in 2026 but no country's capital: ${leaks.join(', ')}`).toEqual([]);
+  });
 });

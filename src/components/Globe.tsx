@@ -52,8 +52,15 @@ const MARKER_DEPTH_TEST_DISTANCE = 1_000_000;
  * (which have the most sitelinks) don't crowd out the rest. The caps grow as
  * the camera descends: from orbit only the world-famous; near street level,
  * everything we have. Index = zoom tier (0 orbit … 3 low). */
-const EVENT_MAX_VISIBLE_BY_TIER = [34, 52, 80, 130];
+const EVENT_MAX_VISIBLE_BY_TIER = [34, 64, 100, 150];
 const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
+// Cities and monuments get more room than the rest below orbit. They are SPREAD
+// (see PLACE_MIN_SEPARATION_KM_BY_TIER), so extra slots fill the gaps rather
+// than piling up. Measured 25 Sept 2026 over Europe at 2,500 km: capitals took
+// 23 of the 25 city slots and only Munich and Istanbul were left for ordinary
+// cities, though at that height the spacing had room for far more. Tier 0 is
+// unchanged: the whole planet at once is meant to show only the famous.
+const PLACE_PER_CATEGORY_BY_TIER = [10, 24, 40, 60];
 // HOW FAR APART PLACE MARKERS PREFER TO SIT, in km, per zoom tier.
 //
 // Tier 0 is the whole planet in one view, where Paris and London are the same
@@ -1704,7 +1711,6 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // by notability alone. See lib/capitals.ts for why this exists.
       const rank = (e: TimelineEvent) =>
         isPlaceRow(e) ? cityProminence(e, year) : (e.notability ?? 0);
-      const slots = EVENT_PER_CATEGORY_BY_TIER[zoomTier];
       // Spacing follows the REAL camera height, not the tier. Tiers are coarse:
       // at 9,000 km the whole disc is still on screen but the tier table gave
       // it 600 km spacing, and Africa's view filled with Berlin, Budapest,
@@ -1721,8 +1727,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         // redundancy as two city dots overlapping at orbital distance.
         const isPlaceCat = cat === 'city' || cat === 'monument';
         const chosen = isPlaceCat
-          ? spreadPick(list, slots, placeSeparationKm)
-          : list.slice(0, slots);
+          ? spreadPick(list, PLACE_PER_CATEGORY_BY_TIER[zoomTier], placeSeparationKm)
+          : list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]);
         picked.push(...chosen);
       }
       picked.sort((a, b) => rank(b) - rank(a));
