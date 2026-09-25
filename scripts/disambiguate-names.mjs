@@ -44,6 +44,30 @@ export function disambiguate(events) {
       e.name = e.wikiTitle;
     }
   }
+  // PLACES, WHATEVER THEIR YEAR. Measured 25 Sept 2026: 786 names were worn by
+  // more than one city or monument — five Athenses, four Troys, Delphi and
+  // Delphi, Indiana. Wikipedia has already told them apart, so a row whose
+  // article is "<name>, <where>" or "<name> (<what>)" takes that title. The
+  // original keeps the bare name ("Athens"); a row without an article, or
+  // whose article says nothing more, is left alone — two ancient Argoses with
+  // no article between them are real namesakes, not a mistake.
+  const places = new Map();
+  for (const e of events) {
+    if (e.category !== 'city' && e.category !== 'monument') continue;
+    const k = `${e.category}|${String(e.name).trim()}`;
+    (places.get(k) ?? places.set(k, []).get(k)).push(e);
+  }
+  for (const rows of places.values()) {
+    if (rows.length < 2) continue;
+    for (const e of rows) {
+      const name = String(e.name).trim();
+      const t = e.wikiTitle;
+      if (!t || t === name || !t.startsWith(name)) continue;
+      if (!/^(, | \().+/.test(t.slice(name.length))) continue;
+      renamed.push([e.name, t, e.id]);
+      e.name = t;
+    }
+  }
   return renamed;
 }
 

@@ -223,4 +223,23 @@ describe('different things with one label are told apart, not deleted', () => {
       expect(names.has(n), `${n} missing`).toBe(true);
     }
   });
+
+  it('a namesake town says where it is: Athens stays Athens, the others say Ohio', () => {
+    // 786 place names were shared on 25 Sept 2026 — five Athenses, four Troys.
+    const byName = (n: string) => events.filter((e) => e.name === n && e.category === 'city');
+    expect(byName('Athens').map((e) => e.wikiTitle)).toEqual(['Athens']);
+    expect(byName('Athens, Ohio')).toHaveLength(1);
+    expect(byName('Delphi, Indiana')).toHaveLength(1);
+    // And none is left where Wikipedia's own title would tell two apart.
+    const seen = new Map<string, number>();
+    for (const e of events) {
+      if (e.category !== 'city' && e.category !== 'monument') continue;
+      seen.set(`${e.category}|${e.name}`, (seen.get(`${e.category}|${e.name}`) ?? 0) + 1);
+    }
+    const left = events.filter((e) =>
+      (e.category === 'city' || e.category === 'monument') &&
+      (seen.get(`${e.category}|${e.name}`) ?? 0) > 1 &&
+      e.wikiTitle?.startsWith(e.name) && /^(, | \()/.test(e.wikiTitle.slice(e.name.length)));
+    expect(left.map((e) => `${e.name} → ${e.wikiTitle}`)).toEqual([]);
+  });
 });
