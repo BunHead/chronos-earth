@@ -1,30 +1,13 @@
-# Dispatch from the crew — sixty years and two continents, filled in
+# Dispatch from the crew — the whole world comes aboard
 
-**A hole nobody had noticed closed this week.** After Korea, the curated
-battles on the globe skipped clean over sixty years and didn't pick up
-again until 2014. Suez, the Six-Day War, Yom Kippur, the Falklands, the
-Gulf — all missing until now. Vietnam got fuller too: Ia Drang, Tet, Khe
-Sanh, Huế and the Fall of Saigon join the war itself, with Hồ Chí Minh and
-the Geneva and Paris accords alongside.
+A big week at the shipyard, crew. The globe grew from under 4,000 places to more than 48,000.
 
-**Africa had a strange gap of its own.** It looked like it had almost no
-battles at all — turned out Adwa and Omdurman, two of its biggest, had
-been filed under the Middle East by a stray line of code. That's fixed,
-and twenty battles now sit across Africa and Oceania where there used to
-be almost none.
+- **The capitals are in.** It turned out the globe had no Paris, and no Cairo, Delhi or Madrid either. Every country's capital is now on the map in yellow. Scrub the timeline and watch a capital pulse when the crown moves: Kyoto hands over to Tokyo in 1869, and Washington glows in 1800.
+- **The first cities.** Sumer has arrived: Uruk, Eridu and their neighbours, along with four more Indus Valley cities. Eridu *builds itself* across 3,400 years, from a small shrine to a great ziggurat. Angkor Wat has its own 3D model too, and **Machu Picchu** has a new one, sitting on its real mountain saddle and thatched until the Spanish arrive.
+- **Thousands of new people, inventions and discoveries**, plus nearly 20,000 ancient places from the classical world. Search now finds *everything*, and that includes countries. We've also added a new **Films & Documentaries** layer.
+- **Eight battles now play out phase by phase:** Megiddo, the Hydaspes, Isandlwana, the Fall of Constantinople, Bannockburn, Blenheim, Culloden and Balaclava.
+- **Smoother playback.** We found a hidden slowdown, and fixing it means the drifting continents actually draw now while the timeline plays.
 
-**Two smaller fixes worth knowing about.** Search now understands
-accented names, so typing "Koniggratz" or "Alcacer" without the marks
-still finds them. And the border-lines legend only appears now when the
-war-front-lines toggle is actually switched on, instead of hanging around
-uninvited.
+Come aboard at bunhead.github.io/chronos-earth and go looking for your own capital.
 
-**Below decks:** we also caught the nightly data harvest quietly failing
-every night since the 12th — a timing bug meant each night's finds were
-thrown away before they reached the ship's log. Fixed, and back to
-landing its catch properly.
-
-Go have a wander: **bunhead.github.io/chronos-earth**
-
-Thank you, every one of you, for keeping this ship at sea.
-**Maker's Circle:** trace a site with the builder and hit 📤 to send it aboard.
+Thank you, patrons. You keep this ship sailing. 🧭 **Maker's Circle:** trace a site with the builder and hit 📤 submit. The crew will take it from there.
