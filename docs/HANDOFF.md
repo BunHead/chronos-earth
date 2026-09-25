@@ -43,17 +43,17 @@ from HN/Reddit — draft only.
 
 ## Where things stand
 
-| | 11 Sept | 20 Sept | **now (22nd)** |
-|---|---|---|---|
-| events | 3,768 | 13,474 | **22,576** |
-| battle | 1,143 | 2,895 | **2,895** |
-| person | 237 | 5,740 | **14,842** |
-| city | 1,031 | 1,686 | **1,686** |
-| monument | 717 | 1,343 | **1,343** |
-| disaster | 530 | 1,114 | **1,114** |
-| discovery | 37 | 584 | **584** |
-| invention | 28 | 67 | **67** |
-| tests | 392 | 402 | **402** |
+| | 11 Sept | 20 Sept | 22 Sept | **now (25th)** |
+|---|---|---|---|---|
+| events | 3,768 | 13,474 | 22,576 | **51,577** |
+| battle | 1,143 | 2,895 | 2,895 | **2,900** |
+| person | 237 | 5,740 | 14,842 | **17,068** |
+| city | 1,031 | 1,686 | 1,686 | **21,204** |
+| monument | 717 | 1,343 | 1,343 | **8,593** |
+| disaster | 530 | 1,114 | 1,114 | **1,115** |
+| discovery | 37 | 584 | 584 | **585** |
+| invention | 28 | 67 | 67 | **67** |
+| tests | 392 | 402 | 402 | **480** |
 
 ---
 
@@ -400,6 +400,70 @@ loser, so a capital record cannot be lost in a merge.
 scholarly disagreement, and picking one to tidy the map would be inventing
 history for the sake of a pin. **This list supersedes the "four curation calls"
 item below — Petra, Cusco, Benin City and Mesa Verde are four of the 88.**
+
+---
+
+## 22–25 Sept: capitals, borders, names — what changed and what to watch
+
+**Capitals are yellow only for a COUNTRY'S capital.** `scripts/fetch-capitals.mjs`
+has four passes: which cities claim to be a capital (P1376) → when, and of
+what → is that polity a country (pass 3: a POSITIVE class list, cached in
+`scripts/data/polity-class.json` with each polity's own lifespan) → the
+country's own word (P36, pass 4). Nightly it asks only about NEW cities;
+`--full` re-asks everything (use the one-off `capitals-full.yml` workflow — a
+desktop that has queried all day gets throttled); `--only Q1,Q2` re-asks a few.
+Traps, each found the hard way on 25 Sept:
+- Wikidata files Indian states under "constituent country" and DR Congo
+  provinces straight under "country". `NOT_NATIONAL` blocks those classes. If
+  Mumbai-style leaks recur, look there first.
+- A dead polity with no dissolution date keeps its capital yellow forever.
+  `KNOWN_ENDS` (Scythia, Classical Athens, Medieval Egypt) — sourced, per polity.
+- Pass 4 skips DEPRECATED P36 statements (Tel Aviv came from one).
+- `ROLE_FIXES` holds hand-checked role corrections (Yangon ends 2005, The Hague
+  is dropped). Keep it short and cite every line.
+- `capitalsCoverage.test.ts` guards both directions: every national capital is
+  yellow in 2026, and nothing else is, bar ten reviewed exceptions (Edinburgh,
+  Nuuk, Tiraspol, Putrajaya…).
+
+**Borders**: 23 missing sovereign states added from Natural Earth 1:10m (1:50m
+put West Jerusalem in Palestine and displaced the Vatican); the Vatican itself
+is from OpenStreetMap (ODbL, credited in About). Kosovo and Palestine are drawn
+"as Natural Earth does" — the Captain's choice — named "(disputed)", with a
+neutral note in the panel (`DISPUTED_NOTES`, `src/lib/panel.ts`). A click just
+off a small island still names it (`CLICK_SLOP_PX`, `COASTAL_ALLOWANCE_KM`).
+
+**Search** finds countries first, and by old or other names: "Holland",
+"Persia", "Burma", "UK" (`RELATED_NAMES`, `src/lib/countryIndex.ts`).
+
+**Names**: namesake towns take Wikipedia's title — "Athens, Ohio" — via
+`scripts/disambiguate-names.mjs` (nightly). 331 groups of genuine ancient
+namesakes (two Argoses) are left alone, and **49 same-name pairs within 30 km**
+(Amarna, Nevalı Çori, Maykop — mostly Pleiades vs Wikidata) are left for a
+human: merging them could move a date.
+
+**Map density**: cities and monuments have their own slot budget below orbit
+(`PLACE_PER_CATEGORY_BY_TIER` 24/40/60; max visible 150 of a 180-marker pool).
+Over Europe at 2,500 km, ordinary cities went from 2 to 17. **Not yet checked
+for smoothness on the Captain's own machine** — headless fps is meaningless
+(1.7 whatever you do). Ask him to pan around Europe at mid zoom.
+
+**Harvest**: the city selector dates a city by founding OR first written
+mention (+3,665 cities; 51,577 rows). The scheduled run (cron 03:17 UTC)
+actually starts around **08:30 UTC** — GitHub delays it; not a fault. Every
+workflow checks out `ref: main`: a dispatched run otherwise works on the commit
+it was QUEUED at. The harvest commit step restores `scripts/data` before
+rebasing — a dirty cache there once cost 847 cities.
+
+**Leftovers for a human:**
+- `stash@{0}` "autosweep: pre-existing uncommitted events.json change" — left by
+  a sweep, not mine to drop. Look before deleting.
+- The sweeps ask for permission on every run because "always allow" saves the
+  EXACT command. `allow-sweeps.cjs` (24–25 Sept session scratchpad) merges
+  general rules plus guard rails into `.claude/settings.local.json`. **Only the
+  Captain can run it** — a session editing its own permissions is rightly
+  blocked. Don't work around that.
+- Stuck or failed routines should show as failed — the Captain's reminder, and
+  the first item of the full code audit that follows.
 
 ---
 
