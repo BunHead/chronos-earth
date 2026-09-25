@@ -19,9 +19,11 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { capitalAt } from './capitals';
+import type { TimelineEvent } from './types';
 
 interface Capital { qid: string; name: string; wikiTitle: string | null; countries: string[] }
-interface Row { id: string; name: string; category: string; wikidataId?: string; wikiTitle?: string }
+interface Row { id: string; name: string; category: string; wikidataId?: string; wikiTitle?: string; capitalOf?: unknown }
 
 const { capitals } = JSON.parse(
   readFileSync(join(process.cwd(), 'src', 'lib', '__fixtures__', 'national-capitals.json'), 'utf8'),
@@ -63,5 +65,28 @@ describe('every existing country has its capital on the globe', () => {
     ]) {
       expect(byQid.has(qid), `${name} is missing`).toBe(true);
     }
+  });
+});
+
+describe('every national capital is yellow TODAY', () => {
+  // On the map the colour is the point: the Captain asked for capitals to be
+  // "easier to see", which needs every national capital to hold a role running
+  // through the present. Measured 25 Sept 2026: 203 of 203. Tallinn and Manila
+  // (two stints each), Taipei (two different "Taiwan"s) and Singapore (a
+  // city-state that never says it is its own capital) were each blue at some
+  // point this week; this is the test that would have caught all four.
+  const places = events.filter((e) => e.category === 'city' || e.category === 'monument');
+  const byQid = new Map(places.filter((e) => e.wikidataId).map((e) => [e.wikidataId as string, e]));
+  const byTitle = new Map(places.filter((e) => e.wikiTitle).map((e) => [(e.wikiTitle as string).toLowerCase(), e]));
+
+  it('each one holds a capital role in 2026', () => {
+    const blue: string[] = [];
+    for (const c of capitals) {
+      if (EXCLUDED[c.qid]) continue;
+      const e = byQid.get(c.qid) ?? (c.wikiTitle ? byTitle.get(c.wikiTitle.toLowerCase()) : undefined);
+      if (!e) continue; // absence is the other test's failure, not this one's
+      if (!capitalAt(e as unknown as TimelineEvent, 2026)) blue.push(`${c.name} (${c.countries.join('/')})`);
+    }
+    expect(blue, `national capitals not yellow in 2026: ${blue.join(', ')}`).toEqual([]);
   });
 });

@@ -201,7 +201,9 @@ describe('one place, one pin — even under two names', () => {
   it('a listing never lends the place its inscription date', () => {
     // Wikidata dates "Archaeological Site of Delphi" by UNESCO inscription:
     // 1987. Merged the ordinary way, Delphi would have moved to 1987.
-    const delphi = events.filter((e) => e.name === 'Delphi' && e.category !== 'person');
+    // The Greek one only: the harvest rightly has Delphi, Indiana (1828) too.
+    const delphi = events.filter((e) => e.name === 'Delphi' && e.category !== 'person'
+      && Math.abs(e.lat - 38.48) < 0.5 && Math.abs(e.lon - 22.5) < 0.5);
     expect(delphi.length).toBeGreaterThan(0);
     for (const d of delphi) expect(d.startYear).toBeLessThan(0);
   });

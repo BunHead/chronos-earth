@@ -3,7 +3,7 @@ import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
-import { loadCountryIndex, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
+import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -152,11 +152,19 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
           return b.years[b.years.length - 1] - a.years[a.years.length - 1];
         })
         .slice(0, 3);
-      for (const c of hits) {
+      // Other names for the same country: "Holland" -> Netherlands, "Persia"
+      // -> Iran as well as Persia, "UK" -> United Kingdom. See RELATED_NAMES.
+      const byName = new Map(countries.rows.map((c) => [c.name, c]));
+      const related = relatedNames(query.trim(), new Set(byName.keys()))
+        .map((n) => byName.get(n)!)
+        .filter((c) => !hits.includes(c))
+        .sort((a, b) => b.years[b.years.length - 1] - a.years[a.years.length - 1]);
+      for (const c of [...hits, ...related].slice(0, 4)) {
+        const alias = !hits.includes(c);
         out.push({
           key: `c-${c.name}`,
           label: c.name,
-          sub: spanLabel(c, countries.latestFrame),
+          sub: (alias ? `also known as "${query.trim()}" · ` : '') + spanLabel(c, countries.latestFrame),
           badge: '🗺️ Country',
           run: () => onPickCountry(c, countries.frames),
         });

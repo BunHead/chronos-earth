@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  countriesFromColumns, frameFor, yearToShow, spanLabel, altitudeFor,
+  countriesFromColumns, frameFor, yearToShow, spanLabel, altitudeFor, relatedNames,
   type CountryColumns, type CountryRow,
 } from './countryIndex';
 import { distanceToRingKm } from '../components/borders';
@@ -92,5 +92,30 @@ describe('distance to a coastline', () => {
 
   it('is zero on the edge itself', () => {
     expect(distanceToRingKm(1, 0.5, square)).toBeCloseTo(0, 5);
+  });
+});
+
+describe('other names for the same country', () => {
+  const known = new Set(index.rows.map((r) => r.name));
+
+  it('finds a country by a name no map uses', () => {
+    expect(relatedNames('Holland', known)).toContain('Netherlands');
+    expect(relatedNames('UK', known)).toContain('United Kingdom');
+    expect(relatedNames('Czechia', known)).toContain('Czech Republic');
+  });
+
+  it('offers today\'s country for an old name, and the old one for today\'s', () => {
+    expect(relatedNames('Persia', known)).toEqual(expect.arrayContaining(['Iran', 'Persia']));
+    expect(relatedNames('Burma', known)).toContain('Myanmar');
+    expect(relatedNames('Myanmar', known)).toContain('Burma');
+  });
+
+  it('never returns a name that is not on any map', () => {
+    for (const n of relatedNames('Holland', known)) expect(known.has(n)).toBe(true);
+  });
+
+  it('does not fire on fragments of unrelated words', () => {
+    expect(relatedNames('Russia', known)).not.toContain('United States');
+    expect(relatedNames('pe', known)).toEqual([]);
   });
 });

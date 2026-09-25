@@ -108,3 +108,65 @@ export function loadCountryIndex(baseUrl: string): Promise<CountryIndex | null> 
   })();
   return cache;
 }
+
+/**
+ * NAMES THAT BELONG TOGETHER. Search matched a country only by the name the
+ * border map uses, so "Holland" found nothing and "Persia" found Persia but
+ * never offered Iran. Each group lists names for one country across its
+ * history plus the everyday names no map uses (Holland, UK, USA, Czechia…).
+ * Typing any of them offers every OTHER member that is actually on a map —
+ * names that exist only here are search terms, never shown as results.
+ *
+ * Deliberately conservative: a group asserts "people looking for one mean the
+ * other", not a claim of legal continuity. Persia sits with Iran, not with
+ * every empire that ever ruled from Persepolis.
+ */
+export const RELATED_NAMES: string[][] = [
+  ['Netherlands', 'Holland', 'Dutch Republic'],
+  ['Iran', 'Persia'],
+  ['Myanmar', 'Burma'],
+  ['Thailand', 'Siam'],
+  ['Sri Lanka', 'Ceylon'],
+  ['Democratic Republic of the Congo', 'Zaire', 'Congo-Léopoldville', 'Belgian Congo', 'DR Congo', 'DRC'],
+  ['Ethiopia', 'Abyssinia'],
+  ['Zimbabwe', 'Rhodesia'],
+  ['Eswatini', 'Swaziland'],
+  ['North Macedonia', 'Macedonia'],
+  ['Tanzania', 'Tanganyika'],
+  ['Benin', 'Dahomey'],
+  ['Burkina Faso', 'Upper Volta'],
+  ['Ghana', 'Gold Coast'],
+  ['Belarus', 'Byelarus', 'Byelorussia'],
+  ['Taiwan', 'Formosa'],
+  ['Cambodia', 'Kampuchea'],
+  ['Timor-Leste', 'East Timor'],
+  ['Ivory Coast', "Côte d'Ivoire", 'Cote dIvoire'],
+  ['Czech Republic', 'Czechia'],
+  ['Turkey', 'Türkiye', 'Turkiye'],
+  ['United Kingdom', 'UK', 'Britain', 'Great Britain'],
+  ['United States', 'USA', 'US', 'America', 'United States of America'],
+  ['USSR', 'Soviet Union'],
+];
+
+const foldName = (s: string) =>
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
+/**
+ * Other names for what was typed, limited to names that exist in `known`.
+ * Whole-word matches only, and at least three letters, so "us" in "Russia"
+ * or a two-letter prefix never drags in the United States.
+ */
+export function relatedNames(query: string, known: Set<string>): string[] {
+  const q = foldName(query);
+  if (q.length < 2) return [];
+  const out: string[] = [];
+  for (const group of RELATED_NAMES) {
+    const hit = group.some((n) => {
+      const f = foldName(n);
+      return f === q || (q.length >= 3 && f.startsWith(q) && f.split(' ')[0].length >= q.length);
+    });
+    if (!hit) continue;
+    for (const n of group) if (known.has(n) && !out.includes(n)) out.push(n);
+  }
+  return out;
+}
