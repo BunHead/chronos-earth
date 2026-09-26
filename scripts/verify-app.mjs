@@ -69,7 +69,9 @@ const val = (f, d) => {
 };
 const all = (f) => args.map((a, i) => (a === f ? args[i + 1] : null)).filter(Boolean);
 
-const BASE = val('--base', process.env.VERIFY_BASE || `http://localhost:${process.env.PORT || 5173}`);
+// Trailing slash stripped: '…/chronos-earth/' + '/' made every relative fetch
+// '…//data/…', which looked like a site bug and was only this script (26 Sept).
+const BASE = val('--base', process.env.VERIFY_BASE || `http://localhost:${process.env.PORT || 5173}`).replace(/\/+$/, '');
 const QUERY = val('--url', '');
 const [W, H] = val('--size', '1400x900').split('x').map(Number);
 const WAIT = +val('--wait', 9000);
