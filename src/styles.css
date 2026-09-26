@@ -3197,6 +3197,22 @@ textarea:focus-visible,
   .welcome-title { font-size: 24px; }
 }
 
+/* A phone is too narrow for the title bar and the search to share a row: at
+   390px the search slid over the ⋯ menu button (26 Sept 2026). It gets its own
+   row beneath, full width, and what sat on the second row moves down one. */
+@media (max-width: 480px) {
+  .search-box {
+    top: 68px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+  .layers-panel-wrap,
+  .tours-launcher {
+    top: 116px;
+  }
+}
+
 /* Drawn marks (lib/glyphs) sit on the text baseline beside their label, and
    inherit the row's colour so every skin repaints them for free. */
 .glyph { vertical-align: -2px; flex: none; }

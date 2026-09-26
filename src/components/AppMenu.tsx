@@ -76,6 +76,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
     <div className="app-menu" ref={ref}>
       <button
         className="app-menu-journeys"
+        aria-label="Journeys" // the word is hidden on a phone; a screen reader still needs it
         aria-expanded={open && view === 'tours'}
         onClick={() => {
           if (open && view === 'tours') setOpen(false);
