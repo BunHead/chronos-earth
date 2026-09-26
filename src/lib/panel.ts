@@ -351,16 +351,45 @@ function fmtCoord(lat: number, lon: number): string {
  * word; this says what the dispute IS, without taking a side. Keyed by the
  * exact border name (scripts/add-missing-countries.mjs).
  */
-export const DISPUTED_NOTES: Record<string, string> = {
-  'Kosovo (disputed)':
-    'Kosovo declared independence from Serbia in 2008. About half of the UN\'s member states ' +
-    'recognise it; Serbia, and others including Russia, China and Spain, do not, and Serbia ' +
-    'regards it as its own province. It is not a UN member.',
-  'Palestine (disputed)':
-    'The State of Palestine is recognised by most UN member states and has been a UN ' +
-    'non-member observer state since 2012; Israel and several others do not recognise it. ' +
-    'Its borders are not settled, and much of the West Bank and Gaza is under Israeli control ' +
-    'or occupation.',
+export const DISPUTED_NOTES: Record<string, { from: number; note: string }> = {
+  'Kosovo (disputed)': {
+    from: 2008,
+    note:
+      "Kosovo declared independence from Serbia in 2008. About half of the UN's member states " +
+      'recognise it; Serbia, and others including Russia, China and Spain, do not, and Serbia ' +
+      'regards it as its own province. It is not a UN member.',
+  },
+  'Palestine (disputed)': {
+    from: 1988,
+    note:
+      'The State of Palestine is recognised by most UN member states and has been a UN ' +
+      'non-member observer state since 2012; Israel and several others do not recognise it. ' +
+      'Its borders are not settled, and much of the West Bank and Gaza is under Israeli control ' +
+      'or occupation.',
+  },
+  // Contested territories the historical border data names without "(disputed)".
+  // `from`: the note is only true from then — Taiwan is on the map from 1500.
+  'Turkish Cypriot-administered area': {
+    from: 1974,
+    note:
+      'Northern Cyprus has been under Turkish Cypriot administration since the island was divided ' +
+      'in 1974, and declared itself the Turkish Republic of Northern Cyprus in 1983. Only Turkey ' +
+      'recognises it; the UN regards the area as part of the Republic of Cyprus.',
+  },
+  'Western Sahara': {
+    from: 1975,
+    note:
+      'A former Spanish colony. Morocco has controlled and claimed most of it since 1975–76; the ' +
+      'Polisario Front claims it as the Sahrawi Arab Democratic Republic and holds the east. The UN ' +
+      'lists it as a non-self-governing territory whose status is unresolved.',
+  },
+  Taiwan: {
+    from: 1949,
+    note:
+      "Governed by the Republic of China since 1949. The People's Republic of China claims it; " +
+      'few states formally recognise Taiwan as a country, though many keep unofficial ties. It is ' +
+      'not a UN member.',
+  },
 };
 
 /**
@@ -387,8 +416,8 @@ export function placeDossierPanel(
     title: polityName ?? 'This place',
     date: fmtCoord(lat, lon),
     ...(polityName ? { flag: { name: polityName, year } } : {}),
-    ...(polityName && DISPUTED_NOTES[polityName]
-      ? { sections: [{ heading: 'Disputed territory', body: DISPUTED_NOTES[polityName] }] }
+    ...(polityName && DISPUTED_NOTES[polityName] && year >= DISPUTED_NOTES[polityName].from
+      ? { sections: [{ heading: 'Disputed territory', body: DISPUTED_NOTES[polityName].note }] }
       : {}),
     summary:
       nearby.length > 0

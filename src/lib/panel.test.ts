@@ -189,3 +189,10 @@ it('keeps "(disputed)" out of the middle of a sentence', () => {
   expect(p.title).toBe('Kosovo (disputed)');
   expect(p.summary).not.toContain('(disputed)');
 });
+
+it('a dispute note appears only once the dispute exists', () => {
+  // Taiwan is on the map from 1500; "governed by the ROC since 1949" is not true then.
+  expect(placeDossierPanel(23.7, 121, 1600, 'Taiwan', [], () => {}).sections).toBeUndefined();
+  expect(placeDossierPanel(23.7, 121, 2026, 'Taiwan', [], () => {}).sections?.[0].heading).toBe('Disputed territory');
+  expect(placeDossierPanel(24.2, -13, 2026, 'Western Sahara', [], () => {}).sections).toBeDefined();
+});
