@@ -98,7 +98,12 @@ describe('flagSpecFor — the right flag at the right time', () => {
   it('Oman gets its own flag despite living inside Ottoman/Roman/Romania', () => {
     expect(flagSpecFor('Oman', 2000)?.key).toBe('oman');
     // The words that contain 'oman' as a substring keep their own flags.
-    expect(flagSpecFor('Ottoman Empire', 1600)?.key).toBe('ottoman');
+    expect(flagSpecFor('Ottoman Empire', 1900)?.key).toBe('ottoman');
+    // Before the 1844 flag the empire has none — and must not fall through
+    // to Oman's, which 'Ottoman' contains.
+    expect(flagSpecFor('Ottoman Empire', 1600)).toBeNull();
+    expect(flagSpecFor('Japan', 1400)).toBeNull();
+    expect(flagSpecFor('Japan', 1900)?.key).toBe('japan');
     expect(flagSpecFor('Roman Empire', 100)?.key).toBe('rome');
     expect(flagSpecFor('Romania', 1990)?.key).toBe('romania');
   });

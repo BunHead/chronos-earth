@@ -416,11 +416,13 @@ export const FLAGS: FlagSpec[] = [
   { match: 'eastern roman', key: 'byzantium', draw: byzantineFlag },
   { match: 'byzanti', key: 'byzantium', draw: byzantineFlag },
   { match: 'roman', key: 'rome', draw: romanVexillum },
-  { match: 'ottoman', key: 'ottoman', draw: ottomanFlag },
+  // The red crescent-and-star flag dates from 1844; before that the empire keeps its tint.
+  { match: 'ottoman', key: 'ottoman', from: 1844, draw: ottomanFlag },
   { match: 'turkey', key: 'turkey', draw: ottomanFlag },
 
   // Asia.
-  { match: 'japan', key: 'japan', draw: discFlag('#ffffff', '#BC002D') },
+  // The Hinomaru became the national flag in 1870, not a banner for all of Japan's history.
+  { match: 'japan', key: 'japan', from: 1870, draw: discFlag('#ffffff', '#BC002D') },
   { match: 'qing', key: 'qing', draw: discFlag('#F5C518', '#DE2910', 0.16) },
   { match: 'china', key: 'china', from: 1949, draw: chinaFlag },
   { match: 'india', key: 'india', from: 1947, draw: indiaFlag },
