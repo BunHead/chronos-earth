@@ -213,6 +213,14 @@ export function groupDuplicates(events) {
         merges.push({ keep: ruled === a ? b : a, drop: ruled, km: +km.toFixed(2), ruling: CURATED_DROPS.get(ruled.id) });
         continue;
       }
+      // TWO ARTICLES ARE TWO THINGS. Sault Ste. Marie, Michigan and Sault Ste.
+      // Marie, Ontario face each other across a river, 4 km apart, and the
+      // core-name rule reads both as "Sault Ste. Marie". Their dates happened
+      // to differ, so they were only reported; closer dates would have merged
+      // them and deleted a city (26 Sept 2026). Rulings and listings above
+      // still apply — those are the cases where differing titles ARE one place.
+      if (a.wikiTitle && b.wikiTitle &&
+          String(a.wikiTitle).trim().toLowerCase() !== String(b.wikiTitle).trim().toLowerCase()) continue;
       const gap = Math.abs((a.startYear ?? 0) - (b.startYear ?? 0));
       // A DATE GAP AGAINST A PLEIADES ROW IS NOT A DISAGREEMENT.
       //

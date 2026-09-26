@@ -29,8 +29,8 @@
  *
  * Each row is checked once: scripts/data/bce-checked.json remembers it, so the
  * nightly run only asks about rows it has never seen. Capital-role years and
- * cached polity lifespans are not touched (a year either way on when a pin is
- * gold) — noted in docs/HANDOFF.md.
+ * country lifespans are not touched here: fetch-capitals reads those with
+ * their precision (wdqsYearAt) and gets them right at source.
  *
  *   node scripts/normalize-bce-years.mjs [--check]
  */

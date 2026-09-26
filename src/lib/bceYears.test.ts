@@ -72,3 +72,17 @@ describe('capital roles of the ancient world', () => {
     expect(role('Susa', 'Achaemenid Empire')).toMatchObject({ from: -550, to: -330 });
   });
 });
+
+describe('twin towns are not duplicates', () => {
+  it('two different articles 4 km apart are never merged or disputed', async () => {
+    // @ts-expect-error — plain .mjs script, no types
+    const { groupDuplicates } = await import('../../scripts/dedupe-places.mjs');
+    const rows = [
+      { id: 'q986634', name: 'Sault Ste. Marie, Michigan', wikiTitle: 'Sault Ste. Marie, Michigan', lat: 46.4969, lon: -84.3456, startYear: 1668, category: 'city', notability: 52 },
+      { id: 'q463165', name: 'Sault Ste. Marie, Ontario', wikiTitle: 'Sault Ste. Marie, Ontario', lat: 46.5333, lon: -84.35, startYear: 1668, category: 'city', notability: 51 },
+    ];
+    const { merges, disagreements } = groupDuplicates(rows);
+    expect(merges).toEqual([]);
+    expect(disagreements).toEqual([]);
+  });
+});
