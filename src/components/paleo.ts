@@ -186,9 +186,19 @@ export class PaleoController {
    * instantly during the drag, because that path never comes through here; only
    * NEW work waits for the hand to stop.
    */
+  //
+  // …BUT PLAYBACK NEVER SETTLES. This was a debounce — every timeline move
+  // reset the timer — and pressing Play moves the timeline several times a
+  // second for as long as it plays, so no new epoch was EVER drawn while
+  // playing, and 250 million years of drifting continents played as a blank
+  // ocean (the Captain, 26 Sept 2026). It is now a throttle: new work runs at
+  // most once per interval, but it does run, and it only ever draws the
+  // frames wanted at that moment (see `wanted`), so a fast drag still cannot
+  // queue up epochs nobody will see.
   private scheduleEnsure(): void {
-    window.clearTimeout(this.ensureTimer);
+    if (this.ensureTimer !== undefined) return; // already due — do not push it back
     this.ensureTimer = window.setTimeout(() => {
+      this.ensureTimer = undefined;
       for (const t of this.wanted) void this.ensureFrame(t);
     }, mayWorkAhead() ? 120 : 260);
   }
@@ -260,8 +270,20 @@ export class PaleoController {
     this.wanted = ceil === floor ? new Set([floor]) : new Set([floor, ceil]);
     this.scheduleEnsure();
 
+    // NEVER A BLANK OCEAN: until the right epoch is drawn, show the nearest one
+    // that is — a slightly out-of-date coastline beats none.
+    let stand: number | undefined;
+    if (!this.layers.has(floor) && !(ceil !== floor && this.layers.has(ceil))) {
+      for (const t of this.layers.keys()) {
+        if (stand === undefined || Math.abs(t - ma) < Math.abs(stand - ma)) stand = t;
+      }
+    }
+
     for (const [time, layer] of this.layers.entries()) {
-      if (time === floor) {
+      if (time === stand) {
+        layer.show = true;
+        layer.alpha = 1;
+      } else if (time === floor) {
         layer.show = true;
         layer.alpha = 1;
       } else if (time === ceil && ceil !== floor) {
@@ -278,6 +300,7 @@ export class PaleoController {
     const ceilLayer = ceil !== floor ? this.layers.get(ceil) : undefined;
     if (floorLayer) this.viewer.imageryLayers.raiseToTop(floorLayer);
     if (ceilLayer) this.viewer.imageryLayers.raiseToTop(ceilLayer);
+    if (stand !== undefined) this.viewer.imageryLayers.raiseToTop(this.layers.get(stand)!);
     // Show/alpha/order were all just set directly — ask for the frame that
     // shows them, or the cross-fade never appears.
     requestFrame();
@@ -285,6 +308,7 @@ export class PaleoController {
 
   dispose() {
     window.clearTimeout(this.ensureTimer);
+    this.ensureTimer = undefined;
     this.wanted.clear();
     if (!this.viewer.isDestroyed()) {
       for (const layer of this.layers.values()) this.viewer.imageryLayers.remove(layer, true);
