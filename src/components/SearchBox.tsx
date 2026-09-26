@@ -4,6 +4,7 @@ import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
 import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
+import { matchTier } from '../lib/searchRank';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -95,6 +96,8 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   // which is why this is a separate list rather than something to await.
   const [indexRows, setIndexRows] = useState<SearchRow[]>([]);
   const [countries, setCountries] = useState<CountryIndex | null>(null);
+  // Folded once when the index arrives, not ~50,000 times per keystroke.
+  const foldedIndex = useMemo(() => indexRows.map((r) => fold(r.name)), [indexRows]);
   const asked = useRef(false);
   const wantIndex = () => {
     if (asked.current) return;
@@ -189,51 +192,37 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       }
     }
 
-    // The whole imported world: people, monuments, cities, science, disasters.
-    // Prefix matches first, then the most notable.
-    const matched = events
-      .filter((e) => fold(e.name).includes(q) && !taken.has(norm(e.name)))
-      .sort((a, b) => {
-        const ap = fold(a.name).startsWith(q) ? 0 : 1;
-        const bp = fold(b.name).startsWith(q) ? 0 : 1;
-        return ap !== bp ? ap - bp : (b.notability ?? 0) - (a.notability ?? 0);
-      })
-      .slice(0, 8);
-    for (const e of matched) {
-      taken.add(norm(e.name));
-      out.push({
-        key: `ev-${e.id}`,
-        label: e.name,
-        sub: yearLabel(e.startYear),
-        badge: EVENT_BADGE[e.category] ?? 'Event',
-        run: () => onPickEvent(e),
-      });
+    // The whole imported world: people, monuments, cities, science, disasters —
+    // the famous rows in memory AND the wider index, ranked TOGETHER by how
+    // well the name matches (see matchTier): "Delphi" lists Delphi before
+    // Philadelphia. Within a tier, the in-memory rows (the most notable) come
+    // first, then the more notable, then the shorter name.
+    const inMemory = new Set(events.map((e) => e.id));
+    const ranked: { tier: number; mem: number; notability: number; len: number; name: string; ev?: TimelineEvent; row?: SearchRow }[] = [];
+    for (const e of events) {
+      if (taken.has(norm(e.name))) continue;
+      const tier = matchTier(fold(e.name), q);
+      if (tier >= 0) ranked.push({ tier, mem: 0, notability: e.notability ?? 0, len: e.name.length, name: e.name, ev: e });
     }
-
-    // Everything else on the globe. These rows are NOT in memory — they are the
-    // 18,000-odd the headline tier has no room for — so they carry only enough
-    // to be listed and flown to. The full row arrives with its map cell once
-    // the camera gets there.
-    if (out.length < 9) {
-      const seenIds = new Set(matched.map((e) => e.id));
-      const extra = indexRows
-        .filter((r) => !seenIds.has(r.id) && !taken.has(norm(r.name)) && fold(r.name).includes(q))
-        .sort((a, b) => {
-          const ap = fold(a.name).startsWith(q) ? 0 : 1;
-          const bp = fold(b.name).startsWith(q) ? 0 : 1;
-          return ap !== bp ? ap - bp : a.name.length - b.name.length;
-        })
-        .slice(0, 9 - out.length);
-      for (const r of extra) {
-        taken.add(norm(r.name));
-        out.push({
-          key: `ix-${r.id}`,
-          label: r.name,
-          sub: yearLabel(r.startYear),
-          badge: EVENT_BADGE[r.category] ?? 'Event',
-          run: () => onPickEvent(rowToEvent(r)),
-        });
-      }
+    for (let i = 0; i < indexRows.length; i++) {
+      const r = indexRows[i];
+      if (inMemory.has(r.id)) continue;
+      const tier = matchTier(foldedIndex[i], q);
+      if (tier < 0 || taken.has(norm(r.name))) continue;
+      ranked.push({ tier, mem: 1, notability: 0, len: r.name.length, name: r.name, row: r });
+    }
+    ranked.sort((a, b) => a.tier - b.tier || a.mem - b.mem || b.notability - a.notability || a.len - b.len);
+    for (const m of ranked.slice(0, Math.max(3, 9 - out.length))) {
+      taken.add(norm(m.name));
+      const startYear = m.ev ? m.ev.startYear : m.row!.startYear;
+      const category = m.ev ? m.ev.category : m.row!.category;
+      out.push({
+        key: m.ev ? `ev-${m.ev.id}` : `ix-${m.row!.id}`,
+        label: m.name,
+        sub: yearLabel(startYear),
+        badge: EVENT_BADGE[category] ?? 'Event',
+        run: m.ev ? () => onPickEvent(m.ev!) : () => onPickEvent(rowToEvent(m.row!)),
+      });
     }
 
     // The curated video layer. Matched on title AND channel, so "a history of
@@ -259,7 +248,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       }
     }
     return out.slice(0, 9);
-  }, [query, battles, sites, events, fauna, indexRows, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
+  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
     r.run();
