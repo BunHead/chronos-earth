@@ -8,7 +8,7 @@ import * as Cesium from 'cesium';
 import type { AncientSite, Battle, PanelContent, TimelineEvent } from '../lib/types';
 import { videoVisibleAt, type VideoPin } from '../lib/videos';
 import { capitalAt, capitalChangeAt, cityProminence, isPlaceRow, pulseAt } from '../lib/capitals';
-import { spreadPick, withinHorizon } from '../lib/markerSpread';
+import { horizonTest, spreadPick } from '../lib/markerSpread';
 import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
@@ -1634,6 +1634,21 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   }, [events]);
   const eventIndex = useMemo(() => buildEventIndex(events), [events]);
 
+  // GROUND-CLAMP THE MARKERS ONLY WHEN THE GROUND CAN BE SEEN. Clamping costs a
+  // terrain ray-cast per billboard and per label GLYPH every time a marker is
+  // handed to a new event — during playback about a thousand a second, the
+  // largest single cost in a profile (26 Sept 2026). From above 1,200 km a few
+  // kilometres of mountain is invisible, and the globe does not depth-test
+  // against terrain, so a marker at sea level under the Himalaya still draws.
+  // Closer in, where it shows, the markers sit on the ground as before.
+  useEffect(() => {
+    const ref = zoomTier >= 3 ? Cesium.HeightReference.CLAMP_TO_GROUND : Cesium.HeightReference.NONE;
+    for (const ent of eventPoolRef.current) {
+      (ent.billboard!.heightReference as Cesium.ConstantProperty).setValue(ref);
+      (ent.label!.heightReference as Cesium.ConstantProperty).setValue(ref);
+    }
+  }, [zoomTier]);
+
   // Work out which events are on screen (capped to the most notable) and hand
   // the marker pool to them. Everything else stays as plain data — no entity,
   // no per-frame cost — so importing 10× more events costs the globe nothing.
@@ -1684,10 +1699,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         const viewSet = eventIndex.inView(viewRect, mLat, mLon);
         if (viewSet) candidates = candidates.filter((ev) => viewSet.has(ev));
       }
+      const onNearSide = camPoint ? horizonTest(camPoint) : null;
       const inWindow = candidates.filter((ev) => {
         if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
         // Category switch AND the finer sub-kind switches (lib/subLayers).
         if (!eventPasses(ev, enabledEventCats, offSubs)) return false;
+        // Cheap arithmetic before the trigonometry below.
+        if (!eventVisibleAt(ev, year) || !inView(ev)) return false;
         // Nothing behind the planet, at ANY tier. This used to run only at tier
         // 0, on the theory that higher tiers scope to the view rectangle — but
         // at 9,000 km, with the planet's edge on screen, that rectangle IS the
@@ -1695,8 +1713,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         // Berlin and Madrid. The horizon is a hard geometric bound: nothing
         // past it can ever be seen, so applying it everywhere cannot hide
         // anything visible. See markerSpread.withinHorizon.
-        if (camPoint && !withinHorizon(camPoint, ev)) return false;
-        return inView(ev) && eventVisibleAt(ev, year);
+        return !onNearSide || onNearSide(ev);
       });
       const byCat = new Map<string, TimelineEvent[]>();
       for (const ev of inWindow) {

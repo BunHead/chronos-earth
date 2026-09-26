@@ -8,7 +8,7 @@
  * globe seen from orbit was spending half its markers on the side facing away.
  */
 import { describe, it, expect } from 'vitest';
-import { spreadPick, separationKm, withinHorizon } from './markerSpread';
+import { horizonTest, spreadPick, separationKm, withinHorizon } from './markerSpread';
 
 const P = (lat: number, lon: number, name = '') => ({ lat, lon, name });
 
@@ -93,5 +93,34 @@ describe('the horizon', () => {
     const target = P(0, 30);
     expect(withinHorizon(low, target)).toBe(false);
     expect(withinHorizon(high, target)).toBe(true);
+  });
+});
+
+describe('the prepared horizon test', () => {
+  // The old per-call formula, kept here as the reference the fast one must match.
+  const reference = (cam: { lat: number; lon: number; height: number }, p: { lat: number; lon: number }) => {
+    const R = 6371000;
+    const cap = Math.acos(Math.min(1, R / (R + cam.height))) * (180 / Math.PI) + 4;
+    const r = Math.PI / 180;
+    const c = Math.sin(cam.lat * r) * Math.sin(p.lat * r) + Math.cos(cam.lat * r) * Math.cos(p.lat * r) * Math.cos((p.lon - cam.lon) * r);
+    return Math.acos(Math.max(-1, Math.min(1, c))) * (180 / Math.PI) <= cap;
+  };
+
+  it('agrees with the reference everywhere, at every height', () => {
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    for (const height of [50_000, 1_200_000, 3_500_000, 9_000_000, 14_000_000, 40_000_000]) {
+      const cam = { lat: rnd() * 170 - 85, lon: rnd() * 360 - 180, height };
+      const test = horizonTest(cam);
+      let mismatches = 0, inside = 0;
+      for (let i = 0; i < 2000; i++) {
+        const p = { lat: rnd() * 180 - 90, lon: rnd() * 360 - 180 };
+        const ref = reference(cam, p);
+        if (test(p) !== ref) mismatches++;
+        if (ref) inside++;
+      }
+      expect(mismatches, `at ${height} m`).toBe(0);
+      expect(inside).toBeGreaterThan(0); // the sample is not all on the far side
+    }
   });
 });

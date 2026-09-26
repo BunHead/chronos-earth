@@ -81,3 +81,19 @@ describe('event index — spatial view (superset of what is in the rect)', () =>
     expect([...set].map((e) => e.id)).toContain('h'); // Sydney 151E
   });
 });
+
+describe('asking about the same view twice', () => {
+  it('returns the same answer without rebuilding it, and a new one when the view moves', () => {
+    const evs = [
+      { id: 'a', name: 'A', lat: 48, lon: 2, startYear: 1, category: 'city' },
+      { id: 'b', name: 'B', lat: -33, lon: 151, startYear: 2, category: 'city' },
+    ] as TimelineEvent[];
+    const idx = buildEventIndex(evs);
+    const rect = { w: -5, s: 40, e: 10, n: 55 };
+    const first = idx.inView(rect, 1, 1)!;
+    expect(idx.inView({ ...rect }, 1, 1)).toBe(first);
+    expect([...first].map((e) => e.id)).toEqual(['a']);
+    const moved = idx.inView({ w: 140, s: -40, e: 160, n: -20 }, 1, 1)!;
+    expect([...moved].map((e) => e.id)).toEqual(['b']);
+  });
+});

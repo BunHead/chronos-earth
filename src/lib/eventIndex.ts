@@ -92,6 +92,12 @@ export function buildEventIndex(events: TimelineEvent[]): EventIndex {
     else grid.set(k, [e]);
   }
 
+  // The camera is still while the timeline plays, so the same rectangle is
+  // asked for ten times a second; rebuilding a set of every event in view each
+  // time showed up in a profile of playback. Same question, same answer.
+  let lastKey = '';
+  let lastSet: Set<TimelineEvent> | null = null;
+
   return {
     sorted,
     window(loYear, hiYear) {
@@ -103,6 +109,8 @@ export function buildEventIndex(events: TimelineEvent[]): EventIndex {
     inView(rect, marginLat, marginLon) {
       if (!rect) return null;
       const { w, s, e, n } = rect;
+      const key = `${w},${s},${e},${n},${marginLat},${marginLon}`;
+      if (key === lastKey && lastSet) return lastSet;
       const out = new Set<TimelineEvent>();
       const latLo = latIdx(s - marginLat);
       const latHi = latIdx(n + marginLat);
@@ -116,6 +124,8 @@ export function buildEventIndex(events: TimelineEvent[]): EventIndex {
           if (list) for (const ev of list) out.add(ev);
         }
       }
+      lastKey = key;
+      lastSet = out;
       return out;
     },
   };

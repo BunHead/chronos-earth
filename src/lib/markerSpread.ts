@@ -97,12 +97,28 @@ export function withinHorizon(
   p: Placed,
   marginDeg = 4,
 ): boolean {
-  const capRad = Math.acos(Math.min(1, EARTH_R / (EARTH_R + Math.max(0, cam.height))));
-  const cap = capRad * (180 / Math.PI) + marginDeg;
+  return horizonTest(cam, marginDeg)(p);
+}
+
+/**
+ * The same test, prepared once for a camera and then run per marker. The
+ * visibility pass asks it of every candidate event on every timeline tick —
+ * tens of thousands — and computing the cap and two arc-cosines each time was
+ * the single largest cost in a profile of playback (26 Sept 2026). This
+ * compares cosines instead of angles and rejects by latitude band first.
+ */
+export function horizonTest(cam: Placed & { height: number }, marginDeg = 4): (p: Placed) => boolean {
   const toRad = Math.PI / 180;
-  const cosC =
-    Math.sin(cam.lat * toRad) * Math.sin(p.lat * toRad) +
-    Math.cos(cam.lat * toRad) * Math.cos(p.lat * toRad) * Math.cos((p.lon - cam.lon) * toRad);
-  const angle = Math.acos(Math.max(-1, Math.min(1, cosC))) * (180 / Math.PI);
-  return angle <= cap;
+  const capRad = Math.acos(Math.min(1, EARTH_R / (EARTH_R + Math.max(0, cam.height)))) + marginDeg * toRad;
+  if (capRad >= Math.PI) return () => true;
+  const capDeg = capRad / toRad;
+  const cosCap = Math.cos(capRad);
+  const sinLat = Math.sin(cam.lat * toRad);
+  const cosLat = Math.cos(cam.lat * toRad);
+  return (p) => {
+    // Further north or south than the cap reaches: cannot be in view.
+    if (Math.abs(p.lat - cam.lat) > capDeg) return false;
+    const la = p.lat * toRad;
+    return sinLat * Math.sin(la) + cosLat * Math.cos(la) * Math.cos((p.lon - cam.lon) * toRad) >= cosCap;
+  };
 }
