@@ -114,6 +114,16 @@ export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${buc
  * and everything becomes findable. */
 const HEADLINE_COUNT = 4500;
 
+/** The app derives wikidataId from the id ("q243", "q-af-Q182059") so the
+ * skeleton needn't ship the column. Where that fails — curated rows such as
+ * cur-city-lothal — the real Q-id rides along in a small `qid` map, or the
+ * runtime de-dup against region chunks misses it: Lothal and the Tunguska
+ * event were drawn twice (26 Sept 2026). */
+const qidFromId = (id) => /(?:^|-)(q\d+)$/i.exec(id)?.[1]?.toUpperCase();
+function noteQid(cols, e) {
+  if (e.wikidataId && qidFromId(e.id) !== e.wikidataId) (cols.qid ??= {})[e.id] = e.wikidataId;
+}
+
 /** Pack a list of already-year-sorted events into the columnar shape the app's
  * eventsFromColumns() reconstructs — identical schema to core-index.json.
  * Exported so the unit tests can prove tiled round-trip parity. */
@@ -137,6 +147,7 @@ export function packColumns(rows) {
     // must be distinguishable on the globe itself, before any panel is opened.
     cols.attest.push(e.attestation ?? null);
     cols.cap.push(packCapital(e));
+    noteQid(cols, e);
   }
   return cols;
 }
@@ -205,6 +216,7 @@ export function buildCoreIndex(events) {
     // distinguishable on the globe before any panel is opened.
     cols.attest.push(e.attestation ?? null);
     cols.cap.push(packCapital(e));
+    noteQid(cols, e);
     const detail = {};
     for (const [k, v] of Object.entries(e)) {
       if (SKELETON_KEYS.has(k)) continue;
@@ -225,16 +237,6 @@ export function buildCoreIndex(events) {
 async function main() {
   const { events } = JSON.parse(await readFile(SOURCE, 'utf8'));
   const { cols, detailByCell } = buildCoreIndex(events);
-
-  // The app derives wikidataId from the id ("q243" / "q-af-Q182059" → Q-id)
-  // so the skeleton needn't ship the column. Shout if that ever stops holding.
-  const qidFromId = (id) => /(?:^|-)(q\d+)$/i.exec(id)?.[1]?.toUpperCase();
-  const odd = events.filter((e) => (qidFromId(e.id) ?? undefined) !== (e.wikidataId ?? undefined));
-  if (odd.length > 0)
-    console.warn(
-      `!! ${odd.length} event(s) whose wikidataId is not derivable from the id ` +
-        `(e.g. ${odd[0].id}) — runtime chunk dedup may weaken. See src/lib/coreIndex.ts.`,
-    );
 
   await writeFile(CORE, JSON.stringify(cols));
 

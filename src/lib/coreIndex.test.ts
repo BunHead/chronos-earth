@@ -235,3 +235,20 @@ describe('attestation survives the build → skeleton → app round trip', () =>
     expect(eventsFromColumns(cols).every((e) => e.attestation === undefined)).toBe(true);
   });
 });
+
+describe('a curated row keeps its Wikidata id through the skeleton', () => {
+  // cur-city-lothal carries Q9443 but its id does not say so; without the qid
+  // map the runtime de-dup missed it and a region chunk drew Lothal twice.
+  const rows = [
+    { id: 'cur-city-lothal', name: 'Lothal', lat: 22.5, lon: 72.2, startYear: -2200, category: 'city', wikidataId: 'Q9443' },
+    { id: 'q243', name: 'Eiffel Tower', lat: 48.9, lon: 2.3, startYear: 1889, category: 'monument', wikidataId: 'Q243' },
+  ];
+  it('in the full index and in a tile', () => {
+    for (const cols of [buildCoreIndex(rows).cols, packColumns(rows)]) {
+      const byId = new Map(eventsFromColumns(cols as CoreColumns).map((e) => [e.id, e]));
+      expect(byId.get('cur-city-lothal')?.wikidataId).toBe('Q9443');
+      expect(byId.get('q243')?.wikidataId).toBe('Q243');
+      expect(Object.keys((cols as CoreColumns).qid ?? {})).toEqual(['cur-city-lothal']);
+    }
+  });
+});

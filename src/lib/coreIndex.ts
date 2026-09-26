@@ -34,6 +34,8 @@ export interface CoreColumns {
    * polity names stay in the cell detail, which is what makes this cheap
    * enough to sit on the critical path. Optional: an older index still loads. */
   cap?: (Array<[number | null, number | null]> | null)[];
+  /** id → Q-id, only for rows whose id does not embed it (curated rows). */
+  qid?: Record<string, string>;
 }
 
 /**
@@ -79,7 +81,7 @@ export function eventsFromColumns(cols: CoreColumns): TimelineEvent[] {
       (e as TimelineEvent & { capitalOf?: unknown }).capitalOf =
         cap.map(([from, to]) => ({ of: '', from, to }));
     }
-    const qid = qidFromId(e.id);
+    const qid = cols.qid?.[e.id] ?? qidFromId(e.id);
     if (qid) e.wikidataId = qid;
     out[i] = e;
   }
