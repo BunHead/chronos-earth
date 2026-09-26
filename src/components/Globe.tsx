@@ -109,6 +109,11 @@ function easeOutBack(t: number): number {
   return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
 }
 
+/** Pins on a phone. Sized for a desktop, they crowded a 390-px screen — Europe
+ * at 2,500 km was more pin than map — so below 600 px every marker, and the
+ * gap to its label, is drawn at 70% (the Captain's call, 26 Sept 2026). */
+const PIN = typeof window !== 'undefined' && window.matchMedia?.('(max-width: 600px)').matches ? 0.7 : 1;
+
 /** Marker scale grows with fame, so Waterloo outranks a skirmish at a glance. */
 function fameScale(notability: number | undefined, base: number): number {
   const t = Math.min(1, (notability ?? 0) / 350);
@@ -456,7 +461,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
             // on top of that marker — the Picts film sits exactly on the Battle
             // of Dun Nechtain. Lifting it clear in screen space makes it read as
             // attached to its subject rather than as a badge that has eaten it.
-            pixelOffset: new Cesium.Cartesian2(0, -30),
+            pixelOffset: new Cesium.Cartesian2(0, -30 * PIN),
             heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
           },
@@ -468,7 +473,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -60),
+            pixelOffset: new Cesium.Cartesian2(0, -60 * PIN),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2_500_000),
             heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
@@ -476,7 +481,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         });
         const tagged = created as Cesium.Entity & { chronosVideo?: VideoPin; chronosScale?: number };
         tagged.chronosVideo = v;
-        tagged.chronosScale = 0.46;
+        tagged.chronosScale = 0.46 * PIN;
         live.set(v.id, created);
         setShownPop(created, true);
         continue;
@@ -591,7 +596,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -28),
+          pixelOffset: new Cesium.Cartesian2(0, -28 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
@@ -599,7 +604,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       });
       const tagged = entity as Cesium.Entity & { chronosEvent?: TimelineEvent; chronosScale?: number };
       tagged.chronosEvent = ev;
-      tagged.chronosScale = scale;
+      tagged.chronosScale = scale * PIN;
       setShownPop(entity, true, Math.min(order * 70, 900));
       order++;
       liveEntitiesRef.current.set(ev.id, entity);
@@ -1468,13 +1473,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -32),
+          pixelOffset: new Cesium.Cartesian2(0, -32 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 8_000_000),
         },
       });
       const tagged = entity as Cesium.Entity & { chronosSite?: AncientSite; chronosScale?: number };
       tagged.chronosSite = site;
-      tagged.chronosScale = 0.46;
+      tagged.chronosScale = 0.46 * PIN;
       entitiesRef.current.set(site.id, entity);
     }
   }, [sites]);
@@ -1525,13 +1530,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           outlineWidth: 3,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -32),
+          pixelOffset: new Cesium.Cartesian2(0, -32 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 6_000_000),
         },
       });
       const tagged = entity as Cesium.Entity & { chronosBattle?: Battle; chronosScale?: number };
       tagged.chronosBattle = battle;
-      tagged.chronosScale = 0.44;
+      tagged.chronosScale = 0.44 * PIN;
       battleEntitiesRef.current.set(battle.id, entity);
     }
   }, [battles]);
@@ -1577,7 +1582,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
             outlineWidth: 3,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            pixelOffset: new Cesium.Cartesian2(0, -28),
+            pixelOffset: new Cesium.Cartesian2(0, -28 * PIN),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
             heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
@@ -1791,13 +1796,13 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       (bb.image as Cesium.ConstantProperty).setValue(role ? capitalIcon() : eventIcon(ev.category));
       const lbl = ent.label!;
       (lbl.text as Cesium.ConstantProperty).setValue(ev.name);
-      (lbl.pixelOffset as Cesium.ConstantProperty).setValue(new Cesium.Cartesian2(0, isBattle ? -32 : -28));
+      (lbl.pixelOffset as Cesium.ConstantProperty).setValue(new Cesium.Cartesian2(0, (isBattle ? -32 : -28) * PIN));
       (lbl.distanceDisplayCondition as Cesium.ConstantProperty).setValue(new Cesium.DistanceDisplayCondition(0, isBattle ? 6_000_000 : 1_500_000));
       const tagged = ent as Cesium.Entity & {
         chronosEvent?: TimelineEvent; chronosScale?: number; chronosPulse?: boolean;
       };
       tagged.chronosEvent = ev;
-      tagged.chronosScale = scale;
+      tagged.chronosScale = scale * PIN;
       tagged.chronosPulse = pulsing;
       if (tagged.chronosPulse) pulsingRef.current.add(ent);
       else pulsingRef.current.delete(ent);
