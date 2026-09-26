@@ -36,7 +36,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { parseWdqs } from './lib/wdqs-json.mjs';
+import { parseWdqs, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -70,12 +70,9 @@ const QUERY = `SELECT DISTINCT ?item ?itemLabel ?coord ?sl ?enwiki ?inception ?m
 }`;
 
 /** "+1147-04-11T00:00:00Z" -> 1147 ; "-0204-..." -> -204. */
+/** The shared WDQS year parse (BCE years are corrected afterwards — see wdqsYear). */
 export function yearOf(iso) {
-  if (!iso) return null;
-  const m = /^([+-]?)0*(\d+)/.exec(iso);
-  if (!m) return null;
-  const y = parseInt(m[2], 10);
-  return m[1] === '-' ? -y : y;
+  return wdqsYear(iso);
 }
 
 const parseCoord = (wkt) => {

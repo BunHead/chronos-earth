@@ -65,7 +65,7 @@
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings } from './lib/wdqs-json.mjs';
+import { wdqsBindings, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, '..', 'public', 'data', 'imported');
@@ -310,12 +310,8 @@ async function runQuery(sparql) {
 }
 
 /** "+1889-01-01T00:00:00Z" → 1889 ; "-0044-..." → -44 (matches our BCE convention). */
-function parseYear(iso) {
-  const m = /^([+-]?)0*(\d+)/.exec(iso);
-  if (!m) return null;
-  const y = parseInt(m[2], 10);
-  return m[1] === '-' ? -y : y;
-}
+/** The shared WDQS year parse (BCE years are corrected afterwards — see wdqsYear). */
+const parseYear = (iso) => wdqsYear(iso);
 
 /** "Point(lon lat)" → { lon, lat }. */
 function parseCoord(wkt) {

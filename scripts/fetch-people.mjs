@@ -65,7 +65,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings } from './lib/wdqs-json.mjs';
+import { wdqsBindings, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -151,7 +151,10 @@ function buildQuery(qids, humans, band = null) {
   // squad does not. It costs us living figures of real weight, which is the
   // price. To take them back, delete this line.
   const dead = humans ? '?item wdt:P570 ?dod .' : '';
-  return `SELECT ?item ?itemLabel ?coord ?date ?sl ?enwiki WHERE {
+  // ?dod is SELECTED as well as required. It was required and thrown away:
+  // on 26 Sept 2026 only 24 of 17,091 people had a death year, so the globe
+  // guessed a lifespan for everyone — Napoleon stood on it into the 1850s.
+  return `SELECT ?item ?itemLabel ?coord ?date ?dod ?sl ?enwiki WHERE {
   VALUES ?occ { ${qids.join(' ')} }
   ?item wdt:P106 ?occ .
   ${kind}
@@ -286,7 +289,8 @@ async function fetchComplete(qids, humans) {
   return [...byUri.values()];
 }
 
-const parseYear = (iso) => { const m = /^([+-]?)0*(\d+)/.exec(iso); return m ? (m[1] === '-' ? -+m[2] : +m[2]) : null; };
+/** The shared WDQS year parse (BCE years are corrected afterwards — see wdqsYear). */
+const parseYear = (iso) => wdqsYear(iso);
 const parseCoord = (w) => { const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(w); return m ? { lon: +m[1], lat: +m[2] } : null; };
 
 const json = JSON.parse(await readFile(FILE, 'utf-8'));
@@ -344,8 +348,12 @@ for (const occ of OCCUPATIONS) {
       const c = parseCoord(r.coord.value);
       const y = parseYear(r.date.value);
       if (!c || y === null || y < -3000 || y > NOW) continue;
+      // An unknown death date arrives as a blank node and parses to null.
+      const d = r.dod?.type === 'literal' ? parseYear(r.dod.value) : null;
+      const died = d !== null && d >= y && d <= NOW ? d : null;
       json.events.push({
-        id, name, startYear: y, lat: +c.lat.toFixed(4), lon: +c.lon.toFixed(4),
+        id, name, startYear: y, ...(died !== null ? { endYear: died } : {}),
+        lat: +c.lat.toFixed(4), lon: +c.lon.toFixed(4),
         category: 'person', wikidataId: qid,
         ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
         notability: +r.sl.value,

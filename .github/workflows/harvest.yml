@@ -162,6 +162,16 @@ jobs:
         # country check is an extra pass, and when WDQS is struggling a pass
         # that times out writes nothing — by design, never half a layer.
         run: timeout 40m node scripts/fetch-capitals.mjs || [ $? -eq 124 ]
+      - name: Put harvested BCE years right (idempotent)
+        if: '!cancelled()'
+        # WDQS writes precise BCE dates in astronomical years (Caesar's death,
+        # 44 BCE, arrives as -43) but coarse ones as entered, so no parser can
+        # fix it; this checks each row against Wikidata's own record. Before the
+        # merge, so duplicates are compared on corrected years. Its "already
+        # checked" list lives in scripts/data and is discarded below like the
+        # other caches, so each night re-checks ~1,000 rows (~30 s); a
+        # corrected year never matches again, so re-checking changes nothing.
+        run: timeout 10m node scripts/normalize-bce-years.mjs || [ $? -eq 124 ]
       - name: Merge places pinned twice (idempotent)
         if: '!cancelled()'
         # Each harvester dedupes against what it can see, and they see different

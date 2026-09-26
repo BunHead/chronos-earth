@@ -23,3 +23,24 @@ export function parseWdqs(text) {
 export async function wdqsBindings(res) {
   return parseWdqs(await res.text()).results.bindings;
 }
+
+/**
+ * The year of a WDQS date, as written: "-0043-03-13T…" → -43, "1821-…" → 1821.
+ *
+ * NOT CONVERTED, AND WHY. WDQS writes BCE dates in astronomical years (year 0
+ * is 1 BCE) — but only for dates recorded to the year, month or day. Measured
+ * on 26 Sept 2026 against Wikidata's own entity data: 444 precise BCE dates
+ * came back one year late (Caesar's death as -43, not -44), while 240 dates
+ * recorded only to the century or millennium came back unchanged (Jericho's
+ * -9600). The value alone cannot tell the two apart, so no conversion here
+ * can be right. scripts/normalize-bce-years.mjs corrects the harvested rows
+ * afterwards, per row, against the precision Wikidata records.
+ *
+ * Ten scripts each had their own copy of this parse; this is the one now.
+ */
+export function wdqsYear(iso) {
+  if (!iso) return null;
+  const m = /^([+-]?)0*(\d+)/.exec(iso);
+  if (!m) return null;
+  return m[1] === '-' ? -Number(m[2]) : Number(m[2]);
+}

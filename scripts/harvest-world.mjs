@@ -26,7 +26,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings } from './lib/wdqs-json.mjs';
+import { wdqsBindings, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = join(__dirname, '..', 'public', 'data');
@@ -202,9 +202,8 @@ async function main() {
       if (coreNames.has(norm(label)) || chunkNames.has(norm(label))) continue;
       const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
       if (!coord) continue;
-      const iso = /^([+-]?)0*(\d+)/.exec(b.date?.value ?? '');
-      if (!iso) continue;
-      const year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
+      const year = wdqsYear(b.date?.value); // the shared parse; see wdqsYear
+      if (year === null) continue;
       if (year > 2026 || year < -12000) continue;
       const typeQ = b.type?.value.split('/').pop();
       chunk.events.push({

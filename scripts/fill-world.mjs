@@ -10,6 +10,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -95,9 +96,8 @@ for (const box of BOXES) {
     if (!label || /^Q\d+$/.test(label)) continue;
     const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
     if (!coord) continue;
-    const iso = /^([+-]?)0*(\d+)/.exec(b.date?.value ?? '');
-    if (!iso) continue;
-    const year = (iso[1] === '-' ? -1 : 1) * parseInt(iso[2], 10);
+    const year = wdqsYear(b.date?.value); // the shared parse; see wdqsYear
+    if (year === null) continue;
     if (year > 2026 || year < -12000) continue;
     byId.set(qid, {
       id: 'q-w-' + qid,
