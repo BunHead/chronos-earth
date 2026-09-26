@@ -468,7 +468,7 @@ curated rows keep their Wikidata id in the core index (Lothal and Tunguska
 could be drawn twice).
 
 **Left for the Captain** (judgement calls, not bugs):
-- The destroyed Wonders (Temple of Artemis, the Pharos, the Colossus, the
+- ~~The destroyed Wonders~~ — DONE 26 Sept: they fade when nothing was left (Colossus 654, Artemis 401, Zeus 475, Pharos 1480, Mausoleum 1522); phone pins drawn at 70% below 600 px. Originally: (Temple of Artemis, the Pharos, the Colossus, the
   Statue of Zeus, the Mausoleum) still show in 2026 as "monuments stand
   forever". Fading them would also hide their 3D models in the present.
 - Pins on a phone are desktop-sized; Europe is crowded at 390 px.
