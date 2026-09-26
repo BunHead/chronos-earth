@@ -1,0 +1,198 @@
+<title>Chronos Earth Wiring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<style>
+  :root {
+    --bg: #f5efe4;
+    --panel: #fffaf1;
+    --ink: #2a2218;
+    --muted: #6f6454;
+    --line: #e2d7c3;
+    --gold: #a77b1f;
+    --gold-soft: #f1e2bd;
+    --blue: #2f6fae;
+    --warn: #b4531e;
+    --ok: #3d7a4a;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --bg: #15110c; --panel: #1f1912; --ink: #efe4cf; --muted: #a79a84; --line: #3a3024;
+      --gold: #d9ad4f; --gold-soft: #3a2e17; --blue: #7fb4ea; --warn: #e48a55; --ok: #7fc28c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme='dark'] {
+    --bg: #15110c; --panel: #1f1912; --ink: #efe4cf; --muted: #a79a84; --line: #3a3024;
+    --gold: #d9ad4f; --gold-soft: #3a2e17; --blue: #7fb4ea; --warn: #e48a55; --ok: #7fc28c;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 15px/1.5 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    padding-inline: 16px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 40px; display: grid; gap: 16px; }
+  header h1 { font: 700 28px/1.15 'Zilla Slab', Georgia, serif; margin: 0; text-wrap: balance; }
+  header p { margin: 4px 0 0; color: var(--muted); max-width: 70ch; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+  .stats b { color: var(--ink); font-weight: 600; }
+  .cols { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+  .list { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; max-height: 78vh; overflow: auto; }
+  .list input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: inherit; }
+  .list input:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .group h2 { font: 600 11px/1 'IBM Plex Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 8px 0 4px; }
+  .item { display: flex; justify-content: space-between; gap: 8px; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); padding: 5px 6px; border-radius: 6px; cursor: pointer; font: 13px/1.35 'IBM Plex Mono', ui-monospace, monospace; }
+  .item:hover { background: var(--gold-soft); }
+  .item[aria-current='true'] { background: var(--gold-soft); box-shadow: inset 3px 0 0 var(--gold); }
+  .item small { color: var(--muted); font-family: 'IBM Plex Sans', sans-serif; font-variant-numeric: tabular-nums; }
+  .detail { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 16px; min-width: 0; }
+  .kind { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--gold); text-transform: uppercase; }
+  .detail h2 { font: 700 22px/1.2 'Zilla Slab', Georgia, serif; margin: 2px 0 0; overflow-wrap: anywhere; }
+  .detail p.what { margin: 4px 0 0; color: var(--muted); }
+  .impact { border-left: 3px solid var(--warn); padding: 10px 14px; background: color-mix(in srgb, var(--warn) 8%, transparent); border-radius: 0 8px 8px 0; }
+  .impact strong { font-size: 18px; font-variant-numeric: tabular-nums; }
+  section h3 { font: 600 14px/1.3 'IBM Plex Sans', sans-serif; margin: 0 0 6px; }
+  section p.hint { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 3px 10px; font: 12px/1.4 'IBM Plex Mono', monospace; cursor: pointer; max-width: 100%; overflow-wrap: anywhere; text-align: left; }
+  .chip:hover { border-color: var(--gold); }
+  .chip.indirect { opacity: .75; border-style: dashed; }
+  .chip.test { border-color: color-mix(in srgb, var(--ok) 55%, var(--line)); }
+  .none { color: var(--muted); font-size: 13px; font-style: italic; }
+  footer { color: var(--muted); font-size: 12px; }
+  footer code { font-family: 'IBM Plex Mono', monospace; }
+  @media (prefers-reduced-motion: no-preference) { .detail { transition: opacity .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>How Chronos Earth is wired</h1>
+    <p>Pick any part of the site to see what it relies on and what could change if you edit it. Built from the code itself, so it is only as old as its last rebuild.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+  <div class="cols">
+    <nav class="list" aria-label="Parts of the site">
+      <input id="q" type="search" placeholder="Find a file, script or data…" aria-label="Find a part" />
+      <div id="groups"></div>
+    </nav>
+    <main class="detail" id="detail" aria-live="polite"></main>
+  </div>
+  <footer>Regenerate after changes: <code>node scripts/build-relationship-map.mjs</code>. Links are found by reading the code (imports, file names, workflow steps), so treat them as leads to check rather than proof.</footer>
+</div>
+
+<script>
+const GRAPH = /*__GRAPH__*/ null;
+const KINDS = {
+  data: ['Data file', 'Information the site loads — events, borders, creatures.'],
+  component: ['On-screen piece', 'Part of what visitors see and click: the globe, panels, menus.'],
+  lib: ['Logic', 'Behind-the-scenes rules and calculations the screen parts use.'],
+  script: ['Data-building script', 'Run on a computer (or overnight) to fetch or tidy data. Never runs in the visitor\'s browser.'],
+  workflow: ['Nightly workflow (GitHub)', 'Runs scripts automatically on GitHub\'s machines.'],
+  routine: ['Scheduled routine (Claude)', 'A weekly Claude sweep — modeller, choreographer, roadmap, Patreon.'],
+  test: ['Test', 'An automatic check that fails if something breaks.'],
+  other: ['Other', ''],
+};
+const PLURAL = { data: 'data files', component: 'on-screen pieces', lib: 'logic modules', script: 'data-building scripts', workflow: 'GitHub workflows', routine: 'Claude routines', test: 'tests', other: 'other' };
+const ORDER = ['data', 'component', 'lib', 'script', 'workflow', 'routine', 'test', 'other'];
+const byId = new Map(GRAPH.nodes.map((n) => [n.id, n]));
+// "affects" edges: if A changes, B may be affected.
+const affects = new Map();
+const add = (a, b) => { if (!affects.has(a)) affects.set(a, new Set()); affects.get(a).add(b); };
+for (const e of GRAPH.edges) {
+  if (e.kind === 'imports') add(e.to, e.from);
+  else if (e.kind === 'writes') add(e.from, e.to);
+  else if (e.kind === 'reads') { if (byId.get(e.from)?.kind === 'data') add(e.from, e.to); else add(e.to, e.from); }
+  else if (e.kind === 'runs') add(e.to, e.from);
+  else if (e.kind === 'tests') add(e.to, e.from);
+}
+const reliesOn = new Map();
+for (const [a, bs] of affects) for (const b of bs) { if (!reliesOn.has(b)) reliesOn.set(b, new Set()); reliesOn.get(b).add(a); }
+
+function impactOf(id) {
+  const direct = [...(affects.get(id) ?? [])];
+  const seen = new Set([id, ...direct]);
+  const queue = [...direct];
+  const indirect = [];
+  while (queue.length) {
+    const x = queue.shift();
+    for (const y of affects.get(x) ?? []) if (!seen.has(y)) { seen.add(y); indirect.push(y); queue.push(y); }
+  }
+  return { direct, indirect };
+}
+const label = (id) => id.replace(/^src\//, '').replace(/^data\//, 'data: ');
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+let current = byId.has('data/imported/events.json') ? 'data/imported/events.json' : GRAPH.nodes[0].id;
+
+function renderList() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const groups = document.getElementById('groups');
+  groups.innerHTML = '';
+  for (const k of ORDER) {
+    const items = GRAPH.nodes.filter((n) => n.kind === k && (!q || n.id.toLowerCase().includes(q)))
+      .sort((a, b) => a.id.localeCompare(b.id));
+    if (!items.length) continue;
+    const g = document.createElement('div');
+    g.className = 'group';
+    g.innerHTML = `<h2>${esc(KINDS[k][0])} · ${items.length}</h2>`;
+    for (const n of items) {
+      const b = document.createElement('button');
+      b.className = 'item';
+      b.type = 'button';
+      if (n.id === current) b.setAttribute('aria-current', 'true');
+      const hit = impactOf(n.id);
+      b.innerHTML = `<span>${esc(label(n.id))}</span><small title="parts affected if this changes">${hit.direct.length + hit.indirect.length}</small>`;
+      b.addEventListener('click', () => select(n.id));
+      g.appendChild(b);
+    }
+    groups.appendChild(g);
+  }
+}
+
+function chips(ids, cls = '') {
+  if (!ids.length) return '<p class="none">None.</p>';
+  return `<div class="chips">${ids.sort().map((id) => `<button type="button" class="chip ${cls} ${byId.get(id)?.kind === 'test' ? 'test' : ''}" data-id="${esc(id)}">${esc(label(id))}</button>`).join('')}</div>`;
+}
+
+function select(id) {
+  current = id;
+  const n = byId.get(id);
+  const { direct, indirect } = impactOf(id);
+  const affected = [...direct, ...indirect];
+  const tests = affected.filter((x) => byId.get(x)?.kind === 'test');
+  const onScreen = affected.filter((x) => byId.get(x)?.kind === 'component');
+  const relies = [...(reliesOn.get(id) ?? [])].filter((x) => !['workflow', 'routine'].includes(byId.get(x)?.kind));
+  const runners = [...(reliesOn.get(id) ?? [])].filter((x) => ['workflow', 'routine'].includes(byId.get(x)?.kind));
+  const [kname, kwhat] = KINDS[n.kind] ?? KINDS.other;
+  const d = document.getElementById('detail');
+  d.innerHTML = `
+    <div>
+      <span class="kind">${esc(kname)}</span>
+      <h2>${esc(label(id))}</h2>
+      <p class="what">${esc(kwhat)}${n.lines ? ` · ${n.lines.toLocaleString()} lines` : ''}</p>
+    </div>
+    <div class="impact">If you change this, <strong>${affected.length}</strong> other part${affected.length === 1 ? '' : 's'} may be affected —
+      ${onScreen.length} on screen, and <strong>${tests.length}</strong> test${tests.length === 1 ? '' : 's'} would catch a break.
+      ${tests.length === 0 && affected.length > 0 ? '<br><em>No test covers this chain — check it by hand.</em>' : ''}</div>
+    <section><h3>Affected directly</h3><p class="hint">These use it, read it, or are built from it.</p>${chips(direct.filter((x) => byId.get(x)?.kind !== 'test'))}</section>
+    <section><h3>Affected further along</h3><p class="hint">Knock-on effects: parts that use the parts above.</p>${chips(indirect.filter((x) => byId.get(x)?.kind !== 'test'), 'indirect')}</section>
+    <section><h3>Tests that would notice</h3>${chips(tests)}</section>
+    <section><h3>It relies on</h3>${chips(relies)}</section>
+    ${runners.length ? `<section><h3>Run automatically by</h3>${chips(runners)}</section>` : ''}
+  `;
+  d.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => select(c.dataset.id)));
+  renderList();
+  try { localStorage.setItem('wiring.current', id); } catch {}
+}
+
+document.getElementById('q').addEventListener('input', renderList);
+const counts = ORDER.map((k) => [k, GRAPH.nodes.filter((n) => n.kind === k).length]).filter(([, c]) => c);
+document.getElementById('stats').innerHTML =
+  counts.map(([k, c]) => `<span><b>${c}</b> ${esc(PLURAL[k] ?? KINDS[k][0].toLowerCase())}</span>`).join('') +
+  `<span><b>${GRAPH.edges.length}</b> links</span><span>built ${esc(GRAPH.built.slice(0, 10))}</span>`;
+try { const saved = localStorage.getItem('wiring.current'); if (saved && byId.has(saved)) current = saved; } catch {}
+select(current);
+</script>
