@@ -261,7 +261,13 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     };
     sections.push({
       heading: roles.length > 1 ? 'Capital of' : 'A capital',
-      bullets: roles.filter((r) => r.of).map((r) => `${r.of} · ${span(r)}`),
+      // What it is capital of NOW leads: Paris listed the Fourth Republic,
+      // Vichy and two empires before "France · from 481".
+      bullets: roles
+        .filter((r) => r.of)
+        .slice()
+        .sort((a, b) => Number(a.to !== null) - Number(b.to !== null) || (b.from ?? -1e9) - (a.from ?? -1e9))
+        .map((r) => `${r.of} · ${span(r)}`),
     });
   }
   if (e.attestation) {

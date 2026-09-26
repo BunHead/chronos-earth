@@ -196,3 +196,17 @@ it('a dispute note appears only once the dispute exists', () => {
   expect(placeDossierPanel(23.7, 121, 2026, 'Taiwan', [], () => {}).sections?.[0].heading).toBe('Disputed territory');
   expect(placeDossierPanel(24.2, -13, 2026, 'Western Sahara', [], () => {}).sections).toBeDefined();
 });
+
+it('a capital lists what it is capital of NOW first', () => {
+  const paris = {
+    id: 'q90', name: 'Paris', category: 'city', startYear: -300, lat: 48.86, lon: 2.35,
+    capitalOf: [
+      { of: 'French Fourth Republic', from: 1946, to: 1958 },
+      { of: 'Kingdom of France', from: 987, to: 1791 },
+      { of: 'France', from: 481, to: null },
+    ],
+  } as unknown as TimelineEvent;
+  const sec = eventToPanel(paris).sections?.find((s) => s.heading === 'Capital of');
+  expect(sec?.bullets?.[0]).toMatch(/^France · from/);
+  expect(sec?.bullets?.[1]).toMatch(/^French Fourth Republic/);
+});
