@@ -53,7 +53,7 @@ from HN/Reddit — draft only.
 | disaster | 530 | 1,114 | 1,114 | **1,115** |
 | discovery | 37 | 584 | 584 | **585** |
 | invention | 28 | 67 | 67 | **67** |
-| tests | 392 | 402 | 402 | **480** |
+| tests | 392 | 402 | 402 | **503** |
 
 ---
 
@@ -403,6 +403,78 @@ item below — Petra, Cusco, Benin City and Mesa Verde are four of the 88.**
 
 ---
 
+## 26 Sept: dates, playback, search — what changed and what to watch
+
+**BCE YEARS FROM WDQS ARE ASTRONOMICAL — BUT ONLY WHEN PRECISE.** The query
+service writes a BCE date recorded to the year, month or day with year 0 = 1
+BCE, so Caesar's death (44 BCE) arrives as `-0043`. A date recorded only to
+the century or millennium arrives as entered (Jericho, `-9600`). Measured
+against Wikidata's own entity data: 444 precise statements a year late, 240
+coarse ones right. The value alone cannot tell them apart, so:
+- `scripts/lib/wdqs-json.mjs` has ONE parser, `wdqsYear()` (it replaced ten
+  copies) — it reads the digits as written — and `wdqsYearAt(iso, precision)`,
+  which undoes the shift exactly when the precision is known.
+- `fetch-capitals` asks for precision (value nodes) and uses `wdqsYearAt`, so
+  capital roles and country lifespans are right at source.
+- Everything else is corrected after harvest by `normalize-bce-years.mjs`
+  (nightly, before the merge): each harvested BCE row is checked against
+  Wikidata's own record and moved only where it is provably the late copy of a
+  precise date. 1,152 years moved on 26 Sept. Curated rows (hand-read years —
+  Beijing's -1045) are never touched. If you add a NEW harvester, route its
+  years through `wdqsYear` and it is covered.
+- `src/lib/bceYears.test.ts` pins the famous dates: Caesar 100–44 BCE,
+  Gaugamela 331, Confucius 551, Classical Athens 508–322.
+
+**People have death years** (16,974 of 17,091). `fetch-people` required a
+date of death and threw it away; it keeps it now, and `add-death-years.mjs`
+back-filled (it replaced `enrich-people-death.mjs`, which nothing ran). A
+person now leaves the map when they died, and panels show a lifespan.
+
+**Dedupe never merges two different Wikipedia articles.** Sault Ste. Marie,
+Michigan and Ontario (4 km apart, twin towns) were one core name; closer dates
+would have deleted one. The date-disputes list is now EMPTY — the "88" below is
+history.
+
+**Playback, profiled** (`scripts/play-probe.mjs` watches the main thread while
+the timeline plays):
+- Markers ground-clamp only below 1,200 km. Clamping ray-cast the terrain for
+  every billboard AND every label glyph on every marker hand-over — ~1,000 a
+  second, the largest single cost. The globe does not depth-test against
+  terrain, so a sea-level marker under the Himalaya still draws.
+- The horizon test is prepared once per pass; the in-view set is reused while
+  the camera is still; smoothed border rings are cached; the disaster list is
+  made once. Together roughly 2.5 s of main-thread work saved per 6–10 s of
+  playback.
+- **An intermittent multi-minute stall remains**, seen twice in headless D3D11.
+  Pausing the JS engine during it showed NO script running — it is the driver
+  compiling the globe's 69 KB surface shader for a new layer combination
+  (TEXTURE_UNITS 25/26: one coarse terrain tile covered by many finer imagery
+  tiles). Cesium behaviour, not ours; unconfirmed on the Captain's machine.
+
+**Search**: the place you typed ranks first (Delphi before Philadelphia; one
+tier table, `src/lib/searchRank.ts`); arrow keys walk the list; two identical
+rows show coordinates; "look it up online" opens a place already on the globe
+instead of pinning it twice, and badges an unlisted building a monument.
+
+**Countries**: picking one flies to where it was THAT year (Rome in 500 BCE is
+the city, not its 200 BCE sprawl) — the index carries a year's own point where
+the latest one would miss. "Unknown", "unclaimed" and "?" are placeholders, not
+polities: no title, label or search result. Northern Cyprus, Western Sahara and
+Taiwan got neutral dispute notes, each true only from its own year.
+
+**Small**: phone layout (search on its own row below 480 px); a capital lists
+what it is capital of NOW first; the Byzantine Empire marker ends in 1453;
+curated rows keep their Wikidata id in the core index (Lothal and Tunguska
+could be drawn twice).
+
+**Left for the Captain** (judgement calls, not bugs):
+- The destroyed Wonders (Temple of Artemis, the Pharos, the Colossus, the
+  Statue of Zeus, the Mausoleum) still show in 2026 as "monuments stand
+  forever". Fading them would also hide their 3D models in the present.
+- Pins on a phone are desktop-sized; Europe is crowded at 390 px.
+
+---
+
 ## 22–25 Sept: capitals, borders, names — what changed and what to watch
 
 **Capitals are yellow only for a COUNTRY'S capital.** `scripts/fetch-capitals.mjs`
@@ -484,7 +556,7 @@ rebasing — a dirty cache there once cost 847 cities.
    failed**, so a totally dead harvest goes red, but a PARTIAL failure stays
    green by design. Some "traditional" sweeps still 504 most nights; that is
    expected and costs nothing.
-3. **88 curation calls only the Captain can make**, listed in
+3. ~~**88 curation calls only the Captain can make**~~ — resolved: the list is empty as of 26 Sept (Pleiades buckets are not disputes, and two different articles are two places). Originally listed in
    `public/data/date-disagreements.json`. Each is one place with two rows a few
    hundred metres apart that **disagree about the founding date**. Petra, Cusco,
    Benin City and Mesa Verde are four of them. Both rows stand; picking one
