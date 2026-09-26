@@ -3265,8 +3265,10 @@ textarea:focus-visible,
    tick-boxes 13×13, menu rows 31 px, the speed picker 28 px, the playhead
    22 px. 44 px is the usual minimum for a finger. Touch-first AND narrow —
    the same test as lib/renderTier isPhone — so a PC, even a touchscreen
-   laptop, keeps its layout exactly. */
-@media (max-width: 600px) and (pointer: coarse) {
+   laptop, keeps its layout exactly. Keyed on data-phone (set in main.tsx
+   from isPhone), NOT the page width: in Chrome's "Desktop site" mode a
+   phone lays the page out ~980 px wide and a width test never fires. */
+:root[data-phone] {
   .app-menu-journeys,
   .app-menu-btn {
     min-width: 44px;
@@ -3343,11 +3345,9 @@ textarea:focus-visible,
    • The panel was 208 px for ~222 px of content: the rail was cut off at the
      screen's bottom edge — which on Android is the swipe-home gesture zone.
    • The rail ran edge to edge, so the playhead's ends sat under the bezel.
-   Touch phones only (same test as isPhone); a PC is untouched. */
-@media (max-width: 600px) and (pointer: coarse) {
-  :root {
-    --timeline-height: 262px;
-  }
+   Touch phones only (data-phone, set from isPhone); a PC is untouched. */
+:root[data-phone] {
+  --timeline-height: 262px;
   .track,
   .track-wrap,
   .playhead,
@@ -3364,4 +3364,17 @@ textarea:focus-visible,
   .timeline.zoomed .track.minimap {
     height: 36px;
   }
+}
+
+/* Shown on a phone whose browser is in "Desktop site" mode (see main.tsx). */
+.desktop-site-hint {
+  position: fixed; left: 8px; right: 8px; top: 8px; z-index: 9999;
+  padding: 14px 44px 14px 16px; border-radius: 12px;
+  background: #2a2114; color: #f5e7c8; border: 1px solid var(--gold, #c9a24b);
+  font-size: 28px; line-height: 1.35; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+.desktop-site-hint b { color: #ffd98a; }
+.desktop-site-hint button {
+  position: absolute; top: 6px; right: 8px; width: 40px; height: 40px;
+  background: none; border: none; color: inherit; font-size: 32px; cursor: pointer;
 }
