@@ -141,3 +141,20 @@ describe('parseBindings — shaping raw Wikidata rows', () => {
     expect(out.some((e) => e.wikidataId === 'Q313')).toBe(true); // the last real town
   });
 });
+
+describe('a building no table names is still a building', () => {
+  it('an architectural structure with an unlisted type is a monument, not an event', () => {
+    // Kedleston Hall: P31 "English country house", not in TYPE_CATEGORY.
+    const b: Binding = {
+      item: { value: 'http://www.wikidata.org/entity/Q1740316' },
+      itemLabel: { value: 'Kedleston Hall' },
+      coord: { value: 'Point(-1.537 52.960)' },
+      date: { value: '1765-01-01T00:00:00Z' },
+      sitelinks: { value: '12' },
+      type: { value: 'http://www.wikidata.org/entity/Q1802963' },
+      isBuilt: { value: 'true' },
+    };
+    expect(parseBindings([b], 2026)[0].category).toBe('monument');
+    expect(parseBindings([{ ...b, isBuilt: { value: 'false' } }], 2026)[0].category).toBe('event');
+  });
+});

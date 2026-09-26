@@ -77,10 +77,16 @@ export function parseBindings(bindings: Binding[], nowYear: number, fallbackYear
   // that also carries an admin type (e.g. Paris is a "commune of France")
   // keeps its proper category and survives.
   const adminIds = new Set<string>();
+  // Anything Wikidata classes as an architectural structure (Q811979) is a
+  // monument when no direct type says otherwise: Kedleston Hall is an
+  // "English country house", which the table above does not name, and was
+  // badged a generic event (26 Sept 2026).
+  const builtIds = new Set<string>();
   for (const b of bindings) {
     const qid = b.item?.value.split('/').pop();
     if (!qid) continue;
     if (b.isAdmin?.value === 'true') adminIds.add(qid);
+    if (b.isBuilt?.value === 'true') builtIds.add(qid);
     const typeQ = b.type?.value.split('/').pop();
     const cat = typeQ ? TYPE_CATEGORY[typeQ] : undefined;
     const existing = byId.get(qid);
@@ -115,6 +121,10 @@ export function parseBindings(bindings: Binding[], nowYear: number, fallbackYear
     });
   }
   // Boring admin regions that never earned a real badge get pruned.
+  for (const id of builtIds) {
+    const e = byId.get(id);
+    if (e?.category === 'event') e.category = 'monument';
+  }
   for (const id of adminIds) {
     if (byId.get(id)?.category === 'event') byId.delete(id);
   }
@@ -177,13 +187,14 @@ async function runByName(query: string): Promise<TimelineEvent[]> {
     const qids = (sjson.search ?? []).map((s) => s.id).filter((id) => /^Q\d+$/.test(id));
     if (!qids.length) return [];
     const values = qids.map((q) => `wd:${q}`).join(' ');
-    const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin WHERE {
+    const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin ?isBuilt WHERE {
   VALUES ?item { ${values} }
   ?item wdt:P625 ?coord .
   OPTIONAL { { ?item wdt:P571 ?date . } UNION { ?item wdt:P585 ?date . } UNION { ?item wdt:P580 ?date . } UNION { ?item wdt:P1619 ?date . } }
   ?item wikibase:sitelinks ?sitelinks .
   OPTIONAL { ?item wdt:P31 ?type . }
   BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q56061 } AS ?isAdmin)
+  BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q811979 } AS ?isBuilt)
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 ORDER BY DESC(?sitelinks)`;
@@ -205,7 +216,7 @@ async function run(lat: number, lon: number): Promise<TimelineEvent[]> {
   const east = lon + BOX_DEG;
   const south = Math.max(-89, lat - BOX_DEG);
   const north = Math.min(89, lat + BOX_DEG);
-  const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin WHERE {
+  const sparql = `SELECT ?item ?itemLabel ?coord ?date ?sitelinks ?type ?isAdmin ?isBuilt WHERE {
   SERVICE wikibase:box {
     ?item wdt:P625 ?coord .
     bd:serviceParam wikibase:cornerSouthWest "Point(${west} ${south})"^^geo:wktLiteral .
@@ -216,6 +227,7 @@ async function run(lat: number, lon: number): Promise<TimelineEvent[]> {
   FILTER(?sitelinks >= 8)
   OPTIONAL { ?item wdt:P31 ?type . }
   BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q56061 } AS ?isAdmin)
+  BIND(EXISTS { ?item wdt:P31/wdt:P279* wd:Q811979 } AS ?isBuilt)
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 ORDER BY DESC(?sitelinks)
