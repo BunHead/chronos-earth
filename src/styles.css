@@ -3334,3 +3334,34 @@ textarea:focus-visible,
     border-radius: 50%;
   }
 }
+
+/* ── PHONE: a timeline you can actually drag ──────────────────────────────────
+   "Buttons and timeline are hard to use" (the Captain, Pixel 8 Pro, 26 Sept
+   2026). Three causes, all measured at 412 px:
+   • The rail had no touch-action, so the browser claimed a sideways drag as
+     its own gesture and cancelled ours a few pixels in.
+   • The panel was 208 px for ~222 px of content: the rail was cut off at the
+     screen's bottom edge — which on Android is the swipe-home gesture zone.
+   • The rail ran edge to edge, so the playhead's ends sat under the bezel.
+   Touch phones only (same test as isPhone); a PC is untouched. */
+@media (max-width: 600px) and (pointer: coarse) {
+  :root {
+    --timeline-height: 262px;
+  }
+  .track,
+  .track-wrap,
+  .playhead,
+  .rail,
+  .detail-rail {
+    touch-action: none;
+  }
+  .track-wrap {
+    padding: 0 20px calc(30px + env(safe-area-inset-bottom, 0px));
+  }
+  .track.minimap {
+    height: 64px;
+  }
+  .timeline.zoomed .track.minimap {
+    height: 36px;
+  }
+}
