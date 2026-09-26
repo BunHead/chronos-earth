@@ -964,6 +964,9 @@ textarea:focus-visible,
 }
 .search-results li button.active { box-shadow: inset 2px 0 0 var(--accent); }
 
+/* Shown only until the full search index has arrived. */
+.search-pending { padding: 6px 10px; font-size: 12px; color: var(--text-dim, #9aa3ad); font-style: italic; }
+
 /* The "look it up online" row, set apart at the foot of the results. */
 .search-web { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 4px; }
 .search-web .search-label { color: var(--accent); }

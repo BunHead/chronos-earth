@@ -103,6 +103,11 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   // already in memory appear instantly; these widen them a moment later,
   // which is why this is a separate list rather than something to await.
   const [indexRows, setIndexRows] = useState<SearchRow[]>([]);
+  // False until the full index has arrived. On a first visit it is 2.7 MB
+  // fetched alongside everything the site caches for offline use, and took
+  // more than ten seconds in a test from the live site (26 Sept 2026) — long
+  // enough that "Holland" found only two counts of Holland and no country.
+  const [indexReady, setIndexReady] = useState(false);
   const [countries, setCountries] = useState<CountryIndex | null>(null);
   // Folded once when the index arrives, not ~50,000 times per keystroke.
   const foldedIndex = useMemo(() => indexRows.map((r) => fold(r.name)), [indexRows]);
@@ -110,7 +115,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   const wantIndex = () => {
     if (asked.current) return;
     asked.current = true;
-    void loadSearchIndex(baseUrl).then(setIndexRows);
+    void loadSearchIndex(baseUrl).then((rows) => { setIndexRows(rows); setIndexReady(true); });
     void loadCountryIndex(baseUrl).then(setCountries);
   };
   // Someone who arrives by keyboard (tab into the box, or the / shortcut) and
@@ -320,6 +325,9 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
               </button>
             </li>
           ))}
+          {!indexReady && (
+            <li className="search-pending" aria-live="polite">Still fetching the whole globe’s index — more results in a moment…</li>
+          )}
           <li className="search-web" role="option" id={`search-row-${results.length}`} aria-selected={active === results.length}>
             <button tabIndex={-1} className={active === results.length ? 'active' : undefined} onMouseDown={doWeb}>
               <span className="search-badge">🌐 Web</span>
