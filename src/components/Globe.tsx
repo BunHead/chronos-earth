@@ -127,7 +127,16 @@ function easeOutBack(t: number): number {
 /** Pins on a phone. Sized for a desktop, they crowded a 390-px screen — Europe
  * at 2,500 km was more pin than map — so below 600 px every marker, and the
  * gap to its label, is drawn at 70% (the Captain's call, 26 Sept 2026). */
-const PIN = typeof window !== 'undefined' && window.matchMedia?.('(max-width: 600px)').matches ? 0.7 : 1;
+// REVISED the same day, on the Captain's screenshot: "icons all too small —
+// double the size at least". Now keyed on the DEVICE (isPhone), not the page
+// width: in Chrome's "Desktop site" mode a phone lays the page out ~980 px
+// wide and shrinks it to fit, so a width test never fires and everything is
+// drawn at desktop size and then shrunk. `zoomOut` undoes that shrink.
+const zoomOut =
+  typeof window !== 'undefined' && isPhone()
+    ? Math.max(1, window.innerWidth / Math.min(window.screen.width, window.screen.height))
+    : 1;
+const PIN = isPhone() ? 1.4 * zoomOut : 1;
 
 /** Marker scale grows with fame, so Waterloo outranks a skirmish at a glance. */
 function fameScale(notability: number | undefined, base: number): number {
