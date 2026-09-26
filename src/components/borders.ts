@@ -223,6 +223,17 @@ function projector(w: number, h: number) {
  * holes) into the current path; returns false for dateline-wrap artifacts,
  * which we skip.
  */
+/** Smoothed rings, remembered against the raw ring they came from. A frame is
+ * traced more than once (fill, outline, the close-up detail pass) and
+ * densifyRing was ~5% of main-thread time during playback (26 Sept 2026).
+ * Weak, so a ring's smoothed copy goes when its frame's data does. */
+const smoothed = new WeakMap<number[][], number[][]>();
+const smoothRing = (raw: number[][]): number[][] => {
+  let s = smoothed.get(raw);
+  if (!s) { s = densifyRing(raw); smoothed.set(raw, s); }
+  return s;
+};
+
 function makeTracer(
   ctx: CanvasRenderingContext2D,
   w: number,
@@ -243,7 +254,7 @@ function makeTracer(
     if (maxX - minX > 200) return false;
     ctx.beginPath();
     for (const raw of poly) {
-      const ring = smooth ? densifyRing(raw) : raw;
+      const ring = smooth ? smoothRing(raw) : raw;
       for (let i = 0; i < ring.length; i++) {
         const [x, y] = project(ring[i][0], ring[i][1]);
         if (i === 0) ctx.moveTo(x, y);
