@@ -109,8 +109,3 @@ export function relatedFor(
   }
   return out;
 }
-
-/** The other direction: which videos talk about this event? */
-export function videosCovering(eventId: string, videos: VideoPin[]): VideoPin[] {
-  return videos.filter((v) => (v.covers ?? []).includes(eventId));
-}

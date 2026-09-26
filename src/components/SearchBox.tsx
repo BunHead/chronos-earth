@@ -5,6 +5,7 @@ import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex'
 import type { VideoPin } from '../lib/videos';
 import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
 import { matchTier } from '../lib/searchRank';
+import { yearLabel } from '../lib/panel';
 
 interface SearchBoxProps {
   sites: AncientSite[];
@@ -42,7 +43,6 @@ const EVENT_BADGE: Record<string, string> = {
   event: '📜 Event',
 };
 
-const yearLabel = (y: number) => (y < 0 ? `${-y} BCE` : `${y} CE`);
 
 /**
  * Fold a name to plain ASCII letters so an English keyboard can reach it.

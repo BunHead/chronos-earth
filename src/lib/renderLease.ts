@@ -134,11 +134,6 @@ export function holdContinuousRender(): () => void {
   };
 }
 
-/** How many leases are outstanding — for tests and diagnostics. */
-export function continuousRenderHolds(): number {
-  return held;
-}
-
 /** Ask for a single frame. Safe to call when no viewer is bound. */
 export function requestFrame(): void {
   try {

@@ -19,11 +19,6 @@ export function setEclipseShadowState(s: ShadowState | null): void {
   current = s;
 }
 
-/** The shadow now on the globe, if any. */
-export function eclipseShadowState(): ShadowState | null {
-  return current;
-}
-
 /**
  * Fraction of the sun covered at a place, 0..1 — 0 whenever no eclipse is being
  * shown at all, so callers can multiply by it unconditionally.

@@ -38,10 +38,6 @@ export function setBattleFigureDensity(d: number): void {
   figureDensity = clampDensity(d);
 }
 
-export function battleFigureDensity(): number {
-  return figureDensity;
-}
-
 /** Effects shrink as you pull back so the terrain always stays readable
  * (the Captain's D-Day was disappearing under its own smoke). */
 function fxScaleByDistance(): Cesium.NearFarScalar {

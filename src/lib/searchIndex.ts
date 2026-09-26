@@ -118,8 +118,3 @@ export function loadSearchIndex(baseUrl: string): Promise<SearchRow[]> {
   })();
   return cache;
 }
-
-/** Test seam — the module-level cache would otherwise leak between cases. */
-export function resetSearchIndexCache(): void {
-  cache = null;
-}

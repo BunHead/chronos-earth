@@ -93,8 +93,3 @@ export const GLYPHS: Record<string, string> = {
 
 /** Every mark shares one box, so the panel and the canvas agree on scale. */
 export const GLYPH_BOX = 24;
-
-/** True when a mark exists — callers fall back to their old emoji if not. */
-export function hasGlyph(name: string): boolean {
-  return Object.prototype.hasOwnProperty.call(GLYPHS, name);
-}

@@ -119,11 +119,6 @@ export function renderTier(): RenderTier {
   return cached;
 }
 
-/** Test seam. */
-export function __setRenderTier(t: RenderTier | null): void {
-  cached = t;
-}
-
 /**
  * Size of a full-globe equirectangular texture for this tier.
  *

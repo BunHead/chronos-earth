@@ -185,7 +185,8 @@ export function siteToPanel(site: AncientSite): PanelContent {
 }
 
 /** Format a signed year as a readable label, e.g. -323 -> "323 BCE". */
-function yearLabel(year: number): string {
+/** "44 BCE" / "1066 CE" — the one year label, shared with the search box. */
+export function yearLabel(year: number): string {
   return year < 0 ? `${-year} BCE` : `${year} CE`;
 }
 
@@ -320,30 +321,6 @@ export function faunaToPanel(f: Fauna): PanelContent {
     summary: f.blurb,
     links: [{ label: `Read about ${f.name} on Wikipedia`, url: wiki }],
     fly: { lon: f.lon, lat: f.lat, altitude: 6_000_000 },
-  };
-}
-
-/**
- * Build panel content for a clicked political entity. The dataset only gives us
- * a name, so we add a plain-language note and a Wikipedia search link rather
- * than inventing facts.
- */
-export function polityToPanel(
-  name: string,
-  snapshotYear: number,
-  lon: number,
-  lat: number,
-): PanelContent {
-  const wiki = `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(name)}`;
-  return {
-    kicker: `Political entity · ${yearLabel(snapshotYear)} map`,
-    title: name,
-    date: `Borders shown for ${yearLabel(snapshotYear)}`,
-    summary:
-      `This is the territory of ${name} as mapped around ${yearLabel(snapshotYear)}. ` +
-      `Drag the timeline to watch how its borders change as empires rise and fall.`,
-    links: [{ label: `Search Wikipedia for ${name}`, url: wiki }],
-    fly: { lon, lat, altitude: 3_500_000 },
   };
 }
 
