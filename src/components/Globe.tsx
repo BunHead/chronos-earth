@@ -1811,6 +1811,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.
+  // The disasters, picked out once per data change rather than by scanning
+  // every loaded event on every timeline tick of playback.
+  const disasterEvents = useMemo(() => events.filter((ev) => ev.category === 'disaster'), [events]);
   const prevBPRef = useRef(currentYearsBP);
   useEffect(() => {
     const prev = prevBPRef.current;
@@ -1832,8 +1835,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         budget--;
       }
     }
-    for (const ev of events) {
-      if (ev.category !== 'disaster' || budget <= 0) continue;
+    for (const ev of disasterEvents) {
+      if (budget <= 0) break;
       const bp = yearToYearsBP(ev.startYear);
       if (!crossed(bp) || playedFxRef.current.has(ev.id)) continue;
       playedFxRef.current.add(ev.id);
@@ -1841,7 +1844,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       fx.play(disasterKindFor(ev.name), ev.lon, ev.lat, radius);
       budget--;
     }
-  }, [currentYearsBP, events]);
+  }, [currentYearsBP, disasterEvents]);
 
   return <div className="globe" ref={containerRef} role="main" aria-label="Interactive history globe" />;
 });
