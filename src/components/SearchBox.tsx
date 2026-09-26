@@ -75,7 +75,12 @@ interface Result {
   sub: string;
   badge: string;
   run: () => void;
+  /** Where it is, shown only to tell apart two rows that would read the same. */
+  at?: { lat: number; lon: number };
 }
+
+const coord = ({ lat, lon }: { lat: number; lon: number }) =>
+  `${Math.abs(lat).toFixed(1)}°${lat >= 0 ? 'N' : 'S'} ${Math.abs(lon).toFixed(1)}°${lon >= 0 ? 'E' : 'W'}`;
 
 /**
  * SearchBox
@@ -218,6 +223,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     for (const m of ranked.slice(0, Math.max(3, 9 - out.length))) {
       taken.add(norm(m.name));
       const startYear = m.ev ? m.ev.startYear : m.row!.startYear;
+      const src = m.ev ?? m.row!;
       const category = m.ev ? m.ev.category : m.row!.category;
       out.push({
         key: m.ev ? `ev-${m.ev.id}` : `ix-${m.row!.id}`,
@@ -225,6 +231,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         sub: yearLabel(startYear),
         badge: EVENT_BADGE[category] ?? 'Event',
         run: m.ev ? () => onPickEvent(m.ev!) : () => onPickEvent(rowToEvent(m.row!)),
+        at: { lat: src.lat, lon: src.lon },
       });
     }
 
@@ -250,7 +257,12 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         out.push({ key: `f-${f.id}`, label: f.name, sub: `${f.fromMa}–${f.toMa} Mya`, badge: '🦕 Creature', run: () => onPickFauna(f) });
       }
     }
-    return out.slice(0, 9);
+    // Two different places can share a name and a year — Pleiades has two
+    // Delphinions of 550 BCE. Rows that would read identically say where.
+    const shown = out.slice(0, 9);
+    const seen = new Map<string, number>();
+    for (const r of shown) seen.set(r.label + '|' + r.sub, (seen.get(r.label + '|' + r.sub) ?? 0) + 1);
+    return shown.map((r) => (r.at && (seen.get(r.label + '|' + r.sub) ?? 0) > 1 ? { ...r, sub: `${r.sub} · ${coord(r.at)}` } : r));
   }, [query, battles, sites, events, fauna, indexRows, foldedIndex, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
