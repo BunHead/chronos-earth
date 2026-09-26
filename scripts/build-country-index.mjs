@@ -18,6 +18,11 @@
  *          land in the sea, and a dossier opened in the sea names nothing.
  *   span   the size of that polygon in degrees, so the camera can frame a
  *          continent and an island differently
+ *   at     per snapshot year, the same three numbers — but ONLY for years where
+ *          the latest point lies outside that year's polygon. Picking "Rome"
+ *          jumped to 500 BCE and flew to a point from Rome's 200 BCE extent, in
+ *          the Abruzzo, which in 500 BCE was not Rome: the dossier said
+ *          "Unknown" (26 Sept 2026). Sparse, so the file barely grows.
  *
  * Small: ~1,700 names, 25 KB gzipped, fetched only when the search box is
  * first focused, alongside the main search index.
@@ -104,17 +109,29 @@ async function main() {
       if (!cur || area > cur.area) bestInFrame.set(name, { ring, area });
     }
     for (const [name, { ring }] of bestInFrame) {
-      const row = byName.get(name) ?? { name, years: [] };
+      const row = byName.get(name) ?? { name, years: [], perFrame: new Map() };
       if (!row.years.includes(f.year)) row.years.push(f.year);
       // Later snapshots overwrite: the point comes from the most recent map.
       const [lon, lat] = interiorPoint(ring);
       let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
       for (const [x, y] of ring) { if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y; }
       Object.assign(row, { lat: +lat.toFixed(2), lon: +lon.toFixed(2), span: +Math.max(e - w, n - s).toFixed(2) });
+      row.perFrame.set(f.year, { ring, lat: row.lat, lon: row.lon, span: row.span });
       byName.set(name, row);
     }
   }
   const rows = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+  // Keep a year's own point only where the final one would miss that year's land.
+  let kept = 0;
+  for (const r of rows) {
+    const at = {};
+    for (const [year, p] of r.perFrame) {
+      if (pointInRing(r.lon, r.lat, p.ring)) continue;
+      at[year] = [p.lat, p.lon, p.span];
+      kept++;
+    }
+    r.at = Object.keys(at).length ? at : null;
+  }
   const out = {
     v: 1,
     latestFrame: frames[frames.length - 1].year,
@@ -124,6 +141,7 @@ async function main() {
     lat: rows.map((r) => r.lat),
     lon: rows.map((r) => r.lon),
     span: rows.map((r) => r.span),
+    at: rows.map((r) => r.at),
   };
   const file = join(DIR, 'countries.json');
   await writeFile(file, JSON.stringify(out));

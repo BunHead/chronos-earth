@@ -27,6 +27,7 @@ import { adaptiveLayerCap } from '../lib/gpuBudget';
 import { globeTextureSize, mayWorkAhead } from '../lib/renderTier';
 import { requestFrame, nudgeFrames } from '../lib/renderLease';
 import { providerFromCanvas } from './canvasImagery';
+import { isPlaceholderPolity } from '../lib/countryIndex';
 
 // Sized to the machine: a CPU-only renderer gets half in each direction, which
 // quarters the per-frame PNG encode. See renderTier.ts.
@@ -1312,6 +1313,7 @@ export class BordersController {
     this.labelYear = floorYear;
     this.labels.removeAll();
     for (const polity of frame.polities) {
+      if (isPlaceholderPolity(polity.name)) continue; // no "Unknown" written across the land
       const at = polityLabelPoint(polity);
       if (!at) continue;
       this.labels.add({
@@ -1349,6 +1351,9 @@ export class BordersController {
    * The caller sizes the tolerance to what one click covers on screen.
    */
   hitTest(lon: number, lat: number, toleranceKm = 0): { name: string; year: number } | null {
+    // Inside a placeholder ("Unknown", "unclaimed", "?"): the map records no
+    // state here. Say so — and do not let the tolerance below hand the spot to
+    // whichever real neighbour happens to be nearest.
     const year = this.activeYear ?? this.identifyYear;
     if (year === undefined) return null;
     const frame = this.cache.get(year);
@@ -1356,7 +1361,7 @@ export class BordersController {
     for (const polity of frame.polities) {
       for (const poly of polity.mp) {
         if (pointInRing(lon, lat, poly[0]) && !poly.slice(1).some((h) => pointInRing(lon, lat, h))) {
-          return { name: polity.name, year };
+          return isPlaceholderPolity(polity.name) ? null : { name: polity.name, year };
         }
       }
     }
@@ -1364,6 +1369,7 @@ export class BordersController {
     let best: string | null = null;
     let bestKm = toleranceKm;
     for (const polity of frame.polities) {
+      if (isPlaceholderPolity(polity.name)) continue;
       for (const poly of polity.mp) {
         const ring = poly[0];
         if (!ring || ring.length < 2) continue;

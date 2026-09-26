@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  countriesFromColumns, frameFor, yearToShow, spanLabel, altitudeFor, relatedNames,
+  countriesFromColumns, frameFor, yearToShow, spanLabel, altitudeFor, relatedNames, placeIn, isPlaceholderPolity,
   type CountryColumns, type CountryRow,
 } from './countryIndex';
 import { distanceToRingKm } from '../components/borders';
@@ -117,5 +117,32 @@ describe('other names for the same country', () => {
   it('does not fire on fragments of unrelated words', () => {
     expect(relatedNames('Russia', known)).not.toContain('United States');
     expect(relatedNames('pe', known)).toEqual([]);
+  });
+});
+
+describe('where to look for a country in a given year', () => {
+  it('Rome in 500 BCE is the city, not its 200 BCE sprawl', () => {
+    // Picking "Rome" jumped to 500 BCE and flew to the Abruzzo, which was not
+    // Rome then; the dossier said "Unknown".
+    const rome = find('Rome')!;
+    const early = placeIn(rome, index.frames, -500);
+    expect(Math.abs(early.lat - 41.9)).toBeLessThan(0.5);
+    expect(Math.abs(early.lon - 12.5)).toBeLessThan(0.5);
+    expect(placeIn(rome, index.frames, -200)).toEqual({ lat: rome.lat, lon: rome.lon, span: rome.span });
+  });
+
+  it('a country whose point never misses needs no per-year entries', () => {
+    expect(find('Barbados')!.at).toBeUndefined();
+  });
+});
+
+describe('"Unknown" is not a country', () => {
+  it('placeholders are recognised, real names are not', () => {
+    for (const n of ['Unknown', 'unclaimed', '?', ' Unknown ']) expect(isPlaceholderPolity(n)).toBe(true);
+    for (const n of ['Rome', 'Unknown Land', 'Ireland']) expect(isPlaceholderPolity(n)).toBe(false);
+  });
+  it('and search does not offer one', () => {
+    expect(find('Unknown')).toBeUndefined();
+    expect(find('unclaimed')).toBeUndefined();
   });
 });

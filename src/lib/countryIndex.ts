@@ -11,6 +11,11 @@
  * who never searches never pays the 25 KB.
  */
 
+/** Names the border snapshots use for "no recorded state": "Unknown" (31
+ * snapshots), "unclaimed", "?". Not polities — never a dossier title, a map
+ * label or a search result. */
+export const isPlaceholderPolity = (name: string): boolean => /^(unknown|unclaimed|\?)$/i.test(name.trim());
+
 export interface CountryColumns {
   v: number;
   latestFrame: number;
@@ -20,6 +25,8 @@ export interface CountryColumns {
   lat: number[];
   lon: number[];
   span: number[];
+  /** Per snapshot year [lat, lon, span], only where the latest point misses that year's land. */
+  at?: (Record<string, [number, number, number]> | null)[];
 }
 
 export interface CountryRow {
@@ -31,6 +38,8 @@ export interface CountryRow {
   lon: number;
   /** Size of that polygon in degrees — frames a continent and an island differently. */
   span: number;
+  /** Where to look in a snapshot year whose land the point above would miss. */
+  at?: Record<string, [number, number, number]>;
 }
 
 export interface CountryIndex {
@@ -43,7 +52,9 @@ export function countriesFromColumns(c: CountryColumns): CountryIndex {
   const rows: CountryRow[] = [];
   for (let i = 0; i < (c.name?.length ?? 0); i++) {
     if (typeof c.lat[i] !== 'number' || typeof c.lon[i] !== 'number') continue;
-    rows.push({ name: c.name[i], years: [...c.years[i]].sort((a, b) => a - b), lat: c.lat[i], lon: c.lon[i], span: c.span[i] });
+    if (isPlaceholderPolity(c.name[i])) continue; // "no recorded state", not a country
+    const at = c.at?.[i];
+    rows.push({ name: c.name[i], years: [...c.years[i]].sort((a, b) => a - b), lat: c.lat[i], lon: c.lon[i], span: c.span[i], ...(at ? { at } : {}) });
   }
   return { frames: [...c.frames].sort((a, b) => a - b), latestFrame: c.latestFrame, rows };
 }
@@ -63,6 +74,13 @@ export function frameFor(frames: number[], year: number): number {
  * snapshot where it exists that is nearest to where they are, so searching
  * "Roman Empire" from 2026 lands in 200 CE, not in -1.
  */
+/** Where to fly for this country in a given year: its own point for that
+ * snapshot when the latest one would land outside it (Rome in 500 BCE). */
+export function placeIn(country: CountryRow, frames: number[], year: number): { lat: number; lon: number; span: number } {
+  const p = country.at?.[String(frameFor(frames, year))];
+  return p ? { lat: p[0], lon: p[1], span: p[2] } : { lat: country.lat, lon: country.lon, span: country.span };
+}
+
 export function yearToShow(country: CountryRow, frames: number[], currentYear: number): number {
   if (country.years.includes(frameFor(frames, currentYear))) return currentYear;
   let best = country.years[0];

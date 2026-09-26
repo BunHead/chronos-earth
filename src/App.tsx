@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
-import { altitudeFor, yearToShow, type CountryRow } from './lib/countryIndex';
+import { altitudeFor, placeIn, yearToShow, type CountryRow } from './lib/countryIndex';
 import {
   cellKeysForRect,
   loadRegionChunk,
@@ -808,14 +808,16 @@ export default function App() {
     const current = Math.round(yearsBPToYear(yearsBPRef.current));
     const year = yearToShow(c, frames, current);
     if (year !== current) setYearsBP(yearToYearsBP(year));
-    globeRef.current?.flyTo(c.lon, c.lat, altitudeFor(c));
+    // That year's own point: Rome in 500 BCE is not where Rome in 200 BCE is.
+    const at = { ...c, ...placeIn(c, frames, year) };
+    globeRef.current?.flyTo(at.lon, at.lat, altitudeFor(at));
     const open = (first: boolean) => {
       const cur = panelRef.current;
       // After the first, stop if the visitor has since opened something else.
-      if (!first && !(cur?.kicker?.startsWith('On the map') && cur.fly?.lat === c.lat && cur.fly?.lon === c.lon)) return;
+      if (!first && !(cur?.kicker?.startsWith('On the map') && cur.fly?.lat === at.lat && cur.fly?.lon === at.lon)) return;
       // The name is passed as a hint: we KNOW which country was picked, and the
       // border snapshot that would otherwise name it may still be loading.
-      const next = globeRef.current?.rebuildDossier(c.lat, c.lon, c.name);
+      const next = globeRef.current?.rebuildDossier(at.lat, at.lon, c.name);
       if (next) setPanel(next);
     };
     open(true);

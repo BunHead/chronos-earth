@@ -410,7 +410,7 @@ export function placeDossierPanel(
   const inText = polityName?.replace(/ \(disputed\)$/, '');
   const ruler = inText
     ? `Around ${when}, this spot lay within ${inText}.`
-    : `We have no border data for this spot in ${when}.`;
+    : `No state is recorded for this spot on our map of ${when}.`;
   return {
     kicker: `On the map · ${when}`,
     title: polityName ?? 'This place',
