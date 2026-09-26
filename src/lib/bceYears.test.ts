@@ -48,3 +48,27 @@ describe('the famous dates on the globe', () => {
     expect(get('Alexander the Great', 'person')?.endYear).toBe(-323);
   });
 });
+
+describe('a year read together with its precision', () => {
+  // @ts-expect-error — plain .mjs script, no types
+  const at = (iso: string, p: number) => import('../../scripts/lib/wdqs-json.mjs').then((m) => m.wdqsYearAt(iso, p));
+  it('undoes the astronomical shift exactly when the date is precise', async () => {
+    expect(await at('-0507-01-01T00:00:00Z', 9)).toBe(-508); // Classical Athens, 508 BCE
+    expect(await at('-9600-01-01T00:00:00Z', 7)).toBe(-9600); // a century: as entered
+    expect(await at('1453-05-29T00:00:00Z', 11)).toBe(1453);
+  });
+});
+
+describe('capital roles of the ancient world', () => {
+  const events: Array<{ name: string; category: string; capitalOf?: Array<{ of: string; from: number | null; to: number | null }> }> = JSON.parse(
+    readFileSync(join(process.cwd(), 'public', 'data', 'imported', 'events.json'), 'utf8'),
+  ).events;
+  const role = (city: string, of: string) =>
+    // The ancient one: Rome was also capital of the Roman Republic of 1849.
+    events.find((e) => e.name === city && e.capitalOf?.some((r) => r.of === of))?.capitalOf?.find((r) => r.of === of && (r.from ?? 0) <= 0);
+  it('date as the history books do', () => {
+    expect(role('Athens', 'Classical Athens')).toMatchObject({ from: -508, to: -322 });
+    expect(role('Rome', 'Roman Republic')).toMatchObject({ from: -509, to: -27 });
+    expect(role('Susa', 'Achaemenid Empire')).toMatchObject({ from: -550, to: -330 });
+  });
+});

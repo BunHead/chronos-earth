@@ -30,7 +30,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { parseWdqs, wdqsYear } from './lib/wdqs-json.mjs';
+import { parseWdqs, wdqsYear, wdqsYearAt } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -199,13 +199,15 @@ async function main() {
   for (let i = 0; i < list.length; i += CHUNK) {
     const ids = list.slice(i, i + CHUNK).map((q) => `wd:${q}`);
     const rows = await runQuery(
-      `SELECT ?city ?of ?ofLabel ?ofSl ?start ?end WHERE {
+      `SELECT ?city ?of ?ofLabel ?ofSl ?start ?startP ?end ?endP WHERE {
   VALUES ?city { ${ids.join(' ')} }
   ?city p:P1376 ?st . ?st ps:P1376 ?of .
   ?of wikibase:sitelinks ?ofSl .
   FILTER(?ofSl >= ${MIN_POLITY_SITELINKS})
-  OPTIONAL { ?st pq:P580 ?start }
-  OPTIONAL { ?st pq:P582 ?end }
+  # Value nodes, not plain qualifiers: the PRECISION is what says whether a
+  # BCE year arrived one year late (see wdqsYearAt).
+  OPTIONAL { ?st pqv:P580 [ wikibase:timeValue ?start ; wikibase:timePrecision ?startP ] }
+  OPTIONAL { ?st pqv:P582 [ wikibase:timeValue ?end ; wikibase:timePrecision ?endP ] }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 }`,
       `pass 2 chunk ${chunks + 1}`,
@@ -217,8 +219,8 @@ async function main() {
       const qid = b.city.value.split('/').pop();
       const entry = {
         of: b.ofLabel?.value ?? '',
-        from: yearOf(b.start?.value),
-        to: yearOf(b.end?.value),
+        from: b.start ? wdqsYearAt(b.start.value, b.startP?.value) : null,
+        to: b.end ? wdqsYearAt(b.end.value, b.endP?.value) : null,
         // Kept only until pass 3 has classified it; never written out.
         ofId: b.of.value.split('/').pop(),
       };
@@ -306,22 +308,32 @@ async function main() {
     // through as a country. And the polity's OWN inception and dissolution
     // come back with it — see the lifespan rule below.
     const rows = await runQuery(
-      `SELECT ?of (MIN(?s) AS ?start) (MAX(?e) AS ?end) WHERE {
+      `SELECT ?of ?s ?sp ?e ?ep WHERE {
   VALUES ?of { ${ids.join(' ')} }
   VALUES ?level { ${NATIONAL.map((q) => `wd:${q}`).join(' ')} }
   ?of wdt:P31/wdt:P279* ?level .
   FILTER NOT EXISTS { ?of wdt:P31/wdt:P279* wd:Q188443 }
   FILTER NOT EXISTS { VALUES ?no { ${NOT_NATIONAL.map((q) => `wd:${q}`).join(' ')} } ?of wdt:P31/wdt:P279* ?no }
-  OPTIONAL { ?of wdt:P571 ?s . FILTER(DATATYPE(?s) = xsd:dateTime) }
-  OPTIONAL { ?of wdt:P576 ?e . FILTER(DATATYPE(?e) = xsd:dateTime) }
-} GROUP BY ?of`,
+  # Value nodes with their precision (see wdqsYearAt); earliest start and
+  # latest end are taken below, in code, where the precision is still known.
+  # Only the best-ranked values (what wdt: returns), each with its precision:
+  # Classical Athens has a normal-rank 700 BCE beside its preferred 508 BCE.
+  OPTIONAL { ?of wdt:P571 ?s . ?of p:P571/psv:P571 [ wikibase:timeValue ?s ; wikibase:timePrecision ?sp ] }
+  OPTIONAL { ?of wdt:P576 ?e . ?of p:P576/psv:P576 [ wikibase:timeValue ?e ; wikibase:timePrecision ?ep ] }
+}`,
       `pass 3 batch ${Math.floor(i / 150) + 1}`,
     );
     if (!rows) { classFailed++; continue; }
     for (const q of polities.slice(i, i + 150)) askedNow.add(q);
+    const span = new Map();
     for (const b of rows) {
-      national.set(b.of.value.split('/').pop(), [yearOf(b.start?.value), yearOf(b.end?.value)]);
+      const q = b.of.value.split('/').pop();
+      const [s0, e0] = span.get(q) ?? [null, null];
+      const s1 = b.s ? wdqsYearAt(b.s.value, b.sp?.value) : null;
+      const e1 = b.e ? wdqsYearAt(b.e.value, b.ep?.value) : null;
+      span.set(q, [s1 === null ? s0 : s0 === null ? s1 : Math.min(s0, s1), e1 === null ? e0 : e0 === null ? e1 : Math.max(e0, e1)]);
     }
+    for (const [q, lifespan] of span) national.set(q, lifespan);
     await sleep(900);
   }
   // Remember every polity that was actually classified, even on a run that

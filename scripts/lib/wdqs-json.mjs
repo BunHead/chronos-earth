@@ -44,3 +44,15 @@ export function wdqsYear(iso) {
   if (!m) return null;
   return m[1] === '-' ? -Number(m[2]) : Number(m[2]);
 }
+
+/**
+ * The year of a WDQS date WHEN ITS PRECISION IS KNOWN (wikibase:timePrecision,
+ * from a psv:/pqv: value node) — then the astronomical shift can be undone
+ * exactly: precision 9 (year) or finer and at or before year 0 → one year
+ * earlier; coarser dates arrive as entered. See wdqsYear for the measurement.
+ */
+export function wdqsYearAt(iso, precision) {
+  const y = wdqsYear(iso);
+  if (y === null) return null;
+  return Number(precision) >= 9 && y <= 0 ? y - 1 : y;
+}
