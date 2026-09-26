@@ -403,6 +403,12 @@ item below — Petra, Cusco, Benin City and Mesa Verde are four of the 88.**
 
 ---
 
+## 26 Sept (evening): audit, wiring map, phones, Pangaea, dinosaurs
+
+Read **docs/AUDIT-2026-09-26.md** first — what was found, fixed, left on purpose, and the three decisions waiting for the Captain (battle maps, 49 same-name pins, emblems). The wiring diagram is docs/relationship-map.html (rebuild: `node scripts/build-relationship-map.mjs`). Routines keep an honest start/finish ledger in Claude-WorkLog/sweep-ledger.md. Phones are detected by device (`isPhone`, `data-phone` on <html>), not width — the Captain's Pixel was in Chrome's Desktop-site mode. Deep-time playback no longer goes blank. 90 prehistoric animals (39 dinosaurs added from the Paleobiology Database).
+
+---
+
 ## 26 Sept: dates, playback, search — what changed and what to watch
 
 **BCE YEARS FROM WDQS ARE ASTRONOMICAL — BUT ONLY WHEN PRECISE.** The query
