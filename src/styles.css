@@ -958,9 +958,11 @@ textarea:focus-visible,
   text-align: left;
 }
 
-.search-results li button:hover {
+.search-results li button:hover,
+.search-results li button.active {
   background: var(--surface-hover);
 }
+.search-results li button.active { box-shadow: inset 2px 0 0 var(--accent); }
 
 /* The "look it up online" row, set apart at the foot of the results. */
 .search-web { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 4px; }

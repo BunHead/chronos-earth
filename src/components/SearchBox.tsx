@@ -86,6 +86,9 @@ interface Result {
 export default function SearchBox({ sites, battles, events, fauna, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onWebSearch, videos = [], onPickVideo, onPickCountry, baseUrl = '/' }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
+  // The row picked with the arrow keys (-1 = none; Enter then takes the first).
+  const [active, setActive] = useState(-1);
+  useEffect(() => setActive(-1), [query]);
 
   // THE FIND-ANYTHING INDEX, fetched the first time the box is focused.
   //
@@ -257,6 +260,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   };
 
   const q2 = query.trim();
+  const open = focused && q2.length >= 2;
   const doWeb = () => {
     onWebSearch(q2);
     setQuery('');
@@ -274,24 +278,38 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => { setFocused(true); wantIndex(); }}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
+        role="combobox"
+        aria-expanded={open}
+        aria-controls="chronos-search-results"
+        aria-activedescendant={open && active >= 0 ? `search-row-${active}` : undefined}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') { if (results[0]) pick(results[0]); else if (q2.length >= 2) doWeb(); }
+          // Up/down walk the list, the web row included; Enter takes the
+          // highlighted row, or the first if none is.
+          const rows = results.length + 1;
+          if (open && e.key === 'ArrowDown') { e.preventDefault(); setActive((a) => (a + 1) % rows); }
+          if (open && e.key === 'ArrowUp') { e.preventDefault(); setActive((a) => (a <= 0 ? rows - 1 : a - 1)); }
+          if (e.key === 'Enter') {
+            if (active >= 0 && active < results.length) pick(results[active]);
+            else if (active === results.length) doWeb();
+            else if (results[0]) pick(results[0]);
+            else if (q2.length >= 2) doWeb();
+          }
           if (e.key === 'Escape') setQuery('');
         }}
       />
-      {focused && q2.length >= 2 && (
-        <ul className="search-results">
-          {results.map((r) => (
-            <li key={r.key}>
-              <button onMouseDown={() => pick(r)}>
+      {open && (
+        <ul className="search-results" id="chronos-search-results" role="listbox">
+          {results.map((r, i) => (
+            <li key={r.key} role="option" id={`search-row-${i}`} aria-selected={i === active}>
+              <button tabIndex={-1} className={i === active ? 'active' : undefined} onMouseDown={() => pick(r)}>
                 <span className="search-badge">{r.badge}</span>
                 <span className="search-label">{r.label}</span>
                 <span className="search-sub">{r.sub}</span>
               </button>
             </li>
           ))}
-          <li className="search-web">
-            <button onMouseDown={doWeb}>
+          <li className="search-web" role="option" id={`search-row-${results.length}`} aria-selected={active === results.length}>
+            <button tabIndex={-1} className={active === results.length ? 'active' : undefined} onMouseDown={doWeb}>
               <span className="search-badge">🌐 Web</span>
               <span className="search-label">Look up “{q2}” online</span>
               <span className="search-sub">Wikidata · added live</span>
