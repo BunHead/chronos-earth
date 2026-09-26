@@ -836,6 +836,28 @@ export default function App() {
       return;
     }
     const ev = found[0];
+    // ALREADY ON THE GLOBE? The check below only sees what is in memory, and
+    // most of the globe is not: "Chatsworth House" is a monument dated 1553,
+    // and looking it up online added a second pin — an 'event' at the 1700
+    // fallback year (26 Sept 2026). Ask the whole index first, and open the
+    // row we already have; it is better than anything a name search returns.
+    {
+      const indexRows = await loadSearchIndex(import.meta.env.BASE_URL);
+      // By Wikidata id, or — for curated rows, which carry none (cur-chatsworth)
+      // — by the same name within 10 km.
+      const same = (x: string) => x.toLowerCase().replace(/[^a-z0-9]+/g, '');
+      const near = (r: { lat: number; lon: number }) =>
+        Math.hypot((r.lat - ev.lat) * 111, (r.lon - ev.lon) * 111 * Math.cos((ev.lat * Math.PI) / 180)) < 10;
+      const row =
+        (ev.wikidataId && indexRows.find((r) => rowToEvent(r).wikidataId === ev.wikidataId)) ||
+        indexRows.find((r) => same(r.name) === same(ev.name) && near(r));
+      const known = row ? rowToEvent(row) : null;
+      if (known) {
+        handlePickEvent(eventById.get(known.id) ?? known);
+        showToast(`${known.name} is already on the globe`);
+        return;
+      }
+    }
     setEvents((prev) =>
       prev.some((e) => e.id === ev.id || (ev.wikidataId && e.wikidataId === ev.wikidataId))
         ? prev
