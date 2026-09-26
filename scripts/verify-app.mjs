@@ -97,7 +97,12 @@ const browser = await puppeteer.launch({
 });
 try {
   const page = await browser.newPage();
-  await page.setViewport({ width: W, height: H, deviceScaleFactor: 1 });
+  // --phone: a touch phone (412×915, touch-first pointer) — what the site's
+  // phone rules key on (lib/renderTier isPhone, the styles' coarse-pointer
+  // block). Scale 1 so screenshots stay small; the layout is the same.
+  await page.setViewport(has('--phone')
+    ? { width: 412, height: 915, deviceScaleFactor: 1, isMobile: true, hasTouch: true }
+    : { width: W, height: H, deviceScaleFactor: 1 });
 
   // --cpu <n> throttles the processor n-fold, and --net slow-3g the connection.
   // This is how you test the Captain’s parents’ laptop without driving to

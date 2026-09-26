@@ -32,7 +32,7 @@ import BattleMapFrame from './components/BattleMapFrame';
 import BattleMapSvg from './components/BattleMapSvg';
 import { clampDensity, inferLoser } from './lib/battleMath';
 import { casualtyScale } from './lib/synthBattle';
-import { renderTier, heavyThrottleMs, playFrameMs } from './lib/renderTier';
+import { budgetTier, heavyThrottleMs, playFrameMs } from './lib/renderTier';
 import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
@@ -376,7 +376,7 @@ export default function App() {
     } catch {
       /* storage blocked — fall through to the machine's own default */
     }
-    const tier = renderTier();
+    const tier = budgetTier(); // a phone starts sparse, like a CPU renderer
     return tier === 'software' ? 0.4 : tier === 'modest' ? 0.8 : 1;
   });
   useEffect(() => {

@@ -25,7 +25,7 @@ import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
-import { renderTier } from '../lib/renderTier';
+import { isPhone, renderTier } from '../lib/renderTier';
 import { eventPasses } from '../lib/subLayers';
 import type { CameraState } from '../lib/sceneState';
 import {
@@ -61,6 +61,10 @@ const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
 // cities, though at that height the spacing had room for far more. Tier 0 is
 // unchanged: the whole planet at once is meant to show only the famous.
 const PLACE_PER_CATEGORY_BY_TIER = [10, 24, 40, 60];
+/** A phone draws 60% as many markers: a smaller screen shows fewer anyway, and
+ * every marker handed over is work for a phone CPU. 1 on a PC. */
+const MARKER_SHARE = isPhone() ? 0.6 : 1;
+const markerCap = (n: number) => Math.max(4, Math.round(n * MARKER_SHARE));
 // HOW FAR APART PLACE MARKERS PREFER TO SIT, in km, per zoom tier.
 //
 // Tier 0 is the whole planet in one view, where Paris and London are the same
@@ -93,6 +97,17 @@ const EVENT_POOL_SIZE = 180;
  * touch beyond, then apply the exact test. So the index narrows without ever
  * dropping a visible event. */
 const EVENT_QUERY_SPAN = 5000;
+/** First index in a startYear-sorted list whose year is >= target. */
+function lowerBoundYear(list: TimelineEvent[], target: number): number {
+  let lo = 0;
+  let hi = list.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (list[mid].startYear < target) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
 
 /** Camera height (m) → zoom tier 0..3. */
 function zoomTierFor(height: number): number {
@@ -910,6 +925,17 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = false;
     }
 
+    // A PHONE (lib/renderTier isPhone) keeps full resolution — a sharp screen
+    // shows a scaled-down globe at once — but drops the decoration a desktop
+    // can afford: the star skybox (~700 KB and a pass every frame), fog and
+    // the ground glow (per-pixel), and some terrain detail. PCs never match.
+    if (isPhone()) {
+      if (viewer.scene.skyBox) viewer.scene.skyBox.show = false;
+      if (viewer.scene.fog) viewer.scene.fog.enabled = false;
+      viewer.scene.globe.showGroundAtmosphere = false;
+      viewer.scene.globe.maximumScreenSpaceError = 3; // default 2
+    }
+
     viewer.scene.globe.enableLighting = false;
     // Bare globe (imagery not yet streamed) reads as DESERT, not ocean —
     // Cesium's default blue base was hiding the ground under Giza whenever
@@ -918,7 +944,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // Atmosphere and fog are per-pixel work, and the first thing to go when
     // there is no graphics card to do it on.
     if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = !lightweight;
-    if (viewer.scene.fog) viewer.scene.fog.enabled = !lightweight;
+    if (viewer.scene.fog) viewer.scene.fog.enabled = !lightweight && !isPhone();
     (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = 'none';
 
     // Natural Earth (bundled, low-res) stays as an offline fallback at the
@@ -1654,6 +1680,47 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     }
   }, [zoomTier]);
 
+  // THE CAMERA-AND-LAYERS HALF OF "WHAT IS ON SCREEN", worked out only when
+  // the camera or a layer switch changes — not on every timeline tick. While
+  // the timeline plays the camera is still, and this filtering (category and
+  // sub-layer switches, the view rectangle, the horizon) was the largest cost
+  // on a phone: ~1.8 s of every 10 s of playback (26 Sept 2026). Year-sorted,
+  // so the per-tick pass can slice its year window by binary search.
+  const spatialPool = useMemo(() => {
+    // When zoomed toward a region, the quota is spent on what's IN VIEW —
+    // zooming into Kent fills Kent, not the whole planet. (Tier 0 = orbit,
+    // where the whole world competes as before.)
+    const scopeToView = zoomTier >= 1 && viewRect !== null;
+    let viewSet: Set<TimelineEvent> | null = null;
+    let mLat = 0, mLon = 0;
+    if (scopeToView) {
+      const { w, s: south, e, n } = viewRect;
+      mLat = Math.max(1, (n - south) * 0.1); // a little margin past the edges
+      mLon = Math.max(1, (e >= w ? e - w : 360 - (w - e)) * 0.1);
+      viewSet = eventIndex.inView(viewRect, mLat, mLon);
+    }
+    const inView = (ev: TimelineEvent): boolean => {
+      if (!scopeToView) return true;
+      const { w, s: south, e, n } = viewRect;
+      if (ev.lat < south - mLat || ev.lat > n + mLat) return false;
+      return e >= w
+        ? ev.lon >= w - mLon && ev.lon <= e + mLon
+        : ev.lon >= w - mLon || ev.lon <= e + mLon; // view crosses the dateline
+    };
+    // Nothing behind the planet, at ANY tier: at 9,000 km the view rectangle
+    // IS the whole world, and the Pacific view was spending its slots on
+    // Paris, Berlin and Madrid. See markerSpread.withinHorizon.
+    const onNearSide = camPoint ? horizonTest(camPoint) : null;
+    return eventIndex.sorted.filter(
+      (ev) =>
+        (!viewSet || viewSet.has(ev)) &&
+        // Category switch AND the finer sub-kind switches (lib/subLayers).
+        eventPasses(ev, enabledEventCats, offSubs) &&
+        inView(ev) &&
+        (!onNearSide || onNearSide(ev)),
+    );
+  }, [eventIndex, enabledEventCats, offSubs, zoomTier, viewRect, camPoint]);
+
   // Work out which events are on screen (capped to the most notable) and hand
   // the marker pool to them. Everything else stays as plain data — no entity,
   // no per-frame cost — so importing 10× more events costs the globe nothing.
@@ -1679,47 +1746,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         if (ev) visList.push(ev);
       }
     } else {
-      // When zoomed toward a region, the quota is spent on what's IN VIEW —
-      // zooming into Kent fills Kent, not the whole planet. (Tier 0 = orbit,
-      // where the whole world competes as before.)
-      const scopeToView = zoomTier >= 1 && viewRect !== null;
-      const inView = (ev: TimelineEvent): boolean => {
-        if (!scopeToView) return true;
-        const { w, s, e, n } = viewRect;
-        const mLat = Math.max(1, (n - s) * 0.1); // a little margin past the edges
-        if (ev.lat < s - mLat || ev.lat > n + mLat) return false;
-        const mLon = Math.max(1, (e >= w ? e - w : 360 - (w - e)) * 0.1);
-        return e >= w
-          ? ev.lon >= w - mLon && ev.lon <= e + mLon
-          : ev.lon >= w - mLon || ev.lon <= e + mLon; // view crosses the dateline
-      };
-      // Narrow with the index before the exact per-event test: a year slice
-      // (wide enough to never drop a visible event) and, when scoped to a
-      // region, the grid cells in view. Identical result to scanning all events.
-      let candidates = eventIndex.window(year - EVENT_QUERY_SPAN, year + EVENT_QUERY_SPAN);
-      if (scopeToView) {
-        const { w, s, e, n } = viewRect;
-        const mLat = Math.max(1, (n - s) * 0.1);
-        const mLon = Math.max(1, (e >= w ? e - w : 360 - (w - e)) * 0.1);
-        const viewSet = eventIndex.inView(viewRect, mLat, mLon);
-        if (viewSet) candidates = candidates.filter((ev) => viewSet.has(ev));
+      // Everything that depends only on the camera and the layer switches was
+      // worked out once, in spatialPool, when they last changed. Per tick, only
+      // the year remains: slice the year window out of the (year-sorted) pool
+      // and ask each row whether it is visible now.
+      const lo = lowerBoundYear(spatialPool, year - EVENT_QUERY_SPAN);
+      const hi = lowerBoundYear(spatialPool, year + EVENT_QUERY_SPAN + 1);
+      const inWindow: TimelineEvent[] = [];
+      for (let k = lo; k < hi; k++) {
+        const ev = spatialPool[k];
+        if (dupEventIdsRef.current.has(ev.id)) continue; // curated twin wins in overview
+        if (eventVisibleAt(ev, year)) inWindow.push(ev);
       }
-      const onNearSide = camPoint ? horizonTest(camPoint) : null;
-      const inWindow = candidates.filter((ev) => {
-        if (dupEventIdsRef.current.has(ev.id)) return false; // curated twin wins in overview
-        // Category switch AND the finer sub-kind switches (lib/subLayers).
-        if (!eventPasses(ev, enabledEventCats, offSubs)) return false;
-        // Cheap arithmetic before the trigonometry below.
-        if (!eventVisibleAt(ev, year) || !inView(ev)) return false;
-        // Nothing behind the planet, at ANY tier. This used to run only at tier
-        // 0, on the theory that higher tiers scope to the view rectangle — but
-        // at 9,000 km, with the planet's edge on screen, that rectangle IS the
-        // whole world, and the Pacific view was spending its slots on Paris,
-        // Berlin and Madrid. The horizon is a hard geometric bound: nothing
-        // past it can ever be seen, so applying it everywhere cannot hide
-        // anything visible. See markerSpread.withinHorizon.
-        return !onNearSide || onNearSide(ev);
-      });
       const byCat = new Map<string, TimelineEvent[]>();
       for (const ev of inWindow) {
         const list = byCat.get(ev.category) ?? [];
@@ -1733,6 +1771,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       // by notability alone. See lib/capitals.ts for why this exists.
       const rank = (e: TimelineEvent) =>
         isPlaceRow(e) ? cityProminence(e, year) : (e.notability ?? 0);
+      // Scored ONCE per row, then sorted by the number: a comparator that
+      // re-scores both sides runs the scoring O(n log n) times per tick.
+      // Stable, so ties keep their order exactly as before.
+      const byRank = (list: TimelineEvent[]): TimelineEvent[] =>
+        list
+          .map((e, i) => ({ e, r: rank(e), i }))
+          .sort((a, b) => b.r - a.r || a.i - b.i)
+          .map((x) => x.e);
       // Spacing follows the REAL camera height, not the tier. Tiers are coarse:
       // at 9,000 km the whole disc is still on screen but the tier table gave
       // it 600 km spacing, and Africa's view filled with Berlin, Budapest,
@@ -1742,19 +1788,18 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         ? Math.max(30, Math.min(1600, (camPoint.height / 1000) * 0.11))
         : PLACE_MIN_SEPARATION_KM_BY_TIER[zoomTier];
       for (const [cat, list] of byCat) {
-        list.sort((a, b) => rank(b) - rank(a));
+        const ordered = byRank(list);
         // Places get SPREAD across the view; everything else still takes the
         // top N outright. A battle or a discovery is an event at a point in
         // time, and two of them near each other is not the same kind of
         // redundancy as two city dots overlapping at orbital distance.
         const isPlaceCat = cat === 'city' || cat === 'monument';
         const chosen = isPlaceCat
-          ? spreadPick(list, PLACE_PER_CATEGORY_BY_TIER[zoomTier], placeSeparationKm)
-          : list.slice(0, EVENT_PER_CATEGORY_BY_TIER[zoomTier]);
+          ? spreadPick(ordered, markerCap(PLACE_PER_CATEGORY_BY_TIER[zoomTier]), placeSeparationKm)
+          : ordered.slice(0, markerCap(EVENT_PER_CATEGORY_BY_TIER[zoomTier]));
         picked.push(...chosen);
       }
-      picked.sort((a, b) => rank(b) - rank(a));
-      visList = picked.slice(0, EVENT_MAX_VISIBLE_BY_TIER[zoomTier]);
+      visList = byRank(picked).slice(0, markerCap(EVENT_MAX_VISIBLE_BY_TIER[zoomTier]));
     }
     // Whatever the user just searched for / clicked always keeps its marker.
     if (focusEventId && !visList.some((e) => e.id === focusEventId)) {
@@ -1812,7 +1857,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         .setValue(new Cesium.DistanceDisplayCondition(0, 6_000_000));
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
-  }, [currentYearsBP, enabledEventCats, offSubs, events, muralEventIds, focusEventId, zoomTier, viewRect, camPoint, eventById, eventIndex]);
+  }, [currentYearsBP, spatialPool, events, muralEventIds, focusEventId, zoomTier, camPoint, eventById]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.

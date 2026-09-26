@@ -132,7 +132,39 @@ export function __setRenderTier(t: RenderTier | null): void {
  * that cost, which is the difference between a pause and a freeze on a CPU
  * renderer.
  */
-export function globeTextureSize(tier: RenderTier = renderTier()): { w: number; h: number } {
+/**
+ * A PHONE: a touch-first pointer AND a screen no more than 600 CSS px on its
+ * short side. A Pixel 8 Pro reports a Mali GPU and so rated 'modest' — the
+ * desktop budget — and the Captain found it slow: emulated with a 4×-slower
+ * CPU, playback ran at 2–7 fps with the main thread blocked 1.2–2.0 s of
+ * every 2 (26 Sept 2026). A PC never matches (fine pointer, or a large screen,
+ * touchscreen laptops included), so nothing here changes the PC version.
+ * `?perf=high` opts a phone out.
+ */
+let phoneCached: boolean | null = null;
+export function isPhone(): boolean {
+  if (phoneCached !== null) return phoneCached;
+  try {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return (phoneCached = false);
+    overrideTier(); // records a ?perf= choice before we read it
+    if (window.localStorage.getItem('chronos.perf') === 'high') return (phoneCached = false);
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const small = Math.min(window.screen.width, window.screen.height) <= 600;
+    phoneCached = coarse && small;
+  } catch {
+    phoneCached = false;
+  }
+  return phoneCached;
+}
+
+/** The tier the WORK budgets follow: a phone gets the low-power budget (smaller
+ * textures, fewer cached frames, no speculative work, gentler update rates)
+ * while its rendering keeps its own settings in Globe.tsx. */
+export function budgetTier(): RenderTier {
+  return isPhone() ? 'software' : renderTier();
+}
+
+export function globeTextureSize(tier: RenderTier = budgetTier()): { w: number; h: number } {
   if (tier === 'software') return { w: 2048, h: 1024 };
   return { w: 4096, h: 2048 };
 }
@@ -140,7 +172,7 @@ export function globeTextureSize(tier: RenderTier = renderTier()): { w: number; 
 /** May we do speculative work — warming frames, pre-rasterising ahead? Only
  * where there are cycles going spare. On a CPU renderer that work competes
  * directly with drawing the globe the visitor is looking at right now. */
-export function mayWorkAhead(tier: RenderTier = renderTier()): boolean {
+export function mayWorkAhead(tier: RenderTier = budgetTier()): boolean {
   return tier !== 'software';
 }
 
@@ -157,7 +189,7 @@ export function mayWorkAhead(tier: RenderTier = renderTier()): boolean {
  * A software renderer gets a third of the rebuilds. Nothing is skipped: the
  * throttle is trailing-edge, so the final position always lands.
  */
-export function heavyThrottleMs(tier: RenderTier = renderTier()): number {
+export function heavyThrottleMs(tier: RenderTier = budgetTier()): number {
   if (tier === 'software') return 300;
   if (tier === 'modest') return 160;
   return 100;
@@ -175,7 +207,7 @@ export function heavyThrottleMs(tier: RenderTier = renderTier()): number {
  * spare. 50 ms is 20 fps of PLAYHEAD movement, which still reads as smooth
  * motion because the eye is watching the globe, not the tick marks.
  */
-export function playFrameMs(tier: RenderTier = renderTier()): number {
+export function playFrameMs(tier: RenderTier = budgetTier()): number {
   if (tier === 'software') return 50;
   if (tier === 'modest') return 25;
   return 0;

@@ -28,7 +28,17 @@ const browser = await puppeteer.launch({
     : ['--use-gl=angle', '--use-angle=swiftshader', '--no-sandbox'],
 });
 const page = await browser.newPage();
-await page.setViewport({ width: 1400, height: 900 });
+// --phone: a Pixel 8 Pro's screen (412×915 CSS px at 3.5×, touch) with the
+// CPU slowed --cpu-fold (default 4), since a phone runs JavaScript several
+// times slower than a desktop. The GPU is still this machine's — so read the
+// long tasks, not the frame rate.
+const phone = process.argv.includes('--phone');
+const ci = process.argv.indexOf('--cpu');
+const cpu = ci > 0 ? +process.argv[ci + 1] : phone ? 4 : 1;
+await page.setViewport(phone
+  ? { width: 412, height: 915, deviceScaleFactor: 3.5, isMobile: true, hasTouch: true }
+  : { width: 1400, height: 900 });
+if (cpu > 1) await (await page.createCDPSession()).send('Emulation.setCPUThrottlingRate', { rate: cpu });
 page.on('pageerror', (e) => console.log('[page error]', e.message));
 page.on('console', (m) => { if (m.type() === 'error') console.log('[console]', m.text().slice(0, 200)); });
 await page.evaluateOnNewDocument(() => {
@@ -46,7 +56,8 @@ const sample = () => page.evaluate(() => {
   const yr = document.querySelector('.timeline-year, .tl-year, [class*=year]')?.textContent?.trim().slice(0, 30);
   return { t: Math.round(now / 1000), frames: window.__frames, ltMs: Math.round(lt.reduce((a, [, d]) => a + d, 0)), ltMax: Math.round(Math.max(0, ...lt.map(([, d]) => d))), yr, heap: Math.round(performance.memory.usedJSHeapSize / 1e6), ents: window.__viewer?.entities.values.length };
 });
-console.log('idle', JSON.stringify(await sample()));
+console.log('idle', JSON.stringify(await sample()), phone ? '(phone)' : '', cpu > 1 ? `cpu ÷${cpu}` : '');
+console.log('coarse pointer:', await page.evaluate(() => matchMedia('(pointer: coarse)').matches));
 await page.evaluate((speed) => {
   if (speed) {
     const sp = [...document.querySelectorAll('select')].find((s) => [...s.options].some((o) => o.text === speed));

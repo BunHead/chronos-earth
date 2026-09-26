@@ -16,7 +16,7 @@
  *
  * Pure and framework-free, so it is unit-tested (gpuBudget.test.ts).
  */
-import { renderTier, type RenderTier } from './renderTier';
+import { budgetTier, type RenderTier } from './renderTier';
 
 /** Frames to keep resident. `generous` is the user's "fast time travel" setting;
  * when off we hold only the active span, for constrained machines.
@@ -30,7 +30,7 @@ import { renderTier, type RenderTier } from './renderTier';
 export function adaptiveLayerCap(
   generous: boolean,
   deviceMemoryGb?: number,
-  tier: RenderTier = renderTier(),
+  tier: RenderTier = budgetTier(),
 ): number {
   // No graphics card: hold the frame in view and its two neighbours, no more.
   if (tier === 'software') return 3;
