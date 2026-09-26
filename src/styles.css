@@ -3258,3 +3258,79 @@ textarea:focus-visible,
   color: #f0e6d2; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
 .show-reel-note { margin: 5px 0 0; font-size: 10.5px; color: #c9b98f; }
+
+/* ── PHONE: things you press are big enough to press ─────────────────────────
+   The Captain on a Pixel 8 Pro (26 Sept 2026): "make buttons easy to read and
+   press". Measured at 412 px: the ⋯ menu was 34×30, LAYERS 14 px tall, layer
+   tick-boxes 13×13, menu rows 31 px, the speed picker 28 px, the playhead
+   22 px. 44 px is the usual minimum for a finger. Touch-first AND narrow —
+   the same test as lib/renderTier isPhone — so a PC, even a touchscreen
+   laptop, keeps its layout exactly. */
+@media (max-width: 600px) and (pointer: coarse) {
+  .app-menu-journeys,
+  .app-menu-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .app-menu-item {
+    min-height: 46px;
+    font-size: 15px;
+  }
+  .layers-title {
+    min-height: 44px;
+    font-size: 14px;
+  }
+  .layer-row {
+    min-height: 42px;
+    font-size: 15px;
+  }
+  .layer-row input[type='checkbox'] {
+    width: 22px;
+    height: 22px;
+    flex: none; /* a long label squeezed them to 16 px */
+  }
+  .layer-fold {
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 15px;
+  }
+  .timeline .btn,
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 15px;
+  }
+  #speed {
+    min-height: 40px;
+    font-size: 15px;
+  }
+  .search-box input {
+    min-height: 44px;
+    font-size: 16px; /* 16 px or more, or iOS zooms the page on focus */
+  }
+  .search-results li button {
+    min-height: 48px;
+  }
+  .search-label { font-size: 15px; }
+  .info-close {
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+  }
+  .info-inner {
+    font-size: 15px;
+  }
+  /* The playhead is dragged with a thumb: a bigger knob, and a bigger
+     invisible grip around it. */
+  .playhead {
+    width: 26px;
+    height: 26px;
+    margin-left: -13px;
+  }
+  .playhead::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+  }
+}
