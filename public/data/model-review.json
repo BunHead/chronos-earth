@@ -137,7 +137,7 @@
     "status": "allowed",
     "ts": 1783891625719,
     "note": "More Detail",
-    "rework": true,
+    "rework": false,
     "focus": "detail"
   },
   "pharos": {

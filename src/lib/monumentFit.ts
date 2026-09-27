@@ -98,7 +98,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   aqueduct: { widthM: 200, facingDeg: 0 },
   pagoda: { widthM: 30, facingDeg: 0 },
   lighthouse: { widthM: 25, facingDeg: 0 },
-  'leaning-tower': { widthM: 20, facingDeg: 0 },
+  'leaning-tower': { widthM: 21, facingDeg: 0 }, // widest axis N–S: 18.8 m base steps plus the ~3.9 m southward lean of the top; facing 0 keeps the authored +Z lean pointing south
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },

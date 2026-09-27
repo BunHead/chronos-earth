@@ -2425,51 +2425,200 @@ export function buildModel(
       }
     }
   } else if (model === 'leaning-tower') {
-    // The Leaning Tower of Pisa: a white marble campanile of eight stacked
-    // arcaded galleries under a bell chamber — built from the base up, then
-    // tilted ~5° so it leans like the real thing.
+    // The Leaning Tower of Pisa, the campanile of the Duomo, authored to its
+    // real proportions (1 unit = 1/0.36 m): 15.5 m across the base and about
+    // 56 m to the belfry parapet. Eight storeys — a tall ground floor wrapped
+    // in fifteen blind arches with inlaid lozenges; six open loggias, each a
+    // ring of thirty columns carrying thirty round arches in front of the
+    // shadowed core wall; then the narrower belfry, open-arched, with its
+    // seven bronze bells. The shaft leans ~4° SOUTH (+Z, the model front —
+    // the fit table's facing 0 keeps +Z south) about its base, and the belfry
+    // is set a touch back towards plumb: the masons corrected as they built,
+    // which is why the real tower is subtly banana-shaped.
+    // As a ruin (never happened — the tower is standing and stabilised) it
+    // ages rather than explodes: the belfry quarried away, the top loggia
+    // reduced to column stumps, a few fallen arches half-buried at the foot.
     ground = '#6a7050';
-    const marble = '#e8e4da';
-    const cornice = '#d6cfbf';
+    group.userData.selfRuined = true;
+    const M = 0.36;
+    const marble = stoneMat(ruined ? '#ddd5c6' : '#f8f4ec');
+    const shade = stoneMat(ruined ? '#bcb3a1' : '#d9d1c0'); // gallery core walls, in shadow
+    const cornice = stoneMat(ruined ? '#cec5b3' : '#ece5d7');
+    const inlay = stoneMat('#7c8676'); // the green-grey lozenge inlays
+    const rnd = (i: number, k: number) => {
+      const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453;
+      return x - Math.floor(x);
+    };
+
+    // A wall panel pierced by a round-headed arch (rect + semicircle hole),
+    // extruded; `spring` is where the semicircle starts. Faces local +Z.
+    const archPanel = (w: number, h: number, holeW: number, spring: number, depth: number): THREE.ExtrudeGeometry => {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2, 0);
+      s.lineTo(w / 2, 0);
+      s.lineTo(w / 2, h);
+      s.lineTo(-w / 2, h);
+      s.closePath();
+      const hw = holeW / 2;
+      const hole = new THREE.Path();
+      hole.moveTo(-hw, 0);
+      hole.lineTo(-hw, spring);
+      hole.absarc(0, spring, hw, Math.PI, 0, true);
+      hole.lineTo(hw, 0);
+      hole.closePath();
+      s.holes.push(hole);
+      const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: false, curveSegments: 8 });
+      g.translate(0, 0, -depth / 2);
+      return g;
+    };
+    // Stand `mesh` on a ring of radius r at angle a, its local +Z facing out.
+    const onRing = (mesh: THREE.Object3D, r: number, a: number, y: number) => {
+      mesh.position.set(Math.sin(a) * r, y, Math.cos(a) * r);
+      mesh.rotation.y = a;
+      return mesh;
+    };
+    const disc = (r: number, h: number, y: number, mat: THREE.Material, seg = 48) => {
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat);
+      m.position.y = y + h / 2;
+      return m;
+    };
+
+    // The foot: a low two-step marble base in the piazza. Left untilted so it
+    // sits flush on the grass while the shaft above leans away.
+    group.add(disc(9.4 * M, 0.2 * M, 0, cornice));
+    group.add(disc(8.7 * M, 0.35 * M, 0, cornice));
+
     const tower = new THREE.Group();
-    const R = 2.4;
-    const tierH = 1.7;
-    const tiers = 7;
-    for (let t = 0; t < tiers; t++) {
-      const yBase = t * tierH;
-      // Inner drum (solid wall of the storey).
-      const drum = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.8, R * 0.8, tierH, 24), stoneMat(marble));
-      drum.position.y = yBase + tierH / 2;
-      tower.add(drum);
-      // A ring of slender columns forming the open arcade (blind on the ground floor).
-      const cols = 14;
-      for (let i = 0; i < cols; i++) {
-        const a = (i / cols) * Math.PI * 2;
-        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, tierH * 0.86, 8), stoneMat(marble));
-        c.position.set(Math.cos(a) * R, yBase + tierH / 2, Math.sin(a) * R);
-        tower.add(c);
-      }
-      // Cornice ring between storeys.
-      const ring = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.06, R * 1.06, 0.22, 24), stoneMat(cornice));
-      ring.position.y = yBase;
-      tower.add(ring);
+    const Y0 = 0.35; // storeys start on the upper step (metres)
+
+    // ── Ground storey (11 m): solid wall, 15 engaged half-columns, blind arches.
+    const G_H = 11, G_R = 7.55, G_N = 15;
+    tower.add(disc(G_R * M, G_H * M, Y0 * M, marble));
+    tower.add(disc(7.95 * M, 0.6 * M, Y0 * M, cornice)); // base moulding
+    const gBay = ((2 * Math.PI * 7.75) / G_N) * 1.02;
+    const gSpring = 8.2;
+    const gHoleW = gBay - 0.95;
+    const gPanel = archPanel(gBay * M, (G_H - 0.5) * M, gHoleW * M, gSpring * M, 0.3 * M);
+    const halfCol = new THREE.CylinderGeometry(0.42 * M, 0.46 * M, gSpring * M, 12);
+    const lozenge = new THREE.BoxGeometry(0.95 * M, 0.95 * M, 0.12 * M);
+    for (let i = 0; i < G_N; i++) {
+      const aCol = (i / G_N) * Math.PI * 2;
+      const aBay = ((i + 0.5) / G_N) * Math.PI * 2;
+      tower.add(onRing(new THREE.Mesh(gPanel, marble), 7.72 * M, aBay, Y0 * M));
+      tower.add(onRing(new THREE.Mesh(halfCol, marble), 7.72 * M, aCol, (Y0 + gSpring / 2) * M));
+      // The lozenge inlaid in each arch head, proud of the wall behind it.
+      const lz = onRing(new THREE.Mesh(lozenge, inlay), (G_R + 0.06) * M, aBay, (Y0 + gSpring + 0.35) * M);
+      lz.rotateZ(Math.PI / 4);
+      tower.add(lz);
     }
-    // The bell chamber on top, a touch narrower.
-    const bell = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.72, R * 0.72, 1.5, 20), stoneMat(marble));
-    bell.position.y = tiers * tierH + 0.75;
-    tower.add(bell);
-    const topRing = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.78, R * 0.78, 0.2, 20), stoneMat(cornice));
-    topRing.position.set(0, tiers * tierH, 0);
-    tower.add(topRing);
-    // A flat stepped plinth at the foot: the real campanile rises from a base
-    // planted in the piazza. Left untilted, it sits flush on the ground and
-    // anchors the tower's contact shadow while the shaft above leans away.
-    const plinth = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.32, R * 1.46, 0.6, 24), stoneMat(cornice));
-    plinth.position.y = 0;
-    group.add(plinth);
-    // The famous lean (~4°, matching the real tower), pivoting at the base.
-    tower.rotation.z = 0.07;
+
+    // ── Six loggias (6.6 m each): floor cornice, 30 columns + capitals,
+    // 30 open arches in front of the shadowed core wall.
+    const L_H = 6.6, L_N = 30, L_COL_R = 7.35, CORE_R = 6.0;
+    const L_FLOOR = 0.45, L_BAND = 1.35;
+    const colH = L_H - L_FLOOR - L_BAND;
+    const lBay = ((2 * Math.PI * L_COL_R) / L_N) * 1.03;
+    const lHoleW = lBay - 0.55;
+    const lPanel = archPanel(lBay * M, L_BAND * M, lHoleW * M, 0.12 * M, 0.5 * M);
+    const colGeo = new THREE.CylinderGeometry(0.2 * M, 0.23 * M, colH * M, 10);
+    const capGeo = new THREE.BoxGeometry(0.62 * M, 0.3 * M, 0.62 * M);
+    const baseGeo = new THREE.BoxGeometry(0.56 * M, 0.22 * M, 0.56 * M);
+    const loggiaBase = (t: number) => Y0 + G_H + t * L_H;
+    for (let t = 0; t < 6; t++) {
+      const y0 = loggiaBase(t);
+      tower.add(disc(8.0 * M, L_FLOOR * M, y0 * M, cornice)); // projecting floor/cornice
+      // The ruin's top loggia is quarried down to stumps (its core wall too);
+      // the one below loses a few arches. Deterministic, so every render
+      // angle shows the same ruin.
+      const stumpy = ruined && t === 5;
+      tower.add(disc(CORE_R * M, (stumpy ? 2.2 : L_H) * M, y0 * M, shade));
+      for (let i = 0; i < L_N; i++) {
+        const a = (i / L_N) * Math.PI * 2;
+        const yCol = (y0 + L_FLOOR) * M;
+        if (stumpy) {
+          const h = (0.6 + rnd(i, 3) * 2.2) * M;
+          if (rnd(i, 4) < 0.3) continue;
+          const stump = new THREE.Mesh(new THREE.CylinderGeometry(0.2 * M, 0.23 * M, h, 10), marble);
+          stump.position.set(Math.sin(a) * L_COL_R * M, yCol + h / 2, Math.cos(a) * L_COL_R * M);
+          tower.add(stump);
+          continue;
+        }
+        tower.add(onRing(new THREE.Mesh(baseGeo, cornice), L_COL_R * M, a, yCol + 0.11 * M));
+        tower.add(onRing(new THREE.Mesh(colGeo, marble), L_COL_R * M, a, yCol + (colH * M) / 2));
+        tower.add(onRing(new THREE.Mesh(capGeo, cornice), L_COL_R * M, a, yCol + colH * M - 0.15 * M));
+        if (ruined && t === 4 && rnd(i, 5) < 0.25) continue; // a few arches gone
+        const aBay = ((i + 0.5) / L_N) * Math.PI * 2;
+        tower.add(onRing(new THREE.Mesh(lPanel, marble), L_COL_R * M, aBay, yCol + colH * M));
+      }
+    }
+    // Floor over the last loggia, with the walkway parapet round the belfry.
+    const topY = loggiaBase(6);
+    if (!ruined) {
+      tower.add(disc(8.0 * M, L_FLOOR * M, topY * M, cornice));
+      const parapet = new THREE.Mesh(
+        new THREE.CylinderGeometry(7.85 * M, 7.85 * M, 1.0 * M, 48, 1, true),
+        stoneLike({ color: '#e4ddcf', side: THREE.DoubleSide }),
+      );
+      parapet.position.y = (topY + L_FLOOR + 0.5) * M;
+      tower.add(parapet);
+
+      // ── The belfry: narrower, open-arched, seven bells hung in its arches.
+      // Set back ~0.7° towards plumb about its own base (the builders' correction).
+      const belfry = new THREE.Group();
+      belfry.position.y = (topY + L_FLOOR) * M;
+      belfry.rotation.x = -0.012;
+      const B_R = 4.9, B_N = 12, B_H = 4.4;
+      const bBay = ((2 * Math.PI * B_R) / B_N) * 1.03;
+      const bPanel = archPanel(bBay * M, B_H * M, (bBay - 0.9) * M, 2.4 * M, 0.7 * M);
+      for (let i = 0; i < B_N; i++) {
+        belfry.add(onRing(new THREE.Mesh(bPanel, marble), B_R * M, ((i + 0.5) / B_N) * Math.PI * 2, 0));
+      }
+      belfry.add(disc(5.35 * M, 0.4 * M, B_H * M, cornice)); // crowning cornice
+      belfry.add(disc(4.6 * M, 0.2 * M, (B_H + 0.4) * M, shade)); // flat roof
+      const rail = new THREE.Mesh(
+        new THREE.CylinderGeometry(5.2 * M, 5.2 * M, 0.9 * M, 36, 1, true),
+        stoneLike({ color: '#e4ddcf', side: THREE.DoubleSide }),
+      );
+      rail.position.y = (B_H + 0.4 + 0.45) * M;
+      belfry.add(rail);
+      // Seven bronze bells (the real peal is seven), a bell-mouth lathe each.
+      const bellPts = [
+        [0.0, 0], [0.62, 0.02], [0.6, 0.12], [0.5, 0.35], [0.42, 0.7], [0.4, 0.95], [0.3, 1.05], [0.0, 1.08],
+      ].map(([x, y]) => new THREE.Vector2(x * M, y * M));
+      const bellGeo = new THREE.LatheGeometry(bellPts, 16);
+      for (let k = 0; k < 7; k++) {
+        const a = ((Math.round((k * B_N) / 7) + 0.5) / B_N) * Math.PI * 2;
+        const s = 1.2 - k * 0.08;
+        const b = new THREE.Mesh(bellGeo, BRONZE);
+        b.scale.setScalar(s);
+        b.position.set(Math.sin(a) * B_R * M, (3.0 - 1.08 * s) * M, Math.cos(a) * B_R * M);
+        belfry.add(b);
+      }
+      tower.add(belfry);
+    }
+
+    // The famous lean: ~4° (3.97° after the 1990–2001 stabilisation) towards
+    // the south, about the base. Sunk by R·sin(lean) so the uphill (north)
+    // lip still meets the step — the south side settles, as the real one did.
+    const lean = 0.0693;
+    tower.rotation.x = lean;
+    tower.position.y = -7.95 * M * Math.sin(lean);
     group.add(tower);
+
+    if (ruined) {
+      // Fallen arches and drums, half-buried close under the leaning (south)
+      // face they came off — aged, not blown up.
+      for (let k = 0; k < 9; k++) {
+        const a = (rnd(k, 7) - 0.5) * 2.2; // spread around south (+Z)
+        const r = (9.6 + rnd(k, 8) * 3.5) * M;
+        const d = k % 3 === 0
+          ? new THREE.Mesh(new THREE.CylinderGeometry(0.22 * M, 0.22 * M, (1.2 + rnd(k, 9) * 1.5) * M, 10), marble)
+          : new THREE.Mesh(new THREE.BoxGeometry((0.8 + rnd(k, 9)) * M, 0.5 * M, (0.6 + rnd(k, 10) * 0.6) * M), marble);
+        d.position.set(Math.sin(a) * r, 0.12 * M, Math.cos(a) * r);
+        d.rotation.set(k % 3 === 0 ? Math.PI / 2 : 0.1, rnd(k, 11) * Math.PI, rnd(k, 12) * 0.3);
+        group.add(d);
+      }
+    }
   } else if (model === 'amphitheatre') {
     // The Colosseum, with REAL arches: three tiers of see-through arched bays
     // under a solid attic, wrapping the seating bank and arena. Intact (80 CE)
