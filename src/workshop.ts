@@ -1370,8 +1370,36 @@ function populateBattles(filter = '') {
     bSel.appendChild(o);
   }
   if ([...bSel.options].some((o) => o.value === prev)) bSel.value = prev;
+  showBattleMap();
 }
 bFilter.addEventListener('input', () => populateBattles(bFilter.value));
+
+// THE BATTLE'S OWN MAP. 27 historical maps (public/data/battlemaps, credited,
+// public domain or CC) were fetched for the old in-app battle view and had
+// been shown nowhere since it was retired; the Captain asked for them here
+// (27 Sept 2026). Shown under the battle picker whenever one exists.
+let battleMaps: Record<string, { file: string; credit: string; page: string }> = {};
+fetch('./data/battlemaps/manifest.json')
+  .then((r) => (r.ok ? r.json() : { maps: {} }))
+  .then((d) => { battleMaps = d.maps ?? {}; showBattleMap(); })
+  .catch(() => { /* no maps — the section simply stays hidden */ });
+function showBattleMap() {
+  const fig = document.getElementById('bMap') as HTMLElement | null;
+  if (!fig) return;
+  const m = battleMaps[bSel.value];
+  if (!m) { fig.style.display = 'none'; return; }
+  const url = `./data/battlemaps/${m.file}`;
+  (document.getElementById('bMapImg') as HTMLImageElement).src = url;
+  (document.getElementById('bMapImg') as HTMLImageElement).alt = `Historical map of ${bSel.selectedOptions[0]?.text ?? 'the battle'}`;
+  (document.getElementById('bMapLink') as HTMLAnchorElement).href = url;
+  const credit = document.getElementById('bMapCredit') as HTMLElement;
+  credit.textContent = '';
+  const a = document.createElement('a');
+  a.href = m.page; a.target = '_blank'; a.rel = 'noopener'; a.textContent = m.credit;
+  a.style.color = '#9fc4ea';
+  credit.append('Map: ', a);
+  fig.style.display = 'block';
+}
 
 function currentBattleView(): { battle: Battle; view: BattleView } | null {
   const battle = battles.find((b) => b.id === bSel.value);
@@ -1434,6 +1462,7 @@ document.getElementById('bPrev')!.addEventListener('click', () => { battlePhase-
 document.getElementById('bNext')!.addEventListener('click', () => { battlePhase++; renderBattle(); });
 bSel.addEventListener('change', () => {
   battlePhase = 0;
+  showBattleMap();
   if (battleOpenId) { battleOpenId = bSel.value; renderBattle(); }
   renderBattleReview();
 });
