@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { matchTier } from './searchRank';
+import { didYouMean, editDistance, matchTier } from './searchRank';
 
 describe('how well a name matches the search', () => {
   it('ranks the place itself above a name that merely contains it', () => {
@@ -22,5 +22,24 @@ describe('how well a name matches the search', () => {
 
   it('says so when there is no match', () => {
     expect(matchTier('athens', 'sparta')).toBe(-1);
+  });
+});
+
+describe('did you mean', () => {
+  const names: Array<[string, string]> = [
+    ['machu picchu', 'Machu Picchu'], ['pangaea', 'Pangaea'], ['stonehenge', 'Stonehenge'], ['rome', 'Rome'],
+  ];
+  it('finds the name a slip or two away', () => {
+    expect(didYouMean('machu picu', names)).toBe('Machu Picchu');
+    expect(didYouMean('pangea', names)).toBe('Pangaea');
+    expect(didYouMean('stonhenge', names)).toBe('Stonehenge');
+  });
+  it('stays quiet for real names, short queries and wild guesses', () => {
+    expect(didYouMean('stonehenge', names)).toBeNull();
+    expect(didYouMean('rom', names)).toBeNull();
+    expect(didYouMean('zzzzzz', names)).toBeNull();
+  });
+  it('counts a swapped pair of letters as one slip', () => {
+    expect(editDistance('dinousaurs', 'dinosaurs')).toBe(1);
   });
 });

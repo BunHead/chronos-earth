@@ -4,7 +4,7 @@ import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
 import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
-import { matchTier } from '../lib/searchRank';
+import { didYouMean, matchTier } from '../lib/searchRank';
 import { yearLabel } from '../lib/panel';
 
 interface SearchBoxProps {
@@ -77,6 +77,8 @@ interface Result {
   run: () => void;
   /** Where it is, shown only to tell apart two rows that would read the same. */
   at?: { lat: number; lon: number };
+  /** A spelling suggestion: picking it fills the box instead of closing it. */
+  keepOpen?: boolean;
 }
 
 const coord = ({ lat, lon }: { lat: number; lon: number }) =>
@@ -111,6 +113,24 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   const [countries, setCountries] = useState<CountryIndex | null>(null);
   // Folded once when the index arrives, not ~50,000 times per keystroke.
   const foldedIndex = useMemo(() => indexRows.map((r) => fold(r.name)), [indexRows]);
+  // Every name the box can find, for "did you mean…?" — folded once.
+  const knownNames = useMemo<Array<[string, string]>>(() => {
+    const all = [
+      ...indexRows.map((r) => r.name), ...events.map((e) => e.name), ...battles.map((b) => b.name),
+      ...sites.map((x) => x.name), ...ERAS.map((e) => e.name), ...fauna.map((x) => x.name),
+      ...(countries?.rows.map((c) => c.name) ?? []),
+    ];
+    const seen = new Set<string>();
+    const out: Array<[string, string]> = [];
+    for (const n of all) {
+      const k = fold(n);
+      if (!seen.has(k)) { seen.add(k); out.push([k, n]); }
+      // Its first word too, so "Tyranosaurus" finds "Tyrannosaurus rex".
+      const first = k.split(' ')[0];
+      if (first !== k && first.length >= 5 && !seen.has(first)) { seen.add(first); out.push([first, n]); }
+    }
+    return out;
+  }, [indexRows, events, battles, sites, fauna, countries]);
   const asked = useRef(false);
   const wantIndex = () => {
     if (asked.current) return;
@@ -264,14 +284,20 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     }
     // Two different places can share a name and a year — Pleiades has two
     // Delphinions of 550 BCE. Rows that would read identically say where.
+    // Little or nothing found? Offer the closest real name ("Machu Picu").
+    if (out.length <= 2) {
+      const fix = didYouMean(q, knownNames);
+      if (fix) out.unshift({ key: 'did-you-mean', label: `Did you mean ${fix}?`, sub: 'Search for it instead', badge: '✏️ Spelling', keepOpen: true, run: () => setQuery(fix) });
+    }
     const shown = out.slice(0, 9);
     const seen = new Map<string, number>();
     for (const r of shown) seen.set(r.label + '|' + r.sub, (seen.get(r.label + '|' + r.sub) ?? 0) + 1);
     return shown.map((r) => (r.at && (seen.get(r.label + '|' + r.sub) ?? 0) > 1 ? { ...r, sub: `${r.sub} · ${coord(r.at)}` } : r));
-  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
+  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, knownNames, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
     r.run();
+    if (r.keepOpen) return; // the box now holds the corrected name
     setQuery('');
     setFocused(false);
   };

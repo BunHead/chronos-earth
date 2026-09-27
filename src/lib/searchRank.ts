@@ -23,3 +23,49 @@ export function matchTier(name: string, q: string): number {
   }
   return 4;
 }
+
+/**
+ * Edit distance with adjacent swaps (optimal string alignment), stopping early
+ * once it must exceed `max`. Both strings already folded.
+ */
+export function editDistance(a: string, b: string, max = Infinity): number {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev2: number[] = [];
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      let v = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) v = Math.min(v, prev2[j - 2] + 1);
+      cur.push(v);
+      if (v < rowMin) rowMin = v;
+    }
+    if (rowMin > max) return max + 1;
+    prev2 = prev;
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+/**
+ * "Did you mean…?" — the closest known name to a query that matched little.
+ * The Captain types "Machu Picu", "Pangea", "dinousaurs": each is a letter or
+ * two from something the globe knows. Allows about one slip per four letters;
+ * only compares names of similar length that start with the same letter, so it
+ * stays fast over ~50,000 names. `names` are [folded, display] pairs.
+ */
+export function didYouMean(q: string, names: Array<[string, string]>): string | null {
+  if (q.length < 4) return null;
+  const max = Math.max(1, Math.floor(q.length / 4));
+  let best: string | null = null;
+  let bestD = max + 1;
+  for (const [folded, display] of names) {
+    if (folded[0] !== q[0] || Math.abs(folded.length - q.length) > max) continue;
+    if (folded === q) return null; // it is a real name — nothing to correct
+    const d = editDistance(q, folded, bestD - 1 < max ? bestD - 1 : max);
+    if (d < bestD) { bestD = d; best = display; }
+  }
+  return best;
+}
