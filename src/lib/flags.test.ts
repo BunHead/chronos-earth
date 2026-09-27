@@ -132,3 +132,19 @@ describe('flagSpecFor — the right flag at the right time', () => {
     }
   });
 });
+
+describe('emblems the Captain approved (27 Sept 2026)', () => {
+  it('the Aztec Empire wears the eagle on the cactus, from Tenochtitlan\'s founding', () => {
+    expect(flagSpecFor('Aztec Empire', 1500)?.key).toBe('aztec');
+    expect(flagSpecFor('Aztec Empire', 1300)).toBeNull();
+  });
+  it('the Iroquois wear the Hiawatha Belt', () => {
+    expect(flagSpecFor('Iroquois', 1600)?.key).toBe('haudenosaunee');
+    expect(flagSpecFor('Iroquois', 1400)).toBeNull();
+  });
+  it('the peoples without a documented emblem stay a plain tint', () => {
+    for (const n of ['Cherokee', 'Apache', 'Comanche', 'Shawnee', 'Cree', 'Inca Empire', 'Maya', 'Olmec']) {
+      expect(flagSpecFor(n, 1600), n).toBeNull();
+    }
+  });
+});

@@ -592,7 +592,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   scripts/add-dinosaurs.mjs does it. Timeline mural art for the new span.
   Keep deep-time playback watchable (App.tsx slows below 2.6 Mya to 40%).
 
-- [ ] **16. Emblems for ancient civilisations and Native nations.**
+- [x] **16. Emblems for ancient civilisations and Native nations.** _(done 2026-09-27 — approved by the Captain; Aztec eagle-on-cactus from 1325, Hiawatha Belt from 1450, in src/lib/flags.ts)_
   ⛔ WAITS FOR THE CAPTAIN'S APPROVAL of the list in docs/AUDIT-2026-09-26.md
   ("Emblems — proposal"). Skip this item until that section records his yes.
   Then draw ONLY the approved symbols in src/lib/flags.ts, each with its source

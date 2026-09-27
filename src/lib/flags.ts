@@ -211,6 +211,88 @@ const ottomanFlag: Draw = (ctx, w, h) => {
   ctx.fill();
 };
 
+/**
+ * THE AZTEC EMBLEM: the eagle on a nopal cactus growing from a rock in the
+ * lake — Tenochtitlan's founding sign, as the Mexica painted it in the Codex
+ * Mendoza (c. 1541) and on the Teocalli of the Sacred War. Drawn plainly: an
+ * amate-paper field, the blue of Lake Texcoco, the cactus with its red tuna
+ * fruit, the eagle alighting. Approved by the Captain, 27 Sept 2026.
+ */
+const aztecEmblem: Draw = (ctx, w, h) => {
+  fill(ctx, '#e8d9b0', 0, 0, w, h); // amate bark paper
+  fill(ctx, '#2f6fa3', 0, h * 0.78, w, h * 0.22); // the lake
+  ctx.fillStyle = '#6b5a45'; // the rock (tetl)
+  ctx.beginPath();
+  ctx.ellipse(w * 0.5, h * 0.8, w * 0.12, h * 0.06, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#3f8a3a'; // nopal pads
+  for (const [x, y, rx, ry, a] of [
+    [0.5, 0.66, 0.05, 0.11, 0], [0.42, 0.55, 0.045, 0.1, -0.5], [0.58, 0.55, 0.045, 0.1, 0.5],
+    [0.36, 0.44, 0.04, 0.085, -0.8], [0.5, 0.5, 0.045, 0.09, 0], [0.64, 0.44, 0.04, 0.085, 0.8],
+  ] as const) {
+    ctx.beginPath();
+    ctx.ellipse(w * x, h * y, w * rx, h * ry, a, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#c0282d'; // tuna fruit
+  for (const [x, y] of [[0.33, 0.37], [0.4, 0.46], [0.6, 0.46], [0.67, 0.37]] as const) {
+    ctx.beginPath();
+    ctx.arc(w * x, h * y, h * 0.022, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#4a3322'; // the eagle, wings raised
+  ctx.beginPath();
+  ctx.moveTo(w * 0.5, h * 0.28);
+  ctx.lineTo(w * 0.34, h * 0.16);
+  ctx.lineTo(w * 0.44, h * 0.38);
+  ctx.lineTo(w * 0.47, h * 0.48);
+  ctx.lineTo(w * 0.53, h * 0.48);
+  ctx.lineTo(w * 0.56, h * 0.38);
+  ctx.lineTo(w * 0.66, h * 0.16);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(w * 0.5, h * 0.26, h * 0.045, 0, Math.PI * 2); // head
+  ctx.fill();
+};
+
+/**
+ * THE HIAWATHA BELT: the wampum belt that records the founding of the
+ * Haudenosaunee (Iroquois) Confederacy — five nations as white shapes on
+ * purple shell, joined by one line: two squares each side (Mohawk and Oneida,
+ * Cayuga and Seneca) and the Great Tree at the heart (Onondaga). The
+ * Confederacy's own emblem, drawn as the belt shows it. Approved by the
+ * Captain, 27 Sept 2026.
+ */
+const hiawathaBelt: Draw = (ctx, w, h) => {
+  fill(ctx, '#4b2a6b', 0, 0, w, h); // purple wampum
+  ctx.fillStyle = '#f4f1e8'; // white wampum
+  const s = h * 0.26;
+  ctx.fillRect(w * 0.06, h * 0.5 - h * 0.035, w * 0.88, h * 0.07); // the joining line
+  for (const x of [0.14, 0.32, 0.68, 0.86]) {
+    const cx = w * x;
+    ctx.fillRect(cx - s / 2, h * 0.5 - s / 2, s, s);
+    ctx.fillStyle = '#4b2a6b';
+    ctx.fillRect(cx - s * 0.28, h * 0.5 - s * 0.28, s * 0.56, s * 0.56); // squares are outlines
+    ctx.fillStyle = '#f4f1e8';
+  }
+  // The Great Tree of Peace, a heart-like figure at the centre.
+  ctx.beginPath();
+  ctx.moveTo(w * 0.5, h * 0.2);
+  ctx.lineTo(w * 0.56, h * 0.36);
+  ctx.lineTo(w * 0.54, h * 0.36);
+  ctx.lineTo(w * 0.58, h * 0.5);
+  ctx.lineTo(w * 0.52, h * 0.5);
+  ctx.lineTo(w * 0.52, h * 0.78);
+  ctx.lineTo(w * 0.48, h * 0.78);
+  ctx.lineTo(w * 0.48, h * 0.5);
+  ctx.lineTo(w * 0.42, h * 0.5);
+  ctx.lineTo(w * 0.46, h * 0.36);
+  ctx.lineTo(w * 0.44, h * 0.36);
+  ctx.closePath();
+  ctx.fill();
+};
+
 const brazilFlag: Draw = (ctx, w, h) => {
   fill(ctx, '#009C3B', 0, 0, w, h);
   ctx.fillStyle = '#FFDF00';
@@ -416,6 +498,14 @@ export const FLAGS: FlagSpec[] = [
   { match: 'eastern roman', key: 'byzantium', draw: byzantineFlag },
   { match: 'byzanti', key: 'byzantium', draw: byzantineFlag },
   { match: 'roman', key: 'rome', draw: romanVexillum },
+  // Emblems the Captain approved on 27 Sept 2026 (docs/AUDIT-2026-09-26.md).
+  // Tenochtitlan was founded in 1325; the sign is its founding legend.
+  { match: 'aztec', key: 'aztec', from: 1325, draw: aztecEmblem },
+  // The Confederacy's founding is dated anywhere from the 12th to the 15th
+  // century; 1450 is the conservative end, and the map shows the Iroquois
+  // only from 1500, so the belt never appears before any date proposed.
+  { match: 'iroquois', key: 'haudenosaunee', from: 1450, draw: hiawathaBelt },
+  { match: 'haudenosaunee', key: 'haudenosaunee', from: 1450, draw: hiawathaBelt },
   // The red crescent-and-star flag dates from 1844; before that the empire keeps its tint.
   { match: 'ottoman', key: 'ottoman', from: 1844, draw: ottomanFlag },
   { match: 'turkey', key: 'turkey', draw: ottomanFlag },
