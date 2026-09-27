@@ -375,7 +375,15 @@ async function main() {
         const [born, endedWd] = national.get(ofId) ?? [null, null];
         const ended = endedWd ?? KNOWN_ENDS[ofId] ?? null;
         const out = { ...e };
-        if (out.from === null && born !== null) { out.from = born; bounded++; }
+        // …but never from before the city itself existed: an undated role took
+        // the polity's own start, so Carchemish was 'capital of the Assyrian
+        // Empire from 2025 BCE' seven centuries before the city's date (27 Sept
+        // 2026). Only BORROWED starts are clamped; a date the role carries stays.
+        if (out.from === null && born !== null) {
+          const cityStart = byQid.get(qid)?.startYear;
+          out.from = typeof cityStart === 'number' && cityStart > born ? cityStart : born;
+          bounded++;
+        }
         if (out.to === null && ended !== null) { out.to = ended; bounded++; }
         return out;
       });
