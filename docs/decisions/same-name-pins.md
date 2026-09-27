@@ -2,7 +2,7 @@
 
 44 pairs of city/monument pins with the same name within 30 km that the automatic merge leaves alone, because merging would change a date. Each has a suggested ruling; reply with the numbers you disagree with (e.g. "all fine except 7 and 12") and they will be applied the way Cusco's and Petra's were (scripts/dedupe-places.mjs CURATED_DROPS).
 
-Summary: 31 × Keep both, 12 × One pin, 1 × Your call.
+Summary: 28 × Keep both, 12 × One pin, 4 × Your call.
 
 | # | Name | Apart | Pin A | Pin B | Suggested | Why |
 |---|---|---|---|---|---|---|
