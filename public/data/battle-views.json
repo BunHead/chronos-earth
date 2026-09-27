@@ -20728,6 +20728,2185 @@
         }
       ],
       "severity": 0.9
+    },
+    "carrhae": {
+      "title": "Battle of Carrhae",
+      "subtitle": "9 June 53 BCE — Crassus’s legions against Surena’s horse archers",
+      "sides": {
+        "a": {
+          "name": "Roman Republic (Crassus)",
+          "color": "#a3201f"
+        },
+        "b": {
+          "name": "Parthian Empire (Surena)",
+          "color": "#c47f17"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              18,
+              0
+            ],
+            [
+              20,
+              34
+            ],
+            [
+              16,
+              70
+            ]
+          ],
+          "label": "River Balikh (course approximate)"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 6,
+          "r": 3,
+          "label": "Carrhae (Harran)"
+        },
+        {
+          "type": "hill",
+          "x": 24,
+          "y": 54,
+          "r": 5,
+          "label": "Publius’s hillock (exact spot unknown)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Drums on the plain",
+          "narration": "Having followed the Balikh south into open, treeless country below Carrhae, some 35,000–43,000 Romans meet Surena’s 10,000 horsemen. The Parthians beat hollow drums, then the 1,000 cataphracts drop the covers from their armour. Crassus first draws up in a long line with cavalry on the wings."
+        },
+        {
+          "name": "The hollow square",
+          "narration": "Crassus changes his mind and forms a hollow square, twelve cohorts to a side, so he cannot be outflanked. Some 9,000 horse archers ride round it out of javelin reach and shoot into the packed ranks; when legionaries advance, the archers fall back shooting over their shoulders.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                26
+              ],
+              "to": [
+                42,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                72,
+                36
+              ],
+              "to": [
+                58,
+                33
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                50
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Publius’s sortie",
+          "narration": "Hope that the archers will run dry dies when a train of about 1,000 camels is seen bringing fresh arrows. Crassus sends his son Publius out with 1,300 Gallic horse, 500 archers and eight cohorts to drive them off. The Parthians give way before him — a feigned retreat that draws him away from the square.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                36
+              ],
+              "to": [
+                30,
+                48
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The last stand on the hillock",
+          "narration": "Out of sight of the main army the Parthians turn. Cataphracts pin the Gauls, whose light spears and bare bodies are no match for armour, while the archers shoot into the cohorts. Driven onto a low rise, Publius and his officers fall on their swords; about 500 of his men are taken alive.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                60
+              ],
+              "to": [
+                26,
+                55
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                12,
+                48
+              ],
+              "to": [
+                22,
+                53
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                26,
+                66
+              ],
+              "to": [
+                24,
+                57
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The head on a spear",
+          "narration": "The Parthians ride back to the square carrying Publius’s head on a lance. Arrows and cataphract charges fall on the Romans until darkness ends the fighting; the legions hold their square but can neither close with the enemy nor escape him.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                30
+              ],
+              "to": [
+                42,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                72,
+                34
+              ],
+              "to": [
+                58,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                54
+              ],
+              "to": [
+                50,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Retreat to Carrhae",
+          "narration": "In the night Crassus abandons about 4,000 wounded, killed by the Parthians next morning, and the army stumbles north to Carrhae; four cohorts that lose their way are cut down on a hill. Days later, forced by his mutinous men to parley, Crassus is killed in a scuffle. Of the army, some 20,000 died and 10,000 were captured.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                34
+              ],
+              "to": [
+                50,
+                22
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "r-north",
+          "side": "a",
+          "label": "Legions — front of the square",
+          "strength": 7500,
+          "helmet": "roman",
+          "pos": [
+            [
+              44,
+              28
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              50,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "r-west",
+          "side": "a",
+          "label": "Legions — left face",
+          "strength": 7500,
+          "helmet": "roman",
+          "pos": [
+            [
+              36,
+              28
+            ],
+            [
+              42,
+              32
+            ],
+            [
+              42,
+              32
+            ],
+            [
+              43,
+              33
+            ],
+            [
+              43,
+              33
+            ],
+            [
+              45,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "r-east",
+          "side": "a",
+          "label": "Legions — right face",
+          "strength": 7500,
+          "helmet": "roman",
+          "pos": [
+            [
+              58,
+              28
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              57,
+              33
+            ],
+            [
+              55,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "r-south",
+          "side": "a",
+          "label": "Legions — rear of the square",
+          "strength": 7500,
+          "helmet": "roman",
+          "pos": [
+            [
+              52,
+              22
+            ],
+            [
+              50,
+              39
+            ],
+            [
+              50,
+              39
+            ],
+            [
+              50,
+              39
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              50,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "r-light",
+          "side": "a",
+          "label": "Light infantry & auxiliary horse",
+          "shape": "cavalry",
+          "strength": 6700,
+          "helmet": "roman",
+          "pos": [
+            [
+              70,
+              28
+            ],
+            [
+              54,
+              30
+            ],
+            [
+              54,
+              30
+            ],
+            [
+              54,
+              30
+            ],
+            [
+              54,
+              31
+            ],
+            [
+              56,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "publius-gauls",
+          "side": "a",
+          "label": "Publius’s Gallic horse",
+          "shape": "cavalry",
+          "strength": 1300,
+          "helmet": "none",
+          "pos": [
+            [
+              26,
+              28
+            ],
+            [
+              46,
+              30
+            ],
+            [
+              30,
+              47
+            ],
+            [
+              23,
+              54
+            ],
+            [
+              23,
+              54
+            ],
+            [
+              23,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "publius-cohorts",
+          "side": "a",
+          "label": "Publius’s eight cohorts & archers",
+          "strength": 4000,
+          "helmet": "roman",
+          "pos": [
+            [
+              48,
+              20
+            ],
+            [
+              46,
+              34
+            ],
+            [
+              34,
+              45
+            ],
+            [
+              25,
+              52
+            ],
+            [
+              25,
+              52
+            ],
+            [
+              25,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "cataphracts",
+          "side": "b",
+          "label": "Cataphracts",
+          "shape": "cavalry",
+          "strength": 1000,
+          "helmet": "conical",
+          "pos": [
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              36,
+              60
+            ],
+            [
+              33,
+              60
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              50,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "ha-west",
+          "side": "b",
+          "label": "Horse archers (west)",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              34,
+              60
+            ],
+            [
+              28,
+              26
+            ],
+            [
+              20,
+              54
+            ],
+            [
+              12,
+              48
+            ],
+            [
+              28,
+              30
+            ],
+            [
+              40,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "ha-east",
+          "side": "b",
+          "label": "Horse archers (east)",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              66,
+              60
+            ],
+            [
+              72,
+              36
+            ],
+            [
+              72,
+              36
+            ],
+            [
+              70,
+              38
+            ],
+            [
+              72,
+              34
+            ],
+            [
+              62,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "ha-south",
+          "side": "b",
+          "label": "Horse archers (south)",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              50,
+              64
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              28,
+              62
+            ],
+            [
+              26,
+              66
+            ],
+            [
+              44,
+              54
+            ],
+            [
+              52,
+              40
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.3
+    },
+    "manzikert": {
+      "title": "Battle of Manzikert",
+      "subtitle": "26 August 1071 — Romanos IV against Alp Arslan",
+      "sides": {
+        "a": {
+          "name": "Byzantine Empire (Romanos IV)",
+          "color": "#7b1e3a"
+        },
+        "b": {
+          "name": "Seljuk Empire (Alp Arslan)",
+          "color": "#3a7d44"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 50,
+          "y": 5,
+          "r": 3,
+          "label": "Manzikert (Malazgirt)"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 14,
+          "r": 2,
+          "label": "Byzantine camp"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 58,
+          "r": 2,
+          "label": "Seljuk camp"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The crescent",
+          "narration": "Romanos has retaken Manzikert, but half his planned 40,000 are gone — a large detachment under Tarchaneiotes and Roussel de Bailleul sent towards Khliat never returns, and Turkic mercenaries have gone over. About 20,000 deploy on the plain south of the town: Alyattes on the right, the Emperor in the centre, Bryennios on the left and Andronikos Doukas with the rearguard. The Seljuks, perhaps 20,000–30,000 (some estimates run higher), wait in a crescent some four kilometres off."
+        },
+        {
+          "name": "Arrows and empty ground",
+          "narration": "The Byzantines advance in good order. The Seljuk centre gives way before them while the horns of the crescent ride round the wings, shooting; whenever the heavy cavalry turns on them, the horse archers simply ride away.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                34
+              ],
+              "to": [
+                34,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                76,
+                34
+              ],
+              "to": [
+                66,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The captured camp",
+          "narration": "By late afternoon the Emperor has pushed far to the south and takes Alp Arslan’s camp — but the Seljuk army is intact on the flanks and has never been brought to battle. The Byzantine lines are strung out, far from their own camp.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                44
+              ],
+              "to": [
+                50,
+                55
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The turn at dusk",
+          "narration": "With evening coming, Romanos turns his standards to march back to camp. The right wing misreads the order, and Andronikos Doukas — of the family that opposed the Emperor — marches the rearguard straight back to camp instead of covering the withdrawal, reportedly spreading word that the Emperor has fallen. The Seljuks attack into the confusion.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                40
+              ],
+              "to": [
+                34,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                76,
+                40
+              ],
+              "to": [
+                66,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                62
+              ],
+              "to": [
+                50,
+                52
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Encircled",
+          "narration": "The right wing breaks at once; Bryennios holds on the left a little longer, then his wing is routed too. The Emperor, the Varangians and the remnant of the centre are surrounded and fight until Romanos, wounded, is taken prisoner. Somewhere between 2,000 and 8,000 Byzantines are killed; many of Doukas’s levies escape.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                56
+              ],
+              "to": [
+                50,
+                48
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                38,
+                38
+              ],
+              "to": [
+                47,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                38
+              ],
+              "to": [
+                53,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "romanos",
+          "side": "a",
+          "label": "Romanos IV, tagmata & Varangians",
+          "strength": 6000,
+          "helmet": "conical",
+          "pos": [
+            [
+              50,
+              22
+            ],
+            [
+              50,
+              34
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              45
+            ]
+          ]
+        },
+        {
+          "id": "alyattes",
+          "side": "a",
+          "label": "Right wing (Alyattes)",
+          "shape": "cavalry",
+          "strength": 4000,
+          "helmet": "conical",
+          "pos": [
+            [
+              36,
+              22
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              38,
+              48
+            ],
+            [
+              36,
+              42
+            ],
+            [
+              26,
+              20
+            ]
+          ]
+        },
+        {
+          "id": "bryennios",
+          "side": "a",
+          "label": "Left wing (Bryennios)",
+          "shape": "cavalry",
+          "strength": 4000,
+          "helmet": "conical",
+          "pos": [
+            [
+              64,
+              22
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              62,
+              48
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              72,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "doukas",
+          "side": "a",
+          "label": "Rearguard (Andronikos Doukas)",
+          "strength": 5000,
+          "helmet": "conical",
+          "pos": [
+            [
+              50,
+              12
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              50,
+              36
+            ],
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              12
+            ]
+          ]
+        },
+        {
+          "id": "arslan",
+          "side": "b",
+          "label": "Alp Arslan’s centre (ghulams)",
+          "shape": "cavalry",
+          "strength": 6000,
+          "helmet": "cap",
+          "pos": [
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              56
+            ],
+            [
+              50,
+              66
+            ],
+            [
+              50,
+              60
+            ],
+            [
+              50,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "left-horn",
+          "side": "b",
+          "label": "Left horn — horse archers",
+          "shape": "cavalry",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              30,
+              40
+            ],
+            [
+              22,
+              34
+            ],
+            [
+              16,
+              44
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              38,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "right-horn",
+          "side": "b",
+          "label": "Right horn — horse archers",
+          "shape": "cavalry",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              70,
+              40
+            ],
+            [
+              78,
+              34
+            ],
+            [
+              84,
+              44
+            ],
+            [
+              76,
+              40
+            ],
+            [
+              62,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "kurds",
+          "side": "b",
+          "label": "Kurdish & reserve horse",
+          "shape": "cavalry",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              50,
+              60
+            ],
+            [
+              50,
+              64
+            ],
+            [
+              40,
+              66
+            ],
+            [
+              42,
+              58
+            ],
+            [
+              44,
+              52
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.15
+    },
+    "grunwald": {
+      "title": "Battle of Grunwald",
+      "subtitle": "15 July 1410 — Poland–Lithuania against the Teutonic Order",
+      "sides": {
+        "a": {
+          "name": "Poland–Lithuania (Jagiełło & Vytautas)",
+          "color": "#c8102e"
+        },
+        "b": {
+          "name": "Teutonic Order (Ulrich von Jungingen)",
+          "color": "#e8e4d8"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 30,
+          "y": 10,
+          "r": 2,
+          "label": "Grunwald (Grünfelde)"
+        },
+        {
+          "type": "town",
+          "x": 14,
+          "y": 5,
+          "r": 2,
+          "label": "Stębark (Tannenberg)"
+        },
+        {
+          "type": "town",
+          "x": 76,
+          "y": 20,
+          "r": 2,
+          "label": "Łodwigowo (Ludwigsdorf)"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 8,
+          "r": 2,
+          "label": "Teutonic camp"
+        },
+        {
+          "type": "forest",
+          "x": 36,
+          "y": 64,
+          "r": 7,
+          "label": "Woods"
+        },
+        {
+          "type": "forest",
+          "x": 62,
+          "y": 65,
+          "r": 7,
+          "label": "Woods"
+        },
+        {
+          "type": "sea",
+          "x": 16,
+          "y": 62,
+          "w": 18,
+          "h": 10,
+          "label": "Lake Łubień"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Hours in the sun",
+          "narration": "The Order’s army — perhaps 15,000–21,000, including guest crusaders and mercenaries — forms up first and stands for hours in armour in the July heat. Opposite, about 20,000–25,000 Poles and Lithuanians wait at the woods’ edge: Polish banners on the left, Vytautas’s Lithuanian, Ruthenian and Tatar light horse on the right. Two swords are sent to the King as a taunt; rain has dampened the bombards and only two shots are fired. Figures are much disputed, along national lines."
+        },
+        {
+          "name": "Vytautas attacks",
+          "narration": "Without waiting for the Poles, Vytautas throws his light cavalry and the Tatars against the Teutonic left under Grand Marshal Friedrich von Wallenrode; the Polish banners then advance against the right under Kuno von Lichtenstein.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                44
+              ],
+              "to": [
+                64,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                76,
+                44
+              ],
+              "to": [
+                70,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                38,
+                44
+              ],
+              "to": [
+                38,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Lithuanian retreat",
+          "narration": "After more than an hour of heavy fighting the Lithuanian horse gives way and streams off the field, part of the Order’s left pursuing. Chroniclers called it a rout; many modern historians see a planned feigned retreat, though the evidence is argued over. The three Smolensk banners stand and fight on the Polish right, suffering heavily.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                40
+              ],
+              "to": [
+                80,
+                56
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                30
+              ],
+              "to": [
+                58,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The banner of Kraków",
+          "narration": "Now the full weight of the Order falls on the Poles, and six of Wallenrode’s banners turn in on the Polish right. The great royal banner of Kraków goes down and is recovered. Jagiełło feeds in his second line, then his third.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                28
+              ],
+              "to": [
+                42,
+                36
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                34
+              ],
+              "to": [
+                54,
+                40
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                44,
+                46
+              ],
+              "to": [
+                44,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Grand Master’s charge",
+          "narration": "Ulrich von Jungingen leads his reserve of 16 banners — nearly a third of his army — against the Polish right. One knight charges the King himself and is brought down, Zbigniew Oleśnicki saving Jagiełło. Then the regrouped Lithuanians ride back onto the field and strike the Order from the flank and rear.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                18
+              ],
+              "to": [
+                56,
+                38
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                74,
+                52
+              ],
+              "to": [
+                62,
+                42
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                82,
+                44
+              ],
+              "to": [
+                64,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The wagon fort",
+          "narration": "Surrounded and outnumbered, the Grand Master is killed, with his Marshal and Grand Komtur. The survivors fall back to the camp and try to form a wagon fort; it is broken, camp followers turn on their masters, and more knights die there than on the field. After some ten hours, 203–211 of the Order’s 270 brothers lie dead and its army is gone.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                26
+              ],
+              "to": [
+                44,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                30
+              ],
+              "to": [
+                50,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                36
+              ],
+              "to": [
+                54,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "poles-first",
+          "side": "a",
+          "label": "Polish banners — first line",
+          "shape": "cavalry",
+          "strength": 7000,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              38,
+              48
+            ],
+            [
+              38,
+              36
+            ],
+            [
+              40,
+              38
+            ],
+            [
+              42,
+              36
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              40,
+              26
+            ]
+          ]
+        },
+        {
+          "id": "poles-reserve",
+          "side": "a",
+          "label": "Polish second & third lines",
+          "shape": "cavalry",
+          "strength": 6000,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              40,
+              58
+            ],
+            [
+              40,
+              54
+            ],
+            [
+              42,
+              50
+            ],
+            [
+              44,
+              42
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              52,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "mercenaries",
+          "side": "a",
+          "label": "Czech & Moravian mercenaries",
+          "shape": "cavalry",
+          "strength": 2000,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              50,
+              50
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              46,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "smolensk",
+          "side": "a",
+          "label": "Smolensk banners",
+          "shape": "cavalry",
+          "strength": 1500,
+          "helmet": "conical",
+          "pos": [
+            [
+              58,
+              50
+            ],
+            [
+              58,
+              40
+            ],
+            [
+              58,
+              42
+            ],
+            [
+              56,
+              42
+            ],
+            [
+              56,
+              40
+            ],
+            [
+              58,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "lithuanians",
+          "side": "a",
+          "label": "Lithuanian & Ruthenian horse (Vytautas)",
+          "shape": "cavalry",
+          "strength": 7000,
+          "helmet": "conical",
+          "pos": [
+            [
+              66,
+              48
+            ],
+            [
+              64,
+              36
+            ],
+            [
+              84,
+              62
+            ],
+            [
+              86,
+              60
+            ],
+            [
+              66,
+              42
+            ],
+            [
+              62,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "tatars",
+          "side": "a",
+          "label": "Tatars (Jalal al-Din)",
+          "shape": "cavalry",
+          "strength": 1500,
+          "helmet": "cap",
+          "pos": [
+            [
+              78,
+              48
+            ],
+            [
+              72,
+              36
+            ],
+            [
+              90,
+              56
+            ],
+            [
+              92,
+              54
+            ],
+            [
+              72,
+              38
+            ],
+            [
+              66,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "lichtenstein",
+          "side": "b",
+          "label": "Teutonic right (Lichtenstein)",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              38,
+              26
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              40,
+              30
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              44,
+              32
+            ],
+            [
+              42,
+              18
+            ]
+          ]
+        },
+        {
+          "id": "wallenrode",
+          "side": "b",
+          "label": "Teutonic left (Wallenrode)",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              62,
+              26
+            ],
+            [
+              64,
+              30
+            ],
+            [
+              62,
+              34
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              58,
+              36
+            ],
+            [
+              50,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "grand-master",
+          "side": "b",
+          "label": "Grand Master’s 16 banners",
+          "shape": "cavalry",
+          "strength": 5500,
+          "helmet": "greathelm",
+          "pos": [
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              18
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              54,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "teutonic-foot",
+          "side": "b",
+          "label": "Infantry & bombards",
+          "strength": 2000,
+          "helmet": "conical",
+          "pos": [
+            [
+              50,
+              32
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              48,
+              26
+            ],
+            [
+              46,
+              22
+            ],
+            [
+              46,
+              14
+            ],
+            [
+              46,
+              10
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "little-bighorn": {
+      "title": "Battle of the Little Bighorn",
+      "subtitle": "25–26 June 1876 — the 7th Cavalry against the Lakota, Cheyenne and Arapaho",
+      "sides": {
+        "a": {
+          "name": "United States 7th Cavalry (Custer)",
+          "color": "#1d3f7a"
+        },
+        "b": {
+          "name": "Lakota, Cheyenne & Arapaho",
+          "color": "#b5651d"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              42,
+              70
+            ],
+            [
+              46,
+              60
+            ],
+            [
+              40,
+              46
+            ],
+            [
+              44,
+              32
+            ],
+            [
+              38,
+              18
+            ],
+            [
+              42,
+              0
+            ]
+          ],
+          "label": "Little Bighorn River (flows north)"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              100,
+              60
+            ],
+            [
+              72,
+              62
+            ],
+            [
+              46,
+              64
+            ]
+          ],
+          "label": "Reno Creek"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 38,
+          "r": 6,
+          "label": "The great village (west bank)"
+        },
+        {
+          "type": "hill",
+          "x": 52,
+          "y": 58,
+          "r": 3,
+          "label": "Reno Hill"
+        },
+        {
+          "type": "hill",
+          "x": 58,
+          "y": 40,
+          "r": 2,
+          "label": "Weir Point"
+        },
+        {
+          "type": "hill",
+          "x": 62,
+          "y": 20,
+          "r": 2,
+          "label": "Calhoun Hill"
+        },
+        {
+          "type": "hill",
+          "x": 58,
+          "y": 10,
+          "r": 2,
+          "label": "Last Stand Hill"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              60,
+              36
+            ],
+            [
+              52,
+              32
+            ],
+            [
+              44,
+              30
+            ]
+          ],
+          "label": "Medicine Tail Coulee"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The regiment divides",
+          "narration": "Coming over the divide from the east, Custer splits the 7th Cavalry: Benteen’s three companies are sent to scout south-west, Reno’s three and the scouts ride down Reno Creek to attack the village, and Custer takes five companies, about 210 men, north along the bluffs. The camp on the west bank holds perhaps 1,100–2,500 warriors, far more than the Army expected."
+        },
+        {
+          "name": "Reno’s charge",
+          "narration": "About 3 p.m. Reno fords the river and charges at the south end of the village, then halts and dismounts in a skirmish line. Warriors pour out, and after some twenty minutes around 500 of them swing round his open left flank.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                66
+              ],
+              "to": [
+                38,
+                58
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                50
+              ],
+              "to": [
+                34,
+                58
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                34,
+                46
+              ],
+              "to": [
+                38,
+                54
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Rout to the bluffs",
+          "narration": "Reno pulls back into the timber, then breaks for the bluffs in a disorderly rout, men shot down at the crossing and on the steep eight-foot bank. The survivors reach the hilltop now called Reno Hill, where Benteen joins them. Custer, meanwhile, is working north behind the bluffs towards Medicine Tail Coulee.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                58
+              ],
+              "to": [
+                48,
+                58
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Medicine Tail ford",
+          "narration": "Part of Custer’s command comes down Medicine Tail Coulee towards the river opposite the north end of the village — whether to cross, feint or probe is still debated. Warriors led by Gall and others meet them at the ford and push them back up onto the ridges; Crazy Horse’s Oglala sweep round to the north.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                30
+              ],
+              "to": [
+                44,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                12
+              ],
+              "to": [
+                52,
+                6
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Last Stand Hill",
+          "narration": "Warriors close in from the south, west and north. Keogh’s companies on Calhoun Hill and the ridge collapse, and the survivors try to reach Custer on the hill at the northern end. Within roughly an hour, all of the five companies — some 210 men, Custer among them — are dead. Weir rides north from Reno Hill to Weir Point, sees warriors on the far ridges and is forced back.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                28
+              ],
+              "to": [
+                61,
+                22
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                4
+              ],
+              "to": [
+                57,
+                9
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                14
+              ],
+              "to": [
+                57,
+                12
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Siege of Reno Hill",
+          "narration": "The warriors turn south on the Reno–Benteen position, where the troopers dig in with knives and mess tins and hold through the evening of the 25th and all the next day. On 26 June the village moves off; Terry’s column arrives on the 27th. The 7th Cavalry lost 268 dead; Native losses were perhaps 31–100 warriors and ten non-combatants.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                54
+              ],
+              "to": [
+                50,
+                57
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                66
+              ],
+              "to": [
+                51,
+                60
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                58,
+                50
+              ],
+              "to": [
+                54,
+                56
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "reno",
+          "side": "a",
+          "label": "Reno’s battalion & scouts",
+          "shape": "cavalry",
+          "strength": 175,
+          "helmet": "none",
+          "pos": [
+            [
+              74,
+              60
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              51,
+              58
+            ],
+            [
+              51,
+              58
+            ],
+            [
+              51,
+              58
+            ],
+            [
+              51,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "keogh",
+          "side": "a",
+          "label": "Custer — Keogh’s wing (C, I, L)",
+          "shape": "cavalry",
+          "strength": 125,
+          "helmet": "none",
+          "pos": [
+            [
+              76,
+              56
+            ],
+            [
+              62,
+              42
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              60,
+              22
+            ],
+            [
+              60,
+              14
+            ],
+            [
+              60,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "yates",
+          "side": "a",
+          "label": "Custer — Yates’s wing (E, F)",
+          "shape": "cavalry",
+          "strength": 85,
+          "helmet": "none",
+          "pos": [
+            [
+              78,
+              54
+            ],
+            [
+              64,
+              40
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              56,
+              16
+            ],
+            [
+              58,
+              10
+            ],
+            [
+              58,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "benteen",
+          "side": "a",
+          "label": "Benteen’s battalion (D, H, K)",
+          "shape": "cavalry",
+          "strength": 125,
+          "helmet": "none",
+          "pos": [
+            [
+              70,
+              70
+            ],
+            [
+              64,
+              70
+            ],
+            [
+              54,
+              60
+            ],
+            [
+              54,
+              58
+            ],
+            [
+              58,
+              42
+            ],
+            [
+              54,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "pack-train",
+          "side": "a",
+          "label": "Pack train (McDougall)",
+          "strength": 130,
+          "helmet": "none",
+          "pos": [
+            [
+              92,
+              64
+            ],
+            [
+              80,
+              64
+            ],
+            [
+              68,
+              62
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              54,
+              60
+            ],
+            [
+              53,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "gall",
+          "side": "b",
+          "label": "Hunkpapa (Gall)",
+          "shape": "cavalry",
+          "strength": 600,
+          "helmet": "none",
+          "pos": [
+            [
+              30,
+              50
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              40,
+              58
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              46,
+              54
+            ]
+          ]
+        },
+        {
+          "id": "village-warriors",
+          "side": "b",
+          "label": "Warriors from the southern camps",
+          "shape": "cavalry",
+          "strength": 400,
+          "helmet": "none",
+          "pos": [
+            [
+              32,
+              56
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              40,
+              60
+            ],
+            [
+              40,
+              58
+            ],
+            [
+              40,
+              50
+            ],
+            [
+              48,
+              64
+            ]
+          ]
+        },
+        {
+          "id": "crazy-horse",
+          "side": "b",
+          "label": "Oglala (Crazy Horse)",
+          "shape": "cavalry",
+          "strength": 500,
+          "helmet": "none",
+          "pos": [
+            [
+              28,
+              36
+            ],
+            [
+              30,
+              44
+            ],
+            [
+              32,
+              36
+            ],
+            [
+              46,
+              8
+            ],
+            [
+              52,
+              5
+            ],
+            [
+              58,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "cheyenne",
+          "side": "b",
+          "label": "Cheyenne (Lame White Man)",
+          "shape": "cavalry",
+          "strength": 300,
+          "helmet": "none",
+          "pos": [
+            [
+              28,
+              22
+            ],
+            [
+              28,
+              22
+            ],
+            [
+              30,
+              24
+            ],
+            [
+              36,
+              22
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              44,
+              52
+            ]
+          ]
+        }
+      ],
+      "loser": "a",
+      "severity": 1.3
     }
   }
 }

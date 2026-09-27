@@ -455,7 +455,8 @@
           "side": 2,
           "wiki": "Marcus Licinius Crassus"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "alesia",
@@ -925,7 +926,8 @@
           "side": 2,
           "wiki": "Romanos IV Diogenes"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "hattin",
@@ -1306,7 +1308,8 @@
           "side": 2,
           "wiki": "Ulrich von Jungingen"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "agincourt",
@@ -2812,7 +2815,8 @@
           "side": 2,
           "wiki": "George Armstrong Custer"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "isandlwana",
