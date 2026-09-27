@@ -557,6 +557,49 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
 
 ---
 
+## 🗺️ QUEUE — added 27 Sept 2026 (the Captain: "do 1–7")
+
+- [ ] **13. No more playback freezes on Windows (pre-warm the globe's shaders).**
+  The Captain's PC (GTX 1070, Chrome, D3D11) sometimes locks up for minutes
+  during Play — seen on the live site after ~100 BCE, where border frames
+  start arriving. Pausing the JS engine during a lock-up shows NO script
+  running: it is the driver compiling Cesium's globe-surface shader for each
+  new imagery-layer combination (TEXTURE_UNITS 25/26, see HANDOFF "26 Sept").
+  Measure first with `scripts/play-probe.mjs --gpu` and a hang-catcher
+  (Debugger.pause on an unresponsive evaluate — recipe in play-probe's
+  header). Then cut the number of distinct shader variants and/or compile them
+  while idle before playback needs them — e.g. keep layer counts per tile
+  constant (hidden layers at alpha 0.001 instead of removed), fewer
+  simultaneous border/orange overlays, or a warm-up pass over the combinations
+  the timeline will hit. Done when five consecutive live-site play-throughs
+  from 250 Mya to today show no NOT RESPONDING. Change nothing on phones
+  without the three-mode check (phone / phone desktop-site / PC).
+
+- [ ] **14. A faster first search on phones (split the 2.7 MB search index).**
+  On a first visit `data/core-index/search.json` (2.7 MB, ~51,600 rows) is
+  fetched alongside everything the service worker caches, and took >10 s on
+  the live site; SearchBox shows a "still fetching" line meanwhile. Split it
+  (e.g. by first letter of the folded name, or a tiny top-N file first and
+  the rest after), keep `loadSearchIndex`'s single-promise contract, keep
+  'did you mean' working, and measure first-result time on `--phone --net`.
+
+- [ ] **15. Earlier prehistory: extend the timeline to 540 Mya (the Cambrian).**
+  OLDEST_BP is 250 Mya. Extend to ~541 Mya: palaeo coastline epochs back to
+  the Cambrian (same GPlates/MERDITH2021 pipeline as fetch-paleo — check the
+  model covers it), eras/labels for Cambrian→Permian, and Palaeozoic life in
+  the fauna layer (trilobites, Anomalocaris, Dunkleosteus, Tiktaalik,
+  Dimetrodon…) placed and dated from the Paleobiology Database the way
+  scripts/add-dinosaurs.mjs does it. Timeline mural art for the new span.
+  Keep deep-time playback watchable (App.tsx slows below 2.6 Mya to 40%).
+
+- [ ] **16. Emblems for ancient civilisations and Native nations.**
+  ⛔ WAITS FOR THE CAPTAIN'S APPROVAL of the list in docs/AUDIT-2026-09-26.md
+  ("Emblems — proposal"). Skip this item until that section records his yes.
+  Then draw ONLY the approved symbols in src/lib/flags.ts, each with its source
+  in a comment and its own from-year.
+
+---
+
 ## Standing notes for whoever picks this up (Opus: read me)
 
 - House rules live in the repo: `MODELLER-CRAFT.md` (verify-by-render, port
