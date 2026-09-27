@@ -980,7 +980,11 @@ export default function App() {
         // through the last decades in a blink.
         const pos = yearsBPToPos(yearsBPRef.current);
         const brake = 1 - 0.78 * Math.min(1, Math.max(0, (pos - 0.88) / 0.12));
-        const nextPos = pos + (dt / FULL_TRAVERSAL_SECONDS) * speed * brake;
+        // …and slow down through the drifting continents (older than 2.6 Mya):
+        // they flew past in about fifteen seconds, too fast to watch Pangaea
+        // break up (the Captain, 27 Sept 2026). 40% speed makes it ~35 s.
+        const drift = yearsBPRef.current > 2_600_000 ? 0.4 : 1;
+        const nextPos = pos + (dt / FULL_TRAVERSAL_SECONDS) * speed * brake * drift;
         if (nextPos >= 1) {
           setYearsBP(posToYearsBP(1));
           setIsPlaying(false);
