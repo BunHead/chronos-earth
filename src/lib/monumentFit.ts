@@ -109,7 +109,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'artemis-temple': { widthM: 115, facingDeg: 0 },
   mausoleum: { widthM: 40, facingDeg: 0 },
   colossus: { widthM: 18, facingDeg: 0 },
-  pharos: { widthM: 30, facingDeg: 0 },
+  pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   // London landmarks — real footprints (m). Facing numbers were READ off
   // calibration plan-renders on real satellite terrain (world −Z = imagery

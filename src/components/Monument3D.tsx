@@ -4088,40 +4088,324 @@ export function buildModel(
       });
     }
   } else if (model === 'pharos') {
-    // The Lighthouse of Alexandria (Pharos) — three stacked stages: a tall
-    // square base, an octagonal midsection, a round lantern with the ever-
-    // burning fire, crowned by a statue. Among the tallest of ancient towers.
+    // The Lighthouse of Alexandria (Pharos), after Thiersch's reconstruction
+    // and the ancient descriptions, at true proportion (1 unit ≈ 5.5 m; the
+    // fit table's 50 m spans the walled precinct): a stepped podium inside a
+    // square precinct wall with corner towers; the ~56 m SQUARE stage, gently
+    // battered, its faces pierced by stacked slit windows, crowned by a
+    // crenellated cornice with a bronze Triton blowing a conch at each corner;
+    // the ~18 m OCTAGON; the slim ROUND stage carrying an open colonnaded
+    // lantern round the fire under a cupola; and the bronze Zeus Soter on
+    // top — some 100 m in all. The door sits high on the front (+Z) face,
+    // reached up a long ramp on arches, as Arab travellers described.
+    // As a RUIN it builds its own form: the 1303 and 1323 earthquakes left
+    // the square stage a broken stump (Ibn Battuta found it so in 1349) —
+    // the octagon and lantern gone, the crown jagged, the ramp fallen to a
+    // few piers, and fallen courses half-buried close round the foot.
     ground = '#7b8a86';
-    const stone = '#ddd3bf';
-    const stoneAlt = '#cfc4ad';
-    group.add(block(9, 1.0, 9, 0, 0.5, 0, '#9a958a')); // rocky mole
-    const s1 = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 3.2, 7.5, 4), stoneLike({ color: stone })); // square base
-    s1.rotation.y = Math.PI / 4;
-    s1.position.y = 1.0 + 3.75;
-    group.add(s1);
-    const c1 = new THREE.Mesh(new THREE.CylinderGeometry(2.9, 2.9, 0.4, 4), stoneMat(stoneAlt));
-    c1.rotation.y = Math.PI / 4;
-    c1.position.y = 1.0 + 7.5;
-    group.add(c1);
-    const s2 = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 2.1, 4.6, 8), stoneLike({ color: stoneAlt })); // octagon
-    s2.position.y = 1.0 + 7.7 + 2.3;
-    group.add(s2);
-    const ly = 1.0 + 12.3 + 1.2;
-    const s3 = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.5, 2.4, 16), stoneLike({ color: stone })); // round lantern
-    s3.position.y = ly;
-    group.add(s3);
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2;
-      group.add(block(0.2, 2.4, 0.2, Math.cos(a) * 1.35, ly, Math.sin(a) * 1.35, stone)); // lantern columns
+    group.userData.selfRuined = true;
+    const rnd = (i: number, k = 0) => {
+      const s = Math.sin((i + 1) * 12.9898 + k * 78.233) * 43758.5453;
+      return s - Math.floor(s);
+    };
+    const stoneC = ruined ? '#c4baa6' : '#ede4d0';
+    const stoneAltC = ruined ? '#b3a993' : '#ddd2bb';
+    const trimC = ruined ? '#a89e88' : '#c3b79d';
+    const stone = stoneMat(stoneC);
+    const stoneAlt = stoneMat(stoneAltC);
+    const slot = new THREE.MeshStandardMaterial({ color: '#2b2722', roughness: 1 });
+    // Rocky islet the precinct stands on, and the precinct court itself.
+    group.add(block(9.2, 0.5, 9.2, 0, 0.25, 0, '#8f8a7e'));
+    group.add(block(8.4, 0.12, 8.4, 0, 0.56, 0, '#b8ad97'));
+    const baseY = 0.62;
+    // Precinct wall with square corner towers and crenellations; a gate in the
+    // front (+Z) wall lines up with the ramp.
+    const wallH = ruined ? 0.6 : 1.0;
+    const wr = 4.0;
+    for (const side of [0, 1, 2, 3]) {
+      const ax = side < 2 ? 'x' : 'z';
+      const sgn = side % 2 ? -1 : 1;
+      const segs: Array<[number, number]> = side === 0 ? [[-wr, -0.55], [0.55, wr]] : [[-wr, wr]];
+      for (const [a0, a1] of segs) {
+        const len = a1 - a0;
+        const mid = (a0 + a1) / 2;
+        const w = ax === 'x' ? len : 0.3;
+        const d = ax === 'x' ? 0.3 : len;
+        const x = ax === 'x' ? mid : sgn * wr;
+        const z = ax === 'x' ? sgn * wr : mid;
+        group.add(block(w, wallH, d, x, baseY + wallH / 2, z, stoneAltC));
+        if (!ruined) {
+          const n = Math.max(1, Math.round(len / 0.55));
+          for (let i = 0; i < n; i++) {
+            const t = a0 + (i + 0.5) * (len / n);
+            group.add(block(0.24, 0.22, 0.32, ax === 'x' ? t : x, baseY + wallH + 0.11, ax === 'x' ? z : t, stoneAltC));
+          }
+        }
+      }
     }
-    const fire = new THREE.Mesh(new THREE.SphereGeometry(0.9, 12, 12), new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.8 }));
-    fire.position.y = ly + 1.6;
-    fire.userData.noShadow = true;
-    group.add(fire);
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.5, 1.6, 8), stoneMat(stoneAlt));
-    roof.position.y = ly + 2.9;
-    group.add(roof);
-    group.add(block(0.5, 1.6, 0.5, 0, ly + 4.4, 0, '#b79a5a')); // statue of Zeus/Helios
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      const th = ruined ? 0.7 + rnd(sx + 2, sz + 3) * 0.4 : 1.5;
+      group.add(block(0.8, th, 0.8, sx * wr, baseY + th / 2, sz * wr, stoneC));
+      if (!ruined) group.add(block(0.92, 0.14, 0.92, sx * wr, baseY + th + 0.07, sz * wr, trimC));
+    }
+    // Stepped podium under the tower.
+    const pod = [[6.4, 0.3], [6.0, 0.3], [5.7, 0.3]] as const;
+    let py = baseY;
+    for (const [w, h] of pod) {
+      group.add(block(w, h, w, 0, py + h / 2, 0, trimC));
+      py += h;
+    }
+    const sqW = 5.4; // ~30 m square at the foot
+    const sqTop = 4.9; // gently battered
+    const sqH = ruined ? 3.8 : 10.2; // ~56 m to the cornice
+    const sqY0 = py;
+    const sq = new THREE.Mesh(
+      new THREE.CylinderGeometry((sqTop / 2) * Math.SQRT2, (sqW / 2) * Math.SQRT2, sqH, 4, 1),
+      ruined ? stoneLike({ color: stoneC }) : stone,
+    );
+    sq.geometry.rotateY(Math.PI / 4); // baked in, so the fit box stays true
+    sq.position.y = sqY0 + sqH / 2;
+    group.add(sq);
+    const halfAt = (y: number) => (sqW + (sqTop - sqW) * ((y - sqY0) / 10.2)) / 2;
+    const batter = Math.atan2((sqW - sqTop) / 2, 10.2);
+    // String courses dividing the square stage into storeys.
+    for (let k = 1; k <= 3; k++) {
+      const y = sqY0 + k * 2.55;
+      if (y > sqY0 + sqH - 0.2) break;
+      const h = halfAt(y) + 0.06;
+      const sc = new THREE.Mesh(new THREE.CylinderGeometry(h * Math.SQRT2, h * Math.SQRT2, 0.14, 4), stoneAlt);
+      sc.geometry.rotateY(Math.PI / 4);
+      sc.position.y = y;
+      group.add(sc);
+    }
+    // Stacked slit windows on every face (the stair-shaft lights).
+    for (let f = 0; f < 4; f++) {
+      const ry = (f * Math.PI) / 2;
+      for (let c = -1; c <= 1; c++) {
+        for (let r = 0; r < 8; r++) {
+          const y = sqY0 + 0.9 + r * 1.15;
+          if (y > sqY0 + sqH - 0.5) break;
+          if (f === 0 && c === 0 && r === 1) continue; // the high door goes here
+          const off = halfAt(y) + 0.01;
+          const along = c * 1.3;
+          const m = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.48, 0.04), slot);
+          m.position.set(Math.sin(ry) * off + Math.cos(ry) * along, y, Math.cos(ry) * off - Math.sin(ry) * along);
+          m.rotation.set(0, ry, 0);
+          m.rotateX(-batter);
+          group.add(m);
+        }
+      }
+    }
+    // The high door on the front face.
+    {
+      const y = sqY0 + 2.05;
+      const door = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.95, 0.05), slot);
+      door.position.set(0, y, halfAt(y) + 0.015);
+      door.rotation.x = -batter;
+      group.add(door);
+    }
+    // Ramp on arches up to the door, rising from the precinct gate.
+    {
+      const doorY = sqY0 + 1.6;
+      const z0 = wr - 0.1;
+      const z1 = halfAt(doorY) + 0.05;
+      const nArch = 4;
+      const span = (z0 - z1) / nArch;
+      for (let i = 0; i <= nArch; i++) {
+        const z = z1 + i * span;
+        const topY = doorY - (doorY - baseY) * ((z - z1) / (z0 - z1));
+        const ph = ruined ? Math.min(topY - baseY, 0.4 + rnd(i, 11) * 0.7) : topY - baseY;
+        if (ph > 0.05) group.add(block(0.9, ph, 0.28, 0, baseY + ph / 2, z, stoneAltC));
+      }
+      if (!ruined) {
+        const len = Math.hypot(z0 - z1, doorY - baseY);
+        const deck = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, len), stoneAlt);
+        deck.position.set(0, (doorY + baseY) / 2 + 0.11, (z0 + z1) / 2);
+        deck.rotation.x = Math.atan2(doorY - baseY, z0 - z1);
+        group.add(deck);
+        for (const sx of [-1, 1]) { // parapets
+          const p = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.2, len), stoneAlt);
+          p.position.set(sx * 0.41, (doorY + baseY) / 2 + 0.32, (z0 + z1) / 2);
+          p.rotation.x = deck.rotation.x;
+          group.add(p);
+        }
+      }
+    }
+    if (!ruined) {
+      // Crenellated cornice crowning the square stage.
+      const cy = sqY0 + sqH;
+      const ch = sqTop / 2 + 0.22;
+      const corn = new THREE.Mesh(new THREE.CylinderGeometry(ch * Math.SQRT2, (sqTop / 2 + 0.05) * Math.SQRT2, 0.3, 4), stoneAlt);
+      corn.geometry.rotateY(Math.PI / 4);
+      corn.position.y = cy + 0.15;
+      group.add(corn);
+      const n = 7;
+      for (let f = 0; f < 4; f++) {
+        const ry = (f * Math.PI) / 2;
+        for (let i = 0; i < n; i++) {
+          const along = -ch + 0.3 + (i * (2 * ch - 0.6)) / (n - 1);
+          const mer = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.3, 0.16), stone);
+          mer.position.set(Math.sin(ry) * (ch - 0.08) + Math.cos(ry) * along, cy + 0.45, Math.cos(ry) * (ch - 0.08) - Math.sin(ry) * along);
+          mer.rotation.y = ry;
+          group.add(mer);
+        }
+      }
+      // A bronze Triton at each corner, blowing his conch out to sea.
+      for (let i = 0; i < 4; i++) {
+        const a = Math.PI / 4 + (i * Math.PI) / 2;
+        const tr = new THREE.Group();
+        tr.add(matBlock(0.34, 0.3, 0.3, 0, 0.15, 0, BRONZE)); // fish-tailed base
+        const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.15, 0.55, 8), BRONZE_LT);
+        torso.position.y = 0.55;
+        tr.add(torso);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 8), BRONZE_LT);
+        head.position.y = 0.92;
+        tr.add(head);
+        const conch = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.36, 8), BRONZE);
+        conch.rotation.x = Math.PI / 2 + 0.5;
+        conch.position.set(0, 0.95, 0.22);
+        tr.add(conch);
+        const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.32, 6), BRONZE_LT);
+        arm.rotation.x = Math.PI / 2.6;
+        arm.position.set(0.1, 0.8, 0.12);
+        tr.add(arm);
+        tr.position.set(Math.cos(a) * (ch - 0.2) * Math.SQRT2 * 0.92, cy + 0.3, Math.sin(a) * (ch - 0.2) * Math.SQRT2 * 0.92);
+        tr.rotation.y = Math.atan2(Math.cos(a), Math.sin(a)); // conch points outward
+        group.add(tr);
+      }
+      // The octagonal stage (~18 m), with its own cornice and window band.
+      const oY0 = cy + 0.3;
+      const oH = 3.3;
+      const oct = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.75, oH, 8), stoneAlt);
+      oct.geometry.rotateY(Math.PI / 8);
+      oct.position.y = oY0 + oH / 2;
+      group.add(oct);
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2;
+        for (const yy of [0.9, 2.1]) {
+          const rr = 1.75 - (0.2 * yy) / oH;
+          const r2 = rr * Math.cos(Math.PI / 8) + 0.01;
+          const w = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.44, 0.04), slot);
+          w.position.set(Math.sin(a) * r2, oY0 + yy, Math.cos(a) * r2);
+          w.rotation.y = a;
+          group.add(w);
+        }
+      }
+      const oc = new THREE.Mesh(new THREE.CylinderGeometry(1.78, 1.6, 0.22, 8), stone);
+      oc.geometry.rotateY(Math.PI / 8);
+      oc.position.y = oY0 + oH + 0.11;
+      group.add(oc);
+      // The round stage carrying the open lantern.
+      const rY0 = oY0 + oH + 0.22;
+      const rnd3 = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.1, 0.9, 20), stone);
+      rnd3.position.y = rY0 + 0.45;
+      group.add(rnd3);
+      const lY0 = rY0 + 0.9;
+      const lH = 1.3;
+      const ring = new THREE.Mesh(new THREE.CylinderGeometry(1.08, 1.08, 0.1, 20), stoneAlt);
+      ring.position.y = lY0 + 0.05;
+      group.add(ring);
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2 + Math.PI / 8;
+        const col = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, lH, 8), stone);
+        col.position.set(Math.cos(a) * 0.9, lY0 + 0.1 + lH / 2, Math.sin(a) * 0.9);
+        group.add(col);
+      }
+      const brazier = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.3, 0.3, 12), BRONZE);
+      brazier.position.y = lY0 + 0.25;
+      group.add(brazier);
+      const fire = new THREE.Mesh(
+        new THREE.SphereGeometry(0.5, 14, 12),
+        new THREE.MeshStandardMaterial({ color: '#fff0c0', emissive: '#ffb43a', emissiveIntensity: 1.8 }),
+      );
+      fire.scale.y = 1.25;
+      fire.position.y = lY0 + 0.75;
+      fire.userData.noShadow = true;
+      group.add(fire);
+      const ent = new THREE.Mesh(new THREE.CylinderGeometry(1.12, 1.12, 0.16, 20), stoneAlt);
+      ent.position.y = lY0 + 0.1 + lH + 0.08;
+      group.add(ent);
+      const dome = new THREE.Mesh(new THREE.SphereGeometry(1.0, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), stone);
+      dome.scale.y = 0.6;
+      dome.position.y = lY0 + 0.1 + lH + 0.16;
+      group.add(dome);
+      // Zeus Soter, bronze, sceptre in his raised left hand, facing out (+Z).
+      const sY = lY0 + lH + 0.8;
+      const zeus = new THREE.Group();
+      zeus.add(matBlock(0.42, 0.18, 0.42, 0, 0.09, 0, BRONZE)); // plinth
+      const robe = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.2, 0.62, 10), BRONZE_LT);
+      robe.position.y = 0.49;
+      zeus.add(robe);
+      const chest = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.13, 0.32, 10), BRONZE_LT);
+      chest.position.y = 0.96;
+      zeus.add(chest);
+      const zh = new THREE.Mesh(new THREE.SphereGeometry(0.095, 12, 10), BRONZE_LT);
+      zh.position.y = 1.21;
+      zeus.add(zh);
+      const beard = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.14, 8), BRONZE);
+      beard.rotation.x = Math.PI;
+      beard.position.set(0, 1.12, 0.06);
+      zeus.add(beard);
+      const raised = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 6), BRONZE_LT);
+      raised.rotation.z = -0.35;
+      raised.position.set(-0.22, 1.18, 0);
+      zeus.add(raised);
+      const sceptre = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.05, 6), BRONZE);
+      sceptre.position.set(-0.3, 1.0, 0);
+      zeus.add(sceptre);
+      const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.36, 6), BRONZE_LT);
+      lower.rotation.x = -0.6;
+      lower.position.set(0.19, 0.92, 0.09);
+      zeus.add(lower);
+      zeus.position.y = sY;
+      group.add(zeus);
+    } else {
+      // Broken crown: the shaft sheared on a slant — a tall shoulder of
+      // masonry survives at the back-left (NW) corner and the break falls
+      // away from it in ragged, tilted courses towards the front.
+      const cy = sqY0 + sqH;
+      const h = halfAt(cy);
+      for (let f = 0; f < 4; f++) {
+        const ry = (f * Math.PI) / 2;
+        for (let i = 0; i < 7; i++) {
+          const along = -h + 0.35 + i * ((2 * h - 0.7) / 6);
+          const x = Math.sin(ry) * (h - 0.28) + Math.cos(ry) * along;
+          const z = Math.cos(ry) * (h - 0.28) - Math.sin(ry) * along;
+          // 1 at the NW corner (-x,-z), 0 at the SE corner.
+          const k = Math.min(1, Math.max(0, (-(x + z) / (2 * h) + 1) / 2));
+          if (rnd(i, f + 20) > 0.25 + k * 0.85) continue;
+          const bh = 0.15 + k * k * 2.4 + rnd(i, f + 30) * 0.45;
+          const b = block(0.62 + rnd(i, f + 31) * 0.3, bh, 0.5, x, cy + bh / 2 - 0.08, z, stoneAltC, ry + (rnd(i, f + 32) - 0.5) * 0.25);
+          b.rotation.z = (rnd(i, f + 33) - 0.5) * 0.18;
+          group.add(b);
+        }
+      }
+      // The surviving NW shoulder itself, its inner face rough.
+      group.add(block(1.5, 2.2, 0.55, -h + 0.95, cy + 1.05, -h + 0.28, stoneC));
+      group.add(block(0.55, 1.7, 1.2, -h + 0.28, cy + 0.8, -h + 0.85, stoneC));
+      // Fallen courses half-buried in the court between podium and wall —
+      // close to where they fell, never flung over the precinct.
+      for (let i = 0; i < 20; i++) {
+        const side = Math.floor(rnd(i, 40) * 4);
+        const t = (rnd(i, 41) * 2 - 1) * 3.4;
+        const n = 3.45 + rnd(i, 46) * 0.25;
+        if (side === 0 && Math.abs(t) < 0.7) continue; // keep the ramp line clear
+        const x = side < 2 ? t : (side === 2 ? n : -n);
+        const z = side < 2 ? (side === 0 ? n : -n) : t;
+        const bs = 0.28 + rnd(i, 42) * 0.3;
+        const b = block(bs * 1.5, 0.18 + rnd(i, 43) * 0.18, bs, x, baseY + 0.06, z, '#b0a794', rnd(i, 44) * Math.PI);
+        b.rotation.z = (rnd(i, 45) - 0.5) * 0.45;
+        group.add(b);
+      }
+      // A toppled length of the octagon lying broken against the podium.
+      for (let k = 0; k < 2; k++) {
+        const drum = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.38, 0.9, 8), stoneMat('#a89f8b'));
+        drum.rotation.x = Math.PI / 2;
+        drum.rotation.z = 0.12 * (k ? 1 : -1);
+        drum.position.set(-3.5, baseY + 0.3, -1.6 + k * 1.05);
+        group.add(drum);
+      }
+    }
   } else if (model === 'giza') {
     // The Giza plateau — the three great pyramids and the Sphinx, built up
     // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
