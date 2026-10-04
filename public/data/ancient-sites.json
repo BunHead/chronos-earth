@@ -566,6 +566,57 @@
         ]
       },
       "fadeYear": 400
+    },
+    {
+      "id": "sumerian-map-hypothesis",
+      "name": "The 'Sumerian map' (ancient-astronaut hypothesis)",
+      "category": "precursor-hypothesis",
+      "lat": 34.0069,
+      "lon": 36.2039,
+      "builtYear": -2000,
+      "builtYearLabel": "the claim: Sumerian texts of c. 2000 BCE",
+      "consensusSummary": "A popular claim that Sumerian scribes recorded a map of real sites with purposes — a 'landing ground' at Baalbek, a mining operation in Sinai, gold mines in southern Africa. No such Sumerian text is known. The idea comes from Zecharia Sitchin's readings of Sumerian myth (The 12th Planet, 1976), which specialists in the ancient languages of Mesopotamia reject. The sites themselves are real, and each has an ordinary, well-dated history.",
+      "significance": "A case study in how real places and real numbers get stitched into a story the sources do not tell — and how to check each thread.",
+      "keyFacts": [
+        "Baalbek (here): the giant blocks are ROMAN — the Temple of Jupiter, 1st century BCE–1st century CE",
+        "The largest blocks actually moved weigh about 800 tonnes (the Trilithon); the 1,000-tonne-plus ones never left the quarry",
+        "Sinai: Egyptian turquoise and copper mines at Serabit el-Khadim and Wadi Maghareh, worked from c. 2600 BCE, with inscriptions",
+        "Southern Africa: Lion Cavern at Ngwenya, Eswatini, dated c. 40,000–43,000 years ago — mined for red ochre pigment, not gold",
+        "No Sumerian text describes Baalbek, Sinai or African mines as a set of sites"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Baalbek",
+          "url": "https://en.wikipedia.org/wiki/Baalbek"
+        },
+        {
+          "label": "Wikipedia: Stone of the Pregnant Woman",
+          "url": "https://en.wikipedia.org/wiki/Stone_of_the_Pregnant_Woman"
+        },
+        {
+          "label": "Wikipedia: Serabit el-Khadim",
+          "url": "https://en.wikipedia.org/wiki/Serabit_el-Khadim"
+        },
+        {
+          "label": "Wikipedia: Ngwenya Mine",
+          "url": "https://en.wikipedia.org/wiki/Ngwenya_Mine"
+        }
+      ],
+      "alternative": {
+        "proponent": "the ancient-astronaut hypothesis, after Zecharia Sitchin (e.g. 'The Origin Vault', YouTube, 2026)",
+        "claim": "Sumerian scribes wrote down a map of sites tied to purposes: Baalbek as a landing ground (its stones too large to move by human hands), Sinai as a mining operation with tunnels older than any known civilisation, and southern Africa as a gold-mining region whose 43,000-year-old mine is remembered in Zulu tradition as the work of 'the first people'.",
+        "note": "Not supported. There is no such Sumerian map; the reading is Sitchin's, and Assyriologists reject his translations. The Baalbek blocks are Roman and within the reach of Roman levers, ramps and winches; the Sinai mines are documented Egyptian workings; the Ngwenya mine is real and very old but for pigment, not gold, and the Zulu tradition cited could not be verified. Shown here as a flagged hypothesis, not as history.",
+        "links": [
+          {
+            "label": "Wikipedia: Zecharia Sitchin",
+            "url": "https://en.wikipedia.org/wiki/Zecharia_Sitchin"
+          },
+          {
+            "label": "The video (The Origin Vault)",
+            "url": "https://www.youtube.com/watch?v=JCyAvu0Ceds"
+          }
+        ]
+      }
     }
   ]
 }

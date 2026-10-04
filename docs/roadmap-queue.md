@@ -588,6 +588,12 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   **Needs a live session:** run Play from 250 Mya on his Chrome with
   `chrome://gpu` noted; if it freezes, run shader-probe from the frozen era and
   see whether its limit is 16 or 25+. Always wrap probes in `timeout`.
+  **It HAS been reproduced headless (27 Sept, the Opus session):** live site, D3D11,
+  start from 250 Mya (`?cam=10,40,18000000,0,-90`, no `time=`), dismiss the welcome card,
+  press Play at 1x and sample every 3 s with an 8 s evaluate timeout: froze after
+  ~100 BCE in ONE run of five (the others reached 2012). Starting at 626 BCE skips
+  the deep-time layer build-up, and one run is not enough: do 5+ runs per side
+  of any change. On the freeze, Debugger.pause returned no app frame (driver).
 
 - [ ] **14. A faster first search on phones (split the 2.7 MB search index).**
   On a first visit `data/core-index/search.json` (2.7 MB, ~51,600 rows) is
