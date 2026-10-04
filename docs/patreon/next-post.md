@@ -1,13 +1,22 @@
-# Dispatch from the crew — the whole world comes aboard
+# Dispatch from the crew — eight more battles take the field
 
-A big week at the shipyard, crew. The globe grew from under 4,000 places to more than 48,000.
+A busy week at the shipyard, crew.
 
-- **The capitals are in.** It turned out the globe had no Paris, and no Cairo, Delhi or Madrid either. Every country's capital is now on the map in yellow. Scrub the timeline and watch a capital pulse when the crown moves: Kyoto hands over to Tokyo in 1869, and Washington glows in 1800.
-- **The first cities.** Sumer has arrived: Uruk, Eridu and their neighbours, along with four more Indus Valley cities. Eridu *builds itself* across 3,400 years, from a small shrine to a great ziggurat. Angkor Wat has its own 3D model too, and **Machu Picchu** has a new one, sitting on its real mountain saddle and thatched until the Spanish arrive.
-- **Thousands of new people, inventions and discoveries**, plus nearly 20,000 ancient places from the classical world. Search now finds *everything*, and that includes countries. We've also added a new **Films & Documentaries** layer.
-- **Eight battles now play out phase by phase:** Megiddo, the Hydaspes, Isandlwana, the Fall of Constantinople, Bannockburn, Blenheim, Culloden and Balaclava.
-- **Smoother playback.** We found a hidden slowdown, and fixing it means the drifting continents actually draw now while the timeline plays.
+- **Eight more battles now play out phase by phase:** Carrhae, Adrianople, the Catalaunian Plains, Manzikert, Grunwald, Bosworth, Vienna and the Little Bighorn. Each has researched troop strengths and its own sequence of manoeuvres. In the Workshop, every battle now shows its historical map alongside it.
+- **The Leaning Tower of Pisa, rebuilt.** It stands its true 56 metres, with arcaded galleries all the way up, an open belfry holding seven bells, and a lean that now points south, the way the real one does.
+- **Two new emblems:** the Aztec eagle on the cactus, from 1325, and the Hiawatha Belt of the Haudenosaunee, from 1450.
+- **Search forgives a slip of the keyboard.** Type "Constantinpole" and it asks *"Did you mean…?"*
+- **Pangaea, in slow motion.** Playback now eases off through deep time, so you can actually watch the continents drift apart. We also corrected 53 capital dates that were impossible, like cities serving as capitals before they had been founded.
 
-Come aboard at bunhead.github.io/chronos-earth and go looking for your own capital.
+Set sail at bunhead.github.io/chronos-earth: run the Little Bighorn, then go and stand under the bells at Pisa.
+
+## This month's vote
+
+What should the crew build next?
+
+1. 🦂 **Back to the Cambrian:** stretch the timeline to 540 million years ago, with trilobites and armoured fish
+2. 📱 **Faster first search on phones**
+3. 🎞️ **Smoother playback on Windows PCs:** no more freezes mid-timeline
+4. ⚔️ **More battles choreographed:** tell us which ones in the comments!
 
 Thank you, patrons. You keep this ship sailing. 🧭 **Maker's Circle:** trace a site with the builder and hit 📤 submit. The crew will take it from there.
