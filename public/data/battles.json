@@ -712,7 +712,8 @@
           "side": 2,
           "wiki": "Valens"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "chalons",
@@ -751,7 +752,8 @@
           "side": 2,
           "wiki": "Attila"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "yarmouk",
@@ -1413,7 +1415,8 @@
           "side": 2,
           "wiki": "Richard III of England"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "noche-triste",
@@ -1802,7 +1805,8 @@
           "side": 2,
           "wiki": "Kara Mustafa Pasha"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "blenheim",

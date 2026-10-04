@@ -22907,6 +22907,1717 @@
       ],
       "loser": "a",
       "severity": 1.3
+    },
+    "adrianople-378": {
+      "title": "Battle of Adrianople",
+      "subtitle": "9 August 378 — the Goths destroy the eastern Roman field army",
+      "sides": {
+        "a": {
+          "name": "Goths (Fritigern, Alatheus & Saphrax)",
+          "color": "#8a6d3b"
+        },
+        "b": {
+          "name": "Eastern Roman Empire (Valens)",
+          "color": "#8e1b2a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "hill",
+          "x": 52,
+          "y": 22,
+          "r": 10,
+          "label": "Hill of the Gothic camp"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 20,
+          "r": 4,
+          "label": "Wagon laager"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              50,
+              70
+            ],
+            [
+              50,
+              58
+            ]
+          ],
+          "label": "Road from Adrianople (8 Roman miles)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "March in the heat",
+          "narration": "Valens marches north from Adrianople through the August heat and finds the Goths drawn up around a circle of wagons on a hill, their families inside. The Romans deploy straight from the march, tired and thirsty, while the Goths burn the fields to choke them with smoke and play for time with envoys."
+        },
+        {
+          "name": "An attack nobody ordered",
+          "narration": "While talks are still going on, the shield-archers of the imperial scholae under Bacurius charge the wagon line without orders. Unsupported, they are thrown back down the slope.",
+          "arrows": [
+            {
+              "from": [
+                53,
+                46
+              ],
+              "to": [
+                52,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The cavalry returns",
+          "narration": "The Roman left wing fights its way up to the wagons at the very moment the Gothic cavalry of Alatheus and Saphrax, back from foraging, falls on it. Roman scouts had counted only 10,000 Goths because these horsemen were away.",
+          "arrows": [
+            {
+              "from": [
+                32,
+                46
+              ],
+              "to": [
+                44,
+                26
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                14,
+                12
+              ],
+              "to": [
+                32,
+                28
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The army destroyed",
+          "narration": "With the left wing gone, the Roman infantry is packed so tight it can barely raise its weapons, and the Gothic infantry pours down from the laager. The killing goes on until dark; about two thirds of the army dies, and Valens is never found. One story says he was burned in a farmhouse.",
+          "arrows": [
+            {
+              "from": [
+                32,
+                32
+              ],
+              "to": [
+                40,
+                46
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                30
+              ],
+              "to": [
+                50,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                32
+              ],
+              "to": [
+                60,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "fritigern",
+          "side": "a",
+          "label": "Tervingi infantry (Fritigern)",
+          "size": 1.3,
+          "strength": 6000,
+          "helmet": "none",
+          "pos": [
+            [
+              50,
+              22
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              48,
+              28
+            ],
+            [
+              50,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "goth-east",
+          "side": "a",
+          "label": "Gothic infantry (laager)",
+          "strength": 3000,
+          "helmet": "none",
+          "pos": [
+            [
+              60,
+              24
+            ],
+            [
+              60,
+              25
+            ],
+            [
+              58,
+              30
+            ],
+            [
+              62,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "goth-cav",
+          "side": "a",
+          "label": "Greuthungi & Alan cavalry (Alatheus & Saphrax)",
+          "shape": "cavalry",
+          "size": 1.2,
+          "strength": 4000,
+          "helmet": "cap",
+          "pos": [
+            [
+              6,
+              6
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              36,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "rom-left",
+          "side": "b",
+          "label": "Left-wing cavalry",
+          "shape": "cavalry",
+          "strength": 2500,
+          "helmet": "roman",
+          "pos": [
+            [
+              30,
+              54
+            ],
+            [
+              32,
+              50
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              40,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "scholae",
+          "side": "b",
+          "label": "Scholae (Bacurius)",
+          "shape": "cavalry",
+          "size": 0.7,
+          "strength": 500,
+          "helmet": "roman",
+          "pos": [
+            [
+              56,
+              52
+            ],
+            [
+              53,
+              32
+            ],
+            [
+              56,
+              46
+            ],
+            [
+              58,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "rom-inf",
+          "side": "b",
+          "label": "Legions & auxilia",
+          "size": 1.5,
+          "strength": 9000,
+          "helmet": "roman",
+          "pos": [
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              54
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "rom-right",
+          "side": "b",
+          "label": "Right-wing cavalry",
+          "shape": "cavalry",
+          "strength": 2000,
+          "helmet": "roman",
+          "pos": [
+            [
+              72,
+              56
+            ],
+            [
+              72,
+              52
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              82,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "valens",
+          "side": "b",
+          "label": "Valens & reserve",
+          "size": 0.8,
+          "strength": 1000,
+          "helmet": "roman",
+          "pos": [
+            [
+              50,
+              65
+            ],
+            [
+              50,
+              63
+            ],
+            [
+              50,
+              60
+            ],
+            [
+              46,
+              56
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "chalons": {
+      "title": "Battle of the Catalaunian Plains",
+      "subtitle": "451 CE — Aetius and the Visigoths against Attila",
+      "sides": {
+        "a": {
+          "name": "Romans & Visigoths (Aetius, Theodoric)",
+          "color": "#a3242f"
+        },
+        "b": {
+          "name": "Huns & subject peoples (Attila)",
+          "color": "#4a5d3a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "hill",
+          "x": 46,
+          "y": 35,
+          "r": 8,
+          "label": "The disputed ridge"
+        },
+        {
+          "type": "town",
+          "x": 48,
+          "y": 8,
+          "r": 4,
+          "label": "Attila's wagon laager"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Two coalitions",
+          "narration": "Aetius's Romans hold the left, Theodoric's Visigoths the right, and Sangiban's Alans, whose loyalty was doubted, are placed in the centre. Attila takes the centre with his Huns, with Ostrogoths and Gepids on the wings. The exact site and facing are unknown (Châlons and Troyes are both argued), so the compass here is only a layout."
+        },
+        {
+          "name": "The race for the ridge",
+          "narration": "A ridge rises over the plain and both armies make for it. Jordanes says the Huns tried to take the crest but were beaten to it by Aetius and by Thorismund, the Visigothic prince.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                52
+              ],
+              "to": [
+                36,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                62,
+                54
+              ],
+              "to": [
+                52,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                48,
+                16
+              ],
+              "to": [
+                46,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Theodoric falls",
+          "narration": "On the right the Visigoths clash with the Ostrogoths, Goth against Goth. King Theodoric is killed, thrown from his horse and trampled or speared by an Ostrogoth, but in the crush his men do not notice.",
+          "arrows": [
+            {
+              "from": [
+                76,
+                22
+              ],
+              "to": [
+                74,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                74,
+                50
+              ],
+              "to": [
+                74,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Into Attila's household",
+          "narration": "The Visigoths break away from the Alans and charge into Attila's own Hunnic household. Attila is driven back to his circle of wagons.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                34
+              ],
+              "to": [
+                50,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                32
+              ],
+              "to": [
+                48,
+                20
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Lost in the dark",
+          "narration": "Night separates the armies. Thorismund strays into the Hunnic wagons, is wounded and gets out. Aetius, cut off from his men, fears the battle is lost and spends the night with the Goths.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                26
+              ],
+              "to": [
+                48,
+                14
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The stand-off",
+          "narration": "At dawn the field is covered in bodies, and Attila stays inside his laager. The legend says he built a pyre of saddles to burn himself on if it was stormed. The allies choose a siege over an assault. Then Aetius sends Thorismund home to secure his throne, and Attila withdraws. Jordanes's 165,000 dead is impossible; modern estimates put each army at a few tens of thousands, and those are guesses."
+        }
+      ],
+      "units": [
+        {
+          "id": "aetius",
+          "side": "a",
+          "label": "Romans (Aetius)",
+          "size": 1.2,
+          "strength": 20000,
+          "helmet": "roman",
+          "pos": [
+            [
+              20,
+              56
+            ],
+            [
+              36,
+              40
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              34,
+              38
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              24,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "alans",
+          "side": "a",
+          "label": "Alans (Sangiban)",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              48,
+              58
+            ],
+            [
+              48,
+              52
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              48,
+              52
+            ],
+            [
+              46,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "thorismund",
+          "side": "a",
+          "label": "Visigoths (Thorismund)",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "conical",
+          "pos": [
+            [
+              62,
+              58
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              52,
+              28
+            ],
+            [
+              48,
+              18
+            ],
+            [
+              66,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "theodoric",
+          "side": "a",
+          "label": "Visigoths (Theodoric)",
+          "size": 1.3,
+          "strength": 20000,
+          "helmet": "conical",
+          "pos": [
+            [
+              74,
+              56
+            ],
+            [
+              74,
+              50
+            ],
+            [
+              74,
+              40
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              64,
+              40
+            ],
+            [
+              74,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "gepids",
+          "side": "b",
+          "label": "Gepids (Ardaric)",
+          "strength": 15000,
+          "helmet": "conical",
+          "pos": [
+            [
+              24,
+              16
+            ],
+            [
+              26,
+              24
+            ],
+            [
+              28,
+              30
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              26,
+              20
+            ],
+            [
+              26,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "attila",
+          "side": "b",
+          "label": "Attila's Huns",
+          "shape": "cavalry",
+          "size": 1.3,
+          "strength": 15000,
+          "helmet": "cap",
+          "pos": [
+            [
+              50,
+              14
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              48,
+              30
+            ],
+            [
+              48,
+              16
+            ],
+            [
+              48,
+              10
+            ],
+            [
+              48,
+              10
+            ]
+          ]
+        },
+        {
+          "id": "ostrogoths",
+          "side": "b",
+          "label": "Ostrogoths (Valamir)",
+          "strength": 15000,
+          "helmet": "conical",
+          "pos": [
+            [
+              76,
+              16
+            ],
+            [
+              76,
+              22
+            ],
+            [
+              74,
+              34
+            ],
+            [
+              68,
+              22
+            ],
+            [
+              70,
+              18
+            ],
+            [
+              72,
+              14
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.1
+    },
+    "bosworth": {
+      "title": "Battle of Bosworth Field",
+      "subtitle": "22 August 1485 — Henry Tudor against Richard III",
+      "sides": {
+        "a": {
+          "name": "Lancastrians & Stanleys (Henry Tudor)",
+          "color": "#b22234"
+        },
+        "b": {
+          "name": "Yorkists (Richard III)",
+          "color": "#2f4f8f"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 80,
+          "y": 28,
+          "w": 26,
+          "h": 6,
+          "label": "Ambion Hill"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              38,
+              42
+            ],
+            [
+              44,
+              46
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              56,
+              48
+            ]
+          ],
+          "label": "Marsh (drained since)"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              54
+            ],
+            [
+              100,
+              52
+            ]
+          ],
+          "label": "Fenn Lane (Roman road)"
+        },
+        {
+          "type": "hill",
+          "x": 70,
+          "y": 64,
+          "r": 5,
+          "label": "Dadlington Hill"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment",
+          "narration": "Richard's army, perhaps 7,500 to 12,000, forms up in the east, with Norfolk in the van and Northumberland at the rear. Henry Tudor comes from the west with 5,000 or so, about 1,800 of them French mercenaries, under the Earl of Oxford. To the south the Stanleys' 4,000 to 6,000 men wait to see who is winning. Since 2010 the fighting has been placed about 3 km south-west of Ambion Hill, beside Fenn Lane, on ground that was then marsh."
+        },
+        {
+          "name": "Round the marsh",
+          "narration": "Oxford leads Henry's army east, keeping the marsh on his right as a shield, while Richard's guns fire into the column. Cannonballs found in the 2009 survey trace the line of this gunfire."
+        },
+        {
+          "name": "Norfolk and Oxford",
+          "narration": "Norfolk's division comes down to meet Oxford. Oxford's men keep close order around their standards and hold, and some of Norfolk's men run. Richard signals Northumberland to come forward, and Northumberland does not move.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                30
+              ],
+              "to": [
+                55,
+                30
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                30
+              ],
+              "to": [
+                52,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The king's charge",
+          "narration": "Seeing Henry at the rear with only a small guard, Richard leads his household cavalry around the melee straight at him. He kills Henry's standard-bearer, Sir William Brandon, and unhorses Sir John Cheyne, but Henry's French pikemen close round and slow the charge.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                24
+              ],
+              "to": [
+                34,
+                36
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Stanley decides it",
+          "narration": "Sir William Stanley finally commits and rides into Richard's flank. Richard is surrounded, his horse stuck in the marsh, and he is killed fighting. His skeleton, found in Leicester in 2012, has eleven wounds. Norfolk is killed too, Northumberland's men leave the field, and Henry is crowned on it.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                58
+              ],
+              "to": [
+                40,
+                46
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                52,
+                30
+              ],
+              "to": [
+                60,
+                30
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "oxford",
+          "side": "a",
+          "label": "Oxford's vanguard (incl. French)",
+          "size": 1.3,
+          "strength": 4500,
+          "pos": [
+            [
+              26,
+              36
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              52,
+              30
+            ],
+            [
+              52,
+              30
+            ],
+            [
+              56,
+              31
+            ]
+          ]
+        },
+        {
+          "id": "henry",
+          "side": "a",
+          "label": "Henry Tudor & guard",
+          "size": 0.6,
+          "strength": 500,
+          "pos": [
+            [
+              12,
+              40
+            ],
+            [
+              22,
+              36
+            ],
+            [
+              28,
+              36
+            ],
+            [
+              32,
+              38
+            ],
+            [
+              34,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "w-stanley",
+          "side": "a",
+          "label": "Sir William Stanley",
+          "shape": "cavalry",
+          "strength": 2500,
+          "pos": [
+            [
+              50,
+              62
+            ],
+            [
+              50,
+              62
+            ],
+            [
+              50,
+              60
+            ],
+            [
+              48,
+              58
+            ],
+            [
+              40,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "l-stanley",
+          "side": "a",
+          "label": "Lord Stanley (never engaged)",
+          "strength": 3000,
+          "pos": [
+            [
+              70,
+              62
+            ],
+            [
+              70,
+              62
+            ],
+            [
+              70,
+              62
+            ],
+            [
+              70,
+              62
+            ],
+            [
+              68,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "norfolk",
+          "side": "b",
+          "label": "Norfolk (vanguard)",
+          "size": 1.2,
+          "strength": 3000,
+          "pos": [
+            [
+              66,
+              30
+            ],
+            [
+              62,
+              30
+            ],
+            [
+              55,
+              30
+            ],
+            [
+              56,
+              30
+            ],
+            [
+              72,
+              32
+            ]
+          ]
+        },
+        {
+          "id": "richard",
+          "side": "b",
+          "label": "Richard III's household",
+          "shape": "cavalry",
+          "size": 0.7,
+          "strength": 800,
+          "pos": [
+            [
+              76,
+              25
+            ],
+            [
+              74,
+              25
+            ],
+            [
+              72,
+              25
+            ],
+            [
+              36,
+              38
+            ],
+            [
+              40,
+              45
+            ]
+          ]
+        },
+        {
+          "id": "richard-inf",
+          "side": "b",
+          "label": "The king's battle",
+          "strength": 2200,
+          "pos": [
+            [
+              76,
+              32
+            ],
+            [
+              74,
+              32
+            ],
+            [
+              68,
+              32
+            ],
+            [
+              66,
+              32
+            ],
+            [
+              80,
+              34
+            ]
+          ]
+        },
+        {
+          "id": "northumberland",
+          "side": "b",
+          "label": "Northumberland (stands idle)",
+          "strength": 3000,
+          "pos": [
+            [
+              88,
+              28
+            ],
+            [
+              88,
+              28
+            ],
+            [
+              88,
+              28
+            ],
+            [
+              88,
+              28
+            ],
+            [
+              96,
+              16
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1
+    },
+    "vienna-1683": {
+      "title": "Battle of Vienna",
+      "subtitle": "12 September 1683 — the relief of Vienna",
+      "sides": {
+        "a": {
+          "name": "Holy League (Sobieski, Charles of Lorraine)",
+          "color": "#c8102e"
+        },
+        "b": {
+          "name": "Ottoman Empire (Kara Mustafa)",
+          "color": "#1e7b4f"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              30,
+              0
+            ],
+            [
+              55,
+              8
+            ],
+            [
+              100,
+              26
+            ]
+          ],
+          "label": "Danube"
+        },
+        {
+          "type": "ridge",
+          "x": 12,
+          "y": 22,
+          "w": 14,
+          "h": 30,
+          "label": "Kahlenberg & Vienna Woods"
+        },
+        {
+          "type": "forest",
+          "x": 6,
+          "y": 44,
+          "r": 7
+        },
+        {
+          "type": "town",
+          "x": 78,
+          "y": 44,
+          "r": 6,
+          "label": "Vienna"
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 8,
+          "r": 2,
+          "label": "Nussdorf"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 46,
+          "r": 2,
+          "label": "Gersthof"
+        },
+        {
+          "type": "town",
+          "x": 62,
+          "y": 56,
+          "r": 4,
+          "label": "Ottoman camp"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Down from the Kahlenberg",
+          "narration": "After two months of siege, the relief army comes over the wooded hills north-west of the city: Charles of Lorraine's Imperials on the left by the Danube, the Saxons, Bavarians and other Germans in the centre, and Sobieski's Poles on the right. At 4 a.m. the Ottomans attack to break up the deployment.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                18
+              ],
+              "to": [
+                36,
+                14
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                30
+              ],
+              "to": [
+                30,
+                26
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Nussdorf and Heiligenstadt",
+          "narration": "Lorraine's Imperials counter-attack along the Danube and storm the fortified villages of Nussdorf and Heiligenstadt, coming close to breaking through by midday. Inside the city the defenders find and defuse the mines Ottoman sappers had dug under the Löbel bastion.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                12
+              ],
+              "to": [
+                46,
+                16
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                30,
+                22
+              ],
+              "to": [
+                38,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The vineyards",
+          "narration": "From 3.30 p.m. the Germans fight forward and by 5 p.m. take Unterdöbling and Oberdöbling. On the right the Polish infantry captures Gersthof, the base the cavalry needs for the charge.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                26
+              ],
+              "to": [
+                50,
+                26
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                20,
+                44
+              ],
+              "to": [
+                30,
+                48
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The great charge",
+          "narration": "At about 6 p.m. some 18,000 horsemen, three Polish groups and one Imperial, ride down the slopes. It is often called the largest cavalry charge in history. Sobieski leads about 3,000 winged hussars in front, and the worn-out Ottoman line gives way.",
+          "arrows": [
+            {
+              "from": [
+                16,
+                52
+              ],
+              "to": [
+                46,
+                52
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                18,
+                58
+              ],
+              "to": [
+                46,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                36
+              ],
+              "to": [
+                50,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The camp falls",
+          "narration": "The cavalry rides on into the Ottoman camp and Kara Mustafa's headquarters while Starhemberg's garrison comes out of the city. In less than three hours after the charge the siege is over, and the Ottoman army falls back towards Hungary. Its field force that day is estimated at between 28,000 and 50,000, much reduced from the 120,000 or more who began the siege.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                54
+              ],
+              "to": [
+                60,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                74,
+                44
+              ],
+              "to": [
+                70,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "lorraine",
+          "side": "a",
+          "label": "Imperials (Charles of Lorraine)",
+          "size": 1.2,
+          "strength": 19000,
+          "helmet": "morion",
+          "pos": [
+            [
+              32,
+              8
+            ],
+            [
+              44,
+              14
+            ],
+            [
+              52,
+              22
+            ],
+            [
+              56,
+              28
+            ],
+            [
+              64,
+              36
+            ]
+          ]
+        },
+        {
+          "id": "saxons",
+          "side": "a",
+          "label": "Saxons",
+          "strength": 9000,
+          "helmet": "none",
+          "pos": [
+            [
+              24,
+              16
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              46,
+              28
+            ],
+            [
+              52,
+              34
+            ],
+            [
+              60,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "germans",
+          "side": "a",
+          "label": "Bavarians, Franconians & Swabians",
+          "size": 1.2,
+          "strength": 20000,
+          "helmet": "none",
+          "pos": [
+            [
+              18,
+              26
+            ],
+            [
+              26,
+              30
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              46,
+              40
+            ],
+            [
+              58,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "polish-inf",
+          "side": "a",
+          "label": "Polish infantry",
+          "strength": 7000,
+          "helmet": "cap",
+          "pos": [
+            [
+              10,
+              40
+            ],
+            [
+              14,
+              42
+            ],
+            [
+              26,
+              46
+            ],
+            [
+              34,
+              48
+            ],
+            [
+              48,
+              52
+            ]
+          ]
+        },
+        {
+          "id": "polish-cav",
+          "side": "a",
+          "label": "Polish cavalry",
+          "shape": "cavalry",
+          "size": 1.2,
+          "strength": 12000,
+          "helmet": "cap",
+          "pos": [
+            [
+              6,
+              50
+            ],
+            [
+              8,
+              50
+            ],
+            [
+              16,
+              52
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              58,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "hussars",
+          "side": "a",
+          "label": "Winged hussars (Sobieski)",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "morion",
+          "pos": [
+            [
+              6,
+              58
+            ],
+            [
+              8,
+              58
+            ],
+            [
+              18,
+              58
+            ],
+            [
+              44,
+              56
+            ],
+            [
+              62,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "garrison",
+          "side": "a",
+          "label": "Garrison (Starhemberg)",
+          "strength": 16000,
+          "helmet": "morion",
+          "pos": [
+            [
+              78,
+              46
+            ],
+            [
+              78,
+              46
+            ],
+            [
+              78,
+              46
+            ],
+            [
+              78,
+              46
+            ],
+            [
+              70,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "ott-right",
+          "side": "b",
+          "label": "Ottoman right",
+          "strength": 10000,
+          "helmet": "cap",
+          "pos": [
+            [
+              46,
+              18
+            ],
+            [
+              40,
+              16
+            ],
+            [
+              50,
+              22
+            ],
+            [
+              58,
+              28
+            ],
+            [
+              86,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "ott-centre",
+          "side": "b",
+          "label": "Ottoman centre",
+          "strength": 10000,
+          "helmet": "cap",
+          "pos": [
+            [
+              40,
+              32
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              44,
+              32
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              88,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "ott-left",
+          "side": "b",
+          "label": "Ottoman left",
+          "shape": "cavalry",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              34,
+              50
+            ],
+            [
+              30,
+              50
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              90,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "janissaries",
+          "side": "b",
+          "label": "Janissaries in the siege trenches",
+          "strength": 8000,
+          "helmet": "cap",
+          "pos": [
+            [
+              70,
+              40
+            ],
+            [
+              70,
+              40
+            ],
+            [
+              70,
+              40
+            ],
+            [
+              68,
+              42
+            ],
+            [
+              84,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "kara-mustafa",
+          "side": "b",
+          "label": "Kara Mustafa & camp",
+          "size": 0.7,
+          "strength": 4000,
+          "helmet": "cap",
+          "pos": [
+            [
+              62,
+              56
+            ],
+            [
+              62,
+              56
+            ],
+            [
+              62,
+              56
+            ],
+            [
+              60,
+              56
+            ],
+            [
+              92,
+              66
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
     }
   }
 }
