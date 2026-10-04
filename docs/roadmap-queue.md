@@ -574,6 +574,20 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the timeline will hit. Done when five consecutive live-site play-throughs
   from 250 Mya to today show no NOT RESPONDING. Change nothing on phones
   without the three-mode check (phone / phone desktop-site / PC).
+  ⛔ **BLOCKED 2026-10-04 (roadmap sweep) — can't reproduce, so can't verify a fix.**
+  `scripts/shader-probe.mjs` (now committed; written by the 1 Oct sweep, which
+  died mid-measurement — probably hung on a stall, since a frozen page blocks
+  puppeteer for up to 10 min) was run against the LIVE site, headless D3D11,
+  `?time=2600`, 240 s of Play, under a hard 6-min kill. Result: Cesium's
+  texture-unit limit here is **16** (not the 25/26 seen on 26 Sept); 9 globe
+  variants (TEXTURE_UNITS 3,10,11×2,12×2,13,14,16), all compiled in the first
+  4 s, worst 250 ms, total 1.9 s; worst page lag 82 ms; **no stall**. A
+  pre-warm/constant-layer-count change can't be shown to help without a
+  reproducible freeze, and the done-criterion (five live play-throughs with no
+  NOT RESPONDING) needs the Captain's real Chrome on the GTX 1070, not headless.
+  **Needs a live session:** run Play from 250 Mya on his Chrome with
+  `chrome://gpu` noted; if it freezes, run shader-probe from the frozen era and
+  see whether its limit is 16 or 25+. Always wrap probes in `timeout`.
 
 - [ ] **14. A faster first search on phones (split the 2.7 MB search index).**
   On a first visit `data/core-index/search.json` (2.7 MB, ~51,600 rows) is
