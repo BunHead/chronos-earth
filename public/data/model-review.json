@@ -505,5 +505,9 @@
     "status": "allowed",
     "ts": 1791272841735,
     "note": "Believe this has a lot more detail to it"
+  },
+  "tpillars": {
+    "note": "Try an include the glyphs on them",
+    "ts": 1791272969672
   }
 }
