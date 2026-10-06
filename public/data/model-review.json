@@ -514,5 +514,9 @@
   "mausoleum": {
     "status": "allowed",
     "ts": 1791273070121
+  },
+  "pagoda": {
+    "status": "allowed",
+    "ts": 1791273101169
   }
 }
