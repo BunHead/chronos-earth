@@ -510,5 +510,9 @@
     "note": "Try an include the glyphs on them",
     "ts": 1791272969736,
     "status": "allowed"
+  },
+  "mausoleum": {
+    "status": "allowed",
+    "ts": 1791273070121
   }
 }
