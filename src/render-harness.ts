@@ -195,6 +195,13 @@ if (angle === 'top' || angle === 'plan') {
   cam.up.set(0, 0, -1);
   cam.position.set(cx, Math.max(box.max.y, r) + r * 2.0, cz);
   cam.lookAt(cx, 0, cz);
+} else if (angle === 'close') {
+  // A close look at the EAST end, down the length of the model — for detail
+  // that a whole-model framing shrinks to nothing (the Terracotta Army's
+  // figures, ~2 m tall in a 230 m pit).
+  const tx = c.x + size.x * 0.32;
+  cam.position.set(tx + r * 0.1, Math.max(box.max.y, 1) + r * 0.05, cz + r * 0.08);
+  cam.lookAt(tx - r * 0.05, box.min.y, cz);
 } else if (angle === 'side') {
   cam.position.set(cx + r * 2.0, size.y * 0.5 + r * 0.05, cz);
   cam.lookAt(cx, size.y * 0.45, cz);

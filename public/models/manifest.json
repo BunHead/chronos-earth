@@ -287,5 +287,13 @@
   "machu-picchu-ruin": {
     "footprint": 112,
     "kb": 215
+  },
+  "terracotta-army": {
+    "footprint": 266,
+    "kb": 447
+  },
+  "terracotta-army-ruin": {
+    "footprint": 266,
+    "kb": 491
   }
 }

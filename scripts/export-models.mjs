@@ -66,6 +66,7 @@ const FLEET = [
   ['gherkin', '30 St Mary Axe (The Gherkin)'],
   ['opera-house', 'Sydney Opera House'],
   ['machu-picchu', 'Machu Picchu'],
+  ['terracotta-army', 'Terracotta Army'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -76,6 +77,8 @@ const RUINS = [
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
   ['machu-picchu', 'Machu Picchu'],
+  // Not a ruin but an EXCAVATION: the open pit as shown since 1974.
+  ['terracotta-army', 'Terracotta Army'],
 ];
 
 // Construction stages — building-over-time. Only monuments whose buildModel

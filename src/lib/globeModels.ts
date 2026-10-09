@@ -51,6 +51,12 @@ interface Placement {
    * terrain instead of standing on it as a raised plinth. The maker's upM trim
    * still adds on top. */
   sinkM?: number;
+  /** Optional [from, until) signed years the monument lies BURIED and is not
+   * shown — the Terracotta Army, burned and buried in 206 BCE, dug up 1974. */
+  buried?: [number, number];
+  /** Added on the fly by ensurePlacement (a site visited on the globe), not
+   * from the curated list — a curated placement at the same spot replaces it. */
+  generic?: boolean;
 }
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
@@ -92,6 +98,12 @@ const PLACEMENTS: Placement[] = [
   // (ArcGIS, sampled 2026-09-24) — 51 m down leaves its terraces ~3 m proud of
   // the real slope and lets its forest collar run into the real flanks.
   { model: 'machu-picchu', title: 'Machu Picchu', lat: -13.163, lon: -72.545, builtYear: 1450, ruinYear: 1572, sinkM: 51 },
+  // THE TERRACOTTA ARMY, Pit 1 (the Captain, 8 Oct 2026). Shown painted and
+  // complete, roof cut away, from c. 210 BCE; the pits were burned and caved
+  // in by 206 BCE (traditionally blamed on Xiang Yu's rebels) and lay buried
+  // until well-diggers found them in 1974 — from then on, the excavation as it
+  // is today. Its pit floor is 5 m below its own rim, so it sinks 5 m.
+  { model: 'terracotta-army', title: 'Terracotta Army', lat: 34.3847, lon: 109.2731, builtYear: -210, ruinYear: 1974, buried: [-206, 1974], sinkM: 5 },
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
   { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
@@ -190,8 +202,22 @@ function addPlacement(p: Placement): void {
   const viewer = theViewer;
   const info = theManifest[p.model];
   if (!viewer || !info?.footprint) return;
+  const id = `mon3d-${p.model}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`;
+  // THE LOAD RACE (found 8 Oct 2026). loadGlobeModels awaits the review file
+  // between reading the manifest and adding the curated list, and a camera
+  // that opens near a monument can ensurePlacement() a generic one in that
+  // gap. The curated add then hit Cesium's duplicate-id DeveloperError, which
+  // ABORTED the loop: every curated monument after it never stood at all.
+  // The curated placement (with its ruin, burial and sink) replaces the
+  // generic one; a generic one never replaces anything.
+  const prior = entities.findIndex((e) => e.entity.id === id);
+  if (prior >= 0) {
+    if (p.generic || !entities[prior].p.generic) return;
+    viewer.entities.remove(entities[prior].entity);
+    entities.splice(prior, 1);
+  }
   const entity = viewer.entities.add({
-    id: `mon3d-${p.model}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`,
+    id,
     position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
     model: {
       uri: `./models/${p.model}.glb`,
@@ -266,7 +292,7 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
   );
   if (existing) return existing.p.builtYear;
   const builtYear = t.builtYear ?? -3000;
-  addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear });
+  addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear, generic: true });
   return builtYear;
 }
 
@@ -296,7 +322,8 @@ function gate(entity: Cesium.Entity, p: Placement): void {
 
   const born = curYear >= bornYear;
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
-  entity.show = lastShowSites && born && !gone;
+  const buried = p.buried != null && curYear >= p.buried[0] && curYear < p.buried[1];
+  entity.show = lastShowSites && born && !gone && !buried;
 
   if (!entity.model) return;
   const uri = `./models/${p.model}${suffix}.glb`;

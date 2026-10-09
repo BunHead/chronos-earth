@@ -1184,6 +1184,243 @@ function buildMachuPicchu(group: THREE.Group, ruined: boolean): void {
   if (ruined) group.userData.selfRuined = true;
 }
 
+/**
+ * THE TERRACOTTA ARMY — Pit 1, the main army of Qin Shi Huang's mausoleum
+ * (the Captain asked for it, 8 Oct 2026). Authored north-up in TRUE METRES:
+ * east = +X, north = −Z, so facingDeg is 0.
+ *
+ * What the record gives (Wikipedia, "Terracotta Army"): Pit 1 is 230 m long
+ * (east–west) and about 62 m wide, cut some 5 m down; rammed-earth partition
+ * walls divide it into eleven corridors, each a little over 3 m wide and
+ * floored with brick; roughly 6,000 life-size figures stand in it, facing
+ * EAST, with a three-rank vanguard of archers across the east end and a file
+ * facing outward along each side; four-horse chariots stand among the
+ * infantry. The figures were painted in bright pigments that flaked away
+ * within minutes of excavation.
+ *
+ * The pit floor is y = 0 and the surrounding ground y = PIT_D, so the globe
+ * sinks it by PIT_D (globeModels sinkM) and the rim sits at ground level.
+ *
+ *   intact (not ruined): c. 210 BCE, roof cut away — every figure standing,
+ *     painted. (The pits were roofed with timber and earth: from above it
+ *     looked like a field. This is the cutaway, like every reconstruction.)
+ *   ruined: as excavated and shown today — grey terracotta, the eastern
+ *     corridors restored, the western ones still broken figures among the
+ *     collapsed earth.
+ *
+ * Figure count is thinned to one in two along each file (spacing 2.6 m
+ * instead of ~1.3 m) to keep the globe model under the fleet's size budget;
+ * ranks, files and corridors are all where the plan has them.
+ */
+function buildTerracottaArmy(group: THREE.Group, ruined: boolean): void {
+  const LEN = 230;
+  const WID = 62;
+  const PIT_D = 5;
+  const CORR = 3.5; // corridor width
+  const WALL = 2.0; // partition wall width
+  const END_GAL = 8.5; // the east and west end galleries
+  const halfL = LEN / 2;
+  const halfW = WID / 2;
+  const rnd = (i: number, k: number) => {
+    const s = Math.sin(i * 127.1 + k * 311.7) * 43758.5453;
+    return s - Math.floor(s);
+  };
+
+  type Part = 'earth' | 'floor' | 'wall' | 'clay' | 'paintA' | 'paintB' | 'paintC' | 'paintD' | 'skin' | 'broken' | 'wood';
+  const parts: Record<Part, THREE.BufferGeometry[]> = {
+    earth: [], floor: [], wall: [], clay: [], paintA: [], paintB: [], paintC: [], paintD: [], skin: [], broken: [], wood: [],
+  };
+  const put = (p: Part, g: THREE.BufferGeometry, x: number, y: number, z: number, ry = 0, rx = 0, rz = 0) => {
+    const m = new THREE.Matrix4().compose(
+      new THREE.Vector3(x, y, z),
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)),
+      new THREE.Vector3(1, 1, 1),
+    );
+    const c = g.clone();
+    c.applyMatrix4(m);
+    // Uniform attribute sets for merging (Box and Cylinder differ in groups).
+    c.clearGroups();
+    if (c.index) {
+      const ni = c.toNonIndexed();
+      parts[p].push(ni);
+    } else parts[p].push(c);
+  };
+  const box = (w: number, h: number, d: number) => new THREE.BoxGeometry(w, h, d);
+
+  // --- The ground around the pit, and the pit itself.
+  const RIM = 18;
+  put('earth', box(LEN + 2 * RIM, PIT_D, RIM), 0, PIT_D / 2, -halfW - RIM / 2);
+  put('earth', box(LEN + 2 * RIM, PIT_D, RIM), 0, PIT_D / 2, halfW + RIM / 2);
+  put('earth', box(RIM, PIT_D, WID), -halfL - RIM / 2, PIT_D / 2, 0);
+  put('earth', box(RIM, PIT_D, WID), halfL + RIM / 2, PIT_D / 2, 0);
+  put('floor', box(LEN, 0.2, WID), 0, -0.1, 0);
+
+  // --- Ten rammed-earth partition walls, east–west, between the end galleries.
+  const wallLen = LEN - 2 * END_GAL;
+  const corridorZ: number[] = [];
+  let z = -halfW + 0.5;
+  for (let c = 0; c < 11; c++) {
+    corridorZ.push(z + CORR / 2);
+    z += CORR;
+    if (c < 10) {
+      // Excavated walls stand lower than the old roof line; ruined ones are
+      // slumped and uneven along their length.
+      const segs = ruined ? 6 : 1;
+      for (let s = 0; s < segs; s++) {
+        const sl = wallLen / segs;
+        // About head height to the figures, as the excavated walls stand.
+        const h = ruined ? 1.6 + rnd(c, s) * 0.6 : 2.3;
+        put('wall', box(sl + 0.05, h, WALL), -wallLen / 2 + sl * (s + 0.5), h / 2, z + WALL / 2);
+      }
+      z += WALL;
+    }
+  }
+
+  // --- The roof timbers of the cutaway: only stubs of the beams along the
+  // wall tops, so the army below stays visible.
+  if (!ruined) {
+    for (let c = 0; c < 10; c++) {
+      const wz = corridorZ[c] + CORR / 2 + WALL / 2;
+      put('wood', box(wallLen, 0.3, 0.5), 0, 2.45, wz);
+    }
+  }
+
+  // --- One figure: a robed body, a belt of armour, a head with a topknot.
+  // About thirty triangles, so six thousand of them stay light.
+  const robe = new THREE.CylinderGeometry(0.2, 0.3, 1.3, 5);
+  robe.translate(0, 0.65, 0);
+  const chest = new THREE.BoxGeometry(0.5, 0.42, 0.32);
+  chest.translate(0, 1.42, 0);
+  const head = new THREE.BoxGeometry(0.2, 0.24, 0.22);
+  head.translate(0, 1.76, 0);
+  const figure = mergeGeometries([robe.toNonIndexed(), chest.toNonIndexed(), head.toNonIndexed()].map((g) => {
+    g.clearGroups();
+    return g;
+  }), false)!;
+  // Painted, the body takes the robe colour and the head its own flesh tone.
+  const body = mergeGeometries([robe.toNonIndexed(), chest.toNonIndexed()].map((g) => {
+    g.clearGroups();
+    return g;
+  }), false)!;
+  const headOnly = head.toNonIndexed();
+  headOnly.clearGroups();
+  // A toppled one, lying in the earth, for the unrestored west.
+  const fallen = figure.clone();
+  fallen.rotateZ(Math.PI / 2);
+  fallen.translate(0.9, 0.3, 0);
+  const paints: Part[] = ['paintA', 'paintB', 'paintC', 'paintD'];
+  let n = 0;
+  const soldier = (x: number, zz: number, faceRy: number) => {
+    n++;
+    const jx = (rnd(n, 1) - 0.5) * 0.12;
+    const jz = (rnd(n, 2) - 0.5) * 0.12;
+    if (ruined) {
+      // East of the restoration line, the reassembled ranks; west of it, the
+      // pit as it was found — most figures broken and down.
+      const restored = x > -10;
+      if (restored || rnd(n, 3) < 0.22) put('clay', figure, x + jx, 0, zz + jz, faceRy);
+      else if (rnd(n, 4) < 0.7) put('broken', fallen, x + jx, 0, zz + jz, rnd(n, 5) * Math.PI * 2);
+      return;
+    }
+    put(paints[Math.floor(rnd(n, 6) * paints.length)], body, x + jx, 0, zz + jz, faceRy);
+    put('skin', headOnly, x + jx, 0, zz + jz, faceRy);
+  };
+  // Three.js rotation.y to face compass east (+X): front authored at +Z.
+  const EAST = Math.PI / 2;
+  const SPACING = 2.6;
+
+  // The vanguard: three ranks of archers across the east gallery.
+  for (let r = 0; r < 3; r++) {
+    const x = halfL - 1.4 - r * 1.6;
+    for (let zz = -halfW + 1.2; zz <= halfW - 1.2; zz += 1.8) soldier(x, zz, EAST);
+  }
+  // A rear guard across the west gallery, facing west.
+  for (let zz = -halfW + 1.2; zz <= halfW - 1.2; zz += 1.8) soldier(-halfL + 2, zz, -EAST);
+
+  // The corridors. The outer two hold a single file facing OUTWARD (north and
+  // south); the nine inner ones four files facing east, with a four-horse
+  // chariot at the head of every other corridor.
+  const horse = new THREE.BoxGeometry(1.9, 0.9, 0.5);
+  horse.translate(0, 1.15, 0);
+  const leg = new THREE.BoxGeometry(0.16, 0.75, 0.16);
+  const hLegs = [[-0.7, -0.15], [-0.7, 0.15], [0.7, -0.15], [0.7, 0.15]].map(([lx, lz]) => {
+    const g = leg.clone();
+    g.translate(lx, 0.375, lz);
+    return g.toNonIndexed();
+  });
+  const neck = new THREE.BoxGeometry(0.7, 0.35, 0.3);
+  neck.rotateZ(0.7);
+  neck.translate(1.1, 1.55, 0);
+  const horseG = mergeGeometries([horse.toNonIndexed(), neck.toNonIndexed(), ...hLegs].map((g) => {
+    g.clearGroups();
+    return g;
+  }), false)!;
+  const cart = new THREE.BoxGeometry(1.3, 0.6, 1.4);
+  cart.translate(0, 1.0, 0);
+  const wheel = new THREE.CylinderGeometry(0.68, 0.68, 0.08, 10);
+  wheel.rotateX(Math.PI / 2);
+
+  const fileStartX = halfL - END_GAL - 1.5;
+  const fileEndX = -halfL + END_GAL + 1.5;
+  corridorZ.forEach((cz, c) => {
+    if (c === 0 || c === 10) {
+      const face = c === 0 ? Math.PI : 0; // north file faces north (−Z), south file south
+      for (let x = fileStartX; x >= fileEndX; x -= SPACING) soldier(x, cz, face);
+      return;
+    }
+    let x0 = fileStartX;
+    if (c % 2 === 1) {
+      // Chariot and team, then its crew behind.
+      const mat: Part = ruined ? (x0 > -10 ? 'clay' : 'broken') : 'paintD';
+      for (const hz of [-0.84, -0.28, 0.28, 0.84]) put(mat, horseG, x0 - 0.2, 0, cz + hz * 0.95);
+      put('wood', cart, x0 - 2.6, 0, cz);
+      put('wood', wheel, x0 - 2.6, 0.68, cz - 0.78);
+      put('wood', wheel, x0 - 2.6, 0.68, cz + 0.78);
+      x0 -= 5;
+    }
+    for (let x = x0; x >= fileEndX; x -= SPACING) {
+      // Four files about 0.8 m apart across the 3.5 m corridor.
+      for (const fz of [-1.2, -0.4, 0.4, 1.2]) soldier(x, cz + fz, EAST);
+    }
+  });
+
+  // In the excavated pit, the unrestored west is full of collapsed earth.
+  if (ruined) {
+    for (let i = 0; i < 70; i++) {
+      const x = -halfL + END_GAL + rnd(i, 7) * (halfL - END_GAL - 12);
+      const zz = corridorZ[Math.floor(rnd(i, 8) * 11)];
+      put('wall', box(2 + rnd(i, 9) * 4, 0.4 + rnd(i, 10) * 0.6, CORR * 0.8), x, 0.3, zz, 0, 0, (rnd(i, 11) - 0.5) * 0.2);
+    }
+  }
+
+  // Terracotta: grey-buff fired clay today; painted over dark lacquer when new
+  // — cinnabar red, malachite green, azurite blue and "Han purple" are the
+  // pigments found on the figures.
+  const flat = (c: string, rough = 0.9) => new THREE.MeshStandardMaterial({ color: c, roughness: rough, flatShading: true });
+  const mats: Record<Part, THREE.Material> = {
+    earth: flat('#8a7556'),
+    floor: flat('#7d7266'),
+    wall: flat(ruined ? '#9c8463' : '#8f7a5c'),
+    clay: flat('#a39581'),
+    broken: flat('#8f8270'),
+    paintA: flat('#a63b2a', 0.7), // cinnabar red
+    paintB: flat('#3f6e4a', 0.7), // malachite green
+    paintC: flat('#3b4f86', 0.7), // azurite blue
+    paintD: flat('#5c3d6e', 0.7), // Han purple
+    skin: flat('#d1a189', 0.7),
+    wood: flat('#5a4130'),
+  };
+  for (const k of Object.keys(parts) as Part[]) {
+    if (!parts[k].length) continue;
+    const merged = mergeGeometries(parts[k], false);
+    if (!merged) continue;
+    const m = new THREE.Mesh(merged, mats[k]);
+    m.name = `tca-${k}`;
+    group.add(m);
+  }
+  if (ruined) group.userData.selfRuined = true;
+}
+
 export function buildModel(
   model: string,
   phase = 3,
@@ -6328,6 +6565,9 @@ export function buildModel(
   } else if (model === 'machu-picchu') {
     ground = '#3d5a2c';
     buildMachuPicchu(group, ruined);
+  } else if (model === 'terracotta-army') {
+    ground = '#8a7556';
+    buildTerracottaArmy(group, ruined);
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

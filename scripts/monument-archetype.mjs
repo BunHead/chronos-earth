@@ -81,6 +81,8 @@ export const VALID_MODELS = [
   'opera-house',
   // The Andes.
   'machu-picchu',
+  // China.
+  'terracotta-army',
   // New York.
   'liberty',
   // Paris.
@@ -143,6 +145,7 @@ const KEYWORD_RULES = [
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },
   { rule: 'Machu Picchu keyword (the citadel itself — not the wider Historic Sanctuary pin 6.7 km off)', model: 'machu-picchu', re: /^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/ },
+  { rule: 'Terracotta Army keyword (Pit 1 of the First Emperor’s mausoleum)', model: 'terracotta-army', re: /terracotta (army|warriors)/ },
   { rule: 'Sydney Opera House keyword (Sydney-specific — not a generic opera house)', model: 'opera-house', re: /sydney opera/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },

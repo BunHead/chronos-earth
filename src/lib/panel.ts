@@ -125,6 +125,8 @@ export function monumentModelForName(name: string): string | null {
   // the ridge). The 'Historic Sanctuary of Machu Picchu' pin sits 6.7 km away
   // and must not wear the citadel.
   if (/^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/.test(n)) return 'machu-picchu';
+  // The Terracotta Army — Pit 1 of Qin Shi Huang's mausoleum, in true metres.
+  if (/terracotta (army|warriors)/.test(n)) return 'terracotta-army';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before

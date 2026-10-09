@@ -130,6 +130,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
   liberty: { widthM: 100, facingDeg: 45 },
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
+  'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
 };
 

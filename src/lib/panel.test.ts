@@ -31,6 +31,8 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   it('Machu Picchu wears its surveyed citadel — only the citadel does', () => {
     expect(monumentModelForName('Machu Picchu')).toBe('machu-picchu');
     expect(monumentModelForName('Citadel of Machu Picchu')).toBe('machu-picchu');
+    expect(monumentModelForName('Terracotta Army')).toBe('terracotta-army');
+    expect(monumentModelForName('Terracotta Warriors')).toBe('terracotta-army');
     // The wider sanctuary's pin sits 6.7 km away; the citadel there would be wrong.
     expect(monumentModelForName('Historic Sanctuary of Machu Picchu')).toBeNull();
   });
