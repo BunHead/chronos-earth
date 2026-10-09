@@ -52,6 +52,10 @@ export const RENAMES = [
   ['Tanzania, United Republic of', 'Tanganyika', -Infinity, 1963],
   ['Swaziland', 'Eswatini', 2018, Infinity],
   ['Macedonia', 'North Macedonia', 2019, Infinity],
+  // Typos in the ancient China snapshots (the Captain asked after the Warring
+  // States, 8 Oct 2026): 1000 BCE's "Zhoa" and 323 BCE's "Zhow states".
+  ['Zhoa', 'Zhou', -Infinity, Infinity],
+  ['Zhow states', 'Zhou states', -Infinity, Infinity],
 ];
 
 /** Island groups labelled "Unknown" in the 1994+ maps: [name, s, w, n, e]. */

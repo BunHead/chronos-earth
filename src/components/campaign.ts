@@ -133,6 +133,10 @@ export class CampaignController {
 
     const shownKeys = new Set<string>();
     let activeLabel: string | null = null;
+    // Two wars can run at once: Rome's centuries-long campaign spans the whole
+    // of Qin's ten-year one (230–221 BCE). The banner names the war whose
+    // dated moment is CLOSEST to now, not whichever is first in the file.
+    let labelDist = Infinity;
 
     if (visible) {
       for (const campaign of this.campaigns) {
@@ -154,7 +158,10 @@ export class CampaignController {
         }
         const key = `${campaign.id}|${nearest.year}`;
         shownKeys.add(key);
-        if (!activeLabel) activeLabel = `${campaign.name} · ${nearest.label}`;
+        if (bestDist < labelDist) {
+          labelDist = bestDist;
+          activeLabel = `${campaign.name} · ${nearest.label}`;
+        }
         void this.ensureLayer(key, nearest, campaign.color);
       }
     }

@@ -4421,6 +4421,80 @@
           "wiki": "Yevgeny Prigozhin"
         }
       ]
+    },
+    {
+      "id": "changping-260bce",
+      "name": "Battle of Changping",
+      "year": -260,
+      "dateLabel": "262–260 BCE",
+      "lat": 35.798,
+      "lon": 112.924,
+      "belligerents": {
+        "side1": "Qin",
+        "side2": "Zhao"
+      },
+      "victor": "Qin victory",
+      "outcome": "After a two-year stand-off, Qin surrounded the Zhao army; most of the Zhao prisoners were executed.",
+      "significance": "Called the greatest and longest battle of antiquity. Zhao never recovered its manpower, and Qin's road to unifying China lay open.",
+      "casualties": "Records of the Grand Historian (written over a century later): c. 450,000 Zhao and 250,000 Qin dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Changping",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Changping"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bai Qi",
+          "side": 1,
+          "wiki": "Bai Qi"
+        },
+        {
+          "name": "Zhao Kuo",
+          "side": 2,
+          "wiki": "Zhao Kuo"
+        }
+      ]
+    },
+    {
+      "id": "handan-259bce",
+      "name": "Battle of Handan",
+      "year": -258,
+      "dateLabel": "259–257 BCE",
+      "lat": 36.61,
+      "lon": 114.49,
+      "belligerents": {
+        "side1": "Zhao, with Wei and Chu",
+        "side2": "Qin"
+      },
+      "victor": "Zhao and allied victory",
+      "outcome": "The Zhao capital held out until Wei and Chu armies arrived and drove Qin off.",
+      "significance": "One of Qin's few great defeats after its reforms — it delayed the unification of China by a generation.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Handan",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Handan"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lord Pingyuan",
+          "side": 1,
+          "wiki": "Lord Pingyuan"
+        },
+        {
+          "name": "Lord Xinling",
+          "side": 1,
+          "wiki": "Lord Xinling"
+        },
+        {
+          "name": "Wang He",
+          "side": 2,
+          "wiki": "Battle of Handan",
+          "noPortrait": true
+        }
+      ]
     }
   ]
 }
