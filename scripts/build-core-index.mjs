@@ -47,11 +47,12 @@ export const PRESENT_YEAR = 2026;
  * table in src/lib/timeScale.ts. A tile's temporal bucket is the era index.
  * Parity with the app's getEra is unit-tested in src/lib/coreIndex.test.ts. */
 export const ERA_START_BP = [
+  538_800_000, 485_400_000, 443_800_000, 419_200_000, 358_900_000, 298_900_000,
   251_900_000, 201_400_000, 145_000_000, 66_000_000, 23_000_000, 2_580_000,
   12_000, 5_300, 3_200, 2_525, 1_526, 526, 226,
 ];
 export const BUCKET_COUNT = ERA_START_BP.length;
-const OLDEST_BP = 250_000_000;
+const OLDEST_BP = 538_800_000; // mirrors src/lib/timeScale.ts
 
 /** The era-bucket index (0..BUCKET_COUNT-1) a signed startYear falls in — the
  * temporal half of a tile key. Mirrors getEra(yearsBP): an era covers
@@ -324,6 +325,25 @@ async function main() {
     search.category.push(e.category);
   }
   await writeFile(join(TILE_DIR, 'search.json'), JSON.stringify(search));
+
+  // THE FIRST BITE (roadmap 14, 6 Oct 2026). The full index is 2.7 MB and on a
+  // phone's first visit it queues behind everything else, so search sat on
+  // "still fetching" for >10 s. The best-known rows go in a small file that
+  // arrives in a moment; the full index widens the results when it lands.
+  const TOP_N = 6000;
+  const top = [...events]
+    .sort((a, b) => (b.notability ?? 0) - (a.notability ?? 0) || a.startYear - b.startYear)
+    .slice(0, TOP_N);
+  const searchTop = { v: 1, id: [], name: [], lat: [], lon: [], year: [], category: [] };
+  for (const e of top) {
+    searchTop.id.push(e.id);
+    searchTop.name.push(e.name);
+    searchTop.lat.push(+e.lat.toFixed(2));
+    searchTop.lon.push(+e.lon.toFixed(2));
+    searchTop.year.push(e.startYear);
+    searchTop.category.push(e.category);
+  }
+  await writeFile(join(TILE_DIR, 'search-top.json'), JSON.stringify(searchTop));
 
   // Manifest so the client never 404-probes: which era buckets each cell holds.
   const manifest = { v: 1, cell: CELL, buckets: BUCKET_COUNT, headline: headline.length, tiles: availByCell };

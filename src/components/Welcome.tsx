@@ -76,7 +76,7 @@ export default function Welcome({ onClose, onTakeTour }: WelcomeProps) {
           Welcome to Chronos Earth
         </h2>
         <p className="welcome-lede">
-          One globe, and 250 million years of history to drag it through. Here are
+          One globe, and 540 million years of history to drag it through. Here are
           the only three things you need to know.
         </p>
 

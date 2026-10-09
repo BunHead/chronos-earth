@@ -1,5 +1,13 @@
 # Dates that look wrong — for review
 
+> **RULED by the Captain, 6 Oct 2026 — applied** (scripts/dedupe-places.mjs CURATED_DATES / CURATED_ROLES, re-applied every night).
+> Aigai −800 · Kassel 913 (first record) · Visoko: Banate role from 1355 · Bangkok: Thonburi role dropped ·
+> Osaka 652 (Naniwa) · Pyongyang −108 (Lelang), Goguryeo role from 427 · Nicosia −672 (Esarhaddon's prism, "Lidir") ·
+> Ho Chi Minh City 1698 (Gia Định) · Sanaa −500 (5th-c. BCE Sabaean inscription) · Baku: one pin, −30.
+> Rule B: Maykop keep both; Nellore, Dammam, Nidderau one pin with the ancient date.
+> Borrowed role starts that had copied the old modern dates were reset to each polity's inception.
+
+
 Found by two checks the data can prove (27 Sept 2026). Nothing here has been changed; reply with rulings (e.g. "Baku: use the ancient date") and they will be applied as curated dates.
 
 ## A city that was a capital before its own founding date (10)

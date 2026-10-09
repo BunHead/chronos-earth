@@ -7,7 +7,7 @@ import { eventsFromColumns, type CoreColumns } from './coreIndex';
 import { cellKey, cellsForRect } from './eventIndex';
 import { bucketFor, bucketsForWindow, BUCKET_COUNT } from './buckets';
 import { tilesToLoad, type TileManifest } from './coreTiles';
-import { ERAS, getEra, yearToYearsBP, clampWindow } from './timeScale';
+import { ERAS, getEra, yearToYearsBP, clampWindow, OLDEST_BP } from './timeScale';
 import type { TimelineEvent } from './types';
 
 /** A deliberately awkward sample: unsorted years, negative coords, a span,
@@ -179,7 +179,7 @@ describe('tiled skeleton — view + window selection', () => {
     const modern = bucketsForWindow(clampWindow({ centerBP: 100, span: 100 }));
     expect(modern.has(bucketFor(2000))).toBe(true);
     // The whole-timeline span pulls in every bucket.
-    const all = bucketsForWindow(clampWindow({ centerBP: 125_000_000, span: 250_000_000 }));
+    const all = bucketsForWindow(clampWindow({ centerBP: OLDEST_BP / 2, span: OLDEST_BP }));
     expect(all.size).toBe(BUCKET_COUNT);
   });
 

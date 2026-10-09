@@ -3378,3 +3378,17 @@ textarea:focus-visible,
   position: absolute; top: 6px; right: 8px; width: 40px; height: 40px;
   background: none; border: none; color: inherit; font-size: 32px; cursor: pointer;
 }
+
+/* The graphics card reset (lib/gpuRecovery): a calm notice while the page
+   reloads to the same moment, or a button when it keeps happening. */
+.gpu-reset {
+  position: fixed; left: 50%; top: 30%; transform: translateX(-50%); z-index: 10000;
+  max-width: min(440px, calc(100vw - 32px)); display: flex; flex-direction: column; gap: 8px;
+  padding: 16px 20px; border-radius: 12px; text-align: center;
+  background: rgba(14, 18, 26, 0.95); color: var(--text, #eee);
+  border: 1px solid var(--gold, #c9a24b); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+.gpu-reset button {
+  align-self: center; min-height: 44px; padding: 0 20px; border-radius: 8px; cursor: pointer;
+  background: var(--gold, #c9a24b); color: #1a1408; border: none; font-weight: 600;
+}

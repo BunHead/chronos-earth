@@ -72,10 +72,90 @@ const CURATED_DROPS = new Map([
   ['q5780', 'Meroë: folded into the curated row, which takes the date the Captain chose (-2500)'],
 ]);
 
-/** His rulings on a curated row's DATE, applied every run. id -> [year, why]. */
+/**
+ * His rulings on a row's DATE, applied every run. id -> [year, why, note?].
+ * A note becomes the panel's "About the date", so a reader sees where a date
+ * that differs from Wikidata came from.
+ */
+const PERIOD_NOTE =
+  'The earliest date here is a period from the Pleiades gazetteer of ancient places, which records a settlement on this spot by then. It is not an exact founding year.';
+const RULED_6_OCT = 'the Captain\'s ruling, 6 Oct 2026 (docs/decisions)';
 const CURATED_DATES = new Map([
   ['cur-meroe', [-2500, 'the Captain chose -2500 over -800 (24 Sept 2026)']],
+  // A city that was a capital before its own date: Wikidata dated each by a
+  // refoundation or a modern administrative change.
+  ['q16963755', [-800, RULED_6_OCT, 'Dated from its time as the seat of the Macedonian kings, from about 800 BCE.']],
+  ['q2865', [913, RULED_6_OCT, 'First recorded in 913, as Chassalla.']],
+  ['q35765', [652, RULED_6_OCT, 'Dated from Naniwa, the imperial capital whose palace was completed in 652.']],
+  ['q18808', [-108, RULED_6_OCT, 'Dated from 108 BCE, when it became the seat of the Han commandery of Lelang.']],
+  ['q3856', [-672, RULED_6_OCT, 'First recorded c. 672 BCE, as Lidir, on a clay prism of the Assyrian king Esarhaddon. The site was settled long before.']],
+  ['q1854', [1698, RULED_6_OCT, 'Dated from 1698, when Saigon was organised as Gia Định.']],
+  ['q2471', [-500, RULED_6_OCT, 'First named (as ṣnʿw, "fortress") in a Sabaean inscription of the 5th century BCE.']],
+  // One pin, the ancient date: the city row keeps its identity and capital
+  // record and takes the Pleiades period date of the settlement beside it
+  // (CURATED_FOLDS below drops that row).
+  ['q9248', [-30, RULED_6_OCT, PERIOD_NOTE]], // Baku
+  ['q61434', [-30, RULED_6_OCT, PERIOD_NOTE]], // Nellore
+  ['q160320', [-330, RULED_6_OCT, PERIOD_NOTE]], // Dammam
+  ['q540743', [-30, RULED_6_OCT, PERIOD_NOTE]], // Nidderau
+  ['q9365', [-30, RULED_6_OCT, PERIOD_NOTE]], // Dushanbe
+  ['q156732', [-750, RULED_6_OCT, PERIOD_NOTE]], // Kherson
+  ['q41970', [-750, RULED_6_OCT, PERIOD_NOTE]], // Pyatigorsk
+  ['q170513', [-750, RULED_6_OCT, PERIOD_NOTE]], // Taganrog
+  ['q1724', [-30, RULED_6_OCT, PERIOD_NOTE]], // Saarbrücken
+  ['q2112', [-30, RULED_6_OCT, PERIOD_NOTE]], // Bielefeld
+  ['q3750', [-30, RULED_6_OCT, PERIOD_NOTE]], // Gera
+  ['q70', [-330, RULED_6_OCT, PERIOD_NOTE]], // Bern
+  ['q215277', [300, RULED_6_OCT, PERIOD_NOTE]], // Jaffna
+  ['q81788', [-2670, RULED_6_OCT, PERIOD_NOTE]], // Giza
 ]);
+
+/**
+ * HIS "ONE PIN" RULINGS for pairs too far apart for the merge rules (2–28 km),
+ * by the id to DROP -> the id that absorbs it. Applied before anything else.
+ * Maykop is deliberately absent: he kept both (6 Oct 2026).
+ */
+const CURATED_FOLDS = new Map([
+  ['pl46154574', 'q9248'], ['pl50166', 'q61434'], ['pl932447', 'q160320'], ['pl118873', 'q540743'],
+  ['pl971748', 'q9365'], ['pl226660', 'q156732'], ['pl825362', 'q41970'], ['pl825396', 'q170513'],
+  ['pl109298', 'q1724'], ['pl98925', 'q2112'], ['pl118694', 'q3750'], ['pl177471', 'q70'],
+  ['pl50011', 'q215277'], ['pl442962448', 'q81788'],
+  // Same site, a period bucket beside a sourced date: the sourced row stays.
+  ['pl570479', 'q1022117'], ['pl279761117', 'q1151606'], ['pl452458', 'q220583'],
+  ['pl304475334', 'q242148'], ['pl149576487', 'q5736'], ['pl412344813', 'q83404'],
+  // Benin City: the kingdom-era curated row stays; the colonial-era 1899 goes.
+  ['q320704', 'cur-benin-city'],
+]);
+
+/**
+ * HAND FIXES TO CAPITAL ROLES, by row id -> role name -> { from } or null to
+ * drop it. Applied every run, because fetch-capitals only rebuilds a city's
+ * roles when it first sees it — its own ROLE_FIXES / ROLE_STARTS never reach a
+ * city already checked. (6 Oct 2026, with the date rulings above.)
+ *
+ * The second group are BORROWED starts: Wikidata gave the role no date, so it
+ * took the city's — and the city's date was the modern one these rulings
+ * replaced, which is how Ho Chi Minh City became capital of French Indochina
+ * "from 1976 to 1954". Each now starts at the polity's own inception
+ * (Wikidata P571), as fetch-capitals would have done.
+ */
+const CURATED_ROLES = new Map([
+  ['q193229', { 'Banate of Bosnia': { from: 1355 } }], // Visoko: '12' was the 12th century misread
+  ['q18808', { Goguryeo: { from: 427 } }], // Pyongyang: Goguryeo moved its capital here in 427
+  ['q1861', { 'Thonburi Kingdom': null }], // Bangkok: Thonburi was the town across the river
+  ['q1854', {
+    'French Indochina': { from: 1887 },
+    // Founded 1969 in the field; it governed from Saigon only after April 1975.
+    'Provisional Revolutionary Government of the Republic of South Vietnam': { from: 1975 },
+  }],
+  ['q2471', { 'Kingdom of Yemen': { from: 1918 } }],
+  // Shirvan: Akhsitan I moved the royal seat from Shamakhi to Baku after Qizil
+  // Arslan (r. 1186–1191) took Shamakhi — c. 1191 (Wikipedia, Shirvanshahs).
+  ['q9248', { 'Baku Khanate': { from: 1735 }, 'Kingdom of Shirvan': { from: 1191 } }],
+]);
+
+/** Pleiades entries its editors WITHDREW ("Withdrawn: Untitled") are not places. */
+const WITHDRAWN = /^withdrawn\b/i;
 const SAME_ERA_YEARS = 200;
 
 const distKm = (a, b) => {
@@ -262,17 +342,45 @@ export function groupDuplicates(events) {
 
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
-  const events = doc.events ?? [];
-  // His date rulings first, so the merge below sees the dates he chose.
+  const all = doc.events ?? [];
+  // His one-pin rulings and the withdrawn entries go first, so nothing below
+  // sees a row he has already ruled out.
+  const byId = new Map(all.map((e) => [e.id, e]));
+  const ruledOut = new Set();
+  for (const [dropId, keepId] of CURATED_FOLDS) {
+    const drop = byId.get(dropId);
+    const keep = byId.get(keepId);
+    if (!drop || !keep) continue;
+    for (const k of ['wikidataId', 'wikiTitle', 'capitalOf']) {
+      if (keep[k] === undefined && drop[k] !== undefined) keep[k] = drop[k];
+    }
+    ruledOut.add(dropId);
+    console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keepId} · drop ${dropId} (his ruling)`);
+  }
+  for (const e of all) {
+    if (WITHDRAWN.test(String(e.name)) && /^pl/.test(e.id)) ruledOut.add(e.id);
+  }
+  const events = all.filter((e) => !ruledOut.has(e.id));
+  // His date rulings next, so the merge below sees the dates he chose.
   let redated = 0;
   for (const e of events) {
     const ruling = CURATED_DATES.get(e.id);
-    if (ruling && e.startYear !== ruling[0]) {
+    if (!ruling) continue;
+    if (e.startYear !== ruling[0]) {
       console.log(`  ${e.name}: ${e.startYear} -> ${ruling[0]} (${ruling[1]})`);
       e.startYear = ruling[0];
       redated++;
     }
+    if (ruling[2] && e.dateNote !== ruling[2]) e.dateNote = ruling[2];
   }
+  for (const e of events) {
+    const fixes = CURATED_ROLES.get(e.id);
+    if (!fixes || !Array.isArray(e.capitalOf)) continue;
+    e.capitalOf = e.capitalOf
+      .filter((r) => fixes[r.of] !== null)
+      .map((r) => (fixes[r.of] ? { ...r, ...fixes[r.of] } : r));
+  }
+  if (ruledOut.size) console.log(`${ruledOut.size} rows ruled out (his one-pin calls, withdrawn entries)`);
   const { merges, disagreements } = groupDuplicates(events);
 
   console.log(`${events.length} rows in`);

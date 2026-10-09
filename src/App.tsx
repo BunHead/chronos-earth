@@ -50,6 +50,7 @@ import { initPortraits } from './lib/portraits';
 import { battleToPanel, siteToPanel, eventToPanel, faunaToPanel, BATTLE_FLY_ALTITUDE } from './lib/panel';
 import { synthesizeBattleView } from './lib/synthBattle';
 import { buildSceneUrl, readSceneState, type SceneLayerKey } from './lib/sceneState';
+import { registerReset } from './lib/gpuRecovery';
 import { countSubKinds } from './lib/subLayers';
 import { applySkin, loadSkin, saveSkin, type SkinId } from './lib/skin';
 import { getTone, setTone as persistTone, type ToneId } from './lib/tone';
@@ -493,6 +494,23 @@ export default function App() {
       window.history.replaceState(null, '', url);
       showToast('Scene link is ready in the address bar.');
     }
+  };
+
+  // THE GRAPHICS CARD RESET (see lib/gpuRecovery). The globe can never draw
+  // again, so save this moment into the URL and reload straight back to it —
+  // unless it keeps happening, when a reload loop would be worse than asking.
+  const [gpuLost, setGpuLost] = useState<{ url: string; auto: boolean } | null>(null);
+  const handleGraphicsLost = () => {
+    const url = buildSceneUrl(window.location.href, {
+      yearsBP: yearsBPRef.current,
+      zoomIdx,
+      layers: enabledLayerKeys(),
+      camera: globeRef.current?.getCamera() ?? null,
+    });
+    const auto = registerReset();
+    setIsPlaying(false);
+    setGpuLost({ url, auto });
+    if (auto) window.setTimeout(() => window.location.replace(url), 1500);
   };
 
   const yearsBPRef = useRef(yearsBP);
@@ -1034,6 +1052,7 @@ export default function App() {
         focusEventId={focusEventId}
         onSelect={setPanel}
         onCampaignLabel={setCampaignLabel}
+        onGraphicsLost={handleGraphicsLost}
         onSeek={(bp) => {
           setIsPlaying(false);
           setYearsBP(bp);
@@ -1103,7 +1122,7 @@ export default function App() {
       <div className="brand" role="banner">
         <div className="brand-text">
           <h1>Chronos Earth</h1>
-          <p>250 million years of history · drag the timeline to travel</p>
+          <p>540 million years of history · drag the timeline to travel</p>
         </div>
         <AppMenu
           tours={tours}
@@ -1347,6 +1366,24 @@ export default function App() {
       )}
 
       {toast && <div className="app-toast">{toast}</div>}
+      {gpuLost && (
+        <div className="gpu-reset" role="alert">
+          <strong>Your graphics card reset.</strong>
+          {gpuLost.auto ? (
+            <span>Bringing the globe back where you were…</span>
+          ) : (
+            <>
+              <span>
+                It has happened a few times in a row. Switching on <b>Light graphics</b> in ⋯ → Settings
+                usually stops it.
+              </span>
+              <button type="button" onClick={() => window.location.replace(gpuLost.url)}>
+                Reload here
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       <Tours
         tours={tours}

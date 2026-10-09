@@ -15,6 +15,7 @@ import { OLDEST_BP, PRESENT_YEAR, type TimeWindow } from './timeScale';
 /** Older edge (startBP) of each era, oldest→youngest. Kept in lockstep with the
  * ERAS table in timeScale.ts (there's a test asserting bucketFor === getEra). */
 export const ERA_START_BP = [
+  538_800_000, 485_400_000, 443_800_000, 419_200_000, 358_900_000, 298_900_000,
   251_900_000, 201_400_000, 145_000_000, 66_000_000, 23_000_000, 2_580_000,
   12_000, 5_300, 3_200, 2_525, 1_526, 526, 226,
 ];

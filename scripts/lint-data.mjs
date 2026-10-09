@@ -18,7 +18,7 @@ const EVENT_CATEGORIES = new Set([
   'monument', 'city', 'battle', 'disaster', 'invention', 'discovery', 'person', 'event',
 ]);
 const SITE_CATEGORIES = new Set(['monument', 'settlement', 'precursor-hypothesis']);
-const OLDEST_YEAR = -250_000_000; // Pangea, the far edge of the timeline
+const OLDEST_YEAR = -538_800_000; // the Cambrian, the far edge of the timeline
 const NEWEST_YEAR = 2100;         // a little future headroom for live events
 
 const errors = [];

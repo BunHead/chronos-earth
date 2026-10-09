@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
-import { loadSearchIndex, rowToEvent, type SearchRow } from '../lib/searchIndex';
+import { loadSearchIndex, loadSearchTop, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
 import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
 import { didYouMean, matchTier } from '../lib/searchRank';
@@ -135,7 +135,11 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   const wantIndex = () => {
     if (asked.current) return;
     asked.current = true;
-    void loadSearchIndex(baseUrl).then((rows) => { setIndexRows(rows); setIndexReady(true); });
+    // The small best-known file first, so a phone answers at once; the full
+    // index replaces it when it lands (and never the other way round).
+    let full = false;
+    void loadSearchTop(baseUrl).then((rows) => { if (!full && rows.length) setIndexRows(rows); });
+    void loadSearchIndex(baseUrl).then((rows) => { full = true; setIndexRows(rows); setIndexReady(true); });
     void loadCountryIndex(baseUrl).then(setCountries);
   };
   // Someone who arrives by keyboard (tab into the box, or the / shortcut) and

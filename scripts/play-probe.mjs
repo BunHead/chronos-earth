@@ -54,7 +54,11 @@ const sample = () => page.evaluate(() => {
   const now = performance.now();
   const lt = window.__lt.filter(([s]) => s > now - 2000);
   const yr = document.querySelector('.timeline-year, .tl-year, [class*=year]')?.textContent?.trim().slice(0, 30);
-  return { t: Math.round(now / 1000), frames: window.__frames, ltMs: Math.round(lt.reduce((a, [, d]) => a + d, 0)), ltMax: Math.round(Math.max(0, ...lt.map(([, d]) => d))), yr, heap: Math.round(performance.memory.usedJSHeapSize / 1e6), ents: window.__viewer?.entities.values.length };
+  return { t: Math.round(now / 1000), frames: window.__frames, ltMs: Math.round(lt.reduce((a, [, d]) => a + d, 0)), ltMax: Math.round(Math.max(0, ...lt.map(([, d]) => d))), yr, heap: Math.round(performance.memory.usedJSHeapSize / 1e6), ents: window.__viewer?.entities.values.length,
+    // Globe shader programs built so far (dev server only): a jump mid-play is
+    // a new combination of imagery layers being compiled for the first time.
+    sh: window.__viewer?.scene.context.shaderCache?._numberOfShaders,
+    layers: window.__viewer ? [...Array(window.__viewer.imageryLayers.length).keys()].filter((i) => window.__viewer.imageryLayers.get(i).show).length : undefined };
 });
 console.log('idle', JSON.stringify(await sample()), phone ? '(phone)' : '', cpu > 1 ? `cpu ÷${cpu}` : '');
 console.log('coarse pointer:', await page.evaluate(() => matchMedia('(pointer: coarse)').matches));
@@ -66,11 +70,15 @@ await page.evaluate((speed) => {
   [...document.querySelectorAll('button')].find((b) => /Play/.test(b.textContent)).click();
 }, speed);
 let prevFrames = 0;
-for (let i = 0; i < 12; i++) {
+const ni = process.argv.indexOf('--samples');
+const samples = ni > 0 ? +process.argv[ni + 1] : 12;
+for (let i = 0; i < samples; i++) {
   const t0 = Date.now();
   await new Promise((r) => setTimeout(r, 2000));
   try {
-    const s = await sample();
+    // A page that cannot answer in 10 s is frozen — say so and keep counting,
+    // rather than sit out puppeteer's 4-minute protocol timeout per sample.
+    const s = await Promise.race([sample(), new Promise((_, no) => setTimeout(() => no(new Error('STALL: page did not answer in 10 s')), 10000))]);
     const lag = Date.now() - t0 - 2000;
     console.log(JSON.stringify({ ...s, fps: Math.round((s.frames - prevFrames) / ((Date.now() - t0) / 1000)), evalLagMs: lag }));
     prevFrames = s.frames;

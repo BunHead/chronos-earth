@@ -31,7 +31,7 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
         <header className="bv-header" onPointerDown={startWindowDrag} title="Drag to move">
           <div>
             <h2>About Chronos Earth</h2>
-            <p>An interactive tour through 250 million years of Earth and human history.</p>
+            <p>An interactive tour through 540 million years of Earth and human history.</p>
           </div>
           <button className="info-close" onClick={onClose} aria-label="Close about">
             ×

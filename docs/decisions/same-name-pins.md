@@ -1,5 +1,12 @@
 # Same-name pins close together — rulings wanted
 
+> **RULED by the Captain, 6 Oct 2026 — applied** (scripts/dedupe-places.mjs CURATED_FOLDS, re-applied every night).
+> All 25 Pleiades-vs-Pleiades pairs: keep both. Both "Withdrawn: Untitled" pins removed (and all 9 withdrawn Pleiades entries; fetch-pleiades now skips them).
+> One pin, ANCIENT date: Baku, Dammam, Nidderau, Nellore, Dushanbe, Kherson, Pyatigorsk, Taganrog, Saarbrücken, Bielefeld, Gera, Bern, Jaffna, Giza (the 2670 BCE date kept).
+> One pin, sourced date: Messene, Nevalı Çori, Sybaris, Mehrgarh, Amarna, Timișoara. Benin City: the curated 1180 pin stays.
+> Maykop: keep both (his explicit call, though it differs from his later rule — ask if he wants it merged).
+
+
 44 pairs of city/monument pins with the same name within 30 km that the automatic merge leaves alone, because merging would change a date. Each has a suggested ruling; reply with the numbers you disagree with (e.g. "all fine except 7 and 12") and they will be applied the way Cusco's and Petra's were (scripts/dedupe-places.mjs CURATED_DROPS).
 
 Summary: 28 × Keep both, 12 × One pin, 4 × Your call.

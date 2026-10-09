@@ -36,6 +36,8 @@ import {
   onDemandRenderingEnabled,
   releaseBootLease,
 } from '../lib/renderLease';
+import { watchGpuLoss, type GpuLossReason } from '../lib/gpuRecovery';
+import { isSiteTwin } from '../lib/siteTwin';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -272,6 +274,8 @@ interface GlobeProps {
   onSelect: (content: PanelContent) => void;
   /** Reports the current war-front-line moment (or null) for a banner. */
   onCampaignLabel: (label: string | null) => void;
+  /** The graphics card reset (or the render loop threw): the globe cannot draw again. */
+  onGraphicsLost?: (why: GpuLossReason) => void;
   /** Move the timeline to a clicked marker's date (globe → timeline sync). */
   onSeek: (yearsBP: number) => void;
   /** The dive: keep zooming onto a 3D-capable marker and this fires once so
@@ -302,7 +306,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, videos = [], showVideos = true, onPickVideo, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, videos = [], showVideos = true, onPickVideo, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onGraphicsLost, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -325,6 +329,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const playedFxRef = useRef(new Set<string>());
   const onCampaignLabelRef = useRef(onCampaignLabel);
   onCampaignLabelRef.current = onCampaignLabel;
+  const onGraphicsLostRef = useRef(onGraphicsLost);
+  onGraphicsLostRef.current = onGraphicsLost;
   /** The modern-Earth imagery layers (Natural Earth fallback + sharp satellite). */
   const modernLayersRef = useRef<Cesium.ImageryLayer[]>([]);
   /** Real-elevation terrain, once loaded, and whether it is currently applied. */
@@ -868,6 +874,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // Torn down with the viewer — see the render-mode handover below.
     let cleanupRenderMode: (() => void) | undefined;
     bindRenderLease(viewer.scene);
+    // A driver reset leaves the canvas dead with no error — see gpuRecovery.
+    const stopGpuWatch = watchGpuLoss(viewer.scene, (why) => onGraphicsLostRef.current?.(why));
     // The opening frames: base imagery, terrain and the first data all arrive
     // asynchronously over the first few seconds, and under render-on-demand a
     // globe nobody has asked to be drawn is simply black.
@@ -1412,6 +1420,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       }
       popAnimsRef.current.clear();
       cleanupRenderMode?.();
+      stopGpuWatch();
       unbindRenderLease();
       handler.destroy();
       faunaRef.current?.dispose();
@@ -1646,9 +1655,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         return twin ? { kind: 'battle', id: twin.id } : undefined;
       }
       if (ev.category === 'monument') {
-        const twin = sites.find(
-          (s) => Math.abs(s.lat - ev.lat) < 0.3 && Math.abs(s.lon - ev.lon) < 0.3,
-        );
+        const twin = sites.find((s) => isSiteTwin(s, ev));
         return twin ? { kind: 'site', id: twin.id } : undefined;
       }
       return undefined;

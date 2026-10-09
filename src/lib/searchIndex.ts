@@ -93,6 +93,29 @@ export function rowToEvent(r: SearchRow): TimelineEvent {
   };
 }
 
+let topCache: Promise<SearchRow[]> | null = null;
+
+/**
+ * The FIRST BITE: the ~6,000 best-known rows (search-top.json, a few hundred
+ * KB), so a phone's first search answers in a moment instead of waiting >10 s
+ * for the full 2.7 MB index (roadmap 14). Resolves to [] on any failure, and
+ * the full index supersedes it once it lands.
+ */
+export function loadSearchTop(baseUrl: string): Promise<SearchRow[]> {
+  if (topCache) return topCache;
+  topCache = (async () => {
+    try {
+      const res = await fetch(`${baseUrl}data/core-index/search-top.json`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return rowsFromColumns((await res.json()) as SearchColumns);
+    } catch {
+      topCache = null;
+      return [];
+    }
+  })();
+  return topCache;
+}
+
 let cache: Promise<SearchRow[]> | null = null;
 
 /**

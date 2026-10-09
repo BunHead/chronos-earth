@@ -78,6 +78,32 @@ export const DINOSAURS = [
   ['guanlong', 'Guanlong', 'Guanlong', T, 'Guanlong', 'An early tyrannosaur relative from China, with a thin crest along its snout.'],
 ];
 
+/** The Palaeozoic, for the timeline's extension to the Cambrian (roadmap 15,
+ * 6 Oct 2026). Same shape and same rules: PBDB places and dates every one. */
+const ARTH = '🦐'; // arthropods: trilobites, sea scorpions, the Burgess oddities
+const FISH = '🐟';
+const LAND = '🦎'; // early four-legged animals, reptiles and their kin
+export const PALAEOZOIC = [
+  ['anomalocaris', 'Anomalocaris', 'Anomalocaris', ARTH, 'Anomalocaris', 'A Cambrian hunter up to about 40 cm long, with spiny grasping limbs and a ring-shaped mouth — a top predator of the first animal seas.', 'CA'],
+  ['hallucigenia', 'Hallucigenia', 'Hallucigenia', ARTH, 'Hallucigenia', 'A spiny Cambrian worm so strange it was first reconstructed upside down and back to front.', 'CA'],
+  ['opabinia', 'Opabinia', 'Opabinia', ARTH, 'Opabinia', 'Five eyes and a long grasping nozzle: the Burgess Shale animal that made scientists laugh out loud.', 'CA'],
+  ['olenellus', 'Olenellus', 'Olenellus (a trilobite)', ARTH, 'Olenellus', 'One of the earliest trilobites — the armoured, many-legged arthropods that ruled the seabed for 270 million years.'],
+  ['haikouichthys', 'Haikouichthys', 'Haikouichthys', FISH, 'Haikouichthys', 'A tiny jawless fish from China\'s Chengjiang fossils, among the very first animals with a skull and backbone.', 'CN'],
+  ['isotelus', 'Isotelus', 'Isotelus', ARTH, 'Isotelus', 'A giant Ordovician trilobite; the largest complete trilobite ever found is one, over 70 cm long.'],
+  ['eurypterus', 'Eurypterus', 'Eurypterus', ARTH, 'Eurypterus', 'A Silurian sea scorpion, the most common of them all in the fossil record — and the state fossil of New York.', 'US'],
+  ['jaekelopterus', 'Jaekelopterus', 'Jaekelopterus', ARTH, 'Jaekelopterus', 'The largest arthropod known: a Devonian sea scorpion about 2.5 m long, from a single giant claw.', 'DE'],
+  ['dunkleosteus', 'Dunkleosteus', 'Dunkleosteus', FISH, 'Dunkleosteus', 'An armoured Devonian fish with self-sharpening bony blades for jaws, one of the first giant predators with a backbone.', 'US'],
+  ['tiktaalik', 'Tiktaalik', 'Tiktaalik', FISH, 'Tiktaalik', 'A fish with a neck and sturdy fins — found in the Canadian Arctic in 2004 as a link between fish and four-legged animals.', 'CA'],
+  ['acanthostega', 'Acanthostega', 'Acanthostega', LAND, 'Acanthostega', 'One of the first animals with four limbs and eight fingers — but it still lived in water, breathing with gills.', 'GL'],
+  ['arthropleura', 'Arthropleura', 'Arthropleura', ARTH, 'Arthropleura', 'A millipede the length of a car, the largest land invertebrate that ever lived, in the coal forests.'],
+  ['meganeura', 'Meganeura', 'Meganeura', ARTH, 'Meganeura', 'A dragonfly-like insect with a 70 cm wingspan, from the Carboniferous coal measures of France.', 'FR'],
+  ['hylonomus', 'Hylonomus', 'Hylonomus', LAND, 'Hylonomus', 'The oldest known reptile, found inside fossil tree stumps at Joggins, Nova Scotia.', 'CA'],
+  ['dimetrodon', 'Dimetrodon', 'Dimetrodon', LAND, 'Dimetrodon', 'The sail-backed Permian predator often mistaken for a dinosaur — it is closer to mammals.', 'US'],
+  ['helicoprion', 'Helicoprion', 'Helicoprion', FISH, 'Helicoprion', 'A Permian fish with a spiral "buzz-saw" of teeth in its lower jaw, puzzled over for a century.'],
+  ['inostrancevia', 'Inostrancevia', 'Inostrancevia', LAND, 'Inostrancevia', 'A sabre-toothed gorgonopsian, the largest predator of Russia\'s late Permian before the Great Dying.', 'RU'],
+  ['scutosaurus', 'Scutosaurus', 'Scutosaurus', LAND, 'Scutosaurus', 'A heavily armoured Permian plant-eater from Russia, as big as a car.', 'RU'],
+];
+
 const countryName = (() => {
   try { const d = new Intl.DisplayNames(['en'], { type: 'region' }); return (cc) => (cc ? d.of(cc) ?? cc : ''); }
   catch { return (cc) => cc ?? ''; }
@@ -125,11 +151,15 @@ async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const have = new Set(doc.fauna.map((a) => a.id));
   let added = 0;
-  for (const [id, genus, name, emoji, wiki, blurb, cc] of DINOSAURS) {
+  for (const [id, genus, name, emoji, wiki, blurb, cc] of [...DINOSAURS, ...PALAEOZOIC]) {
     if (have.has(id)) continue;
     const recs = await occurrences(genus);
     if (!recs) { console.log(`  ${name}: PBDB did not answer — skipped`); continue; }
-    const place = placeFrom(recs, cc);
+    // A genus name can be shared with an unrelated, younger fossil: PBDB's
+    // "Acanthostega" query returned finds 0.8 million years old. Palaeozoic
+    // animals keep only Palaeozoic rocks.
+    const palaeo = PALAEOZOIC.some((p) => p[0] === id);
+    const place = placeFrom(palaeo ? recs.filter((o) => Number(o.max_ma) >= 251.9) : recs, cc);
     if (!place) { console.log(`  ${name}: no dated, located occurrence — skipped`); continue; }
     const { finds, ...where } = place;
     doc.fauna.push({ id, name, emoji, ...where, blurb, wiki });
@@ -137,7 +167,7 @@ async function main() {
     console.log(`  + ${name.padEnd(20)} ${where.fromMa}–${where.toMa} Ma  ${where.region} (${finds} finds at this site, ${recs.length} in all)`);
     await sleep(400);
   }
-  console.log(`${added} dinosaurs added; ${doc.fauna.length} animals in all`);
+  console.log(`${added} animals added; ${doc.fauna.length} in all`);
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
   if (added) await writeFile(FILE, JSON.stringify(doc, null, 2) + '\n');
 }

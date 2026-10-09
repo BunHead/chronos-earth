@@ -2450,6 +2450,518 @@
           "lat": 57.56
         }
       ]
+    },
+    {
+      "id": "anomalocaris",
+      "name": "Anomalocaris",
+      "emoji": "🦐",
+      "lat": 51.41,
+      "lon": -116.46,
+      "fromMa": 509.7,
+      "toMa": 505.3,
+      "region": "British Columbia, Canada",
+      "blurb": "A Cambrian hunter up to about 40 cm long, with spiny grasping limbs and a ring-shaped mouth — a top predator of the first animal seas.",
+      "wiki": "Anomalocaris",
+      "track": [
+        {
+          "ma": 505.3,
+          "lon": -138.72,
+          "lat": 11.99
+        },
+        {
+          "ma": 509.7,
+          "lon": -139.86,
+          "lat": 11.32
+        }
+      ]
+    },
+    {
+      "id": "hallucigenia",
+      "name": "Hallucigenia",
+      "emoji": "🦐",
+      "lat": 51.43,
+      "lon": -116.47,
+      "fromMa": 509.7,
+      "toMa": 505.3,
+      "region": "British Columbia, Canada",
+      "blurb": "A spiny Cambrian worm so strange it was first reconstructed upside down and back to front.",
+      "wiki": "Hallucigenia",
+      "track": [
+        {
+          "ma": 505.3,
+          "lon": -138.7,
+          "lat": 11.99
+        },
+        {
+          "ma": 509.7,
+          "lon": -139.84,
+          "lat": 11.32
+        }
+      ]
+    },
+    {
+      "id": "opabinia",
+      "name": "Opabinia",
+      "emoji": "🦐",
+      "lat": 51.44,
+      "lon": -116.47,
+      "fromMa": 509.7,
+      "toMa": 505.3,
+      "region": "British Columbia, Canada",
+      "blurb": "Five eyes and a long grasping nozzle: the Burgess Shale animal that made scientists laugh out loud.",
+      "wiki": "Opabinia",
+      "track": [
+        {
+          "ma": 505.3,
+          "lon": -138.69,
+          "lat": 11.99
+        },
+        {
+          "ma": 509.7,
+          "lon": -139.83,
+          "lat": 11.32
+        }
+      ]
+    },
+    {
+      "id": "olenellus",
+      "name": "Olenellus (a trilobite)",
+      "emoji": "🦐",
+      "lat": 35.87,
+      "lon": -116.23,
+      "fromMa": 515.3,
+      "toMa": 509.7,
+      "region": "California, United States",
+      "blurb": "One of the earliest trilobites — the armoured, many-legged arthropods that ruled the seabed for 270 million years.",
+      "wiki": "Olenellus",
+      "track": [
+        {
+          "ma": 509.7,
+          "lon": -155.58,
+          "lat": 15
+        },
+        {
+          "ma": 510,
+          "lon": -155.65,
+          "lat": 14.99
+        },
+        {
+          "ma": 515.3,
+          "lon": -156.82,
+          "lat": 14.82
+        }
+      ]
+    },
+    {
+      "id": "haikouichthys",
+      "name": "Haikouichthys",
+      "emoji": "🐟",
+      "lat": 24.81,
+      "lon": 102.58,
+      "fromMa": 521,
+      "toMa": 516,
+      "region": "Yunnan, China",
+      "blurb": "A tiny jawless fish from China's Chengjiang fossils, among the very first animals with a skull and backbone.",
+      "wiki": "Haikouichthys",
+      "track": [
+        {
+          "ma": 516,
+          "lon": 101.05,
+          "lat": -22.33
+        },
+        {
+          "ma": 520,
+          "lon": 97.72,
+          "lat": -21.17
+        },
+        {
+          "ma": 521,
+          "lon": 96.79,
+          "lat": -20.91
+        }
+      ]
+    },
+    {
+      "id": "isotelus",
+      "name": "Isotelus",
+      "emoji": "🦐",
+      "lat": 39.05,
+      "lon": -84.15,
+      "fromMa": 450.2,
+      "toMa": 449.6,
+      "region": "Ohio, United States",
+      "blurb": "A giant Ordovician trilobite; the largest complete trilobite ever found is one, over 70 cm long.",
+      "wiki": "Isotelus",
+      "track": [
+        {
+          "ma": 449.6,
+          "lon": -119.89,
+          "lat": -16.76
+        },
+        {
+          "ma": 450,
+          "lon": -120.11,
+          "lat": -16.73
+        },
+        {
+          "ma": 450.2,
+          "lon": -120.22,
+          "lat": -16.72
+        }
+      ]
+    },
+    {
+      "id": "eurypterus",
+      "name": "Eurypterus",
+      "emoji": "🦐",
+      "lat": 42.86,
+      "lon": -78.83,
+      "fromMa": 422.7,
+      "toMa": 419.6,
+      "region": "New York, United States",
+      "blurb": "A Silurian sea scorpion, the most common of them all in the fossil record — and the state fossil of New York.",
+      "wiki": "Eurypterus",
+      "track": [
+        {
+          "ma": 419.6,
+          "lon": -87.49,
+          "lat": -28.45
+        },
+        {
+          "ma": 420,
+          "lon": -88.16,
+          "lat": -28.07
+        },
+        {
+          "ma": 422.7,
+          "lon": -92.53,
+          "lat": -25.37
+        }
+      ]
+    },
+    {
+      "id": "jaekelopterus",
+      "name": "Jaekelopterus",
+      "emoji": "🦐",
+      "lat": 50.05,
+      "lon": 7.42,
+      "fromMa": 410.6,
+      "toMa": 399.5,
+      "region": "Alken, Germany",
+      "blurb": "The largest arthropod known: a Devonian sea scorpion about 2.5 m long, from a single giant claw.",
+      "wiki": "Jaekelopterus",
+      "track": [
+        {
+          "ma": 399.5,
+          "lon": -31.46,
+          "lat": -26.2
+        },
+        {
+          "ma": 400,
+          "lon": -31.81,
+          "lat": -26.5
+        },
+        {
+          "ma": 410,
+          "lon": -30.91,
+          "lat": -21.09
+        },
+        {
+          "ma": 410.6,
+          "lon": -31.93,
+          "lat": -21.24
+        }
+      ]
+    },
+    {
+      "id": "dunkleosteus",
+      "name": "Dunkleosteus",
+      "emoji": "🐟",
+      "lat": 45.09,
+      "lon": -83.42,
+      "fromMa": 387.9,
+      "toMa": 382.3,
+      "region": "Michigan, United States",
+      "blurb": "An armoured Devonian fish with self-sharpening bony blades for jaws, one of the first giant predators with a backbone.",
+      "wiki": "Dunkleosteus",
+      "track": [
+        {
+          "ma": 382.3,
+          "lon": -64.22,
+          "lat": -25.94
+        },
+        {
+          "ma": 387.9,
+          "lon": -66.19,
+          "lat": -26.64
+        }
+      ]
+    },
+    {
+      "id": "tiktaalik",
+      "name": "Tiktaalik",
+      "emoji": "🐟",
+      "lat": 77.9,
+      "lon": -86.16,
+      "fromMa": 382.3,
+      "toMa": 372.1,
+      "region": "Nunavut, Canada",
+      "blurb": "A fish with a neck and sturdy fins — found in the Canadian Arctic in 2004 as a link between fish and four-legged animals.",
+      "wiki": "Tiktaalik",
+      "track": [
+        {
+          "ma": 372.1,
+          "lon": -41.42,
+          "lat": 1
+        },
+        {
+          "ma": 380,
+          "lon": -44.87,
+          "lat": 1.83
+        },
+        {
+          "ma": 382.3,
+          "lon": -46.04,
+          "lat": 2.07
+        }
+      ]
+    },
+    {
+      "id": "acanthostega",
+      "name": "Acanthostega",
+      "emoji": "🦎",
+      "lat": 73.5,
+      "lon": -23.17,
+      "fromMa": 372.1,
+      "toMa": 358.9,
+      "region": "Greenland",
+      "blurb": "One of the first animals with four limbs and eight fingers — but it still lived in water, breathing with gills.",
+      "wiki": "Acanthostega",
+      "track": [
+        {
+          "ma": 358.9,
+          "lon": -22.14,
+          "lat": -7.01
+        },
+        {
+          "ma": 360,
+          "lon": -23.11,
+          "lat": -7.64
+        },
+        {
+          "ma": 370,
+          "lon": -28.66,
+          "lat": -9.16
+        },
+        {
+          "ma": 372.1,
+          "lon": -29.57,
+          "lat": -9.12
+        }
+      ]
+    },
+    {
+      "id": "arthropleura",
+      "name": "Arthropleura",
+      "emoji": "🦐",
+      "lat": 49.32,
+      "lon": 7.06,
+      "fromMa": 314.6,
+      "toMa": 309.8,
+      "region": "Saarland, Germany",
+      "blurb": "A millipede the length of a car, the largest land invertebrate that ever lived, in the coal forests.",
+      "wiki": "Arthropleura",
+      "track": [
+        {
+          "ma": 309.8,
+          "lon": 22.98,
+          "lat": 5.69
+        },
+        {
+          "ma": 310,
+          "lon": 22.96,
+          "lat": 5.67
+        },
+        {
+          "ma": 314.6,
+          "lon": 22.75,
+          "lat": 3.41
+        }
+      ]
+    },
+    {
+      "id": "meganeura",
+      "name": "Meganeura",
+      "emoji": "🦐",
+      "lat": 46.29,
+      "lon": 2.75,
+      "fromMa": 303.7,
+      "toMa": 298.9,
+      "region": "France",
+      "blurb": "A dragonfly-like insect with a 70 cm wingspan, from the Carboniferous coal measures of France.",
+      "wiki": "Meganeura",
+      "track": [
+        {
+          "ma": 298.9,
+          "lon": 22.75,
+          "lat": 3.04
+        },
+        {
+          "ma": 300,
+          "lon": 22.57,
+          "lat": 2.89
+        },
+        {
+          "ma": 303.7,
+          "lon": 22.31,
+          "lat": 2.42
+        }
+      ]
+    },
+    {
+      "id": "hylonomus",
+      "name": "Hylonomus",
+      "emoji": "🦎",
+      "lat": 45.7,
+      "lon": -64.45,
+      "fromMa": 318.7,
+      "toMa": 316.9,
+      "region": "Nova Scotia, Canada",
+      "blurb": "The oldest known reptile, found inside fossil tree stumps at Joggins, Nova Scotia.",
+      "wiki": "Hylonomus",
+      "track": [
+        {
+          "ma": 316.9,
+          "lon": -3.44,
+          "lat": -4.61
+        },
+        {
+          "ma": 318.7,
+          "lon": -3.6,
+          "lat": -5.29
+        }
+      ]
+    },
+    {
+      "id": "dimetrodon",
+      "name": "Dimetrodon",
+      "emoji": "🦎",
+      "lat": 33.78,
+      "lon": -98.95,
+      "fromMa": 290.1,
+      "toMa": 278.9,
+      "region": "Texas, United States",
+      "blurb": "The sail-backed Permian predator often mistaken for a dinosaur — it is closer to mammals.",
+      "wiki": "Dimetrodon",
+      "track": [
+        {
+          "ma": 278.9,
+          "lon": -28.31,
+          "lat": 4.74
+        },
+        {
+          "ma": 280,
+          "lon": -28.41,
+          "lat": 4.49
+        },
+        {
+          "ma": 290,
+          "lon": -29.51,
+          "lat": 1.73
+        },
+        {
+          "ma": 290.1,
+          "lon": -29.53,
+          "lat": 1.7
+        }
+      ]
+    },
+    {
+      "id": "helicoprion",
+      "name": "Helicoprion",
+      "emoji": "🐟",
+      "lat": 42.31,
+      "lon": -111.2,
+      "fromMa": 274.4,
+      "toMa": 266.9,
+      "region": "Idaho, United States",
+      "blurb": "A Permian fish with a spiral \"buzz-saw\" of teeth in its lower jaw, puzzled over for a century.",
+      "wiki": "Helicoprion",
+      "track": [
+        {
+          "ma": 266.9,
+          "lon": -31.26,
+          "lat": 19.45
+        },
+        {
+          "ma": 270,
+          "lon": -31.44,
+          "lat": 19.07
+        },
+        {
+          "ma": 274.4,
+          "lon": -31.53,
+          "lat": 18.13
+        }
+      ]
+    },
+    {
+      "id": "inostrancevia",
+      "name": "Inostrancevia",
+      "emoji": "🦎",
+      "lat": 61.19,
+      "lon": 46.63,
+      "fromMa": 264.3,
+      "toMa": 256.8,
+      "region": "Arkhangelsk, Russia",
+      "blurb": "A sabre-toothed gorgonopsian, the largest predator of Russia's late Permian before the Great Dying.",
+      "wiki": "Inostrancevia",
+      "track": [
+        {
+          "ma": 256.8,
+          "lon": 40.22,
+          "lat": 40.95
+        },
+        {
+          "ma": 260,
+          "lon": 40.54,
+          "lat": 39.72
+        },
+        {
+          "ma": 264.3,
+          "lon": 39.86,
+          "lat": 39.55
+        }
+      ]
+    },
+    {
+      "id": "scutosaurus",
+      "name": "Scutosaurus",
+      "emoji": "🦎",
+      "lat": 61.19,
+      "lon": 46.63,
+      "fromMa": 264.3,
+      "toMa": 256.8,
+      "region": "Arkhangelsk, Russia",
+      "blurb": "A heavily armoured Permian plant-eater from Russia, as big as a car.",
+      "wiki": "Scutosaurus",
+      "track": [
+        {
+          "ma": 256.8,
+          "lon": 40.22,
+          "lat": 40.95
+        },
+        {
+          "ma": 260,
+          "lon": 40.54,
+          "lat": 39.72
+        },
+        {
+          "ma": 264.3,
+          "lon": 39.86,
+          "lat": 39.55
+        }
+      ]
     }
   ]
 }

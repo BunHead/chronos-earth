@@ -20,8 +20,11 @@
 /** The year we treat as "now". Used to convert between BP and calendar years. */
 export const PRESENT_YEAR = 2026;
 
-/** Oldest point on the timeline: 250 million years before present (Pangea). */
-export const OLDEST_BP = 250_000_000;
+/** Oldest point on the timeline: the start of the Cambrian, 538.8 million
+ * years ago (ICS 2023) — the first abundant animal life. It was 250 Mya
+ * (Pangea) until 6 Oct 2026 (roadmap 15). The far edge sits ON the Cambrian's
+ * own start, so getEra never falls off the oldest era. */
+export const OLDEST_BP = 538_800_000;
 
 /**
  * We map time using log10(BP + 1) so that BP = 0 (the present) maps cleanly to
@@ -37,7 +40,7 @@ export function clamp(value: number, min: number, max: number): number {
 
 /**
  * Convert "years before present" into a normalised timeline position in [0, 1].
- *   - position 0  = the oldest point (250 Mya, far LEFT of the bar)
+ *   - position 0  = the oldest point (538.8 Mya, far LEFT of the bar)
  *   - position 1  = the present day  (far RIGHT of the bar)
  */
 export function yearsBPToPos(yearsBP: number): number {
@@ -160,6 +163,14 @@ export interface Era {
  * teaching clarity, not stratigraphic precision.
  */
 export const ERAS: Era[] = [
+  // The Palaeozoic (6 Oct 2026). Boundaries from the ICS chart; colours are
+  // muted versions of its period colours, like the Mesozoic ones below.
+  { name: 'Cambrian',        startBP: 538_800_000, endBP: 485_400_000, color: '#7fa056', kind: 'geological', icon: '🐚' },
+  { name: 'Ordovician',      startBP: 485_400_000, endBP: 443_800_000, color: '#2f9a7a', kind: 'geological', icon: '🦑' },
+  { name: 'Silurian',        startBP: 443_800_000, endBP: 419_200_000, color: '#8fc4a0', kind: 'geological', icon: '🦂' },
+  { name: 'Devonian',        startBP: 419_200_000, endBP: 358_900_000, color: '#c08a40', kind: 'geological', icon: '🐟' },
+  { name: 'Carboniferous',   startBP: 358_900_000, endBP: 298_900_000, color: '#5f9a90', kind: 'geological', icon: '🌿' },
+  { name: 'Permian',         startBP: 298_900_000, endBP: 251_900_000, color: '#c8603f', kind: 'geological', icon: '🌋' },
   { name: 'Triassic',        startBP: 251_900_000, endBP: 201_400_000, color: '#8e6f9e', kind: 'geological', icon: '🦎' },
   { name: 'Jurassic',        startBP: 201_400_000, endBP: 145_000_000, color: '#4a9a8a', kind: 'geological', icon: '🦕' },
   { name: 'Cretaceous',      startBP: 145_000_000, endBP:  66_000_000, color: '#7faa55', kind: 'geological', icon: '🦖' },

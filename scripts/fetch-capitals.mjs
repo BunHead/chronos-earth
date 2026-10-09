@@ -70,6 +70,13 @@ const KNOWN_ENDS = {
 const ROLE_FIXES = {
   Q37995: { Q836: 2005 }, // Yangon — the government moved to Naypyidaw in November 2005
   Q36600: { Q55: null, Q29999: null }, // The Hague — the seat of government; the constitution names Amsterdam the capital
+  Q1861: { Q1115291: null }, // Bangkok — Thonburi was the town across the river (the Captain, 6 Oct 2026)
+};
+/** Role START dates checked by hand: city -> polity -> first year. Wikidata's
+ * own start is wrong for these (the Captain's rulings, 6 Oct 2026). */
+const ROLE_STARTS = {
+  Q193229: { Q3627069: 1355 }, // Visoko — '12' was the 12th century misread; the town is first recorded 1355
+  Q18808: { Q28370: 427 }, // Pyongyang — Goguryeo moved its capital here in 427, not at its founding
 };
 // (Tel Aviv was yellow too, but only through a P36 statement Wikidata itself
 // marks deprecated — pass 4 now skips those, which fixed it without a hand edit.)
@@ -375,6 +382,8 @@ async function main() {
         const [born, endedWd] = national.get(ofId) ?? [null, null];
         const ended = endedWd ?? KNOWN_ENDS[ofId] ?? null;
         const out = { ...e };
+        const start = ROLE_STARTS[qid]?.[ofId];
+        if (start !== undefined) out.from = start;
         // …but never from before the city itself existed: an undated role took
         // the polity's own start, so Carchemish was 'capital of the Assyrian
         // Empire from 2025 BCE' seven centuries before the city's date (27 Sept

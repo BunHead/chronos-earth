@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { OLDEST_BP } from './timeScale';
 
 /**
  * These tests validate the bundled JSON content (loaded at runtime via fetch).
@@ -160,7 +161,7 @@ describe('fauna.json', () => {
       expect(f.name, f.id).toBeTruthy();
       expect(f.emoji, f.id).toBeTruthy();
       expect(f.fromMa, `${f.id} fromMa older than toMa`).toBeGreaterThan(f.toMa);
-      expect(f.fromMa).toBeLessThanOrEqual(250);
+      expect(f.fromMa).toBeLessThanOrEqual(OLDEST_BP / 1e6); // the timeline's far edge (the Cambrian)
       expect(Array.isArray(f.track) && f.track.length >= 1, `${f.id} has a track`).toBe(true);
       for (let i = 1; i < f.track.length; i++) {
         expect(f.track[i].ma, `${f.id} track sorted`).toBeGreaterThan(f.track[i - 1].ma);

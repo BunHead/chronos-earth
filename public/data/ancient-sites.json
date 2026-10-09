@@ -617,6 +617,176 @@
           }
         ]
       }
+    },
+    {
+      "id": "bimini-road",
+      "name": "Bimini Road",
+      "category": "precursor-hypothesis",
+      "lat": 25.767,
+      "lon": -79.2788,
+      "builtYear": -800,
+      "builtYearLabel": "natural beachrock, cemented c. 2,800 radiocarbon years ago",
+      "consensusSummary": "A 0.8 km line of flat, roughly rectangular limestone blocks in 5.5 m of water off North Bimini in the Bahamas, found by divers in September 1968. Geologists who have studied it identify the blocks as beachrock, a natural rock that forms along Bahamian shores and cracks into blocks as it lies.",
+      "significance": "The most famous 'Atlantis' find, and a clear example of testing a claim: the stones were cored and dated.",
+      "keyFacts": [
+        "Found on 2 September 1968 by Joseph Manson Valentine, Jacques Mayol and Robert Angove",
+        "Made of beachrock: shell hash cemented by carbonate, native to the Bahamas",
+        "Radiocarbon dates from cores (University of Miami, 1978) put the cement at about 2,800 radiocarbon years old",
+        "The blocks are less regular and less rectangular than popular books describe"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Bimini Road",
+          "url": "https://en.wikipedia.org/wiki/Bimini_Road"
+        }
+      ],
+      "alternative": {
+        "proponent": "Atlantis enthusiasts, after the psychic Edgar Cayce",
+        "claim": "The blocks are a man-made road, wall or harbour: a surviving piece of Atlantis.",
+        "note": "Not supported. Cores show natural beachrock whose shell and cement dates agree with each other, and no tool marks, foundations or artefacts tie it to builders.",
+        "links": [
+          {
+            "label": "Wikipedia: Bimini Road",
+            "url": "https://en.wikipedia.org/wiki/Bimini_Road"
+          }
+        ]
+      }
+    },
+    {
+      "id": "yonaguni-monument",
+      "name": "Yonaguni Monument",
+      "category": "precursor-hypothesis",
+      "lat": 24.4358,
+      "lon": 123.0114,
+      "builtYear": -8000,
+      "builtYearLabel": "the claim: built over 10,000 years ago (the rock is c. 20 million years old)",
+      "consensusSummary": "Stepped, flat-faced rock formations on the seabed off the southern tip of Yonaguni, Japan's westernmost island, noticed by a diver in 1986. They are sandstone and mudstone of the Early Miocene, about 20 million years old, still joined to the bedrock beneath.",
+      "significance": "Shows how rock that splits along straight natural planes can look built — and why 'it looks man-made' is where testing starts, not ends.",
+      "keyFacts": [
+        "Noticed in 1986 by Kihachiro Aratake, a local tourism director diving to watch hammerhead sharks",
+        "Sandstones and mudstones of the Yaeyama Group, deposited about 20 million years ago",
+        "Most of the 'blocks' are attached to the underlying rock mass, not assembled",
+        "Japan's Agency for Cultural Affairs does not recognise it as a cultural site"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Yonaguni Monument",
+          "url": "https://en.wikipedia.org/wiki/Yonaguni_Monument"
+        }
+      ],
+      "alternative": {
+        "proponent": "Masaaki Kimura, marine geologist (University of the Ryukyus)",
+        "claim": "The formations are man-made stepped monoliths, built when the site was dry land at least 10,000 years ago, perhaps by the lost continent of Mu. In 2007 he revised his date to 2,000–3,000 years ago, with earthquakes sinking the site afterwards.",
+        "note": "Not accepted. The geologist Robert Schoch found the rock splits naturally along parallel bedding planes and vertical joints, which makes the same right-angled steps; the region's earthquakes fracture it further. Described as pseudoarchaeological.",
+        "links": [
+          {
+            "label": "Wikipedia: Yonaguni Monument",
+            "url": "https://en.wikipedia.org/wiki/Yonaguni_Monument"
+          }
+        ]
+      }
+    },
+    {
+      "id": "piri-reis-map",
+      "name": "Piri Reis map",
+      "category": "precursor-hypothesis",
+      "lat": 41.0115,
+      "lon": 28.9834,
+      "builtYear": 1513,
+      "builtYearLabel": "1513, compiled by the Ottoman admiral Piri Reis",
+      "consensusSummary": "A world map compiled in 1513 by the Ottoman admiral and cartographer Piri Reis, about a third of which survives in the Topkapı Palace, Istanbul. It copies a now-lost map by Christopher Columbus. Its southern coast is most likely a version of Terra Australis, the imagined southern continent of the era's maps.",
+      "significance": "A real treasure of cartography — and a favourite of 'lost civilisation' books, which read its southern coast as Antarctica.",
+      "keyFacts": [
+        "Rediscovered in 1929 in the Topkapı Palace",
+        "Presented to Sultan Selim I after the Ottoman conquest of Egypt in 1517",
+        "Its Caribbean follows Columbus's belief that he had reached Asia",
+        "Antarctica was first landed on in 1820, and was last free of ice over ten million years ago"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Piri Reis map",
+          "url": "https://en.wikipedia.org/wiki/Piri_Reis_map"
+        }
+      ],
+      "alternative": {
+        "proponent": "Charles Hapgood, 'Maps of the Ancient Sea Kings' (1966); repeated by Erich von Däniken and Graham Hancock",
+        "claim": "The map's southern landmass is Antarctica's coast as it was before the ice, copied from charts drawn by an unknown advanced civilisation thousands of years ago.",
+        "note": "Not supported. Hapgood set aside the map's own text and placements; later studies find no match to Antarctica's coast, with or without ice; and ice cores show Antarctica was last ice-free over ten million years ago, long before any people.",
+        "links": [
+          {
+            "label": "Wikipedia: Piri Reis map",
+            "url": "https://en.wikipedia.org/wiki/Piri_Reis_map"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bosnian-pyramid-claims",
+      "name": "The 'Bosnian pyramids' (Visočica hill)",
+      "category": "precursor-hypothesis",
+      "lat": 43.9769,
+      "lon": 18.1761,
+      "builtYear": 2005,
+      "builtYearLabel": "the claim: first made in 2005",
+      "consensusSummary": "A cluster of natural hills around Visoko in central Bosnia and Herzegovina. Since 2005 they have been promoted as the largest ancient pyramids on Earth. Geologists who studied them found flatirons, a common natural landform, with no evidence of human shaping.",
+      "significance": "A modern case of a claim outrunning the evidence — and of real archaeology (a medieval castle, Roman fortifications) put at risk by digging for an imagined one.",
+      "keyFacts": [
+        "The hills are flatirons: tilted rock layers eroded into triangular faces",
+        "The European Association of Archaeologists called the claims a 'cruel hoax'",
+        "Excavations since 2006 have reshaped one hill to look like a stepped pyramid",
+        "Scholars warn of damage to a medieval Bosnian castle and Roman fortifications on the site"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Bosnian pyramid claims",
+          "url": "https://en.wikipedia.org/wiki/Bosnian_pyramid_claims"
+        }
+      ],
+      "alternative": {
+        "proponent": "Semir Osmanagić, Bosnian-American businessman",
+        "claim": "Visočica and nearby hills are enormous man-made pyramids built by an ancient civilisation, with a network of tunnels (the Ravne tunnels) beneath them.",
+        "note": "Rejected by geologists and archaeologists who examined the site: the hills are natural, and the excavations have damaged genuine medieval and Roman remains.",
+        "links": [
+          {
+            "label": "Wikipedia: Bosnian pyramid claims",
+            "url": "https://en.wikipedia.org/wiki/Bosnian_pyramid_claims"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nazca-lines",
+      "name": "Nazca Lines",
+      "category": "monument",
+      "lat": -14.6975,
+      "lon": -75.135,
+      "builtYear": -400,
+      "builtYearLabel": "c. 400 BCE – 500 CE (Paracas, then Nazca phase)",
+      "consensusSummary": "Geoglyphs scraped into the Nazca Desert of southern Peru by removing the reddish, iron-coated surface pebbles to expose pale ground beneath. Made in two phases, Paracas (400–200 BCE) and Nazca (200 BCE–500 CE). Most are straight lines; over 70 are animals and plants — a hummingbird, a monkey, a spider.",
+      "significance": "One of the world's great works of land art, preserved by one of its driest climates — a UNESCO World Heritage Site since 1994.",
+      "keyFacts": [
+        "Over 1,300 km of lines across about 50 km²",
+        "Lines are 10–15 cm deep; the largest figures are about 370 m long",
+        "Hundreds of new figures have been found by drone this century",
+        "Scholars generally ascribe a religious purpose to the designs"
+      ],
+      "links": [
+        {
+          "label": "Wikipedia: Nazca Lines",
+          "url": "https://en.wikipedia.org/wiki/Nazca_lines"
+        }
+      ],
+      "alternative": {
+        "proponent": "Erich von Däniken, 'Chariots of the Gods?' (1968)",
+        "claim": "The lines were made for, or by, visiting 'ancient astronauts', who also founded the earliest civilisations.",
+        "note": "Not supported. The lines are shallow scrapes in loose desert pebbles, the work of the Paracas and Nazca cultures whose pottery and settlements surround them. Maria Reiche, who studied them for decades, called the idea absurd.",
+        "links": [
+          {
+            "label": "Wikipedia: Nazca Lines",
+            "url": "https://en.wikipedia.org/wiki/Nazca_lines"
+          }
+        ]
+      }
     }
   ]
 }

@@ -20,7 +20,7 @@ const OUT_DIR = join(__dirname, '..', 'public', 'data', 'paleo');
 
 const MODEL = 'MERDITH2021';
 const STEP = 10; // millions of years between frames
-const MAX_MA = 250;
+const MAX_MA = 540; // the Cambrian (roadmap 15); MERDITH2021 reaches 1,000 Ma
 const DECIMATE = 4; // keep every Nth point along each coastline
 const PRECISION = 1; // decimal places of lon/lat to keep (~11 km)
 
@@ -87,8 +87,17 @@ async function main() {
   const frames = [];
   for (let t = 0; t <= MAX_MA; t += STEP) frames.push(t);
 
+  // --missing: fetch only frames not already on disk (extending the range
+  // without re-downloading the 27 we have).
+  const onlyMissing = process.argv.includes('--missing');
+  const { existsSync } = await import('node:fs');
   const manifest = [];
   for (const t of frames) {
+    const have = join(OUT_DIR, `coastlines-${t}.geojson`);
+    if (onlyMissing && existsSync(have)) {
+      manifest.push({ timeMa: t, file: `coastlines-${t}.geojson` });
+      continue;
+    }
     process.stdout.write(`Fetching ${t} Ma ... `);
     try {
       const simplified = await fetchFrame(t);

@@ -135,7 +135,8 @@ async function main() {
       // and it crowds the Mediterranean, which is already the densest part of
       // this layer. Somewhere real with no recorded name is still a place we
       // cannot name, so it does not get a pin.
-      if (/^untitled$/i.test(title)) { skipped++; continue; }
+      // "Withdrawn: …" is Pleiades' editors retracting an entry (6 Oct 2026).
+      if (/^untitled$/i.test(title) || /^withdrawn\b/i.test(title)) { skipped++; continue; }
       const minD = r[ix.minDate] === '' ? null : Number(r[ix.minDate]);
       if (!Number.isFinite(lat) || !Number.isFinite(lon) || !title || minD === null || !Number.isFinite(minD)) { skipped++; continue; }
       const category = categoryFor(r[ix.featureTypes]);
