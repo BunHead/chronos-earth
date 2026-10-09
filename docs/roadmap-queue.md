@@ -574,6 +574,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the timeline will hit. Done when five consecutive live-site play-throughs
   from 250 Mya to today show no NOT RESPONDING. Change nothing on phones
   without the three-mode check (phone / phone desktop-site / PC).
+  ✅ **2026-10-06: graphics-reset recovery shipped** (lib/gpuRecovery: save scene to URL and reload; tested by scripts/gpu-reset-test.mjs). play-probe now reports globe shader count (`sh`) and visible layers: on the dev server, Play from 250 Mya compiled new shader programs exactly when the visible layer count changed (24→27→32→33 as layers went 2→4→5), each with a 0.17–0.4 s long task. STILL TO DO: pre-warm / constant layer count, measured over 5+ runs.
   ⛔ **BLOCKED 2026-10-04 (roadmap sweep) — can't reproduce, so can't verify a fix.**
   `scripts/shader-probe.mjs` (now committed; written by the 1 Oct sweep, which
   died mid-measurement — probably hung on a stall, since a frozen page blocks
@@ -595,7 +596,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the deep-time layer build-up, and one run is not enough: do 5+ runs per side
   of any change. On the freeze, Debugger.pause returned no app frame (driver).
 
-- [ ] **14. A faster first search on phones (split the 2.7 MB search index).**
+- [x] **14. A faster first search on phones (split the 2.7 MB search index).** _(done 2026-10-06: search-top.json, 6,000 best-known rows, 111 KB gz, loads first; full index after. Not yet timed on --phone --net.)_
   On a first visit `data/core-index/search.json` (2.7 MB, ~51,600 rows) is
   fetched alongside everything the service worker caches, and took >10 s on
   the live site; SearchBox shows a "still fetching" line meanwhile. Split it
@@ -603,7 +604,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the rest after), keep `loadSearchIndex`'s single-promise contract, keep
   'did you mean' working, and measure first-result time on `--phone --net`.
 
-- [ ] **15. Earlier prehistory: extend the timeline to 540 Mya (the Cambrian).**
+- [x] **15. Earlier prehistory: extend the timeline to 540 Mya (the Cambrian).** _(done 2026-10-06/09: OLDEST_BP 538.8 Mya, six Palaeozoic eras, MERDITH2021 coastlines to 540 Ma, 18 Palaeozoic animals via PBDB. Open: the three Burgess Shale animals share one spot and their labels overlap.)_
   OLDEST_BP is 250 Mya. Extend to ~541 Mya: palaeo coastline epochs back to
   the Cambrian (same GPlates/MERDITH2021 pipeline as fetch-paleo — check the
   model covers it), eras/labels for Cambrian→Permian, and Palaeozoic life in
