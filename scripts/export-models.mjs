@@ -91,11 +91,12 @@ const BUILD_STAGES = [
   // b50 the impact flash, b72 the fresh raw crater; the base impact.glb is the
   // settled, weathered crater long ages on.
   ['impact', 'Impact Crater', [15, 30, 50, 72]],
-  // Eridu's temple levels: b15 the one-room Ubaid shrine, b35 the tripartite
-  // temple, b55 the buttressed temple on its platform, b78 the great terrace
-  // temple; the base glb is Amar-Sin's ziggurat, c. 2050 BCE. The mound itself
+  // Eridu's temple levels — only those with a plan distinct enough to build:
+  // b15 Levels XVIII–XVII (one room), b25 XVI (altar recess), b35 XI (first
+  // platform), b48 VIII–VII (tripartite), b62 VI (finest Ubaid temple), b78 the
+  // Uruk terrace; the base glb is Amar-Sin's ziggurat, c. 2050 BCE. The mound
   // grows through the sequence. Dates live in STAGE_TABLE (lib/stageTable.ts).
-  ['ziggurat', 'Eridu', [15, 35, 55, 78]],
+  ['ziggurat', 'Eridu', [15, 25, 35, 48, 62, 78]],
   // The Tower of London as dated fortress phases: b15 timber corner-fort,
   // b35 the White Tower alone, b55 the inner ward, b80 the concentric outer
   // ward + wet moat; the base glb is the modern drained-moat plan.

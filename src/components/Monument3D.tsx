@@ -1807,13 +1807,23 @@ export function buildModel(
       }
     };
 
+    // --- TRUE SCALE. Every stage is exported as its own glb and the globe
+    // stretches each one to the fit table's 85 m by ITS OWN footprint — so if
+    // the early, smaller mounds set their own footprint, the first shrine gets
+    // blown up by the ratio (it was drawn ~60% too big until 2026-10-10). The
+    // sand dune Eridu was founded on is therefore laid down at FULL extent in
+    // every stage: one footprint for the whole sequence, so 1 unit ≈ 4.9 m
+    // throughout and each temple below is sized from its excavated plan.
+    const dune = '#b7a679';
+    group.add(block(17.6, 0.06, 13.6, 0, 0.03, 0, dune));
+
     // --- THE TELL. Each level sits on the rubble of the one before.
     const levels = Math.max(1, Math.round(1 + 4 * frac));
     // Cubed, not linear: at the first shrine the "mound" is barely a rise in
     // the ground, and almost all of the height arrives in the last thousand
     // years. That IS the shape of the excavation.
     const moundH = 0.14 + 3.3 * Math.pow(frac, 2.1);
-    let my = 0;
+    let my = 0.06;
     for (let i = 0; i < levels; i++) {
       const t = i / levels;
       const h = moundH / levels;
@@ -1825,46 +1835,130 @@ export function buildModel(
     const topW = (12.0) * (0.55 + 0.45 * frac);
     const topD = (9.3) * (0.55 + 0.45 * frac);
 
-    if (frac < 0.28) {
-      // LEVEL XVII — the first shrine. One room, a niche for the god and an
-      // offering table, in reeds and mud brick. It is almost nothing, and that
-      // is the point.
-      // Built as four walls, not a solid lump, so it reads as a room you could
-      // stand in — which at three metres square is about all you could do.
-      const wall = (w: number, d: number, x: number, z: number) =>
-        group.add(block(w, 1.15, d, x, my + 0.58, z, mudLt));
-      wall(2.6, 0.26, 0, -1.07); // back wall, with the niche below
-      wall(0.95, 0.26, -0.83, 1.07); // front, either side of the doorway
-      wall(0.95, 0.26, 0.83, 1.07);
-      wall(0.26, 1.9, -1.17, 0);
-      wall(0.26, 1.9, 1.17, 0);
-      group.add(block(0.62, 0.72, 0.3, 0, my + 0.56, -1.22, reed)); // the god's niche
-      group.add(block(0.72, 0.26, 0.6, 0, my + 0.13, 0.35, mudDk)); // offering table
-      group.add(block(2.7, 0.14, 2.0, 0, my + 1.22, 0, reed)); // reed-bundle roof
-    } else if (frac < 0.5) {
-      // The tripartite temple: a long central hall with rooms down both sides,
-      // the plan that every later Mesopotamian temple is a variation on.
-      group.add(block(5.4, 1.5, 4.2, 0, my + 0.75, 0, mudLt));
-      buttress(5.4, 1.4, 4.2, 0, my + 0.7, 0, 6, mud);
-      group.add(block(2.0, 0.34, 4.5, 0, my + 1.6, 0, mudDk)); // roofed nave
-    } else if (frac < 0.72) {
-      // On its own raised platform now, buttressed all round — the temple has
-      // begun to lift itself off the town.
-      group.add(block(8.2, 0.9, 6.4, 0, my + 0.45, 0, mudDk));
-      group.add(block(6.6, 1.9, 5.0, 0, my + 1.85, 0, mudLt));
-      buttress(6.6, 1.8, 5.0, 0, my + 1.8, 0, 8, mud);
-      group.add(block(2.4, 0.36, 5.3, 0, my + 2.98, 0, mudDk));
-    } else if (frac < 0.94) {
-      // The great terrace temple: high platform, deep recessed facade, and a
-      // single stair climbing the front (+Z).
-      group.add(block(10.0, 1.6, 7.6, 0, my + 0.8, 0, mudDk));
-      buttress(10.0, 1.5, 7.6, 0, my + 0.78, 0, 10, mud);
-      group.add(block(7.4, 2.4, 5.6, 0, my + 2.8, 0, mudLt));
-      buttress(7.4, 2.3, 5.6, 0, my + 2.75, 0, 9, mud);
-      group.add(block(2.6, 0.4, 5.9, 0, my + 4.2, 0, mudDk));
-      for (let i = 0; i < 7; i++) {
-        group.add(block(2.0, 0.24, 0.42, 0, my + 0.2 + i * 0.22, 3.9 + i * 0.2, mudLt));
+    /** Pilasters on all four faces of a w×d mass — the buttressing the Ubaid
+     * builders gave every temple from Level XI on, sized for small buildings
+     * (`proud` is how far each pilaster stands off the wall). */
+    const pilasters = (w: number, h: number, d: number, y: number, nLong: number, col: string, proud = 0.05) => {
+      for (let i = 0; i < nLong; i++) {
+        const t = (i + 0.5) / nLong - 0.5;
+        group.add(block(Math.min(0.16, w / nLong * 0.4), h, d + proud * 2, t * w, y, 0, col));
       }
+      const nEnd = Math.max(2, Math.round(nLong * d / w));
+      for (let i = 0; i < nEnd; i++) {
+        const t = (i + 0.5) / nEnd - 0.5;
+        group.add(block(w + proud * 2, h, Math.min(0.16, d / nEnd * 0.4), 0, y, t * d, col));
+      }
+    };
+    /** A mud-brick platform with its stair climbing the front (+Z) from the
+     * mound — the temple lifting itself off the town. */
+    const platform = (w: number, d: number, h: number, nP: number, stairW: number) => {
+      group.add(block(w, h, d, 0, my + h / 2, 0, mudDk));
+      pilasters(w, h * 0.96, d, my + h / 2, nP, mud, 0.04);
+      const n = Math.max(3, Math.round(h / 0.07));
+      for (let i = 0; i < n; i++) {
+        const rise = (i + 1) * (h / n);
+        group.add(block(stairW, rise, 0.1, 0, my + rise / 2, d / 2 + 0.08 + (n - 1 - i) * 0.1, mudLt));
+      }
+      return my + h;
+    };
+    /** The TRIPARTITE temple, the plan every later Mesopotamian temple varies:
+     * a long central hall (altar on a podium at one end, offering table at the
+     * other) flanked by ranges of small rooms, the hall roofed higher than its
+     * side rooms so it could be lit from above. Long axis along X; entered from
+     * the long +Z side, as Eridu's were. */
+    const tripartite = (L: number, W: number, y: number, sideH: number, hallH: number, nP: number, cornerRooms: boolean) => {
+      group.add(block(L, sideH, W, 0, y + sideH / 2, 0, mudLt));
+      pilasters(L, sideH * 0.97, W, y + sideH / 2, nP, mud);
+      // The raised central hall, its roof slab sitting proud.
+      group.add(block(L * 0.86, hallH, W * 0.40, 0, y + hallH / 2, 0, mudLt));
+      group.add(block(L * 0.88, 0.05, W * 0.44, 0, y + hallH + 0.025, 0, reed));
+      // Clerestory openings along the hall above the side-room roofs.
+      const nWin = Math.max(3, Math.round(L / 0.7));
+      for (let i = 0; i < nWin; i++) {
+        const t = (i + 0.5) / nWin - 0.5;
+        group.add(block(0.1, 0.13, W * 0.40 + 0.02, t * L * 0.78, y + sideH + (hallH - sideH) * 0.55, 0, '#3b3024'));
+      }
+      // Side-room roofs, reed and mud, just proud of the walls.
+      group.add(block(L * 1.005, 0.04, W * 1.005, 0, y + sideH + 0.02, 0, reed));
+      if (cornerRooms) {
+        // Level VI's projecting corner rooms (the stair-towers at the four corners).
+        for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+          group.add(block(0.5, sideH + 0.12, 0.42, sx * (L / 2 - 0.15), y + (sideH + 0.12) / 2, sz * (W / 2 - 0.1), mud));
+        }
+      }
+      // The entrance on the long front side, and a lesser door at the altar end.
+      group.add(block(0.2, sideH * 0.62, 0.06, 0, y + sideH * 0.31, W / 2 + 0.06, '#3b3024'));
+      group.add(block(0.06, sideH * 0.55, 0.18, -L / 2 - 0.06, y + sideH * 0.28, 0, '#3b3024'));
+    };
+
+    // Eighteen levels were dug (Safar, Mustafa & Lloyd, 1946–49). Only some of
+    // them left a plan distinct enough to build without inventing; the stages
+    // below are exactly those, and the levels between them are folded into
+    // their neighbours rather than padded with guesses.
+    if (frac < 0.2) {
+      // LEVELS XVIII–XVII, c. 5400 BCE — the first shrine on the sand dune.
+      // One room about three metres square: a niche in the back wall with a
+      // pedestal for the god, and an offering table in front of it.
+      const wall = (w: number, d: number, x: number, z: number) =>
+        group.add(block(w, 0.5, d, x, my + 0.25, z, mudLt));
+      wall(0.74, 0.1, 0, -0.32); // back wall, with the niche
+      wall(0.27, 0.1, -0.235, 0.32); // front, either side of the doorway
+      wall(0.27, 0.1, 0.235, 0.32);
+      wall(0.1, 0.54, -0.32, 0);
+      wall(0.1, 0.54, 0.32, 0);
+      group.add(block(0.2, 0.28, 0.1, 0, my + 0.14, -0.4, mudLt)); // the niche, bulging out back
+      group.add(block(0.14, 0.12, 0.08, 0, my + 0.06, -0.33, mudDk)); // pedestal in the niche
+      group.add(block(0.16, 0.08, 0.14, 0, my + 0.04, 0.06, mudDk)); // offering table
+      group.add(block(0.8, 0.05, 0.8, 0, my + 0.525, 0, reed)); // reed-bundle roof
+    } else if (frac < 0.3) {
+      // LEVEL XVI, c. 5100 BCE — a larger, regular cella: the altar now stands
+      // in a RECESS built out from the back wall, and the offering table has
+      // moved to the middle of the room. The two fixtures every later temple
+      // kept are both here.
+      const wall = (w: number, d: number, x: number, z: number) =>
+        group.add(block(w, 0.62, d, x, my + 0.31, z, mudLt));
+      wall(0.36, 0.12, -0.42, -0.42); // back wall, broken by the recess
+      wall(0.36, 0.12, 0.42, -0.42);
+      wall(0.4, 0.12, -0.35, 0.42); // front, either side of the doorway
+      wall(0.4, 0.12, 0.35, 0.42);
+      wall(0.12, 0.96, -0.54, 0);
+      wall(0.12, 0.96, 0.54, 0);
+      // The altar recess: three walls projecting behind the back wall.
+      wall(0.08, 0.3, -0.24, -0.6);
+      wall(0.08, 0.3, 0.24, -0.6);
+      wall(0.56, 0.08, 0, -0.73);
+      group.add(block(0.32, 0.16, 0.18, 0, my + 0.08, -0.58, mudDk)); // altar
+      group.add(block(0.2, 0.1, 0.2, 0, my + 0.05, 0.02, mudDk)); // offering table, mid-room
+      group.add(block(1.2, 0.05, 0.98, 0, my + 0.645, 0, reed)); // roof
+      group.add(block(0.6, 0.05, 0.36, 0, my + 0.645, -0.6, reed)); // recess roof
+    } else if (frac < 0.42) {
+      // LEVEL XI, c. 4700 BCE — the first temple raised on a PLATFORM, and the
+      // first with buttressed walls. Its plan survives only in part, so the
+      // building is shown as the buttressed single mass the evidence supports,
+      // not given rooms nobody found.
+      const top = platform(2.7, 2.0, 0.18, 10, 0.5);
+      group.add(block(2.0, 0.66, 1.35, 0, top + 0.33, 0, mudLt));
+      pilasters(2.0, 0.64, 1.35, top + 0.33, 8, mud);
+      group.add(block(2.04, 0.05, 1.39, 0, top + 0.685, 0, reed));
+      group.add(block(0.2, 0.42, 0.06, 0, top + 0.21, 0.71, '#3b3024')); // door
+    } else if (frac < 0.55) {
+      // LEVELS VIII–VII, c. 4500 BCE — the tripartite temple, about 18 × 12 m,
+      // on its buttressed platform. (VIII and VII are close variants of one
+      // plan; at this scale they would be the same model, so they are one stage.)
+      const top = platform(4.3, 3.1, 0.24, 14, 0.6);
+      tripartite(3.7, 2.5, top, 0.68, 1.0, 14, false);
+    } else if (frac < 0.7) {
+      // LEVEL VI, c. 4200 BCE — the finest Ubaid temple: 23.5 × 12.5 m, its
+      // walls closely buttressed, corner rooms standing proud, on a platform
+      // climbed by a broad flight of steps. The high-water mark of the Ubaid.
+      const top = platform(5.5, 3.4, 0.32, 18, 0.75);
+      tripartite(4.84, 2.57, top, 0.75, 1.15, 18, true);
+    } else if (frac < 0.94) {
+      // URUK PERIOD, c. 3500 BCE — the great terrace. The platform is attested
+      // (it underlies the later ziggurat); the temples on it eroded away, so the
+      // one shown is the tripartite form of its predecessors, not a new plan.
+      const top = platform(9.4, 7.2, 0.9, 22, 1.1);
+      tripartite(4.6, 2.6, top, 0.75, 1.15, 16, false);
     } else {
       // AMAR-SIN'S ZIGGURAT, c. 2050 BCE — three receding stages, buttressed on
       // every face, with the triple staircase: one flight running straight out

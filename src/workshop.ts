@@ -157,7 +157,7 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // globe swaps its -b15/-b35/-b55/-b80 stages by date (see globeModels STAGE_TABLE).
   // Eridu's frac is not one building going up: it walks eighteen temple levels
   // over 3,400 years, the mound itself rising as each is built on the last.
-  ziggurat: { label: 'Eridu — shrine · tripartite · terrace · great temple · ziggurat', max: 1, kind: 'build' },
+  ziggurat: { label: 'Eridu — XVIII shrine · XVI cella · XI platform · VIII–VII tripartite · VI · Uruk terrace · ziggurat', max: 1, kind: 'build' },
   'tower-of-london': { label: 'Fortress phases — fort · keep · wards · moat', max: 1, kind: 'build' },
 };
 

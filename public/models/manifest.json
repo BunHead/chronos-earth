@@ -261,24 +261,20 @@
     "kb": 201
   },
   "ziggurat": {
-    "footprint": 17.5,
-    "kb": 171
+    "footprint": 17.6,
+    "kb": 172
   },
   "ziggurat-b15": {
-    "footprint": 10.806,
-    "kb": 36
+    "footprint": 17.6,
+    "kb": 39
   },
   "ziggurat-b35": {
-    "footprint": 12.381,
-    "kb": 36
-  },
-  "ziggurat-b55": {
-    "footprint": 13.956,
-    "kb": 41
+    "footprint": 17.6,
+    "kb": 71
   },
   "ziggurat-b78": {
-    "footprint": 15.767,
-    "kb": 62
+    "footprint": 17.6,
+    "kb": 136
   },
   "machu-picchu": {
     "footprint": 112,
@@ -295,5 +291,17 @@
   "terracotta-army-ruin": {
     "footprint": 266,
     "kb": 491
+  },
+  "ziggurat-b25": {
+    "footprint": 17.6,
+    "kb": 43
+  },
+  "ziggurat-b48": {
+    "footprint": 17.6,
+    "kb": 102
+  },
+  "ziggurat-b62": {
+    "footprint": 17.6,
+    "kb": 122
   }
 }

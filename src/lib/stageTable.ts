@@ -29,12 +29,15 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
   // temple levels were excavated here; each generation levelled the last and
   // built on top, so the mound climbed with the centuries until Amar-Sin's
   // ziggurat stood on the accumulated ruins of every shrine before it. Dates
-  // are the conventional period boundaries, not precise foundation years.
+  // are the conventional period boundaries, not precise foundation years. Six
+  // stages, not eighteen: only these levels left plans distinct enough to build.
   ziggurat: [
-    { from: -5400, suffix: '-b15' }, // Ubaid: one mud-brick room, a niche, an altar
-    { from: -4500, suffix: '-b35' }, // the tripartite temple plan appears
-    { from: -3800, suffix: '-b55' }, // buttressed temple on its own platform
-    { from: -3000, suffix: '-b78' }, // the great terrace temple, mound high
+    { from: -5400, suffix: '-b15' }, // Levels XVIII–XVII: one room, a niche, a pedestal
+    { from: -5100, suffix: '-b25' }, // Level XVI: the cella with its altar recess
+    { from: -4700, suffix: '-b35' }, // Level XI: first platform, first buttresses
+    { from: -4500, suffix: '-b48' }, // Levels VIII–VII: the tripartite temple
+    { from: -4200, suffix: '-b62' }, // Level VI: the finest Ubaid temple
+    { from: -3500, suffix: '-b78' }, // Uruk: the great terrace
     { from: -2050, suffix: '' },     // Amar-Sin's ziggurat — the base glb
   ],
   'tower-of-london': [
