@@ -359,5 +359,13 @@
   "meso-chichen-castillo-ruin": {
     "footprint": 58.9,
     "kb": 11
+  },
+  "meso-palenque-inscriptions": {
+    "footprint": 40.4,
+    "kb": 9
+  },
+  "meso-palenque-inscriptions-ruin": {
+    "footprint": 40.4,
+    "kb": 9
   }
 }

@@ -100,7 +100,7 @@ for (const w of osm.ways) {
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}),
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}),
       builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;
@@ -111,6 +111,10 @@ for (const w of osm.ways) {
   if (!ancient) continue;
   // The whole site's protected-area boundary is not a building.
   if (!named && (w.tags.boundary || w.tags.leisure === 'nature_reserve' || w.tags.archaeological_site === 'city')) continue;
+  // …nor is an outline of the whole zone tagged only as an archaeological
+  // site ("Zona Arqueológica Palenque" became one vast slab, 10 Oct 2026).
+  // Nothing un-named in a recipe over 2 hectares is a single building.
+  if (!named && isClosed(w.outline) && area(w.outline) > 20_000) continue;
   const verts = (isClosed(w.outline) ? w.outline.slice(0, -1) : w.outline).map(([a, b]) => [a, b]);
   const label = name ?? (w.tags.historic === 'yes' && w.tags.barrier === 'wall' ? 'Structure (unnamed)' : 'Structure (unnamed)');
   const fromYear = named?.fromYear ?? recipe.defaultFromYear;

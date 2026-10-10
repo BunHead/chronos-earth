@@ -120,5 +120,23 @@
   "ruinYear": 1100,
   "note": "Nine terraces (24 m) and a 6 m temple on a 55.3 m square base, a stairway on each side; built between the 8th and 12th centuries (Wikipedia).",
   "osmWay": 991787521
+ },
+ {
+  "site": "palenque",
+  "model": "meso-palenque-inscriptions",
+  "title": "Temple of the Inscriptions (Palenque)",
+  "lat": 17.483656,
+  "lon": -92.046945,
+  "widthM": 40.4,
+  "depthM": 31.5,
+  "stairBearing": 33,
+  "heightM": 22.8,
+  "levels": 8,
+  "radial": false,
+  "bodyM": 22.8,
+  "builtYear": 683,
+  "ruinYear": 800,
+  "note": "22.8 m stepped pyramid, eight levels plus the temple; Pakal's funerary monument, finished shortly after 683 (es/en.wikipedia).",
+  "osmWay": 160083187
  }
 ]
