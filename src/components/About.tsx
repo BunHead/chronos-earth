@@ -96,9 +96,10 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
           <h3 className="info-h3">Data sources</h3>
           <ul className="facts">
             <li>
-              <b>Continental drift:</b> plate reconstructions from the{' '}
-              <a href="https://gws.gplates.org/" target="_blank" rel="noopener noreferrer">GPlates Web Service</a>{' '}
-              (EarthByte, University of Sydney), MERDITH2021 rotation model. Snapshots are bundled with the app.
+              <b>Continental drift:</b> the ancient Earth's land heights and sea depths are
+              C. R. Scotese and N. M. Wright (2018),{' '}
+              <a href="https://zenodo.org/records/5460860" target="_blank" rel="noopener noreferrer">PALEOMAP Paleodigital Elevation Models</a>{' '}
+              (CC BY 4.0), drawn here as shaded relief, one map every 5 million years.
             </li>
             <li>
               <b>Historical borders:</b> the{' '}
@@ -135,7 +136,7 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
               <b>Prehistoric life positions:</b> fossil-site locations reconstructed onto the
               drifting continents with the{' '}
               <a href="https://gws.gplates.org/" target="_blank" rel="noopener noreferrer">GPlates Web Service</a>{' '}
-              point reconstruction (MERDITH2021).
+              point reconstruction, PALEOMAP model (matching the relief maps).
             </li>
             <li>
               <b>Historical battle maps:</b>{' '}

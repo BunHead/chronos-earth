@@ -13,7 +13,10 @@ import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'fauna.json');
-const MODEL = 'MERDITH2021';
+// PALEOMAP, to match the drawn relief maps (scripts/build-paleo-relief.mjs,
+// Scotese's DEMs). Tracks from another plate model put animals in the sea.
+// Was MERDITH2021 until 9 Oct 2026; run with --all after changing it.
+const MODEL = 'PALEOMAP';
 const STEP = 10;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -76,7 +79,7 @@ async function main() {
     // Already reconstructed — unless a stored point is impossible (the old
     // sentinel bug), in which case do it again.
     const bad = (animal.track ?? []).some((p) => Math.abs(p.lon) > 180 || Math.abs(p.lat) > 90);
-    if (Array.isArray(animal.track) && animal.track.length && !bad) continue;
+    if (Array.isArray(animal.track) && animal.track.length && !bad && !process.argv.includes('--all')) continue;
     try {
       const times = sampleTimes(animal.fromMa, animal.toMa);
       const track = [];

@@ -42,3 +42,6 @@ Chronos Earth.gif
 
 # Build-time downloads (Natural Earth etc.) — used to build the maps, never shipped.
 .cache/
+
+# PALEOMAP elevation download (input to scripts/build-paleo-relief.mjs; re-fetch from zenodo.org/records/5460860)
+scripts/data/paleodem/

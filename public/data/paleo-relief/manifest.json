@@ -1,0 +1,443 @@
+{
+ "model": "PALEOMAP",
+ "source": "Scotese & Wright (2018), PALEOMAP PaleoDEMs, Zenodo 5460860, CC BY 4.0",
+ "stepMa": 5,
+ "frames": [
+  {
+   "timeMa": 0,
+   "file": "relief-0.webp"
+  },
+  {
+   "timeMa": 5,
+   "file": "relief-5.webp"
+  },
+  {
+   "timeMa": 10,
+   "file": "relief-10.webp"
+  },
+  {
+   "timeMa": 15,
+   "file": "relief-15.webp"
+  },
+  {
+   "timeMa": 20,
+   "file": "relief-20.webp"
+  },
+  {
+   "timeMa": 25,
+   "file": "relief-25.webp"
+  },
+  {
+   "timeMa": 30,
+   "file": "relief-30.webp"
+  },
+  {
+   "timeMa": 35,
+   "file": "relief-35.webp"
+  },
+  {
+   "timeMa": 40,
+   "file": "relief-40.webp"
+  },
+  {
+   "timeMa": 45,
+   "file": "relief-45.webp"
+  },
+  {
+   "timeMa": 50,
+   "file": "relief-50.webp"
+  },
+  {
+   "timeMa": 55,
+   "file": "relief-55.webp"
+  },
+  {
+   "timeMa": 60,
+   "file": "relief-60.webp"
+  },
+  {
+   "timeMa": 65,
+   "file": "relief-65.webp"
+  },
+  {
+   "timeMa": 70,
+   "file": "relief-70.webp"
+  },
+  {
+   "timeMa": 75,
+   "file": "relief-75.webp"
+  },
+  {
+   "timeMa": 80,
+   "file": "relief-80.webp"
+  },
+  {
+   "timeMa": 85,
+   "file": "relief-85.webp"
+  },
+  {
+   "timeMa": 90,
+   "file": "relief-90.webp"
+  },
+  {
+   "timeMa": 95,
+   "file": "relief-95.webp"
+  },
+  {
+   "timeMa": 100,
+   "file": "relief-100.webp"
+  },
+  {
+   "timeMa": 105,
+   "file": "relief-105.webp"
+  },
+  {
+   "timeMa": 110,
+   "file": "relief-110.webp"
+  },
+  {
+   "timeMa": 115,
+   "file": "relief-115.webp"
+  },
+  {
+   "timeMa": 120,
+   "file": "relief-120.webp"
+  },
+  {
+   "timeMa": 125,
+   "file": "relief-125.webp"
+  },
+  {
+   "timeMa": 130,
+   "file": "relief-130.webp"
+  },
+  {
+   "timeMa": 135,
+   "file": "relief-135.webp"
+  },
+  {
+   "timeMa": 140,
+   "file": "relief-140.webp"
+  },
+  {
+   "timeMa": 145,
+   "file": "relief-145.webp"
+  },
+  {
+   "timeMa": 150,
+   "file": "relief-150.webp"
+  },
+  {
+   "timeMa": 155,
+   "file": "relief-155.webp"
+  },
+  {
+   "timeMa": 160,
+   "file": "relief-160.webp"
+  },
+  {
+   "timeMa": 165,
+   "file": "relief-165.webp"
+  },
+  {
+   "timeMa": 170,
+   "file": "relief-170.webp"
+  },
+  {
+   "timeMa": 175,
+   "file": "relief-175.webp"
+  },
+  {
+   "timeMa": 180,
+   "file": "relief-180.webp"
+  },
+  {
+   "timeMa": 185,
+   "file": "relief-185.webp"
+  },
+  {
+   "timeMa": 190,
+   "file": "relief-190.webp"
+  },
+  {
+   "timeMa": 195,
+   "file": "relief-195.webp"
+  },
+  {
+   "timeMa": 200,
+   "file": "relief-200.webp"
+  },
+  {
+   "timeMa": 205,
+   "file": "relief-205.webp"
+  },
+  {
+   "timeMa": 210,
+   "file": "relief-210.webp"
+  },
+  {
+   "timeMa": 215,
+   "file": "relief-215.webp"
+  },
+  {
+   "timeMa": 220,
+   "file": "relief-220.webp"
+  },
+  {
+   "timeMa": 225,
+   "file": "relief-225.webp"
+  },
+  {
+   "timeMa": 230,
+   "file": "relief-230.webp"
+  },
+  {
+   "timeMa": 235,
+   "file": "relief-235.webp"
+  },
+  {
+   "timeMa": 240,
+   "file": "relief-240.webp"
+  },
+  {
+   "timeMa": 245,
+   "file": "relief-245.webp"
+  },
+  {
+   "timeMa": 250,
+   "file": "relief-250.webp"
+  },
+  {
+   "timeMa": 255,
+   "file": "relief-255.webp"
+  },
+  {
+   "timeMa": 260,
+   "file": "relief-260.webp"
+  },
+  {
+   "timeMa": 265,
+   "file": "relief-265.webp"
+  },
+  {
+   "timeMa": 270,
+   "file": "relief-270.webp"
+  },
+  {
+   "timeMa": 275,
+   "file": "relief-275.webp"
+  },
+  {
+   "timeMa": 280,
+   "file": "relief-280.webp"
+  },
+  {
+   "timeMa": 285,
+   "file": "relief-285.webp"
+  },
+  {
+   "timeMa": 290,
+   "file": "relief-290.webp"
+  },
+  {
+   "timeMa": 295,
+   "file": "relief-295.webp"
+  },
+  {
+   "timeMa": 300,
+   "file": "relief-300.webp"
+  },
+  {
+   "timeMa": 305,
+   "file": "relief-305.webp"
+  },
+  {
+   "timeMa": 310,
+   "file": "relief-310.webp"
+  },
+  {
+   "timeMa": 315,
+   "file": "relief-315.webp"
+  },
+  {
+   "timeMa": 320,
+   "file": "relief-320.webp"
+  },
+  {
+   "timeMa": 325,
+   "file": "relief-325.webp"
+  },
+  {
+   "timeMa": 330,
+   "file": "relief-330.webp"
+  },
+  {
+   "timeMa": 335,
+   "file": "relief-335.webp"
+  },
+  {
+   "timeMa": 340,
+   "file": "relief-340.webp"
+  },
+  {
+   "timeMa": 345,
+   "file": "relief-345.webp"
+  },
+  {
+   "timeMa": 350,
+   "file": "relief-350.webp"
+  },
+  {
+   "timeMa": 355,
+   "file": "relief-355.webp"
+  },
+  {
+   "timeMa": 360,
+   "file": "relief-360.webp"
+  },
+  {
+   "timeMa": 365,
+   "file": "relief-365.webp"
+  },
+  {
+   "timeMa": 370,
+   "file": "relief-370.webp"
+  },
+  {
+   "timeMa": 375,
+   "file": "relief-375.webp"
+  },
+  {
+   "timeMa": 380,
+   "file": "relief-380.webp"
+  },
+  {
+   "timeMa": 385,
+   "file": "relief-385.webp"
+  },
+  {
+   "timeMa": 390,
+   "file": "relief-390.webp"
+  },
+  {
+   "timeMa": 395,
+   "file": "relief-395.webp"
+  },
+  {
+   "timeMa": 400,
+   "file": "relief-400.webp"
+  },
+  {
+   "timeMa": 405,
+   "file": "relief-405.webp"
+  },
+  {
+   "timeMa": 410,
+   "file": "relief-410.webp"
+  },
+  {
+   "timeMa": 415,
+   "file": "relief-415.webp"
+  },
+  {
+   "timeMa": 420,
+   "file": "relief-420.webp"
+  },
+  {
+   "timeMa": 425,
+   "file": "relief-425.webp"
+  },
+  {
+   "timeMa": 430,
+   "file": "relief-430.webp"
+  },
+  {
+   "timeMa": 435,
+   "file": "relief-435.webp"
+  },
+  {
+   "timeMa": 440,
+   "file": "relief-440.webp"
+  },
+  {
+   "timeMa": 445,
+   "file": "relief-445.webp"
+  },
+  {
+   "timeMa": 450,
+   "file": "relief-450.webp"
+  },
+  {
+   "timeMa": 455,
+   "file": "relief-455.webp"
+  },
+  {
+   "timeMa": 460,
+   "file": "relief-460.webp"
+  },
+  {
+   "timeMa": 465,
+   "file": "relief-465.webp"
+  },
+  {
+   "timeMa": 470,
+   "file": "relief-470.webp"
+  },
+  {
+   "timeMa": 475,
+   "file": "relief-475.webp"
+  },
+  {
+   "timeMa": 480,
+   "file": "relief-480.webp"
+  },
+  {
+   "timeMa": 485,
+   "file": "relief-485.webp"
+  },
+  {
+   "timeMa": 490,
+   "file": "relief-490.webp"
+  },
+  {
+   "timeMa": 495,
+   "file": "relief-495.webp"
+  },
+  {
+   "timeMa": 500,
+   "file": "relief-500.webp"
+  },
+  {
+   "timeMa": 505,
+   "file": "relief-505.webp"
+  },
+  {
+   "timeMa": 510,
+   "file": "relief-510.webp"
+  },
+  {
+   "timeMa": 515,
+   "file": "relief-515.webp"
+  },
+  {
+   "timeMa": 520,
+   "file": "relief-520.webp"
+  },
+  {
+   "timeMa": 525,
+   "file": "relief-525.webp"
+  },
+  {
+   "timeMa": 530,
+   "file": "relief-530.webp"
+  },
+  {
+   "timeMa": 535,
+   "file": "relief-535.webp"
+  },
+  {
+   "timeMa": 540,
+   "file": "relief-540.webp"
+  }
+ ]
+}

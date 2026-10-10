@@ -208,10 +208,12 @@ describe('imported events (Wikidata)', () => {
 });
 
 describe('reconstruction + border manifests exist', () => {
-  it('paleo manifest lists frames', () => {
-    expect(existsSync(join(DATA, 'paleo', 'manifest.json'))).toBe(true);
-    const m = read('paleo/manifest.json');
-    expect(m.frames.length).toBeGreaterThan(10);
+  it('paleo relief manifest lists every 5-My map back to the Cambrian', () => {
+    expect(existsSync(join(DATA, 'paleo-relief', 'manifest.json'))).toBe(true);
+    const m = read('paleo-relief/manifest.json');
+    expect(m.frames.length).toBeGreaterThan(100);
+    expect(Math.max(...m.frames.map((f: { timeMa: number }) => f.timeMa))).toBeGreaterThanOrEqual(OLDEST_BP / 1e6);
+    for (const f of m.frames) expect(existsSync(join(DATA, 'paleo-relief', f.file)), f.file).toBe(true);
   });
 
   it('borders manifest lists frames', () => {
