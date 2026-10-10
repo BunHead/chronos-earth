@@ -45,6 +45,10 @@ export interface MesoTemple {
    * (Temple of the Inscriptions: 22.8 m). The shrine and comb above it are
    * then drawn in Petén proportion to that body. */
   bodyM?: number;
+  /** Central-Mexican form (Teotihuacan): a broad flat-topped pyramid with a
+   * small temple and NO roof comb; topRatio = summit width / base width. */
+  noComb?: boolean;
+  topRatio?: number;
   builtYear: number;
   note?: string;
 }
@@ -64,11 +68,12 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   const D = spec.depthM;
   const H = spec.heightM;
   const radial = spec.radial;
-  const crowned = radial && (spec.templeM ?? 0) > 0;
+  const flatTop = !radial && !!spec.noComb;
+  const crowned = (radial || flatTop) && (spec.templeM ?? 0) > 0;
   const measuredBody = !radial && (spec.bodyM ?? 0) > 0;
-  const bodyH = measuredBody ? spec.bodyM! : crowned ? H - (spec.templeM ?? 0) : radial ? H : H * 0.64;
-  const shrineH = measuredBody ? bodyH * 0.22 : crowned ? (spec.templeM ?? 0) : radial ? 0 : H * 0.14;
-  const combH = radial ? 0 : measuredBody ? bodyH * 0.34 : H * 0.22;
+  const bodyH = measuredBody ? spec.bodyM! : crowned ? H - (spec.templeM ?? 0) : radial || flatTop ? H : H * 0.64;
+  const shrineH = measuredBody ? bodyH * 0.22 : crowned ? (spec.templeM ?? 0) : radial || flatTop ? 0 : H * 0.14;
+  const combH = radial || flatTop ? 0 : measuredBody ? bodyH * 0.34 : H * 0.22;
   // The stair projects from the front; the body is what lies behind it.
   const proj = radial ? 0 : Math.min(D * 0.2, 14);
   // A radial body is the outline minus its proud stairs when the mapper
@@ -80,7 +85,7 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   const n = Math.max(1, spec.levels);
   const lh = bodyH / n;
   // Steep Petén profile: the summit is ~38% of the base (radial: ~30%).
-  const topK = radial ? 0.3 : 0.38;
+  const topK = spec.topRatio ?? (radial ? 0.3 : 0.38);
   const levelDims: Array<[number, number]> = [];
   for (let i = 0; i < n; i++) {
     const k = 1 - (1 - topK) * (i / Math.max(1, n - 1));
@@ -140,7 +145,7 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     }
   }
   // --- the summit shrine and roof comb (Petén temples)
-  if (!radial) {
+  if (!radial && !flatTop) {
     const sw = topW * 0.78;
     const sd = topD * 0.62;
     const sz = zc - topD * 0.08;

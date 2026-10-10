@@ -367,5 +367,21 @@
   "meso-palenque-inscriptions-ruin": {
     "footprint": 40.4,
     "kb": 9
+  },
+  "meso-teo-moon": {
+    "footprint": 156.9,
+    "kb": 5
+  },
+  "meso-teo-sun": {
+    "footprint": 236.1,
+    "kb": 6
+  },
+  "meso-teo-moon-ruin": {
+    "footprint": 156.9,
+    "kb": 5
+  },
+  "meso-teo-sun-ruin": {
+    "footprint": 236.1,
+    "kb": 6
   }
 }

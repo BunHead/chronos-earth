@@ -69,7 +69,14 @@ export function orientedBox(o) {
       minV = Math.min(minV, v); maxV = Math.max(maxV, v);
     }
     const ar = (maxU - minU) * (maxV - minV);
-    if (!best || ar < best.ar) best = { ar, bearing: a, lenU: maxU - minU, lenV: maxV - minV };
+    if (!best || ar < best.ar) {
+      // The box centre, back in (east, north) metres: the model is built
+      // symmetric about it, so this — not the average of the outline's
+      // vertices, which drifts toward wherever the mapper clicked most
+      // (Teotihuacan's Sun pyramid sat ~60 m off) — is where it stands.
+      const cu = (minU + maxU) / 2, cv = (minV + maxV) / 2;
+      best = { ar, bearing: a, lenU: maxU - minU, lenV: maxV - minV, cx: cu * ux - cv * uy, cy: cu * uy + cv * ux };
+    }
   }
   return best;
 }
@@ -79,11 +86,20 @@ const parts = [];
 const used = new Set();
 const angDiff = (a, b) => Math.abs((((a - b) % 360) + 540) % 360 - 180);
 
+// A temple's name can sit on several outlines (Teotihuacan: a 1,900 m² way
+// and the real 225 m multipolygon). The LARGEST closed one is the temple.
+const templeWay = new Map();
+for (const w of osm.ways) {
+  const n = w.tags.name;
+  if (!n || !recipe.temples[n] || !isClosed(w.outline)) continue;
+  if (!templeWay.has(n) || area(w.outline) > area(templeWay.get(n).outline)) templeWay.set(n, w);
+}
 for (const w of osm.ways) {
   const name = w.tags.name;
   const spec = name && recipe.temples[name];
   if (spec) {
-    if (used.has(spec.model)) continue; // OSM may hold a second outline of one temple
+    if (templeWay.get(name) !== w) continue; // a lesser outline of the same temple
+    if (used.has(spec.model)) continue;
     used.add(spec.model);
     const box = orientedBox(w.outline);
     // The stair axis is whichever box axis lies nearest the recipe's compass
@@ -94,13 +110,14 @@ for (const w of osm.ways) {
     const alongU = angDiff(stairBearing, box.bearing) < 45 || angDiff(stairBearing, box.bearing + 180) < 45;
     const depthM = alongU ? box.lenU : box.lenV;
     const widthM = alongU ? box.lenV : box.lenU;
-    const [cla, clo] = centroid(w.outline);
+    const cla = LAT0 + box.cy / M_LAT;
+    const clo = LON0 + box.cx / M_LON;
     temples.push({
       site, model: spec.model, title: spec.title,
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}),
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
       builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;

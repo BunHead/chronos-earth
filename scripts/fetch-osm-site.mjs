@@ -42,8 +42,12 @@ const q = `[out:json][timeout:120];
   way(around:${R},${lat},${lon})["place"="square"];
   way(around:${R},${lat},${lon})["area:highway"];
   way(around:${R},${lat},${lon})["highway"="pedestrian"]["area"="yes"];
+  // Big structures are often MULTIPOLYGON relations, not ways — Teotihuacan's
+  // Pyramid of the Sun is one (its named way is a 1,900 m² patch beside it).
+  relation(around:${R},${lat},${lon})["type"="multipolygon"]["building"];
+  relation(around:${R},${lat},${lon})["type"="multipolygon"]["historic"];
 );
-out tags geom;`;
+out geom;`;
 
 let json;
 for (let attempt = 0; attempt < 4; attempt++) {
@@ -58,13 +62,42 @@ for (let attempt = 0; attempt < 4; attempt++) {
 }
 if (!json) { console.error('Overpass did not answer'); process.exit(1); }
 
-const ways = json.elements
-  .filter((e) => e.type === 'way' && Array.isArray(e.geometry) && e.geometry.length >= 3)
-  .map((e) => ({
-    id: e.id,
-    tags: e.tags ?? {},
-    outline: e.geometry.map((g) => [+g.lat.toFixed(7), +g.lon.toFixed(7)]),
-  }));
+const pt = (g) => [+g.lat.toFixed(7), +g.lon.toFixed(7)];
+/** Stitch a relation's OUTER member ways end-to-end into closed rings. */
+function outerRings(rel) {
+  const segs = (rel.members ?? [])
+    .filter((m) => m.type === 'way' && m.role === 'outer' && Array.isArray(m.geometry))
+    .map((m) => m.geometry.map(pt));
+  const rings = [];
+  const same = (a, b) => a[0] === b[0] && a[1] === b[1];
+  while (segs.length) {
+    let ring = segs.shift();
+    let grew = true;
+    while (!same(ring[0], ring.at(-1)) && grew) {
+      grew = false;
+      for (let i = 0; i < segs.length; i++) {
+        const sg = segs[i];
+        if (same(ring.at(-1), sg[0])) ring = ring.concat(sg.slice(1));
+        else if (same(ring.at(-1), sg.at(-1))) ring = ring.concat(sg.slice(0, -1).reverse());
+        else continue;
+        segs.splice(i, 1);
+        grew = true;
+        break;
+      }
+    }
+    if (ring.length >= 4 && same(ring[0], ring.at(-1))) rings.push(ring);
+  }
+  return rings;
+}
+const ways = [];
+for (const e of json.elements) {
+  if (e.type === 'way' && Array.isArray(e.geometry) && e.geometry.length >= 3) {
+    ways.push({ id: e.id, tags: e.tags ?? {}, outline: e.geometry.map(pt) });
+  } else if (e.type === 'relation') {
+    // One entry per outer ring; the relation's tags travel with each.
+    for (const ring of outerRings(e)) ways.push({ id: e.id, relation: true, tags: e.tags ?? {}, outline: ring });
+  }
+}
 const out = {
   site,
   centre: { lat, lon },
