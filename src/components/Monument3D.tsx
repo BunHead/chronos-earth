@@ -8,6 +8,8 @@ import { sunDirection, sunPosition, solsticesEquinoxes } from '../lib/sun';
 import { fitFor, computeFit } from '../lib/monumentFit';
 import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { buildMesoTemple, type MesoTemple } from './mesoTemple';
+import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -6659,6 +6661,14 @@ export function buildModel(
   } else if (model === 'machu-picchu') {
     ground = '#3d5a2c';
     buildMachuPicchu(group, ruined);
+  } else if (model.startsWith('meso-')) {
+    // A whole-site temple measured off OpenStreetMap (scripts/build-meso-site.mjs).
+    const spec = (MESO_TEMPLES as MesoTemple[]).find((t) => t.model === model);
+    if (spec) {
+      ground = '#4f5d38';
+      group.add(buildMesoTemple(spec, ruined));
+      if (ruined) group.userData.selfRuined = true;
+    }
   } else if (model === 'terracotta-army') {
     ground = '#8a7556';
     buildTerracottaArmy(group, ruined);

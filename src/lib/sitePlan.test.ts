@@ -160,3 +160,20 @@ describe('sitePlanKeyFor / parseSitePlan', () => {
     expect(allVerts(plan)).toHaveLength(3);
   });
 });
+
+describe('bundled whole-site plans (scripts/build-meso-site.mjs)', () => {
+  it('every bundled site parses with every part intact', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { join } = await import('node:path');
+    const dir = join(process.cwd(), 'public', 'data', 'siteplans');
+    const man = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')) as { sites: string[] };
+    expect(man.sites.length).toBeGreaterThan(0);
+    for (const site of man.sites) {
+      const doc = JSON.parse(readFileSync(join(dir, `${site}.json`), 'utf8'));
+      expect(doc.key, site).toMatch(/^siteplan:/);
+      const plan = parseSitePlan(doc.plan);
+      expect(plan, site).not.toBeNull();
+      expect(plan!.parts.length, site).toBe(doc.plan.parts.length);
+    }
+  });
+});

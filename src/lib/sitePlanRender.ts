@@ -420,6 +420,23 @@ export async function loadSitePlans(viewer: Cesium.Viewer): Promise<void> {
   } catch {
     /* no fleet exported — every site simply keeps its primitives */
   }
+  // WHOLE SITES built from OpenStreetMap (scripts/build-meso-site.mjs): bundled
+  // plans load first, so the Captain's published edits and device drafts of
+  // the same key, below, win over the generated version.
+  try {
+    const man = (await (await fetch('./data/siteplans/manifest.json')).json()) as { sites?: string[] };
+    for (const site of man.sites ?? []) {
+      try {
+        const doc = (await (await fetch(`./data/siteplans/${site}.json`)).json()) as { key?: string; plan?: unknown };
+        const plan = parseSitePlan(doc.plan);
+        if (doc.key && plan) plans[doc.key] = plan;
+      } catch {
+        /* one missing site must not stop the rest */
+      }
+    }
+  } catch {
+    /* no bundled sites */
+  }
   try {
     const review = await loadReview();
     for (const [key, rec] of Object.entries(review)) {

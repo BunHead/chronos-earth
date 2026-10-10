@@ -23,6 +23,7 @@ import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 import { isBuilderActive } from './sitePlanRender';
+import MESO_TEMPLES from '../data/meso-temples.json';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -61,6 +62,13 @@ interface Placement {
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
 const PLACEMENTS: Placement[] = [
+  // WHOLE SITES (the Captain, 10 Oct 2026): each great temple its own true-
+  // metre model on its own patch of ground, from scripts/build-meso-site.mjs;
+  // the rest of the site is a ground-hugging plan (public/data/siteplans).
+  // Maya cities were abandoned c. AD 900 — from then on, the grey ruin.
+  ...(MESO_TEMPLES as Array<{ model: string; title: string; lat: number; lon: number; builtYear: number }>).map((t) => ({
+    model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear: t.builtYear, ruinYear: 900,
+  })),
   // ruinYear: when the monument became the ruin we know — the casing goes
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.

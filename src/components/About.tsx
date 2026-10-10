@@ -112,6 +112,13 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
               (ODbL).
             </li>
             <li>
+              <b>Whole ancient sites (Tikal, and more to come):</b> temple, platform and plaza
+              outlines from{' '}
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>{' '}
+              (ODbL); heights and dates from each structure's published sources. Unnamed
+              structures' heights are estimated from their footprints.
+            </li>
+            <li>
               <b>Globe imagery:</b> Natural Earth II, bundled with{' '}
               <a href="https://cesium.com/platform/cesiumjs/" target="_blank" rel="noopener noreferrer">CesiumJS</a>{' '}
               (used here with no account or token).

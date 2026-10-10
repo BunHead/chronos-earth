@@ -7,6 +7,8 @@
 // get exact figures; the long tail falls back to a sensible per-archetype guess
 // until the harvest can fetch real dimensions from Wikidata.
 
+import MESO_TEMPLES from '../data/meso-temples.json';
+
 export interface MonumentFit {
   /** Real-world footprint width in metres. */
   widthM: number;
@@ -132,6 +134,16 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
+  // Whole-site temples (src/data/meso-temples.json): authored in true metres
+  // with the stair at +Z, so width = their own footprint and θ = 180 − bearing.
+  ...Object.fromEntries(
+    (MESO_TEMPLES as Array<{ model: string; widthM: number; depthM: number; stairBearing: number; radial?: boolean }>).map((t) => [
+      t.model,
+      // A radial pyramid's stairs stand 4 m proud on every side (mesoTemple.ts),
+      // so its exported footprint is 8 m wider than the measured body.
+      { widthM: Math.max(t.widthM, t.depthM) + (t.radial ? 8 : 0), facingDeg: (180 - t.stairBearing + 360) % 360 },
+    ]),
+  ),
 };
 
 const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };

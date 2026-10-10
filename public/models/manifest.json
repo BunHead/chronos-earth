@@ -303,5 +303,53 @@
   "ziggurat-b62": {
     "footprint": 17.6,
     "kb": 122
+  },
+  "meso-tikal-t2": {
+    "footprint": 42.9,
+    "kb": 8
+  },
+  "meso-tikal-t1": {
+    "footprint": 40.4,
+    "kb": 9
+  },
+  "meso-tikal-t5": {
+    "footprint": 51.8,
+    "kb": 9
+  },
+  "meso-tikal-mp": {
+    "footprint": 74.8,
+    "kb": 9
+  },
+  "meso-tikal-t4": {
+    "footprint": 79.6,
+    "kb": 10
+  },
+  "meso-tikal-t3": {
+    "footprint": 32.7,
+    "kb": 10
+  },
+  "meso-tikal-t2-ruin": {
+    "footprint": 42.9,
+    "kb": 8
+  },
+  "meso-tikal-t1-ruin": {
+    "footprint": 40.4,
+    "kb": 9
+  },
+  "meso-tikal-t5-ruin": {
+    "footprint": 51.8,
+    "kb": 9
+  },
+  "meso-tikal-mp-ruin": {
+    "footprint": 74.8,
+    "kb": 9
+  },
+  "meso-tikal-t4-ruin": {
+    "footprint": 79.6,
+    "kb": 10
+  },
+  "meso-tikal-t3-ruin": {
+    "footprint": 32.7,
+    "kb": 10
   }
 }

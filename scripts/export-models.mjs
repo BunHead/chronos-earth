@@ -8,6 +8,7 @@
 //   RENDER_BASE=http://localhost:5173 node scripts/export-models.mjs
 import puppeteer from 'puppeteer';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import gltfPipeline from 'gltf-pipeline';
 const { processGlb } = gltfPipeline;
@@ -16,7 +17,11 @@ const BASE = (process.env.RENDER_BASE ?? 'http://localhost:5173') + '/export-mod
 const OUT = 'public/models';
 
 // The MVP fleet — model archetype + the title that unlocks its exact fit.
+// Whole-site temples (scripts/build-meso-site.mjs) — each with a ruin variant.
+const MESO = JSON.parse(readFileSync(new URL('../src/data/meso-temples.json', import.meta.url), 'utf8'));
+
 const FLEET = [
+  ...MESO.map((t) => [t.model, t.title]),
   ['giza', 'Giza Pyramids'],
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
@@ -72,6 +77,7 @@ const FLEET = [
 // Ruin variants — only for monuments that genuinely stand as ruins today,
 // so the timeline can swap them at their historical ruin date.
 const RUINS = [
+  ...MESO.map((t) => [t.model, t.title]),
   ['giza', 'Giza Pyramids'],
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
