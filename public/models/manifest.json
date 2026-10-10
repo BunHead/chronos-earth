@@ -383,5 +383,13 @@
   "meso-teo-sun-ruin": {
     "footprint": 236.1,
     "kb": 6
+  },
+  "meso-laventa-c1": {
+    "footprint": 146.1,
+    "kb": 2
+  },
+  "meso-laventa-c1-ruin": {
+    "footprint": 146.1,
+    "kb": 2
   }
 }

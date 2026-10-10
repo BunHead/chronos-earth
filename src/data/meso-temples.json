@@ -176,5 +176,23 @@
   "ruinYear": 550,
   "note": "65 m today (75 m complete) on a ~225 m base, built about AD 200; faces west onto the Avenue of the Dead; five levels as restored (approximate).",
   "osmWay": 3373254
+ },
+ {
+  "site": "la-venta",
+  "model": "meso-laventa-c1",
+  "title": "Great Pyramid of La Venta (C-1)",
+  "lat": 18.103287,
+  "lon": -94.040868,
+  "widthM": 119.8,
+  "depthM": 146.1,
+  "stairBearing": 348.5,
+  "heightM": 34,
+  "levels": 1,
+  "radial": false,
+  "earthen": true,
+  "builtYear": -900,
+  "ruinYear": -400,
+  "note": "34 m of clay and earth (~100,000 m³), one of the earliest Mesoamerican pyramids; La Venta flourished after 900 BCE and was abandoned by c. 400 BCE (Wikipedia).",
+  "osmWay": 810104350
  }
 ]

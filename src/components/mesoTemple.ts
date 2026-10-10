@@ -49,6 +49,9 @@ export interface MesoTemple {
    * small temple and NO roof comb; topRatio = summit width / base width. */
   noComb?: boolean;
   topRatio?: number;
+  /** An EARTHEN mound (Olmec La Venta: 34 m of clay, no cut stone): a rounded,
+   * fluted cone with no stairs — bare clay while in use, grass once abandoned. */
+  earthen?: boolean;
   builtYear: number;
   note?: string;
 }
@@ -57,6 +60,26 @@ type Part = 'body' | 'stair' | 'shrine' | 'comb' | 'door';
 
 export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group {
   const group = new THREE.Group();
+  if (spec.earthen) {
+    // Sixteen flutes around a rounded cone, scaled to the measured footprint.
+    const g = new THREE.CylinderGeometry(0.22, 0.5, 1, 16, 4);
+    const pos = g.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      // Soften the profile: bulge the middle so it reads as heaped earth.
+      const y = pos.getY(i) + 0.5;
+      const k = 1 + 0.12 * Math.sin(Math.PI * y);
+      pos.setX(i, pos.getX(i) * k);
+      pos.setZ(i, pos.getZ(i) * k);
+    }
+    g.computeVertexNormals();
+    g.scale(spec.widthM, spec.heightM, spec.depthM);
+    g.translate(0, spec.heightM / 2, 0);
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: ruined ? '#5f7a3c' : '#9b6b45', roughness: 1, flatShading: true }));
+    m.name = 'meso-mound';
+    group.add(m);
+    if (ruined) group.userData.selfRuined = true;
+    return group;
+  }
   const parts: Record<Part, THREE.BufferGeometry[]> = { body: [], stair: [], shrine: [], comb: [], door: [] };
   const box = (p: Part, w: number, h: number, d: number, x: number, y: number, z: number) => {
     const g = new THREE.BoxGeometry(w, h, d);

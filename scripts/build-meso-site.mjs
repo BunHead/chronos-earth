@@ -127,14 +127,14 @@ for (const w of osm.ways) {
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.earthen ? { earthen: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
       builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;
   }
   // Modern buildings, toilets, the ticket office: not part of the ancient site.
   const named = name && recipe.named[name];
-  const ancient = w.tags.historic || w.tags.ruins || named;
+  const ancient = w.tags.historic || w.tags.ruins || w.tags.building === 'ruins' || named;
   if (!ancient) continue;
   // The whole site's protected-area boundary is not a building.
   if (!named && (w.tags.boundary || w.tags.leisure === 'nature_reserve' || w.tags.archaeological_site === 'city')) continue;
