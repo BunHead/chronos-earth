@@ -23,6 +23,8 @@ export default {
   // Unnamed structures: the layout visible today is Late Classic. Shown from
   // AD 600 (the great building age) — the North Acropolis has its own date.
   defaultFromYear: 600,
+  // Abandoned by the end of the 10th century (Wikipedia); its temples grey from c. 900.
+  ruinYear: 900,
   temples: {
     // OSM name → spec. stair = compass direction the main stairway faces.
     'Templo del Gran Jaguar': {
@@ -46,7 +48,7 @@ export default {
       note: 'c. AD 700; seven 4 m levels; its stair rises from the north, unusually for Tikal (Wikipedia).',
     },
     'Píramide Mundo Perdido': {
-      model: 'meso-tikal-mp', title: 'Mundo Perdido Pyramid (Tikal)', heightM: 31, levels: 10, stair: 'W', radial: true, builtYear: 250,
+      model: 'meso-tikal-mp', title: 'Mundo Perdido Pyramid (Tikal)', heightM: 31, levels: 10, stair: 'W', radial: true, sideStairsTo: 0.8, builtYear: 250,
       note: 'The Lost World pyramid, 31 m on a 67.5 m base; stairs east and west to the top, north and south to the 8th of 10 levels; final Teotihuacan-influenced form c. AD 250 (Wikipedia).',
     },
   },

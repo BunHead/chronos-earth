@@ -34,6 +34,13 @@ export interface MesoTemple {
   heightM: number;
   levels: number;
   radial: boolean;
+  /** A radial pyramid crowned by a temple (El Castillo: 24 m body + 6 m temple). */
+  templeM?: number;
+  /** The OSM outline was traced around the stairs (El Castillo), not the body. */
+  stairsInOutline?: boolean;
+  /** How far up the two SIDE stairs of a radial pyramid climb (1 = to the top;
+   * Mundo Perdido's reach the 8th of 10 levels = 0.8). */
+  sideStairsTo?: number;
   builtYear: number;
   note?: string;
 }
@@ -53,13 +60,17 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   const D = spec.depthM;
   const H = spec.heightM;
   const radial = spec.radial;
-  const bodyH = radial ? H : H * 0.64;
-  const shrineH = radial ? 0 : H * 0.14;
+  const crowned = radial && (spec.templeM ?? 0) > 0;
+  const bodyH = crowned ? H - (spec.templeM ?? 0) : radial ? H : H * 0.64;
+  const shrineH = crowned ? (spec.templeM ?? 0) : radial ? 0 : H * 0.14;
   const combH = radial ? 0 : H * 0.22;
   // The stair projects from the front; the body is what lies behind it.
   const proj = radial ? 0 : Math.min(D * 0.2, 14);
-  const bodyD = D - proj;
-  const bodyW = radial ? W - 0 : W;
+  // A radial body is the outline minus its proud stairs when the mapper
+  // traced around them; otherwise the outline IS the body.
+  const inset = radial && spec.stairsInOutline ? 8 : 0;
+  const bodyD = D - proj - inset;
+  const bodyW = W - inset;
   const zc = -proj / 2; // body centre, pushed back so the stair fits in the outline
   const n = Math.max(1, spec.levels);
   const lh = bodyH / n;
@@ -103,16 +114,26 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     }
   };
   if (radial) {
-    // Mundo Perdido: east and west stairs to the top, north and south to the
-    // eighth of ten levels (Wikipedia).
+    // Front and back stairs to the top; the side pair as far as recorded
+    // (El Castillo: all the way; Mundo Perdido: the 8th of 10 levels).
+    const side = spec.sideStairsTo ?? 1;
     stairRun(0, bodyH, 0.22);
     stairRun(2, bodyH, 0.22);
-    stairRun(1, bodyH * 0.8, 0.2);
-    stairRun(3, bodyH * 0.8, 0.2);
+    stairRun(1, bodyH * side, 0.2);
+    stairRun(3, bodyH * side, 0.2);
   } else {
     stairRun(0, bodyH, 0.3);
   }
 
+  // --- a crowned radial pyramid: a square temple on the summit, no comb
+  if (crowned) {
+    const sw = topW * 0.7;
+    const sd = topD * 0.7;
+    box('shrine', sw, shrineH, sd, 0, bodyH + shrineH / 2, zc);
+    for (const [dx, dz, w, d] of [[0, sd / 2, sw * 0.3, 0.3], [0, -sd / 2, sw * 0.3, 0.3], [sw / 2, 0, 0.3, sd * 0.3], [-sw / 2, 0, 0.3, sd * 0.3]] as const) {
+      box('door', w, shrineH * 0.55, d, dx + Math.sign(dx) * 0.1, bodyH + shrineH * 0.3, zc + dz + Math.sign(dz) * 0.1);
+    }
+  }
   // --- the summit shrine and roof comb (Petén temples)
   if (!radial) {
     const sw = topW * 0.78;

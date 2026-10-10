@@ -12,6 +12,7 @@
   "levels": 3,
   "radial": false,
   "builtYear": 700,
+  "ruinYear": 900,
   "note": "Temple of the Masks, built c. AD 700 for Lady Kalajuun Une' Mo'; three levels; faces Temple I (es.wikipedia, Wikipedia).",
   "osmWay": 157387707
  },
@@ -28,6 +29,7 @@
   "levels": 9,
   "radial": false,
   "builtYear": 732,
+  "ruinYear": 900,
   "note": "Temple of the Great Jaguar, funerary temple of Jasaw Chan K'awiil I; nine levels; faces west across the Great Plaza (Wikipedia).",
   "osmWay": 157387708
  },
@@ -44,6 +46,7 @@
   "levels": 7,
   "radial": false,
   "builtYear": 700,
+  "ruinYear": 900,
   "note": "c. AD 700; seven 4 m levels; its stair rises from the north, unusually for Tikal (Wikipedia).",
   "osmWay": 157389700
  },
@@ -59,7 +62,9 @@
   "heightM": 31,
   "levels": 10,
   "radial": true,
+  "sideStairsTo": 0.8,
   "builtYear": 250,
+  "ruinYear": 900,
   "note": "The Lost World pyramid, 31 m on a 67.5 m base; stairs east and west to the top, north and south to the 8th of 10 levels; final Teotihuacan-influenced form c. AD 250 (Wikipedia).",
   "osmWay": 157389703
  },
@@ -76,6 +81,7 @@
   "levels": 7,
   "radial": false,
   "builtYear": 741,
+  "ruinYear": 900,
   "note": "Temple of the Double-Headed Serpent, c. 741; the tallest Maya structure of its age; seven levels; faces east (Wikipedia).",
   "osmWay": 157389706
  },
@@ -92,7 +98,27 @@
   "levels": 9,
   "radial": false,
   "builtYear": 810,
+  "ruinYear": 900,
   "note": "Temple of the Jaguar Priest, dated 810 by Stela 24; nine levels; faces east to the Great Plaza (Wikipedia).",
   "osmWay": 157389712
+ },
+ {
+  "site": "chichen-itza",
+  "model": "meso-chichen-castillo",
+  "title": "El Castillo (Temple of Kukulcán)",
+  "lat": 20.682989,
+  "lon": -88.568641,
+  "widthM": 58.9,
+  "depthM": 58,
+  "stairBearing": 23.5,
+  "heightM": 30,
+  "levels": 9,
+  "radial": true,
+  "templeM": 6,
+  "stairsInOutline": true,
+  "builtYear": 900,
+  "ruinYear": 1100,
+  "note": "Nine terraces (24 m) and a 6 m temple on a 55.3 m square base, a stairway on each side; built between the 8th and 12th centuries (Wikipedia).",
+  "osmWay": 991787521
  }
 ]

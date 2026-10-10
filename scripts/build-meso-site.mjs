@@ -100,19 +100,45 @@ for (const w of osm.ways) {
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial,
-      builtYear: spec.builtYear, note: spec.note, osmWay: w.id,
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}),
+      builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;
   }
   // Modern buildings, toilets, the ticket office: not part of the ancient site.
-  const ancient = w.tags.historic || w.tags.ruins || (name && recipe.named[name]);
-  if (!ancient) continue;
   const named = name && recipe.named[name];
+  const ancient = w.tags.historic || w.tags.ruins || named;
+  if (!ancient) continue;
+  // The whole site's protected-area boundary is not a building.
+  if (!named && (w.tags.boundary || w.tags.leisure === 'nature_reserve' || w.tags.archaeological_site === 'city')) continue;
   const verts = (isClosed(w.outline) ? w.outline.slice(0, -1) : w.outline).map(([a, b]) => [a, b]);
   const label = name ?? (w.tags.historic === 'yes' && w.tags.barrier === 'wall' ? 'Structure (unnamed)' : 'Structure (unnamed)');
   const fromYear = named?.fromYear ?? recipe.defaultFromYear;
-  if (named?.role === 'plaza') {
+  if (named?.role === 'ballcourt') {
+    // Two parallel platforms along the court's long axis, flanking the alley.
+    const box = orientedBox(w.outline);
+    const [cla, clo] = centroid(w.outline);
+    const longU = box.lenU >= box.lenV;
+    const axis = longU ? box.bearing : box.bearing + 90; // compass bearing of the long axis
+    const across = longU ? box.lenV : box.lenU;
+    const off = across / 2 - named.platformWidthM / 2;
+    const t = ((axis + 90) * Math.PI) / 180; // perpendicular, to either side
+    for (const sgn of [-1, 1]) {
+      const de = Math.sin(t) * off * sgn;
+      const dn = Math.cos(t) * off * sgn;
+      parts.push({
+        type: 'box', lat: +(cla + dn / M_LAT).toFixed(7), lon: +(clo + de / M_LON).toFixed(7),
+        // Box width runs east-west at rotation 0; turn it so its LENGTH lies
+        // along the court's axis.
+        widthM: named.platformWidthM, lengthM: named.platformLengthM, heightM: named.heightM,
+        rotationDeg: +(axis % 180).toFixed(1), color: '#c9c0a8', label: `${label} — ${named.note}`, fromYear,
+      });
+    }
+    parts.push({ type: 'platform', verts, heightM: 0.3, color: '#d6cebb', label: `${label} (playing alley)`, fromYear });
+  } else if (named?.role === 'estimate') {
+    const a = area(w.outline);
+    parts.push({ type: 'platform', verts, heightM: +Math.max(3, Math.min(14, 3 + Math.sqrt(a) / 5)).toFixed(1), color: '#bfb5a0', label: `${label} — height estimated`, fromYear });
+  } else if (named?.role === 'plaza') {
     parts.push({ type: 'platform', verts, heightM: named.heightM, color: '#d6cebb', label, fromYear });
   } else if (named?.role === 'platform') {
     parts.push({ type: 'platform', verts, heightM: named.heightM, color: named.color ?? '#c9c0a8', label: `${label} — ${named.note}`, fromYear });

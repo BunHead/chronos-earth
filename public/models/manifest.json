@@ -351,5 +351,13 @@
   "meso-tikal-t3-ruin": {
     "footprint": 32.7,
     "kb": 10
+  },
+  "meso-chichen-castillo": {
+    "footprint": 58.9,
+    "kb": 11
+  },
+  "meso-chichen-castillo-ruin": {
+    "footprint": 58.9,
+    "kb": 11
   }
 }

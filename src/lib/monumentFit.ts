@@ -137,11 +137,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // Whole-site temples (src/data/meso-temples.json): authored in true metres
   // with the stair at +Z, so width = their own footprint and θ = 180 − bearing.
   ...Object.fromEntries(
-    (MESO_TEMPLES as Array<{ model: string; widthM: number; depthM: number; stairBearing: number; radial?: boolean }>).map((t) => [
+    (MESO_TEMPLES as Array<{ model: string; widthM: number; depthM: number; stairBearing: number; radial?: boolean; stairsInOutline?: boolean }>).map((t) => [
       t.model,
       // A radial pyramid's stairs stand 4 m proud on every side (mesoTemple.ts),
       // so its exported footprint is 8 m wider than the measured body.
-      { widthM: Math.max(t.widthM, t.depthM) + (t.radial ? 8 : 0), facingDeg: (180 - t.stairBearing + 360) % 360 },
+      { widthM: Math.max(t.widthM, t.depthM) + (t.radial && !t.stairsInOutline ? 8 : 0), facingDeg: (180 - t.stairBearing + 360) % 360 },
     ]),
   ),
 };
