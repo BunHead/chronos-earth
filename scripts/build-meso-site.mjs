@@ -83,6 +83,16 @@ export function orientedBox(o) {
 
 const temples = [];
 const parts = [];
+/** Push a part at its full height, and — when its spec names an untilYear —
+ * as the reduced ruin from then on (Sacsayhuamán: dismantled after 1536). */
+function pushPhased(part, spec) {
+  if (spec?.untilYear) {
+    parts.push({ ...part, heightM: spec.heightM, toYear: spec.untilYear - 1 });
+    parts.push({ ...part, heightM: spec.ruinHeightM, fromYear: spec.untilYear, label: `${part.label} (ruin)` });
+  } else {
+    parts.push({ ...part, heightM: spec?.heightM ?? part.heightM ?? 2 });
+  }
+}
 const used = new Set();
 const angDiff = (a, b) => Math.abs((((a - b) % 360) + 540) % 360 - 180);
 
@@ -163,9 +173,16 @@ for (const w of osm.ways) {
     parts.push({ type: 'platform', verts, heightM: named.heightM, color: '#d6cebb', label, fromYear });
   } else if (named?.role === 'platform') {
     parts.push({ type: 'platform', verts, heightM: named.heightM, color: named.color ?? '#c9c0a8', label: `${label} — ${named.note}`, fromYear });
-  } else if (named?.role === 'wall' || !isClosed(w.outline)) {
-    // Open lines in this survey are platform and terrace edges.
-    parts.push({ type: 'wall', verts, thicknessM: named?.thicknessM ?? 1.5, heightM: named?.heightM ?? 2, color: '#b9ae98', label, fromYear });
+  } else if (named?.role === 'tower') {
+    // A round tower on its outline's centre (Sacsayhuamán's Muyuqmarka).
+    const [cla, clo] = centroid(w.outline);
+    const r = Math.sqrt(area(w.outline) / Math.PI);
+    pushPhased({ type: 'cylinder', lat: +cla.toFixed(7), lon: +clo.toFixed(7), radiusM: +(named.radiusM ?? r).toFixed(1), color: '#b5ab97', label: `${label} — ${named.note}`, fromYear }, named);
+  } else if (named?.role === 'wall' || !isClosed(w.outline) || (recipe.wallDefaults && /wall/.test(w.tags.barrier ?? ''))) {
+    // Open lines in this survey are platform and terrace edges; a site's own
+    // wall defaults (Sacsayhuamán's great walls) apply where it gives them.
+    const wd = named?.role === 'wall' ? named : recipe.wallDefaults;
+    pushPhased({ type: 'wall', verts, thicknessM: wd?.thicknessM ?? 1.5, color: '#b9ae98', label: wd?.note ? `${label} — ${wd.note}` : label, fromYear }, wd ?? { heightM: 2 });
   } else {
     const a = area(w.outline);
     const pitch = w.tags.leisure === 'pitch';
