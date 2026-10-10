@@ -787,6 +787,48 @@
           }
         ]
       }
+    },
+    {
+      "id": "minanbe",
+      "name": "Minanbé (Maya)",
+      "category": "settlement",
+      "lat": 18.7213,
+      "lon": -89.611,
+      "builtYear": 680,
+      "builtYearLabel": "c. AD 680–849 (its carved dates); flourished in the Late to Terminal Classic",
+      "consensusSummary": "A Maya city announced by Mexico's INAH in June 2026, found intact in the forest of the northern Calakmul Biosphere Reserve, Campeche. First spotted in airborne lidar data about thirteen years earlier, it was reached by a Mexican–Slovenian team led by Ivan Šprajc (Slovenian Academy of Sciences and Arts), who cut a trail with machetes and chainsaws and then walked about 6 km more. Its name is Yucatec Maya for 'there is no road'.",
+      "significance": "An unlooted Classic Maya city — no looters' trenches, its monuments where they were set up — still carving dated monuments in AD 849, as the kingdoms around it were falling silent.",
+      "keyFacts": [
+        "Name: mina'an 'there is none' + be 'road' — chosen for how hard it was to reach",
+        "Monumental core of about 15 hectares: plazas framed by palaces and temples, terraces, and channels for water in the seasonal wetlands",
+        "A pyramid temple over 13 m tall in the Río Bec style: finely cut masonry, smooth façade panels, a steep stairway",
+        "14 stelae and altars, several with hieroglyphs, set at the end of a causeway linking the centre to the north-eastern sector",
+        "A stela shows one figure beheading another, dated 5 Ajaw — AD 849, a k'atun ending, deep in the Terminal Classic",
+        "Monument 6: a ruler in a feathered headdress and necklaces; its text may date to the late 7th century, the oldest record in the area",
+        "Unlooted — Šprajc: the first site his team has found intact in three years",
+        "The monuments were recorded as 3D models from hundreds of photographs; the epigrapher is Octavio Esparza Olguín",
+        "Šprajc's team also found Chactún (2013) and Ocomtún (2023) in this forest; he has identified more than 80 Maya sites in three decades",
+        "Excavating it properly would need an access road through the protected reserve — which needs the reserve's permission",
+        "Pin position is approximate: its location has been published only as west of Chactún (about 9 km by one account)"
+      ],
+      "links": [
+        {
+          "label": "INAH bulletin 259 (22 June 2026, in Spanish)",
+          "url": "https://inah.gob.mx/images/boletines/2026/259/Boletin_259.pdf"
+        },
+        {
+          "label": "The Art Newspaper: ancient Maya city Minanbé discovered",
+          "url": "https://www.theartnewspaper.com/2026/07/01/ancient-maya-city-minanbe-discovered-mexican-jungle-campeche"
+        },
+        {
+          "label": "Diario de Yucatán (in Spanish)",
+          "url": "https://www.yucatan.com.mx/mexico/2026/06/23/minanbe-ciudad-maya-calakmul-permanecio-oculta-mas-de-mil-anos.html"
+        },
+        {
+          "label": "Wikipedia: Calakmul Biosphere Reserve",
+          "url": "https://en.wikipedia.org/wiki/Calakmul_Biosphere_Reserve"
+        }
+      ]
     }
   ]
 }
