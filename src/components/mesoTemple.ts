@@ -58,6 +58,9 @@ export interface MesoTemple {
   /** A summit shrine but NO roof comb — the Puuc style of Uxmal; the tall
    * comb is Petén (Tikal). */
   noRoofComb?: boolean;
+  /** TRIADIC: three temples on the summit — one at the back, two flanking
+   * the head of the stair (Calakmul's Structure II, "Three Stones"). */
+  triadic?: boolean;
   builtYear: number;
   note?: string;
 }
@@ -185,14 +188,20 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   }
   // --- the summit shrine and roof comb (Petén temples)
   if (!radial && !flatTop) {
+    if (spec.triadic) {
+      // The main temple at the rear, two smaller facing each other in front.
+      const mw = topW * 0.42, md = topD * 0.36;
+      box('shrine', mw, shrineH, md, 0, bodyH + shrineH / 2, zc - topD * 0.28);
+      for (const sx of [-1, 1]) box('shrine', topW * 0.26, shrineH * 0.8, topD * 0.3, sx * topW * 0.32, bodyH + shrineH * 0.4, zc + topD * 0.12);
+    }
     const sw = topW * 0.78;
     const sd = topD * 0.62;
     const sz = zc - topD * 0.08;
-    box('shrine', sw, shrineH, sd, 0, bodyH + shrineH / 2, sz);
-    box('door', sw * 0.22, shrineH * 0.55, 0.3, 0, bodyH + shrineH * 0.3, sz + sd / 2 + 0.1);
+    if (!spec.triadic) box('shrine', sw, shrineH, sd, 0, bodyH + shrineH / 2, sz);
+    if (!spec.triadic) box('door', sw * 0.22, shrineH * 0.55, 0.3, 0, bodyH + shrineH * 0.3, sz + sd / 2 + 0.1);
     // The comb stands on the shrine's rear wall, narrowing as it rises.
     const cz = sz - sd / 2 + sd * 0.16;
-    if (combH > 0) {
+    if (combH > 0 && !spec.triadic) {
     box('comb', sw * 0.82, combH * 0.55, sd * 0.3, 0, bodyH + shrineH + combH * 0.275, cz);
     box('comb', sw * 0.62, combH * 0.45, sd * 0.24, 0, bodyH + shrineH + combH * 0.775, cz);
     }

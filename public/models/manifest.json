@@ -399,5 +399,13 @@
   "meso-uxmal-magician-ruin": {
     "footprint": 63.7,
     "kb": 14
+  },
+  "meso-calakmul-ii": {
+    "footprint": 89.6,
+    "kb": 6
+  },
+  "meso-calakmul-ii-ruin": {
+    "footprint": 89.6,
+    "kb": 6
   }
 }

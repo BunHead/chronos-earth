@@ -213,5 +213,23 @@
   "ruinYear": 1000,
   "note": "35 m on a ~69 × 49 m oval base, five levels; west stair faces the solstice sunset; built from the 6th century over 400 years (Wikipedia).",
   "osmWay": 161288117
+ },
+ {
+  "site": "calakmul",
+  "model": "meso-calakmul-ii",
+  "title": "Structure II (Calakmul)",
+  "lat": 18.105076,
+  "lon": -89.810497,
+  "widthM": 58.4,
+  "depthM": 89.6,
+  "stairBearing": 11,
+  "heightM": 45,
+  "levels": 6,
+  "radial": false,
+  "triadic": true,
+  "builtYear": -300,
+  "ruinYear": 900,
+  "note": "Over 45 m, triadic, on Late Preclassic foundations; closes the south side of the Great Plaza (Wikipedia). Levels approximate.",
+  "osmWay": 90913058
  }
 ]
