@@ -2962,6 +2962,1036 @@
           "lat": 32.38
         }
       ]
+    },
+    {
+      "id": "gallimimus",
+      "name": "Gallimimus",
+      "emoji": "🦖",
+      "lat": 43.53,
+      "lon": 100.94,
+      "fromMa": 72.2,
+      "toMa": 66,
+      "region": "Omnogov, Mongolia",
+      "blurb": "An ostrich-like \"chicken mimic\", one of the fastest dinosaurs, from the Gobi.",
+      "wiki": "Gallimimus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": 89.52,
+          "lat": 41.82
+        },
+        {
+          "ma": 70,
+          "lon": 89.79,
+          "lat": 40.97
+        },
+        {
+          "ma": 72.2,
+          "lon": 90.59,
+          "lat": 40.17
+        }
+      ]
+    },
+    {
+      "id": "deinocheirus",
+      "name": "Deinocheirus",
+      "emoji": "🦖",
+      "lat": 43.63,
+      "lon": 100.32,
+      "fromMa": 72.2,
+      "toMa": 66,
+      "region": "Omnogov, Mongolia",
+      "blurb": "Known for decades only from a pair of 2.4 m arms; it turned out to be a humped, duck-billed giant.",
+      "wiki": "Deinocheirus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": 88.9,
+          "lat": 41.83
+        },
+        {
+          "ma": 70,
+          "lon": 89.18,
+          "lat": 40.97
+        },
+        {
+          "ma": 72.2,
+          "lon": 89.99,
+          "lat": 40.18
+        }
+      ]
+    },
+    {
+      "id": "euoplocephalus",
+      "name": "Euoplocephalus",
+      "emoji": "🦕",
+      "lat": 50.76,
+      "lon": -111.58,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "An armoured ankylosaur with bony plates even on its eyelids and a heavy tail club.",
+      "wiki": "Euoplocephalus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.25,
+          "lat": 59.2
+        },
+        {
+          "ma": 80,
+          "lon": -73.68,
+          "lat": 57.71
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.9,
+          "lat": 56.27
+        }
+      ]
+    },
+    {
+      "id": "lambeosaurus",
+      "name": "Lambeosaurus",
+      "emoji": "🦕",
+      "lat": 50.71,
+      "lon": -111.58,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "A duck-billed dinosaur with a hatchet-shaped hollow crest.",
+      "wiki": "Lambeosaurus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.28,
+          "lat": 59.15
+        },
+        {
+          "ma": 80,
+          "lon": -73.72,
+          "lat": 57.66
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.93,
+          "lat": 56.22
+        }
+      ]
+    },
+    {
+      "id": "hadrosaurus",
+      "name": "Hadrosaurus",
+      "emoji": "🦕",
+      "lat": 40.31,
+      "lon": -74.28,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "New Jersey, United States",
+      "blurb": "The first near-complete dinosaur skeleton found in North America (New Jersey, 1858).",
+      "wiki": "Hadrosaurus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -46.58,
+          "lat": 40.93
+        },
+        {
+          "ma": 80,
+          "lon": -42.08,
+          "lat": 38.87
+        },
+        {
+          "ma": 83.6,
+          "lon": -41.65,
+          "lat": 37.79
+        }
+      ]
+    },
+    {
+      "id": "troodon",
+      "name": "Troodon",
+      "emoji": "🦖",
+      "lat": 50.76,
+      "lon": -111.54,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "A small, big-eyed hunter with one of the largest brains for its size of any dinosaur.",
+      "wiki": "Troodon",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.2,
+          "lat": 59.19
+        },
+        {
+          "ma": 80,
+          "lon": -73.64,
+          "lat": 57.7
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.86,
+          "lat": 56.26
+        }
+      ]
+    },
+    {
+      "id": "dromaeosaurus",
+      "name": "Dromaeosaurus",
+      "emoji": "🦖",
+      "lat": 50.75,
+      "lon": -111.55,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "The \"running lizard\" that gives the raptor family its name.",
+      "wiki": "Dromaeosaurus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.22,
+          "lat": 59.18
+        },
+        {
+          "ma": 80,
+          "lon": -73.66,
+          "lat": 57.69
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.87,
+          "lat": 56.25
+        }
+      ]
+    },
+    {
+      "id": "centrosaurus",
+      "name": "Centrosaurus",
+      "emoji": "🦕",
+      "lat": 50.77,
+      "lon": -111.56,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "A horned dinosaur known from huge bonebeds — herds that died together.",
+      "wiki": "Centrosaurus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.22,
+          "lat": 59.2
+        },
+        {
+          "ma": 80,
+          "lon": -73.65,
+          "lat": 57.71
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.87,
+          "lat": 56.27
+        }
+      ]
+    },
+    {
+      "id": "chasmosaurus",
+      "name": "Chasmosaurus",
+      "emoji": "🦕",
+      "lat": 50.77,
+      "lon": -111.58,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Alberta, Canada",
+      "blurb": "A horned dinosaur with an enormous, window-pierced frill.",
+      "wiki": "Chasmosaurus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -80.24,
+          "lat": 59.21
+        },
+        {
+          "ma": 80,
+          "lon": -73.68,
+          "lat": 57.72
+        },
+        {
+          "ma": 83.6,
+          "lon": -72.89,
+          "lat": 56.28
+        }
+      ]
+    },
+    {
+      "id": "kosmoceratops",
+      "name": "Kosmoceratops",
+      "emoji": "🦕",
+      "lat": 37.58,
+      "lon": -111.78,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Utah, United States",
+      "blurb": "The most ornate horned face known: fifteen horns and hornlets.",
+      "wiki": "Kosmoceratops",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -87.53,
+          "lat": 46.6
+        },
+        {
+          "ma": 80,
+          "lon": -82.11,
+          "lat": 45.36
+        },
+        {
+          "ma": 83.6,
+          "lon": -81.16,
+          "lat": 43.91
+        }
+      ]
+    },
+    {
+      "id": "pachyrhinosaurus",
+      "name": "Pachyrhinosaurus",
+      "emoji": "🦕",
+      "lat": 49.98,
+      "lon": -113,
+      "fromMa": 83.6,
+      "toMa": 66,
+      "region": "Alberta, Canada",
+      "blurb": "A horned dinosaur that had a thick bony boss where others had a nose horn; it lived as far north as Alaska.",
+      "wiki": "Pachyrhinosaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -87.24,
+          "lat": 57.52
+        },
+        {
+          "ma": 70,
+          "lon": -84.44,
+          "lat": 58.11
+        },
+        {
+          "ma": 80,
+          "lon": -75.78,
+          "lat": 57.31
+        },
+        {
+          "ma": 83.6,
+          "lon": -74.91,
+          "lat": 55.86
+        }
+      ]
+    },
+    {
+      "id": "nodosaurus",
+      "name": "Nodosaurus",
+      "emoji": "🦕",
+      "lat": 42.89,
+      "lon": -105.92,
+      "fromMa": 100.5,
+      "toMa": 93.9,
+      "region": "Wyoming, United States",
+      "blurb": "A club-less armoured dinosaur, its back studded with bony knobs.",
+      "wiki": "Nodosaurus",
+      "track": [
+        {
+          "ma": 93.9,
+          "lon": -68.75,
+          "lat": 43.97
+        },
+        {
+          "ma": 100,
+          "lon": -65.43,
+          "lat": 41.69
+        },
+        {
+          "ma": 100.5,
+          "lon": -65.19,
+          "lat": 41.76
+        }
+      ]
+    },
+    {
+      "id": "brontosaurus",
+      "name": "Brontosaurus",
+      "emoji": "🦕",
+      "lat": 42.04,
+      "lon": -105.97,
+      "fromMa": 154.8,
+      "toMa": 143.1,
+      "region": "Wyoming, United States",
+      "blurb": "The \"thunder lizard\" — merged into Apatosaurus in 1903, restored as its own genus in 2015.",
+      "wiki": "Brontosaurus",
+      "track": [
+        {
+          "ma": 143.1,
+          "lon": -54.28,
+          "lat": 38.79
+        },
+        {
+          "ma": 150,
+          "lon": -53.53,
+          "lat": 38.16
+        },
+        {
+          "ma": 154.8,
+          "lon": -52.01,
+          "lat": 37.31
+        }
+      ]
+    },
+    {
+      "id": "compsognathus",
+      "name": "Compsognathus",
+      "emoji": "🦖",
+      "lat": 49.02,
+      "lon": 11.98,
+      "fromMa": 152.2,
+      "toMa": 149.2,
+      "region": "Bayern, Germany",
+      "blurb": "A chicken-sized predator from the same Bavarian limestones as Archaeopteryx.",
+      "wiki": "Compsognathus",
+      "track": [
+        {
+          "ma": 149.2,
+          "lon": 19.54,
+          "lat": 41.03
+        },
+        {
+          "ma": 150,
+          "lon": 19.54,
+          "lat": 41.07
+        },
+        {
+          "ma": 152.2,
+          "lon": 19.64,
+          "lat": 40.85
+        }
+      ]
+    },
+    {
+      "id": "sinraptor",
+      "name": "Sinraptor",
+      "emoji": "🦖",
+      "lat": 44.8,
+      "lon": 90.05,
+      "fromMa": 161.5,
+      "toMa": 154.8,
+      "region": "Xinjiang, China",
+      "blurb": "A large Jurassic predator from China, cousin of Allosaurus; its skull bears bite marks from its own kind.",
+      "wiki": "Sinraptor",
+      "track": [
+        {
+          "ma": 154.8,
+          "lon": 92.14,
+          "lat": 46.09
+        },
+        {
+          "ma": 160,
+          "lon": 92.55,
+          "lat": 46.59
+        },
+        {
+          "ma": 161.5,
+          "lon": 92.64,
+          "lat": 46.94
+        }
+      ]
+    },
+    {
+      "id": "shunosaurus",
+      "name": "Shunosaurus",
+      "emoji": "🦕",
+      "lat": 29.41,
+      "lon": 104.85,
+      "fromMa": 169.6,
+      "toMa": 158.2,
+      "region": "Sichuan, China",
+      "blurb": "A long-necked sauropod with a small spiked club on the end of its tail.",
+      "wiki": "Shunosaurus",
+      "track": [
+        {
+          "ma": 158.2,
+          "lon": 108.75,
+          "lat": 27.91
+        },
+        {
+          "ma": 160,
+          "lon": 108.98,
+          "lat": 28.11
+        },
+        {
+          "ma": 169.6,
+          "lon": 110.04,
+          "lat": 30.17
+        }
+      ]
+    },
+    {
+      "id": "patagotitan",
+      "name": "Patagotitan",
+      "emoji": "🦕",
+      "lat": -43.84,
+      "lon": -68.58,
+      "fromMa": 113.2,
+      "toMa": 100.5,
+      "region": "Chubut, Argentina",
+      "blurb": "One of the largest animals ever to walk the Earth — about 37 m long — from Patagonia.",
+      "wiki": "Patagotitan",
+      "track": [
+        {
+          "ma": 100.5,
+          "lon": -43.7,
+          "lat": -51.23
+        },
+        {
+          "ma": 110,
+          "lon": -38.89,
+          "lat": -47.73
+        },
+        {
+          "ma": 113.2,
+          "lon": -37.34,
+          "lat": -46.53
+        }
+      ]
+    },
+    {
+      "id": "dreadnoughtus",
+      "name": "Dreadnoughtus",
+      "emoji": "🦕",
+      "lat": -49.92,
+      "lon": -72.02,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Santa Cruz, Argentina",
+      "blurb": "A giant titanosaur known from an unusually complete skeleton; \"fears nothing\".",
+      "wiki": "Dreadnoughtus",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": -60.72,
+          "lat": -51.2
+        },
+        {
+          "ma": 80,
+          "lon": -57.85,
+          "lat": -52.59
+        },
+        {
+          "ma": 83.6,
+          "lon": -55.49,
+          "lat": -53.8
+        }
+      ]
+    },
+    {
+      "id": "gigantoraptor",
+      "name": "Gigantoraptor",
+      "emoji": "🦖",
+      "lat": 43.55,
+      "lon": 111.87,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Nei Mongol, China",
+      "blurb": "A beaked oviraptorosaur the size of a bus — far larger than any of its relatives.",
+      "wiki": "Gigantoraptor",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": 100.83,
+          "lat": 41.93
+        },
+        {
+          "ma": 80,
+          "lon": 101.06,
+          "lat": 42.78
+        },
+        {
+          "ma": 83.6,
+          "lon": 101.4,
+          "lat": 43.97
+        }
+      ]
+    },
+    {
+      "id": "citipati",
+      "name": "Citipati",
+      "emoji": "🦖",
+      "lat": 43.66,
+      "lon": 100.9,
+      "fromMa": 83.6,
+      "toMa": 72.2,
+      "region": "Omnogov, Mongolia",
+      "blurb": "Found sitting on its eggs, arms spread over the nest like a brooding bird.",
+      "wiki": "Citipati",
+      "track": [
+        {
+          "ma": 72.2,
+          "lon": 90.52,
+          "lat": 40.3
+        },
+        {
+          "ma": 80,
+          "lon": 90.73,
+          "lat": 40.82
+        },
+        {
+          "ma": 83.6,
+          "lon": 90.87,
+          "lat": 42
+        }
+      ]
+    },
+    {
+      "id": "nigersaurus",
+      "name": "Nigersaurus",
+      "emoji": "🦕",
+      "lat": 16.46,
+      "lon": 9.15,
+      "fromMa": 121.4,
+      "toMa": 106.8,
+      "region": "Agadez, Niger",
+      "blurb": "A sauropod with a broad, straight mouth holding hundreds of teeth, like a vacuum cleaner.",
+      "wiki": "Nigersaurus",
+      "track": [
+        {
+          "ma": 106.8,
+          "lon": 3.5,
+          "lat": 1.02
+        },
+        {
+          "ma": 110,
+          "lon": 3.71,
+          "lat": 1.58
+        },
+        {
+          "ma": 120,
+          "lon": 4.64,
+          "lat": 3.1
+        },
+        {
+          "ma": 121.4,
+          "lon": 4.75,
+          "lat": 3.33
+        }
+      ]
+    },
+    {
+      "id": "rajasaurus",
+      "name": "Rajasaurus",
+      "emoji": "🦖",
+      "lat": 23.06,
+      "lon": 73.34,
+      "fromMa": 72.2,
+      "toMa": 66,
+      "region": "Gujarat, India",
+      "blurb": "A horned abelisaur, India's top predator at the end of the age of dinosaurs.",
+      "wiki": "Rajasaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": 58.56,
+          "lat": -19.47
+        },
+        {
+          "ma": 70,
+          "lon": 56.7,
+          "lat": -23.37
+        },
+        {
+          "ma": 72.2,
+          "lon": 55.18,
+          "lat": -25.18
+        }
+      ]
+    },
+    {
+      "id": "rugops",
+      "name": "Rugops",
+      "emoji": "🦖",
+      "lat": 17.93,
+      "lon": 5.62,
+      "fromMa": 100.5,
+      "toMa": 93.9,
+      "region": "Agadez, Niger",
+      "blurb": "A wrinkle-faced abelisaur from the Sahara.",
+      "wiki": "Rugops",
+      "track": [
+        {
+          "ma": 93.9,
+          "lon": 0.2,
+          "lat": 3.52
+        },
+        {
+          "ma": 100,
+          "lon": 0.32,
+          "lat": 2.2
+        },
+        {
+          "ma": 100.5,
+          "lon": 0.36,
+          "lat": 2.31
+        }
+      ]
+    },
+    {
+      "id": "abelisaurus",
+      "name": "Abelisaurus",
+      "emoji": "🦖",
+      "lat": -38.76,
+      "lon": -67.98,
+      "fromMa": 72.2,
+      "toMa": 66,
+      "region": "Río Negro, Argentina",
+      "blurb": "The predator that names the abelisaurs, the top hunters of the southern continents.",
+      "wiki": "Abelisaurus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -56.88,
+          "lat": -41.3
+        },
+        {
+          "ma": 70,
+          "lon": -55.76,
+          "lat": -40.97
+        },
+        {
+          "ma": 72.2,
+          "lon": -54.65,
+          "lat": -40.47
+        }
+      ]
+    },
+    {
+      "id": "tenontosaurus",
+      "name": "Tenontosaurus",
+      "emoji": "🦕",
+      "lat": 45.32,
+      "lon": -108.15,
+      "fromMa": 113.2,
+      "toMa": 100.5,
+      "region": "Montana, United States",
+      "blurb": "A large plant-eater often found beside the Deinonychus that hunted it.",
+      "wiki": "Tenontosaurus",
+      "track": [
+        {
+          "ma": 100.5,
+          "lon": -66.24,
+          "lat": 44.57
+        },
+        {
+          "ma": 110,
+          "lon": -61.42,
+          "lat": 45.82
+        },
+        {
+          "ma": 113.2,
+          "lon": -59.85,
+          "lat": 45.48
+        }
+      ]
+    },
+    {
+      "id": "hypsilophodon",
+      "name": "Hypsilophodon",
+      "emoji": "🦕",
+      "lat": 50.65,
+      "lon": -1.37,
+      "fromMa": 125.8,
+      "toMa": 121.4,
+      "region": "England, United Kingdom",
+      "blurb": "A small, nimble plant-eater from the Isle of Wight.",
+      "wiki": "Hypsilophodon",
+      "track": [
+        {
+          "ma": 121.4,
+          "lon": 10.47,
+          "lat": 40.59
+        },
+        {
+          "ma": 125.8,
+          "lon": 10.28,
+          "lat": 40.88
+        }
+      ]
+    },
+    {
+      "id": "leaellynasaura",
+      "name": "Leaellynasaura",
+      "emoji": "🦕",
+      "lat": -38.78,
+      "lon": 143.4,
+      "fromMa": 113.2,
+      "toMa": 110.1,
+      "region": "Victoria, Australia",
+      "blurb": "A small dinosaur from Australia when it lay inside the Antarctic Circle — it lived through months of polar night.",
+      "wiki": "Leaellynasaura",
+      "track": [
+        {
+          "ma": 110.1,
+          "lon": 121.18,
+          "lat": -72.51
+        },
+        {
+          "ma": 113.2,
+          "lon": 117.19,
+          "lat": -73.6
+        }
+      ]
+    },
+    {
+      "id": "minmi",
+      "name": "Minmi",
+      "emoji": "🦕",
+      "lat": -26.42,
+      "lon": 148.79,
+      "fromMa": 132.6,
+      "toMa": 119.6,
+      "region": "Queensland, Australia",
+      "blurb": "A small armoured dinosaur — the first ankylosaur found in the Southern Hemisphere.",
+      "wiki": "Minmi",
+      "track": [
+        {
+          "ma": 119.6,
+          "lon": 132.02,
+          "lat": -66.71
+        },
+        {
+          "ma": 120,
+          "lon": 132.1,
+          "lat": -67
+        },
+        {
+          "ma": 130,
+          "lon": 127.1,
+          "lat": -71.7
+        },
+        {
+          "ma": 132.6,
+          "lon": 124.58,
+          "lat": -72.73
+        }
+      ]
+    },
+    {
+      "id": "australovenator",
+      "name": "Australovenator",
+      "emoji": "🦖",
+      "lat": -22.27,
+      "lon": 142.81,
+      "fromMa": 100.5,
+      "toMa": 89.8,
+      "region": "Queensland, Australia",
+      "blurb": "A lightly built Australian predator with long, clawed arms.",
+      "wiki": "Australovenator",
+      "track": [
+        {
+          "ma": 89.8,
+          "lon": 136.38,
+          "lat": -51.3
+        },
+        {
+          "ma": 90,
+          "lon": 136.21,
+          "lat": -51.39
+        },
+        {
+          "ma": 100,
+          "lon": 131.28,
+          "lat": -52.44
+        },
+        {
+          "ma": 100.5,
+          "lon": 131.09,
+          "lat": -52.63
+        }
+      ]
+    },
+    {
+      "id": "diamantinasaurus",
+      "name": "Diamantinasaurus",
+      "emoji": "🦕",
+      "lat": -22.25,
+      "lon": 142.66,
+      "fromMa": 100.5,
+      "toMa": 91.8,
+      "region": "Queensland, Australia",
+      "blurb": "A titanosaur from Queensland, found beside Australovenator.",
+      "wiki": "Diamantinasaurus",
+      "track": [
+        {
+          "ma": 91.8,
+          "lon": 135.16,
+          "lat": -52.25
+        },
+        {
+          "ma": 100,
+          "lon": 131.05,
+          "lat": -52.41
+        },
+        {
+          "ma": 100.5,
+          "lon": 130.87,
+          "lat": -52.59
+        }
+      ]
+    },
+    {
+      "id": "riojasaurus",
+      "name": "Riojasaurus",
+      "emoji": "🦕",
+      "lat": -29.89,
+      "lon": -68.02,
+      "fromMa": 227.3,
+      "toMa": 205.7,
+      "region": "La Rioja, Argentina",
+      "blurb": "An early long-necked plant-eater from Late Triassic Argentina.",
+      "wiki": "Riojasaurus",
+      "track": [
+        {
+          "ma": 205.7,
+          "lon": -28.1,
+          "lat": -35.85
+        },
+        {
+          "ma": 210,
+          "lon": -29.17,
+          "lat": -37.01
+        },
+        {
+          "ma": 220,
+          "lon": -31.97,
+          "lat": -39.58
+        },
+        {
+          "ma": 227.3,
+          "lon": -33.74,
+          "lat": -42.84
+        }
+      ]
+    },
+    {
+      "id": "mussaurus",
+      "name": "Mussaurus",
+      "emoji": "🦕",
+      "lat": -48.08,
+      "lon": -68.31,
+      "fromMa": 199.5,
+      "toMa": 192.9,
+      "region": "Santa Cruz, Argentina",
+      "blurb": "The \"mouse lizard\", named from tiny hatchlings; adults grew to about 6 m.",
+      "wiki": "Mussaurus",
+      "track": [
+        {
+          "ma": 192.9,
+          "lon": -22.69,
+          "lat": -48.68
+        },
+        {
+          "ma": 199.5,
+          "lon": -20.4,
+          "lat": -50.81
+        }
+      ]
+    },
+    {
+      "id": "lesothosaurus",
+      "name": "Lesothosaurus",
+      "emoji": "🦕",
+      "lat": -30.38,
+      "lon": 27.64,
+      "fromMa": 201.4,
+      "toMa": 192.9,
+      "region": "Quthing, Lesotho",
+      "blurb": "A small, early plant-eater from southern Africa.",
+      "wiki": "Lesothosaurus",
+      "track": [
+        {
+          "ma": 192.9,
+          "lon": -2.71,
+          "lat": -43.2
+        },
+        {
+          "ma": 200,
+          "lon": -0.21,
+          "lat": -44.47
+        },
+        {
+          "ma": 201.4,
+          "lon": 0.31,
+          "lat": -44.71
+        }
+      ]
+    },
+    {
+      "id": "huayangosaurus",
+      "name": "Huayangosaurus",
+      "emoji": "🦕",
+      "lat": 29.41,
+      "lon": 104.85,
+      "fromMa": 170.9,
+      "toMa": 154.8,
+      "region": "Sichuan, China",
+      "blurb": "One of the earliest stegosaurs, from Middle Jurassic China.",
+      "wiki": "Huayangosaurus",
+      "track": [
+        {
+          "ma": 154.8,
+          "lon": 108.53,
+          "lat": 27.67
+        },
+        {
+          "ma": 160,
+          "lon": 108.98,
+          "lat": 28.11
+        },
+        {
+          "ma": 170,
+          "lon": 110.09,
+          "lat": 30.25
+        },
+        {
+          "ma": 170.9,
+          "lon": 110.27,
+          "lat": 30.55
+        }
+      ]
+    },
+    {
+      "id": "torvosaurus",
+      "name": "Torvosaurus",
+      "emoji": "🦖",
+      "lat": 39.25,
+      "lon": -9.3,
+      "fromMa": 152.2,
+      "toMa": 149.2,
+      "region": "Estremadura, Portugal",
+      "blurb": "One of the largest Jurassic predators, found in both North America and Portugal.",
+      "wiki": "Torvosaurus",
+      "track": [
+        {
+          "ma": 149.2,
+          "lon": 0.38,
+          "lat": 34.23
+        },
+        {
+          "ma": 150,
+          "lon": 0.37,
+          "lat": 34.29
+        },
+        {
+          "ma": 152.2,
+          "lon": 0.53,
+          "lat": 34.08
+        }
+      ]
     }
   ]
 }

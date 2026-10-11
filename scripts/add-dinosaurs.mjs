@@ -78,6 +78,46 @@ export const DINOSAURS = [
   ['guanlong', 'Guanlong', 'Guanlong', T, 'Guanlong', 'An early tyrannosaur relative from China, with a thin crest along its snout.'],
 ];
 
+/** "Need more dinosaurs" (the Captain, 11 Oct 2026) — a third wave, spread
+ * across every continent. Same rules: PBDB places and dates every one. */
+export const MORE_DINOSAURS = [
+  ['gallimimus', 'Gallimimus', 'Gallimimus', T, 'Gallimimus', 'An ostrich-like "chicken mimic", one of the fastest dinosaurs, from the Gobi.', 'MN'],
+  ['deinocheirus', 'Deinocheirus', 'Deinocheirus', T, 'Deinocheirus', 'Known for decades only from a pair of 2.4 m arms; it turned out to be a humped, duck-billed giant.', 'MN'],
+  ['euoplocephalus', 'Euoplocephalus', 'Euoplocephalus', P, 'Euoplocephalus', 'An armoured ankylosaur with bony plates even on its eyelids and a heavy tail club.', 'CA'],
+  ['lambeosaurus', 'Lambeosaurus', 'Lambeosaurus', P, 'Lambeosaurus', 'A duck-billed dinosaur with a hatchet-shaped hollow crest.', 'CA'],
+  ['hadrosaurus', 'Hadrosaurus', 'Hadrosaurus', P, 'Hadrosaurus', 'The first near-complete dinosaur skeleton found in North America (New Jersey, 1858).', 'US'],
+  ['troodon', 'Troodon', 'Troodon', T, 'Troodon', 'A small, big-eyed hunter with one of the largest brains for its size of any dinosaur.'],
+  ['dromaeosaurus', 'Dromaeosaurus', 'Dromaeosaurus', T, 'Dromaeosaurus', 'The "running lizard" that gives the raptor family its name.', 'CA'],
+  ['centrosaurus', 'Centrosaurus', 'Centrosaurus', P, 'Centrosaurus', 'A horned dinosaur known from huge bonebeds — herds that died together.', 'CA'],
+  ['chasmosaurus', 'Chasmosaurus', 'Chasmosaurus', P, 'Chasmosaurus', 'A horned dinosaur with an enormous, window-pierced frill.', 'CA'],
+  ['kosmoceratops', 'Kosmoceratops', 'Kosmoceratops', P, 'Kosmoceratops', 'The most ornate horned face known: fifteen horns and hornlets.', 'US'],
+  ['pachyrhinosaurus', 'Pachyrhinosaurus', 'Pachyrhinosaurus', P, 'Pachyrhinosaurus', 'A horned dinosaur that had a thick bony boss where others had a nose horn; it lived as far north as Alaska.'],
+  ['nodosaurus', 'Nodosaurus', 'Nodosaurus', P, 'Nodosaurus', 'A club-less armoured dinosaur, its back studded with bony knobs.', 'US'],
+  ['brontosaurus', 'Brontosaurus', 'Brontosaurus', P, 'Brontosaurus', 'The "thunder lizard" — merged into Apatosaurus in 1903, restored as its own genus in 2015.', 'US'],
+  ['compsognathus', 'Compsognathus', 'Compsognathus', T, 'Compsognathus', 'A chicken-sized predator from the same Bavarian limestones as Archaeopteryx.', 'DE'],
+  ['sinraptor', 'Sinraptor', 'Sinraptor', T, 'Sinraptor', 'A large Jurassic predator from China, cousin of Allosaurus; its skull bears bite marks from its own kind.', 'CN'],
+  ['shunosaurus', 'Shunosaurus', 'Shunosaurus', P, 'Shunosaurus', 'A long-necked sauropod with a small spiked club on the end of its tail.', 'CN'],
+  ['patagotitan', 'Patagotitan', 'Patagotitan', P, 'Patagotitan', 'One of the largest animals ever to walk the Earth — about 37 m long — from Patagonia.', 'AR'],
+  ['dreadnoughtus', 'Dreadnoughtus', 'Dreadnoughtus', P, 'Dreadnoughtus', 'A giant titanosaur known from an unusually complete skeleton; "fears nothing".', 'AR'],
+  ['gigantoraptor', 'Gigantoraptor', 'Gigantoraptor', T, 'Gigantoraptor', 'A beaked oviraptorosaur the size of a bus — far larger than any of its relatives.', 'CN'],
+  ['citipati', 'Citipati', 'Citipati', T, 'Citipati', 'Found sitting on its eggs, arms spread over the nest like a brooding bird.', 'MN'],
+  ['nigersaurus', 'Nigersaurus', 'Nigersaurus', P, 'Nigersaurus', 'A sauropod with a broad, straight mouth holding hundreds of teeth, like a vacuum cleaner.', 'NE'],
+  ['rajasaurus', 'Rajasaurus', 'Rajasaurus', T, 'Rajasaurus', 'A horned abelisaur, India\'s top predator at the end of the age of dinosaurs.', 'IN'],
+  ['rugops', 'Rugops', 'Rugops', T, 'Rugops', 'A wrinkle-faced abelisaur from the Sahara.', 'NE'],
+  ['abelisaurus', 'Abelisaurus', 'Abelisaurus', T, 'Abelisaurus', 'The predator that names the abelisaurs, the top hunters of the southern continents.', 'AR'],
+  ['tenontosaurus', 'Tenontosaurus', 'Tenontosaurus', P, 'Tenontosaurus', 'A large plant-eater often found beside the Deinonychus that hunted it.', 'US'],
+  ['hypsilophodon', 'Hypsilophodon', 'Hypsilophodon', P, 'Hypsilophodon', 'A small, nimble plant-eater from the Isle of Wight.', 'UK'],
+  ['leaellynasaura', 'Leaellynasaura', 'Leaellynasaura', P, 'Leaellynasaura', 'A small dinosaur from Australia when it lay inside the Antarctic Circle — it lived through months of polar night.', 'AU'],
+  ['minmi', 'Minmi', 'Minmi', P, 'Minmi', 'A small armoured dinosaur — the first ankylosaur found in the Southern Hemisphere.', 'AU'],
+  ['australovenator', 'Australovenator', 'Australovenator', T, 'Australovenator', 'A lightly built Australian predator with long, clawed arms.', 'AU'],
+  ['diamantinasaurus', 'Diamantinasaurus', 'Diamantinasaurus', P, 'Diamantinasaurus', 'A titanosaur from Queensland, found beside Australovenator.', 'AU'],
+  ['riojasaurus', 'Riojasaurus', 'Riojasaurus', P, 'Riojasaurus', 'An early long-necked plant-eater from Late Triassic Argentina.', 'AR'],
+  ['mussaurus', 'Mussaurus', 'Mussaurus', P, 'Mussaurus', 'The "mouse lizard", named from tiny hatchlings; adults grew to about 6 m.', 'AR'],
+  ['lesothosaurus', 'Lesothosaurus', 'Lesothosaurus', P, 'Lesothosaurus', 'A small, early plant-eater from southern Africa.', 'LS'],
+  ['huayangosaurus', 'Huayangosaurus', 'Huayangosaurus', P, 'Huayangosaurus', 'One of the earliest stegosaurs, from Middle Jurassic China.', 'CN'],
+  ['torvosaurus', 'Torvosaurus', 'Torvosaurus', T, 'Torvosaurus', 'One of the largest Jurassic predators, found in both North America and Portugal.'],
+];
+
 /** The Palaeozoic, for the timeline's extension to the Cambrian (roadmap 15,
  * 6 Oct 2026). Same shape and same rules: PBDB places and dates every one. */
 const ARTH = '🦐'; // arthropods: trilobites, sea scorpions, the Burgess oddities
@@ -151,7 +191,7 @@ async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const have = new Set(doc.fauna.map((a) => a.id));
   let added = 0;
-  for (const [id, genus, name, emoji, wiki, blurb, cc] of [...DINOSAURS, ...PALAEOZOIC]) {
+  for (const [id, genus, name, emoji, wiki, blurb, cc] of [...DINOSAURS, ...MORE_DINOSAURS, ...PALAEOZOIC]) {
     if (have.has(id)) continue;
     const recs = await occurrences(genus);
     if (!recs) { console.log(`  ${name}: PBDB did not answer — skipped`); continue; }

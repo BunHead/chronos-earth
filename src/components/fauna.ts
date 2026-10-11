@@ -6,6 +6,12 @@
  * pre-computed `track` (GPlates point reconstructions), interpolated to the
  * current moment, so a T. rex stands on Cretaceous North America wherever that
  * continent happens to be on the drifting globe.
+ *
+ * FOSSIL RANGES (11 Oct 2026, "show their territories like country borders"):
+ * each animal alive at the moment also shows the area around every known find
+ * of its kind (public/data/fauna-ranges.json, scripts/build-fauna-ranges.mjs)
+ * as a soft tint with a border line in its own colour. It is where fossils are
+ * known — not a territory — and the panel says so.
  */
 import * as Cesium from 'cesium';
 import type { PanelContent } from '../lib/types';
@@ -61,9 +67,18 @@ function trackPos(entry: FaunaEntry, ma: number): [number, number] {
   return [entry.lon, entry.lat];
 }
 
+/** A steady colour per animal, so its range and its border match. */
+function rangeColour(id: string): Cesium.Color {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return Cesium.Color.fromHsl((h % 360) / 360, 0.65, 0.55);
+}
+
 export class FaunaController {
   private viewer: Cesium.Viewer;
   private entities = new Map<string, Cesium.Entity>();
+  /** Each animal's fossil-range area entities (fill + border), shown with it. */
+  private ranges = new Map<string, Cesium.Entity[]>();
   private fauna: FaunaEntry[] = [];
   private lastMa = 0;
   private pending: { ma: number; show: boolean } | undefined;
@@ -107,6 +122,46 @@ export class FaunaController {
     } catch (err) {
       console.warn('Prehistoric life data unavailable.', err);
     }
+    void this.loadRanges(baseUrl);
+  }
+
+  private async loadRanges(baseUrl: string) {
+    try {
+      const res = await fetch(`${baseUrl}data/fauna-ranges.json`);
+      if (!res.ok) return; // no ranges built — the markers stand alone
+      const json = (await res.json()) as Record<string, Array<Array<[number, number]>>>;
+      if (this.viewer.isDestroyed()) return;
+      for (const [id, areas] of Object.entries(json)) {
+        if (id === '_comment' || !Array.isArray(areas)) continue;
+        const c = rangeColour(id);
+        const list: Cesium.Entity[] = [];
+        for (const ring of areas) {
+          if (!Array.isArray(ring) || ring.length < 3) continue;
+          const flat = ring.flat();
+          list.push(this.viewer.entities.add({
+            show: false,
+            polygon: {
+              hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(flat)),
+              material: c.withAlpha(0.16),
+              classificationType: Cesium.ClassificationType.TERRAIN,
+            },
+          }));
+          list.push(this.viewer.entities.add({
+            show: false,
+            polyline: {
+              positions: Cesium.Cartesian3.fromDegreesArray([...flat, ring[0][0], ring[0][1]]),
+              width: 2,
+              material: c.withAlpha(0.85),
+              clampToGround: true,
+            },
+          }));
+        }
+        if (list.length) this.ranges.set(id, list);
+      }
+      if (this.pending) this.update(this.pending.ma, this.pending.show);
+    } catch {
+      /* ranges are an extra — never break the layer */
+    }
   }
 
   /** Called as the timeline moves. `ma` = millions of years before present. */
@@ -131,6 +186,7 @@ export class FaunaController {
         const key = `${Math.round(lon * 3)}|${Math.round(lat * 3)}`; // ~1/3° cells
         spots.set(key, [...(spots.get(key) ?? []), entity]);
       }
+      for (const r of this.ranges.get(entry.id) ?? []) r.show = entity.show;
     }
     for (const group of spots.values()) {
       group.forEach((entity, i) => {
@@ -154,6 +210,12 @@ export class FaunaController {
           heading: 'Where the fossils were found',
           body: `${entry.region}. The marker follows this spot as the continents drift.`,
         },
+        ...(this.ranges.has(entry.id)
+          ? [{
+              heading: 'The shaded area',
+              body: 'Everywhere its fossils have been found (Paleobiology Database), moved to where those places were in its time. It shows where the evidence is — not how far it roamed.',
+            }]
+          : []),
       ],
       links: [
         {
@@ -168,7 +230,9 @@ export class FaunaController {
   dispose() {
     if (!this.viewer.isDestroyed()) {
       for (const e of this.entities.values()) this.viewer.entities.remove(e);
+      for (const list of this.ranges.values()) for (const e of list) this.viewer.entities.remove(e);
     }
     this.entities.clear();
+    this.ranges.clear();
   }
 }
