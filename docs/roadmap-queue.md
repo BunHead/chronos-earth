@@ -621,6 +621,29 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   Then draw ONLY the approved symbols in src/lib/flags.ts, each with its source
   in a comment and its own from-year.
 
+- [ ] **17. Monument heights keep going wrong — pyramids under the ground again.**
+  ⛔ NOTE ONLY — the Captain, 11 Oct 2026: "this is becoming a persistent
+  problem, but just make note rather than fix". Do not touch until he asks.
+  History, so the next fix ends the cycle instead of adding a turn to it:
+  Monte Albán site plans sank (fixed with full-detail absolute grounding);
+  then the Giza/Teotihuacán models FLOATED because the terrain contains the
+  monuments themselves (Khufu's centre reads 197 m on a 60 m plateau); commit
+  cb7415c seated them on the median ground of a ring at their edge
+  (globeModels findBase, absolute height). Now he sees them sunk.
+  Suspects to test FIRST, from his viewpoint, before changing anything:
+  (a) LOD mismatch — findBase samples the MOST detailed terrain (60 m), but
+  the tiles drawn at viewing distance are coarser and smear the 140 m bump
+  over the plateau, so the shown ground sits above 60 m and swallows the
+  base; (b) Khafre/Menkaure stand on higher rock than Khufu (+10/+14 m) and
+  share Khufu's height in the one plateau model — expected, but reads as
+  "under the ground"; (c) re-clamping after the terrain swaps (reseatAll
+  clears baseGround) racing with the async sample.
+  Likely real cure: stop fighting the surface model — lower the TERRAIN
+  under each monument's footprint (a flattened patch / clipping polygon /
+  custom heightmap tile), or ground at the height the DRAWN tiles report
+  (globe.getHeight, re-checked as tiles refine) rather than the finest one.
+  Ask for a screenshot of exactly what he saw (date, place, distance).
+
 ---
 
 ## Standing notes for whoever picks this up (Opus: read me)
