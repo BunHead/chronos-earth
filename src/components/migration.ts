@@ -18,6 +18,7 @@ import * as Cesium from 'cesium';
 import type { PanelContent } from '../lib/types';
 import { faunaIcon } from '../lib/markerIcons';
 import { areaAround, clusterPoints, type LonLat } from '../lib/rangeGeometry';
+import { horizonCheck, onCameraTurn } from '../lib/horizon';
 
 export interface MigrationSite {
   id: string;
@@ -64,9 +65,13 @@ export class MigrationController {
   /** The set of sites the drawn areas were built for. */
   private areaKey = '';
   private pending: { yearsBP: number; show: boolean } | undefined;
+  /** Sites reached and switched on at the moment shown (before the horizon). */
+  private live = new Set<string>();
+  private offCamera: () => void;
 
   constructor(viewer: Cesium.Viewer, baseUrl: string) {
     this.viewer = viewer;
+    this.offCamera = onCameraTurn(viewer, () => this.applyHorizon());
     void this.init(baseUrl);
   }
 
@@ -135,7 +140,8 @@ export class MigrationController {
     const on = show && yearsBP <= this.sites[0].yearsAgo && yearsBP >= MIGRATION_ENDS_YEARS_AGO;
     const reached = on ? this.reached(yearsBP) : [];
     const ids = new Set(reached.map((s) => s.id));
-    for (const [id, pin] of this.pins) pin.show = ids.has(id);
+    this.live = ids;
+    this.applyHorizon();
     for (const [id, line] of this.lines) line.show = ids.has(id);
     const key = reached.map((s) => s.id).join('|');
     if (key === this.areaKey) return;
@@ -168,6 +174,18 @@ export class MigrationController {
       });
       for (const e of [fill, border]) (e as Cesium.Entity & { chronosMigration?: MigrationSite }).chronosMigration = newest;
       this.areas.push(fill, border);
+    }
+  }
+
+  /** Show the reached sites whose spot faces the camera (lib/horizon). */
+  private applyHorizon() {
+    if (this.viewer.isDestroyed()) return;
+    const visible = horizonCheck(this.viewer);
+    for (const s of this.sites) {
+      const pin = this.pins.get(s.id);
+      if (!pin) continue;
+      const show = this.live.has(s.id) && visible(Cesium.Cartesian3.fromDegrees(s.lon, s.lat));
+      if (pin.show !== show) pin.show = show;
     }
   }
 
@@ -206,6 +224,7 @@ export class MigrationController {
   }
 
   dispose() {
+    this.offCamera();
     if (!this.viewer.isDestroyed()) {
       for (const e of [...this.pins.values(), ...this.lines.values(), ...this.areas]) this.viewer.entities.remove(e);
     }

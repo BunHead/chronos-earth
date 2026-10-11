@@ -16,6 +16,7 @@
 import * as Cesium from 'cesium';
 import type { PanelContent } from '../lib/types';
 import { faunaIcon } from '../lib/markerIcons';
+import { horizonCheck, onCameraTurn } from '../lib/horizon';
 
 interface TrackPoint {
   ma: number;
@@ -82,9 +83,13 @@ export class FaunaController {
   private fauna: FaunaEntry[] = [];
   private lastMa = 0;
   private pending: { ma: number; show: boolean } | undefined;
+  /** Animals alive and switched on at the moment shown (before the horizon). */
+  private live = new Set<string>();
+  private offCamera: () => void;
 
   constructor(viewer: Cesium.Viewer, baseUrl: string) {
     this.viewer = viewer;
+    this.offCamera = onCameraTurn(viewer, () => this.applyHorizon());
     void this.init(baseUrl);
   }
 
@@ -177,12 +182,13 @@ export class FaunaController {
     // Anomalocaris, Hallucigenia and Opabinia): fan their icons side by side
     // and stack their labels, or the three names print on top of each other.
     const spots = new Map<string, Cesium.Entity[]>();
+    this.live.clear();
     for (const entry of this.fauna) {
       const entity = this.entities.get(entry.id);
       if (!entity) continue;
-      const alive = ma <= entry.fromMa && ma >= entry.toMa;
-      entity.show = show && alive;
-      if (entity.show) {
+      const on = show && ma <= entry.fromMa && ma >= entry.toMa;
+      if (on) {
+        this.live.add(entry.id);
         const [lon, lat] = trackPos(entry, ma);
         entity.position = new Cesium.ConstantPositionProperty(
           Cesium.Cartesian3.fromDegrees(lon, lat),
@@ -190,7 +196,7 @@ export class FaunaController {
         const key = `${Math.round(lon * 3)}|${Math.round(lat * 3)}`; // ~1/3° cells
         spots.set(key, [...(spots.get(key) ?? []), entity]);
       }
-      for (const r of this.ranges.get(entry.id) ?? []) r.show = entity.show;
+      for (const r of this.ranges.get(entry.id) ?? []) r.show = on;
     }
     for (const group of spots.values()) {
       group.forEach((entity, i) => {
@@ -198,6 +204,19 @@ export class FaunaController {
         if (entity.billboard) entity.billboard.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(dx, 0));
         if (entity.label) entity.label.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(0, -34 - 15 * i));
       });
+    }
+    this.applyHorizon();
+  }
+
+  /** Show the live animals whose spot faces the camera (lib/horizon). */
+  private applyHorizon() {
+    if (this.viewer.isDestroyed()) return;
+    const visible = horizonCheck(this.viewer);
+    const now = this.viewer.clock.currentTime;
+    for (const [id, entity] of this.entities) {
+      const pos = this.live.has(id) ? entity.position?.getValue(now) : undefined;
+      const show = !!pos && visible(pos);
+      if (entity.show !== show) entity.show = show;
     }
   }
 
@@ -232,6 +251,7 @@ export class FaunaController {
   }
 
   dispose() {
+    this.offCamera();
     if (!this.viewer.isDestroyed()) {
       for (const e of this.entities.values()) this.viewer.entities.remove(e);
       for (const list of this.ranges.values()) for (const e of list) this.viewer.entities.remove(e);
