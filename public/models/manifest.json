@@ -157,7 +157,7 @@
   },
   "giza-ruin": {
     "footprint": 45.042,
-    "kb": 36
+    "kb": 37
   },
   "amphitheatre-ruin": {
     "footprint": 15.843,
@@ -177,11 +177,11 @@
   },
   "giza-b60": {
     "footprint": 28.424,
-    "kb": 44
+    "kb": 45
   },
   "giza-b90": {
     "footprint": 44.2,
-    "kb": 55
+    "kb": 56
   },
   "stonehenge-b30": {
     "footprint": 25.17,

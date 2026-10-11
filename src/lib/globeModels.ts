@@ -55,12 +55,23 @@ interface Placement {
   /** Optional [from, until) signed years the monument lies BURIED and is not
    * shown — the Terracotta Army, burned and buried in 206 BCE, dug up 1974. */
   buried?: [number, number];
-  /** Metres of grass laid over the satellite photo around the monument while
-   * any stage BEFORE the ruin stands. The photo is today's site: at an open
-   * monument (Stonehenge) its fallen stones and their shadows showed through
-   * a half-built circle in 2800 BCE (the Captain, 11 Oct 2026: "doesn't age
-   * quite right"). The ruin stands on the real photo again. */
-  coverM?: number;
+  /** Patches of plain ground laid over the satellite photo until the photo
+   * comes TRUE. The photo is today's site, so at a stand-alone monument its
+   * stones showed through a half-built Stonehenge, and Giza's pyramids and
+   * Stonehenge's circle stood in the photo long BEFORE they were built (the
+   * Captain, 11 Oct 2026). Covered from the dawn of time until the ruin date
+   * (the ruin model stands on the real photo), or the build date for a
+   * monument with no ruin. Each patch is [lat, lon, radius m] in the ground's
+   * own colour, sampled from the rendered photo. City monuments get none: the
+   * whole city around them is a modern photo anyway. until 'built': a SOLID
+   * finished model hides the photo's monument by itself (Giza's pyramids sit
+   * on the real ones to ~20 m, measured top-down), so cover only until it
+   * stands complete — not around it for 4,000 years. */
+  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built' };
+  /** Radius (m) of the ring whose ground the monument stands on — default
+   * half its width + 40 m. Giza's model is the whole 1 km plateau but anchors
+   * at Khufu, so it reads the plateau round Khufu, not the Nile-side edge. */
+  baseRingM?: number;
   /** Added on the fly by ensurePlacement (a site visited on the globe), not
    * from the curated list — a curated placement at the same spot replaces it. */
   generic?: boolean;
@@ -79,13 +90,20 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: when the monument became the ruin we know — the casing goes
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.
-  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80 },
+  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80, baseRingM: 175,
+    // Khufu, Khafre and Menkaure at their Wikipedia coordinates, with the queens'
+    // pyramids beside Khufu (east) and Menkaure (south) as they show in the photo.
+    cover: { rgb: [214, 192, 148], at: [
+      [29.97917, 31.13417, 170], [29.97611, 31.13083, 160], [29.9725, 31.12833, 90],
+      [29.9786, 31.1358, 65], [29.9716, 31.1281, 65],
+    ], until: 'built' } },
   // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
   // lower than the pyramids — so she clamps to her own (lower) ground and sits in
   // her hollow instead of floating at plateau height baked into the flat giza
   // model. Carved under Khafre, ~2500 BCE. (The plateau model no longer draws its
   // own Sphinx — see Monument3D 'giza'.)
-  { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500 },
+  { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500,
+    cover: { rgb: [214, 192, 148], at: [[29.97526, 31.13758, 50]], until: 'built' } },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
@@ -93,7 +111,8 @@ const PLACEMENTS: Placement[] = [
   // The last sourced use is late-4th-century Roman coins and pottery — still
   // a ceremonial site (2008 excavation). It was 1500 BCE (the end of building
   // work), which showed the ruin through the whole Bronze and Iron Ages.
-  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: 400, buildYears: 400, coverM: 26 },
+  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: 400, buildYears: 400,
+    cover: { rgb: [64, 91, 52], at: [[51.1789, -1.8262, 26]] } },
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
   // The Paris trio — all of Paris standing together from 1989 onward.
   { model: 'eiffel', title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945, builtYear: 1889 },
@@ -178,6 +197,59 @@ let lastShowSites = true;
 // keyed per site — his eyeball is the calibration instrument.
 let transforms: Record<string, ModelTransform> = {};
 
+/**
+ * THE BUMP (found 11 Oct 2026). The terrain is a surface model, so it holds
+ * the great monuments THEMSELVES: at Khufu's centre it reads 197 m against
+ * a 60 m plateau, and a model clamped there stood on the terrain's own
+ * pyramid, floating ~140 m up with the photo's pyramids showing beneath it
+ * (the Captain: "monuments seem to persist"). Surveyed: Giza +149 m, Pyramid
+ * of the Sun +62, Moon +33, Nohoch Mul +14, Angkor Wat +13, La Venta +10.
+ * So a monument stands on the ground AROUND it — the median of a ring at its
+ * edge, sampled at full detail once the camera is near — whenever its centre
+ * reads more than BUMP_M above that. Never raised, only lowered; a model that
+ * carries its own landform (sinkM — Machu Picchu's ridge) keeps its clamp.
+ * Absolute metres per entity id; null = no bump, the clamp is right.
+ */
+const BUMP_M = 5;
+const baseGround = new Map<string, number | null>();
+const grounding = new Set<string>();
+
+async function findBase(entity: Cesium.Entity, p: Placement): Promise<void> {
+  const viewer = theViewer;
+  if (!viewer || viewer.isDestroyed() || viewer.terrainProvider instanceof Cesium.EllipsoidTerrainProvider) return;
+  const id = entity.id;
+  grounding.add(id);
+  try {
+    const widthM = fitFor(p.title, p.model).widthM;
+    // A landform-sized model (Atlantis, 2.5 km) carries its own ground; it
+    // keeps its clamp unless given a ring of its own (Giza's baseRingM).
+    if (p.baseRingM == null && widthM > 1500) {
+      baseGround.set(id, null);
+      return;
+    }
+    const R = p.baseRingM ?? widthM / 2 + 40;
+    const dLat = 1 / 111_320;
+    const dLon = 1 / (111_320 * Math.cos((p.lat * Math.PI) / 180));
+    const cartos = [Cesium.Cartographic.fromDegrees(p.lon, p.lat)];
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2;
+      cartos.push(Cesium.Cartographic.fromDegrees(p.lon + Math.cos(a) * R * dLon, p.lat + Math.sin(a) * R * dLat));
+    }
+    const terrain = viewer.terrainProvider;
+    const sampled = await Cesium.sampleTerrainMostDetailed(terrain, cartos);
+    if (viewer.isDestroyed() || viewer.terrainProvider !== terrain) return; // era changed meanwhile
+    const ring = sampled.slice(1).map((c) => c.height).filter(Number.isFinite).sort((a, b) => a - b);
+    const centre = sampled[0].height;
+    const edge = ring.length ? ring[Math.floor(ring.length / 2)] : NaN;
+    baseGround.set(id, Number.isFinite(centre) && Number.isFinite(edge) && centre - edge > BUMP_M ? edge : null);
+    seat(entity, p);
+  } catch {
+    /* terrain unavailable — the clamp stands */
+  } finally {
+    grounding.delete(id);
+  }
+}
+
 /** Review-file key for one monument's placement trim. */
 export function transformKey(model: string, lat: number, lon: number): string {
   return `place:${model}@${lat.toFixed(3)},${lon.toFixed(3)}`;
@@ -198,7 +270,8 @@ function seat(entity: Cesium.Entity, p: Placement): void {
   const lat = p.lat + (t.northM ?? 0) / mPerDeg;
   const lon = p.lon + (t.eastM ?? 0) / (mPerDeg * Math.cos((p.lat * Math.PI) / 180));
   const up = (t.upM ?? 0) - (p.sinkM ?? 0);
-  const position = Cesium.Cartesian3.fromDegrees(lon, lat, up);
+  const base = baseGround.get(entity.id);
+  const position = Cesium.Cartesian3.fromDegrees(lon, lat, (base ?? 0) + up);
   entity.position = new Cesium.ConstantPositionProperty(position);
   const heading = Cesium.Math.toRadians(90 - facingDeg + GLOBE_HEADING_CAL + (t.headingDeg ?? 0));
   entity.orientation = new Cesium.ConstantProperty(
@@ -206,7 +279,8 @@ function seat(entity: Cesium.Entity, p: Placement): void {
   );
   entity.model.scale = new Cesium.ConstantProperty((widthM / info.footprint) * (t.scale ?? 1));
   entity.model.heightReference = new Cesium.ConstantProperty(
-    up !== 0 ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.CLAMP_TO_GROUND,
+    base != null ? Cesium.HeightReference.NONE
+      : up !== 0 ? Cesium.HeightReference.RELATIVE_TO_GROUND : Cesium.HeightReference.CLAMP_TO_GROUND,
   );
   theViewer?.scene.requestRender();
 }
@@ -238,13 +312,12 @@ export function placementKeyFor(model: string, lat: number, lon: number): string
 /** Terrain provider changed (era crossed the paleo line): every clamped
  * model must re-seat, or it floats at the OLD ground's height. */
 export function reseatAll(): void {
+  baseGround.clear(); // a new terrain has new bumps — re-found as each comes near
   for (const { entity, p } of entities) seat(entity, p);
 }
 
-/** Grass covers over today's photo (Placement.coverM), by monument entity id. */
-const covers = new Map<string, Cesium.Entity>();
-/** The grass of the photo around Stonehenge, as rendered (sampled 11 Oct 2026). */
-const COVER_GRASS = Cesium.Color.fromBytes(56, 91, 48, 255);
+/** Ground patches over today's photo (Placement.cover), by monument entity id. */
+const covers = new Map<string, Cesium.Entity[]>();
 
 function addPlacement(p: Placement): void {
   const viewer = theViewer;
@@ -306,17 +379,21 @@ function addPlacement(p: Placement): void {
     show: false, // the timeline decides
   });
   entities.push({ entity, p });
-  if (p.coverM && !covers.has(id)) {
-    covers.set(id, viewer.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
+  if (p.cover && !covers.has(id)) {
+    // A solid patch plus two faint wider rings, so the edge fades into the
+    // photo's texture instead of ending in a hard line.
+    const colour = Cesium.Color.fromBytes(...p.cover.rgb, 255);
+    const FEATHER: Array<[number, number]> = [[1, 1], [1.15, 0.45], [1.3, 0.25]];
+    covers.set(id, p.cover.at.flatMap(([lat, lon, r]) => FEATHER.map(([k, alpha]) => viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(lon, lat),
       show: false,
       ellipse: {
-        semiMajorAxis: p.coverM,
-        semiMinorAxis: p.coverM,
-        material: COVER_GRASS,
+        semiMajorAxis: r * k,
+        semiMinorAxis: r * k,
+        material: colour.withAlpha(alpha),
         classificationType: Cesium.ClassificationType.TERRAIN,
       },
-    }));
+    }))));
   }
   seat(entity, p);
   gate(entity, p);
@@ -417,8 +494,16 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   // placed by a dive before the plans finished loading.
   const supplanted = !!p.generic && sitePlanNear(p.lat, p.lon);
   entity.show = lastShowSites && born && !gone && !buried && !supplanted && cameraNear(p);
-  const cover = covers.get(entity.id);
-  if (cover) cover.show = entity.show && suffix !== '-ruin';
+  if (entity.show && !p.sinkM && !baseGround.has(entity.id) && !grounding.has(entity.id)) void findBase(entity, p);
+  // The photo comes true at the ruin date (or, with no ruin, the build date).
+  const patches = covers.get(entity.id);
+  if (patches) {
+    const trueFrom = p.cover?.until === 'built'
+      ? p.builtYear
+      : p.ruinYear != null && theManifest[`${p.model}-ruin`]?.footprint ? p.ruinYear : bornYear;
+    const on = lastShowSites && !supplanted && cameraNear(p) && curYear < trueFrom;
+    for (const c of patches) if (c.show !== on) c.show = on;
+  }
 
   if (!entity.model) return;
   const uri = `./models/${p.model}${suffix}.glb`;

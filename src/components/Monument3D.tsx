@@ -4765,14 +4765,21 @@ export function buildModel(
         [half, 0, half], [half, 0, -half], [-half, 0, -half], [-half, 0, half],
       ];
       const pos: number[] = [];
+      const uv: number[] = [];
       for (let i = 0; i < 4; i++) {
         const c1 = corners[i];
         const c2 = corners[(i + 1) % 4];
         const m = [((c1[0] + c2[0]) / 2) * (1 - inset), 0, ((c1[2] + c2[2]) / 2) * (1 - inset)];
         pos.push(...c1, ...m, ...A, ...m, ...c2, ...A); // two half-faces per side
+        uv.push(0, 0, 0.5, 0, 0.5, 1, 0.5, 0, 1, 0, 0.5, 1);
       }
       const g = new THREE.BufferGeometry();
       g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      // UVs are REQUIRED: the stripped ruin wears the textured stoneLike
+      // material, and a textured glTF primitive with no TEXCOORD_0 fails to
+      // compile on a real GPU ("v_texCoord_0 undeclared") — Cesium stopped
+      // rendering at Giza after 1356 CE (found 11 Oct 2026; test: modelFiles).
+      g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
       g.computeVertexNormals();
       return g;
     };
