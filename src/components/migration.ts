@@ -9,8 +9,10 @@
  * to the earlier evidence it follows from. The lines join EVIDENCE in date
  * order — they are not mapped routes, and the panel says so.
  *
- * Shown with the Prehistoric life layer, from 315,000 years ago to the
- * present.
+ * Shown with the Prehistoric life layer, from 315,000 years ago until
+ * 10,000 years ago — after the last site, as farming and recorded history
+ * take over. With no end it sat on the globe right up to 2000 CE (the
+ * Captain, 11 Oct 2026: "a yellow border seems to have got stuck").
  */
 import * as Cesium from 'cesium';
 import type { PanelContent } from '../lib/types';
@@ -46,6 +48,8 @@ const FOLLOWS: Record<string, string> = {
 const LINK_DEG = 45;
 /** The margin drawn around each find (degrees). */
 const MARGIN_DEG = 4;
+/** The layer closes here (years ago): the spread is told, history takes over. */
+export const MIGRATION_ENDS_YEARS_AGO = 10_000;
 const COLOUR = Cesium.Color.fromCssColorString('#f0a33a');
 
 /** 315000 -> "315,000 years ago". */
@@ -128,7 +132,7 @@ export class MigrationController {
   update(yearsBP: number, show: boolean) {
     this.pending = { yearsBP, show };
     if (this.viewer.isDestroyed() || !this.sites.length) return;
-    const on = show && yearsBP <= this.sites[0].yearsAgo;
+    const on = show && yearsBP <= this.sites[0].yearsAgo && yearsBP >= MIGRATION_ENDS_YEARS_AGO;
     const reached = on ? this.reached(yearsBP) : [];
     const ids = new Set(reached.map((s) => s.id));
     for (const [id, pin] of this.pins) pin.show = ids.has(id);
@@ -180,7 +184,7 @@ export class MigrationController {
       sections: [
         {
           heading: 'The shaded area',
-          body: 'The area around every dated site of Homo sapiens reached by the moment shown. It shows where the evidence is — not where people lived or how they travelled. New finds keep pushing these dates back.',
+          body: 'The area around every dated site of Homo sapiens reached by the moment shown. It shows where the evidence is — not where people lived or how they travelled. New finds keep pushing these dates back. The layer closes 10,000 years ago, when farming and recorded history take over.',
         },
         ...(from
           ? [{
