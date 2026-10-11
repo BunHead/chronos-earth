@@ -138,6 +138,29 @@ let theViewer: Cesium.Viewer | null = null;
 let theManifest: Record<string, { footprint: number }> = {};
 // Last visibility gate, so a just-placed model obeys it immediately.
 let lastYearsBP = Number.NEGATIVE_INFINITY;
+
+/**
+ * ONLY LOAD WHAT COULD BE SEEN (roadmap 13, the freezes — 11 Oct 2026).
+ * Every model already hides beyond REVEAL_DISTANCE, but a SHOWN entity is
+ * still loaded and its shaders compiled wherever the camera is. So when Play
+ * swept into the eras where monuments are born, dozens of model programs were
+ * compiled in a burst — 58 of the 76 built during one traced play-through —
+ * with the camera thousands of kilometres up. Now a model is shown only when
+ * the camera is within reach of it (a margin past the reveal distance, so it
+ * is ready by the time it is visible).
+ */
+const LOAD_DISTANCE = REVEAL_DISTANCE * 1.6;
+const positionCache = new Map<Placement, Cesium.Cartesian3>();
+function cameraNear(p: Placement): boolean {
+  const cam = theViewer?.camera;
+  if (!cam) return false;
+  let pos = positionCache.get(p);
+  if (!pos) {
+    pos = Cesium.Cartesian3.fromDegrees(p.lon, p.lat);
+    positionCache.set(p, pos);
+  }
+  return Cesium.Cartesian3.distance(cam.positionWC, pos) < LOAD_DISTANCE;
+}
 let lastShowSites = true;
 
 // The Captain's hand-tuned placement trims, loaded from the review file and
@@ -294,6 +317,11 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   // …and this device's own local tweaks win on top (maker mode, no key).
   Object.assign(transforms, loadLocalTransforms());
   for (const p of PLACEMENTS) addPlacement(p);
+  // The camera moving brings models into (and out of) reach.
+  viewer.camera.percentageChanged = 0.05;
+  viewer.camera.changed.addEventListener(() => {
+    for (const { entity, p } of entities) gate(entity, p);
+  });
 }
 
 /**
@@ -351,7 +379,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   const born = curYear >= bornYear;
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
   const buried = p.buried != null && curYear >= p.buried[0] && curYear < p.buried[1];
-  entity.show = lastShowSites && born && !gone && !buried;
+  entity.show = lastShowSites && born && !gone && !buried && cameraNear(p);
 
   if (!entity.model) return;
   const uri = `./models/${p.model}${suffix}.glb`;

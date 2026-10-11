@@ -62,6 +62,7 @@ const sample = () => page.evaluate(() => {
 });
 console.log('idle', JSON.stringify(await sample()), phone ? '(phone)' : '', cpu > 1 ? `cpu ÷${cpu}` : '');
 console.log('coarse pointer:', await page.evaluate(() => matchMedia('(pointer: coarse)').matches));
+console.log('shader warm-up:', JSON.stringify(await page.evaluate(() => window.__shaderWarm ?? null)));
 await page.evaluate((speed) => {
   if (speed) {
     const sp = [...document.querySelectorAll('select')].find((s) => [...s.options].some((o) => o.text === speed));

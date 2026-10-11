@@ -38,6 +38,7 @@ import {
 } from '../lib/renderLease';
 import { watchGpuLoss, type GpuLossReason } from '../lib/gpuRecovery';
 import { isSiteTwin } from '../lib/siteTwin';
+import { warmGlobeShaders } from '../lib/shaderWarmup';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -1065,6 +1066,14 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // frame's geojson (~8 MB over ~10s, one file at a time) so time-travel in
     // EITHER direction never waits on the network — only the quick rasterise.
     const warmTimer = window.setTimeout(() => bordersRef.current?.warmAllFrames(), 8000);
+    // Build the globe-surface shader programs while the visitor is still on
+    // the welcome card, not mid-Play (lib/shaderWarmup — roadmap 13, the
+    // freezes). The counts are kept for play-probe to read.
+    const shaderTimer = window.setTimeout(() => {
+      void warmGlobeShaders(viewer).then((r) => {
+        (window as unknown as { __shaderWarm?: unknown }).__shaderWarm = r;
+      });
+    }, 5000);
     fxRef.current = new DisasterFx(viewer, containerRef.current ?? undefined);
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
     campaignRef.current.onActiveLabel = (label) => onCampaignLabelRef.current(label);
@@ -1432,6 +1441,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       eclipseRef.current = null;
       riversRef.current?.dispose();
       window.clearTimeout(warmTimer);
+      window.clearTimeout(shaderTimer);
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
       fxRef.current?.dispose();
