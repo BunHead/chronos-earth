@@ -55,6 +55,12 @@ interface Placement {
   /** Optional [from, until) signed years the monument lies BURIED and is not
    * shown — the Terracotta Army, burned and buried in 206 BCE, dug up 1974. */
   buried?: [number, number];
+  /** Metres of grass laid over the satellite photo around the monument while
+   * any stage BEFORE the ruin stands. The photo is today's site: at an open
+   * monument (Stonehenge) its fallen stones and their shadows showed through
+   * a half-built circle in 2800 BCE (the Captain, 11 Oct 2026: "doesn't age
+   * quite right"). The ruin stands on the real photo again. */
+  coverM?: number;
   /** Added on the fly by ensurePlacement (a site visited on the globe), not
    * from the curated list — a curated placement at the same spot replaces it. */
   generic?: boolean;
@@ -82,7 +88,12 @@ const PLACEMENTS: Placement[] = [
   { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500 },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
-  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: -1500, buildYears: 400 },
+  // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
+  // were taken over millennia, unrecorded until the falls of 1797 and 1900.
+  // The last sourced use is late-4th-century Roman coins and pottery — still
+  // a ceremonial site (2008 excavation). It was 1500 BCE (the end of building
+  // work), which showed the ruin through the whole Bronze and Iron Ages.
+  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: 400, buildYears: 400, coverM: 26 },
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
   // The Paris trio — all of Paris standing together from 1989 onward.
   { model: 'eiffel', title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945, builtYear: 1889 },
@@ -230,6 +241,11 @@ export function reseatAll(): void {
   for (const { entity, p } of entities) seat(entity, p);
 }
 
+/** Grass covers over today's photo (Placement.coverM), by monument entity id. */
+const covers = new Map<string, Cesium.Entity>();
+/** The grass of the photo around Stonehenge, as rendered (sampled 11 Oct 2026). */
+const COVER_GRASS = Cesium.Color.fromBytes(56, 91, 48, 255);
+
 function addPlacement(p: Placement): void {
   const viewer = theViewer;
   const info = theManifest[p.model];
@@ -290,6 +306,18 @@ function addPlacement(p: Placement): void {
     show: false, // the timeline decides
   });
   entities.push({ entity, p });
+  if (p.coverM && !covers.has(id)) {
+    covers.set(id, viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
+      show: false,
+      ellipse: {
+        semiMajorAxis: p.coverM,
+        semiMinorAxis: p.coverM,
+        material: COVER_GRASS,
+        classificationType: Cesium.ClassificationType.TERRAIN,
+      },
+    }));
+  }
   seat(entity, p);
   gate(entity, p);
 }
@@ -389,6 +417,8 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   // placed by a dive before the plans finished loading.
   const supplanted = !!p.generic && sitePlanNear(p.lat, p.lon);
   entity.show = lastShowSites && born && !gone && !buried && !supplanted && cameraNear(p);
+  const cover = covers.get(entity.id);
+  if (cover) cover.show = entity.show && suffix !== '-ruin';
 
   if (!entity.model) return;
   const uri = `./models/${p.model}${suffix}.glb`;
