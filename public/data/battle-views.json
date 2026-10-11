@@ -26855,6 +26855,391 @@
         }
       ],
       "severity": 1.1
+    },
+    "mohacs": {
+      "title": "Battle of Mohács",
+      "subtitle": "29 August 1526 — Suleiman the Magnificent against Louis II of Hungary",
+      "sides": {
+        "a": {
+          "name": "Kingdom of Hungary (Louis II, Tomori)",
+          "color": "#b5302a"
+        },
+        "b": {
+          "name": "Ottoman Empire (Suleiman, Ibrahim Pasha)",
+          "color": "#2e7d4f"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "x": 93,
+          "y": 35,
+          "w": 6,
+          "h": 70,
+          "label": "Danube"
+        },
+        {
+          "type": "town",
+          "x": 70,
+          "y": 8,
+          "r": 3,
+          "label": "Mohács"
+        },
+        {
+          "type": "river",
+          "x": 60,
+          "y": 44,
+          "w": 40,
+          "h": 3,
+          "label": "Csele stream & marsh"
+        },
+        {
+          "type": "ridge",
+          "x": 35,
+          "y": 62,
+          "w": 60,
+          "h": 8,
+          "label": "High ground (Ottoman approach)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Deployment on the plain",
+          "narration": "On a wide, rain-soaked plain south of Mohács, with the Danube marshes to the east, the Hungarians draw up in two lines: mercenary infantry and about fifty guns in the centre, heavy cavalry on the wings. The Ottoman army, roughly 45,000 fighting men, comes down from the higher ground to the south late in the day."
+        },
+        {
+          "name": "Tomori’s charge",
+          "narration": "In the early afternoon Archbishop Pál Tomori launches the Hungarian cavalry. The charge drives back the Ottoman front line and throws its irregulars into disorder.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                28
+              ],
+              "to": [
+                32,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                68,
+                28
+              ],
+              "to": [
+                64,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The crescent closes",
+          "narration": "Ibrahim Pasha’s centre gives way in a controlled withdrawal, bending into a crescent. As King Louis brings the reserves forward, Ottoman cavalry and light infantry counter-attack from both wings while the Janissaries and the guns fire from prepared positions.",
+          "arrows": [
+            {
+              "from": [
+                14,
+                50
+              ],
+              "to": [
+                26,
+                40
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                84,
+                50
+              ],
+              "to": [
+                72,
+                40
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                48,
+                56
+              ],
+              "to": [
+                48,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Collapse at the Csele",
+          "narration": "Encircled and raked by musket and cannon fire, the Hungarian army breaks within about two hours. Louis II drowns in the marsh by the Csele stream as he flees; some 14,000 Hungarians die, and medieval Hungary’s independence with them.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                40
+              ],
+              "to": [
+                40,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                76,
+                40
+              ],
+              "to": [
+                60,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "hun-cav-l",
+          "side": "a",
+          "label": "Heavy cavalry (left)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              30,
+              26
+            ],
+            [
+              32,
+              42
+            ],
+            [
+              30,
+              44
+            ],
+            [
+              34,
+              36
+            ]
+          ],
+          "strength": 2500,
+          "helmet": "greathelm"
+        },
+        {
+          "id": "hun-cav-r",
+          "side": "a",
+          "label": "Cavalry & hussars (right)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              68,
+              26
+            ],
+            [
+              64,
+              42
+            ],
+            [
+              66,
+              44
+            ],
+            [
+              62,
+              38
+            ]
+          ],
+          "strength": 4000,
+          "helmet": "greathelm"
+        },
+        {
+          "id": "hun-inf",
+          "side": "a",
+          "label": "Mercenary infantry & guns",
+          "size": 1.2,
+          "pos": [
+            [
+              49,
+              26
+            ],
+            [
+              49,
+              28
+            ],
+            [
+              49,
+              34
+            ],
+            [
+              49,
+              34
+            ]
+          ],
+          "strength": 13500,
+          "helmet": "morion"
+        },
+        {
+          "id": "louis",
+          "side": "a",
+          "label": "Louis II & royal guard",
+          "shape": "cavalry",
+          "size": 0.8,
+          "pos": [
+            [
+              50,
+              16
+            ],
+            [
+              50,
+              18
+            ],
+            [
+              50,
+              30
+            ],
+            [
+              60,
+              42
+            ]
+          ],
+          "strength": 1000,
+          "helmet": "greathelm"
+        },
+        {
+          "id": "hun-reserve",
+          "side": "a",
+          "label": "Second line (levies)",
+          "pos": [
+            [
+              50,
+              12
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              48,
+              24
+            ],
+            [
+              46,
+              22
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "morion"
+        },
+        {
+          "id": "ott-l",
+          "side": "b",
+          "label": "Rumelian cavalry (left wing)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              22,
+              54
+            ],
+            [
+              24,
+              52
+            ],
+            [
+              16,
+              44
+            ],
+            [
+              26,
+              38
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "conical"
+        },
+        {
+          "id": "ott-r",
+          "side": "b",
+          "label": "Anatolian cavalry (right wing)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              78,
+              54
+            ],
+            [
+              76,
+              52
+            ],
+            [
+              82,
+              44
+            ],
+            [
+              72,
+              38
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "conical"
+        },
+        {
+          "id": "janissaries",
+          "side": "b",
+          "label": "Janissaries & artillery",
+          "size": 1.1,
+          "pos": [
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              58
+            ],
+            [
+              50,
+              54
+            ],
+            [
+              50,
+              48
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "cap"
+        },
+        {
+          "id": "ott-centre",
+          "side": "b",
+          "label": "Ibrahim Pasha’s centre",
+          "pos": [
+            [
+              50,
+              50
+            ],
+            [
+              48,
+              52
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              48,
+              44
+            ]
+          ],
+          "strength": 9000,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "a",
+      "severity": 1.3
     }
   }
 }
