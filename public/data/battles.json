@@ -1167,7 +1167,8 @@
           "side": 2,
           "wiki": "Kitbuqa"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "yamen",
@@ -1771,7 +1772,8 @@
           "side": 2,
           "wiki": "Prince Rupert of the Rhine"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "vienna-1683",
@@ -1880,7 +1882,8 @@
           "side": 2,
           "wiki": "Charles XII of Sweden"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "culloden",
@@ -3134,7 +3137,8 @@
           "side": 2,
           "wiki": "Reinhard Scheer"
         }
-      ]
+      ],
+      "hasBattleView": true
     },
     {
       "id": "somme",

@@ -24618,6 +24618,2243 @@
       ],
       "loser": "b",
       "severity": 1.2
+    },
+    "ain-jalut": {
+      "title": "Battle of Ain Jalut",
+      "subtitle": "3 September 1260 — the Mamluks stop the Mongol advance at the Spring of Goliath",
+      "sides": {
+        "a": {
+          "name": "Mamluk Sultanate (Qutuz & Baybars)",
+          "color": "#d4a017"
+        },
+        "b": {
+          "name": "Mongol Ilkhanate (Kitbuqa)",
+          "color": "#2c3e7a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 56,
+          "y": 60,
+          "w": 76,
+          "h": 18,
+          "label": "Mount Gilboa"
+        },
+        {
+          "type": "hill",
+          "x": 26,
+          "y": 10,
+          "r": 8,
+          "label": "Hill of Moreh"
+        },
+        {
+          "type": "forest",
+          "x": 12,
+          "y": 50,
+          "r": 7
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              40
+            ],
+            [
+              30,
+              42
+            ],
+            [
+              60,
+              44
+            ],
+            [
+              100,
+              50
+            ]
+          ],
+          "label": "Wadi Jalut (Harod)"
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 46,
+          "r": 2,
+          "label": "Ain Jalut spring"
+        },
+        {
+          "type": "town",
+          "x": 95,
+          "y": 56,
+          "r": 3,
+          "label": "Baysan"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The valley of the spring",
+          "narration": "Kitbuqa’s Mongols, with Georgian, Armenian and Syrian contingents — modern estimates put them at roughly 10,000–12,000 — reach the spring at the northern foot of Mount Gilboa first. Qutuz hides most of his 15,000–20,000 Mamluks in the hills and sends Baybars ahead with a smaller force as bait. The detailed course rests largely on a single source, so the particulars are uncertain."
+        },
+        {
+          "name": "Baybars provokes",
+          "narration": "For hours Baybars’s vanguard strikes and falls back, hit-and-run, drawing Mongol charges while keeping its own strength intact.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                36
+              ],
+              "to": [
+                56,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                58,
+                34
+              ],
+              "to": [
+                44,
+                35
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The feigned retreat",
+          "narration": "After another heavy Mongol assault Baybars’s men turn and flee into the high ground. Kitbuqa, tired of an enemy that keeps running, commits his whole force to the pursuit.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                36
+              ],
+              "to": [
+                32,
+                36
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The ambush springs",
+          "narration": "Concealed Mamluks emerge from the trees and slopes, loosing arrows and charging with cavalry; the Mongols find themselves surrounded. The defection of Kitbuqa’s Syrian allies may have mattered here, though that is a historian’s hypothesis.",
+          "arrows": [
+            {
+              "from": [
+                16,
+                18
+              ],
+              "to": [
+                28,
+                28
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                16,
+                50
+              ],
+              "to": [
+                28,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                8,
+                36
+              ],
+              "to": [
+                24,
+                36
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "“O Islam!”",
+          "narration": "The Mongols fight to break out and nearly destroy the Mamluk left. Qutuz throws his helmet to the ground so his men can see him, cries “wa islamah!”, and charges into the breach with his own guard.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                30
+              ],
+              "to": [
+                20,
+                22
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                10,
+                40
+              ],
+              "to": [
+                22,
+                25
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Pursuit to Baysan",
+          "narration": "The Mongols are driven east toward Baysan; a last counter-attack there fails. Kitbuqa dies with most of his force — the first Mongol defeat that was never avenged, and the end of the westward advance.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                40
+              ],
+              "to": [
+                72,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "baybars",
+          "side": "a",
+          "label": "Baybars’s vanguard",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "conical",
+          "pos": [
+            [
+              20,
+              35
+            ],
+            [
+              40,
+              35
+            ],
+            [
+              24,
+              36
+            ],
+            [
+              30,
+              36
+            ],
+            [
+              34,
+              37
+            ],
+            [
+              70,
+              42
+            ]
+          ]
+        },
+        {
+          "id": "mamluk-left",
+          "side": "a",
+          "label": "Mamluk left (hidden)",
+          "shape": "cavalry",
+          "strength": 4500,
+          "helmet": "conical",
+          "pos": [
+            [
+              16,
+              18
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              24,
+              25
+            ],
+            [
+              18,
+              20
+            ],
+            [
+              66,
+              38
+            ]
+          ]
+        },
+        {
+          "id": "mamluk-centre",
+          "side": "a",
+          "label": "Mamluk centre (hidden)",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "conical",
+          "pos": [
+            [
+              8,
+              36
+            ],
+            [
+              8,
+              36
+            ],
+            [
+              8,
+              36
+            ],
+            [
+              20,
+              36
+            ],
+            [
+              24,
+              37
+            ],
+            [
+              64,
+              43
+            ]
+          ]
+        },
+        {
+          "id": "mamluk-right",
+          "side": "a",
+          "label": "Mamluk right (hidden)",
+          "shape": "cavalry",
+          "strength": 4500,
+          "helmet": "conical",
+          "pos": [
+            [
+              16,
+              50
+            ],
+            [
+              16,
+              50
+            ],
+            [
+              16,
+              50
+            ],
+            [
+              24,
+              46
+            ],
+            [
+              26,
+              46
+            ],
+            [
+              70,
+              48
+            ]
+          ]
+        },
+        {
+          "id": "qutuz",
+          "side": "a",
+          "label": "Sultan Qutuz & guard",
+          "shape": "cavalry",
+          "size": 0.7,
+          "strength": 1000,
+          "helmet": "conical",
+          "pos": [
+            [
+              6,
+              42
+            ],
+            [
+              6,
+              42
+            ],
+            [
+              6,
+              42
+            ],
+            [
+              10,
+              40
+            ],
+            [
+              22,
+              25
+            ],
+            [
+              62,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "kitbuqa",
+          "side": "b",
+          "label": "Kitbuqa’s centre",
+          "shape": "cavalry",
+          "strength": 4000,
+          "helmet": "cap",
+          "pos": [
+            [
+              64,
+              36
+            ],
+            [
+              58,
+              35
+            ],
+            [
+              34,
+              36
+            ],
+            [
+              30,
+              36
+            ],
+            [
+              28,
+              34
+            ],
+            [
+              78,
+              46
+            ]
+          ]
+        },
+        {
+          "id": "mongol-right",
+          "side": "b",
+          "label": "Mongol right",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              62,
+              26
+            ],
+            [
+              56,
+              28
+            ],
+            [
+              32,
+              30
+            ],
+            [
+              28,
+              30
+            ],
+            [
+              22,
+              23
+            ],
+            [
+              80,
+              40
+            ]
+          ]
+        },
+        {
+          "id": "mongol-left",
+          "side": "b",
+          "label": "Mongol left",
+          "shape": "cavalry",
+          "strength": 3000,
+          "helmet": "cap",
+          "pos": [
+            [
+              64,
+              46
+            ],
+            [
+              58,
+              44
+            ],
+            [
+              34,
+              43
+            ],
+            [
+              28,
+              42
+            ],
+            [
+              28,
+              44
+            ],
+            [
+              82,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "allies",
+          "side": "b",
+          "label": "Georgian, Armenian & Syrian contingents",
+          "strength": 1500,
+          "helmet": "conical",
+          "pos": [
+            [
+              72,
+              40
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              36,
+              40
+            ],
+            [
+              40,
+              44
+            ],
+            [
+              88,
+              52
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "naseby": {
+      "title": "Battle of Naseby",
+      "subtitle": "14 June 1645 — the New Model Army destroys the King’s field army",
+      "sides": {
+        "a": {
+          "name": "Parliament — New Model Army (Fairfax)",
+          "color": "#d35400"
+        },
+        "b": {
+          "name": "Royalists (Charles I & Rupert)",
+          "color": "#a01c2c"
+        }
+      },
+      "terrain": [
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 14,
+          "w": 70,
+          "h": 8,
+          "label": "Dust Hill (Royalist ridge)"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 50,
+          "w": 70,
+          "h": 8,
+          "label": "Parliament’s ridge"
+        },
+        {
+          "type": "forest",
+          "x": 8,
+          "y": 34,
+          "w": 6,
+          "h": 40,
+          "label": "Sulby Hedges"
+        },
+        {
+          "type": "forest",
+          "x": 40,
+          "y": 7,
+          "r": 3,
+          "label": "Long Hold Spinney"
+        },
+        {
+          "type": "town",
+          "x": 56,
+          "y": 2,
+          "r": 2,
+          "label": "Wadborough Hill"
+        },
+        {
+          "type": "town",
+          "x": 50,
+          "y": 64,
+          "r": 4,
+          "label": "Naseby & the baggage"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Two ridges in the fog",
+          "narration": "The King’s army, marching down from Market Harborough, draws up on the northern ridge; Fairfax’s New Model Army, about 13,000 strong against roughly 7,400 Royalists, holds the ridge a mile north of Naseby with part of it hidden behind the crest. Okey’s dragoons line the Sulby Hedges on the western flank."
+        },
+        {
+          "name": "The Royalist assault",
+          "narration": "Astley’s veteran foot climbs the slope and, after a single volley, falls on Skippon’s infantry at push of pike, forcing it back; Skippon is wounded but stays. On the west, Rupert’s horse breaks Ireton’s wing — Ireton is unhorsed and captured — while Okey’s dragoons fire into Rupert’s flank.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                22
+              ],
+              "to": [
+                48,
+                42
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                22,
+                22
+              ],
+              "to": [
+                22,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                10,
+                34
+              ],
+              "to": [
+                18,
+                38
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Rupert rides for the baggage",
+          "narration": "Rupert’s whole wing gallops on after the fugitives to the Parliamentary baggage at Naseby, where the guard refuses to yield and drives it off. He has no reserve, and cannot bring his troopers back in time to save the infantry.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                46
+              ],
+              "to": [
+                44,
+                60
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Cromwell breaks Langdale",
+          "narration": "On the east, Langdale’s Northern Horse charge uphill over broken ground, outnumbered about two to one, and are routed. Cromwell holds half his wing back and wheels it into the flank and rear of the Royalist foot, as Okey’s dragoons mount and charge from the hedges.",
+          "arrows": [
+            {
+              "from": [
+                76,
+                22
+              ],
+              "to": [
+                76,
+                40
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                76,
+                42
+              ],
+              "to": [
+                78,
+                18
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                70,
+                48
+              ],
+              "to": [
+                54,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                10,
+                34
+              ],
+              "to": [
+                34,
+                34
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Bluecoats stand",
+          "narration": "The trapped Royalist foot begins to surrender. One regiment — apparently Rupert’s Bluecoats — holds near Long Hold Spinney until Fairfax leads his own regiment against it. Charles moves to lead his lifeguard in, but the Earl of Carnwath seizes his bridle and the lifeguard turns away.",
+          "arrows": [
+            {
+              "from": [
+                44,
+                30
+              ],
+              "to": [
+                41,
+                14
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                52,
+                28
+              ],
+              "to": [
+                48,
+                33
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The rout",
+          "narration": "Fairfax pursues north toward Leicester; a rally on Wadborough Hill fails and fugitives are cut down at Marston Trussell, and at least a hundred women of the Royalist baggage train are killed. About 4,500 infantry are taken, with the guns and the King’s private papers — the King’s main army no longer exists.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                26
+              ],
+              "to": [
+                56,
+                6
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "rupert",
+          "side": "b",
+          "label": "Rupert & Maurice’s horse",
+          "shape": "cavalry",
+          "strength": 2200,
+          "helmet": "morion",
+          "pos": [
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              40
+            ],
+            [
+              44,
+              62
+            ],
+            [
+              30,
+              40
+            ],
+            [
+              34,
+              20
+            ],
+            [
+              40,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "astley",
+          "side": "b",
+          "label": "Astley’s foot",
+          "strength": 2500,
+          "helmet": "morion",
+          "pos": [
+            [
+              48,
+              20
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              48,
+              37
+            ],
+            [
+              48,
+              33
+            ],
+            [
+              48,
+              31
+            ]
+          ]
+        },
+        {
+          "id": "bluecoats",
+          "side": "b",
+          "label": "King’s & Rupert’s foot (Bluecoats)",
+          "size": 0.7,
+          "strength": 800,
+          "helmet": "morion",
+          "pos": [
+            [
+              46,
+              10
+            ],
+            [
+              46,
+              12
+            ],
+            [
+              46,
+              14
+            ],
+            [
+              44,
+              13
+            ],
+            [
+              41,
+              11
+            ],
+            [
+              41,
+              11
+            ]
+          ]
+        },
+        {
+          "id": "langdale",
+          "side": "b",
+          "label": "Langdale’s Northern Horse",
+          "shape": "cavalry",
+          "strength": 1500,
+          "helmet": "morion",
+          "pos": [
+            [
+              76,
+              20
+            ],
+            [
+              76,
+              20
+            ],
+            [
+              76,
+              22
+            ],
+            [
+              80,
+              12
+            ],
+            [
+              80,
+              6
+            ],
+            [
+              66,
+              2
+            ]
+          ]
+        },
+        {
+          "id": "lifeguard",
+          "side": "b",
+          "label": "Charles I & lifeguard",
+          "shape": "cavalry",
+          "size": 0.7,
+          "strength": 400,
+          "helmet": "morion",
+          "pos": [
+            [
+              58,
+              12
+            ],
+            [
+              58,
+              12
+            ],
+            [
+              58,
+              12
+            ],
+            [
+              58,
+              14
+            ],
+            [
+              62,
+              8
+            ],
+            [
+              64,
+              2
+            ]
+          ]
+        },
+        {
+          "id": "ireton",
+          "side": "a",
+          "label": "Ireton’s horse",
+          "shape": "cavalry",
+          "strength": 2500,
+          "helmet": "morion",
+          "pos": [
+            [
+              24,
+              46
+            ],
+            [
+              22,
+              54
+            ],
+            [
+              24,
+              60
+            ],
+            [
+              22,
+              50
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              36,
+              16
+            ]
+          ]
+        },
+        {
+          "id": "okey",
+          "side": "a",
+          "label": "Okey’s dragoons",
+          "size": 0.6,
+          "strength": 700,
+          "helmet": "morion",
+          "pos": [
+            [
+              8,
+              34
+            ],
+            [
+              8,
+              34
+            ],
+            [
+              8,
+              34
+            ],
+            [
+              34,
+              34
+            ],
+            [
+              38,
+              24
+            ],
+            [
+              38,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "skippon",
+          "side": "a",
+          "label": "Skippon’s foot",
+          "strength": 4500,
+          "helmet": "morion",
+          "pos": [
+            [
+              48,
+              46
+            ],
+            [
+              48,
+              47
+            ],
+            [
+              48,
+              47
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              48,
+              35
+            ],
+            [
+              50,
+              24
+            ]
+          ]
+        },
+        {
+          "id": "fairfax-reserve",
+          "side": "a",
+          "label": "Reserve foot (Fairfax)",
+          "strength": 2500,
+          "helmet": "morion",
+          "pos": [
+            [
+              48,
+              55
+            ],
+            [
+              48,
+              53
+            ],
+            [
+              48,
+              51
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              44,
+              30
+            ],
+            [
+              48,
+              14
+            ]
+          ]
+        },
+        {
+          "id": "cromwell",
+          "side": "a",
+          "label": "Cromwell’s horse",
+          "shape": "cavalry",
+          "strength": 1500,
+          "helmet": "morion",
+          "pos": [
+            [
+              74,
+              44
+            ],
+            [
+              74,
+              44
+            ],
+            [
+              74,
+              44
+            ],
+            [
+              78,
+              16
+            ],
+            [
+              80,
+              10
+            ],
+            [
+              66,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "cromwell-reserve",
+          "side": "a",
+          "label": "Cromwell’s second line",
+          "shape": "cavalry",
+          "strength": 1500,
+          "helmet": "morion",
+          "pos": [
+            [
+              76,
+              52
+            ],
+            [
+              76,
+              52
+            ],
+            [
+              76,
+              50
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              52,
+              28
+            ],
+            [
+              52,
+              12
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.15
+    },
+    "poltava": {
+      "title": "Battle of Poltava",
+      "subtitle": "8 July 1709 — Peter the Great breaks the army of Charles XII",
+      "sides": {
+        "a": {
+          "name": "Russia (Peter the Great)",
+          "color": "#2e7d32"
+        },
+        "b": {
+          "name": "Sweden (Charles XII, Rehnskiöld)",
+          "color": "#1f5fa8"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              92,
+              0
+            ],
+            [
+              94,
+              30
+            ],
+            [
+              90,
+              70
+            ]
+          ],
+          "label": "Vorskla"
+        },
+        {
+          "type": "town",
+          "x": 80,
+          "y": 20,
+          "r": 7,
+          "label": "Russian fortified camp"
+        },
+        {
+          "type": "town",
+          "x": 84,
+          "y": 62,
+          "r": 4,
+          "label": "Poltava (besieged)"
+        },
+        {
+          "type": "forest",
+          "x": 70,
+          "y": 46,
+          "r": 8,
+          "label": "Yakovetski woods"
+        },
+        {
+          "type": "forest",
+          "x": 16,
+          "y": 20,
+          "r": 9,
+          "label": "Budyshchi woods"
+        },
+        {
+          "type": "town",
+          "x": 32,
+          "y": 42,
+          "r": 1.5
+        },
+        {
+          "type": "town",
+          "x": 42,
+          "y": 42,
+          "r": 1.5,
+          "label": "The redoubts"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 42,
+          "r": 1.5
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 35,
+          "r": 1.5
+        },
+        {
+          "type": "town",
+          "x": 46,
+          "y": 28,
+          "r": 1.5
+        },
+        {
+          "type": "town",
+          "x": 40,
+          "y": 67,
+          "r": 2,
+          "label": "Swedish baggage (Pushkarivka)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The night march",
+          "narration": "Before dawn the Swedes — about 16,500 engaged, with just four guns, against some 42,000 Russians and 86 guns — form up 600 metres south of a T of ten Russian redoubts, two still unfinished. Their cavalry arrives late, a pistol shot gives the alarm, and Charles XII, wounded in the foot days before, is carried on a litter."
+        },
+        {
+          "name": "Through the redoubts",
+          "narration": "Around 4 a.m. Rehnskiöld attacks anyway. Roos’s column takes two redoubts and stalls at the third; Lewenhaupt’s infantry slips past the rest, and Hamilton’s cavalry routs the Russian horse beyond.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                52
+              ],
+              "to": [
+                46,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                52
+              ],
+              "to": [
+                42,
+                45
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                54
+              ],
+              "to": [
+                58,
+                36
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Waiting for Roos",
+          "narration": "Rehnskiöld halts the pursuit and pulls Lewenhaupt back west toward the Budyshchi woods to wait for Roos — some two hours lost. Roos, his 2,600 men cut to about 1,500, has instead drifted east into the Yakovetski woods."
+        },
+        {
+          "name": "Roos cut off",
+          "narration": "The Russians retake the redoubts and send a force against Roos, who is trapped near Poltava and surrenders at about 9:30. The main Swedish army, unaware, keeps waiting — while Peter leads his infantry out of the camp.",
+          "arrows": [
+            {
+              "from": [
+                76,
+                34
+              ],
+              "to": [
+                68,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Russian line",
+          "narration": "Forty-two battalions — about 22,000 Russian infantry — stand in two lines before the camp, guns between them and dragoons on both wings. Facing them are barely 4,000 Swedish foot in ten battalions, with Creutz’s cavalry behind."
+        },
+        {
+          "name": "The Swedish charge",
+          "narration": "At about 9:45 the Swedish foot advances into fire opened at 500 metres and breaks into the first Russian line at close range on the right — but the cavalry cannot form up in time, the left lags and breaks, and Russian battalions pour into the gap while Menshikov’s horse strikes the rear.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                26
+              ],
+              "to": [
+                52,
+                24
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                58,
+                22
+              ],
+              "to": [
+                50,
+                22
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                40
+              ],
+              "to": [
+                44,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Collapse and Perevolochna",
+          "narration": "The Swedish army disintegrates; Charles, his litter smashed, escapes on horseback inside a square of about 2,000 men and retreats south that evening. Three days later Lewenhaupt surrenders the remnant at Perevolochna on the Dnieper; Charles and Mazepa cross with about 1,500 men into Ottoman exile.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                32
+              ],
+              "to": [
+                42,
+                52
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "lewenhaupt",
+          "side": "b",
+          "label": "Lewenhaupt’s infantry",
+          "strength": 4000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              40,
+              54
+            ],
+            [
+              48,
+              30
+            ],
+            [
+              28,
+              24
+            ],
+            [
+              28,
+              26
+            ],
+            [
+              36,
+              26
+            ],
+            [
+              52,
+              24
+            ],
+            [
+              40,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "roos",
+          "side": "b",
+          "label": "Roos’s column",
+          "size": 0.8,
+          "strength": 2600,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              46,
+              54
+            ],
+            [
+              42,
+              45
+            ],
+            [
+              64,
+              46
+            ],
+            [
+              68,
+              47
+            ],
+            [
+              68,
+              47
+            ],
+            [
+              68,
+              47
+            ],
+            [
+              68,
+              47
+            ]
+          ]
+        },
+        {
+          "id": "creutz",
+          "side": "b",
+          "label": "Creutz’s cavalry",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              30,
+              58
+            ],
+            [
+              34,
+              36
+            ],
+            [
+              20,
+              24
+            ],
+            [
+              22,
+              24
+            ],
+            [
+              28,
+              22
+            ],
+            [
+              38,
+              24
+            ],
+            [
+              36,
+              62
+            ]
+          ]
+        },
+        {
+          "id": "hamilton",
+          "side": "b",
+          "label": "Hamilton’s cavalry",
+          "shape": "cavalry",
+          "strength": 2800,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              56,
+              58
+            ],
+            [
+              58,
+              34
+            ],
+            [
+              30,
+              18
+            ],
+            [
+              24,
+              18
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              38,
+              16
+            ],
+            [
+              44,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "charles",
+          "side": "b",
+          "label": "Charles XII (on a litter) & drabants",
+          "size": 0.5,
+          "strength": 200,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              42,
+              58
+            ],
+            [
+              44,
+              42
+            ],
+            [
+              26,
+              28
+            ],
+            [
+              26,
+              28
+            ],
+            [
+              32,
+              28
+            ],
+            [
+              44,
+              28
+            ],
+            [
+              40,
+              64
+            ]
+          ]
+        },
+        {
+          "id": "redoubts",
+          "side": "a",
+          "label": "Redoubt garrisons",
+          "size": 0.8,
+          "strength": 4000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              42,
+              40
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              44,
+              38
+            ],
+            [
+              46,
+              40
+            ],
+            [
+              44,
+              40
+            ],
+            [
+              44,
+              40
+            ],
+            [
+              44,
+              44
+            ]
+          ]
+        },
+        {
+          "id": "russian-detachment",
+          "side": "a",
+          "label": "Detachment against Roos",
+          "strength": 5000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              80,
+              26
+            ],
+            [
+              80,
+              26
+            ],
+            [
+              76,
+              34
+            ],
+            [
+              70,
+              42
+            ],
+            [
+              66,
+              44
+            ],
+            [
+              66,
+              44
+            ],
+            [
+              60,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "menshikov",
+          "side": "a",
+          "label": "Menshikov’s cavalry",
+          "shape": "cavalry",
+          "strength": 6000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              52,
+              34
+            ],
+            [
+              58,
+              28
+            ],
+            [
+              64,
+              14
+            ],
+            [
+              64,
+              14
+            ],
+            [
+              56,
+              40
+            ],
+            [
+              46,
+              34
+            ],
+            [
+              40,
+              50
+            ]
+          ]
+        },
+        {
+          "id": "bauer",
+          "side": "a",
+          "label": "Bauer’s dragoons",
+          "shape": "cavalry",
+          "strength": 5000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              70,
+              10
+            ],
+            [
+              70,
+              10
+            ],
+            [
+              66,
+              8
+            ],
+            [
+              64,
+              8
+            ],
+            [
+              56,
+              12
+            ],
+            [
+              48,
+              14
+            ],
+            [
+              44,
+              22
+            ]
+          ]
+        },
+        {
+          "id": "peter-first",
+          "side": "a",
+          "label": "Peter’s first line",
+          "strength": 11000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              80,
+              18
+            ],
+            [
+              80,
+              18
+            ],
+            [
+              80,
+              18
+            ],
+            [
+              72,
+              22
+            ],
+            [
+              58,
+              22
+            ],
+            [
+              54,
+              22
+            ],
+            [
+              48,
+              30
+            ]
+          ]
+        },
+        {
+          "id": "peter-second",
+          "side": "a",
+          "label": "Peter’s second line",
+          "strength": 11000,
+          "helmet": "tricorne",
+          "pos": [
+            [
+              84,
+              24
+            ],
+            [
+              84,
+              24
+            ],
+            [
+              84,
+              24
+            ],
+            [
+              76,
+              27
+            ],
+            [
+              64,
+              26
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              52,
+              34
+            ]
+          ]
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "jutland": {
+      "title": "Battle of Jutland",
+      "subtitle": "31 May – 1 June 1916 — the dreadnought fleets meet in the North Sea",
+      "sides": {
+        "a": {
+          "name": "Royal Navy — Grand Fleet (Jellicoe, Beatty)",
+          "color": "#2e4f7a"
+        },
+        "b": {
+          "name": "German High Seas Fleet (Scheer, Hipper)",
+          "color": "#5d6d7e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70
+        },
+        {
+          "type": "town",
+          "x": 98,
+          "y": 24,
+          "r": 3,
+          "label": "Jutland coast"
+        },
+        {
+          "type": "town",
+          "x": 90,
+          "y": 62,
+          "r": 2,
+          "label": "Horns Reef"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Contact",
+          "narration": "Beatty’s battlecruisers and the four fast battleships of the 5th Battle Squadron sweep east from the Forth, with Jellicoe’s Grand Fleet coming down from Scapa Flow. At about 15:20 they meet Hipper’s five battlecruisers, scouting ahead of Scheer’s battle fleet; Hipper turns south-east to lead them on. In all, 151 British warships against 99 German."
+        },
+        {
+          "name": "The run to the south",
+          "narration": "From 15:48 the battlecruisers duel at long range on parallel southerly courses. Indefatigable blows up with two survivors from 1,019 men, then Queen Mary with nine from 1,275; Beatty’s Lion is saved only by flooding a magazine.",
+          "arrows": [
+            {
+              "from": [
+                58,
+                50
+              ],
+              "to": [
+                52,
+                51
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                52
+              ],
+              "to": [
+                57,
+                50
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The run to the north",
+          "narration": "Beatty sights the whole High Seas Fleet and at about 16:40 turns north, drawing it toward Jellicoe. The 5th Battle Squadron, too far astern to read his flags, turns late and takes the fire of Scheer’s leading battleships.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                48
+              ],
+              "to": [
+                52,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                44
+              ],
+              "to": [
+                60,
+                46
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Crossing the T",
+          "narration": "At 18:15 Jellicoe deploys his 24 battleships into a single line across the Germans’ path. The armoured cruiser Defence is sunk with all hands, and at about 18:30 Invincible blows up — six survivors, Admiral Hood among the dead.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                26
+              ],
+              "to": [
+                58,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                64,
+                30
+              ],
+              "to": [
+                61,
+                23
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Scheer turns away",
+          "narration": "At 18:33 Scheer orders his whole line to reverse course together and vanishes into the haze to the west. Jellicoe does not follow directly but steers south, keeping his fleet between the Germans and their home ports."
+        },
+        {
+          "name": "The death ride",
+          "narration": "At 18:55 Scheer turns back east — straight into the British line again, which crosses his T a second time. To cover another escape he sends his four surviving battlecruisers and his torpedo boats charging at the Grand Fleet.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                28
+              ],
+              "to": [
+                55,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                32
+              ],
+              "to": [
+                60,
+                29
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                38
+              ],
+              "to": [
+                58,
+                33
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The turn from the torpedoes",
+          "narration": "At 19:17 Scheer makes a second battle turn to the west under fire; Jellicoe turns his line away from the torpedo waves and every one of some 31 torpedoes misses. The last capital-ship exchanges die out after sunset."
+        },
+        {
+          "name": "The night",
+          "narration": "Jellicoe steams south to bar the way home, but in the dark Scheer crosses astern of him for Horns Reef. Destroyer fights flare at close range; Black Prince and the pre-dreadnought Pommern are lost with all hands and Lützow is scuttled. Britain lost 14 ships and 6,094 men, Germany 11 and 2,551 — yet the High Seas Fleet never seriously contested the North Sea again.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                58
+              ],
+              "to": [
+                76,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "grand-fleet",
+          "side": "a",
+          "label": "Grand Fleet battleships (Jellicoe)",
+          "shape": "ship",
+          "strength": 24,
+          "pos": [
+            [
+              20,
+              4
+            ],
+            [
+              24,
+              10
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              54,
+              34
+            ],
+            [
+              62,
+              28
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              56,
+              66
+            ]
+          ]
+        },
+        {
+          "id": "beatty",
+          "side": "a",
+          "label": "Beatty’s battlecruisers",
+          "shape": "ship",
+          "strength": 6,
+          "pos": [
+            [
+              22,
+              40
+            ],
+            [
+              50,
+              52
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              56,
+              26
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              64,
+              24
+            ],
+            [
+              62,
+              30
+            ],
+            [
+              62,
+              64
+            ]
+          ]
+        },
+        {
+          "id": "fifth-bs",
+          "side": "a",
+          "label": "5th Battle Squadron (Evan-Thomas)",
+          "shape": "ship",
+          "strength": 4,
+          "pos": [
+            [
+              16,
+              44
+            ],
+            [
+              44,
+              50
+            ],
+            [
+              50,
+              44
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              58,
+              32
+            ],
+            [
+              58,
+              38
+            ],
+            [
+              52,
+              68
+            ]
+          ]
+        },
+        {
+          "id": "hood",
+          "side": "a",
+          "label": "3rd Battlecruiser Sqn (Hood)",
+          "shape": "ship",
+          "strength": 3,
+          "pos": [
+            [
+              36,
+              14
+            ],
+            [
+              40,
+              16
+            ],
+            [
+              52,
+              18
+            ],
+            [
+              62,
+              22
+            ],
+            [
+              62,
+              26
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              66,
+              58
+            ]
+          ]
+        },
+        {
+          "id": "hipper",
+          "side": "b",
+          "label": "Hipper’s battlecruisers",
+          "shape": "ship",
+          "strength": 5,
+          "pos": [
+            [
+              52,
+              30
+            ],
+            [
+              60,
+              50
+            ],
+            [
+              60,
+              42
+            ],
+            [
+              64,
+              30
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              54,
+              32
+            ],
+            [
+              46,
+              38
+            ],
+            [
+              80,
+              56
+            ]
+          ]
+        },
+        {
+          "id": "scheer",
+          "side": "b",
+          "label": "High Seas Fleet dreadnoughts (Scheer)",
+          "shape": "ship",
+          "strength": 16,
+          "pos": [
+            [
+              64,
+              66
+            ],
+            [
+              64,
+              62
+            ],
+            [
+              62,
+              48
+            ],
+            [
+              60,
+              38
+            ],
+            [
+              46,
+              44
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              38,
+              44
+            ],
+            [
+              84,
+              60
+            ]
+          ]
+        },
+        {
+          "id": "pre-dreadnoughts",
+          "side": "b",
+          "label": "Pre-dreadnoughts (II Squadron)",
+          "shape": "ship",
+          "strength": 6,
+          "pos": [
+            [
+              66,
+              69
+            ],
+            [
+              66,
+              68
+            ],
+            [
+              64,
+              56
+            ],
+            [
+              62,
+              46
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              52,
+              46
+            ],
+            [
+              40,
+              50
+            ],
+            [
+              78,
+              62
+            ]
+          ]
+        }
+      ],
+      "severity": 1.1
     }
   }
 }
