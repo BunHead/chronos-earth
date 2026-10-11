@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import MakerRow from './MakerRow';
-import type { ExternalLink, PanelContent } from '../lib/types';
+import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
-import { eventToPanel } from '../lib/panel';
+import { eventToPanel, yearLabel } from '../lib/panel';
 import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
@@ -42,6 +42,48 @@ function LinkList({ links }: { links: ExternalLink[] }) {
  * entity, or battle). Shows the mainstream content first, then — if present —
  * a clearly-flagged alternative hypothesis.
  */
+/** A merged record's lead picture, fetched from Wikipedia when it has an article. */
+function RecordThumb({ title }: { title?: string }) {
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    if (!title) return;
+    let live = true;
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, '_'))}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { if (live) setSrc(j?.thumbnail?.source ?? null); })
+      .catch(() => { /* no picture is fine */ });
+    return () => { live = false; };
+  }, [title]);
+  return src ? <img className="record-thumb" src={src} alt={title ?? ''} loading="lazy" /> : null;
+}
+
+/** "One pin for all duplicates": every record merged into this pin, each with
+ * its own dates, source, picture and a button to fly to its exact spot. */
+function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (r: MergedRecord) => void }) {
+  return (
+    <div className="merged-records">
+      <h3 className="info-h3">Also recorded here ({records.length})</h3>
+      <p className="info-note">These entries named the same place within 30 km and are shown as this one pin.</p>
+      <ul className="related-list">
+        {records.map((r) => (
+          <li key={r.id} className="record-row">
+            <RecordThumb title={r.wikiTitle} />
+            <span className="record-text">
+              <span className="related-label">{r.name}</span>
+              <span className="related-sub">
+                {r.endYear !== undefined ? `${yearLabel(r.startYear)} – ${yearLabel(r.endYear)}` : yearLabel(r.startYear)} · {r.source}
+              </span>
+            </span>
+            <button className="btn record-zoom" onClick={() => onZoom(r)} aria-label={`Zoom to ${r.name} (${r.source})`}>
+              Zoom to
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
@@ -53,8 +95,12 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
     const ev = rawContent?.hydrate;
     if (!ev) return;
     let cancelled = false;
-    void hydrateEvent(ev).then((changed) => {
-      if (!cancelled && changed) setUpgraded({ source: rawContent, content: eventToPanel(ev) });
+    // Rebuild even when THIS call fetched nothing new: another consumer may
+    // have hydrated the shared event a moment earlier (search does), after
+    // the panel content was built — which is how a pin's merged records went
+    // missing from its panel (11 Oct 2026).
+    void hydrateEvent(ev).then(() => {
+      if (!cancelled) setUpgraded({ source: rawContent, content: eventToPanel(ev) });
     });
     return () => {
       cancelled = true;
@@ -308,6 +354,13 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 </li>
               ))}
             </ul>
+          )}
+
+          {content.records && content.records.length > 0 && (
+            <MergedRecords
+              records={content.records}
+              onZoom={(r) => onFly({ ...content, fly: { lon: r.lon, lat: r.lat, altitude: 2_500 } })}
+            />
           )}
 
           {content.sections?.map((section) => (

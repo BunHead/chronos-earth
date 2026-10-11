@@ -115,7 +115,7 @@ const CURATED_DATES = new Map([
  * by the id to DROP -> the id that absorbs it. Applied before anything else.
  * Maykop is deliberately absent: he kept both (6 Oct 2026).
  */
-const CURATED_FOLDS = new Map([
+export const CURATED_FOLDS = new Map([
   ['pl46154574', 'q9248'], ['pl50166', 'q61434'], ['pl932447', 'q160320'], ['pl118873', 'q540743'],
   ['pl971748', 'q9365'], ['pl226660', 'q156732'], ['pl825362', 'q41970'], ['pl825396', 'q170513'],
   ['pl109298', 'q1724'], ['pl98925', 'q2112'], ['pl118694', 'q3750'], ['pl177471', 'q70'],
@@ -153,6 +153,32 @@ const CURATED_ROLES = new Map([
   // Arslan (r. 1186–1191) took Shamakhi — c. 1191 (Wikipedia, Shirvanshahs).
   ['q9248', { 'Baku Khanate': { from: 1735 }, 'Kingdom of Shirvan': { from: 1191 } }],
 ]);
+
+/**
+ * ONE PIN, NOTHING LOST (the Captain, 11 Oct 2026: "one pin for all
+ * duplicates, but ensure the side panel has all the information from each
+ * pin, so you can zoom to it, or see all the images"). Every row folded into
+ * another leaves a RECORD on the one that stays — its name, dates, exact
+ * position, article and source — and the panel lists them, each with a
+ * picture and a "Zoom to" button.
+ */
+const SOURCE_OF = (id) => (/^pl/.test(id) ? 'Pleiades' : /^cur-/.test(id) ? 'Chronos Earth (curated)' : /^q\d/i.test(id) ? 'Wikidata' : 'other');
+export function recordOf(e) {
+  return {
+    id: e.id, name: e.name, startYear: e.startYear,
+    ...(e.endYear !== undefined ? { endYear: e.endYear } : {}),
+    lat: e.lat, lon: e.lon,
+    ...(e.wikiTitle ? { wikiTitle: e.wikiTitle } : {}),
+    source: SOURCE_OF(e.id),
+  };
+}
+export function addMerged(keep, drop) {
+  const list = [...(keep.merged ?? []), ...(drop.merged ?? []), recordOf(drop)];
+  keep.merged = [...new Map(list.filter((r) => r.id !== keep.id).map((r) => [r.id, r])).values()];
+}
+
+/** Same name, within this distance → one pin (the Captain's rule, 11 Oct). */
+const SAME_NAME_KM = 30;
 
 /** Pleiades entries its editors WITHDREW ("Withdrawn: Untitled") are not places. */
 const WITHDRAWN = /^withdrawn\b/i;
@@ -354,6 +380,7 @@ async function main() {
     for (const k of ['wikidataId', 'wikiTitle', 'capitalOf']) {
       if (keep[k] === undefined && drop[k] !== undefined) keep[k] = drop[k];
     }
+    addMerged(keep, drop);
     ruledOut.add(dropId);
     console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keepId} · drop ${dropId} (his ruling)`);
   }
@@ -394,6 +421,7 @@ async function main() {
     // the listing's, not the place's, and handing them to a Pleiades Delphi
     // would make the panel describe an inscription instead of a city.
     if (listing) {
+      addMerged(keep, drop);
       dropped.add(drop.id);
       console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keep.id} · drop listing ${drop.id} ("${drop.name}")`);
       continue;
@@ -407,10 +435,53 @@ async function main() {
     for (const k of ['wikidataId', 'wikiTitle', 'capitalOf']) {
       if (keep[k] === undefined && drop[k] !== undefined) keep[k] = drop[k];
     }
+    addMerged(keep, drop);
     dropped.add(drop.id);
     console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} keep ${keep.id} · drop ${drop.id}`);
     if (ruling) console.log(`      ^ curation call: ${ruling}`);
   }
+
+  // ONE PIN FOR ALL DUPLICATES: every remaining pair or group with the same
+  // name within SAME_NAME_KM of the best-sourced member becomes one pin. It
+  // keeps the best-sourced identity and takes the EARLIEST date (his "ancient
+  // date" rule); the others become records on it (addMerged).
+  let sameName = 0;
+  {
+    const left = events.filter((e) => !dropped.has(e.id) && PLACE.has(e.category) && Number.isFinite(e.lat));
+    const byName = new Map();
+    for (const e of left) {
+      const k = String(e.name).trim().toLowerCase();
+      if (!byName.has(k)) byName.set(k, []);
+      byName.get(k).push(e);
+    }
+    for (const list of byName.values()) {
+      if (list.length < 2) continue;
+      const pool = [...list].sort((a, b) => (better(a, b) === a ? -1 : 1));
+      while (pool.length > 1) {
+        const keep = pool.shift();
+        const group = pool.filter((e) => distKm(keep, e) <= SAME_NAME_KM);
+        if (!group.length) continue;
+        for (const e of group) {
+          pool.splice(pool.indexOf(e), 1);
+          for (const k of ['wikidataId', 'wikiTitle', 'capitalOf']) {
+            if (keep[k] === undefined && e[k] !== undefined) keep[k] = e[k];
+          }
+          addMerged(keep, e);
+          dropped.add(e.id);
+        }
+        const earliest = [keep, ...group].reduce((a, b) => ((b.startYear ?? Infinity) < (a.startYear ?? Infinity) ? b : a));
+        if (earliest !== keep && !CURATED_DATES.has(keep.id) && earliest.startYear < keep.startYear) {
+          keep.startYear = earliest.startYear;
+          if (isPleiades(earliest) && !keep.dateNote) keep.dateNote = PERIOD_NOTE;
+          // An end before the new start would be nonsense: drop it.
+          if (keep.endYear !== undefined && keep.endYear < keep.startYear) delete keep.endYear;
+        }
+        sameName++;
+        console.log(`  ${String(keep.name).slice(0, 28).padEnd(30)} one pin for ${group.length + 1} (same name within ${SAME_NAME_KM} km)`);
+      }
+    }
+  }
+  if (sameName) console.log(`${sameName} same-name groups made one pin`);
 
   // NO TIMESTAMP IN HERE. This runs nightly; a generated-on date would
   // rewrite the file every night whether or not anything changed, and a file

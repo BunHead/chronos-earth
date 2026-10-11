@@ -29,6 +29,7 @@
  * ample to fly the camera, and the full row arrives with its cell anyway.
  */
 import type { EventCategory, TimelineEvent } from './types';
+import { cellKey } from './eventIndex';
 
 /** The columnar shape written by scripts/build-core-index.mjs. */
 export interface SearchColumns {
@@ -89,6 +90,10 @@ export function rowToEvent(r: SearchRow): TimelineEvent {
     lat: r.lat,
     lon: r.lon,
     category: r.category,
+    // Its map cell, so the panel can fetch the row's DETAIL (date notes,
+    // capital record, merged records) even when the row came only from
+    // search and its cell has never streamed in (found 11 Oct 2026).
+    cell: cellKey(r.lat, r.lon),
     ...(qid ? { wikidataId: qid } : {}),
   };
 }

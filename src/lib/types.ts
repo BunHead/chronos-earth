@@ -272,6 +272,10 @@ export interface TimelineEvent {
    * is. Required alongside `attestation` — a traditional date with no
    * explanation is exactly the quiet false precision we are avoiding. */
   dateNote?: string;
+  /** Rows merged into this pin (scripts/dedupe-places.mjs — "one pin for all
+   * duplicates", the Captain, 11 Oct 2026): each keeps its own name, dates,
+   * position, article and source, so the panel can list and fly to them. */
+  merged?: MergedRecord[];
   /**
    * Why this event is pinned HERE, when it did not happen at a single point.
    *
@@ -317,6 +321,17 @@ export interface PanelSection {
 }
 
 /** A clickable row in a panel — e.g. a nearby event in the place+time dossier. */
+export interface MergedRecord {
+  id: string;
+  name: string;
+  startYear: number;
+  endYear?: number;
+  lat: number;
+  lon: number;
+  wikiTitle?: string;
+  source: string;
+}
+
 export interface RelatedItem {
   label: string;
   sublabel?: string;
@@ -350,6 +365,9 @@ export interface PanelContent {
   monument3d?: { model: string; title: string; lat: number; lon: number; builtYear?: number };
   /** Clickable "nearby in this era" rows for the on-the-fly place+time dossier. */
   related?: RelatedItem[];
+  /** Other records of the same place merged into this pin — listed with a
+   * picture each and a "Zoom to" button for its own position. */
+  records?: MergedRecord[];
   /** Skeleton-loaded events: the source event, so InfoPanel can lazy-fetch its
    * detail (lib/detail.ts) and rebuild the panel once the flesh arrives. */
   hydrate?: TimelineEvent;
