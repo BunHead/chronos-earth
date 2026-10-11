@@ -52,6 +52,12 @@ export interface MesoTemple {
   /** An EARTHEN mound (Olmec La Venta: 34 m of clay, no cut stone): a rounded,
    * fluted cone with no stairs — bare clay while in use, grass once abandoned. */
   earthen?: boolean;
+  /** OVAL levels (Uxmal's Pyramid of the Magician — unusual among Maya
+   * pyramids, whose layers are otherwise rectilinear). */
+  oval?: boolean;
+  /** A summit shrine but NO roof comb — the Puuc style of Uxmal; the tall
+   * comb is Petén (Tikal). */
+  noRoofComb?: boolean;
   builtYear: number;
   note?: string;
 }
@@ -96,7 +102,7 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   const measuredBody = !radial && (spec.bodyM ?? 0) > 0;
   const bodyH = measuredBody ? spec.bodyM! : crowned ? H - (spec.templeM ?? 0) : radial || flatTop ? H : H * 0.64;
   const shrineH = measuredBody ? bodyH * 0.22 : crowned ? (spec.templeM ?? 0) : radial || flatTop ? 0 : H * 0.14;
-  const combH = radial || flatTop ? 0 : measuredBody ? bodyH * 0.34 : H * 0.22;
+  const combH = radial || flatTop || spec.noRoofComb ? 0 : measuredBody ? bodyH * 0.34 : H * 0.22;
   // The stair projects from the front; the body is what lies behind it.
   const proj = radial ? 0 : Math.min(D * 0.2, 14);
   // A radial body is the outline minus its proud stairs when the mapper
@@ -115,9 +121,19 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     const w = bodyW * k;
     const d = bodyD * k;
     levelDims.push([w, d]);
-    // Each level a slightly battered block with a moulding lip above it.
-    box('body', w, lh * 0.86, d, 0, i * lh + lh * 0.43, zc);
-    box('body', w * 0.985, lh * 0.14, d * 0.985, 0, i * lh + lh * 0.93, zc);
+    if (spec.oval) {
+      // An elliptical drum per level, scaled to the level's width and depth.
+      for (const [hk, yk, sk] of [[0.86, 0.43, 1], [0.14, 0.93, 0.985]] as const) {
+        const g = new THREE.CylinderGeometry(0.5, 0.5, 1, 40);
+        g.scale(w * sk, lh * hk, d * sk);
+        g.translate(0, i * lh + lh * yk, zc);
+        parts.body.push(g.toNonIndexed());
+      }
+    } else {
+      // Each level a slightly battered block with a moulding lip above it.
+      box('body', w, lh * 0.86, d, 0, i * lh + lh * 0.43, zc);
+      box('body', w * 0.985, lh * 0.14, d * 0.985, 0, i * lh + lh * 0.93, zc);
+    }
   }
   const [topW, topD] = levelDims[n - 1];
 
@@ -176,8 +192,10 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     box('door', sw * 0.22, shrineH * 0.55, 0.3, 0, bodyH + shrineH * 0.3, sz + sd / 2 + 0.1);
     // The comb stands on the shrine's rear wall, narrowing as it rises.
     const cz = sz - sd / 2 + sd * 0.16;
+    if (combH > 0) {
     box('comb', sw * 0.82, combH * 0.55, sd * 0.3, 0, bodyH + shrineH + combH * 0.275, cz);
     box('comb', sw * 0.62, combH * 0.45, sd * 0.24, 0, bodyH + shrineH + combH * 0.775, cz);
+    }
   }
 
   const flat = (c: string) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.92, flatShading: true });

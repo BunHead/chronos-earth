@@ -127,7 +127,7 @@ for (const w of osm.ways) {
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.earthen ? { earthen: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.earthen ? { earthen: true } : {}), ...(spec.oval ? { oval: true } : {}), ...(spec.noRoofComb ? { noRoofComb: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
       builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;

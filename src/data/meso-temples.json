@@ -194,5 +194,24 @@
   "ruinYear": -400,
   "note": "34 m of clay and earth (~100,000 m³), one of the earliest Mesoamerican pyramids; La Venta flourished after 900 BCE and was abandoned by c. 400 BCE (Wikipedia).",
   "osmWay": 810104350
+ },
+ {
+  "site": "uxmal",
+  "model": "meso-uxmal-magician",
+  "title": "Pyramid of the Magician (Uxmal)",
+  "lat": 20.360852,
+  "lon": -89.769672,
+  "widthM": 63.7,
+  "depthM": 49.2,
+  "stairBearing": 278.5,
+  "heightM": 35,
+  "levels": 5,
+  "radial": false,
+  "oval": true,
+  "noRoofComb": true,
+  "builtYear": 900,
+  "ruinYear": 1000,
+  "note": "35 m on a ~69 × 49 m oval base, five levels; west stair faces the solstice sunset; built from the 6th century over 400 years (Wikipedia).",
+  "osmWay": 161288117
  }
 ]

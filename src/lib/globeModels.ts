@@ -224,6 +224,17 @@ function addPlacement(p: Placement): void {
     viewer.entities.remove(entities[prior].entity);
     entities.splice(prior, 1);
   }
+  // …and a curated model clears any GENERIC stand-in within ~1 km, whatever
+  // its archetype: a dive at load can place one before this list arrives.
+  if (!p.generic) {
+    for (let i = entities.length - 1; i >= 0; i--) {
+      const e = entities[i];
+      if (e.p.generic && Math.abs(e.p.lat - p.lat) < 0.01 && Math.abs(e.p.lon - p.lon) < 0.01) {
+        viewer.entities.remove(e.entity);
+        entities.splice(i, 1);
+      }
+    }
+  }
   const entity = viewer.entities.add({
     id,
     position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
@@ -299,6 +310,14 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
     (e) => e.p.model === t.model && Math.abs(e.p.lat - t.lat) < 0.03 && Math.abs(e.p.lon - t.lon) < 0.03,
   );
   if (existing) return existing.p.builtYear;
+  // A CURATED model of the real site already stands here (a whole-site
+  // temple — Uxmal's Magician — or any hand-placed monument within ~1 km):
+  // a generic archetype beside it would only be wrong (a dark stepped
+  // pyramid sat on Uxmal's pin, 11 Oct 2026). Dive to the real one instead.
+  const curated = entities.find(
+    (e) => !e.p.generic && Math.abs(e.p.lat - t.lat) < 0.01 && Math.abs(e.p.lon - t.lon) < 0.01,
+  );
+  if (curated) return curated.p.builtYear;
   const builtYear = t.builtYear ?? -3000;
   addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear, generic: true });
   return builtYear;

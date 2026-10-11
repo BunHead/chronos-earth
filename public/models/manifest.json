@@ -391,5 +391,13 @@
   "meso-laventa-c1-ruin": {
     "footprint": 146.1,
     "kb": 2
+  },
+  "meso-uxmal-magician": {
+    "footprint": 63.7,
+    "kb": 14
+  },
+  "meso-uxmal-magician-ruin": {
+    "footprint": 63.7,
+    "kb": 14
   }
 }
