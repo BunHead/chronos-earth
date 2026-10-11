@@ -23,6 +23,7 @@ import { RiversController } from './rivers';
 import { BordersController } from './borders';
 import { CampaignController } from './campaign';
 import { FaunaController, type FaunaEntry } from './fauna';
+import { MigrationController, type MigrationSite } from './migration';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
 import { isPhone, renderTier } from '../lib/renderTier';
@@ -325,6 +326,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
   const faunaRef = useRef<FaunaController | null>(null);
+  const migrationRef = useRef<MigrationController | null>(null);
   const fxRef = useRef<DisasterFx | null>(null);
   /** Disasters already played this session (no reruns on every scrub-past). */
   const playedFxRef = useRef(new Set<string>());
@@ -1078,6 +1080,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     campaignRef.current = new CampaignController(viewer, import.meta.env.BASE_URL);
     campaignRef.current.onActiveLabel = (label) => onCampaignLabelRef.current(label);
     faunaRef.current = new FaunaController(viewer, import.meta.env.BASE_URL);
+    migrationRef.current = new MigrationController(viewer, import.meta.env.BASE_URL);
     if (import.meta.env.DEV) {
       const w = window as unknown as {
         __viewer?: Cesium.Viewer;
@@ -1279,6 +1282,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         if (panel.fly) flyTo(panel.fly.lon, panel.fly.lat, panel.fly.altitude);
         return;
       }
+      const human: MigrationSite | undefined = picked?.id?.chronosMigration;
+      if (human && migrationRef.current) {
+        onSelectRef.current(migrationRef.current.panelFor(human, yearsBPRef.current));
+        return;
+      }
       const video: VideoPin | undefined = picked?.id?.chronosVideo;
       if (video && onPickVideoRef.current) {
         onPickVideoRef.current(video);
@@ -1434,6 +1442,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       handler.destroy();
       faunaRef.current?.dispose();
       faunaRef.current = null;
+      migrationRef.current?.dispose();
+      migrationRef.current = null;
       paleoRef.current?.dispose();
       seaRef.current?.dispose();
       oceanRef.current?.dispose();
@@ -1470,6 +1480,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     bordersRef.current?.update(year, showBorders && !closeUp, ma >= PALEO_MA);
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA && !closeUp);
     faunaRef.current?.update(ma, showFauna);
+    migrationRef.current?.update(currentYearsBP, showFauna);
   }, [currentYearsBP, showBorders, showCampaigns, showFauna, showSeaLevel, showRivers, closeUp]);
 
   // Flag artwork inside borders on/off — and auto-hidden once you zoom in past a

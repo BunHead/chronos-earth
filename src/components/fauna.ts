@@ -156,6 +156,10 @@ export class FaunaController {
             },
           }));
         }
+        // Clicking the area opens the animal, exactly as its marker does
+        // (the Captain: "the dino areas don't allow you to click on them").
+        const entry = this.fauna.find((a) => a.id === id);
+        if (entry) for (const e of list) (e as Cesium.Entity & { chronosFauna?: FaunaEntry }).chronosFauna = entry;
         if (list.length) this.ranges.set(id, list);
       }
       if (this.pending) this.update(this.pending.ma, this.pending.show);
