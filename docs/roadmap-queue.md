@@ -597,7 +597,7 @@ tests green, verify before committing, one item per run, stop on a dirty tree.
   the deep-time layer build-up, and one run is not enough: do 5+ runs per side
   of any change. On the freeze, Debugger.pause returned no app frame (driver).
 
-- [x] **14. A faster first search on phones (split the 2.7 MB search index).** _(done 2026-10-06: search-top.json, 6,000 best-known rows, 111 KB gz, loads first; full index after. Not yet timed on --phone --net.)_
+- [x] **14. A faster first search on phones (split the 2.7 MB search index).** _(done 2026-10-06: search-top.json, 6,000 best-known rows, 111 KB gz, loads first; full index after. Timed 11 Oct on the LIVE site as a throttled phone (1.6 Mbps, 150 ms, CPU ÷4): first results 2.6 s after typing began, full index 6.2 s; app ready ~17 s.)_
   On a first visit `data/core-index/search.json` (2.7 MB, ~51,600 rows) is
   fetched alongside everything the service worker caches, and took >10 s on
   the live site; SearchBox shows a "still fetching" line meanwhile. Split it
