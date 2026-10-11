@@ -374,9 +374,112 @@ export function renderSitePlan(key: string, plan: SitePlan | undefined): number 
   // Parts deleted from the end: their entities go too.
   for (let i = plan.parts.length; i < prevEntities.length; i++) viewer.entities.remove(prevEntities[i]);
   sites.set(key, { plan, entities });
+  // An edit (or a fresh plan) must find its ground again.
+  groundedKeys.delete(key);
+  groundNearbySites();
   ensureBakeEntity(key, plan);
   applyVisibility(); // …and hide whatever the baked masonry has taken over
   return entities.length;
+}
+
+/* ── GROUNDING (11 Oct 2026) ─────────────────────────────────────────────
+ * "Relative to ground" makes Cesium measure the ground ONCE, against whatever
+ * terrain detail is loaded at that moment. Bundled whole-site plans load at
+ * startup with the camera in orbit, so the detailed terrain under Monte Albán
+ * (1,940 m up) was not there yet: every part was set hundreds of metres too
+ * low and showed THROUGH the hill (the Captain: "Is this meant to be
+ * subterrain?"). Every high site was affected — Teotihuacán, Sacsayhuamán,
+ * Písac, the Templo Mayor; top-down checks hide a vertical error.
+ *
+ * So when the camera comes within GROUND_REACH of a site, its parts' ground
+ * is sampled at full detail (sampleTerrainMostDetailed) and each part is set
+ * at an ABSOLUTE height: its base on the lowest ground under its outline
+ * (minus the usual foundation sink), its top that far above it. Re-done when
+ * the plan is edited or the terrain itself changes (deep time ↔ modern).
+ */
+const GROUND_REACH = 60_000;
+const groundedKeys = new Set<string>();
+const groundingKeys = new Set<string>();
+
+function samplePoints(part: SitePart): Array<[number, number]> {
+  if ((part.type === 'box' || part.type === 'cylinder') && part.lat != null && part.lon != null) return [[part.lat, part.lon]];
+  return part.verts ?? [];
+}
+
+function setAbsolute(e: Cesium.Entity, part: SitePart, ground: number): void {
+  const h = part.heightM ?? (part.type === 'platform' ? 2 : part.type === 'cylinder' ? 14 : part.type === 'box' ? 12 : 8);
+  const NONE = Cesium.HeightReference.NONE;
+  if (e.polygon && part.type !== 'water') {
+    e.polygon.heightReference = new Cesium.ConstantProperty(NONE);
+    e.polygon.extrudedHeightReference = new Cesium.ConstantProperty(NONE);
+    e.polygon.height = new Cesium.ConstantProperty(ground - FOUNDATION_SINK);
+    e.polygon.extrudedHeight = new Cesium.ConstantProperty(ground + h);
+  } else if (e.corridor) {
+    e.corridor.heightReference = new Cesium.ConstantProperty(NONE);
+    e.corridor.extrudedHeightReference = new Cesium.ConstantProperty(NONE);
+    e.corridor.height = new Cesium.ConstantProperty(ground - FOUNDATION_SINK);
+    e.corridor.extrudedHeight = new Cesium.ConstantProperty(ground + h);
+  } else if ((e.box || e.cylinder) && part.lat != null && part.lon != null) {
+    e.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(part.lon, part.lat, ground + (h - FOUNDATION_SINK) / 2));
+    if (e.box) e.box.heightReference = new Cesium.ConstantProperty(NONE);
+    if (e.cylinder) e.cylinder.heightReference = new Cesium.ConstantProperty(NONE);
+  }
+}
+
+async function groundSite(key: string): Promise<void> {
+  const viewer = theViewer;
+  const site = sites.get(key);
+  if (!viewer || viewer.isDestroyed() || !site) return;
+  // Deep time flattens the globe (an ellipsoid has no ground to find); the
+  // parts are hidden then anyway, and this re-runs when real terrain returns.
+  if (viewer.terrainProvider instanceof Cesium.EllipsoidTerrainProvider) return;
+  groundingKeys.add(key);
+  try {
+    const ranges: Array<[number, number]> = [];
+    const cartos: Cesium.Cartographic[] = [];
+    for (const part of site.plan.parts) {
+      const pts = samplePoints(part);
+      ranges.push([cartos.length, cartos.length + pts.length]);
+      for (const [la, lo] of pts) cartos.push(Cesium.Cartographic.fromDegrees(lo, la));
+    }
+    const sampled = await Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, cartos);
+    if (viewer.isDestroyed() || sites.get(key) !== site) return; // edited meanwhile — the next pass covers it
+    site.plan.parts.forEach((part, idx) => {
+      const [a, b] = ranges[idx];
+      let g = Infinity;
+      for (let i = a; i < b; i++) if (Number.isFinite(sampled[i]?.height)) g = Math.min(g, sampled[i].height);
+      const e = site.entities[idx];
+      if (e && Number.isFinite(g)) setAbsolute(e, part, g);
+    });
+    groundedKeys.add(key);
+    viewer.scene.requestRender();
+  } catch {
+    /* terrain unavailable — the parts keep their relative placement */
+  } finally {
+    groundingKeys.delete(key);
+  }
+}
+
+/** Ground every site the camera is near and that is not grounded yet. */
+function groundNearbySites(): void {
+  const viewer = theViewer;
+  if (!viewer || viewer.isDestroyed()) return;
+  const cam = viewer.camera.positionWC;
+  for (const [key, site] of sites) {
+    if (groundedKeys.has(key) || groundingKeys.has(key)) continue;
+    const o = Cesium.Cartesian3.fromDegrees(site.plan.origin.lon, site.plan.origin.lat);
+    if (Cesium.Cartesian3.distance(cam, o) < GROUND_REACH) void groundSite(key);
+  }
+}
+
+/** Is a whole-site plan standing within ~2 km of here? (A generic stand-in
+ * model would only be wrong beside one — Monte Albán's dark pyramid.) */
+export function sitePlanNear(lat: number, lon: number, deg = 0.02): boolean {
+  for (const site of sites.values()) {
+    const o = site.plan.origin;
+    if (Math.abs(o.lat - lat) < deg && Math.abs(o.lon - lon) < deg) return true;
+  }
+  return false;
 }
 
 /** Timeline/layer gate — call alongside updateGlobeModelVisibility. */
@@ -449,4 +552,14 @@ export async function loadSitePlans(viewer: Cesium.Viewer): Promise<void> {
   }
   Object.assign(plans, loadLocalSitePlans()); // device drafts win
   for (const [key, plan] of Object.entries(plans)) renderSitePlan(key, plan);
+  // Ground each site at full terrain detail as the camera reaches it, and
+  // again whenever the terrain itself changes (see GROUNDING).
+  viewer.camera.changed.addEventListener(groundNearbySites);
+  viewer.scene.terrainProviderChanged.addEventListener(() => {
+    groundedKeys.clear();
+    groundNearbySites();
+  });
+  groundNearbySites();
+  // Tell the monument layer: generic stand-ins beside these plans must go.
+  window.dispatchEvent(new Event('chronos:siteplans-loaded'));
 }

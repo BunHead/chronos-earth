@@ -22,7 +22,7 @@ import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
-import { isBuilderActive } from './sitePlanRender';
+import { isBuilderActive, sitePlanNear } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
@@ -322,6 +322,10 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   viewer.camera.changed.addEventListener(() => {
     for (const { entity, p } of entities) gate(entity, p);
   });
+  // Whole-site plans arriving later supplant any generic stand-in (gate()).
+  window.addEventListener('chronos:siteplans-loaded', () => {
+    for (const { entity, p } of entities) gate(entity, p);
+  });
 }
 
 /**
@@ -347,6 +351,8 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
     (e) => !e.p.generic && Math.abs(e.p.lat - t.lat) < 0.01 && Math.abs(e.p.lon - t.lon) < 0.01,
   );
   if (curated) return curated.p.builtYear;
+  // …nor beside a whole-site ground plan (Monte Albán is plan-only).
+  if (sitePlanNear(t.lat, t.lon)) return t.builtYear ?? null;
   const builtYear = t.builtYear ?? -3000;
   addPlacement({ model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear, generic: true });
   return builtYear;
@@ -379,7 +385,10 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   const born = curYear >= bornYear;
   const gone = p.endYear != null && lastYearsBP < yearToYearsBP(p.endYear);
   const buried = p.buried != null && curYear >= p.buried[0] && curYear < p.buried[1];
-  entity.show = lastShowSites && born && !gone && !buried && cameraNear(p);
+  // A generic stand-in never shows beside a whole-site ground plan — even one
+  // placed by a dive before the plans finished loading.
+  const supplanted = !!p.generic && sitePlanNear(p.lat, p.lon);
+  entity.show = lastShowSites && born && !gone && !buried && !supplanted && cameraNear(p);
 
   if (!entity.model) return;
   const uri = `./models/${p.model}${suffix}.glb`;
