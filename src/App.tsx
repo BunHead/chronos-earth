@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
 import { altitudeFor, placeIn, yearToShow, type CountryRow } from './lib/countryIndex';
 import {
@@ -13,6 +13,7 @@ import LayersPanel from './components/LayersPanel';
 import BattleHud from './components/BattleHud';
 import SearchBox from './components/SearchBox';
 import About from './components/About';
+import ShipsManifest from './components/ShipsManifest';
 import Welcome, { hasSeenWelcome, markWelcomeSeen } from './components/Welcome';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
@@ -284,6 +285,36 @@ export default function App() {
   // A battle currently staged ON the globe (armies standing at the real site).
   const [globeBattle, setGlobeBattle] = useState<{ id: string; view: BattleViewData; phase: number } | null>(null);
   const [showAbout, setShowAbout] = useState(false);
+  const [showManifest, setShowManifest] = useState(false);
+
+  // The title box and the centred search bar share the top row. On PC widths
+  // between the phone layout (760 px) and ~1500 px they collided and the
+  // search bar covered the ⋯ menu (measured 11 Oct 2026: already at 1280 px
+  // before the Support button, which widened the box). Tidy the box in steps
+  // until it clears the bar: 1 = Journeys shows its icon only, 2 = so does
+  // Support, 3 = no subtitle, 4 = the search bar drops beneath the box. Measured, not guessed, so
+  // fonts and future buttons can't reopen it. Wide screens stay at 0.
+  const brandRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const fit = () => {
+      const brand = brandRef.current;
+      const vw = window.innerWidth;
+      let level = 0;
+      if (brand && !('phone' in root.dataset) && vw > 760) {
+        const searchLeft = vw / 2 - Math.min(210, vw * 0.3);
+        for (; level < 4; level++) {
+          root.dataset.barFit = String(level);
+          if (brand.getBoundingClientRect().right + 12 <= searchLeft) break;
+        }
+      }
+      root.dataset.barFit = String(level);
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    void document.fonts?.ready.then(fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
   // The first-run explainer. A reviewer opening the site cold found it "a bit
   // confusing" (30 Jul 2026) — it now says what this is and which three things
   // to touch. Shown once; re-openable from the About panel.
@@ -1119,7 +1150,7 @@ export default function App() {
         </div>
       )}
 
-      <div className="brand" role="banner">
+      <div className="brand" role="banner" ref={brandRef}>
         <div className="brand-text">
           <h1>Chronos Earth</h1>
           <p>540 million years of history · drag the timeline to travel</p>
@@ -1129,6 +1160,7 @@ export default function App() {
           onStartTour={(tour) => { setActiveTour(tour); setTourStep(0); }}
           onShare={() => void shareScene()}
           onAbout={() => setShowAbout(true)}
+          onManifest={() => setShowManifest(true)}
           skyOpen={skyOpen}
           onToggleSky={() => setSkyOpen((v) => !v)}
           compassOpen={compassOpen}
@@ -1211,7 +1243,8 @@ export default function App() {
           onTakeTour={tours.length > 0 ? () => { setActiveTour(tours[0]); setTourStep(0); } : undefined}
         />
       )}
-      {showAbout && <About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} />}
+      {showAbout && <About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} onOpenManifest={() => { setShowAbout(false); setShowManifest(true); }} />}
+      {showManifest && <ShipsManifest onClose={() => setShowManifest(false)} />}
 
       {/* Roadmap 12, behind ?show=1 only. Deliberately plain: the engine is
           what landed, the presentation is for the Captain to call. */}

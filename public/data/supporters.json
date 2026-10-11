@@ -1,4 +1,4 @@
 {
-  "note": "The ship's manifest — patrons who keep Chronos Earth free for everyone. Add names as they come aboard (order = order joined). Keep it to display names only; never emails or private data.",
+  "note": "The ship's manifest — patrons who keep Chronos Earth free for everyone. Add names as they come aboard (order = order joined): either \"Name\" or { \"name\": \"Name\", \"founding\": true }. The first 20 get the founding star automatically; \"founding\" overrides. Display names only — never emails or private data. Shown by src/components/ShipsManifest.tsx.",
   "patrons": []
 }

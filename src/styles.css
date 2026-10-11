@@ -174,6 +174,38 @@ body {
   background: rgba(74, 163, 255, 0.25);
   border-color: var(--accent);
 }
+/* Support — small, gold, quiet: in plain sight, never in the way. */
+.app-menu-support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-radius: calc(8px * var(--r-scale));
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  background: rgba(201, 162, 75, 0.1);
+  color: #f0e2b6;
+  font-size: 12px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.app-menu-support-btn:hover { background: rgba(201, 162, 75, 0.22); border-color: var(--gold); }
+/* Top-row fitting (App.tsx, data-bar-fit): see the comment there. */
+:root[data-bar-fit='1'], :root[data-bar-fit='2'], :root[data-bar-fit='3'], :root[data-bar-fit='4'] {
+  .app-menu-journeys span { display: none; }
+}
+:root[data-bar-fit='2'], :root[data-bar-fit='3'], :root[data-bar-fit='4'] {
+  .app-menu-support-btn span { display: none; }
+}
+:root[data-bar-fit='3'], :root[data-bar-fit='4'] {
+  .brand p { display: none; }
+}
+:root[data-bar-fit='4'] .search-box {
+  top: 72px;
+  left: 16px;
+  transform: none;
+}
 .app-menu-btn {
   width: 34px;
   height: 30px;
@@ -2482,6 +2514,7 @@ textarea:focus-visible,
   }
 
   .app-menu-journeys span { display: none; }
+  .app-menu-support-btn span { display: none; }
 
   .compare-label { top: 64px; }
   .compare-label-right { top: 106px; }
@@ -2888,6 +2921,32 @@ textarea:focus-visible,
 .sb-save { border-color: var(--gold) !important; padding: 5px 10px; }
 
 /* ── Support / Patreon (About panel + ⋯ menu) ─────────────────────────── */
+.manifest-open {
+  margin-left: 10px; padding: 8px 14px; cursor: pointer; font: inherit; font-size: 13px;
+  border-radius: calc(8px * var(--r-scale)); border: 1px solid rgba(201, 162, 75, 0.45);
+  background: transparent; color: #f0e2b6;
+}
+.manifest-open:hover { background: rgba(201, 162, 75, 0.12); }
+/* The ship's manifest window: a scrolling roll of names. */
+.manifest-window { max-width: 520px; }
+.manifest-empty {
+  padding: 14px 16px; border-radius: calc(10px * var(--r-scale));
+  background: rgba(201, 162, 75, 0.08); border: 1px solid rgba(201, 162, 75, 0.3);
+}
+.manifest-empty p { margin: 0 0 12px; }
+.manifest-key { color: #cfb469; font-size: 12px; margin-left: 6px; }
+.manifest-list {
+  list-style: none; margin: 8px 0 0; padding: 0;
+  max-height: min(55vh, 460px); overflow-y: auto;
+  border-top: 1px solid rgba(201, 162, 75, 0.2);
+}
+.manifest-list li {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 7px 4px; border-bottom: 1px solid rgba(201, 162, 75, 0.12); color: #e9dcb8;
+}
+.manifest-list li.founding .manifest-name { color: #f6e7b8; font-weight: 600; }
+.manifest-join { margin-top: 12px; font-size: 13px; color: #9fb0bf; }
+.manifest-join a { color: #f0e2b6; }
 .about-support {
   margin: 14px 0 4px; padding: 14px 16px; border-radius: calc(10px * var(--r-scale));
   background: rgba(201, 162, 75, 0.08); border: 1px solid rgba(201, 162, 75, 0.3);
@@ -2900,15 +2959,6 @@ textarea:focus-visible,
   box-shadow: 0 2px 12px rgba(201, 162, 75, 0.35);
 }
 .support-btn:hover { filter: brightness(1.06); }
-.manifest-roll {
-  list-style: none; padding: 0; margin: 8px 0 0;
-  display: flex; flex-wrap: wrap; gap: 6px 10px;
-}
-.manifest-roll li {
-  padding: 4px 11px; border-radius: calc(999px * var(--r-scale)); font-size: 13px;
-  background: rgba(201, 162, 75, 0.12); border: 1px solid rgba(201, 162, 75, 0.28);
-  color: #e9dcb8;
-}
 .app-menu-support {
   color: #f0e2b6 !important; font-weight: 600;
   border-bottom: 1px solid rgba(201, 162, 75, 0.25);
@@ -3277,6 +3327,7 @@ textarea:focus-visible,
    phone lays the page out ~980 px wide and a width test never fires. */
 :root[data-phone] {
   .app-menu-journeys,
+  .app-menu-support-btn,
   .app-menu-btn {
     min-width: 44px;
     min-height: 44px;

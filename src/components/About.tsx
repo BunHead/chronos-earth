@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
 import { startWindowDrag } from '../lib/windowDrag';
+import { PATREON_URL } from '../lib/manifest';
 
 interface AboutProps {
   onClose: () => void;
   /** Re-open the first-run explainer, so "how does this work?" has an answer
    *  on every visit, not just the first one. */
   onReplayWelcome?: () => void;
+  /** Open the ship's manifest (its own window — ShipsManifest). */
+  onOpenManifest?: () => void;
 }
 
 /**
@@ -14,17 +16,7 @@ interface AboutProps {
  * Credits the open data and tools that power Chronos Earth, and is honest about
  * how the historical content was put together.
  */
-export default function About({ onClose, onReplayWelcome }: AboutProps) {
-  const [patrons, setPatrons] = useState<string[] | null>(null);
-  useEffect(() => {
-    let alive = true;
-    fetch(`${import.meta.env.BASE_URL}data/supporters.json?b=${Date.now()}`)
-      .then((r) => (r.ok ? r.json() : { patrons: [] }))
-      .then((d: { patrons?: string[] }) => { if (alive) setPatrons(Array.isArray(d.patrons) ? d.patrons : []); })
-      .catch(() => { if (alive) setPatrons([]); });
-    return () => { alive = false; };
-  }, []);
-
+export default function About({ onClose, onReplayWelcome, onOpenManifest }: AboutProps) {
   return (
     <div className="bv-overlay" role="dialog" aria-label="About Chronos Earth" onClick={onClose}>
       <div className="about-window" onClick={(e) => e.stopPropagation()}>
@@ -56,42 +48,22 @@ export default function About({ onClose, onReplayWelcome }: AboutProps) {
             <p>
               <b>Chronos Earth is free — and always will be.</b> No ads, no accounts, no paywall.
               If you'd like to keep the crew building, you can support the voyage on Patreon — from
-              £3 your name joins the ship's manifest below.
+              £3 your name joins the ship's manifest.
             </p>
             <a
               className="support-btn"
-              href="https://www.patreon.com/cw/ChronosEarth"
+              href={PATREON_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
               ❤ Support on Patreon
             </a>
+            {onOpenManifest && (
+              <button className="manifest-open" onClick={onOpenManifest}>
+                ⚓ See the ship's manifest
+              </button>
+            )}
           </div>
-
-          {patrons !== null && (
-            <>
-              <h3 className="info-h3">The ship's manifest ⚓</h3>
-              {patrons.length > 0 ? (
-                <>
-                  <p className="info-summary">With gratitude to the patrons keeping this voyage free for everyone:</p>
-                  <ul className="manifest-roll">
-                    {patrons.map((name, i) => (
-                      // The first 20 aboard are FOUNDING patrons — they wear the
-                      // star forever (order in supporters.json = order joined).
-                      <li key={i} title={i < 20 ? 'Founding patron — among the first 20 aboard' : undefined}>
-                        {i < 20 ? '⭐ ' : ''}{name}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <p className="info-summary">
-                  The manifest is open, and the first berth is empty — be the first name aboard.
-                  Every patron is listed here, and the <b>first 20 wear a founding star ⭐ forever</b>.
-                </p>
-              )}
-            </>
-          )}
 
           <h3 className="info-h3">Data sources</h3>
           <ul className="facts">

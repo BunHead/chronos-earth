@@ -5,12 +5,14 @@ import { DENSITY_MAX, DENSITY_MIN } from '../lib/battleMath';
 import { SKINS, type SkinId } from '../lib/skin';
 import { TONES, type ToneId } from '../lib/tone';
 import Glyph from './Glyph';
+import { PATREON_URL } from '../lib/manifest';
 
 interface AppMenuProps {
   tours: Tour[];
   onStartTour: (t: Tour) => void;
   onShare: () => void;
   onAbout: () => void;
+  onManifest: () => void;
   skyOpen: boolean;
   onToggleSky: () => void;
   compassOpen: boolean;
@@ -37,7 +39,7 @@ interface AppMenuProps {
  * controls (story tours, settings, about) so the globe stays uncluttered.
  * More settings (themes/skins, captions, text size) slot in here as they land.
  */
-export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity, skin, onSkin, tone, onTone }: AppMenuProps) {
+export default function AppMenu({ tours, onStartTour, onShare, onAbout, onManifest, skyOpen, onToggleSky, compassOpen, onToggleCompass, seaOpen, onToggleSea, reduceMotion, onReduceMotion, gpuBorderCache, onGpuBorderCache, figureDensity, onFigureDensity, skin, onSkin, tone, onTone }: AppMenuProps) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<'root' | 'tours' | 'settings'>('root');
   const ref = useRef<HTMLDivElement>(null);
@@ -74,6 +76,18 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
 
   return (
     <div className="app-menu" ref={ref}>
+      {/* Support, in plain sight but small: one quiet link, no pop-ups and no
+          nagging — the site stays free (the Captain, 11 Oct 2026). */}
+      <a
+        className="app-menu-support-btn"
+        href={PATREON_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Support Chronos Earth on Patreon"
+        title="Support Chronos Earth on Patreon — the site stays free"
+      >
+        <Glyph name="heart" /> <span>Support</span>
+      </a>
       <button
         className="app-menu-journeys"
         aria-label="Journeys" // the word is hidden on a phone; a screen reader still needs it
@@ -99,7 +113,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
             <>
               <a
                 className="app-menu-item app-menu-support"
-                href="https://www.patreon.com/cw/ChronosEarth"
+                href={PATREON_URL}
                 target="_blank"
                 rel="noreferrer"
                 onClick={close}
@@ -108,7 +122,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
               </a>
               {/* ── For Everyone ──────────────────────────────────────────
                   Alphabetical by label, ignoring the emoji: About, Compass,
-                  Sea Level, Share, Sky and Weather, Story Tours. Labels are
+                  Sea Level, Share, Ship's Manifest, Sky and Weather, Story Tours. Labels are
                   Title Case throughout the site (the Captain's house style),
                   which is also why "Sky and Weather" reads as it does — under
                   its old name, "Weather & Sky", it sorted to the very bottom.
@@ -122,6 +136,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, skyOpen,
                 <Glyph name="seas" /> Sea Level {seaOpen ? '✓' : ''}
               </button>
               <button className="app-menu-item" onClick={() => { close(); onShare(); }}><Glyph name="share" /> Share This Moment</button>
+              <button className="app-menu-item" onClick={() => { close(); onManifest(); }}><Glyph name="heart" /> Ship&rsquo;s Manifest</button>
               <button className="app-menu-item" onClick={() => { close(); onToggleSky(); }}>
                 <Glyph name="sky" /> Sky and Weather {skyOpen ? '✓' : ''}
               </button>
