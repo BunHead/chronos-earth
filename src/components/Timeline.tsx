@@ -14,6 +14,7 @@ import {
   windowPosToBP,
   niceTicks,
 } from '../lib/timeScale';
+import { eraLabelBoxes } from '../lib/eraLabels';
 import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
 import { ELSEWHERE, laneRegionFor, greatCircleKm, viewReachKm } from '../lib/laneRegions';
@@ -108,20 +109,7 @@ const FAUNA_COLOR = '#9ad36b';
  * ERAS and the log scale are both constants, so this is computed ONCE at module
  * load rather than on every timeline render.
  */
-export const ERA_LABEL_BOXES: Array<{ name: string; left: number; width: number }> = (() => {
-  const shown = ERAS.map((e) => {
-    const left = yearsBPToPos(e.startBP);
-    const right = yearsBPToPos(e.endBP);
-    return { name: e.name, centre: (left + right) / 2, span: right - left };
-  }).filter((d) => d.span >= 0.04); // too thin to label at all
-
-  return shown.map((d, i) => {
-    const prevBound = i === 0 ? 0 : (shown[i - 1].centre + d.centre) / 2;
-    const nextBound = i === shown.length - 1 ? 1 : (d.centre + shown[i + 1].centre) / 2;
-    const halfWidth = Math.min(d.centre - prevBound, nextBound - d.centre);
-    return { name: d.name, left: d.centre - halfWidth, width: halfWidth * 2 };
-  });
-})();
+export const ERA_LABEL_BOXES = eraLabelBoxes(); // see lib/eraLabels.ts
 
 /** A datable thing that can sit on the mural — built from an event or a creature. */
 interface MuralSource {

@@ -1862,7 +1862,14 @@ textarea:focus-visible,
 .era-label {
   position: absolute;
   top: 50%;
-  transform: translate(-50%, -50%);
+  /* `left` + `width` ARE the label's own box (lib/eraLabels.ts): centre the
+     text inside it, and ellipsise what will not fit. This used to translate
+     -50% horizontally as if `left` were the centre, which shifted every era
+     name half a label to the left of its band (found 11 Oct 2026). */
+  transform: translateY(-50%);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.09em;
