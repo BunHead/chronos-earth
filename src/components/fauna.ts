@@ -114,6 +114,10 @@ export class FaunaController {
     this.pending = { ma, show };
     this.lastMa = ma;
     if (this.viewer.isDestroyed()) return;
+    // Animals found at the SAME fossil site share a spot (the Burgess Shale's
+    // Anomalocaris, Hallucigenia and Opabinia): fan their icons side by side
+    // and stack their labels, or the three names print on top of each other.
+    const spots = new Map<string, Cesium.Entity[]>();
     for (const entry of this.fauna) {
       const entity = this.entities.get(entry.id);
       if (!entity) continue;
@@ -124,7 +128,16 @@ export class FaunaController {
         entity.position = new Cesium.ConstantPositionProperty(
           Cesium.Cartesian3.fromDegrees(lon, lat),
         );
+        const key = `${Math.round(lon * 3)}|${Math.round(lat * 3)}`; // ~1/3° cells
+        spots.set(key, [...(spots.get(key) ?? []), entity]);
       }
+    }
+    for (const group of spots.values()) {
+      group.forEach((entity, i) => {
+        const dx = (i - (group.length - 1) / 2) * 22;
+        if (entity.billboard) entity.billboard.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(dx, 0));
+        if (entity.label) entity.label.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(0, -34 - 15 * i));
+      });
     }
   }
 
