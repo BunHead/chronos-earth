@@ -66,8 +66,9 @@ const PLACEMENTS: Placement[] = [
   // metre model on its own patch of ground, from scripts/build-meso-site.mjs;
   // the rest of the site is a ground-hugging plan (public/data/siteplans).
   // Each site's recipe sets when it became the ruin (Tikal: abandoned c. AD 900).
-  ...(MESO_TEMPLES as Array<{ model: string; title: string; lat: number; lon: number; builtYear: number; ruinYear?: number }>).map((t) => ({
+  ...(MESO_TEMPLES as Array<{ model: string; title: string; lat: number; lon: number; builtYear: number; ruinYear?: number; buried?: [number, number] }>).map((t) => ({
     model: t.model, title: t.title, lat: t.lat, lon: t.lon, builtYear: t.builtYear, ruinYear: t.ruinYear ?? 900,
+    ...(t.buried ? { buried: t.buried } : {}),
   })),
   // ruinYear: when the monument became the ruin we know — the casing goes
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,

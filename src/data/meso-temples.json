@@ -268,5 +268,29 @@
   "ruinYear": 1000,
   "note": "42 m, seven levels with rounded edges and a central stair of 120 steps (Wikipedia); the stair side is approximate.",
   "osmWay": 160632738
+ },
+ {
+  "site": "templo-mayor",
+  "model": "meso-templo-mayor",
+  "title": "Templo Mayor (Tenochtitlan)",
+  "lat": 19.43493,
+  "lon": -99.131493,
+  "widthM": 100,
+  "depthM": 80,
+  "stairBearing": 276,
+  "heightM": 45,
+  "levels": 4,
+  "radial": false,
+  "noRoofComb": true,
+  "twin": true,
+  "ruinStubM": 4,
+  "buried": [
+   1521,
+   1978
+  ],
+  "builtYear": 1325,
+  "ruinYear": 1978,
+  "note": "Twin temples of Huitzilopochtli and Tlaloc on a ~100 × 80 m pyramid, 42–45 m high, double stair; rebuilt in seven stages from 1325; razed by the Spanish in 1521, excavated from 1978 (Wikipedia). Levels and stair side approximate.",
+  "osmWay": 1423783282
  }
 ]

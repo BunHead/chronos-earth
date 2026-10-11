@@ -61,6 +61,12 @@ export interface MesoTemple {
   /** TRIADIC: three temples on the summit — one at the back, two flanking
    * the head of the stair (Calakmul's Structure II, "Three Stones"). */
   triadic?: boolean;
+  /** TWIN temples side by side on one pyramid, each with its own stair
+   * (the Aztec Templo Mayor: Huitzilopochtli and Tlaloc). */
+  twin?: boolean;
+  /** As a ruin, only the lowest levels survive to this height — razed, then
+   * excavated (the Templo Mayor's foundations, dug up from 1978). */
+  ruinStubM?: number;
   builtYear: number;
   note?: string;
 }
@@ -116,10 +122,13 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   const zc = -proj / 2; // body centre, pushed back so the stair fits in the outline
   const n = Math.max(1, spec.levels);
   const lh = bodyH / n;
+  // Razed to its foundations: keep only the levels below the stub height.
+  const stub = ruined && (spec.ruinStubM ?? 0) > 0 ? spec.ruinStubM! : Infinity;
+  const nBuilt = Number.isFinite(stub) ? Math.max(1, Math.round(stub / lh)) : n;
   // Steep Petén profile: the summit is ~38% of the base (radial: ~30%).
   const topK = spec.topRatio ?? (radial ? 0.3 : 0.38);
   const levelDims: Array<[number, number]> = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < nBuilt; i++) {
     const k = 1 - (1 - topK) * (i / Math.max(1, n - 1));
     const w = bodyW * k;
     const d = bodyD * k;
@@ -138,7 +147,15 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
       box('body', w * 0.985, lh * 0.14, d * 0.985, 0, i * lh + lh * 0.93, zc);
     }
   }
-  const [topW, topD] = levelDims[n - 1];
+  const [topW, topD] = levelDims[levelDims.length - 1];
+  if (Number.isFinite(stub)) {
+    // Foundations only: no stair above them, no summit.
+    const flatM = (c: string) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.95, flatShading: true });
+    const merged = mergeGeometries(parts.body, false);
+    if (merged) group.add(Object.assign(new THREE.Mesh(merged, flatM('#9d9384')), { name: 'meso-stub' }));
+    group.userData.selfRuined = true;
+    return group;
+  }
 
   // --- stairways
   const stairRun = (dir: 0 | 1 | 2 | 3, reachH: number, widthFrac: number) => {
@@ -174,7 +191,15 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     stairRun(1, bodyH * side, 0.2);
     stairRun(3, bodyH * side, 0.2);
   } else {
-    stairRun(0, bodyH, 0.3);
+    if (spec.twin) {
+      // Two stairways side by side, one to each summit temple.
+      const s0 = parts.stair.length;
+      stairRun(0, bodyH, 0.2);
+      const half = parts.stair.splice(s0);
+      for (const sx of [-1, 1]) for (const g of half) parts.stair.push(g.clone().translate(sx * bodyW * 0.16, 0, 0));
+    } else {
+      stairRun(0, bodyH, 0.3);
+    }
   }
 
   // --- a crowned radial pyramid: a square temple on the summit, no comb
@@ -188,6 +213,9 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
   }
   // --- the summit shrine and roof comb (Petén temples)
   if (!radial && !flatTop) {
+    if (spec.twin) {
+      for (const sx of [-1, 1]) box('shrine', topW * 0.36, shrineH, topD * 0.55, sx * topW * 0.24, bodyH + shrineH / 2, zc - topD * 0.1);
+    }
     if (spec.triadic) {
       // The main temple at the rear, two smaller facing each other in front.
       const mw = topW * 0.42, md = topD * 0.36;
@@ -197,11 +225,11 @@ export function buildMesoTemple(spec: MesoTemple, ruined: boolean): THREE.Group 
     const sw = topW * 0.78;
     const sd = topD * 0.62;
     const sz = zc - topD * 0.08;
-    if (!spec.triadic) box('shrine', sw, shrineH, sd, 0, bodyH + shrineH / 2, sz);
-    if (!spec.triadic) box('door', sw * 0.22, shrineH * 0.55, 0.3, 0, bodyH + shrineH * 0.3, sz + sd / 2 + 0.1);
+    if (!spec.triadic && !spec.twin) box('shrine', sw, shrineH, sd, 0, bodyH + shrineH / 2, sz);
+    if (!spec.triadic && !spec.twin) box('door', sw * 0.22, shrineH * 0.55, 0.3, 0, bodyH + shrineH * 0.3, sz + sd / 2 + 0.1);
     // The comb stands on the shrine's rear wall, narrowing as it rises.
     const cz = sz - sd / 2 + sd * 0.16;
-    if (combH > 0 && !spec.triadic) {
+    if (combH > 0 && !spec.triadic && !spec.twin) {
     box('comb', sw * 0.82, combH * 0.55, sd * 0.3, 0, bodyH + shrineH + combH * 0.275, cz);
     box('comb', sw * 0.62, combH * 0.45, sd * 0.24, 0, bodyH + shrineH + combH * 0.775, cz);
     }

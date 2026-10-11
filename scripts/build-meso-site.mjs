@@ -118,8 +118,10 @@ for (const w of osm.ways) {
     const cands = [box.bearing, box.bearing + 90, box.bearing + 180, box.bearing + 270].map((b) => b % 360);
     const stairBearing = cands.reduce((p, c) => (angDiff(c, nominal) < angDiff(p, nominal) ? c : p));
     const alongU = angDiff(stairBearing, box.bearing) < 45 || angDiff(stairBearing, box.bearing + 180) < 45;
-    const depthM = alongU ? box.lenU : box.lenV;
-    const widthM = alongU ? box.lenV : box.lenU;
+    // A recipe may give the published base when OSM traces only a larger
+    // zone around it (the Templo Mayor's excavation).
+    const depthM = spec.depthM ?? (alongU ? box.lenU : box.lenV);
+    const widthM = spec.widthM ?? (alongU ? box.lenV : box.lenU);
     const cla = LAT0 + box.cy / M_LAT;
     const clo = LON0 + box.cx / M_LON;
     temples.push({
@@ -127,14 +129,17 @@ for (const w of osm.ways) {
       lat: +cla.toFixed(6), lon: +clo.toFixed(6),
       widthM: +widthM.toFixed(1), depthM: +depthM.toFixed(1),
       stairBearing: +stairBearing.toFixed(1),
-      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.earthen ? { earthen: true } : {}), ...(spec.oval ? { oval: true } : {}), ...(spec.noRoofComb ? { noRoofComb: true } : {}), ...(spec.triadic ? { triadic: true } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
+      heightM: spec.heightM, levels: spec.levels, radial: !!spec.radial, ...(spec.templeM ? { templeM: spec.templeM } : {}), ...(spec.stairsInOutline ? { stairsInOutline: true } : {}), ...(spec.sideStairsTo ? { sideStairsTo: spec.sideStairsTo } : {}), ...(spec.bodyM ? { bodyM: spec.bodyM } : {}), ...(spec.noComb ? { noComb: true } : {}), ...(spec.earthen ? { earthen: true } : {}), ...(spec.oval ? { oval: true } : {}), ...(spec.noRoofComb ? { noRoofComb: true } : {}), ...(spec.triadic ? { triadic: true } : {}), ...(spec.twin ? { twin: true } : {}), ...(spec.ruinStubM ? { ruinStubM: spec.ruinStubM } : {}), ...(spec.buried ? { buried: spec.buried } : {}), ...(spec.topRatio ? { topRatio: spec.topRatio } : {}),
       builtYear: spec.builtYear, ruinYear: spec.ruinYear ?? recipe.ruinYear ?? 900, note: spec.note, osmWay: w.id,
     });
     continue;
   }
   // Modern buildings, toilets, the ticket office: not part of the ancient site.
   const named = name && recipe.named[name];
-  const ancient = w.tags.historic || w.tags.ruins || w.tags.building === 'ruins' || named;
+  // "historic" alone is not "ancient": Mexico City's cathedral is
+  // historic=building. Only archaeological values count.
+  const ANCIENT = /^(ruins|archaeological_site|temple|yes|castle|citywalls|city_gate|fort|tomb|tumulus|pyramid)$/;
+  const ancient = ANCIENT.test(w.tags.historic ?? '') || w.tags.ruins || w.tags.building === 'ruins' || named;
   if (!ancient) continue;
   // The whole site's protected-area boundary is not a building.
   if (!named && (w.tags.boundary || w.tags.leisure === 'nature_reserve' || w.tags.archaeological_site === 'city')) continue;
@@ -142,6 +147,9 @@ for (const w of osm.ways) {
   // site ("Zona Arqueológica Palenque" became one vast slab, 10 Oct 2026).
   // Nothing un-named in a recipe over 2 hectares is a single building.
   if (!named && isClosed(w.outline) && area(w.outline) > 20_000) continue;
+  // An archaeological-site outline with no building tag is a zone (the
+  // Templo Mayor's whole excavation), not a structure.
+  if (!named && w.tags.historic === 'archaeological_site' && !w.tags.building) continue;
   const verts = (isClosed(w.outline) ? w.outline.slice(0, -1) : w.outline).map(([a, b]) => [a, b]);
   const label = name ?? (w.tags.historic === 'yes' && w.tags.barrier === 'wall' ? 'Structure (unnamed)' : 'Structure (unnamed)');
   const fromYear = named?.fromYear ?? recipe.defaultFromYear;

@@ -423,5 +423,13 @@
   "meso-coba-nohochmul-ruin": {
     "footprint": 66.3,
     "kb": 8
+  },
+  "meso-templo-mayor": {
+    "footprint": 100,
+    "kb": 7
+  },
+  "meso-templo-mayor-ruin": {
+    "footprint": 100,
+    "kb": 2
   }
 }
