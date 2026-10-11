@@ -407,5 +407,21 @@
   "meso-calakmul-ii-ruin": {
     "footprint": 89.6,
     "kb": 6
+  },
+  "meso-coba-iglesia": {
+    "footprint": 23.1,
+    "kb": 8
+  },
+  "meso-coba-nohochmul": {
+    "footprint": 66.3,
+    "kb": 8
+  },
+  "meso-coba-iglesia-ruin": {
+    "footprint": 23.1,
+    "kb": 8
+  },
+  "meso-coba-nohochmul-ruin": {
+    "footprint": 66.3,
+    "kb": 8
   }
 }

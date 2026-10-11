@@ -231,5 +231,42 @@
   "ruinYear": 900,
   "note": "Over 45 m, triadic, on Late Preclassic foundations; closes the south side of the Great Plaza (Wikipedia). Levels approximate.",
   "osmWay": 90913058
+ },
+ {
+  "site": "coba",
+  "model": "meso-coba-iglesia",
+  "title": "La Iglesia (Cobá)",
+  "lat": 20.489948,
+  "lon": -87.731819,
+  "widthM": 21.2,
+  "depthM": 23.1,
+  "stairBearing": 274,
+  "heightM": 24,
+  "levels": 9,
+  "radial": false,
+  "bodyM": 24,
+  "noRoofComb": true,
+  "builtYear": 500,
+  "ruinYear": 1000,
+  "note": "24 m, nine stepped levels with rounded corners, begun in the Early Classic (es.wikipedia); stair side approximate.",
+  "osmWay": 160632724
+ },
+ {
+  "site": "coba",
+  "model": "meso-coba-nohochmul",
+  "title": "Nohoch Mul (Cobá)",
+  "lat": 20.494685,
+  "lon": -87.720231,
+  "widthM": 66.3,
+  "depthM": 39.6,
+  "stairBearing": 135,
+  "heightM": 42,
+  "levels": 7,
+  "radial": false,
+  "noRoofComb": true,
+  "builtYear": 700,
+  "ruinYear": 1000,
+  "note": "42 m, seven levels with rounded edges and a central stair of 120 steps (Wikipedia); the stair side is approximate.",
+  "osmWay": 160632738
  }
 ]
