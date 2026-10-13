@@ -828,6 +828,40 @@
       ]
     },
     {
+      "id": "talas-751",
+      "name": "Battle of Talas",
+      "year": 751,
+      "dateLabel": "July 751",
+      "lat": 42.52,
+      "lon": 72.23,
+      "belligerents": {
+        "side1": "Abbasid Caliphate, with Tibetan and (late) Karluk allies",
+        "side2": "Tang dynasty China (Gao Xianzhi)"
+      },
+      "victor": "Abbasid victory",
+      "outcome": "After five days of fighting the Karluk mercenaries in the Tang army changed sides, and Gao Xianzhi's army broke. Only a few thousand of his men got home.",
+      "significance": "The only battle ever fought between the Arab caliphate and Tang China. It marked the western limit of Tang power in Central Asia. The story that Chinese prisoners taught Samarkand to make paper is old but unproven. The exact battlefield is not known; the pin is in the upper Talas valley, where Arabic sources place it.",
+      "casualties": "Tang losses very heavy (Chinese sources: most of an army of perhaps 30,000); Abbasid losses unknown",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Talas",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Talas"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ziyad ibn Salih",
+          "side": 1,
+          "wiki": "Ziyad ibn Salih"
+        },
+        {
+          "name": "Gao Xianzhi",
+          "side": 2,
+          "wiki": "Gao Xianzhi"
+        }
+      ]
+    },
+    {
       "id": "hastings",
       "name": "Battle of Hastings",
       "year": 1066,
@@ -2387,6 +2421,41 @@
       "timeOfDay": "day"
     },
     {
+      "id": "navarino",
+      "name": "Battle of Navarino",
+      "year": 1827,
+      "dateLabel": "20 October 1827",
+      "lat": 36.93,
+      "lon": 21.69,
+      "belligerents": {
+        "side1": "Britain, France and Russia (Codrington)",
+        "side2": "Ottoman Empire and Egypt"
+      },
+      "victor": "Allied victory",
+      "outcome": "The allied squadrons sailed into Navarino Bay to enforce a truce. Firing broke out, and in four hours about three-quarters of the Ottoman–Egyptian fleet was sunk, burnt or wrecked. The allies lost no ships.",
+      "significance": "The last great sea battle fought wholly by sailing ships. It ended Ottoman hopes of crushing the Greek revolt and led directly to Greek independence.",
+      "casualties": "About 180 allied dead; Ottoman–Egyptian dead in the thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Navarino",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Navarino"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Edward Codrington",
+          "side": 1,
+          "wiki": "Edward Codrington"
+        },
+        {
+          "name": "Moharrem Bey",
+          "side": 2,
+          "wiki": "Battle of Navarino",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
       "id": "pinjarra",
       "name": "Pinjarra Massacre",
       "year": 1834,
@@ -3011,6 +3080,40 @@
       ]
     },
     {
+      "id": "mukden",
+      "name": "Battle of Mukden",
+      "year": 1905,
+      "dateLabel": "20 February – 10 March 1905",
+      "lat": 41.8,
+      "lon": 123.43,
+      "belligerents": {
+        "side1": "Empire of Japan (Ōyama)",
+        "side2": "Russian Empire (Kuropatkin)"
+      },
+      "victor": "Japanese victory",
+      "outcome": "After three weeks of fighting on a front about 150 km long, the Russian armies fell back north and Mukden (Shenyang) was taken.",
+      "significance": "The largest land battle fought anywhere before the First World War, with over half a million men. With Tsushima ten weeks later, it ended the Russo-Japanese War.",
+      "casualties": "About 75,000 Japanese; about 90,000 Russian, including some 20,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Mukden",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Mukden"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ōyama Iwao",
+          "side": 1,
+          "wiki": "Ōyama Iwao"
+        },
+        {
+          "name": "Aleksey Kuropatkin",
+          "side": 2,
+          "wiki": "Aleksey Kuropatkin"
+        }
+      ]
+    },
+    {
       "id": "bita-paka",
       "name": "Battle of Bita Paka",
       "year": 1914,
@@ -3076,6 +3179,40 @@
           "name": "Helmuth von Moltke the Younger",
           "side": 2,
           "wiki": "Helmuth von Moltke the Younger"
+        }
+      ]
+    },
+    {
+      "id": "tannenberg-1914",
+      "name": "Battle of Tannenberg",
+      "year": 1914,
+      "dateLabel": "26–30 August 1914",
+      "lat": 53.4958,
+      "lon": 20.1344,
+      "belligerents": {
+        "side1": "German Empire (Hindenburg & Ludendorff)",
+        "side2": "Russian Empire (Samsonov)"
+      },
+      "victor": "German victory",
+      "outcome": "The Russian Second Army was surrounded in the forests and lakes of East Prussia and almost wiped out. Its commander, Samsonov, shot himself.",
+      "significance": "Made Hindenburg and Ludendorff national heroes. It was fought near Allenstein, but named after Tannenberg, about 30 km away, to answer the German defeat there in 1410 (Grunwald).",
+      "casualties": "About 12,000 German; about 78,000 Russian killed or wounded and some 92,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tannenberg",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tannenberg"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Paul von Hindenburg",
+          "side": 1,
+          "wiki": "Paul von Hindenburg"
+        },
+        {
+          "name": "Alexander Samsonov",
+          "side": 2,
+          "wiki": "Alexander Samsonov"
         }
       ]
     },
@@ -3219,6 +3356,74 @@
           "name": "Erich von Falkenhayn",
           "side": 2,
           "wiki": "Erich von Falkenhayn"
+        }
+      ]
+    },
+    {
+      "id": "passchendaele",
+      "name": "Battle of Passchendaele (Third Ypres)",
+      "year": 1917,
+      "dateLabel": "31 July – 10 November 1917",
+      "lat": 50.9,
+      "lon": 3.02,
+      "belligerents": {
+        "side1": "British Empire, France and Belgium (Haig)",
+        "side2": "German Empire (Crown Prince Rupprecht)"
+      },
+      "victor": "Inconclusive; the Allies took the ridge",
+      "outcome": "Fifteen weeks of attacks in heavy rain on shell-churned clay gained about 8 km. Canadian troops finally took the ruined village of Passchendaele on 6 November.",
+      "significance": "The name became a byword for the mud and waste of the Western Front. The ridge it cost so much to take was given up within months, in the German spring offensive of 1918.",
+      "casualties": "Estimates differ widely: roughly 250,000 on each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Passchendaele",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Passchendaele"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Douglas Haig",
+          "side": 1,
+          "wiki": "Douglas Haig, 1st Earl Haig"
+        },
+        {
+          "name": "Crown Prince Rupprecht",
+          "side": 2,
+          "wiki": "Rupprecht, Crown Prince of Bavaria"
+        }
+      ]
+    },
+    {
+      "id": "amiens-1918",
+      "name": "Battle of Amiens",
+      "year": 1918,
+      "dateLabel": "8–12 August 1918",
+      "lat": 49.87,
+      "lon": 2.55,
+      "belligerents": {
+        "side1": "British Empire and France (Rawlinson; Australian and Canadian corps)",
+        "side2": "German Empire (von der Marwitz)"
+      },
+      "victor": "Allied victory",
+      "outcome": "A surprise attack in fog, with over 500 tanks and aircraft, broke through on a 20 km front and advanced about 11 km on the first day.",
+      "significance": "The opening of the Hundred Days Offensive that ended the war three months later. Ludendorff called 8 August 'the black day of the German Army'.",
+      "casualties": "About 44,000 Allied; about 75,000 German, many of them prisoners",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Amiens (1918)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Amiens_(1918)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Henry Rawlinson",
+          "side": 1,
+          "wiki": "Henry Rawlinson, 1st Baron Rawlinson"
+        },
+        {
+          "name": "Georg von der Marwitz",
+          "side": 2,
+          "wiki": "Georg von der Marwitz"
         }
       ]
     },
@@ -3725,6 +3930,40 @@
       ]
     },
     {
+      "id": "falaise-pocket",
+      "name": "Falaise Pocket",
+      "year": 1944,
+      "dateLabel": "12–21 August 1944",
+      "lat": 48.85,
+      "lon": 0.0,
+      "belligerents": {
+        "side1": "Allies (Montgomery & Bradley; Canadian, Polish, British and US troops)",
+        "side2": "Nazi Germany (Kluge, then Model)"
+      },
+      "victor": "Allied victory",
+      "outcome": "Two German armies were trapped between Falaise and Chambois. Polish troops on Hill 262 held the last gap until it closed on 21 August.",
+      "significance": "The end of the Battle of Normandy. The German army in the west lost most of its equipment, and Paris was free four days later.",
+      "casualties": "About 10,000 German dead and 40,000–50,000 captured; Allied losses far lighter",
+      "links": [
+        {
+          "label": "Wikipedia: Falaise pocket",
+          "url": "https://en.wikipedia.org/wiki/Falaise_pocket"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bernard Montgomery",
+          "side": 1,
+          "wiki": "Bernard Montgomery"
+        },
+        {
+          "name": "Walter Model",
+          "side": 2,
+          "wiki": "Walter Model"
+        }
+      ]
+    },
+    {
       "id": "berlin-1945",
       "name": "Battle of Berlin",
       "year": 1945,
@@ -3760,6 +3999,40 @@
           "name": "Helmuth Weidling",
           "side": 2,
           "wiki": "Helmuth Weidling"
+        }
+      ]
+    },
+    {
+      "id": "iwo-jima",
+      "name": "Battle of Iwo Jima",
+      "year": 1945,
+      "dateLabel": "19 February – 26 March 1945",
+      "lat": 24.78,
+      "lon": 141.32,
+      "belligerents": {
+        "side1": "United States (Holland Smith)",
+        "side2": "Empire of Japan (Kuribayashi)"
+      },
+      "victor": "American victory",
+      "outcome": "Five weeks of fighting against defenders dug into tunnels under the volcanic island. Almost the whole garrison died; only about 216 were taken prisoner.",
+      "significance": "The only major US Marine battle of the war in which American casualties (dead and wounded) outnumbered the Japanese. The photograph of the flag raised on Mount Suribachi on 23 February became one of the most famous images of the war.",
+      "casualties": "About 6,800 American dead (26,000 casualties); about 18,000 Japanese dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Iwo Jima",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Iwo_Jima"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Holland Smith",
+          "side": 1,
+          "wiki": "Holland Smith"
+        },
+        {
+          "name": "Tadamichi Kuribayashi",
+          "side": 2,
+          "wiki": "Tadamichi Kuribayashi"
         }
       ]
     },

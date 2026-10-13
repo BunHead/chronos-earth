@@ -89,6 +89,12 @@
       "placeNote": "Wikidata gives a rounded point (39, -4) about 100 km away. The battle was fought below the castle of Montiel, in La Mancha, where Peter of Castile was besieged and then killed.",
       "why": "Rounded Wikidata pin ~100 km from Montiel",
       "source": "https://en.wikipedia.org/wiki/Battle_of_Montiel ; https://en.wikipedia.org/wiki/Montiel"
+    },
+    "pl79612": {
+      "startYear": -3200,
+      "dateNote": "Built about 3200 BCE — older than Stonehenge's stone circle and the Giza pyramids. Its passage is lit by the rising sun around the winter solstice.",
+      "why": "Pleiades period date (-4000) is earlier than the monument; built c. 3200 BCE",
+      "source": "https://en.wikipedia.org/wiki/Newgrange"
     }
   }
 }
