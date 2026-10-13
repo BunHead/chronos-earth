@@ -95,6 +95,12 @@
       "dateNote": "Built about 3200 BCE — older than Stonehenge's stone circle and the Giza pyramids. Its passage is lit by the rising sun around the winter solstice.",
       "why": "Pleiades period date (-4000) is earlier than the monument; built c. 3200 BCE",
       "source": "https://en.wikipedia.org/wiki/Newgrange"
+    },
+    "cur-lalibela": {
+      "lat": 12.0294,
+      "lon": 39.0404,
+      "why": "Duplicate pin: q642979 (the same churches) was folded in; the Captain chose the pin closest to Wikidata (13 Oct 2026)",
+      "source": "https://www.wikidata.org/wiki/Q642979 ; https://en.wikipedia.org/wiki/Rock-Hewn_Churches,_Lalibela"
     }
   }
 }
