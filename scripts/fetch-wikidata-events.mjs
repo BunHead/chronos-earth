@@ -95,6 +95,26 @@ const CATEGORIES = [
     min: 6,
   },
   {
+    // THE BATTLES THAT LASTED WERE MISSING (13 Oct 2026 accuracy review).
+    // The query above wants a "point in time" (P585), which suits a battle
+    // fought in a day. Passchendaele, Iwo Jima, Mukden and Tannenberg ran for
+    // days or months and record a START TIME (P580) instead, so none of them
+    // could match. Sieges (Q188055) and naval battles (Q1261499) are typed one
+    // rung away from "battle" and were missed for the same reason. Same
+    // COALESCE as the disaster sweep; both dates must be real dateTimes, as in
+    // the city sweep. A separate query so that, if it ever fails, the proven
+    // one above still runs. Rows already on file are skipped as usual.
+    category: 'battle',
+    selector:
+      'VALUES ?btype { wd:Q178561 wd:Q188055 wd:Q1261499 } ' +
+      '?item wdt:P31 ?btype . ' +
+      'OPTIONAL { ?item wdt:P585 ?pit . FILTER(DATATYPE(?pit) = xsd:dateTime) } ' +
+      'OPTIONAL { ?item wdt:P580 ?start . FILTER(DATATYPE(?start) = xsd:dateTime) } ' +
+      'BIND(COALESCE(?pit, ?start) AS ?date) FILTER(BOUND(?date))',
+    min: 6,
+    label: 'battle (sieges, naval, dated by start)',
+  },
+  {
     // THE GLOBE HAD NO PARIS. Nor Cairo, Delhi, Washington DC, Kyoto or
     // Philadelphia — the Captain noticed the symptom first, that Melbourne and
     // Perth took far too long to appear, and pulling that thread found this.

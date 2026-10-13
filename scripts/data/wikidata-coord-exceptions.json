@@ -9,5 +9,7 @@
   "kursk": "Wikidata pins the battle on Kursk city. The pin is on Prokhorovka, where the great tank clash of 12 July 1943 was fought (13 Oct 2026 review).",
   "q603549": "Wikidata's coordinates for the Battle of Nahavand are in southern Iraq; the pin is on Nahavand, Iran (see accuracy-fixes.json).",
   "q1355254": "Wikidata's coordinates for the Battle of Poimanenon are in Cilicia; the pin is on Poimanenon itself (see accuracy-fixes.json).",
-  "q922200": "Wikidata's point for the Battle of Montiel is rounded to (39, -4); the pin is on Montiel (see accuracy-fixes.json)."
+  "q922200": "Wikidata's point for the Battle of Montiel is rounded to (39, -4); the pin is on Montiel (see accuracy-fixes.json).",
+  "q3636565": "Wikidata's point is rounded to (45, 8); the pin is on Cremona (see accuracy-fixes.json).",
+  "q771423": "Wikidata's point is rounded to (42, 24); the pin is on Plovdiv (see accuracy-fixes.json)."
 }
