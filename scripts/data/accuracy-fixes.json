@@ -82,6 +82,13 @@
       "endYear": null,
       "why": "End year 1599 CE is meaningless (no such event); Babylon declined after the Seleucid era and the ruin still stands. Removed.",
       "source": "https://en.wikipedia.org/wiki/Babylon"
+    },
+    "q922200": {
+      "lat": 38.697,
+      "lon": -2.866,
+      "placeNote": "Wikidata gives a rounded point (39, -4) about 100 km away. The battle was fought below the castle of Montiel, in La Mancha, where Peter of Castile was besieged and then killed.",
+      "why": "Rounded Wikidata pin ~100 km from Montiel",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Montiel ; https://en.wikipedia.org/wiki/Montiel"
     }
   }
 }
