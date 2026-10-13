@@ -400,6 +400,24 @@ async function main() {
     }
     if (ruling[2] && e.dateNote !== ruling[2]) e.dateNote = ruling[2];
   }
+  // Corrections where Wikidata itself is wrong (scripts/data/accuracy-fixes.json):
+  // a pin hundreds of km out, a wrong year, a typo. Re-applied every run so
+  // the harvest cannot quietly put a mistake back.
+  const FIXABLE = ['name', 'lat', 'lon', 'startYear', 'endYear', 'placeNote', 'dateNote'];
+  const accuracy = JSON.parse(await readFile(join(__dirname, 'data', 'accuracy-fixes.json'), 'utf8')).fixes;
+  for (const e of events) {
+    const fix = accuracy[e.id];
+    if (!fix) continue;
+    for (const k of FIXABLE) {
+      if (fix[k] === null && k in e) {
+        console.log(`  ${e.name}: ${k} ${e[k]} removed (${fix.why})`);
+        delete e[k];
+      } else if (fix[k] != null && e[k] !== fix[k]) {
+        console.log(`  ${e.name}: ${k} ${e[k]} -> ${fix[k]} (${fix.why})`);
+        e[k] = fix[k];
+      }
+    }
+  }
   for (const e of events) {
     const fixes = CURATED_ROLES.get(e.id);
     if (!fixes || !Array.isArray(e.capitalOf)) continue;
