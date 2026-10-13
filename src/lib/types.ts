@@ -81,6 +81,9 @@ export interface Battle {
   commanders?: BattleCommander[];
   /** True if this battle has a phase-by-phase animated battle view (Phase 5/6). */
   hasBattleView?: boolean;
+  /** What sort of fighting this was. Unset = a single battle. Sieges, campaigns
+   * and whole wars share the layer but are labelled for what they are. */
+  kind?: 'battle' | 'siege' | 'campaign' | 'war';
 }
 
 /** A historical map overlay for a battle view (downloaded from Wikimedia). */

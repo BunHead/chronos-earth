@@ -499,31 +499,30 @@
       ]
     },
     {
-      "id": "byzantine-empire",
-      "name": "Byzantine Empire (Constantinople)",
+      "id": "theodosian-walls",
+      "name": "Theodosian Walls (Constantinople)",
       "category": "monument",
-      "lat": 41.008,
-      "lon": 28.98,
+      "lat": 41.0185,
+      "lon": 28.9227,
       "model": "castle",
-      "builtYear": 330,
-      "builtYearLabel": "330 CE — Constantine's new capital",
-      "fadeYear": 1453,
-      "consensusSummary": "The Byzantine Empire was the eastern half of the Roman Empire, which lived on for a thousand years after Rome fell in the west. Its capital was Constantinople (modern Istanbul), refounded by the emperor Constantine in 330 CE on the old Greek city of Byzantium. Its people called themselves Romans — 'Byzantine' is a name coined by later historians. Guarded by the mightiest walls of the medieval world, it finally fell to the Ottomans in 1453.",
-      "significance": "The bridge between the ancient and medieval worlds: it preserved Roman law and Greek learning, spread Orthodox Christianity, and raised the great domed church of Hagia Sophia. On the globe's border layer it appears as the 'Eastern Roman' / 'Byzantine' Empire down the centuries.",
+      "builtYear": 413,
+      "builtYearLabel": "c. 405–413 CE (land walls)",
+      "consensusSummary": "The great land walls of Constantinople (modern Istanbul), the capital of the Byzantine (Eastern Roman) Empire. They were built under Theodosius II, about 2 km west of Constantine's older wall. The main wall was finished by 413 CE. A moat, an outer wall and a taller inner wall with towers ran about 6 km from the Sea of Marmara to the Golden Horn. They held off attackers for a thousand years, until Ottoman cannon broke them near this gate in 1453.",
+      "significance": "The strongest city defences of the medieval world. They kept the Byzantine Empire, and its Roman law and Greek learning, alive for centuries after Rome fell in the west. The pin stands at the Topkapı (St Romanus) gate, where the walls were breached on 29 May 1453.",
       "keyFacts": [
-        "Capital: Constantinople, refounded 330 CE (modern Istanbul)",
-        "Its people called themselves Romans; 'Byzantine' is a modern term",
-        "Justinian's Hagia Sophia (537 CE) held the world's largest dome for centuries",
-        "Defended by the great Theodosian Walls; fell to the Ottomans in 1453"
+        "Built under Theodosius II; the main wall finished by 413 CE",
+        "Triple line: moat, outer wall, and an inner wall about 12 m high",
+        "Rebuilt in two months after the earthquake of 447 CE, as Attila approached",
+        "Breached by Ottoman cannon on 29 May 1453; long stretches still stand"
       ],
       "links": [
         {
-          "label": "Wikipedia: Byzantine Empire",
-          "url": "https://en.wikipedia.org/wiki/Byzantine_Empire"
+          "label": "Wikipedia: Walls of Constantinople",
+          "url": "https://en.wikipedia.org/wiki/Walls_of_Constantinople"
         },
         {
-          "label": "Wikipedia: Constantinople",
-          "url": "https://en.wikipedia.org/wiki/Constantinople"
+          "label": "Wikipedia: Byzantine Empire",
+          "url": "https://en.wikipedia.org/wiki/Byzantine_Empire"
         }
       ]
     },

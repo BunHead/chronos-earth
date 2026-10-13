@@ -18,6 +18,18 @@ describe('parseBattleDate', () => {
     expect(parseBattleDate('Sept–Oct 1777')!.getUTCMonth()).toBe(8);
   });
 
+  it('reads the modern (Gregorian) date first when an Old Style date follows', () => {
+    const d = parseBattleDate('8 July 1709 (27 June O.S.)')!;
+    expect(d.getUTCMonth()).toBe(6);
+    expect(d.getUTCDate()).toBe(8);
+  });
+
+  it('does not mistake a small year for a day (Teutoburg, 9 CE)', () => {
+    const d = parseBattleDate('Sept 9 CE')!;
+    expect(d.getUTCMonth()).toBe(8);
+    expect(d.getUTCDate()).toBe(15);
+  });
+
   it('returns null when the label has no month at all', () => {
     expect(parseBattleDate('1954 CE')).toBeNull();
     expect(parseBattleDate('c. 1457 BCE')).toBeNull();
