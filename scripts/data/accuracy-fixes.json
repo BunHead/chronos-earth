@@ -101,6 +101,20 @@
       "lon": 39.0404,
       "why": "Duplicate pin: q642979 (the same churches) was folded in; the Captain chose the pin closest to Wikidata (13 Oct 2026)",
       "source": "https://www.wikidata.org/wiki/Q642979 ; https://en.wikipedia.org/wiki/Rock-Hewn_Churches,_Lalibela"
+    },
+    "q3636565": {
+      "lat": 45.133,
+      "lon": 10.024,
+      "placeNote": "Wikidata gives a rounded point (45, 8) in Piedmont, about 160 km away. The river battle was fought on the Po near Cremona, where the Milanese galleys beat the Venetian fleet in June 1431.",
+      "why": "Rounded Wikidata pin ~160 km from Cremona",
+      "source": "https://en.wikipedia.org/wiki/Battle_on_the_Po_(1431)"
+    },
+    "q771423": {
+      "lat": 42.15,
+      "lon": 24.75,
+      "placeNote": "Wikidata gives a rounded point (42, 24) about 64 km away. The battle was fought in and around Philippopolis, today Plovdiv.",
+      "why": "Rounded Wikidata pin ~64 km from Plovdiv",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Philippopolis_(1878)"
     }
   }
 }
