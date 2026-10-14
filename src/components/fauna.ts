@@ -86,6 +86,9 @@ export class FaunaController {
   /** Animals alive and switched on at the moment shown (before the horizon). */
   private live = new Set<string>();
   private offCamera: () => void;
+  /** Last position / fan slot given to each marker, so unchanged ones are skipped. */
+  private placed = new Map<string, string>();
+  private fanned = new WeakMap<Cesium.Entity, string>();
 
   constructor(viewer: Cesium.Viewer, baseUrl: string) {
     this.viewer = viewer;
@@ -190,17 +193,27 @@ export class FaunaController {
       if (on) {
         this.live.add(entry.id);
         const [lon, lat] = trackPos(entry, ma);
-        entity.position = new Cesium.ConstantPositionProperty(
-          Cesium.Cartesian3.fromDegrees(lon, lat),
-        );
+        // Only hand Cesium a new position when the marker actually moved —
+        // a fresh property every playback tick makes it redo the billboard
+        // and label for nothing.
+        const posKey = `${lon.toFixed(4)}|${lat.toFixed(4)}`;
+        if (this.placed.get(entry.id) !== posKey) {
+          this.placed.set(entry.id, posKey);
+          entity.position = new Cesium.ConstantPositionProperty(
+            Cesium.Cartesian3.fromDegrees(lon, lat),
+          );
+        }
         const key = `${Math.round(lon * 3)}|${Math.round(lat * 3)}`; // ~1/3° cells
         spots.set(key, [...(spots.get(key) ?? []), entity]);
       }
-      for (const r of this.ranges.get(entry.id) ?? []) r.show = on;
+      for (const r of this.ranges.get(entry.id) ?? []) if (r.show !== on) r.show = on;
     }
     for (const group of spots.values()) {
       group.forEach((entity, i) => {
         const dx = (i - (group.length - 1) / 2) * 22;
+        const fanKey = `${dx}|${i}`;
+        if (this.fanned.get(entity) === fanKey) return; // same fan slot as last tick
+        this.fanned.set(entity, fanKey);
         if (entity.billboard) entity.billboard.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(dx, 0));
         if (entity.label) entity.label.pixelOffset = new Cesium.ConstantProperty(new Cesium.Cartesian2(0, -34 - 15 * i));
       });
@@ -258,5 +271,6 @@ export class FaunaController {
     }
     this.entities.clear();
     this.ranges.clear();
+    this.placed.clear();
   }
 }
