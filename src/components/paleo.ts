@@ -24,6 +24,7 @@ const ACTIVE_MA = 4;
 /** The deep-ocean tone of the relief maps, for the globe's base colour. */
 const OCEAN_CSS = '#10305a';
 const OCEAN_COLOR = Cesium.Color.fromCssColorString(OCEAN_CSS);
+const DESERT_COLOR = Cesium.Color.fromCssColorString('#8a7d63');
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
 
 interface FrameEntry {
@@ -40,6 +41,9 @@ export class PaleoController {
   private ready = false;
   private pendingMa: number | undefined;
   private pendingBase: Cesium.ImageryLayer[] | undefined;
+  /** Which side of the deep-time threshold was last applied (undefined = none yet). */
+  private lastActive: boolean | undefined;
+  private lastModernCount = -1;
 
   constructor(viewer: Cesium.Viewer, baseUrl: string) {
     this.viewer = viewer;
@@ -161,17 +165,24 @@ export class PaleoController {
     if (!this.ready || this.viewer.isDestroyed()) return;
 
     const active = ma >= ACTIVE_MA;
-    // Hide modern Earth imagery in deep time so the paleo-continents show.
-    for (const layer of modernLayers ?? []) layer.show = !active;
-    // Modern eras: bare (still-streaming) globe reads as DESERT, not black —
-    // black under half-loaded imagery read as "sea hiding the terrain"
-    // (the Captain's blue-under-Giza). Deep time keeps the paleo ocean.
-    this.viewer.scene.globe.baseColor = active
-      ? OCEAN_COLOR
-      : Cesium.Color.fromCssColorString('#8a7d63');
+    // The modern/deep-time swap happens ONCE per crossing of the threshold,
+    // not on every playback tick. (The layer list is checked too: the ice
+    // caps join it a moment after start-up and must be hidden as well.)
+    const count = modernLayers?.length ?? 0;
+    if (active !== this.lastActive || count !== this.lastModernCount) {
+      this.lastActive = active;
+      this.lastModernCount = count;
+      // Hide modern Earth imagery in deep time so the paleo-continents show.
+      for (const layer of modernLayers ?? []) layer.show = !active;
+      // Modern eras: bare (still-streaming) globe reads as DESERT, not black —
+      // black under half-loaded imagery read as "sea hiding the terrain"
+      // (the Captain's blue-under-Giza). Deep time keeps the paleo ocean.
+      this.viewer.scene.globe.baseColor = active ? OCEAN_COLOR : DESERT_COLOR;
+      requestFrame();
+    }
 
     if (!active) {
-      for (const layer of this.layers.values()) layer.show = false;
+      for (const layer of this.layers.values()) if (layer.show) layer.show = false;
       return;
     }
 

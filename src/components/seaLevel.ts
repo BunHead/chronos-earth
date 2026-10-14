@@ -166,8 +166,12 @@ export class SeaLevelController {
   private viewer: Cesium.Viewer;
   private layers = new Map<number, Cesium.ImageryLayer>();
   private building = new Set<number>();
+  /** Frames that failed to build — not retried, or a broken frame rebuilds forever. */
+  private failed = new Set<number>();
   private shown: Cesium.ImageryLayer | undefined;
   private lastKey = -999;
+  /** The newest timeline position, for re-applying once a frame arrives. */
+  private latest = { ybp: 0, enabled: false };
 
   constructor(viewer: Cesium.Viewer) {
     this.viewer = viewer;
@@ -311,6 +315,7 @@ export class SeaLevelController {
       nudgeFrames(); // async arrival — make sure it is drawn
       this.layers.set(key, layer);
     } catch (err) {
+      this.failed.add(key);
       console.warn('Ice Age overlay frame unavailable.', err);
     } finally {
       this.building.delete(key);
@@ -323,6 +328,7 @@ export class SeaLevelController {
    * sea → ice + land bridges; above → drowned coasts.
    */
   update(ybp: number, enabled: boolean): void {
+    this.latest = { ybp, enabled };
     if (this.viewer.isDestroyed()) return;
     const sea = enabled ? seaLevelAt(ybp) : 0;
     let key = 0, alpha = 0;
@@ -347,7 +353,21 @@ export class SeaLevelController {
     }
     const layer = this.layers.get(key);
     if (!layer) {
-      void this.ensureFrame(key).then(() => { this.lastKey = -999; this.update(ybp, enabled); });
+      // THE PLAYBACK FREEZE (14 Oct 2026). This used to start a build on EVERY
+      // call, and re-run update() when it "finished". But a build already in
+      // flight returns at once — so the re-run found no layer, asked again,
+      // got an instant answer, and looped forever in microtasks. The image
+      // load it was waiting on could never run, and the tab hung with no
+      // error, just after 2.6 Mya when the ice first appears. Now: one build
+      // per frame, one follow-up per build, using the LATEST timeline
+      // position (not the one from when the build started).
+      if (!this.building.has(key) && !this.failed.has(key)) {
+        void this.ensureFrame(key).then(() => {
+          if (this.viewer.isDestroyed()) return;
+          this.lastKey = -999;
+          this.update(this.latest.ybp, this.latest.enabled);
+        });
+      }
       return;
     }
     for (const [k, l] of this.layers) if (k !== key) l.show = false;
