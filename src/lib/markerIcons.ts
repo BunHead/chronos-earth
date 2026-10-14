@@ -65,11 +65,26 @@ function makeIcon(key: string, glyph: string, bg: string): string {
   return url;
 }
 
+/** The drawn mark each curated-site category wears on the globe.
+ *
+ * Precursor-hypothesis sites (Yonaguni, Bimini Road, the Piri Reis map) wear
+ * the 'legendary' star, NOT the 'impact' mark. They are contested claims, not
+ * craters, and the crater badge made Yonaguni look like a meteor strike. The
+ * star is the same mark the Layers panel already uses for "Legends", so it
+ * reads as "disputed story" everywhere. 'impact' belongs to impact events only
+ * (the Natural Disasters → Impacts sub-layer); markerIcons.test.ts holds that. */
+export const SITE_GLYPH = {
+  monument: 'monument',
+  settlement: 'settlement',
+  'precursor-hypothesis': 'legendary',
+} as const;
+
 export const ICONS = {
   battle: () => makeIcon('battle', 'battle', '#b23b3b'),
-  monument: () => makeIcon('monument', 'monument', '#b9892e'),
-  settlement: () => makeIcon('settlement', 'settlement', '#2e8b73'),
-  precursor: () => makeIcon('precursor', 'impact', '#c0392b'),
+  monument: () => makeIcon('monument', SITE_GLYPH.monument, '#b9892e'),
+  settlement: () => makeIcon('settlement', SITE_GLYPH.settlement, '#2e8b73'),
+  // '-v2' so a badge cached under the old crater mark is never reused.
+  precursor: () => makeIcon('precursor-v2', SITE_GLYPH['precursor-hypothesis'], '#c0392b'),
 };
 
 /** Icon badge for a prehistoric animal (one per species, cached by id). */
@@ -86,7 +101,7 @@ export function siteIcon(category: 'monument' | 'settlement' | 'precursor-hypoth
 }
 
 /** Icon badge for an imported history event, by category. */
-const EVENT_ICON: Record<string, [string, string]> = {
+export const EVENT_ICON: Record<string, [string, string]> = {
   battle: ['battle', '#b23b3b'],
   monument: ['monument', '#b9892e'],
   city: ['city', '#2f6fb0'],
