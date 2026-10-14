@@ -7,9 +7,16 @@
 //
 //   node scripts/lint-data.mjs            # lint, exit 1 on any error
 //   node scripts/lint-data.mjs --warn     # never fail the build (warn only)
+//   node scripts/lint-data.mjs --wikidata # also: every hand-placed pin within
+//                                         # 25 km of its Wikidata P625 (online)
+//   node scripts/lint-data.mjs --wikidata-offline  # same, against the harvested
+//                                         # copy of Wikidata (no network)
 //
 // Errors fail the run; warnings are printed but don't. Zero cost — pure node.
 import { readFile } from 'node:fs/promises';
+import {
+  MAX_KM, fetchP625, findFarPins, handPlacedPins, lookupFromHarvest,
+} from './lib/wikidata-coords.mjs';
 
 const ROOT = 'public/data';
 // Each file has its own category vocabulary. Sites carry 'precursor-hypothesis'
@@ -102,6 +109,38 @@ for (const [rel, opts] of jobs) {
 }
 
 console.log(`\nlinted ${total} rows across ${jobs.length} files`);
+
+// ---- Pins vs Wikidata P625 (opt-in: needs the network, or the harvest copy) ----
+const online = process.argv.includes('--wikidata');
+const offline = process.argv.includes('--wikidata-offline');
+if (online || offline) {
+  const [b, s, ev, exc] = await Promise.all([
+    load('battles.json'), load('ancient-sites.json'), load('imported/events.json'),
+    readFile('scripts/data/wikidata-coord-exceptions.json', 'utf8').then(JSON.parse),
+  ]);
+  const pins = handPlacedPins({ battles: b.battles, sites: s.sites, events: ev.events });
+  let lookup;
+  try {
+    lookup = offline
+      ? lookupFromHarvest(ev.events)
+      : await fetchP625({
+        titles: [...new Set(pins.filter((p) => !p.qid && p.title).map((p) => p.title))],
+        qids: [...new Set(pins.filter((p) => p.qid).map((p) => p.qid))],
+      });
+  } catch (e) {
+    warn('wikidata', '(network)', `could not reach Wikidata — ${e.message}; pin check skipped`);
+  }
+  if (lookup) {
+    const { far, unchecked } = findFarPins(pins, lookup, exc);
+    for (const p of far) {
+      warn(p.file, p.id, `pin is ${Math.round(p.km)} km from Wikidata ${p.wd.qid} ` +
+        `(${p.lat}, ${p.lon} vs ${p.wd.lat.toFixed(4)}, ${p.wd.lon.toFixed(4)}) — fix it, or ` +
+        'add the id with a reason to scripts/data/wikidata-coord-exceptions.json');
+    }
+    console.log(`  ✓ pins vs Wikidata        ${pins.length - unchecked.length} of ${pins.length} checked` +
+      ` (${offline ? 'harvest copy' : 'live'}), ${far.length} more than ${MAX_KM} km off`);
+  }
+}
 if (warnings.length) {
   console.log(`\n⚠ ${warnings.length} warning(s):`);
   for (const w of warnings) console.log(`  • ${w}`);

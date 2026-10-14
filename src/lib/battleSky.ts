@@ -35,7 +35,8 @@ export function parseBattleDate(dateLabel: string): Date | null {
     }
   }
   if (month < 0) return null;
-  const day = /(\b[0-3]?\d)\s+[a-z]/i.exec(dateLabel);
+  // A day only counts when a month follows it: "Sept 9 CE" is a year, not 9 Sept.
+  const day = /(\b[0-3]?\d)\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.exec(dateLabel);
   const d = day ? Math.min(28, Math.max(1, parseInt(day[1], 10))) : 15;
   return new Date(Date.UTC(REF_YEAR, month, d));
 }

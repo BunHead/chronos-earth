@@ -64,12 +64,20 @@ const NEAR_KM = 2;
  * MEROË. q5780 dates it -2500; cur-meroe "Meroë (Kush)" dated it -800. He chose
  * -2500 (24 Sept 2026) — a ruling on the DATE, not on which row. So the curated
  * row, with its name and its prominence, stays and takes his date (see
- * CURATED_DATES), and the Wikidata row is folded into it.
+ * CURATED_DATES), and the Wikidata row is folded into it. REVISED 13 Oct 2026:
+ * he now takes Wikipedia's date, c. 800 BCE (-2500 is Kerma's, not Meroë's).
+ *
+ * LALIBELA. cur-lalibela "Rock churches of Lalibela" (1181) and q642979
+ * "Monolithic churches in Lalibela" (1300) were one site, 300 m apart, under
+ * different names. He ruled (13 Oct 2026): keep the pin closest to Wikidata
+ * and delete the duplicate. The Wikidata pin is q642979's own P625, so the
+ * curated row (name, dates of King Lalibela's reign) stays and moves to that
+ * pin (scripts/data/accuracy-fixes.json); q642979 is folded into it.
  */
 const CURATED_DROPS = new Map([
   ['q5788', 'Petra: the Captain chose -300, the Nabataean city, over -799'],
   ['q5582862', 'Cusco: the Captain chose the Inca city, c. 1100, over the Spanish 1534'],
-  ['q5780', 'Meroë: folded into the curated row, which takes the date the Captain chose (-2500)'],
+  ['q5780', 'Meroë: folded into the curated row, which takes the date the Captain chose (c. 800 BCE)'],
 ]);
 
 /**
@@ -81,7 +89,8 @@ const PERIOD_NOTE =
   'The earliest date here is a period from the Pleiades gazetteer of ancient places, which records a settlement on this spot by then. It is not an exact founding year.';
 const RULED_6_OCT = 'the Captain\'s ruling, 6 Oct 2026 (docs/decisions)';
 const CURATED_DATES = new Map([
-  ['cur-meroe', [-2500, 'the Captain chose -2500 over -800 (24 Sept 2026)']],
+  ['cur-meroe', [-800, 'the Captain chose Wikipedia\'s c. 800 BCE (13 Oct 2026; was -2500 from 24 Sept)',
+    'Dated c. 800 BCE, when Meroë first appears as a town of the Kingdom of Kush (Wikipedia). The royal burials moved here from Napata about 300 BCE.']],
   // A city that was a capital before its own date: Wikidata dated each by a
   // refoundation or a modern administrative change.
   ['q16963755', [-800, RULED_6_OCT, 'Dated from its time as the seat of the Macedonian kings, from about 800 BCE.']],
@@ -125,6 +134,8 @@ export const CURATED_FOLDS = new Map([
   ['pl304475334', 'q242148'], ['pl149576487', 'q5736'], ['pl412344813', 'q83404'],
   // Benin City: the kingdom-era curated row stays; the colonial-era 1899 goes.
   ['q320704', 'cur-benin-city'],
+  // Lalibela: one site under two names; the curated row stays, at Wikidata's pin.
+  ['q642979', 'cur-lalibela'],
 ]);
 
 /**
@@ -399,6 +410,24 @@ async function main() {
       redated++;
     }
     if (ruling[2] && e.dateNote !== ruling[2]) e.dateNote = ruling[2];
+  }
+  // Corrections where Wikidata itself is wrong (scripts/data/accuracy-fixes.json):
+  // a pin hundreds of km out, a wrong year, a typo. Re-applied every run so
+  // the harvest cannot quietly put a mistake back.
+  const FIXABLE = ['name', 'lat', 'lon', 'startYear', 'endYear', 'placeNote', 'dateNote'];
+  const accuracy = JSON.parse(await readFile(join(__dirname, 'data', 'accuracy-fixes.json'), 'utf8')).fixes;
+  for (const e of events) {
+    const fix = accuracy[e.id];
+    if (!fix) continue;
+    for (const k of FIXABLE) {
+      if (fix[k] === null && k in e) {
+        console.log(`  ${e.name}: ${k} ${e[k]} removed (${fix.why})`);
+        delete e[k];
+      } else if (fix[k] != null && e[k] !== fix[k]) {
+        console.log(`  ${e.name}: ${k} ${e[k]} -> ${fix[k]} (${fix.why})`);
+        e[k] = fix[k];
+      }
+    }
   }
   for (const e of events) {
     const fixes = CURATED_ROLES.get(e.id);

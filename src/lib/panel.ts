@@ -195,9 +195,16 @@ export function yearLabel(year: number): string {
 /** The camera altitude (m) used when flying to a battle on the globe. */
 export const BATTLE_FLY_ALTITUDE = 350_000;
 
+const BATTLE_KICKER: Record<NonNullable<Battle['kind']>, string> = {
+  battle: 'Battle',
+  siege: 'Siege',
+  campaign: 'Campaign',
+  war: 'War',
+};
+
 export function battleToPanel(battle: Battle): PanelContent {
   return {
-    kicker: 'Battle',
+    kicker: BATTLE_KICKER[battle.kind ?? 'battle'],
     title: battle.name,
     date: battle.dateLabel,
     summary: battle.significance,

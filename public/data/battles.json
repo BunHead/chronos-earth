@@ -41,7 +41,7 @@
       "id": "kadesh",
       "name": "Battle of Kadesh",
       "year": -1274,
-      "dateLabel": "1274 BCE",
+      "dateLabel": "c. 1274 BCE",
       "lat": 34.568,
       "lon": 36.516,
       "belligerents": {
@@ -49,8 +49,8 @@
         "side2": "Hittite Empire (Muwatalli II)"
       },
       "victor": "Indecisive",
-      "outcome": "Tactical draw; led to the earliest known surviving peace treaty.",
-      "significance": "The largest chariot battle ever fought and the first battle in history recorded in detail. It ended in the world's first known peace treaty.",
+      "outcome": "Tactical draw; neither side took Kadesh, and both claimed victory.",
+      "significance": "Probably the largest chariot battle ever fought, and one of the best-recorded battles of the ancient world. About sixteen years later the two powers signed the earliest peace treaty whose text survives (c. 1259 BCE).",
       "casualties": "Thousands (uncertain)",
       "links": [
         {
@@ -76,7 +76,7 @@
       "id": "marathon",
       "name": "Battle of Marathon",
       "year": -490,
-      "dateLabel": "490 BCE",
+      "dateLabel": "Aug or Sept 490 BCE",
       "lat": 38.115,
       "lon": 23.978,
       "belligerents": {
@@ -111,7 +111,7 @@
       "id": "salamis",
       "name": "Battle of Salamis",
       "year": -480,
-      "dateLabel": "480 BCE",
+      "dateLabel": "Sept 480 BCE",
       "lat": 37.96,
       "lon": 23.57,
       "belligerents": {
@@ -145,7 +145,7 @@
       "id": "thermopylae",
       "name": "Battle of Thermopylae",
       "year": -480,
-      "dateLabel": "480 BCE",
+      "dateLabel": "Aug or Sept 480 BCE",
       "lat": 38.796,
       "lon": 22.536,
       "belligerents": {
@@ -180,7 +180,7 @@
       "id": "plataea",
       "name": "Battle of Plataea",
       "year": -479,
-      "dateLabel": "479 BCE",
+      "dateLabel": "Aug 479 BCE",
       "lat": 38.22,
       "lon": 23.27,
       "belligerents": {
@@ -214,7 +214,7 @@
       "id": "issus",
       "name": "Battle of Issus",
       "year": -333,
-      "dateLabel": "333 BCE",
+      "dateLabel": "5 November 333 BCE",
       "lat": 36.85,
       "lon": 36.18,
       "belligerents": {
@@ -248,7 +248,7 @@
       "id": "gaugamela",
       "name": "Battle of Gaugamela",
       "year": -331,
-      "dateLabel": "331 BCE",
+      "dateLabel": "1 October 331 BCE",
       "lat": 36.36,
       "lon": 43.25,
       "belligerents": {
@@ -283,9 +283,9 @@
       "id": "hydaspes",
       "name": "Battle of the Hydaspes",
       "year": -326,
-      "dateLabel": "326 BCE",
-      "lat": 32.5,
-      "lon": 73.6,
+      "dateLabel": "May 326 BCE",
+      "lat": 32.8278,
+      "lon": 73.6389,
       "belligerents": {
         "side1": "Macedon (Alexander)",
         "side2": "Paurava kingdom (Porus)"
@@ -318,7 +318,7 @@
       "id": "cannae",
       "name": "Battle of Cannae",
       "year": -216,
-      "dateLabel": "216 BCE",
+      "dateLabel": "2 August 216 BCE",
       "lat": 41.306,
       "lon": 16.132,
       "belligerents": {
@@ -358,7 +358,7 @@
       "id": "zama",
       "name": "Battle of Zama",
       "year": -202,
-      "dateLabel": "202 BCE",
+      "dateLabel": "19 October 202 BCE",
       "lat": 36.3,
       "lon": 9.4,
       "belligerents": {
@@ -421,7 +421,8 @@
           "side": 2,
           "wiki": "Hasdrubal the Boetharch"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "carrhae",
@@ -462,7 +463,7 @@
       "id": "alesia",
       "name": "Siege of Alesia",
       "year": -52,
-      "dateLabel": "52 BCE",
+      "dateLabel": "Sept 52 BCE",
       "lat": 47.54,
       "lon": 4.5,
       "belligerents": {
@@ -490,13 +491,14 @@
           "side": 2,
           "wiki": "Vercingetorix"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "pharsalus",
       "name": "Battle of Pharsalus",
       "year": -48,
-      "dateLabel": "48 BCE",
+      "dateLabel": "9 August 48 BCE",
       "lat": 39.29,
       "lon": 22.43,
       "belligerents": {
@@ -531,7 +533,7 @@
       "id": "actium",
       "name": "Battle of Actium",
       "year": -31,
-      "dateLabel": "31 BCE",
+      "dateLabel": "2 September 31 BCE",
       "lat": 38.93,
       "lon": 20.74,
       "belligerents": {
@@ -576,7 +578,7 @@
       "id": "teutoburg",
       "name": "Battle of the Teutoburg Forest",
       "year": 9,
-      "dateLabel": "9 CE",
+      "dateLabel": "Sept 9 CE",
       "lat": 52.41,
       "lon": 8.13,
       "belligerents": {
@@ -611,7 +613,7 @@
       "id": "red-cliffs",
       "name": "Battle of Red Cliffs",
       "year": 208,
-      "dateLabel": "208 CE",
+      "dateLabel": "Winter 208–209 CE",
       "lat": 29.86,
       "lon": 113.6,
       "belligerents": {
@@ -650,7 +652,7 @@
       "id": "milvian-bridge",
       "name": "Battle of the Milvian Bridge",
       "year": 312,
-      "dateLabel": "312 CE",
+      "dateLabel": "28 October 312",
       "lat": 41.935,
       "lon": 12.467,
       "belligerents": {
@@ -684,7 +686,7 @@
       "id": "adrianople-378",
       "name": "Battle of Adrianople",
       "year": 378,
-      "dateLabel": "378 CE",
+      "dateLabel": "9 August 378",
       "lat": 41.68,
       "lon": 26.56,
       "belligerents": {
@@ -719,7 +721,7 @@
       "id": "chalons",
       "name": "Battle of the Catalaunian Plains",
       "year": 451,
-      "dateLabel": "451 CE",
+      "dateLabel": "20 June 451",
       "lat": 48.95,
       "lon": 4.36,
       "belligerents": {
@@ -759,7 +761,7 @@
       "id": "yarmouk",
       "name": "Battle of the Yarmouk",
       "year": 636,
-      "dateLabel": "636 CE",
+      "dateLabel": "15–20 August 636",
       "lat": 32.74,
       "lon": 35.95,
       "belligerents": {
@@ -794,7 +796,7 @@
       "id": "tours",
       "name": "Battle of Tours",
       "year": 732,
-      "dateLabel": "732 CE",
+      "dateLabel": "10 October 732",
       "lat": 46.9,
       "lon": 0.4,
       "belligerents": {
@@ -822,6 +824,40 @@
           "name": "Abd al-Rahman al-Ghafiqi",
           "side": 2,
           "wiki": "Abd al-Rahman al-Ghafiqi"
+        }
+      ]
+    },
+    {
+      "id": "talas-751",
+      "name": "Battle of Talas",
+      "year": 751,
+      "dateLabel": "July 751",
+      "lat": 42.52,
+      "lon": 72.23,
+      "belligerents": {
+        "side1": "Abbasid Caliphate, with Tibetan and (late) Karluk allies",
+        "side2": "Tang dynasty China (Gao Xianzhi)"
+      },
+      "victor": "Abbasid victory",
+      "outcome": "After five days of fighting the Karluk mercenaries in the Tang army changed sides, and Gao Xianzhi's army broke. Only a few thousand of his men got home.",
+      "significance": "The only battle ever fought between the Arab caliphate and Tang China. It marked the western limit of Tang power in Central Asia. The story that Chinese prisoners taught Samarkand to make paper is old but unproven. The exact battlefield is not known; the pin is in the upper Talas valley, where Arabic sources place it.",
+      "casualties": "Tang losses very heavy (Chinese sources: most of an army of perhaps 30,000); Abbasid losses unknown",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Talas",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Talas"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ziyad ibn Salih",
+          "side": 1,
+          "wiki": "Ziyad ibn Salih"
+        },
+        {
+          "name": "Gao Xianzhi",
+          "side": 2,
+          "wiki": "Gao Xianzhi"
         }
       ]
     },
@@ -900,7 +936,7 @@
       "id": "manzikert",
       "name": "Battle of Manzikert",
       "year": 1071,
-      "dateLabel": "1071 CE",
+      "dateLabel": "26 August 1071",
       "lat": 39.15,
       "lon": 42.54,
       "belligerents": {
@@ -935,7 +971,7 @@
       "id": "hattin",
       "name": "Battle of Hattin",
       "year": 1187,
-      "dateLabel": "1187 CE",
+      "dateLabel": "4 July 1187",
       "lat": 32.8,
       "lon": 35.45,
       "belligerents": {
@@ -970,15 +1006,15 @@
       "name": "Battle of Yehuling (Badger Mouth)",
       "year": 1211,
       "dateLabel": "1211 CE",
-      "lat": 40.4,
-      "lon": 115.5,
+      "lat": 41.1037,
+      "lon": 114.717,
       "belligerents": {
         "side1": "Mongol Empire",
         "side2": "Jin dynasty"
       },
       "victor": "Mongol victory",
       "outcome": "The Jin field army was destroyed; northern China lay open.",
-      "significance": "Genghis Khan’s first great victory outside the steppe, and the beginning of the Mongol conquest of China.",
+      "significance": "Genghis Khan’s first great victory over the Jin, and the beginning of the Mongol conquest of northern China.",
       "casualties": "Jin losses in the hundreds of thousands, by Chinese accounts",
       "links": [
         {
@@ -1003,7 +1039,7 @@
       "id": "samarkand-1220",
       "name": "Siege of Samarkand",
       "year": 1220,
-      "dateLabel": "1220 CE",
+      "dateLabel": "March 1220",
       "lat": 39.65,
       "lon": 66.96,
       "belligerents": {
@@ -1031,7 +1067,8 @@
           "side": 2,
           "wiki": "Muhammad II of Khwarazm"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "kalka-river",
@@ -1072,8 +1109,8 @@
       "name": "Battle of Kirina",
       "year": 1235,
       "dateLabel": "c. 1235",
-      "lat": 12.7,
-      "lon": -8.05,
+      "lat": 12.3064,
+      "lon": -8.1517,
       "belligerents": {
         "side1": "Mali under Sundiata Keita",
         "side2": "Sosso Empire under Sumanguru Kanté"
@@ -1208,7 +1245,7 @@
       "id": "bannockburn",
       "name": "Battle of Bannockburn",
       "year": 1314,
-      "dateLabel": "1314 CE",
+      "dateLabel": "23–24 June 1314",
       "lat": 56.09,
       "lon": -3.93,
       "belligerents": {
@@ -1382,7 +1419,8 @@
           "wiki": "Constantine XI Palaiologos"
         }
       ],
-      "hasBattleView": true
+      "hasBattleView": true,
+      "kind": "siege"
     },
     {
       "id": "bosworth",
@@ -1457,7 +1495,7 @@
       "id": "tenochtitlan",
       "name": "Fall of Tenochtitlan",
       "year": 1521,
-      "dateLabel": "1521 CE",
+      "dateLabel": "26 May – 13 August 1521",
       "lat": 19.435,
       "lon": -99.14,
       "belligerents": {
@@ -1485,7 +1523,8 @@
           "side": 2,
           "wiki": "Cuauhtémoc"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "mohacs",
@@ -1526,7 +1565,7 @@
       "id": "panipat-1526",
       "name": "First Battle of Panipat",
       "year": 1526,
-      "dateLabel": "1526 CE",
+      "dateLabel": "21 April 1526",
       "lat": 29.39,
       "lon": 76.97,
       "belligerents": {
@@ -1662,21 +1701,25 @@
       "id": "spanish-armada",
       "name": "Defeat of the Spanish Armada",
       "year": 1588,
-      "dateLabel": "1588 CE",
-      "lat": 50.7,
-      "lon": -0.8,
+      "dateLabel": "8 August 1588 (29 July O.S.)",
+      "lat": 51.05,
+      "lon": 2.1,
       "belligerents": {
         "side1": "England",
         "side2": "Spain"
       },
       "victor": "English victory",
-      "outcome": "The Armada scattered and wrecked on the voyage home.",
+      "outcome": "The decisive fight was off Gravelines, Flanders. Fireships broke the Armada's crescent; it fled north round Scotland and Ireland and many ships were wrecked on the way home.",
       "significance": "A pivotal moment that checked Spanish power and bolstered England as a naval nation.",
       "casualties": "~15,000 Spanish (mostly storms/disease)",
       "links": [
         {
           "label": "Wikipedia: Spanish Armada",
           "url": "https://en.wikipedia.org/wiki/Spanish_Armada"
+        },
+        {
+          "label": "Wikipedia: Battle of Gravelines (1588)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Gravelines_(1588)"
         }
       ],
       "commanders": [
@@ -1735,7 +1778,7 @@
       "id": "naseby",
       "name": "Battle of Naseby",
       "year": 1645,
-      "dateLabel": "14 June 1645",
+      "dateLabel": "24 June 1645 (14 June O.S.)",
       "lat": 52.4,
       "lon": -0.99,
       "belligerents": {
@@ -1809,13 +1852,14 @@
           "wiki": "Kara Mustafa Pasha"
         }
       ],
-      "hasBattleView": true
+      "hasBattleView": true,
+      "kind": "siege"
     },
     {
       "id": "blenheim",
       "name": "Battle of Blenheim",
       "year": 1704,
-      "dateLabel": "13 August 1704",
+      "dateLabel": "13 August 1704 (2 August O.S.)",
       "lat": 48.63,
       "lon": 10.63,
       "belligerents": {
@@ -1855,7 +1899,7 @@
       "id": "poltava",
       "name": "Battle of Poltava",
       "year": 1709,
-      "dateLabel": "1709 CE",
+      "dateLabel": "8 July 1709 (27 June O.S.)",
       "lat": 49.59,
       "lon": 34.55,
       "belligerents": {
@@ -1890,7 +1934,7 @@
       "id": "culloden",
       "name": "Battle of Culloden",
       "year": 1746,
-      "dateLabel": "16 April 1746",
+      "dateLabel": "27 April 1746 (16 April O.S.)",
       "lat": 57.48,
       "lon": -4.1,
       "belligerents": {
@@ -1993,7 +2037,7 @@
       "id": "saratoga",
       "name": "Battles of Saratoga",
       "year": 1777,
-      "dateLabel": "Sept–Oct 1777",
+      "dateLabel": "19 Sept and 7 Oct 1777",
       "lat": 43,
       "lon": -73.64,
       "belligerents": {
@@ -2032,7 +2076,7 @@
       "id": "yorktown",
       "name": "Siege of Yorktown",
       "year": 1781,
-      "dateLabel": "1781 CE",
+      "dateLabel": "28 September – 19 October 1781",
       "lat": 37.24,
       "lon": -76.51,
       "belligerents": {
@@ -2065,7 +2109,8 @@
           "side": 2,
           "wiki": "Charles Cornwallis, 1st Marquess Cornwallis"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "valmy",
@@ -2265,7 +2310,7 @@
       "id": "borodino",
       "name": "Battle of Borodino",
       "year": 1812,
-      "dateLabel": "7 September 1812",
+      "dateLabel": "7 September 1812 (26 August O.S.)",
       "lat": 55.52,
       "lon": 35.82,
       "belligerents": {
@@ -2376,6 +2421,41 @@
       "timeOfDay": "day"
     },
     {
+      "id": "navarino",
+      "name": "Battle of Navarino",
+      "year": 1827,
+      "dateLabel": "20 October 1827",
+      "lat": 36.93,
+      "lon": 21.69,
+      "belligerents": {
+        "side1": "Britain, France and Russia (Codrington)",
+        "side2": "Ottoman Empire and Egypt"
+      },
+      "victor": "Allied victory",
+      "outcome": "The allied squadrons sailed into Navarino Bay to enforce a truce. Firing broke out, and in four hours about three-quarters of the Ottoman–Egyptian fleet was sunk, burnt or wrecked. The allies lost no ships.",
+      "significance": "The last great sea battle fought wholly by sailing ships. It ended Ottoman hopes of crushing the Greek revolt and led directly to Greek independence.",
+      "casualties": "About 180 allied dead; Ottoman–Egyptian dead in the thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Navarino",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Navarino"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Edward Codrington",
+          "side": 1,
+          "wiki": "Edward Codrington"
+        },
+        {
+          "name": "Moharrem Bey",
+          "side": 2,
+          "wiki": "Battle of Navarino",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
       "id": "pinjarra",
       "name": "Pinjarra Massacre",
       "year": 1834,
@@ -2441,7 +2521,8 @@
           "side": 2,
           "wiki": "William B. Travis"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "blood-river",
@@ -2790,7 +2871,7 @@
       "id": "little-bighorn",
       "name": "Battle of the Little Bighorn",
       "year": 1876,
-      "dateLabel": "25 June 1876",
+      "dateLabel": "25–26 June 1876",
       "lat": 45.57,
       "lon": -107.43,
       "belligerents": {
@@ -2874,7 +2955,7 @@
       },
       "victor": "British victory",
       "outcome": "About 150 men, a third of them sick, held a mission station behind mealie bags and biscuit boxes through a night of assaults by three to four thousand Zulu.",
-      "significance": "Eleven Victoria Crosses, the most ever awarded for a single action — given partly so the newspapers would have something creditable to print alongside Isandlwana, fought the same day a few miles away.",
+      "significance": "Eleven Victoria Crosses were awarded, seven of them to the 24th Foot — the most ever won by one regiment in a single action. They were given partly so the newspapers would have something creditable to print alongside Isandlwana, fought the same day a few miles away.",
       "casualties": "17 British dead; around 350 Zulu dead",
       "links": [
         {
@@ -2969,8 +3050,8 @@
       "name": "Battle of Tsushima",
       "year": 1905,
       "dateLabel": "27–28 May 1905",
-      "lat": 34.6,
-      "lon": 129.5,
+      "lat": 34.45,
+      "lon": 130.15,
       "belligerents": {
         "side1": "Empire of Japan (Tōgō)",
         "side2": "Russian Empire"
@@ -2995,6 +3076,40 @@
           "name": "Zinovy Rozhestvensky",
           "side": 2,
           "wiki": "Zinovy Rozhestvensky"
+        }
+      ]
+    },
+    {
+      "id": "mukden",
+      "name": "Battle of Mukden",
+      "year": 1905,
+      "dateLabel": "20 February – 10 March 1905",
+      "lat": 41.8,
+      "lon": 123.43,
+      "belligerents": {
+        "side1": "Empire of Japan (Ōyama)",
+        "side2": "Russian Empire (Kuropatkin)"
+      },
+      "victor": "Japanese victory",
+      "outcome": "After three weeks of fighting on a front about 150 km long, the Russian armies fell back north and Mukden (Shenyang) was taken.",
+      "significance": "The largest land battle fought anywhere before the First World War, with over half a million men. With Tsushima ten weeks later, it ended the Russo-Japanese War.",
+      "casualties": "About 75,000 Japanese; about 90,000 Russian, including some 20,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Mukden",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Mukden"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ōyama Iwao",
+          "side": 1,
+          "wiki": "Ōyama Iwao"
+        },
+        {
+          "name": "Aleksey Kuropatkin",
+          "side": 2,
+          "wiki": "Aleksey Kuropatkin"
         }
       ]
     },
@@ -3037,7 +3152,7 @@
       "hasBattleView": true,
       "name": "First Battle of the Marne",
       "year": 1914,
-      "dateLabel": "Sept 1914",
+      "dateLabel": "5–12 September 1914",
       "lat": 48.96,
       "lon": 3.4,
       "belligerents": {
@@ -3068,10 +3183,44 @@
       ]
     },
     {
+      "id": "tannenberg-1914",
+      "name": "Battle of Tannenberg",
+      "year": 1914,
+      "dateLabel": "26–30 August 1914",
+      "lat": 53.4958,
+      "lon": 20.1344,
+      "belligerents": {
+        "side1": "German Empire (Hindenburg & Ludendorff)",
+        "side2": "Russian Empire (Samsonov)"
+      },
+      "victor": "German victory",
+      "outcome": "The Russian Second Army was surrounded in the forests and lakes of East Prussia and almost wiped out. Its commander, Samsonov, shot himself.",
+      "significance": "Made Hindenburg and Ludendorff national heroes. It was fought near Allenstein, but named after Tannenberg, about 30 km away, to answer the German defeat there in 1410 (Grunwald).",
+      "casualties": "About 12,000 German; about 78,000 Russian killed or wounded and some 92,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tannenberg",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tannenberg"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Paul von Hindenburg",
+          "side": 1,
+          "wiki": "Paul von Hindenburg"
+        },
+        {
+          "name": "Alexander Samsonov",
+          "side": 2,
+          "wiki": "Alexander Samsonov"
+        }
+      ]
+    },
+    {
       "id": "gallipoli",
       "name": "Gallipoli Campaign",
       "year": 1915,
-      "dateLabel": "1915–1916",
+      "dateLabel": "17 February 1915 – 9 January 1916",
       "lat": 40.23,
       "lon": 26.28,
       "belligerents": {
@@ -3104,7 +3253,8 @@
           "side": 2,
           "wiki": "Otto Liman von Sanders"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "jutland",
@@ -3145,7 +3295,7 @@
       "id": "somme",
       "name": "Battle of the Somme",
       "year": 1916,
-      "dateLabel": "Jul–Nov 1916",
+      "dateLabel": "1 July – 18 November 1916",
       "lat": 50,
       "lon": 2.7,
       "belligerents": {
@@ -3179,7 +3329,7 @@
       "id": "verdun",
       "name": "Battle of Verdun",
       "year": 1916,
-      "dateLabel": "Feb–Dec 1916",
+      "dateLabel": "21 February – 18 December 1916",
       "lat": 49.21,
       "lon": 5.42,
       "belligerents": {
@@ -3210,10 +3360,78 @@
       ]
     },
     {
+      "id": "passchendaele",
+      "name": "Battle of Passchendaele (Third Ypres)",
+      "year": 1917,
+      "dateLabel": "31 July – 10 November 1917",
+      "lat": 50.9,
+      "lon": 3.02,
+      "belligerents": {
+        "side1": "British Empire, France and Belgium (Haig)",
+        "side2": "German Empire (Crown Prince Rupprecht)"
+      },
+      "victor": "Inconclusive; the Allies took the ridge",
+      "outcome": "Fifteen weeks of attacks in heavy rain on shell-churned clay gained about 8 km. Canadian troops finally took the ruined village of Passchendaele on 6 November.",
+      "significance": "The name became a byword for the mud and waste of the Western Front. The ridge it cost so much to take was given up within months, in the German spring offensive of 1918.",
+      "casualties": "Estimates differ widely: roughly 250,000 on each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Passchendaele",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Passchendaele"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Douglas Haig",
+          "side": 1,
+          "wiki": "Douglas Haig, 1st Earl Haig"
+        },
+        {
+          "name": "Crown Prince Rupprecht",
+          "side": 2,
+          "wiki": "Rupprecht, Crown Prince of Bavaria"
+        }
+      ]
+    },
+    {
+      "id": "amiens-1918",
+      "name": "Battle of Amiens",
+      "year": 1918,
+      "dateLabel": "8–12 August 1918",
+      "lat": 49.87,
+      "lon": 2.55,
+      "belligerents": {
+        "side1": "British Empire and France (Rawlinson; Australian and Canadian corps)",
+        "side2": "German Empire (von der Marwitz)"
+      },
+      "victor": "Allied victory",
+      "outcome": "A surprise attack in fog, with over 500 tanks and aircraft, broke through on a 20 km front and advanced about 11 km on the first day.",
+      "significance": "The opening of the Hundred Days Offensive that ended the war three months later. Ludendorff called 8 August 'the black day of the German Army'.",
+      "casualties": "About 44,000 Allied; about 75,000 German, many of them prisoners",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Amiens (1918)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Amiens_(1918)"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Henry Rawlinson",
+          "side": 1,
+          "wiki": "Henry Rawlinson, 1st Baron Rawlinson"
+        },
+        {
+          "name": "Georg von der Marwitz",
+          "side": 2,
+          "wiki": "Georg von der Marwitz"
+        }
+      ]
+    },
+    {
       "id": "britain-1940",
       "name": "Battle of Britain",
       "year": 1940,
-      "dateLabel": "Jul–Oct 1940",
+      "dateLabel": "10 July – 31 October 1940",
       "lat": 51.5,
       "lon": 0.2,
       "belligerents": {
@@ -3242,7 +3460,8 @@
           "wiki": "Hermann Göring"
         }
       ],
-      "timeOfDay": "day"
+      "timeOfDay": "day",
+      "kind": "campaign"
     },
     {
       "id": "pearl-harbor",
@@ -3323,7 +3542,7 @@
       "id": "el-alamein",
       "name": "Second Battle of El Alamein",
       "year": 1942,
-      "dateLabel": "Oct–Nov 1942",
+      "dateLabel": "23 October – 11 November 1942",
       "lat": 30.9,
       "lon": 28.95,
       "belligerents": {
@@ -3386,7 +3605,8 @@
           "side": 2,
           "wiki": "Harukichi Hyakutake"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "kokoda-track",
@@ -3420,7 +3640,8 @@
           "side": 2,
           "wiki": "Tomitarō Horii"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "midway",
@@ -3506,7 +3727,7 @@
       "id": "stalingrad",
       "name": "Battle of Stalingrad",
       "year": 1942,
-      "dateLabel": "Aug 1942–Feb 1943",
+      "dateLabel": "23 August 1942 – 2 February 1943",
       "lat": 48.71,
       "lon": 44.51,
       "belligerents": {
@@ -3547,9 +3768,9 @@
       "id": "kursk",
       "name": "Battle of Kursk",
       "year": 1943,
-      "dateLabel": "Jul–Aug 1943",
-      "lat": 51.3,
-      "lon": 36.1,
+      "dateLabel": "5 July – 23 August 1943",
+      "lat": 51.04,
+      "lon": 36.74,
       "belligerents": {
         "side1": "Soviet Union",
         "side2": "Nazi Germany"
@@ -3582,7 +3803,7 @@
       "id": "bulge",
       "name": "Battle of the Bulge",
       "year": 1944,
-      "dateLabel": "Dec 1944–Jan 1945",
+      "dateLabel": "16 December 1944 – 25 January 1945",
       "lat": 50.15,
       "lon": 5.9,
       "belligerents": {
@@ -3673,7 +3894,7 @@
       "id": "leyte-gulf",
       "name": "Battle of Leyte Gulf",
       "year": 1944,
-      "dateLabel": "Oct 1944",
+      "dateLabel": "23–26 October 1944",
       "lat": 11,
       "lon": 125.5,
       "belligerents": {
@@ -3709,10 +3930,44 @@
       ]
     },
     {
+      "id": "falaise-pocket",
+      "name": "Falaise Pocket",
+      "year": 1944,
+      "dateLabel": "12–21 August 1944",
+      "lat": 48.85,
+      "lon": 0.0,
+      "belligerents": {
+        "side1": "Allies (Montgomery & Bradley; Canadian, Polish, British and US troops)",
+        "side2": "Nazi Germany (Kluge, then Model)"
+      },
+      "victor": "Allied victory",
+      "outcome": "Two German armies were trapped between Falaise and Chambois. Polish troops on Hill 262 held the last gap until it closed on 21 August.",
+      "significance": "The end of the Battle of Normandy. The German army in the west lost most of its equipment, and Paris was free four days later.",
+      "casualties": "About 10,000 German dead and 40,000–50,000 captured; Allied losses far lighter",
+      "links": [
+        {
+          "label": "Wikipedia: Falaise pocket",
+          "url": "https://en.wikipedia.org/wiki/Falaise_pocket"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bernard Montgomery",
+          "side": 1,
+          "wiki": "Bernard Montgomery"
+        },
+        {
+          "name": "Walter Model",
+          "side": 2,
+          "wiki": "Walter Model"
+        }
+      ]
+    },
+    {
       "id": "berlin-1945",
       "name": "Battle of Berlin",
       "year": 1945,
-      "dateLabel": "Apr–May 1945",
+      "dateLabel": "16 April – 2 May 1945",
       "lat": 52.52,
       "lon": 13.4,
       "belligerents": {
@@ -3744,6 +3999,40 @@
           "name": "Helmuth Weidling",
           "side": 2,
           "wiki": "Helmuth Weidling"
+        }
+      ]
+    },
+    {
+      "id": "iwo-jima",
+      "name": "Battle of Iwo Jima",
+      "year": 1945,
+      "dateLabel": "19 February – 26 March 1945",
+      "lat": 24.78,
+      "lon": 141.32,
+      "belligerents": {
+        "side1": "United States (Holland Smith)",
+        "side2": "Empire of Japan (Kuribayashi)"
+      },
+      "victor": "American victory",
+      "outcome": "Five weeks of fighting against defenders dug into tunnels under the volcanic island. Almost the whole garrison died; only about 216 were taken prisoner.",
+      "significance": "The only major US Marine battle of the war in which American casualties (dead and wounded) outnumbered the Japanese. The photograph of the flag raised on Mount Suribachi on 23 February became one of the most famous images of the war.",
+      "casualties": "About 6,800 American dead (26,000 casualties); about 18,000 Japanese dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Iwo Jima",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Iwo_Jima"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Holland Smith",
+          "side": 1,
+          "wiki": "Holland Smith"
+        },
+        {
+          "name": "Tadamichi Kuribayashi",
+          "side": 2,
+          "wiki": "Tadamichi Kuribayashi"
         }
       ]
     },
@@ -3785,7 +4074,7 @@
       "id": "inchon",
       "name": "Battle of Inchon",
       "year": 1950,
-      "dateLabel": "September 1950",
+      "dateLabel": "15–19 September 1950",
       "lat": 37.48,
       "lon": 126.63,
       "belligerents": {
@@ -3853,7 +4142,7 @@
       "id": "dien-bien-phu",
       "name": "Battle of Dien Bien Phu",
       "year": 1954,
-      "dateLabel": "1954 CE",
+      "dateLabel": "13 March – 7 May 1954",
       "lat": 21.39,
       "lon": 103.02,
       "belligerents": {
@@ -3881,7 +4170,8 @@
           "side": 2,
           "wiki": "Christian de Castries"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "suez-1956",
@@ -3915,7 +4205,8 @@
           "side": 2,
           "wiki": "Gamal Abdel Nasser"
         }
-      ]
+      ],
+      "kind": "war"
     },
     {
       "id": "ia-drang",
@@ -3983,7 +4274,8 @@
           "side": 2,
           "wiki": "Abdel Hakim Amer"
         }
-      ]
+      ],
+      "kind": "war"
     },
     {
       "id": "hue-1968",
@@ -4051,7 +4343,8 @@
           "side": 2,
           "wiki": "Trần Quý Hai"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "tet-offensive",
@@ -4085,7 +4378,8 @@
           "side": 2,
           "wiki": "William Westmoreland"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "yom-kippur-war",
@@ -4119,7 +4413,8 @@
           "side": 2,
           "wiki": "David Elazar"
         }
-      ]
+      ],
+      "kind": "war"
     },
     {
       "id": "fall-of-saigon",
@@ -4187,7 +4482,8 @@
           "side": 2,
           "wiki": "Mario Benjamín Menéndez"
         }
-      ]
+      ],
+      "kind": "war"
     },
     {
       "id": "cuito-cuanavale",
@@ -4255,13 +4551,14 @@
           "side": 2,
           "wiki": "Saddam Hussein"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "annexation-of-crimea",
       "name": "Annexation of Crimea",
       "year": 2014,
-      "dateLabel": "Feb–Mar 2014",
+      "dateLabel": "20 February – 26 March 2014",
       "lat": 45,
       "lon": 34.1,
       "belligerents": {
@@ -4270,7 +4567,7 @@
       },
       "victor": "Russian occupation",
       "outcome": "Russian forces seized the peninsula in a near-bloodless operation; the annexation is not internationally recognised.",
-      "significance": "Opened the Russo-Ukrainian war — the first forcible change of European borders since 1945, prelude to the 2022 full-scale invasion.",
+      "significance": "Opened the Russo-Ukrainian war — the first annexation of one European country's territory by another since 1945, and the prelude to the 2022 full-scale invasion.",
       "casualties": "Few direct casualties; thousands displaced",
       "links": [
         {
@@ -4289,13 +4586,14 @@
           "side": 2,
           "wiki": "Vladimir Putin"
         }
-      ]
+      ],
+      "kind": "campaign"
     },
     {
       "id": "battle-of-kyiv-2022",
       "name": "Battle of Kyiv",
       "year": 2022,
-      "dateLabel": "Feb–Apr 2022",
+      "dateLabel": "24 February – 2 April 2022",
       "lat": 50.45,
       "lon": 30.52,
       "belligerents": {
@@ -4329,7 +4627,7 @@
       "id": "kherson-counteroffensive",
       "name": "Kherson counteroffensive",
       "year": 2022,
-      "dateLabel": "Aug–Nov 2022",
+      "dateLabel": "29 August – 11 November 2022",
       "lat": 46.64,
       "lon": 32.61,
       "belligerents": {
@@ -4363,7 +4661,7 @@
       "id": "siege-of-mariupol",
       "name": "Siege of Mariupol",
       "year": 2022,
-      "dateLabel": "Feb–May 2022",
+      "dateLabel": "24 February – 20 May 2022",
       "lat": 47.1,
       "lon": 37.55,
       "belligerents": {
@@ -4391,13 +4689,14 @@
           "side": 2,
           "wiki": "Mikhail Mizintsev"
         }
-      ]
+      ],
+      "kind": "siege"
     },
     {
       "id": "battle-of-bakhmut",
       "name": "Battle of Bakhmut",
       "year": 2023,
-      "dateLabel": "2022–2023",
+      "dateLabel": "1 August 2022 – 20 May 2023",
       "lat": 48.594,
       "lon": 38,
       "belligerents": {

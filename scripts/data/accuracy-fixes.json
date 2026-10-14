@@ -1,0 +1,106 @@
+{
+  "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
+  "fixes": {
+    "q603549": {
+      "lat": 34.193,
+      "lon": 48.373,
+      "placeNote": "Wikidata places this battle in southern Iraq (31.58, 44.50), about 450 km from Nahavand. It was fought at Nahavand, near Hamadan in Iran; the pin is on the town.",
+      "why": "Wikidata coordinates wrong by ~450 km",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Nahavand (location: Nahavand, near Hamadan); https://en.wikipedia.org/wiki/Nahavand (34°11′34″N 48°22′23″E)"
+    },
+    "q47465940": {
+      "name": "Operation Olive Branch (Afrin)",
+      "startYear": 2018,
+      "why": "Wrong year: the Turkish operation in Afrin ran 20 January – 24 March 2018",
+      "source": "https://en.wikipedia.org/wiki/Operation_Olive_Branch"
+    },
+    "q111383245": {
+      "startYear": 2023,
+      "endYear": 2024,
+      "why": "Wrong year: the battle ran 10 October 2023 – 17 February 2024",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Avdiivka_(2023%E2%80%932024)"
+    },
+    "q327099": {
+      "name": "Battle of Kasserine Pass",
+      "why": "Typo in the Wikidata label ('Passe')",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Kasserine_Pass"
+    },
+    "q1355254": {
+      "lat": 40.079,
+      "lon": 27.8923,
+      "placeNote": "Wikidata places this battle in Cilicia (37.89, 36.00), about 740 km from Poimanenon. It was fought near Poimanenon, south of the Sea of Marmara (near modern Manyas); the pin uses Pleiades' precise position for the town.",
+      "why": "Wikidata coordinates wrong by ~740 km",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Poimanenon ; Pleiades 511368 (Poimanenon, 40.079, 27.8923)"
+    },
+    "q11812902": {
+      "startYear": 1951,
+      "why": "Wrong year (2020): Serengeti National Park was established in 1951",
+      "source": "https://en.wikipedia.org/wiki/Serengeti_National_Park"
+    },
+    "q107370": {
+      "startYear": 1930,
+      "dateNote": "Founded as Iceland's first national park in 1930, on the 1,000th anniversary of the Althing, the parliament that met here from 930. A World Heritage Site since 2004.",
+      "why": "Wrong year (2004 is its World Heritage listing): the national park dates from 1930",
+      "source": "https://en.wikipedia.org/wiki/%C3%9Eingvellir"
+    },
+    "q235878": {
+      "name": "Keoladeo National Park",
+      "why": "Typo in the label ('Kevladev')",
+      "source": "https://en.wikipedia.org/wiki/Keoladeo_National_Park"
+    },
+    "q214944": {
+      "startYear": -9500,
+      "dateNote": "Built from about 9500 BCE, in the Pre-Pottery Neolithic. Wikidata gives only the millennium.",
+      "why": "Wikidata's millennium-precision date read as -9999; matches the curated entry (c. 9500 BCE)",
+      "source": "https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe"
+    },
+    "q39671": {
+      "startYear": -3000,
+      "dateNote": "Built in stages: the first ditch and bank c. 3000 BCE, the great sarsen circle c. 2500 BCE, work continuing until about 1600 BCE.",
+      "why": "Wikidata date (-1848) is neither the start nor the main building phase",
+      "source": "https://en.wikipedia.org/wiki/Stonehenge"
+    },
+    "q242741": {
+      "startYear": -421,
+      "dateNote": "Built between 421 and 406 BCE.",
+      "why": "Wrong year (-500): built 421–406 BCE",
+      "source": "https://en.wikipedia.org/wiki/Erechtheion"
+    },
+    "q134140": {
+      "startYear": -1264,
+      "dateNote": "Carved for Ramesses II from about 1264 BCE, finished about 1244 BCE. Moved 65 m uphill in 1964–68 to escape Lake Nasser.",
+      "why": "Wrong year (-1274 is the Battle of Kadesh it celebrates): begun c. 1264 BCE",
+      "source": "https://en.wikipedia.org/wiki/Abu_Simbel"
+    },
+    "q752091": {
+      "startYear": 1250,
+      "dateNote": "Built about 1250 under King Narasimhadeva I of the Eastern Ganga dynasty.",
+      "why": "Wrong year (1201): built c. 1250",
+      "source": "https://en.wikipedia.org/wiki/Konark_Sun_Temple"
+    },
+    "q5684": {
+      "endYear": null,
+      "why": "End year 1599 CE is meaningless (no such event); Babylon declined after the Seleucid era and the ruin still stands. Removed.",
+      "source": "https://en.wikipedia.org/wiki/Babylon"
+    },
+    "q922200": {
+      "lat": 38.697,
+      "lon": -2.866,
+      "placeNote": "Wikidata gives a rounded point (39, -4) about 100 km away. The battle was fought below the castle of Montiel, in La Mancha, where Peter of Castile was besieged and then killed.",
+      "why": "Rounded Wikidata pin ~100 km from Montiel",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Montiel ; https://en.wikipedia.org/wiki/Montiel"
+    },
+    "pl79612": {
+      "startYear": -3200,
+      "dateNote": "Built about 3200 BCE — older than Stonehenge's stone circle and the Giza pyramids. Its passage is lit by the rising sun around the winter solstice.",
+      "why": "Pleiades period date (-4000) is earlier than the monument; built c. 3200 BCE",
+      "source": "https://en.wikipedia.org/wiki/Newgrange"
+    },
+    "cur-lalibela": {
+      "lat": 12.0294,
+      "lon": 39.0404,
+      "why": "Duplicate pin: q642979 (the same churches) was folded in; the Captain chose the pin closest to Wikidata (13 Oct 2026)",
+      "source": "https://www.wikidata.org/wiki/Q642979 ; https://en.wikipedia.org/wiki/Rock-Hewn_Churches,_Lalibela"
+    }
+  }
+}

@@ -196,6 +196,14 @@ jobs:
         # discarding the whole additive harvest over one bad row. Run `npm run
         # lint:data` locally (no --warn) to fail hard when cleaning up.
         run: node scripts/lint-data.mjs --warn
+      - name: Check hand-placed pins against Wikidata (warn only)
+        if: '!cancelled()'
+        # Lists any curated pin more than 25 km from its Wikidata P625, so a
+        # misplaced battle shows up in the log the next morning. Never fails
+        # the harvest: a Wikidata outage must not cost a night's data.
+        continue-on-error: true
+        timeout-minutes: 5
+        run: node scripts/lint-data.mjs --warn --wikidata
       - name: Commit & push if the dataset grew
         if: '!cancelled()'
         # CONFLICT-TOLERANT ON PURPOSE. This step used to be a bare

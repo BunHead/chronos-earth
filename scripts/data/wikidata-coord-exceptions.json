@@ -1,0 +1,13 @@
+{
+  "_comment": "Pins kept more than 25 km from their Wikidata coordinates ON PURPOSE. The Wikidata lint (node scripts/lint-data.mjs --wikidata) skips these. Give every entry a reason a reader can check. Remove an entry if Wikidata is corrected.",
+  "noche-triste": "Wikidata's coordinates are wrong; the causeway retreat was in Tenochtitlan (Mexico City), where the pin is. Checked 13 Oct 2026.",
+  "pharsalus": "The battlefield's site is disputed; the pin follows the Wikipedia article. Checked 13 Oct 2026.",
+  "midway": "A carrier battle fought over hundreds of km of ocean; the pin is on the atoll the fight was for.",
+  "coral-sea": "A carrier battle fought over hundreds of km of ocean; the pin sits in the middle of it.",
+  "britain-1940": "An air campaign over all of southern England; the pin is on London and the south-east.",
+  "carthage-146bce": "Wikipedia links the Third Punic War as a whole; the pin is on Carthage, where it ended.",
+  "kursk": "Wikidata pins the battle on Kursk city. The pin is on Prokhorovka, where the great tank clash of 12 July 1943 was fought (13 Oct 2026 review).",
+  "q603549": "Wikidata's coordinates for the Battle of Nahavand are in southern Iraq; the pin is on Nahavand, Iran (see accuracy-fixes.json).",
+  "q1355254": "Wikidata's coordinates for the Battle of Poimanenon are in Cilicia; the pin is on Poimanenon itself (see accuracy-fixes.json).",
+  "q922200": "Wikidata's point for the Battle of Montiel is rounded to (39, -4); the pin is on Montiel (see accuracy-fixes.json)."
+}

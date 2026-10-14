@@ -91,8 +91,11 @@ export const PLACES = [
     name: 'Cobá (Maya)',
     category: 'monument',
     startYear: -50,
-    lat: 19.4933,
-    lon: -87.7283,
+    // Was 19.4933 — a slip of one degree that put the pin 110 km south, in the
+    // forest of Quintana Roo. Cobá's core (La Iglesia group) is at 20.49 N
+    // (OSM; scripts/data/sites/coba.mjs). Fixed 13 Oct 2026.
+    lat: 20.4906,
+    lon: -87.7319,
     wikidataId: 'Q1104936',
     wikiTitle: 'Coba',
     notability: 150,
