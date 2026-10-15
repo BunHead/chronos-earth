@@ -80,9 +80,13 @@ export const FOSSIL_SITES = [
   site('ischigualasto', 'Ischigualasto: Herrerasaurus found', 1959, -30.11678, -67.91181, 'Q639503', 'Ischigualasto Provincial Park',
     'In 1959 a local goat herder, Victorino Herrera, found the first bones of Herrerasaurus, one of the oldest ' +
       'dinosaurs. The rocks are about 231–225 million years old (Late Triassic); Eoraptor was found here in 1991.'),
-  site('flaming-cliffs', 'Flaming Cliffs: dinosaur eggs found', 1922, 44.1385, 103.72778, 'Q677164', 'Flaming Cliffs',
-    'Found in 1922 by Roy Chapman Andrews\' expedition in the Gobi. In 1923 it gave the first dinosaur nests known ' +
-      'to science, plus Velociraptor and Protoceratops. The red sandstone is about 75–71 million years old (Late Cretaceous).'),
+  // Eggs: 13 July 1923, George Olsen, AMNH Central Asiatic Expedition
+  // (amnh.org/dinosaurs/dinosaur-eggs; nature.com/articles/d41586-023-00556-6).
+  // The expedition first reached the cliffs in 1922; the eggs came a year later.
+  site('flaming-cliffs', 'Flaming Cliffs: dinosaur eggs found', 1923, 44.1385, 103.72778, 'Q677164', 'Flaming Cliffs',
+    'On 13 July 1923 George Olsen of Roy Chapman Andrews\' expedition found the first dinosaur eggs known to ' +
+      'science here in the Gobi; the team had first reached the cliffs in 1922. Velociraptor and Protoceratops came ' +
+      'from here too. The red sandstone is about 75–71 million years old (Late Cretaceous).'),
   site('yixian', 'Yixian Formation: the first feathered dinosaur', 1996, 41.533, 121.2383, 'Q742949', 'Yixian Formation',
     'In 1996 Sinosauropteryx was announced from these Liaoning beds: the first dinosaur found with feathers. ' +
       'Volcanic ash buried a whole forest world here about 125 million years ago (Early Cretaceous).'),
