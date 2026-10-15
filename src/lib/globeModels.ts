@@ -24,6 +24,7 @@ import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 import { isBuilderActive, sitePlanNear } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
+import { budgetTier } from './renderTier';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -210,9 +211,11 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: unlike most of Angkor it was never abandoned to the forest — it
   // stayed in use as a Buddhist temple and is on Cambodia's flag today.
   { model: 'angkor', title: 'Angkor Wat', lat: 13.4125, lon: 103.8667, builtYear: 1150, buildYears: 37 },
-  // The flagged hypothesis: the ringed city stands on the Richat from deep
-  // prehistory until the deluge of 9600 BCE takes her.
-  { model: 'rings', title: 'Atlantis', lat: 21.124, lon: -11.396, builtYear: -11000, endYear: -9600 },
+  // PLATO'S ATLANTIS, IMAGINED — a flagged artistic reconstruction. It never
+  // stands by default: the real Richat landform is the view. It shows only
+  // while the visitor has the vision switched on in the Richat panel
+  // (setAtlantisVision), whatever the year; 9600 BCE is Plato's date.
+  { model: 'rings', title: 'Atlantis', lat: 21.124, lon: -11.396, builtYear: -9600 },
 ];
 
 const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
@@ -396,7 +399,9 @@ export function transformKey(model: string, lat: number, lon: number): string {
 function seat(entity: Cesium.Entity, p: Placement): void {
   const info = theManifest[p.model];
   if (!entity.model || !info?.footprint) return;
-  const t = transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
+  // The imagined Atlantis is built at TRUE scale (1 unit = 10 m), so it takes
+  // no maker trim: the saved ×21.6 was for the old 2.5 km stylised rings.
+  const t = p.model === 'rings' ? {} : transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
   const { widthM, facingDeg } = fitFor(p.title, p.model);
   const mPerDeg = 111_320;
   const lat = p.lat + (t.northM ?? 0) / mPerDeg;
@@ -630,7 +635,31 @@ for (const s of PLACEMENTS) {
   STAGE_TABLE[s.model] = buildStages(s.builtYear, s.buildYears);
 }
 
+/** "Plato's Atlantis, imagined" switched on in the Richat panel. */
+let atlantisVision = false;
+/** Show (or hide) the imagined Atlantis on the Richat. */
+export function setAtlantisVision(on: boolean): void {
+  if (on === atlantisVision) return;
+  atlantisVision = on;
+  for (const { entity, p } of entities) if (p.model === 'rings') gate(entity, p);
+  theViewer?.scene.requestRender();
+}
+export function isAtlantisVision(): boolean {
+  return atlantisVision;
+}
+
 function gate(entity: Cesium.Entity, p: Placement): void {
+  if (p.model === 'rings') {
+    // The vision is a toggle, never the default — and never a timeline event.
+    entity.show = atlantisVision && cameraNear(p);
+    if (!entity.model) return;
+    // Phones / no-GPU machines get the light build (same plan, same footprint).
+    const lite = budgetTier() === 'software' && theManifest['rings-lite']?.footprint;
+    const uri = `./models/${lite ? 'rings-lite' : 'rings'}.glb`;
+    const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
+    if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+    return;
+  }
   const curYear = yearsBPToYear(lastYearsBP);
   const { suffix: staged, bornYear } = stageFor(p.model, p.builtYear, curYear);
   // Only ever point at a stage glb we actually exported; else fall back to base.

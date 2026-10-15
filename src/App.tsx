@@ -22,7 +22,8 @@ import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
 import WeatherOverlay from './components/WeatherOverlay';
 import SeaLevelFrame from './components/SeaLevelFrame';
-import { ensurePlacement } from './lib/globeModels';
+import { ensurePlacement, setAtlantisVision } from './lib/globeModels';
+import { atlantisSeaSteps, ATLANTIS_SEA_M, ATLANTIS_VIEW_M } from './lib/atlantisVision';
 import {
   showBattleOnGlobe,
   setGlobeBattlePhase,
@@ -777,6 +778,61 @@ export default function App() {
     globeRef.current?.flyToMonument(m.lon, m.lat, fitFor(m.title, m.model).widthM);
   };
 
+  // PLATO'S ATLANTIS, IMAGINED (the Captain, 15 Oct 2026). A toggle in the
+  // Richat panel — the real landform stays the default view. Switching it on
+  // rises high over West Africa, raises the sea +200 m with the SAME manual
+  // sea engine the Sea level frame drives (a fixed handful of steps, all
+  // timers cancelled on the way out — no self-re-arming update, see PR #4),
+  // then dives onto the city. Off, or leaving the site, hands the sea back
+  // exactly as the visitor had it.
+  const [atlantisOn, setAtlantisOn] = useState(false);
+  /** The sea level the visitor last chose in the Sea level frame (null = today). */
+  const userSeaRef = useRef<number | null>(null);
+  const atlantisTimers = useRef<number[]>([]);
+  const clearAtlantisTimers = () => {
+    for (const t of atlantisTimers.current) window.clearTimeout(t);
+    atlantisTimers.current = [];
+  };
+  const setUserSea = (m: number | null) => {
+    userSeaRef.current = m;
+    clearAtlantisTimers(); // the visitor's own hand on the water wins
+    globeRef.current?.setManualSea(m);
+  };
+  const startAtlantis = (m: NonNullable<PanelContent['monument3d']>) => {
+    clearAtlantisTimers();
+    setIsPlaying(false);
+    setAtlantisOn(true);
+    setAtlantisVision(true);
+    const placedYear = ensurePlacement(m) ?? m.builtYear;
+    setShowSites(true);
+    if (placedYear != null && yearsBP > yearToYearsBP(placedYear)) setYearsBP(yearToYearsBP(placedYear));
+    // High enough to see the Atlantic come in (the sea painting is a
+    // world-scale layer, shown above ~300 km).
+    globeRef.current?.flyTo(m.lon, m.lat, 3_000_000);
+    const lite = budgetTier() === 'software';
+    const steps = atlantisSeaSteps(userSeaRef.current, ATLANTIS_SEA_M, lite ? 1 : 8);
+    const STEP_MS = 550;
+    const t0 = 2200;
+    steps.forEach((sea, i) => {
+      atlantisTimers.current.push(window.setTimeout(() => globeRef.current?.setManualSea(sea), t0 + i * STEP_MS));
+    });
+    atlantisTimers.current.push(window.setTimeout(() => {
+      globeRef.current?.flyToMonument(m.lon, m.lat, ATLANTIS_VIEW_M);
+    }, t0 + steps.length * STEP_MS + 1200));
+  };
+  const stopAtlantis = () => {
+    clearAtlantisTimers();
+    setAtlantisOn(false);
+    setAtlantisVision(false);
+    globeRef.current?.setManualSea(userSeaRef.current);
+  };
+  // Leaving the site (closing the panel or opening another) ends the vision.
+  useEffect(() => {
+    if (atlantisOn && panel?.monument3d?.model !== 'rings') stopAtlantis();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [panel, atlantisOn]);
+  useEffect(() => () => clearAtlantisTimers(), []);
+
   // THE GLOBE IS THE BATTLEFIELD: nudge the timeline to the day, dive to
   // the real ground, and raise the armies where they actually fought.
   const visitBattle = (id: string, fly = true) => {
@@ -1388,7 +1444,7 @@ export default function App() {
 
       {seaOpen && (
         <SeaLevelFrame
-          onSea={(m) => globeRef.current?.setManualSea(m)}
+          onSea={setUserSea}
           onClose={() => setSeaOpen(false)}
         />
       )}
@@ -1448,6 +1504,7 @@ export default function App() {
         }}
         onZoomToBattle={visitBattle}
         onViewMonument={visitMonument}
+        atlantis={{ on: atlantisOn, onToggle: (m) => (atlantisOn ? stopAtlantis() : startAtlantis(m)) }}
         // Only the panel for the battle actually on the field gets the map.
         battleMap={
           globeBattle && battleMapOpen && !battleMapPopped && panel?.battleId === globeBattle.id ? (

@@ -132,6 +132,8 @@ const manifest = await readFile(join(OUT, 'manifest.json'), 'utf8').then(JSON.pa
 const ALL_JOBS = [
   ...FLEET.map(([model, title]) => [model, title, model, '']),
   ...RUINS.map(([model, title]) => [model, title, `${model}-ruin`, '&ruin=1']),
+  // Plato's Atlantis, imagined: a light build for phones / no-GPU machines.
+  ['rings', 'Atlantis', 'rings-lite', '&lite=1'],
   ...BUILD_STAGES.flatMap(([model, title, stages]) =>
     stages.map((s) => [model, title, `${model}-b${s}`, `&frac=${s / 100}`]),
   ),
@@ -175,7 +177,13 @@ try {
     // Fall back to the raw glb if compression ever throws, so a model is never lost.
     let out = raw;
     try {
-      const { glb } = await processGlb(raw, { dracoOptions: { compressionLevel: 7 } });
+      // A landform-sized model (Atlantis: 23 km of plain, 40 km of sea, a
+      // 9 m-wide column) needs finer position quantisation than the default
+      // 11 bits, which would round it to ~12 m steps.
+      const dracoOptions = model === 'rings'
+        ? { compressionLevel: 7, quantizePositionBits: 16 }
+        : { compressionLevel: 7 };
+      const { glb } = await processGlb(raw, { dracoOptions });
       if (glb && glb.length) out = Buffer.from(glb);
     } catch (e) {
       console.error(`${outName}: Draco failed (${e.message}) — writing uncompressed`);
