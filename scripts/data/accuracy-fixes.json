@@ -115,6 +115,102 @@
       "placeNote": "Wikidata gives a rounded point (42, 24) about 64 km away. The battle was fought in and around Philippopolis, today Plovdiv.",
       "why": "Rounded Wikidata pin ~64 km from Plovdiv",
       "source": "https://en.wikipedia.org/wiki/Battle_of_Philippopolis_(1878)"
+    },
+    "q1628477": {
+      "lat": 20.72,
+      "lon": 70.99,
+      "why": "Pin moved 80 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Diu"
+    },
+    "q3636516": {
+      "lat": 39.1447,
+      "lon": 42.5392,
+      "why": "Pin moved 909 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Siege_of_Manzikert_(1054)"
+    },
+    "q3625539": {
+      "lat": 24.47,
+      "lon": 39.61,
+      "why": "Pin moved 60 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Siege_of_Uthman"
+    },
+    "q3394749": {
+      "lat": 20.71,
+      "lon": 70.98,
+      "why": "Pin moved 79 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Siege_of_Diu_(1538)"
+    },
+    "q985668": {
+      "lat": 35.9087,
+      "lon": 120.1555,
+      "why": "Pin moved 143 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://shandong-chorography.org/database/b2/section/3/article/100/"
+    },
+    "q369893": {
+      "lat": -23.0329,
+      "lon": -70.592,
+      "why": "Pin moved 42 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://www.wikidata.org/wiki/Q369893"
+    },
+    "q3636391": {
+      "lat": 48.4833,
+      "lon": 26.5,
+      "why": "Pin moved 2 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Khotyn_(1673)"
+    },
+    "q1049530": {
+      "lat": 58.55,
+      "lon": 23.45,
+      "why": "Pin moved 6 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Karuse"
+    },
+    "q989093": {
+      "lat": 49.1844,
+      "lon": 4.5442,
+      "why": "Pin moved 21 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/First_Battle_of_Champagne"
+    },
+    "q548680": {
+      "lat": 49.1844,
+      "lon": 4.5442,
+      "why": "Pin moved 45 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Second_Battle_of_Champagne"
+    },
+    "q2599728": {
+      "lat": 53.6667,
+      "lon": 23.8333,
+      "why": "Pin moved 22 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Hrodna"
+    },
+    "q717505": {
+      "lat": 38.5661,
+      "lon": 112.7349,
+      "why": "Pin moved 90 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://www.wikidata.org/wiki/Q109410819"
+    },
+    "q2469370": {
+      "lat": 40.9678,
+      "lon": 123.7522,
+      "why": "Pin moved 151 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://www.wikidata.org/wiki/Q13748129"
+    },
+    "q3772937": {
+      "lat": 5.0833,
+      "lon": -1.35,
+      "why": "Pin moved 748 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Elmina"
+    },
+    "q111986066": {
+      "lat": 48.9272,
+      "lon": 38.2486,
+      "why": "Pin moved 20 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Bilohorivka,_Luhansk_Oblast"
+    },
+    "q1720307": {
+      "lat": 40.2,
+      "lon": 26.4,
+      "why": "Pin moved 138 km to the sourced location (Captain's pin review, 15 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Dardanelles"
     }
   }
 }
