@@ -42,3 +42,17 @@ describe("Plato's measurements (Critias 115e–116a)", () => {
     expect(STADIUM * 10).toBeCloseTo(185);
   });
 });
+
+describe('the estuary (our invention) reaches the real raised coast', () => {
+  it('runs west from inside the harbour sea past the +200 m coast, widening', async () => {
+    const { estuaryRibbon, RAISED_COAST } = await import('./atlantisVision');
+    const r = estuaryRibbon();
+    expect(r.length).toBe(10);
+    const first = r[0].ring, last = r[r.length - 1].ring;
+    expect(Math.max(...first.map((p) => p[0]))).toBeLessThan(-11.396); // starts west of the centre
+    expect(Math.min(...last.map((p) => p[0]))).toBeLessThan(RAISED_COAST.lon); // ends past the coast
+    const w = (q: Array<[number, number]>) => Math.abs(q[2][1] - q[1][1]);
+    expect(w(last)).toBeGreaterThan(w(first));
+    expect(r[r.length - 1].alpha).toBeLessThan(r[0].alpha); // fades into the sea
+  });
+});

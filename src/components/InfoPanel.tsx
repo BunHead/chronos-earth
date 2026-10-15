@@ -362,7 +362,9 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                   {atlantis.on && (
                     <>
                       {' '}The sea is raised +200 m with the real elevation data, which brings the Atlantic from about
-                      530 km away to about 195 km. The harbour sea around the city is imagined too.
+                      530 km away to about 195 km. The harbour sea around the city is imagined too.{' '}
+                      <strong>The estuary linking Plato's canal to the raised Atlantic is our own invention, not in Plato;
+                      the real coast would be about 195 km away even at +200 m.</strong>
                     </>
                   )}
                 </p>

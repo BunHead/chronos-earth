@@ -25,6 +25,7 @@ import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 import { isBuilderActive, sitePlanNear } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
+import { estuaryRibbon } from './atlantisVision';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -642,7 +643,26 @@ export function setAtlantisVision(on: boolean): void {
   if (on === atlantisVision) return;
   atlantisVision = on;
   for (const { entity, p } of entities) if (p.model === 'rings') gate(entity, p);
+  showEstuary(on);
   theViewer?.scene.requestRender();
+}
+/** The estuary ribbon (our invention, not Plato's) — built on first use. */
+let estuary: Cesium.Entity[] = [];
+function showEstuary(on: boolean): void {
+  if (!theViewer) return;
+  if (on && !estuary.length) {
+    const sea = Cesium.Color.fromCssColorString('#2f6f9c');
+    // Lite gets fewer quads; either way a few KB, draped on the real terrain.
+    const segs = estuaryRibbon(budgetTier() === 'software' ? 5 : 10);
+    estuary = segs.map((g) => theViewer!.entities.add({
+      polygon: {
+        hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(g.ring.flat())),
+        material: sea.withAlpha(g.alpha),
+        classificationType: Cesium.ClassificationType.TERRAIN,
+      },
+    }));
+  }
+  for (const e of estuary) e.show = on;
 }
 export function isAtlantisVision(): boolean {
   return atlantisVision;
