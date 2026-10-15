@@ -184,13 +184,15 @@ export function monumentModelForName(name) {
  * Resolve a curated ancient-site to a model, tracking how, matching panel.ts
  * resolveMonumentModel (explicit .model → id map → category → megalith default).
  * @param {{id?:string, model?:string, category?:string}} site
- * @returns {{ model: string, rule: string }}
+ * @returns {{ model: string | null, rule: string }}
  */
 export function classifySite(site) {
   if (site.model) return { model: site.model, rule: 'explicit .model field' };
   if (MODEL_BY_ID[site.id]) return { model: MODEL_BY_ID[site.id], rule: `hand-mapped by id (${site.id})` };
   if (site.category === 'settlement') return { model: 'settlement', rule: 'category = settlement' };
-  if (site.category === 'precursor-hypothesis') return { model: 'impact', rule: 'category = precursor-hypothesis' };
+  // A precursor hypothesis is a claim, not a building: no model unless it has
+  // an honest one of its own (explicit .model or the id map above).
+  if (site.category === 'precursor-hypothesis') return { model: null, rule: 'category = precursor-hypothesis (no 3D)' };
   return { model: 'megalith', rule: 'DEFAULT — no rule matched, generic megalith' };
 }
 

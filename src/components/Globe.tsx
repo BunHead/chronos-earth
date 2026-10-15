@@ -13,6 +13,7 @@ import { yearToYearsBP, yearsBPToYear } from '../lib/timeScale';
 import { loadGlobeModels, updateGlobeModelVisibility, reseatAll } from '../lib/globeModels';
 import { loadSitePlans, updateSitePlanVisibility, isBuilderActive } from '../lib/sitePlanRender';
 import { buildEventIndex } from '../lib/eventIndex';
+import { withFocusedEvent } from '../lib/focusMarker';
 import { siteToPanel, placeDossierPanel, battleToPanel, eventToPanel, BATTLE_FLY_ALTITUDE } from '../lib/panel';
 import { siteIcon, eventIcon, videoIcon, capitalIcon, ICONS } from '../lib/markerIcons';
 import { PaleoController } from './paleo';
@@ -273,6 +274,9 @@ interface GlobeProps {
   muralEventIds: string[] | null;
   /** A just-picked event whose marker must show even past the declutter caps. */
   focusEventId: string | null;
+  /** The focused event itself — it may not be among `events` (a quiet one
+   * picked from the search index), so the id alone can't find it. */
+  focusEvent?: TimelineEvent | null;
   onSelect: (content: PanelContent) => void;
   /** Reports the current war-front-line moment (or null) for a banner. */
   onCampaignLabel: (label: string | null) => void;
@@ -308,7 +312,7 @@ const DIVE_RADIUS_DEG = 0.45;
 const PALEO_MA = 4;
 
 const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
-  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, videos = [], showVideos = true, onPickVideo, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, onSelect, onCampaignLabel, onGraphicsLost, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
+  { currentYearsBP, cameraLocked = false, sites, battles, showSites, showBorders, showFlags, showBattles, showCampaigns, showFauna, videos = [], showVideos = true, onPickVideo, showSeaLevel, showRivers, events, enabledEventCats, offSubs, muralEventIds, focusEventId, focusEvent = null, onSelect, onCampaignLabel, onGraphicsLost, onSeek, onDive, onViewRegion, onViewCentre, initialCamera },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -1838,16 +1842,15 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       }
       visList = byRank(picked).slice(0, markerCap(EVENT_MAX_VISIBLE_BY_TIER[zoomTier]));
     }
-    // Whatever the user just searched for / clicked always keeps its marker.
-    if (focusEventId && !visList.some((e) => e.id === focusEventId)) {
-      const fev = eventById.get(focusEventId);
-      if (fev) visList.push(fev);
-    }
+    // Whatever the user just searched for / clicked / flew to always keeps its
+    // marker — even a quiet event that was never loaded into memory (see
+    // lib/focusMarker.ts: the Battle of Tangdao).
+    visList = withFocusedEvent(visList, focusEventId, (id) => eventById.get(id), focusEvent, pool.length);
 
     // Assign the pool with STABLE slots: an event keeps its marker while it
     // stays visible (so markers pop in/out in place, never teleport).
     const assign = eventAssignRef.current;
-    const want = new Map(visList.slice(0, pool.length).map((ev) => [ev.id, ev] as const));
+    const want = new Map(visList.map((ev) => [ev.id, ev] as const));
     // Release slots whose event has left the screen.
     for (const [id, ent] of [...assign]) {
       if (!want.has(id)) {
@@ -1894,7 +1897,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         .setValue(new Cesium.DistanceDisplayCondition(0, 6_000_000));
       if (setShownPop(ent, true, Math.min(appeared * 60, 900))) appeared++;
     }
-  }, [currentYearsBP, spatialPool, events, muralEventIds, focusEventId, zoomTier, camPoint, eventById]);
+  }, [currentYearsBP, spatialPool, events, muralEventIds, focusEventId, focusEvent, zoomTier, camPoint, eventById]);
 
   // Catastrophes play themselves where they happened as the timeline sweeps
   // across their moment — the comet finds Chicxulub, Krakatoa goes up.

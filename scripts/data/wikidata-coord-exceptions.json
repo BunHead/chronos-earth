@@ -11,5 +11,16 @@
   "q1355254": "Wikidata's coordinates for the Battle of Poimanenon are in Cilicia; the pin is on Poimanenon itself (see accuracy-fixes.json).",
   "q922200": "Wikidata's point for the Battle of Montiel is rounded to (39, -4); the pin is on Montiel (see accuracy-fixes.json).",
   "q3636565": "Wikidata's point is rounded to (45, 8); the pin is on Cremona (see accuracy-fixes.json).",
-  "q771423": "Wikidata's point is rounded to (42, 24); the pin is on Plovdiv (see accuracy-fixes.json)."
+  "q771423": "Wikidata's point is rounded to (42, 24); the pin is on Plovdiv (see accuracy-fixes.json).",
+  "q1628477": "Battle of Diu: Wikidata's coordinates are about 80 km out; the pin follows https://en.wikipedia.org/wiki/Battle_of_Diu. Checked 15 Oct 2026.",
+  "q3636516": "Siege of Manzikert: Wikidata's coordinates are about 909 km out; the pin follows https://en.wikipedia.org/wiki/Siege_of_Manzikert_(1054). Checked 15 Oct 2026.",
+  "q3625539": "Siege of Uthman: Wikidata's coordinates are about 60 km out; the pin follows https://en.wikipedia.org/wiki/Siege_of_Uthman. Checked 15 Oct 2026.",
+  "q3394749": "Siege of Diu: Wikidata's coordinates are about 79 km out; the pin follows https://en.wikipedia.org/wiki/Siege_of_Diu_(1538). Checked 15 Oct 2026.",
+  "q985668": "Battle of Tangdao: Wikidata's coordinates are about 143 km out; the pin follows https://shandong-chorography.org/database/b2/section/3/article/100/. Checked 15 Oct 2026.",
+  "q369893": "Battle of Angamos: Wikidata's coordinates are about 42 km out; the pin follows https://www.wikidata.org/wiki/Q369893. Checked 15 Oct 2026.",
+  "q548680": "Second Battle of Champagne: Wikidata's coordinates are about 45 km out; the pin follows https://en.wikipedia.org/wiki/Second_Battle_of_Champagne. Checked 15 Oct 2026.",
+  "q717505": "Battle of Xinkou: Wikidata's coordinates are about 90 km out; the pin follows https://www.wikidata.org/wiki/Q109410819. Checked 15 Oct 2026.",
+  "q2469370": "Battle of Motien Pass: Wikidata's coordinates are about 151 km out; the pin follows https://www.wikidata.org/wiki/Q13748129. Checked 15 Oct 2026.",
+  "q3772937": "Battle of Guinea: Wikidata's coordinates are about 748 km out; the pin follows https://en.wikipedia.org/wiki/Elmina. Checked 15 Oct 2026.",
+  "q1720307": "Battle of the Hellespont: Wikidata's coordinates are about 138 km out; the pin follows https://en.wikipedia.org/wiki/Dardanelles. Checked 15 Oct 2026."
 }

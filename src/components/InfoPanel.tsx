@@ -57,6 +57,45 @@ function RecordThumb({ title }: { title?: string }) {
   return src ? <img className="record-thumb" src={src} alt={title ?? ''} loading="lazy" /> : null;
 }
 
+/** The REAL picture for a site with no honest 3D model (a map, say): the
+ * Wikipedia article's lead image, hosted on Wikimedia Commons, with a plain
+ * caption, its licence, and a link to the file page. */
+function RealImagePanel({ image }: { image: NonNullable<PanelContent['realImage']> }) {
+  const [src, setSrc] = useState<{ thumb: string; file?: string } | null>(null);
+  useEffect(() => {
+    let live = true;
+    setSrc(null);
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(image.wikiTitle.replace(/ /g, '_'))}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        const thumb: string | undefined = j?.thumbnail?.source;
+        if (!live || !thumb) return;
+        // …/commons/thumb/a/ab/File_name.jpg/320px-File_name.jpg → File_name.jpg
+        const m = /\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/]+)/.exec(thumb);
+        setSrc({ thumb, file: m ? decodeURIComponent(m[1]) : undefined });
+      })
+      .catch(() => { /* no picture — the caption and link still stand */ });
+    return () => { live = false; };
+  }, [image.wikiTitle]);
+  return (
+    <figure className="info-real-image">
+      {src && <img className="info-thumb" src={src.thumb} alt={image.caption} loading="lazy" />}
+      <figcaption className="info-note">
+        {image.caption} {image.licence}.{' '}
+        {src?.file ? (
+          <a href={`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(src.file)}`} target="_blank" rel="noreferrer">
+            Image on Wikimedia Commons
+          </a>
+        ) : (
+          <a href={`https://en.wikipedia.org/wiki/${encodeURIComponent(image.wikiTitle.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">
+            See it on Wikipedia
+          </a>
+        )}
+      </figcaption>
+    </figure>
+  );
+}
+
 /** "One pin for all duplicates": every record merged into this pin, each with
  * its own dates, source, picture and a button to fly to its exact spot. */
 function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (r: MergedRecord) => void }) {
@@ -326,6 +365,7 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
           {wiki.thumb && (
             <img className="info-thumb" src={wiki.thumb} alt={content.title} loading="lazy" />
           )}
+          {content.realImage && <RealImagePanel image={content.realImage} />}
 
           {content.commanders && content.commanders.length > 0 && (
             <CommanderFaces commanders={content.commanders} sideNames={content.sideNames} size="lg" />

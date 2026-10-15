@@ -155,11 +155,16 @@ export function monumentModelForName(name: string): string | null {
   return null;
 }
 
-export function resolveMonumentModel(site: AncientSite): string {
+export function resolveMonumentModel(site: AncientSite): string | null {
   if (site.model) return site.model;
   if (MODEL_BY_ID[site.id]) return MODEL_BY_ID[site.id];
   if (site.category === 'settlement') return 'settlement';
-  if (site.category === 'precursor-hypothesis') return 'impact';
+  // A precursor HYPOTHESIS is a claim, not a building. Handing every one the
+  // impact crater put a dark crater "donut" on Yonaguni's natural rock, on a
+  // 1513 map in Istanbul, on a Bosnian hill. Only the ones with an honest
+  // model of their own (Richat's rings, the Younger Dryas impact) get one;
+  // the rest get NO 3D button — prefer none to a wrong one.
+  if (site.category === 'precursor-hypothesis') return null;
   return 'megalith';
 }
 
@@ -180,9 +185,15 @@ export function siteToPanel(site: AncientSite): PanelContent {
       lat: site.lat,
       altitude: site.category === 'precursor-hypothesis' ? 3_000_000 : 1_200_000,
     },
-    ...(isModelRejected(resolveMonumentModel(site))
-      ? {}
-      : { monument3d: { model: resolveMonumentModel(site), title: site.name, lat: site.lat, lon: site.lon, builtYear: site.builtYear } }),
+    // Sites with no honest model (a map, a natural hill) show the real
+    // picture instead — fetched live, with its licence noted.
+    ...(site.realImage ? { realImage: site.realImage } : {}),
+    ...(() => {
+      const model = resolveMonumentModel(site);
+      return !model || isModelRejected(model)
+        ? {}
+        : { monument3d: { model, title: site.name, lat: site.lat, lon: site.lon, builtYear: site.builtYear } };
+    })(),
   };
 }
 
@@ -304,6 +315,7 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     ...(sections.length > 0 ? { sections } : {}),
     links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },
+    event: e,
     ...(e.merged && e.merged.length ? { records: e.merged } : {}),
     // Skeleton-loaded events carry a grid cell — InfoPanel lazy-fetches the
     // rest (sides, deaths, war…) and rebuilds this content when it lands.

@@ -119,9 +119,14 @@ export function activePhaseIndex(river: River, year: number): number {
 export class RiversController {
   private viewer: Cesium.Viewer;
   private layers = new Map<string, Cesium.ImageryLayer>();
-  private building = new Set<string>();
+  /** Builds in flight, one per signature — a second ask joins the first. */
+  private building = new Map<string, Promise<void>>();
+  /** Signatures that failed to build — not retried, or a broken one rebuilds forever. */
+  private failed = new Set<string>();
   private shown: Cesium.ImageryLayer | undefined;
   private lastSig = '';
+  /** The newest timeline position, for re-applying once a build arrives. */
+  private latest = { year: 0, enabled: false };
 
   constructor(viewer: Cesium.Viewer) {
     this.viewer = viewer;
@@ -155,9 +160,16 @@ export class RiversController {
     return canvas;
   }
 
-  private async ensure(sig: string, indices: number[]): Promise<void> {
-    if (this.layers.has(sig) || this.building.has(sig)) return;
-    this.building.add(sig);
+  private ensure(sig: string, indices: number[]): Promise<void> {
+    if (this.layers.has(sig) || this.failed.has(sig)) return Promise.resolve();
+    const inFlight = this.building.get(sig);
+    if (inFlight) return inFlight;
+    const job = this.build(sig, indices).finally(() => this.building.delete(sig));
+    this.building.set(sig, job);
+    return job;
+  }
+
+  private async build(sig: string, indices: number[]): Promise<void> {
     try {
       const provider = await Cesium.SingleTileImageryProvider.fromUrl(
         this.rasterise(indices).toDataURL('image/png'),
@@ -170,14 +182,14 @@ export class RiversController {
       nudgeFrames(); // async arrival — make sure it is drawn
       this.layers.set(sig, layer);
     } catch (err) {
+      this.failed.add(sig);
       console.warn('Shifting-rivers overlay unavailable.', err);
-    } finally {
-      this.building.delete(sig);
     }
   }
 
   /** Drive from the timeline. `year` is the signed calendar year. */
   update(year: number, enabled: boolean): void {
+    this.latest = { year, enabled };
     if (this.viewer.isDestroyed()) return;
     if (!enabled || year < EARLIEST_YEAR) {
       if (this.shown) this.shown.show = false;
@@ -203,7 +215,22 @@ export class RiversController {
     this.lastSig = sig;
     const layer = this.layers.get(sig);
     if (!layer) {
-      void this.ensure(sig, indices).then(() => { this.lastSig = ''; this.update(year, enabled); });
+      // THE 17 kya PLAYBACK FREEZE (15 Oct 2026) — the same loop PR #4 fixed in
+      // seaLevel.ts. ensure() used to return at once while a build was in
+      // flight, and its .then() cleared lastSig and re-ran update(), which
+      // asked again, got an instant answer… forever, in microtasks. And a
+      // failed build was retried forever, redoing the heavy toDataURL each
+      // time. Now: one build per signature (a second ask shares it), failed
+      // signatures are never retried, and the follow-up only re-runs update()
+      // when the layer really arrived AND it is still the one the timeline
+      // wants — using the LATEST position.
+      if (this.building.has(sig) || this.failed.has(sig)) return;
+      void this.ensure(sig, indices).then(() => {
+        if (this.viewer.isDestroyed()) return;
+        if (!this.layers.has(sig) || sig !== this.lastSig) return;
+        this.lastSig = '';
+        this.update(this.latest.year, this.latest.enabled);
+      });
       return;
     }
     for (const [k, l] of this.layers) l.show = k === sig && this.zoomVisible;

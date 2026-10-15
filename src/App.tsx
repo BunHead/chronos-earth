@@ -271,7 +271,9 @@ export default function App() {
   }, [viewRegion, heavyYearsBP, zoomIdx]);
   // The imported event you just picked (search/click) — its globe marker stays
   // visible even when the declutter caps would have hidden it.
-  const [focusEventId, setFocusEventId] = useState<string | null>(null);
+  // The searched-for / flown-to event — kept as the OBJECT, because a quiet
+  // one picked from the search index is not among the events in memory.
+  const [focusEvent, setFocusEvent] = useState<TimelineEvent | null>(null);
   const [campaignLabel, setCampaignLabel] = useState<string | null>(null);
   const [panel, setPanel] = useState<PanelContent | null>(null);
   const panelRef = useRef(panel);
@@ -840,7 +842,7 @@ export default function App() {
     setIsPlaying(false);
     setYearsBP(yearToYearsBP(e.startYear));
     setPanel(eventToPanel(e));
-    setFocusEventId(e.id);
+    setFocusEvent(e);
     globeRef.current?.flyTo(e.lon, e.lat, 600_000);
   };
 
@@ -1080,7 +1082,8 @@ export default function App() {
         enabledEventCats={enabledEventCats}
         offSubs={offSubs}
         muralEventIds={muralEventIds}
-        focusEventId={focusEventId}
+        focusEventId={focusEvent?.id ?? null}
+        focusEvent={focusEvent}
         onSelect={setPanel}
         onCampaignLabel={setCampaignLabel}
         onGraphicsLost={handleGraphicsLost}
@@ -1435,9 +1438,14 @@ export default function App() {
         tone={tone}
         onClose={() => {
           setPanel(null);
-          setFocusEventId(null);
+          setFocusEvent(null);
         }}
-        onFly={(c) => c.fly && globeRef.current?.flyTo(c.fly.lon, c.fly.lat, c.fly.altitude)}
+        onFly={(c) => {
+          if (!c.fly) return;
+          // Flying to an event always shows its pin, however quiet it is.
+          if (c.event) setFocusEvent(c.event);
+          globeRef.current?.flyTo(c.fly.lon, c.fly.lat, c.fly.altitude);
+        }}
         onZoomToBattle={visitBattle}
         onViewMonument={visitMonument}
         // Only the panel for the battle actually on the field gets the map.
