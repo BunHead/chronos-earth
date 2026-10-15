@@ -509,8 +509,8 @@
   },
   "tpillars": {
     "note": "Try an include the glyphs on them",
-    "ts": 1792086737743,
-    "status": "allowed",
+    "ts": 1792086739083,
+    "status": "rejected",
     "rework": true
   },
   "mausoleum": {
