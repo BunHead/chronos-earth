@@ -429,6 +429,16 @@ async function main() {
       }
     }
   }
+  // Hand-checked panel text for famous battles (scripts/data/battle-panels.json):
+  // summary, sides, result and the source. Re-applied every run so the harvest
+  // cannot drop it; the curated sides replace the auto-enriched belligerents.
+  const PANEL_KEYS = ['summary', 'sides', 'result', 'sourceUrl'];
+  const panels = JSON.parse(await readFile(join(__dirname, 'data', 'battle-panels.json'), 'utf8')).battles;
+  for (const e of events) {
+    const panel = panels[e.id];
+    if (!panel) continue;
+    for (const k of PANEL_KEYS) if (panel[k] != null) e[k] = panel[k];
+  }
   for (const e of events) {
     const fixes = CURATED_ROLES.get(e.id);
     if (!fixes || !Array.isArray(e.capitalOf)) continue;

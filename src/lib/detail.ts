@@ -11,7 +11,10 @@ import type { TimelineEvent } from './types';
 
 /** Everything an event may carry beyond the skeleton fields. */
 export type EventDetail = Partial<
-  Pick<TimelineEvent, 'sides' | 'partOf' | 'deaths' | 'wikidataId' | 'wikiTitle' | 'image'>
+  Pick<
+    TimelineEvent,
+    'sides' | 'partOf' | 'deaths' | 'summary' | 'result' | 'sourceUrl' | 'wikidataId' | 'wikiTitle' | 'image'
+  >
 >;
 
 const cellCache = new Map<string, Promise<Record<string, EventDetail>>>();

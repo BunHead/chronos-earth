@@ -132,6 +132,46 @@ export const PLACES = [
       'temple-pyramids — which appeared in the 7th century AD and lasted into the early 12th. Minanbé\'s ' +
       'pyramid temple is built in it.',
   },
+  // The two handovers (15 Oct 2026): the border maps now show Hong Kong British
+  // until 1997 and Macau Portuguese until 1999 (scripts/fix-border-names.mjs),
+  // so the moment each changed hands gets a pin of its own. The Q-ids were
+  // checked on Wikidata: Q15251 and Q847839 (Q2621286 is a village in
+  // Wisconsin, not the handover).
+  {
+    id: 'cur-handover-hong-kong',
+    name: 'Handover of Hong Kong',
+    category: 'event',
+    startYear: 1997,
+    // The Hong Kong Convention and Exhibition Centre, Wan Chai, where the
+    // ceremony was held at midnight on 30 June – 1 July 1997.
+    lat: 22.2829,
+    lon: 114.1733,
+    wikidataId: 'Q15251',
+    wikiTitle: 'Handover of Hong Kong',
+    // Hand-set weight, like every curated row: a moment the map now shows.
+    notability: 120,
+    dateNote:
+      'At midnight on 30 June – 1 July 1997 the United Kingdom handed Hong Kong to the People\'s Republic of ' +
+      'China, which made it a Special Administrative Region. British rule began with Hong Kong Island in 1841 ' +
+      '(ceded by the Treaty of Nanking, 1842); Kowloon followed in 1860 and the New Territories were leased ' +
+      'for 99 years in 1898.',
+  },
+  {
+    id: 'cur-handover-macau',
+    name: 'Transfer of sovereignty over Macau',
+    category: 'event',
+    startYear: 1999,
+    lat: 22.1876,
+    lon: 113.5504,
+    wikidataId: 'Q847839',
+    wikiTitle: 'Transfer of sovereignty over Macau',
+    notability: 100,
+    dateNote:
+      'On 20 December 1999 Portugal handed Macau to the People\'s Republic of China, which made it a Special ' +
+      'Administrative Region. The Portuguese had settled there from 1557 and held formal sovereignty from the ' +
+      '1887 Sino-Portuguese treaty. It was the last European colony in Asia.',
+    placeNote: 'Pinned on the Macau peninsula.',
+  },
 ];
 
 async function main() {

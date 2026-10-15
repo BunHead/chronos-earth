@@ -1184,6 +1184,12 @@ textarea:focus-visible,
   margin: 0 0 6px;
 }
 
+.info-source {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: -4px 0 10px;
+}
+
 .facts {
   margin: 0;
   padding-left: 18px;
