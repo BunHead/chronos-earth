@@ -1458,7 +1458,7 @@ const GIZA: Record<string, GizaSpec> = {
   'giza-queen': { bx: 49.5, bz: 49.5, h: 30.25, ruinH: 11, granite: 0 },
   'giza-queen-step': { bx: 31, bz: 31, h: 21.2, ruinH: 21.2, granite: 0, stepped: true },
 };
-const TURA = '#ede6d3'; // fine white Tura limestone casing
+const TURA = '#e2d7bd'; // fine white Tura limestone casing
 const TURA_RAW = '#e0d4b6'; // casing blocks laid but not yet dressed
 const CORE = ['#c7ad7f', '#bea475', '#c3a97a']; // the weathered local core stone
 const GRANITE = '#9c5f50'; // red Aswan granite
@@ -1477,8 +1477,10 @@ function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number)
   // Wind each side outward (CCW seen from outside).
   for (let i = 0; i < 4; i++) {
     const j = (i + 1) % 4;
-    pos.push(...lo[j], ...lo[i], ...hi[i], ...lo[j], ...hi[i], ...hi[j]);
-    uv.push(1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1);
+    // (Fixed 15 Oct: these were wound inward, so the normals pointed in and down
+    // and Khufu lit as one flat white square from above.)
+    pos.push(...lo[j], ...hi[i], ...lo[i], ...lo[j], ...hi[j], ...hi[i]);
+    uv.push(1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1);
   }
   if (k1 > 0.0001) {
     pos.push(...hi[0], ...hi[1], ...hi[2], ...hi[0], ...hi[2], ...hi[3]);
@@ -1495,7 +1497,7 @@ const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   let m = gizaMats.get(color);
   if (!m) gizaMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide,
     // A little self-light so the shaded faces read as pale limestone, not grey or black.
-    emissive: color, emissiveIntensity: 0.22 })));
+    emissive: color, emissiveIntensity: 0.08 })));
   return m;
 };
 

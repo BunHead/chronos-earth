@@ -78,6 +78,9 @@ interface Placement {
    * 140 m terrain hill stood there under the half-built course (the Captain's
    * Giza redo, 15 Oct 2026). Square, north-aligned, centred on lat/lon. */
   clipM?: [number, number];
+  /** Keep the clipM cut at every date, not only until builtYear (the great
+   * pyramids: the surface model's hill pokes through their stripped ruins). */
+  clipAlways?: boolean;
   /** Added on the fly by ensurePlacement (a site visited on the globe), not
    * from the curated list — a curated placement at the same spot replaces it. */
   generic?: boolean;
@@ -86,10 +89,10 @@ interface Placement {
 // The Giza pyramids and queens' pyramids (see PLACEMENTS). built = complete;
 // buildYears = the rise before it; clip = the square of terrain hill cut away
 // until then (base + ~30 m: the surface model's hill spreads past the stone).
-const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number }> = [
-  { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 },
-  { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 },
-  { model: 'giza-menkaure', title: 'Pyramid of Menkaure', lat: 29.97251, lon: 31.12826, built: -2503, buildYears: 29, ring: 95, clip: 132, cover: 90 },
+const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number; always?: boolean }> = [
+  { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 , always: true },
+  { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 , always: true },
+  { model: 'giza-menkaure', title: 'Pyramid of Menkaure', lat: 29.97251, lon: 31.12826, built: -2503, buildYears: 29, ring: 95, clip: 132, cover: 90 , always: true },
   // The queens' pyramids east of Khufu (Khufu's reign) and south of Menkaure.
   { model: 'giza-queen', title: 'Pyramid G1-a (Hetepheres I)', lat: 29.97887, lon: 31.13621, built: -2570, clip: 68, cover: 38 },
   { model: 'giza-queen', title: 'Pyramid G1-b (Meritites I)', lat: 29.97834, lon: 31.13621, built: -2570, clip: 68, cover: 38 },
@@ -138,10 +141,15 @@ const PLACEMENTS: Placement[] = [
   // Cairo after the 1303 earthquake; 1356 (Sultan Hasan's works) is the date
   // the stripped cores take over.
   ...GIZA_PYRAMIDS.map((g) => ({
-    model: g.model, title: g.title, lat: g.lat, lon: g.lon, builtYear: g.built, ruinYear: 1356,
+    model: g.model, title: g.title, lat: g.lat, lon: g.lon, builtYear: g.built,
+    // The queens' ruins are left to the photo's own surface model (it holds them
+    // as they stand): a ruin model on top of that hill read as stacked beige
+    // blocks by Khufu (the PR #12 review). The great three keep their ruins.
+    ...(g.always ? { ruinYear: 1356 } : { endYear: 1356 }),
     ...(g.buildYears ? { buildYears: g.buildYears } : {}),
     ...(g.ring ? { baseRingM: g.ring } : {}),
     clipM: [g.clip, g.clip] as [number, number],
+    ...(g.always ? { clipAlways: true } : {}),
     cover: { rgb: [214, 192, 148] as [number, number, number], at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
   })),
   // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
@@ -273,9 +281,11 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
   if (!viewer || viewer.isDestroyed() || !p.clipM || !coll) return;
   const id = entity.id;
   const modern = !(viewer.terrainProvider instanceof Cesium.EllipsoidTerrainProvider);
-  // Cut at EVERY date, not just before builtYear: the surface model's hill can
-  // poke through the stripped ruin (Khafre's dark photo top, 2026 playtest).
-  let want = modern && lastShowSites && cameraNear(p);
+  // The great pyramids are cut at EVERY date: the surface model's hill pokes
+  // through their stripped ruins (Khafre's dark photo top). The queens only until
+  // built — their floors left flat slabs by Khufu in 2026 (the PR #12 review).
+  const curYear = yearsBPToYear(lastYearsBP);
+  let want = modern && lastShowSites && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
   if (want && !ringGround.has(id)) {
     // The floor's height is the ring's ground: find it first (never a hole into the void).
     if (!grounding.has(id)) void findBase(entity, p);

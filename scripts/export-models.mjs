@@ -88,7 +88,6 @@ const RUINS = [
   ['giza-khufu', 'Pyramid of Khufu'],
   ['giza-khafre', 'Pyramid of Khafre'],
   ['giza-menkaure', 'Pyramid of Menkaure'],
-  ['giza-queen', 'Pyramid G1-a'],
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
