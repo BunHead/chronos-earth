@@ -3462,3 +3462,14 @@ textarea:focus-visible,
 .merged-records .record-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .merged-records .record-zoom { flex: none; min-height: 36px; padding: 0 12px; }
 :root[data-phone] .merged-records .record-zoom { min-height: 44px; }
+
+/* The real picture (a map) for sites with no honest 3D model — show the
+   WHOLE thing, never cropped. */
+.info-real-image {
+  margin: 0 0 12px;
+}
+.info-real-image .info-thumb {
+  object-fit: contain;
+  max-height: 320px;
+  margin-bottom: 4px;
+}
