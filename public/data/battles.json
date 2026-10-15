@@ -359,8 +359,8 @@
       "name": "Battle of Zama",
       "year": -202,
       "dateLabel": "19 October 202 BCE",
-      "lat": 36.3,
-      "lon": 9.4,
+      "lat": 36.2989,
+      "lon": 9.4492,
       "belligerents": {
         "side1": "Roman Republic (Scipio Africanus)",
         "side2": "Carthage (Hannibal)"
@@ -762,8 +762,8 @@
       "name": "Battle of the Yarmouk",
       "year": 636,
       "dateLabel": "15–20 August 636",
-      "lat": 32.74,
-      "lon": 35.95,
+      "lat": 32.8142,
+      "lon": 35.9547,
       "belligerents": {
         "side1": "Rashidun Caliphate (Khalid ibn al-Walid)",
         "side2": "Byzantine Empire"
@@ -797,8 +797,8 @@
       "name": "Battle of Tours",
       "year": 732,
       "dateLabel": "10 October 732",
-      "lat": 46.9,
-      "lon": 0.4,
+      "lat": 46.9876,
+      "lon": 0.5344,
       "belligerents": {
         "side1": "Frankish realm (Charles Martel)",
         "side2": "Umayyad Caliphate"
@@ -1075,8 +1075,8 @@
       "name": "Battle of the Kalka River",
       "year": 1223,
       "dateLabel": "31 May 1223",
-      "lat": 47.2,
-      "lon": 37.5,
+      "lat": 47.2508,
+      "lon": 37.4957,
       "belligerents": {
         "side1": "Mongol Empire",
         "side2": "Rus’ principalities and Cumans"
@@ -1143,8 +1143,8 @@
       "name": "Battle of Legnica",
       "year": 1241,
       "dateLabel": "9 April 1241",
-      "lat": 51.15,
-      "lon": 16.19,
+      "lat": 51.1453,
+      "lon": 16.2228,
       "belligerents": {
         "side1": "Mongol Empire",
         "side2": "Poland, Moravia and the military orders"
@@ -1531,8 +1531,8 @@
       "name": "Battle of Mohács",
       "year": 1526,
       "dateLabel": "29 August 1526",
-      "lat": 45.98,
-      "lon": 18.65,
+      "lat": 45.9414,
+      "lon": 18.6472,
       "belligerents": {
         "side1": "Ottoman Empire (Suleiman)",
         "side2": "Kingdom of Hungary"
@@ -1900,8 +1900,8 @@
       "name": "Battle of Poltava",
       "year": 1709,
       "dateLabel": "8 July 1709 (27 June O.S.)",
-      "lat": 49.59,
-      "lon": 34.55,
+      "lat": 49.6314,
+      "lon": 34.5528,
       "belligerents": {
         "side1": "Russia (Peter the Great)",
         "side2": "Swedish Empire (Charles XII)"
@@ -2563,8 +2563,8 @@
       "name": "Siege of Ruapekapeka",
       "year": 1846,
       "dateLabel": "27 December 1845 – 11 January 1846",
-      "lat": -35.4167,
-      "lon": 174.2333,
+      "lat": -35.4563,
+      "lon": 174.1436,
       "belligerents": {
         "side1": "British Empire and Māori allies",
         "side2": "Ngāpuhi under Te Ruki Kawiti and Hōne Heke"
@@ -2597,8 +2597,8 @@
       "name": "Battle of Balaclava",
       "year": 1854,
       "dateLabel": "25 October 1854",
-      "lat": 44.5,
-      "lon": 33.6,
+      "lat": 44.5718,
+      "lon": 33.5731,
       "belligerents": {
         "side1": "Britain, France, Ottomans",
         "side2": "Russia"
@@ -3015,8 +3015,8 @@
       "name": "Battle of Omdurman",
       "year": 1898,
       "dateLabel": "2 September 1898",
-      "lat": 15.72,
-      "lon": 32.47,
+      "lat": 15.7519,
+      "lon": 32.5201,
       "belligerents": {
         "side1": "British Empire and Egypt",
         "side2": "Mahdist Sudan"
@@ -3118,8 +3118,8 @@
       "name": "Battle of Bita Paka",
       "year": 1914,
       "dateLabel": "11 September 1914",
-      "lat": -4.3333,
-      "lon": 152.3833,
+      "lat": -4.4069,
+      "lon": 152.2992,
       "belligerents": {
         "side1": "Australia",
         "side2": "German New Guinea"
@@ -3543,8 +3543,8 @@
       "name": "Second Battle of El Alamein",
       "year": 1942,
       "dateLabel": "23 October – 11 November 1942",
-      "lat": 30.9,
-      "lon": 28.95,
+      "lat": 30.8414,
+      "lon": 28.9431,
       "belligerents": {
         "side1": "Allies (Montgomery)",
         "side2": "Axis (Rommel)"
@@ -4038,7 +4038,7 @@
     },
     {
       "id": "chosin-reservoir",
-      "name": "The Chosin Reservoir",
+      "name": "Battle of Chosin Reservoir",
       "year": 1950,
       "dateLabel": "27 November – 13 December 1950",
       "lat": 40.47,
