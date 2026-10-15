@@ -19,6 +19,17 @@ export interface MonumentFit {
 // Specific, well-known monuments — real footprint (m) and facing where known.
 // `match` is a lowercase substring of the title (first hit wins).
 const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
+  // The Giza pyramids, each its own true-metre model (Monument3D buildGizaPart):
+  // widths are the real bases (Wikipedia; Verner 2007). Before 'giza' — first hit wins.
+  { match: 'pyramid of khufu', widthM: 230.33, facingDeg: 0 },
+  { match: 'pyramid of khafre', widthM: 215.25, facingDeg: 0 },
+  { match: 'pyramid of menkaure', widthM: 104.6, facingDeg: 0 },
+  { match: 'pyramid g1-a', widthM: 49.5, facingDeg: 0 },
+  { match: 'pyramid g1-b', widthM: 49.5, facingDeg: 0 },
+  { match: 'pyramid g1-c', widthM: 46.25, facingDeg: 0 },
+  { match: 'pyramid g3-a', widthM: 44, facingDeg: 0 },
+  { match: 'pyramid g3-b', widthM: 31, facingDeg: 0 },
+  { match: 'pyramid g3-c', widthM: 31, facingDeg: 0 },
   { match: 'giza pyramids', widthM: 1000 }, // whole plateau: Menkaure west edge → Sphinx east edge
   // 'sphinx' MUST precede 'giza': first-hit-wins, and "Great Sphinx of Giza"
   // contains "giza" — without this it sized as the 230 m pyramid base, not the
@@ -113,6 +124,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
+  'giza-khufu': { widthM: 230.33, facingDeg: 0 },
+  'giza-khafre': { widthM: 215.25, facingDeg: 0 },
+  'giza-menkaure': { widthM: 104.6, facingDeg: 0 },
+  'giza-queen': { widthM: 49.5, facingDeg: 0 },
+  'giza-queen-step': { widthM: 31, facingDeg: 0 },
   // London landmarks — real footprints (m). Facing numbers were READ off
   // calibration plan-renders on real satellite terrain (world −Z = imagery
   // north, +X = imagery east — confirmed at Westminster), not guessed.

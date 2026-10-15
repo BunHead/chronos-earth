@@ -1423,6 +1423,148 @@ function buildTerracottaArmy(group: THREE.Group, ruined: boolean): void {
   if (ruined) group.userData.selfRuined = true;
 }
 
+
+// ── THE GIZA PYRAMIDS, ONE TRUE-METRE MODEL EACH (the Captain, 15 Oct 2026) ──
+// Each pyramid is its own globe placement at its own surveyed centre, so each
+// stands on its OWN ground (the plateau falls ~45 m from Khafre to the valley;
+// one flat 1 km model could only be right at one point). Authored in METRES,
+// north = −Z, east = +X, so the fit scales them at 1:1 and no turn is needed.
+// Figures: Wikipedia (Great Pyramid of Giza; Pyramid of Khafre; Pyramid of
+// Menkaure; Pyramid G1-a / G1-c / G3-a, after Verner 2007 and Lehner 1997);
+// heights of the small G3-b/-c from OpenStreetMap's surveyed tags.
+interface GizaSpec {
+  /** Base, E–W (x) and N–S (z), metres. */
+  bx: number;
+  bz: number;
+  /** Original height to the apex, metres. */
+  h: number;
+  /** Height today (the stripped core), metres. */
+  ruinH: number;
+  /** Lower casing courses of red Aswan granite, metres high (0 = none). */
+  granite: number;
+  /** Khafre: the smooth casing that still caps his top, from this height up. */
+  capFrom?: number;
+  /** Built as a step pyramid (G3-b, G3-c) — never a smooth true pyramid. */
+  stepped?: boolean;
+}
+const GIZA: Record<string, GizaSpec> = {
+  'giza-khufu': { bx: 230.33, bz: 230.33, h: 146.6, ruinH: 138.5, granite: 0 },
+  'giza-khafre': { bx: 215.25, bz: 215.25, h: 143.5, ruinH: 136.4, granite: 2, capFrom: 107 },
+  // 102.2 × 104.6 m; Menkaure's lower sixteen courses were red granite.
+  'giza-menkaure': { bx: 102.2, bz: 104.6, h: 65, ruinH: 61, granite: 16 },
+  // The queens: G1-a/-b 49.5 m × 30.25 m (G1-c 46.25 m and G3-a 44 m scale from
+  // it by their own widths — the same ~0.62 profile); G1-a has lost two-thirds
+  // of its height, so the ruins stand at about a third.
+  'giza-queen': { bx: 49.5, bz: 49.5, h: 30.25, ruinH: 11, granite: 0 },
+  'giza-queen-step': { bx: 31, bz: 31, h: 21.2, ruinH: 21.2, granite: 0, stepped: true },
+};
+const TURA = '#e2d7bd'; // fine white Tura limestone casing
+const TURA_RAW = '#e0d4b6'; // casing blocks laid but not yet dressed
+const CORE = ['#c7ad7f', '#bea475', '#c3a97a']; // the weathered local core stone
+const GRANITE = '#9c5f50'; // red Aswan granite
+
+/** One horizontal slice [y0, y1] of a square pyramid (apex height H), with a
+ * flat top cap when it stops short of the apex. UVs included: glTF needs them. */
+function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number): THREE.BufferGeometry {
+  const k0 = 1 - y0 / H;
+  const k1 = Math.max(0, 1 - y1 / H);
+  const a = [hx * k0, hz * k0];
+  const b = [hx * k1, hz * k1];
+  const lo = [[a[0], y0, a[1]], [a[0], y0, -a[1]], [-a[0], y0, -a[1]], [-a[0], y0, a[1]]];
+  const hi = [[b[0], y1, b[1]], [b[0], y1, -b[1]], [-b[0], y1, -b[1]], [-b[0], y1, b[1]]];
+  const pos: number[] = [];
+  const uv: number[] = [];
+  // Wind each side outward (CCW seen from outside).
+  for (let i = 0; i < 4; i++) {
+    const j = (i + 1) % 4;
+    // (Fixed 15 Oct: these were wound inward, so the normals pointed in and down
+    // and Khufu lit as one flat white square from above.)
+    pos.push(...lo[j], ...hi[i], ...lo[i], ...lo[j], ...hi[j], ...hi[i]);
+    uv.push(1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1);
+  }
+  if (k1 > 0.0001) {
+    pos.push(...hi[0], ...hi[1], ...hi[2], ...hi[0], ...hi[2], ...hi[3]);
+    uv.push(1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.computeVertexNormals();
+  return g;
+}
+const gizaMats = new Map<string, THREE.MeshStandardMaterial>();
+const smoothMat = (color: string): THREE.MeshStandardMaterial => {
+  let m = gizaMats.get(color);
+  if (!m) gizaMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide,
+    // A little self-light so the shaded faces read as pale limestone, not grey or black.
+    emissive: color, emissiveIntensity: 0.08 })));
+  return m;
+};
+
+function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | undefined, ruined: boolean): void {
+  const s = GIZA[model];
+  const hx = s.bx / 2;
+  const hz = s.bz / 2;
+  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1), smoothMat(color)));
+  // The stripped core: the slope of rough local stone (inside the old casing
+  // line — the casing was ~2–3 m of dressed stone), ribbed with its courses.
+  // Not solid stacked boxes: their vertical faces lit near-black on the globe
+  // and read as dark striped pyramids. A smooth slope carries the colour; thin
+  // proud course lines every few metres give it the stepped, rough texture.
+  const terraces = (from: number, top: number, inset: number) => {
+    const ih = 1 - inset / hx;
+    group.add(new THREE.Mesh(pyramidSlice(hx * ih, hz * ih, s.h * ih, from, top), smoothMat(CORE[0])));
+    const step = Math.max(1.6, Math.min(5, top / 28));
+    for (let y = from + step; y < top - 0.5; y += step) {
+      const k = (1 - y / (s.h * ih)) * ih;
+      const c = smoothMat(CORE[1 + (Math.round(y / step) % 2)]);
+      for (const [w, d, x, z] of [
+        [2 * hx * k + 0.6, 0.7, 0, hz * k], [2 * hx * k + 0.6, 0.7, 0, -hz * k],
+        [0.7, 2 * hz * k + 0.6, hx * k, 0], [0.7, 2 * hz * k + 0.6, -hx * k, 0],
+      ] as const) group.add(matBlock(w, 0.5, d, x, y - 0.25, z, c));
+    }
+  };
+  if (s.stepped) {
+    // G3-b/-c: four tiers of rough local stone (as they stand today).
+    const tiers = 4;
+    for (let i = 0; i < tiers; i++) {
+      const k = 1 - i / tiers;
+      group.add(matBlock(s.bx * k, s.h / tiers, s.bz * k, 0, (i + 0.5) * (s.h / tiers), 0, smoothMat(CORE[i % 3])));
+    }
+    return;
+  }
+  if (ruined) {
+    // TODAY: the white casing was stripped (after the 1303 earthquake loosened
+    // it, for Cairo's builders), leaving the stepped core, its tip lost.
+    const capFrom = s.capFrom ?? s.ruinH;
+    if (s.granite) {
+      // A few courses of the granite casing still cling to the base.
+      slice(0, Math.min(s.granite, 6), GRANITE);
+      terraces(Math.min(s.granite, 6), capFrom, 2.2);
+    } else {
+      terraces(0, capFrom, 2.2);
+    }
+    // Khafre keeps a cap of his smooth casing near the top.
+    if (s.capFrom) slice(s.capFrom, s.ruinH, '#ddd2b8');
+    return;
+  }
+  if (buildFrac != null && buildFrac < 1) {
+    // UNDER CONSTRUCTION. Casing and core rose together course by course, so a
+    // half-built pyramid is a flat-topped frustum. Height by VOLUME (constant
+    // haulage): f of the stone is laid at 1 − (1 − f)^(1/3) of the height, so
+    // the work 90% done stands only a little over half as high. (How the stone
+    // was raised — ramps of what shape — is still debated, so none is drawn.)
+    const y = s.h * (1 - Math.cbrt(1 - buildFrac));
+    if (s.granite) slice(0, Math.min(s.granite, y), GRANITE);
+    if (y > s.granite) slice(s.granite, y, TURA_RAW);
+    return;
+  }
+  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex (no gilded
+  // capstone: none survives and its finish is unknown).
+  if (s.granite) slice(0, s.granite, GRANITE);
+  slice(s.granite, s.h, TURA);
+}
+
 export function buildModel(
   model: string,
   phase = 3,
@@ -4739,6 +4881,11 @@ export function buildModel(
         group.add(drum);
       }
     }
+  } else if (model in GIZA) {
+    // One Giza pyramid (or queen) in true metres — see buildGizaPart.
+    ground = '#d8c48a';
+    group.userData.selfRuined = true;
+    buildGizaPart(group, model, buildFrac, ruined);
   } else if (model === 'giza') {
     // The Giza plateau — the three great pyramids and the Sphinx, built up
     // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
@@ -4908,11 +5055,14 @@ export function buildModel(
       // Khafre's mortuary temple at his pyramid's east face.
       group.add(block(2.8, 1.1, 3.2, -8.4, 0.55, 15.0, templeMat));
       // The covered causeway climbing from the valley temple to the mortuary temple.
-      group.add(strut(new THREE.Vector3(15.4, 0.6, 21.6), new THREE.Vector3(-7.4, 0.6, 15.2), 0.85, stoneMat(templeMat)));
+      // Laid ON the ground (it was a 0.85-unit beam 0.6 up, ~14 m in the air on the
+      // globe — the Captain's floating dark bar, 15 Oct 2026).
+      group.add(strut(new THREE.Vector3(15.4, 0.04, 21.6), new THREE.Vector3(-7.4, 0.04, 15.2), 0.2, stoneMat(templeMat)));
       // Khufu's rectangular enclosure (perimeter) wall around the Great Pyramid.
       const eW = 6.6;
-      for (const [w, d, x, z] of [[2 * eW, 0.5, 0, eW], [2 * eW, 0.5, 0, -eW], [0.5, 2 * eW, eW, 0], [0.5, 2 * eW, -eW, 0]] as const)
-        group.add(block(w, 0.8, d, x, 0.4, z, templeMat));
+      // A low, thin wall (it was 0.5 × 0.8 units — an 18 m-high dark frame).
+      for (const [w, d, x, z] of [[2 * eW, 0.15, 0, eW], [2 * eW, 0.15, 0, -eW], [0.15, 2 * eW, eW, 0], [0.15, 2 * eW, -eW, 0]] as const)
+        group.add(block(w, 0.3, d, x, 0.15, z, templeMat));
     }
   } else if (model === 'buckingham') {
     // Buckingham Palace — the symmetrical East Front (Aston Webb's 1913

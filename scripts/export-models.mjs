@@ -23,6 +23,12 @@ const MESO = JSON.parse(readFileSync(new URL('../src/data/meso-temples.json', im
 const FLEET = [
   ...MESO.map((t) => [t.model, t.title]),
   ['giza', 'Giza Pyramids'],
+  // The Giza pyramids one by one, in true metres (Monument3D buildGizaPart).
+  ['giza-khufu', 'Pyramid of Khufu'],
+  ['giza-khafre', 'Pyramid of Khafre'],
+  ['giza-menkaure', 'Pyramid of Menkaure'],
+  ['giza-queen', 'Pyramid G1-a'],
+  ['giza-queen-step', 'Pyramid G3-b'],
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
@@ -79,6 +85,9 @@ const FLEET = [
 const RUINS = [
   ...MESO.map((t) => [t.model, t.title]),
   ['giza', 'Giza Pyramids'],
+  ['giza-khufu', 'Pyramid of Khufu'],
+  ['giza-khafre', 'Pyramid of Khafre'],
+  ['giza-menkaure', 'Pyramid of Menkaure'],
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
@@ -91,6 +100,9 @@ const RUINS = [
 // honours a build fraction (currently giza). Each → {model}-b30/-b60/-b90.
 const BUILD_STAGES = [
   ['giza', 'Giza Pyramids', [30, 60, 90]],
+  ['giza-khufu', 'Pyramid of Khufu', [30, 60, 90]],
+  ['giza-khafre', 'Pyramid of Khafre', [30, 60, 90]],
+  ['giza-menkaure', 'Pyramid of Menkaure', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
   // The impact as a five-frame sequence: b15 comet far, b30 comet near,

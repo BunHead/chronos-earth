@@ -334,6 +334,14 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 🌍 Visit on the globe
               </button>
             )}
+            {content.monument3d && /giza/i.test(content.monument3d.title) && content.monument3d.model !== 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D pyramids: a reconstruction from the best evidence — published sizes (Lehner 1997,
+                Verner 2007), OpenStreetMap footprints and reign dates. The white casing, the courses
+                rising and the stripped ruins follow that evidence; how the stone was raised is
+                debated, so no ramps are shown.
+              </p>
+            )}
             {content.monument3d?.model === 'sphinx' && (
               <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
                 3D model:{' '}
