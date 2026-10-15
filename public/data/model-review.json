@@ -529,5 +529,12 @@
   "shard": {
     "status": "allowed",
     "ts": 1791273201067
+  },
+  "place:tpillars@37.223,38.922": {
+    "transform": {
+      "eastM": 40,
+      "northM": 20
+    },
+    "ts": 1792086776959
   }
 }
