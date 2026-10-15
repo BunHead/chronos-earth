@@ -379,6 +379,8 @@ export interface PanelContent {
   /** Monuments can be visited standing on the globe itself (builtYear lets
    * the timeline nudge to an era where the monument exists). */
   monument3d?: { model: string; title: string; lat: number; lon: number; builtYear?: number };
+  /** The event this panel shows — "Fly here" makes sure its pin is drawn. */
+  event?: TimelineEvent;
   /** A real picture (map, photo) shown instead of a 3D model. */
   realImage?: RealImage;
   /** Clickable "nearby in this era" rows for the on-the-fly place+time dossier. */
