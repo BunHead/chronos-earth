@@ -44,8 +44,8 @@
     "kb": 40
   },
   "rings": {
-    "footprint": 48.274,
-    "kb": 787
+    "footprint": 2491.052,
+    "kb": 1164
   },
   "tpillars": {
     "footprint": 17.613,
@@ -499,5 +499,9 @@
   "giza-menkaure-b90": {
     "footprint": 104.6,
     "kb": 3
+  },
+  "rings-lite": {
+    "footprint": 2350.5,
+    "kb": 90
   }
 }

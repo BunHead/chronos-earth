@@ -76,7 +76,7 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
   { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
-  { match: 'richat', widthM: 2500 }, // ~40 km across, but the stylised rings sit at this scale
+  { match: 'richat', widthM: 12000 }, // ~40 km across — 'Visit' frames the real landform (Plato's city is a toggle)
   // London expansion — real footprints (m); facings READ off geo plan-renders
   // on the real satellite imagery 2026-07-12 (world −Z = north, +X = east).
   { match: 'tower bridge', widthM: 260, facingDeg: 90 }, // span crosses the Thames ~N–S
@@ -115,7 +115,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
-  rings: { widthM: 2500, facingDeg: 180 }, // Atlantis rings — turned so the harbour reads at ~7 o'clock
+  // Plato's Atlantis, imagined (components/atlantisCity.ts): TRUE scale — the
+  // exported footprint is 2491.1 units of 10 m. facingDeg −90 turns the
+  // canal (local +Z) to bearing 270°: due west, toward the Atlantic.
+  rings: { widthM: 24911, facingDeg: -90 },
   // Seven Wonders of the Ancient World — real footprints (m) of what stood.
   'hanging-gardens': { widthM: 120, facingDeg: 0 },
   'zeus-statue': { widthM: 40, facingDeg: 0 },
