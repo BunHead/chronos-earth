@@ -334,6 +334,15 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 🌍 Visit on the globe
               </button>
             )}
+            {content.monument3d?.model === 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D model:{' '}
+                <a href="https://sketchfab.com/3d-models/f169dbe7974648babe327179091e0ee3" target="_blank" rel="noreferrer">
+                  'The Great Sphinx of Giza - Egypt'
+                </a>{' '}
+                by Chenzoss, CC BY 4.0
+              </p>
+            )}
             {content.fly && (
               <button className="btn" onClick={() => onFly(content)}>
                 ✈ Fly here
