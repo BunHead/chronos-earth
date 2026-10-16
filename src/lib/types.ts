@@ -39,6 +39,19 @@ export interface AncientSite {
   alternative?: AlternativeView;
   /** Optional 3D model type for the monument viewer (e.g. "stonehenge"). */
   model?: string;
+  /** The real picture, for sites with no honest 3D model (e.g. a map). */
+  realImage?: RealImage;
+}
+
+/** A real picture shown in the panel, fetched live from a Wikipedia article's
+ * lead image (hosted on Wikimedia Commons), with its licence spelled out. */
+export interface RealImage {
+  /** Wikipedia article whose lead image is the picture. */
+  wikiTitle: string;
+  /** What the picture shows, in plain words. */
+  caption: string;
+  /** The licence / copyright status, e.g. "Public domain (1513)". */
+  licence: string;
 }
 
 /* ------------------------------------------------------------------ *
@@ -366,6 +379,10 @@ export interface PanelContent {
   /** Monuments can be visited standing on the globe itself (builtYear lets
    * the timeline nudge to an era where the monument exists). */
   monument3d?: { model: string; title: string; lat: number; lon: number; builtYear?: number };
+  /** The event this panel shows — "Fly here" makes sure its pin is drawn. */
+  event?: TimelineEvent;
+  /** A real picture (map, photo) shown instead of a 3D model. */
+  realImage?: RealImage;
   /** Clickable "nearby in this era" rows for the on-the-fly place+time dossier. */
   related?: RelatedItem[];
   /** Other records of the same place merged into this pin — listed with a

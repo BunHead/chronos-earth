@@ -3462,3 +3462,42 @@ textarea:focus-visible,
 .merged-records .record-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .merged-records .record-zoom { flex: none; min-height: 36px; padding: 0 12px; }
 :root[data-phone] .merged-records .record-zoom { min-height: 44px; }
+
+/* The real picture (a map) for sites with no honest 3D model — show the
+   WHOLE thing, never cropped. */
+.info-real-image {
+  margin: 0 0 12px;
+}
+.info-real-image .info-thumb {
+  object-fit: contain;
+  max-height: 320px;
+  margin-bottom: 4px;
+}
+
+/* Plato's Atlantis, imagined — the Richat panel's flagged vision switch. */
+.atlantis-vision {
+  flex-basis: 100%;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px dashed rgba(224, 160, 90, 0.55);
+  border-radius: 8px;
+  background: rgba(224, 160, 90, 0.07);
+}
+.atlantis-vision.on {
+  border-style: solid;
+  background: rgba(240, 122, 58, 0.12);
+}
+.atlantis-toggle {
+  border-color: #d98a4a;
+  color: #f4c58e;
+}
+.atlantis-vision.on .atlantis-toggle {
+  background: #c8692f;
+  color: #fff;
+}
+.atlantis-label {
+  margin: 6px 0 0;
+  font-size: 0.78em;
+  line-height: 1.4;
+  opacity: 0.88;
+}

@@ -390,6 +390,49 @@
       "hasBattleView": true
     },
     {
+      "id": "gaixia-202bce",
+      "name": "Battle of Gaixia",
+      "year": -202,
+      "dateLabel": "202 BCE",
+      "lat": 33.328,
+      "lon": 117.551,
+      "belligerents": {
+        "side1": "Han (Liu Bang)",
+        "side2": "Western Chu (Xiang Yu)"
+      },
+      "victor": "Han victory",
+      "outcome": "Xiang Yu's army was surrounded and broke up; he fled and killed himself at the Wu River.",
+      "significance": "Ended the Chu–Han Contention. Liu Bang became the first emperor of the Han dynasty, which ruled China for four centuries.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Gaixia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Gaixia"
+        },
+        {
+          "label": "Wikidata: Q1349891",
+          "url": "https://www.wikidata.org/wiki/Q1349891"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Liu Bang",
+          "side": 1,
+          "wiki": "Emperor Gaozu of Han"
+        },
+        {
+          "name": "Han Xin",
+          "side": 1,
+          "wiki": "Han Xin"
+        },
+        {
+          "name": "Xiang Yu",
+          "side": 2,
+          "wiki": "Xiang Yu"
+        }
+      ]
+    },
+    {
       "id": "carthage-146bce",
       "name": "Siege of Carthage",
       "year": -146,
@@ -858,6 +901,97 @@
           "name": "Gao Xianzhi",
           "side": 2,
           "wiki": "Gao Xianzhi"
+        }
+      ]
+    },
+    {
+      "id": "lechfeld-955",
+      "name": "Battle of Lechfeld",
+      "year": 955,
+      "dateLabel": "10 August 955",
+      "lat": 48.35,
+      "lon": 10.92,
+      "belligerents": {
+        "side1": "East Francia (Otto I)",
+        "side2": "Hungarians"
+      },
+      "victor": "East Frankish victory",
+      "outcome": "Otto I's German army routed a large Hungarian raiding force near Augsburg.",
+      "significance": "Ended the Hungarian raids on Western Europe. It boosted Otto I, who was crowned Holy Roman Emperor in 962.",
+      "casualties": "Heavy Hungarian losses (uncertain)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Lechfeld",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Lechfeld"
+        },
+        {
+          "label": "Wikidata: Q273069",
+          "url": "https://www.wikidata.org/wiki/Q273069"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Otto I",
+          "side": 1,
+          "wiki": "Otto the Great"
+        },
+        {
+          "name": "Bulcsú",
+          "side": 2,
+          "wiki": "Bulcsú"
+        },
+        {
+          "name": "Lehel",
+          "side": 2,
+          "wiki": "Lehel"
+        }
+      ]
+    },
+    {
+      "id": "clontarf-1014",
+      "name": "Battle of Clontarf",
+      "year": 1014,
+      "dateLabel": "23 April 1014",
+      "lat": 53.365,
+      "lon": -6.198,
+      "belligerents": {
+        "side1": "Kingdom of Munster and allies (Brian Boru)",
+        "side2": "Leinster and the Norse of Dublin and the Isles"
+      },
+      "victor": "Munster victory",
+      "outcome": "Brian Boru's army won, but Brian himself was killed in his tent during the battle.",
+      "significance": "Broke the power of the Norse–Leinster alliance. It is one of the best-remembered battles in Irish history.",
+      "casualties": "About 7,000–10,000 (uncertain)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Clontarf",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Clontarf"
+        },
+        {
+          "label": "Wikidata: Q868027",
+          "url": "https://www.wikidata.org/wiki/Q868027"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Brian Boru",
+          "side": 1,
+          "wiki": "Brian Boru"
+        },
+        {
+          "name": "Murchad mac Briain",
+          "side": 1,
+          "wiki": "Murchad mac Briain"
+        },
+        {
+          "name": "Máel Mórda mac Murchada",
+          "side": 2,
+          "wiki": "Máel Mórda mac Murchada"
+        },
+        {
+          "name": "Sigtrygg Silkbeard",
+          "side": 2,
+          "wiki": "Sihtric Silkbeard"
         }
       ]
     },
@@ -1423,6 +1557,49 @@
       "kind": "siege"
     },
     {
+      "id": "towton-1461",
+      "name": "Battle of Towton",
+      "year": 1461,
+      "dateLabel": "29 March 1461",
+      "lat": 53.84,
+      "lon": -1.268,
+      "belligerents": {
+        "side1": "House of York",
+        "side2": "House of Lancaster"
+      },
+      "victor": "Yorkist victory",
+      "outcome": "Fought in a snowstorm; the Lancastrian army broke and many drowned in the Cock Beck.",
+      "significance": "Often called the largest and bloodiest battle ever fought on English soil. It secured the throne for Edward IV.",
+      "casualties": "Perhaps 9,000–28,000 killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Towton",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Towton"
+        },
+        {
+          "label": "Wikidata: Q634629",
+          "url": "https://www.wikidata.org/wiki/Q634629"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Edward IV",
+          "side": 1,
+          "wiki": "Edward IV of England"
+        },
+        {
+          "name": "Earl of Warwick",
+          "side": 1,
+          "wiki": "Richard Neville, 16th Earl of Warwick"
+        },
+        {
+          "name": "Duke of Somerset",
+          "side": 2,
+          "wiki": "Henry Beaufort, 3rd Duke of Somerset"
+        }
+      ]
+    },
+    {
       "id": "bosworth",
       "name": "Battle of Bosworth Field",
       "year": 1485,
@@ -1771,6 +1948,125 @@
           "name": "Askia Ishaq II",
           "side": 2,
           "wiki": "Askia Ishaq II"
+        }
+      ]
+    },
+    {
+      "id": "sekigahara-1600",
+      "name": "Battle of Sekigahara",
+      "year": 1600,
+      "dateLabel": "21 October 1600",
+      "lat": 35.371,
+      "lon": 136.462,
+      "belligerents": {
+        "side1": "Eastern Army (Tokugawa Ieyasu)",
+        "side2": "Western Army (Ishida Mitsunari)"
+      },
+      "victor": "Eastern Army victory",
+      "outcome": "Several Western Army lords switched sides mid-battle, and the Western Army collapsed.",
+      "significance": "Made Tokugawa Ieyasu master of Japan. His shogunate ruled for over 250 years, until 1868.",
+      "casualties": "About 5,000–30,000 (uncertain)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Sekigahara",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Sekigahara"
+        },
+        {
+          "label": "Wikidata: Q234188",
+          "url": "https://www.wikidata.org/wiki/Q234188"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Tokugawa Ieyasu",
+          "side": 1,
+          "wiki": "Tokugawa Ieyasu"
+        },
+        {
+          "name": "Ishida Mitsunari",
+          "side": 2,
+          "wiki": "Ishida Mitsunari"
+        }
+      ]
+    },
+    {
+      "id": "breitenfeld-1631",
+      "name": "Battle of Breitenfeld",
+      "year": 1631,
+      "dateLabel": "17 September 1631",
+      "lat": 51.4,
+      "lon": 12.333,
+      "belligerents": {
+        "side1": "Sweden and Saxony",
+        "side2": "Holy Roman Empire and Catholic League"
+      },
+      "victor": "Swedish–Saxon victory",
+      "outcome": "Gustavus Adolphus's flexible Swedish army smashed Tilly's veteran imperial army near Leipzig.",
+      "significance": "The first great Protestant victory of the Thirty Years' War. It showed the power of new, mobile tactics.",
+      "casualties": "About 7,600 imperial dead, plus 9,000 captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Breitenfeld (1631)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Breitenfeld_(1631)"
+        },
+        {
+          "label": "Wikidata: Q205379",
+          "url": "https://www.wikidata.org/wiki/Q205379"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Gustavus Adolphus",
+          "side": 1,
+          "wiki": "Gustavus Adolphus"
+        },
+        {
+          "name": "Count of Tilly",
+          "side": 2,
+          "wiki": "Johann Tserclaes, Count of Tilly"
+        },
+        {
+          "name": "Pappenheim",
+          "side": 2,
+          "wiki": "Gottfried Heinrich Graf zu Pappenheim"
+        }
+      ]
+    },
+    {
+      "id": "rocroi-1643",
+      "name": "Battle of Rocroi",
+      "year": 1643,
+      "dateLabel": "19 May 1643",
+      "lat": 49.919,
+      "lon": 4.528,
+      "belligerents": {
+        "side1": "Kingdom of France",
+        "side2": "Spanish Empire"
+      },
+      "victor": "French victory",
+      "outcome": "The young Duke of Enghien broke a Spanish army besieging the French town of Rocroi.",
+      "significance": "Marked the end of Spain's famous tercio infantry as Europe's best, and the rise of French military power.",
+      "casualties": "About 4,000 French and 15,000 Spanish (killed, wounded or captured)",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Rocroi",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Rocroi"
+        },
+        {
+          "label": "Wikidata: Q728480",
+          "url": "https://www.wikidata.org/wiki/Q728480"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Duke of Enghien",
+          "side": 1,
+          "wiki": "Louis, Grand Condé"
+        },
+        {
+          "name": "Francisco de Melo",
+          "side": 2,
+          "wiki": "Francisco de Melo"
         }
       ]
     },
@@ -2421,6 +2717,44 @@
       "timeOfDay": "day"
     },
     {
+      "id": "ayacucho-1824",
+      "name": "Battle of Ayacucho",
+      "year": 1824,
+      "dateLabel": "9 December 1824",
+      "lat": -13.043,
+      "lon": -74.132,
+      "belligerents": {
+        "side1": "Peruvian and Gran Colombian patriots",
+        "side2": "Spanish royalists (Viceroyalty of Peru)"
+      },
+      "victor": "Patriot victory",
+      "outcome": "Antonio José de Sucre's army defeated the Viceroy, who was captured and signed a surrender.",
+      "significance": "The last major battle of the Spanish American wars of independence. It ended Spanish rule in South America.",
+      "casualties": "About 1,000 patriot and 2,000 royalist casualties",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ayacucho",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ayacucho"
+        },
+        {
+          "label": "Wikidata: Q934157",
+          "url": "https://www.wikidata.org/wiki/Q934157"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Antonio José de Sucre",
+          "side": 1,
+          "wiki": "Antonio José de Sucre"
+        },
+        {
+          "name": "José de la Serna",
+          "side": 2,
+          "wiki": "José de la Serna e Hinojosa"
+        }
+      ]
+    },
+    {
       "id": "navarino",
       "name": "Battle of Navarino",
       "year": 1827,
@@ -2658,6 +2992,49 @@
           "name": "Peter Lalor",
           "side": 2,
           "wiki": "Peter Lalor"
+        }
+      ]
+    },
+    {
+      "id": "solferino-1859",
+      "name": "Battle of Solferino",
+      "year": 1859,
+      "dateLabel": "24 June 1859",
+      "lat": 45.367,
+      "lon": 10.566,
+      "belligerents": {
+        "side1": "France and Sardinia",
+        "side2": "Austrian Empire"
+      },
+      "victor": "Franco-Sardinian victory",
+      "outcome": "A huge, confused battle with three emperors and kings commanding in person. Austria fell back.",
+      "significance": "A key step toward Italian unification. The suffering of the wounded inspired Henry Dunant to found the Red Cross.",
+      "casualties": "About 40,000 killed and wounded on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Solferino",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Solferino"
+        },
+        {
+          "label": "Wikidata: Q324916",
+          "url": "https://www.wikidata.org/wiki/Q324916"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Napoleon III",
+          "side": 1,
+          "wiki": "Napoleon III"
+        },
+        {
+          "name": "Victor Emmanuel II",
+          "side": 1,
+          "wiki": "Victor Emmanuel II"
+        },
+        {
+          "name": "Franz Joseph I",
+          "side": 2,
+          "wiki": "Franz Joseph I of Austria"
         }
       ]
     },
@@ -3464,6 +3841,49 @@
       "kind": "campaign"
     },
     {
+      "id": "dunkirk-1940",
+      "name": "Battle of Dunkirk",
+      "year": 1940,
+      "dateLabel": "26 May – 4 June 1940",
+      "lat": 51.048,
+      "lon": 2.381,
+      "belligerents": {
+        "side1": "Allies (Britain, France, Belgium)",
+        "side2": "Nazi Germany"
+      },
+      "victor": "German victory; Allied evacuation",
+      "outcome": "Germany took Dunkirk, but over 338,000 Allied troops escaped by sea in Operation Dynamo.",
+      "significance": "The 'miracle of Dunkirk' saved the British Army to fight on after the fall of France.",
+      "casualties": "Tens of thousands; about 35,000 French troops captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Dunkirk",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Dunkirk"
+        },
+        {
+          "label": "Wikidata: Q208529",
+          "url": "https://www.wikidata.org/wiki/Q208529"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lord Gort",
+          "side": 1,
+          "wiki": "John Vereker, 6th Viscount Gort"
+        },
+        {
+          "name": "Bertram Ramsay",
+          "side": 1,
+          "wiki": "Bertram Ramsay"
+        },
+        {
+          "name": "Gerd von Rundstedt",
+          "side": 2,
+          "wiki": "Gerd von Rundstedt"
+        }
+      ]
+    },
+    {
       "id": "pearl-harbor",
       "name": "Attack on Pearl Harbor",
       "year": 1941,
@@ -3503,6 +3923,45 @@
       ],
       "timeOfDay": "dawn",
       "hasBattleView": true
+    },
+    {
+      "id": "moscow-1941",
+      "name": "Battle of Moscow",
+      "year": 1941,
+      "dateLabel": "30 September 1941 – 20 April 1942",
+      "lat": 55.752,
+      "lon": 37.632,
+      "belligerents": {
+        "side1": "Soviet Union",
+        "side2": "Nazi Germany"
+      },
+      "victor": "Soviet victory",
+      "outcome": "The German drive on Moscow stalled in winter, and a Soviet counter-attack pushed it back.",
+      "significance": "The first major German defeat of World War II on land. It ended Hitler's hope of a quick win against the Soviet Union.",
+      "casualties": "Very heavy: roughly 1 million Soviet and 500,000+ German casualties",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Moscow",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Moscow"
+        },
+        {
+          "label": "Wikidata: Q151290",
+          "url": "https://www.wikidata.org/wiki/Q151290"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Georgy Zhukov",
+          "side": 1,
+          "wiki": "Georgy Zhukov"
+        },
+        {
+          "name": "Fedor von Bock",
+          "side": 2,
+          "wiki": "Fedor von Bock"
+        }
+      ],
+      "kind": "campaign"
     },
     {
       "id": "coral-sea",
@@ -4035,6 +4494,45 @@
           "wiki": "Tadamichi Kuribayashi"
         }
       ]
+    },
+    {
+      "id": "okinawa-1945",
+      "name": "Battle of Okinawa",
+      "year": 1945,
+      "dateLabel": "1 April – 22 June 1945",
+      "lat": 26.5,
+      "lon": 128.0,
+      "belligerents": {
+        "side1": "United States and Allies",
+        "side2": "Empire of Japan"
+      },
+      "victor": "Allied victory",
+      "outcome": "After 82 days of fighting, US forces took the island; Japanese commanders died by suicide at the end.",
+      "significance": "The largest amphibious assault of the Pacific War, and one of its bloodiest. It shaped the decision to use the atomic bombs.",
+      "casualties": "About 50,000 Allied casualties, 77,000–110,000 Japanese soldiers and many thousands of civilians killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Okinawa",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Okinawa"
+        },
+        {
+          "label": "Wikidata: Q192660",
+          "url": "https://www.wikidata.org/wiki/Q192660"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Simon Bolivar Buckner Jr.",
+          "side": 1,
+          "wiki": "Simon Bolivar Buckner Jr."
+        },
+        {
+          "name": "Mitsuru Ushijima",
+          "side": 2,
+          "wiki": "Mitsuru Ushijima"
+        }
+      ],
+      "kind": "campaign"
     },
     {
       "id": "chosin-reservoir",

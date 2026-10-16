@@ -615,6 +615,11 @@
             "url": "https://www.youtube.com/watch?v=JCyAvu0Ceds"
           }
         ]
+      },
+      "realImage": {
+        "wikiTitle": "Babylonian Map of the World",
+        "caption": "No 'Sumerian map' of these sites exists. The oldest real world map from Mesopotamia is this Babylonian clay tablet, c. 600 BCE, in the British Museum. It shows Babylon and its neighbours, not landing grounds or mines.",
+        "licence": "The tablet is public domain (c. 600 BCE); see the Commons file page for the photo's licence"
       }
     },
     {
@@ -717,6 +722,11 @@
             "url": "https://en.wikipedia.org/wiki/Piri_Reis_map"
           }
         ]
+      },
+      "realImage": {
+        "wikiTitle": "Piri Reis map",
+        "caption": "The real Piri Reis map (1513), Topkapı Palace Library, Istanbul.",
+        "licence": "The map is public domain (drawn 1513); image via Wikimedia Commons"
       }
     },
     {
@@ -727,7 +737,7 @@
       "lon": 18.1761,
       "builtYear": 2005,
       "builtYearLabel": "the claim: first made in 2005",
-      "consensusSummary": "A cluster of natural hills around Visoko in central Bosnia and Herzegovina. Since 2005 they have been promoted as the largest ancient pyramids on Earth. Geologists who studied them found flatirons, a common natural landform, with no evidence of human shaping.",
+      "consensusSummary": "Visočica is a NATURAL hill, not a pyramid. A cluster of natural hills around Visoko in central Bosnia and Herzegovina. Since 2005 they have been promoted as the largest ancient pyramids on Earth. Geologists who studied them found flatirons, a common natural landform, with no evidence of human shaping.",
       "significance": "A modern case of a claim outrunning the evidence — and of real archaeology (a medieval castle, Roman fortifications) put at risk by digging for an imagined one.",
       "keyFacts": [
         "The hills are flatirons: tilted rock layers eroded into triangular faces",

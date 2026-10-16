@@ -15,6 +15,8 @@ interface InfoPanelProps {
   onFly: (content: PanelContent) => void;
   onZoomToBattle: (battleId: string) => void;
   onViewMonument: (monument: NonNullable<PanelContent['monument3d']>) => void;
+  /** The Richat's "Plato's Atlantis, imagined" switch. */
+  atlantis?: { on: boolean; onToggle: (monument: NonNullable<PanelContent['monument3d']>) => void };
   /** The battle map, when this panel's battle is the one on the field.
    * Rendered inline here by default; `onPopOutMap` floats it instead. */
   battleMap?: ReactNode;
@@ -57,6 +59,45 @@ function RecordThumb({ title }: { title?: string }) {
   return src ? <img className="record-thumb" src={src} alt={title ?? ''} loading="lazy" /> : null;
 }
 
+/** The REAL picture for a site with no honest 3D model (a map, say): the
+ * Wikipedia article's lead image, hosted on Wikimedia Commons, with a plain
+ * caption, its licence, and a link to the file page. */
+function RealImagePanel({ image }: { image: NonNullable<PanelContent['realImage']> }) {
+  const [src, setSrc] = useState<{ thumb: string; file?: string } | null>(null);
+  useEffect(() => {
+    let live = true;
+    setSrc(null);
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(image.wikiTitle.replace(/ /g, '_'))}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        const thumb: string | undefined = j?.thumbnail?.source;
+        if (!live || !thumb) return;
+        // …/commons/thumb/a/ab/File_name.jpg/320px-File_name.jpg → File_name.jpg
+        const m = /\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/]+)/.exec(thumb);
+        setSrc({ thumb, file: m ? decodeURIComponent(m[1]) : undefined });
+      })
+      .catch(() => { /* no picture — the caption and link still stand */ });
+    return () => { live = false; };
+  }, [image.wikiTitle]);
+  return (
+    <figure className="info-real-image">
+      {src && <img className="info-thumb" src={src.thumb} alt={image.caption} loading="lazy" />}
+      <figcaption className="info-note">
+        {image.caption} {image.licence}.{' '}
+        {src?.file ? (
+          <a href={`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(src.file)}`} target="_blank" rel="noreferrer">
+            Image on Wikimedia Commons
+          </a>
+        ) : (
+          <a href={`https://en.wikipedia.org/wiki/${encodeURIComponent(image.wikiTitle.replace(/ /g, '_'))}`} target="_blank" rel="noreferrer">
+            See it on Wikipedia
+          </a>
+        )}
+      </figcaption>
+    </figure>
+  );
+}
+
 /** "One pin for all duplicates": every record merged into this pin, each with
  * its own dates, source, picture and a button to fly to its exact spot. */
 function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (r: MergedRecord) => void }) {
@@ -84,7 +125,7 @@ function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (
   );
 }
 
-export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, atlantis, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
   // fetch its per-cell detail lazily and rebuild the panel when it lands. The
@@ -295,6 +336,49 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 🌍 Visit on the globe
               </button>
             )}
+            {content.monument3d && /giza/i.test(content.monument3d.title) && content.monument3d.model !== 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D pyramids: a reconstruction from the best evidence — published sizes (Lehner 1997,
+                Verner 2007), OpenStreetMap footprints and reign dates. The white casing, the courses
+                rising and the stripped ruins follow that evidence; how the stone was raised is
+                debated, so no ramps are shown.
+              </p>
+            )}
+            {content.monument3d?.model === 'rings' && atlantis && (
+              <div className={`atlantis-vision${atlantis.on ? ' on' : ''}`}>
+                <button
+                  className="btn atlantis-toggle"
+                  aria-pressed={atlantis.on}
+                  onClick={() => atlantis.onToggle(content.monument3d!)}
+                >
+                  {atlantis.on ? '✕ Back to the real Richat' : "🏛 Plato's Atlantis, imagined"}
+                </button>
+                <p className="atlantis-label">
+                  <strong>A representation, not evidence.</strong> Imagined with AI logic and the best evidence we have,
+                  following Plato's own description (<em>Timaeus</em> 24e–25d, <em>Critias</em> 113c–117e): rings of land
+                  and water, red, white and black stone, metal-clad walls, bridges, harbours, Poseidon's temple and a
+                  50-stadia canal to the sea. Geologists agree the Richat is a natural eroded dome, and no trace of a
+                  city has ever been found here.
+                  {atlantis.on && (
+                    <>
+                      {' '}The sea is raised +200 m with the real elevation data, which brings the Atlantic from about
+                      530 km away to about 195 km. The harbour sea around the city is imagined too.{' '}
+                      <strong>The estuary linking Plato's canal to the raised Atlantic is our own invention, not in Plato;
+                      the real coast would be about 195 km away even at +200 m.</strong>
+                    </>
+                  )}
+                </p>
+              </div>
+            )}
+            {content.monument3d?.model === 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D model:{' '}
+                <a href="https://sketchfab.com/3d-models/f169dbe7974648babe327179091e0ee3" target="_blank" rel="noreferrer">
+                  'The Great Sphinx of Giza - Egypt'
+                </a>{' '}
+                by Chenzoss, CC BY 4.0
+              </p>
+            )}
             {content.fly && (
               <button className="btn" onClick={() => onFly(content)}>
                 ✈ Fly here
@@ -326,6 +410,7 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
           {wiki.thumb && (
             <img className="info-thumb" src={wiki.thumb} alt={content.title} loading="lazy" />
           )}
+          {content.realImage && <RealImagePanel image={content.realImage} />}
 
           {content.commanders && content.commanders.length > 0 && (
             <CommanderFaces commanders={content.commanders} sideNames={content.sideNames} size="lg" />
