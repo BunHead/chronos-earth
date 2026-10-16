@@ -58,7 +58,7 @@ const FLEET = [
   ['angkor', 'Angkor Wat'],
   ['pagoda', 'Pagoda'],
   ['lighthouse', 'Lighthouse'],
-  ['impact', 'Impact Crater'],
+  // (The impact crater is built by scripts/build-impact-crater.mjs.)
   ['hanging-gardens', 'Hanging Gardens of Babylon'],
   ['zeus-statue', 'Statue of Zeus at Olympia'],
   ['artemis-temple', 'Temple of Artemis'],
@@ -105,10 +105,8 @@ const BUILD_STAGES = [
   ['giza-menkaure', 'Pyramid of Menkaure', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
-  // The impact as a five-frame sequence: b15 comet far, b30 comet near,
-  // b50 the impact flash, b72 the fresh raw crater; the base impact.glb is the
-  // settled, weathered crater long ages on.
-  ['impact', 'Impact Crater', [15, 30, 50, 72]],
+  // (The impact's five frames — b15/b30/b50/b72 + base — are built
+  // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)
   // Eridu's temple levels — only those with a plan distinct enough to build:
   // b15 Levels XVIII–XVII (one room), b25 XVI (altar recess), b35 XI (first
   // platform), b48 VIII–VII (tripartite), b62 VI (finest Ubaid temple), b78 the
