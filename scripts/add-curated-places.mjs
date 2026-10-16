@@ -172,6 +172,51 @@ export const PLACES = [
       '1887 Sino-Portuguese treaty. It was the last European colony in Asia.',
     placeNote: 'Pinned on the Macau peninsula.',
   },
+  // RAPA NUI, 15 Oct 2026: one named ahu, so the moai have a real platform to
+  // stand on rather than only the island-wide "Moai" pin. Coordinates are
+  // Wikidata P625. No 3D model: nothing in the fleet looks like a moai.
+  {
+    id: 'cur-ahu-tongariki',
+    name: 'Ahu Tongariki',
+    category: 'monument',
+    // Rapa Nui's ahu were raised c. 1250–1500 CE; the moai here were toppled in
+    // the island's later conflicts, swept inland by the 1960 tsunami, and stood
+    // back up in 1992–96.
+    startYear: 1250,
+    lat: -27.1258,
+    lon: -109.2769,
+    wikidataId: 'Q3448354',
+    wikiTitle: 'Ahu Tongariki',
+    // Hand-set weight: enough to hold its own when you are looking at Rapa Nui.
+    notability: 120,
+    dateNote:
+      'The largest ahu (stone platform) on Rapa Nui, with 15 moai in a row facing inland. Rapa Nui ' +
+      "ahu were built c. 1250–1500 CE. These moai were toppled, hit by the 1960 tsunami, and set back up " +
+      'in 1992–96.',
+  },
+];
+
+/**
+ * FAMOUS MONUMENTS, 15 Oct 2026 — the curated rows that came before Wikidata
+ * ids were stored. Each gets its Wikidata id and its exact P625 coordinates
+ * (they were rounded to 2–3 decimals; Angkor Wat was ~0.5 km off). Patches
+ * only: a row that is not on file is skipped, never invented.
+ *
+ * 3D models are untouched here — panel.ts picks them by name, and only where
+ * one is honest: the Great Pyramid, Colosseum, Parthenon, Angkor Wat and
+ * Machu Picchu have one; the Taj Mahal, Petra, the moai and the Forbidden City
+ * do not, and must not (panel.test.ts pins both lists).
+ */
+export const MONUMENT_FIXES = [
+  { id: 'cur-great-pyramid', wikidataId: 'Q37200', lat: 29.97915, lon: 31.13422 },
+  { id: 'cur-colosseum', wikidataId: 'Q10285', lat: 41.89028, lon: 12.49222 },
+  { id: 'cur-parthenon', wikidataId: 'Q10288', lat: 37.97153, lon: 23.7266 },
+  { id: 'cur-petra', wikidataId: 'Q5788', lat: 30.32889, lon: 35.44028 },
+  { id: 'cur-angkor-wat', wikidataId: 'Q43473', lat: 13.4125, lon: 103.86667 },
+  { id: 'cur-machu-picchu', wikidataId: 'Q676203', lat: -13.16333, lon: -72.54556 },
+  { id: 'cur-taj-mahal', wikidataId: 'Q9141', lat: 27.175, lon: 78.04194 },
+  { id: 'cur-rapa-nui', wikidataId: 'Q20350', lat: -27.11423, lon: -109.36399 },
+  { id: 'cur-forbidden-city', wikidataId: 'Q80290', lat: 39.91583, lon: 116.39083 },
 ];
 
 async function main() {
@@ -196,6 +241,15 @@ async function main() {
     events.push({ ...p });
     added++;
     console.log(`  + ${p.name} (${p.startYear})`);
+  }
+  for (const f of MONUMENT_FIXES) {
+    const row = byId.get(f.id);
+    if (!row) {
+      console.log(`  ${f.id}: not on file — skipped`);
+      continue;
+    }
+    Object.assign(row, f);
+    updated++;
   }
   console.log(`${PLACES.length} curated places; ${added} added, ${updated} refreshed`);
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
