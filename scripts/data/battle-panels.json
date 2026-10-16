@@ -1,0 +1,305 @@
+{
+  "_comment": "Hand-checked panel text for famous battles (the Captain's 15 Oct 2026 batch): a one-paragraph summary, the two sides, the result and the source it was taken from. Applied by scripts/dedupe-places.mjs on every run, after the harvest, so the nightly harvest cannot drop it. 'sides' here replaces the auto-enriched Wikidata belligerents. Keyed by event id.",
+  "battles": {
+    "q38789": {
+      "name": "Battle of Stalingrad",
+      "summary": "Axis forces fought the Soviet Union for the city of Stalingrad in 1942–43, the deadliest urban battle in history, ending with the destruction of the German 6th Army.",
+      "sides": [
+        "Nazi Germany and Axis allies",
+        "Soviet Union"
+      ],
+      "result": "Soviet victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Stalingrad"
+    },
+    "q48314": {
+      "name": "Battle of Waterloo",
+      "summary": "On 18 June 1815 near Waterloo, in today's Belgium, Napoleon's French army was defeated by two armies of the Seventh Coalition in his last battle.",
+      "sides": [
+        "First French Empire",
+        "Seventh Coalition"
+      ],
+      "result": "Coalition victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Waterloo"
+    },
+    "q52418": {
+      "name": "Attack on Pearl Harbor",
+      "summary": "On 7 December 1941 Japan launched a surprise air attack on the US Pacific Fleet at Pearl Harbor, Hawaii, bringing the US into World War II.",
+      "sides": [
+        "United States",
+        "Empire of Japan"
+      ],
+      "result": "Japanese victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor"
+    },
+    "q131969": {
+      "name": "Battle of Thermopylae",
+      "summary": "In 480 BC a Greek alliance led by Leonidas I of Sparta held the pass at Thermopylae for three days against Xerxes' Persian army.",
+      "sides": [
+        "Allied Greek city-states",
+        "Achaemenid Empire"
+      ],
+      "result": "Persian victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Thermopylae"
+    },
+    "q486124": {
+      "name": "Battle of Badr",
+      "summary": "In March 624 near Badr, in present-day Saudi Arabia, Muhammad's army defeated a larger Quraysh army led by Abu Jahl.",
+      "sides": [
+        "First Islamic State",
+        "Quraysh"
+      ],
+      "result": "Survival of the Muslims; start of the Muslim–Quraysh War",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Badr"
+    },
+    "q83224": {
+      "name": "Battle of Hastings",
+      "summary": "On 14 October 1066 near Hastings, William of Normandy's army defeated King Harold Godwinson's English army, beginning the Norman Conquest of England.",
+      "sides": [
+        "Duchy of Normandy",
+        "Kingdom of England"
+      ],
+      "result": "Norman victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Hastings"
+    },
+    "q160077": {
+      "name": "Fall of Constantinople",
+      "summary": "On 29 May 1453 the Ottoman army of Mehmed II captured Constantinople, capital of the Byzantine Empire, after a 53-day siege.",
+      "sides": [
+        "Ottoman Empire",
+        "Byzantine Empire and allies"
+      ],
+      "result": "Ottoman victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Fall_of_Constantinople"
+    },
+    "q171416": {
+      "name": "Battle of Trafalgar",
+      "summary": "On 21 October 1805 the Royal Navy defeated a combined French and Spanish fleet off Cape Trafalgar during the War of the Third Coalition.",
+      "sides": [
+        "United Kingdom",
+        "France and Spain"
+      ],
+      "result": "British victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Trafalgar"
+    },
+    "q31900": {
+      "name": "Battle of Marathon",
+      "summary": "In 490 BC, during the first Persian invasion of Greece, Athens, helped by Plataea, defeated a Persian force at Marathon.",
+      "sides": [
+        "Athens and Plataea",
+        "Achaemenid Empire"
+      ],
+      "result": "Athenian victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Marathon"
+    },
+    "q134114": {
+      "name": "Battle of Austerlitz",
+      "summary": "On 2 December 1805 near Austerlitz, in today's Czech Republic, Napoleon's Grande Armée defeated a combined Russian and Austrian army.",
+      "sides": [
+        "First French Empire",
+        "Russian Empire and Austrian Empire"
+      ],
+      "result": "French victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Austerlitz"
+    },
+    "q130861": {
+      "name": "Battle of Kursk",
+      "summary": "In summer 1943 Germany and the Soviet Union fought near Kursk in south-western Russia, the largest battle in the history of warfare.",
+      "sides": [
+        "Nazi Germany",
+        "Soviet Union"
+      ],
+      "result": "Soviet victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Kursk"
+    },
+    "q16470": {
+      "name": "Normandy landings",
+      "summary": "On 6 June 1944, D-Day, Allied forces landed by sea and air in Normandy, the largest seaborne invasion in history.",
+      "sides": [
+        "Allies",
+        "Nazi Germany"
+      ],
+      "result": "Allied victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Normandy_landings"
+    },
+    "q154182": {
+      "name": "Battle of Berlin",
+      "summary": "In 1945 the Red Army, with Polish forces, fought its way into Berlin in one of the last major offensives of World War II in Europe.",
+      "sides": [
+        "Soviet Union and Poland",
+        "Germany"
+      ],
+      "result": "Soviet victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Berlin"
+    },
+    "q151860": {
+      "name": "Siege of Leningrad",
+      "summary": "From 1941 to 1944 Germany and Finland blockaded Leningrad for 872 days, but never captured the city.",
+      "sides": [
+        "Nazi Germany, Finland and Italian naval support",
+        "Soviet Union"
+      ],
+      "result": "Soviet victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Siege_of_Leningrad"
+    },
+    "q165425": {
+      "name": "Battle of Lepanto",
+      "summary": "On 7 October 1571 a Holy League fleet led by Spain and Venice heavily defeated the Ottoman fleet in the Gulf of Patras.",
+      "sides": [
+        "Holy League",
+        "Ottoman Empire"
+      ],
+      "result": "Holy League victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Lepanto"
+    },
+    "q130847": {
+      "name": "Battle of Verdun",
+      "summary": "From February to December 1916 French and German armies fought in the hills north of Verdun, the longest battle of the First World War.",
+      "sides": [
+        "German Empire",
+        "France"
+      ],
+      "result": "French victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Verdun"
+    },
+    "q132568": {
+      "name": "Battle of the Somme",
+      "summary": "From July to November 1916 British Empire and French armies fought the German Empire on both banks of the River Somme in France.",
+      "sides": [
+        "British Empire and France",
+        "German Empire"
+      ],
+      "result": "Inconclusive",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_the_Somme"
+    },
+    "q173077": {
+      "name": "Battle of Tours",
+      "summary": "In October 732 Frankish and Aquitanian forces under Charles Martel defeated an invading Umayyad army under Abd al-Rahman al-Ghafiqi.",
+      "sides": [
+        "Kingdom of the Franks",
+        "Umayyad Caliphate"
+      ],
+      "result": "Frankish victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Tours"
+    },
+    "q33570": {
+      "name": "Battle of Grunwald",
+      "summary": "On 15 July 1410 the allied armies of Poland and Lithuania decisively defeated the Teutonic Order at Grunwald.",
+      "sides": [
+        "Poland and Lithuania",
+        "Teutonic Order"
+      ],
+      "result": "Polish–Lithuanian victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Grunwald"
+    },
+    "q178850": {
+      "name": "Battle of Salamis",
+      "summary": "In 480 BC an outnumbered Greek fleet under Themistocles defeated Xerxes' Persian fleet off Salamis.",
+      "sides": [
+        "Greek city-states",
+        "Achaemenid Empire"
+      ],
+      "result": "Greek victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Salamis"
+    },
+    "q178510": {
+      "name": "Battle of Mohács",
+      "summary": "On 29 August 1526 near Mohács, the Ottoman army of Suleiman the Magnificent defeated the Hungarian army of King Louis II.",
+      "sides": [
+        "Ottoman Empire",
+        "Kingdom of Hungary"
+      ],
+      "result": "Ottoman victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Mohács"
+    },
+    "q173034": {
+      "name": "Battle of Midway",
+      "summary": "In June 1942 two US carrier groups decisively defeated Japan's Combined Fleet near Midway Atoll in the Pacific.",
+      "sides": [
+        "United States",
+        "Empire of Japan"
+      ],
+      "result": "American victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Midway"
+    },
+    "q179591": {
+      "name": "Battle of Cannae",
+      "summary": "On 2 August 216 BC near Cannae in south-east Italy, Hannibal's Carthaginian army surrounded and nearly annihilated a larger Roman army.",
+      "sides": [
+        "Roman Republic",
+        "Carthage"
+      ],
+      "result": "Carthaginian victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Cannae"
+    },
+    "q160387": {
+      "name": "Battle of Actium",
+      "summary": "On 2 September 31 BC Octavian's fleet under Agrippa defeated the fleets of Mark Antony and Cleopatra near Actium, Greece.",
+      "sides": [
+        "Octavian's forces",
+        "Antony's forces and Ptolemaic Egypt"
+      ],
+      "result": "Octavian's victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Actium"
+    },
+    "q87779": {
+      "name": "Battle of the Teutoburg Forest",
+      "summary": "In September 9 AD a Germanic alliance led by Arminius ambushed and destroyed three Roman legions under Varus, possibly near Kalkriese.",
+      "sides": [
+        "Germanic peoples",
+        "Roman Empire"
+      ],
+      "result": "Germanic victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_the_Teutoburg_Forest"
+    },
+    "q200855": {
+      "name": "Battle of Vienna",
+      "summary": "On 12 September 1683 at Kahlenberg near Vienna, a coalition under King John III Sobieski broke the two-month Ottoman siege of the city.",
+      "sides": [
+        "Ottoman Empire",
+        "Holy Roman Empire and Poland–Lithuania"
+      ],
+      "result": "Christian coalition victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Vienna"
+    },
+    "q151005": {
+      "name": "Battle of Leipzig",
+      "summary": "From 16 to 19 October 1813 at Leipzig, the Coalition armies of Austria, Prussia, Sweden and Russia decisively defeated Napoleon's Grande Armée.",
+      "sides": [
+        "Sixth Coalition (Austria, Prussia, Sweden, Russia)",
+        "First French Empire"
+      ],
+      "result": "Coalition victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Leipzig"
+    },
+    "q151290": {
+      "name": "Battle of Moscow",
+      "summary": "Between October 1941 and January 1942 the Soviet Union stopped Germany's attack on Moscow.",
+      "sides": [
+        "Nazi Germany",
+        "Soviet Union"
+      ],
+      "result": "Soviet victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Moscow"
+    },
+    "q180182": {
+      "name": "Battle of Iwo Jima",
+      "summary": "In February–March 1945 US forces landed on and captured the heavily fortified island of Iwo Jima from the Japanese army.",
+      "sides": [
+        "United States",
+        "Japan"
+      ],
+      "result": "American victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Iwo_Jima"
+    },
+    "q488278": {
+      "name": "Battle of Uhud",
+      "summary": "In March 625 the Quraysh defeated the early Muslims in a valley near Mount Uhud, north of Medina.",
+      "sides": [
+        "First Islamic State",
+        "Quraysh"
+      ],
+      "result": "Quraysh victory",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Uhud"
+    }
+  }
+}

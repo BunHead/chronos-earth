@@ -246,6 +246,18 @@ const EVENT_KICKER: Record<EventCategory, string> = {
   event: 'Event',
 };
 
+/** A readable name for a source link: "Wikipedia: Battle of Mohács", else the site. */
+export function sourceLabel(url: string): string {
+  try {
+    const u = new URL(url);
+    const wiki = u.hostname.endsWith('wikipedia.org') && u.pathname.match(/^\/wiki\/(.+)$/);
+    if (wiki) return `Wikipedia: ${decodeURIComponent(wiki[1]).replace(/_/g, ' ')}`;
+    return u.hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
+
 /** Convert a bulk-imported Wikidata event into panel content. */
 export function eventToPanel(e: TimelineEvent): PanelContent {
   const wiki = e.wikiTitle
@@ -260,6 +272,7 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
       heading: 'Who fought',
       body: e.sides.length === 2 ? e.sides.join('  vs  ') : e.sides.join(' · '),
     });
+  if (e.result) sections.push({ heading: 'Result', body: e.result });
   if (e.partOf) sections.push({ heading: 'Part of', body: e.partOf });
   if (e.deaths) sections.push({ heading: 'Deaths (recorded)', body: e.deaths.toLocaleString('en-GB') });
   // A figure the record does not establish the way it establishes a king with
@@ -312,6 +325,9 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     // With a Wikipedia title we fetch the real summary + photo live on click;
     // otherwise fall back to a one-line note.
     ...(e.wikiTitle ? { wikiTitle: e.wikiTitle } : { summary: `${EVENT_KICKER[e.category]} · ${date}.` }),
+    // A hand-checked summary (famous battles) leads, and says where it is from.
+    ...(e.summary ? { summary: e.summary, summaryChecked: true } : {}),
+    ...(e.sourceUrl ? { sourceUrl: e.sourceUrl } : {}),
     ...(sections.length > 0 ? { sections } : {}),
     links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },

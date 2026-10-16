@@ -3,7 +3,7 @@ import MakerRow from './MakerRow';
 import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
-import { eventToPanel, yearLabel } from '../lib/panel';
+import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
 import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
@@ -416,15 +416,25 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
             <CommanderFaces commanders={content.commanders} sideNames={content.sideNames} size="lg" />
           )}
 
-          {wiki.status === 'done' && wiki.extract ? (
+          {content.summaryChecked && content.summary ? (
+            <p className="info-summary">{content.summary}</p>
+          ) : wiki.status === 'done' && wiki.extract ? (
             <p className="info-summary">{wiki.extract}</p>
           ) : (
             content.summary && <p className="info-summary">{content.summary}</p>
           )}
-          {content.wikiTitle && wiki.status === 'loading' && (
+          {content.sourceUrl && (
+            <p className="info-source">
+              Source:{' '}
+              <a href={content.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {sourceLabel(content.sourceUrl)}
+              </a>
+            </p>
+          )}
+          {content.wikiTitle && !content.summaryChecked && wiki.status === 'loading' && (
             <p className="info-loading">Loading the full summary…</p>
           )}
-          {content.wikiTitle && wiki.status === 'error' && (
+          {content.wikiTitle && !content.summaryChecked && wiki.status === 'error' && (
             <p className="info-note">Couldn't reach Wikipedia just now — the link below has the full article.</p>
           )}
 

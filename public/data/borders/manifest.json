@@ -129,6 +129,14 @@
       "file": "borders_1994.geojson"
     },
     {
+      "year": 1997,
+      "file": "borders_1997.geojson"
+    },
+    {
+      "year": 1999,
+      "file": "borders_1999.geojson"
+    },
+    {
       "year": 2010,
       "file": "borders_2010.geojson"
     },
