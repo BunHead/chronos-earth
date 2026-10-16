@@ -34,6 +34,8 @@ const title = params.get('title') || '';
 // globe): the model's own self-ruin where it builds one, else the generic
 // aged-not-exploded pass.
 const ruin = params.get('ruin') === '1';
+// &lite=1 exports the light build for weak devices (Atlantis: rings-lite.glb).
+const lite = params.get('lite') === '1';
 // &frac=0.3 exports a CONSTRUCTION STAGE (building-over-time on the globe):
 // buildModel raises the monument partway. null = fully built.
 const fracParam = params.get('frac');
@@ -87,7 +89,7 @@ function exportArchetype(): void {
 
   // Fully built — the same build the fit tables measure (ruined when asked,
   // or a partial construction stage when a build fraction is given).
-  const { group } = buildModel(model, 3, title, undefined, buildFrac, ruin);
+  const { group } = buildModel(model, 3, title, undefined, buildFrac, ruin, { lite });
   if (ruin && !group.userData.selfRuined) ruinify(group);
   group.updateMatrixWorld(true);
 

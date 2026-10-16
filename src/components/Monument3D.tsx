@@ -9,6 +9,7 @@ import { fitFor, computeFit } from '../lib/monumentFit';
 import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { buildMesoTemple, type MesoTemple } from './mesoTemple';
+import { buildAtlantis } from './atlantisCity';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 
@@ -1423,6 +1424,148 @@ function buildTerracottaArmy(group: THREE.Group, ruined: boolean): void {
   if (ruined) group.userData.selfRuined = true;
 }
 
+
+// ── THE GIZA PYRAMIDS, ONE TRUE-METRE MODEL EACH (the Captain, 15 Oct 2026) ──
+// Each pyramid is its own globe placement at its own surveyed centre, so each
+// stands on its OWN ground (the plateau falls ~45 m from Khafre to the valley;
+// one flat 1 km model could only be right at one point). Authored in METRES,
+// north = −Z, east = +X, so the fit scales them at 1:1 and no turn is needed.
+// Figures: Wikipedia (Great Pyramid of Giza; Pyramid of Khafre; Pyramid of
+// Menkaure; Pyramid G1-a / G1-c / G3-a, after Verner 2007 and Lehner 1997);
+// heights of the small G3-b/-c from OpenStreetMap's surveyed tags.
+interface GizaSpec {
+  /** Base, E–W (x) and N–S (z), metres. */
+  bx: number;
+  bz: number;
+  /** Original height to the apex, metres. */
+  h: number;
+  /** Height today (the stripped core), metres. */
+  ruinH: number;
+  /** Lower casing courses of red Aswan granite, metres high (0 = none). */
+  granite: number;
+  /** Khafre: the smooth casing that still caps his top, from this height up. */
+  capFrom?: number;
+  /** Built as a step pyramid (G3-b, G3-c) — never a smooth true pyramid. */
+  stepped?: boolean;
+}
+const GIZA: Record<string, GizaSpec> = {
+  'giza-khufu': { bx: 230.33, bz: 230.33, h: 146.6, ruinH: 138.5, granite: 0 },
+  'giza-khafre': { bx: 215.25, bz: 215.25, h: 143.5, ruinH: 136.4, granite: 2, capFrom: 107 },
+  // 102.2 × 104.6 m; Menkaure's lower sixteen courses were red granite.
+  'giza-menkaure': { bx: 102.2, bz: 104.6, h: 65, ruinH: 61, granite: 16 },
+  // The queens: G1-a/-b 49.5 m × 30.25 m (G1-c 46.25 m and G3-a 44 m scale from
+  // it by their own widths — the same ~0.62 profile); G1-a has lost two-thirds
+  // of its height, so the ruins stand at about a third.
+  'giza-queen': { bx: 49.5, bz: 49.5, h: 30.25, ruinH: 11, granite: 0 },
+  'giza-queen-step': { bx: 31, bz: 31, h: 21.2, ruinH: 21.2, granite: 0, stepped: true },
+};
+const TURA = '#e2d7bd'; // fine white Tura limestone casing
+const TURA_RAW = '#e0d4b6'; // casing blocks laid but not yet dressed
+const CORE = ['#c7ad7f', '#bea475', '#c3a97a']; // the weathered local core stone
+const GRANITE = '#9c5f50'; // red Aswan granite
+
+/** One horizontal slice [y0, y1] of a square pyramid (apex height H), with a
+ * flat top cap when it stops short of the apex. UVs included: glTF needs them. */
+function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number): THREE.BufferGeometry {
+  const k0 = 1 - y0 / H;
+  const k1 = Math.max(0, 1 - y1 / H);
+  const a = [hx * k0, hz * k0];
+  const b = [hx * k1, hz * k1];
+  const lo = [[a[0], y0, a[1]], [a[0], y0, -a[1]], [-a[0], y0, -a[1]], [-a[0], y0, a[1]]];
+  const hi = [[b[0], y1, b[1]], [b[0], y1, -b[1]], [-b[0], y1, -b[1]], [-b[0], y1, b[1]]];
+  const pos: number[] = [];
+  const uv: number[] = [];
+  // Wind each side outward (CCW seen from outside).
+  for (let i = 0; i < 4; i++) {
+    const j = (i + 1) % 4;
+    // (Fixed 15 Oct: these were wound inward, so the normals pointed in and down
+    // and Khufu lit as one flat white square from above.)
+    pos.push(...lo[j], ...hi[i], ...lo[i], ...lo[j], ...hi[j], ...hi[i]);
+    uv.push(1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1);
+  }
+  if (k1 > 0.0001) {
+    pos.push(...hi[0], ...hi[1], ...hi[2], ...hi[0], ...hi[2], ...hi[3]);
+    uv.push(1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.computeVertexNormals();
+  return g;
+}
+const gizaMats = new Map<string, THREE.MeshStandardMaterial>();
+const smoothMat = (color: string): THREE.MeshStandardMaterial => {
+  let m = gizaMats.get(color);
+  if (!m) gizaMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide,
+    // A little self-light so the shaded faces read as pale limestone, not grey or black.
+    emissive: color, emissiveIntensity: 0.08 })));
+  return m;
+};
+
+function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | undefined, ruined: boolean): void {
+  const s = GIZA[model];
+  const hx = s.bx / 2;
+  const hz = s.bz / 2;
+  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1), smoothMat(color)));
+  // The stripped core: the slope of rough local stone (inside the old casing
+  // line — the casing was ~2–3 m of dressed stone), ribbed with its courses.
+  // Not solid stacked boxes: their vertical faces lit near-black on the globe
+  // and read as dark striped pyramids. A smooth slope carries the colour; thin
+  // proud course lines every few metres give it the stepped, rough texture.
+  const terraces = (from: number, top: number, inset: number) => {
+    const ih = 1 - inset / hx;
+    group.add(new THREE.Mesh(pyramidSlice(hx * ih, hz * ih, s.h * ih, from, top), smoothMat(CORE[0])));
+    const step = Math.max(1.6, Math.min(5, top / 28));
+    for (let y = from + step; y < top - 0.5; y += step) {
+      const k = (1 - y / (s.h * ih)) * ih;
+      const c = smoothMat(CORE[1 + (Math.round(y / step) % 2)]);
+      for (const [w, d, x, z] of [
+        [2 * hx * k + 0.6, 0.7, 0, hz * k], [2 * hx * k + 0.6, 0.7, 0, -hz * k],
+        [0.7, 2 * hz * k + 0.6, hx * k, 0], [0.7, 2 * hz * k + 0.6, -hx * k, 0],
+      ] as const) group.add(matBlock(w, 0.5, d, x, y - 0.25, z, c));
+    }
+  };
+  if (s.stepped) {
+    // G3-b/-c: four tiers of rough local stone (as they stand today).
+    const tiers = 4;
+    for (let i = 0; i < tiers; i++) {
+      const k = 1 - i / tiers;
+      group.add(matBlock(s.bx * k, s.h / tiers, s.bz * k, 0, (i + 0.5) * (s.h / tiers), 0, smoothMat(CORE[i % 3])));
+    }
+    return;
+  }
+  if (ruined) {
+    // TODAY: the white casing was stripped (after the 1303 earthquake loosened
+    // it, for Cairo's builders), leaving the stepped core, its tip lost.
+    const capFrom = s.capFrom ?? s.ruinH;
+    if (s.granite) {
+      // A few courses of the granite casing still cling to the base.
+      slice(0, Math.min(s.granite, 6), GRANITE);
+      terraces(Math.min(s.granite, 6), capFrom, 2.2);
+    } else {
+      terraces(0, capFrom, 2.2);
+    }
+    // Khafre keeps a cap of his smooth casing near the top.
+    if (s.capFrom) slice(s.capFrom, s.ruinH, '#ddd2b8');
+    return;
+  }
+  if (buildFrac != null && buildFrac < 1) {
+    // UNDER CONSTRUCTION. Casing and core rose together course by course, so a
+    // half-built pyramid is a flat-topped frustum. Height by VOLUME (constant
+    // haulage): f of the stone is laid at 1 − (1 − f)^(1/3) of the height, so
+    // the work 90% done stands only a little over half as high. (How the stone
+    // was raised — ramps of what shape — is still debated, so none is drawn.)
+    const y = s.h * (1 - Math.cbrt(1 - buildFrac));
+    if (s.granite) slice(0, Math.min(s.granite, y), GRANITE);
+    if (y > s.granite) slice(s.granite, y, TURA_RAW);
+    return;
+  }
+  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex (no gilded
+  // capstone: none survives and its finish is unknown).
+  if (s.granite) slice(0, s.granite, GRANITE);
+  slice(s.granite, s.h, TURA);
+}
+
 export function buildModel(
   model: string,
   phase = 3,
@@ -1434,6 +1577,8 @@ export function buildModel(
    * form (the Colosseum's broken ring) reads this and sets
    * group.userData.selfRuined so callers skip the generic pass. */
   ruined = false,
+  /** Lighter build for weak devices (currently honoured by Atlantis). */
+  opts?: { lite?: boolean },
 ): { group: THREE.Group; ground: string } {
   const group = new THREE.Group();
   let ground = '#4f5d38';
@@ -3240,26 +3385,13 @@ export function buildModel(
       }
     }
   } else if (model === 'rings') {
-    // Plato's ATLANTIS as the ringed CITY of legend (Critias): a central citadel
-    // on its island, wrapped by concentric rings of WATER and LAND — the land
-    // rings packed with buildings and joined by bridges, all inside a great outer
-    // wall, with the royal canal cutting straight to the sea. Honest note: the
-    // real Richat is a dry natural rock dome — this is the MYTH, flagged as such.
-    ground = '#c8b98a';
-    // PLATO'S PALETTE (Critias): the ring walls were clad in metal — BRASS on
-    // the outermost, TIN on the middle, and ORICHALCUM on the citadel wall,
-    // which "sparkled like fire". The islanders quarried white, black and red
-    // stone from beneath the island, and buildings mixed all three.
-    const waterMat = new THREE.MeshStandardMaterial({ color: '#2f74a4', roughness: 0.55, metalness: 0 });
-    const landMat = stoneLike({ color: '#b3a473' });
-    const BRASS = new THREE.MeshStandardMaterial({ color: '#b08a3e', metalness: 0.75, roughness: 0.38 });
-    const TIN = new THREE.MeshStandardMaterial({ color: '#c9cfd4', metalness: 0.78, roughness: 0.34 });
-    const ORICHALCUM = new THREE.MeshStandardMaterial({ color: '#d96b3a', metalness: 0.85, roughness: 0.26, emissive: '#5a1e08', emissiveIntensity: 0.25 });
-    const roofCols = ['#a5643c', '#8a5030', '#b98a5a', '#7d6e50', '#c2a06a', '#cdc3a4', '#9a7b4a', '#59544e', '#a4543c', '#e8e2d4'];
-    const LAND_Y = 0.22, WATER_Y = 0.1;
-    // This scene owns its ruin: TODAY'S RICHAT — the drowned city silted into
-    // dry ghost-rings of bare rock, which is exactly what the satellite shows.
+    // Plato's ATLANTIS, IMAGINED — rebuilt 15 Oct 2026 from the Critias' own
+    // measurements (see ./atlantisCity.ts). A flagged artistic reconstruction:
+    // the real Richat is a natural eroded dome, and the globe only shows this
+    // when the visitor switches the vision on.
     group.userData.selfRuined = true;
+    ground = '#c8b98a';
+    // Ruined form: TODAY'S RICHAT — concentric rock terraces, no water, no city.
     const annulus = (inner: number, outer: number, y: number, mat: THREE.Material) => {
       const m = new THREE.Mesh(new THREE.RingGeometry(inner, outer, 80), mat);
       m.rotation.x = -Math.PI / 2;
@@ -3286,355 +3418,7 @@ export function buildModel(
       }
       return { group, ground };
     }
-    // Concentric rings of land and water, alternating outward (Critias: "two
-    // of land and three of water", wheel within wheel).
-    annulus(0, 2.6, LAND_Y, landMat);      // central island
-    annulus(2.6, 3.6, WATER_Y, waterMat);  // ring of water
-    annulus(3.6, 5.6, LAND_Y, landMat);    // ring of land
-    annulus(5.6, 6.9, WATER_Y, waterMat);  // ring of water
-    annulus(6.9, 9.0, LAND_Y, landMat);    // ring of land
-    annulus(9.0, 10.4, WATER_Y, waterMat); // outer ring of water
-    // The great outer wall, CLAD IN BRASS — with a gap to the SSW where the
-    // harbour opens. (Local frame; facingDeg turns the built city so the
-    // harbour reads SW on the real Richat, as the Captain's map has it.)
-    // CALIBRATED 2026-07-11 on the north-up plan render: with the city's 180°
-    // facing, local angle 5.50 rad puts the harbour mouth and open sea at
-    // WORLD SOUTH-WEST (the old 4.32 left them due south — the Captain caught
-    // the skew against his map).
-    const HB = 5.5; // harbour-mouth bearing (local)
-    const hx = Math.cos(HB), hz = Math.sin(HB);
-    for (let i = 0; i < 96; i++) {
-      const a = (i / 96) * Math.PI * 2;
-      const d = Math.abs(a - HB);
-      if (Math.min(d, Math.PI * 2 - d) < 0.26) continue; // harbour mouth
-      const w = new THREE.Mesh(new THREE.BoxGeometry(0.7, 1.0, 0.34), BRASS);
-      w.position.set(Math.cos(a) * 10.7, LAND_Y + 0.5, Math.sin(a) * 10.7);
-      w.rotation.y = -a;
-      group.add(w);
-    }
-    // The TIN wall rings the middle land ring; the ORICHALCUM wall guards the
-    // citadel island — Plato's three metal circuits, innermost afire.
-    for (let i = 0; i < 72; i++) {
-      const a = (i / 72) * Math.PI * 2;
-      const t = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.7, 0.24), TIN);
-      t.position.set(Math.cos(a) * 5.45, LAND_Y + 0.35, Math.sin(a) * 5.45);
-      t.rotation.y = -a;
-      group.add(t);
-    }
-    for (let i = 0; i < 56; i++) {
-      const a = (i / 56) * Math.PI * 2;
-      const o = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.62, 0.2), ORICHALCUM);
-      o.position.set(Math.cos(a) * 2.52, LAND_Y + 0.31, Math.sin(a) * 2.52);
-      o.rotation.y = -a;
-      group.add(o);
-    }
-    // Buildings clustered on the two land rings (deterministic scatter).
-    const houses = (R0: number, R1: number, count: number, seed: number) => {
-      for (let i = 0; i < count; i++) {
-        const a = (i / count) * Math.PI * 2 + ((i * 1.7 + seed) % 1) * 0.4;
-        const rr = R0 + ((i * 0.37 + seed) % 1) * (R1 - R0);
-        const h = 0.4 + ((i * 0.53 + seed) % 1) * 0.62; // low and chunky — a city, not a pin-cushion
-        const w = 0.46 + ((i * 0.29) % 1) * 0.3;
-        group.add(block(w, h, w * 1.2, Math.cos(a) * rr, LAND_Y + h / 2, Math.sin(a) * rr, roofCols[i % roofCols.length], -a));
-      }
-    };
-    houses(3.9, 5.3, 60, 0.1);
-    // The outer ring parts around Plato's HIPPODROME: "a race-course a stadium
-    // wide ... round the whole circumference" — a pale track between the housing.
-    houses(7.15, 7.85, 62, 0.6);
-    houses(8.5, 8.8, 36, 0.9);
-    const track = new THREE.Mesh(new THREE.RingGeometry(8.0, 8.38, 90), stoneMat('#d9c9a0'));
-    track.rotation.x = -Math.PI / 2;
-    track.position.y = LAND_Y + 0.02;
-    group.add(track);
-    for (let i = 0; i < 18; i++) { // turning posts round the course
-      const a = (i / 18) * Math.PI * 2;
-      group.add(block(0.07, 0.34, 0.07, Math.cos(a) * 8.19, LAND_Y + 0.19, Math.sin(a) * 8.19, '#efe8d2', -a));
-    }
-    // A few taller landmark towers punctuate the skyline.
-    for (let i = 0; i < 11; i++) {
-      const a = (i / 11) * Math.PI * 2 + 0.35;
-      const rr = i % 2 ? 4.6 : 7.9;
-      const th = 1.7 + (i % 3) * 0.5;
-      group.add(block(0.42, th, 0.42, Math.cos(a) * rr, LAND_Y + th / 2, Math.sin(a) * rr, '#c8b48a', -a));
-    }
-    // Garden groves (green) and a few marble palaces among the houses.
-    for (let i = 0; i < 16; i++) {
-      const a = (i / 16) * Math.PI * 2 + 1.1;
-      const rr = i % 2 ? 4.3 : 8.3;
-      group.add(block(0.55, 0.3, 0.55, Math.cos(a) * rr, LAND_Y + 0.15, Math.sin(a) * rr, '#6f8a4f', -a));
-    }
-    for (let i = 0; i < 5; i++) {
-      const a = (i / 5) * Math.PI * 2 + 0.7;
-      group.add(block(0.95, 0.95, 0.7, Math.cos(a) * 4.6, LAND_Y + 0.47, Math.sin(a) * 4.6, '#e2dabf', -a));
-    }
-    // The central citadel — Poseidon's temple in its sacred precinct. Critias:
-    // the shrine of Cleito and Poseidon stood within an ENCLOSURE OF GOLD, the
-    // temple's exterior was coated in SILVER with pinnacles of GOLD, and hot
-    // and cold SPRINGS rose side by side on the island.
-    for (let i = 0; i < 54; i++) {
-      const a = (i / 54) * Math.PI * 2;
-      const g2 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.5, 0.14), GOLD);
-      g2.position.set(Math.cos(a) * 2.3, LAND_Y + 0.25, Math.sin(a) * 2.3);
-      g2.rotation.y = -a;
-      group.add(g2);
-    }
-    const SILVER = new THREE.MeshStandardMaterial({ color: '#dfe3e8', metalness: 0.82, roughness: 0.28 });
-    group.add(block(2.0, 0.35, 2.0, 0, LAND_Y + 0.18, 0, '#cdbf98'));  // step 1
-    group.add(block(1.6, 0.35, 1.6, 0, LAND_Y + 0.5, 0, '#d8cca6'));   // step 2
-    const cella = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.5, 1.1), SILVER); // silver-coated shrine
-    cella.position.set(0, LAND_Y + 1.4, 0);
-    group.add(cella);
-    // Poseidon himself, in gold, trident raised, before his temple.
-    const psd = (w: number, h: number, d: number, x: number, y: number, z: number) => {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), GOLD);
-      m.position.set(x, y, z);
-      group.add(m);
-      return m;
-    };
-    const PX = 0, PZ = 1.62; // forecourt, facing the harbour axis
-    psd(0.34, 0.14, 0.34, PX, LAND_Y + 0.42, PZ); // plinth
-    psd(0.16, 0.42, 0.14, PX, LAND_Y + 0.72, PZ); // robed body
-    const phead = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), GOLD);
-    phead.position.set(PX, LAND_Y + 0.99, PZ);
-    group.add(phead);
-    const trident = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.62, 6), GOLD);
-    trident.position.set(PX + 0.12, LAND_Y + 0.88, PZ);
-    group.add(trident);
-    for (const tx of [-0.035, 0, 0.035]) psd(0.012, 0.1, 0.012, PX + 0.12 + tx, LAND_Y + 1.22, PZ); // the three tines
-    // The twin springs, hot and cold, side by side (one steams pale).
-    for (const [sx, sc] of [[-1.35, '#4f93bd'], [-1.05, '#cfe4ee']] as const) {
-      const pool = new THREE.Mesh(new THREE.CircleGeometry(0.16, 16), new THREE.MeshStandardMaterial({ color: sc, roughness: 0.3 }));
-      pool.rotation.x = -Math.PI / 2;
-      pool.position.set(sx, LAND_Y + 0.06, 0.9);
-      group.add(pool);
-    }
-    for (let i = 0; i < 12; i++) {                                      // colonnade
-      const a = (i / 12) * Math.PI * 2;
-      group.add(block(0.14, 1.5, 0.14, Math.cos(a) * 0.86, LAND_Y + 1.35, Math.sin(a) * 0.86, '#efe8d2'));
-    }
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.18, 0.85, 4), stoneLike({ color: '#9a7b4a', flatShading: true }));
-    roof.rotation.y = Math.PI / 4;
-    roof.position.y = LAND_Y + 2.45;
-    group.add(roof);
-    const finial = new THREE.Mesh(
-      new THREE.ConeGeometry(0.13, 0.55, 8),
-      new THREE.MeshStandardMaterial({ color: '#e9c96a', roughness: 0.3, metalness: 0.7 }),
-    );
-    finial.position.y = LAND_Y + 3.1;
-    group.add(finial);
-    // The royal way: bridges crossing each water ring ON THE HARBOUR AXIS
-    // (Critias: bridges spanned the rings toward the sea-canal, with TOWERS
-    // AND GATES at every crossing), plus a cross-axis pair for the city's flow.
-    for (const ang of [HB, HB + Math.PI, HB + Math.PI / 2, HB - Math.PI / 2]) {
-      const bx = Math.cos(ang), bz = Math.sin(ang);
-      for (const [r0, r1] of [[2.6, 3.6], [5.6, 6.9], [9.0, 10.4]]) {
-        const rm = (r0 + r1) / 2, len = r1 - r0 + 0.6;
-        group.add(block(len, 0.3, 1.0, bx * rm, LAND_Y + 0.18, bz * rm, '#c9b98a', -ang));
-        // Gate-towers flanking each bridgehead on the outer bank.
-        for (const s of [-0.62, 0.62]) {
-          const gx = bx * (r1 + 0.25) + Math.cos(ang + Math.PI / 2) * s;
-          const gz = bz * (r1 + 0.25) + Math.sin(ang + Math.PI / 2) * s;
-          const tw = block(0.3, 0.85, 0.3, gx, LAND_Y + 0.43, gz, '#b39a6a', -ang);
-          group.add(tw);
-        }
-      }
-    }
-    // The war-harbour: triremes moored in the outer water ring by the mouth —
-    // Plato's docks "full of triremes", in miniature.
-    for (let i = 0; i < 6; i++) {
-      const a = HB + (i - 2.5) * 0.22;
-      const rr = 9.7;
-      const bx2 = Math.cos(a) * rr, bz2 = Math.sin(a) * rr;
-      const hull = block(0.72, 0.09, 0.16, bx2, WATER_Y + 0.06, bz2, '#7a4e2c', -(a + Math.PI / 2));
-      group.add(hull);
-      group.add(block(0.02, 0.3, 0.02, bx2, WATER_Y + 0.26, bz2, '#5f3f22', -(a + Math.PI / 2))); // mast
-    }
-    // THE HARBOUR — a working port, not a smiley: the royal canal runs dead
-    // straight from the wall gap between two long stone MOLES that reach into
-    // the sea at a slight V, opening into an irregular basin merged with the
-    // coastline. Triremes lie moored along the moles. (The old perfect-arc
-    // breakwater + oval basin + twin jetties read as a grinning face.)
-    const along = (d: number) => [hx * d, hz * d] as const; // out the harbour axis
-    const sideX = Math.cos(HB + Math.PI / 2);
-    const sideZ = Math.sin(HB + Math.PI / 2);
-    const chan = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.2, 1.6), waterMat);
-    const [chX, chZ] = along(13.6);
-    chan.position.set(chX, WATER_Y + 0.01, chZ);
-    chan.rotation.y = -HB;
-    group.add(chan);
-    // Basin: two overlapped flattened pools — an organic sheet, not an oval.
-    for (const [d, r, sq, off] of [
-      [16.8, 3.0, 0.72, 0.8],
-      [18.6, 2.3, 0.9, -1.2],
-    ] as const) {
-      const pool = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.2, 26), waterMat);
-      pool.scale.set(1.25, 1, sq);
-      pool.rotation.y = -HB + off * 0.3;
-      pool.position.set(along(d)[0] + sideX * off, WATER_Y, along(d)[1] + sideZ * off);
-      group.add(pool);
-    }
-    // The two moles: straight runs of wall blocks flanking the channel, angled
-    // slightly apart, each ending in a squat light-tower.
-    for (const s of [-1, 1]) {
-      const mAng = HB + s * 0.16;
-      const mx = Math.cos(mAng), mz = Math.sin(mAng);
-      for (let d = 11.6; d <= 17.4; d += 0.62) {
-        group.add(block(0.55, 0.6, 0.34, mx * d + sideX * s * 1.35, LAND_Y + 0.3, mz * d + sideZ * s * 1.35, '#ac845a', -mAng));
-      }
-      group.add(block(0.6, 1.25, 0.6, mx * 17.8 + sideX * s * 1.35, LAND_Y + 0.62, mz * 17.8 + sideZ * s * 1.35, '#c2a06a', -mAng));
-    }
-    // Boats! Triremes moored along the moles and one out in the roads —
-    // Plato's harbour "crowded with vessels", and a scale check in one glance.
-    const boat = (x: number, z: number, ang: number) => {
-      group.add(block(0.72, 0.09, 0.16, x, WATER_Y + 0.06, z, '#7a4e2c', -(ang + Math.PI / 2)));
-      group.add(block(0.02, 0.3, 0.02, x, WATER_Y + 0.26, z, '#5f3f22', -(ang + Math.PI / 2)));
-    };
-    boat(along(15.2)[0] + sideX * 1.0, along(15.2)[1] + sideZ * 1.0, HB);
-    boat(along(16.4)[0] - sideX * 1.05, along(16.4)[1] - sideZ * 1.05, HB + 0.2);
-    boat(along(19.4)[0] + sideX * 0.4, along(19.4)[1] + sideZ * 0.4, HB - 0.4);
-    // THE CAPTAIN'S GEOGRAPHY, corrected to his map: the raised ground sits to
-    // the NORTH-EAST (not due north — his annotated plan puts the dark
-    // elevated sea on the NE, and the deluge must POUR FROM IT). Local frame:
-    // the city is later turned 180°, so world-NE = local (-x, +z); the plateau
-    // rides that diagonal, its dam face looks SW at the city, and the
-    // waterfalls sheet down the NE rim of the rings. The wave (below) erupts
-    // from this same spot when the dam lets go.
-    const NEx = -10.6, NEz = 14.8; // plateau centre, on the world-NE diagonal
-    // THE UPPER EYELID (the Captain's reading of his own map): not one mound
-    // but a raised ARC over the whole city — highland sweeping from the
-    // north-west brow round to the north-east dam, the city sitting in its
-    // basin beneath. Three overlapping shoulders make the lid; the dark
-    // elevated sea lies along its top. (Local frame: world-N = local +z,
-    // world-NE = local (-x,+z), world-NW = local (+x,+z).)
-    const lidStone = stoneLike({ color: '#9a8a63', flatShading: true });
-    const lid = (x: number, z: number, rTop: number, rBot: number, sx: number, sz: number, ry: number) => {
-      const m = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, 1.15, 40), lidStone);
-      m.scale.set(sx, 1, sz);
-      m.rotation.y = ry;
-      m.position.set(x, 0.5, z);
-      group.add(m);
-    };
-    lid(NEx, NEz, 8.6, 10.6, 1.35, 0.72, Math.PI / 4); // the NE shoulder — the dam face
-    lid(1.5, 17.9, 8.2, 10.2, 1.5, 0.6, 0); // the due-north brow over the rings
-    lid(11.8, 13.6, 6.2, 8.0, 1.15, 0.62, -Math.PI / 5); // tapering NW tip of the lid
-    // The dark elevated sea runs ALONG the lid — one long high water sweeping
-    // from the north round to the north-east, held back by the dam.
-    const lakeMat = new THREE.MeshStandardMaterial({ color: '#1f5d8c', roughness: 0.35 });
-    for (const [lx2, lz2, ls, lr] of [
-      [NEx - 0.4, NEz + 0.6, 1.35, Math.PI / 4],
-      [1.2, 18.6, 1.5, 0],
-    ] as const) {
-      const pool = new THREE.Mesh(new THREE.CircleGeometry(5.2, 40), lakeMat);
-      pool.rotation.x = -Math.PI / 2;
-      pool.rotation.z = lr;
-      pool.scale.set(ls, 0.6, 1);
-      pool.position.set(lx2, 1.09, lz2);
-      pool.userData.noShadow = true;
-      group.add(pool);
-    }
-    // Falls down the dam's city-facing (SW) wall, runnels glinting to the ring.
-    for (const off of [-2.6, -0.9, 0.9, 2.6]) {
-      // spread along the NW–SE face, each stepped toward the city
-      const fx = NEx + off * 0.7071 + 4.6 * 0.7071;
-      const fz = NEz + off * -0.7071 - 4.6 * 0.7071;
-      const fall = block(0.26, 1.0, 0.1, fx, 0.55, fz, '#8fc0e2', Math.PI / 4);
-      group.add(fall);
-      const runnel = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.3, 1.6),
-        new THREE.MeshStandardMaterial({ color: '#5f9cc4', roughness: 0.35 }),
-      );
-      runnel.rotation.x = -Math.PI / 2;
-      runnel.rotation.z = Math.PI / 4; // flowing SW toward the rings
-      runnel.position.set(fx + 0.75, 0.06, fz - 0.75);
-      runnel.userData.noShadow = true;
-      group.add(runnel);
-    }
-    // The raised sea / inland lake that made Atlantis a coastal city — a broad
-    // translucent water plane lapping the island's outer rings. Flagged noShadow
-    // so it neither casts a slab-shadow nor swells the fit (which would shrink the
-    // city). The drowning sequence will later raise this level to swallow it all.
-    // The COAST: open sea beyond the harbour to the SSW — the city is coastal,
-    // while the dry Richat terrain shows everywhere else. Always present.
-    const coastMat = new THREE.MeshStandardMaterial({ color: '#2d6f9e', roughness: 0.45, metalness: 0.06 });
-    const coast = new THREE.Mesh(new THREE.CircleGeometry(21, 64), coastMat);
-    coast.rotation.x = -Math.PI / 2;
-    coast.position.set(hx * 30, 0.04, hz * 30); // hugs the ground — a sea, not a saucer
-    coast.renderOrder = 1;
-    coast.userData.noShadow = true;
-    group.add(coast);
-    const shore = new THREE.Mesh(new THREE.RingGeometry(21, 22.4, 64), stoneMat('#d3c49a'));
-    shore.rotation.x = -Math.PI / 2;
-    shore.position.set(hx * 30, 0.03, hz * 30); // the pale strand around the bay
-    shore.userData.noShadow = true;
-    group.add(shore);
-    // THE DELUGE — the Captain's story, not a bathtub: the natural dam behind
-    // the northern ridge bursts and the raised sea comes over the city AS A
-    // WAVE FROM THE NORTH-EAST, sweeping across the rings into the SW sea.
-    // The flood sheet starts as a lobe hugging the NE and advances toward the
-    // harbour as the level rises; a pale swell ridge marks its leading edge.
-    // (Local frame: the city is later rotated 180°, so world-NE = local
-    // (-x, +z) — the lobe starts at local (-1,+1) and drives toward (+1,-1).)
-    if (seaLevel !== undefined && seaLevel > LAND_Y + 0.4) {
-      const t = Math.min(1, (seaLevel - (LAND_Y + 0.4)) / (3.5 - (LAND_Y + 0.4)));
-      // Flood lobe: centre starts deep in the local NE (-17, +17) and slides to
-      // the origin as the level rises, while the sheet grows to cover the city.
-      const lx = -17 * (1 - t);
-      const lz = 17 * (1 - t);
-      const radius = 20 + 36 * t;
-      const floodMat = new THREE.MeshStandardMaterial({ color: '#356f96', roughness: 0.3, metalness: 0.08, transparent: true, opacity: 0.9 });
-      const flood = new THREE.Mesh(new THREE.CircleGeometry(radius, 72), floodMat);
-      flood.rotation.x = -Math.PI / 2;
-      flood.position.set(lx, seaLevel, lz);
-      flood.renderOrder = 2;
-      flood.userData.noShadow = true;
-      group.add(flood);
-      if (t < 0.96) {
-        // The breaking front — a low foaming roller hugging the flood's
-        // leading (harbour-ward) edge, perpendicular to the advance. Built in
-        // a parent group so the orientation maths stays unambiguous: the
-        // cylinder lies along the group's X, and the group turns local X onto
-        // the edge line.
-        const dirX = 0.7071, dirZ = -0.7071; // advance: toward the local SW
-        const roller = new THREE.Group();
-        const swell = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.5, 0.5, radius * 0.9, 10),
-          new THREE.MeshStandardMaterial({ color: '#cfe4ee', roughness: 0.4, transparent: true, opacity: 0.8 }),
-        );
-        swell.rotation.z = Math.PI / 2; // lie along the roller's X
-        swell.scale.y = 0.55; // squashed — a swell, not a pipe
-        roller.add(swell);
-        roller.rotation.y = -Math.PI / 4; // X → the NW–SE edge line
-        roller.position.set(lx + dirX * (radius - 0.6), seaLevel + 0.04, lz + dirZ * (radius - 0.6));
-        roller.traverse((o) => { o.userData.noShadow = true; });
-        group.add(roller);
-        // A lone trireme carried on the crest — swept from the harbour, riding
-        // the wave (and giving the deluge its scale in one glance).
-        const crestBoat = new THREE.Group();
-        const hull = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.09, 0.16), stoneMat('#7a4e2c'));
-        const mast = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.3, 0.02), stoneMat('#5f3f22'));
-        mast.position.y = 0.18;
-        crestBoat.add(hull, mast);
-        crestBoat.position.set(lx + dirX * (radius - 0.9), seaLevel + 0.36, lz + dirZ * (radius - 0.9) + 1.6);
-        crestBoat.rotation.set(0.32, -Math.PI / 4, 0.18); // pitched on the swell
-        crestBoat.traverse((o) => { o.userData.noShadow = true; });
-        group.add(crestBoat);
-        // The burst dam: a torn gap in the plateau's city-facing wall — the
-        // wave pours from HERE, the Captain's raised NE sea, not from thin air.
-        const gap = block(2.8, 1.5, 1.2, -7.4, 0.6, 11.6, '#7c6f4f', Math.PI / 4);
-        group.add(gap);
-        // White water spilling through the breach toward the city.
-        const spill = new THREE.Mesh(
-          new THREE.PlaneGeometry(2.2, 3.4),
-          new THREE.MeshStandardMaterial({ color: '#bcd9ea', roughness: 0.3, transparent: true, opacity: 0.85 }),
-        );
-        spill.rotation.x = -Math.PI / 2;
-        spill.rotation.z = Math.PI / 4;
-        spill.position.set(-6.2, 0.12, 10.4);
-        spill.userData.noShadow = true;
-        group.add(spill);
-      }
-    }
+    ground = buildAtlantis(group, { lite: opts?.lite, floodY: seaLevel !== undefined ? seaLevel * 1.4 : undefined });
   } else if (model === 'hanging-gardens') {
     // The Hanging Gardens of Babylon — the CLASSIC reconstruction: a walled
     // palace-garden, NOT a lone ziggurat. A massive glazed mud-brick perimeter
@@ -4739,6 +4523,11 @@ export function buildModel(
         group.add(drum);
       }
     }
+  } else if (model in GIZA) {
+    // One Giza pyramid (or queen) in true metres — see buildGizaPart.
+    ground = '#d8c48a';
+    group.userData.selfRuined = true;
+    buildGizaPart(group, model, buildFrac, ruined);
   } else if (model === 'giza') {
     // The Giza plateau — the three great pyramids and the Sphinx, built up
     // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
@@ -4908,11 +4697,14 @@ export function buildModel(
       // Khafre's mortuary temple at his pyramid's east face.
       group.add(block(2.8, 1.1, 3.2, -8.4, 0.55, 15.0, templeMat));
       // The covered causeway climbing from the valley temple to the mortuary temple.
-      group.add(strut(new THREE.Vector3(15.4, 0.6, 21.6), new THREE.Vector3(-7.4, 0.6, 15.2), 0.85, stoneMat(templeMat)));
+      // Laid ON the ground (it was a 0.85-unit beam 0.6 up, ~14 m in the air on the
+      // globe — the Captain's floating dark bar, 15 Oct 2026).
+      group.add(strut(new THREE.Vector3(15.4, 0.04, 21.6), new THREE.Vector3(-7.4, 0.04, 15.2), 0.2, stoneMat(templeMat)));
       // Khufu's rectangular enclosure (perimeter) wall around the Great Pyramid.
       const eW = 6.6;
-      for (const [w, d, x, z] of [[2 * eW, 0.5, 0, eW], [2 * eW, 0.5, 0, -eW], [0.5, 2 * eW, eW, 0], [0.5, 2 * eW, -eW, 0]] as const)
-        group.add(block(w, 0.8, d, x, 0.4, z, templeMat));
+      // A low, thin wall (it was 0.5 × 0.8 units — an 18 m-high dark frame).
+      for (const [w, d, x, z] of [[2 * eW, 0.15, 0, eW], [2 * eW, 0.15, 0, -eW], [0.15, 2 * eW, eW, 0], [0.15, 2 * eW, -eW, 0]] as const)
+        group.add(block(w, 0.3, d, x, 0.15, z, templeMat));
     }
   } else if (model === 'buckingham') {
     // Buckingham Palace — the symmetrical East Front (Aston Webb's 1913
