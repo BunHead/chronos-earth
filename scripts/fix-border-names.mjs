@@ -56,7 +56,43 @@ export const RENAMES = [
   // States, 8 Oct 2026): 1000 BCE's "Zhoa" and 323 BCE's "Zhow states".
   ['Zhoa', 'Zhou', -Infinity, Infinity],
   ['Zhow states', 'Zhou states', -Infinity, Infinity],
+  // Hong Kong was drawn as its own polygon from 1650 with a name and no owner,
+  // so the 1997 handover never showed. British from 1841 (Hong Kong Island,
+  // ceded by the Treaty of Nanking, 1842; Kowloon 1860; the New Territories
+  // leased 1898 — the maps are too coarse to split the three), then part of
+  // China as a Special Administrative Region from 1 July 1997. Before 1841 it
+  // is simply part of the Chinese state around it (see SURROUNDED below).
+  ['Hong Kong', 'Hong Kong (UK)', 1841, 1996],
+  ['Hong Kong', 'Hong Kong (China)', 1997, Infinity],
+  ['Hong Kong (UK)', 'Hong Kong (China)', 1997, Infinity],
 ];
+
+/**
+ * Before these years the place was part of the state around it, not a polity
+ * of its own: [name, year it became separate, a point just over its border
+ * that lies in the surrounding state]. The polygon takes that state's name.
+ */
+export const SURROUNDED = [['Hong Kong', 1841, 114.1, 22.65]];
+
+/**
+ * Macau is too small for the basemap, so no snapshot drew it. Portuguese from
+ * the 1557 settlement (formal sovereignty by the 1887 treaty) until it passed
+ * to China on 20 December 1999. Outline hand-drawn at the maps' own coarseness:
+ * the peninsula, and Taipa with Coloane.
+ */
+export const MACAU = {
+  from: 1557,
+  // Like Hong Kong's 1997, the year of the handover shows how it ended.
+  china: 1999,
+  geometry: {
+    type: 'MultiPolygon',
+    coordinates: [
+      [[[113.53, 22.22], [113.56, 22.22], [113.56, 22.18], [113.53, 22.18], [113.53, 22.22]]],
+      [[[113.53, 22.17], [113.6, 22.17], [113.6, 22.11], [113.53, 22.11], [113.53, 22.17]]],
+    ],
+  },
+};
+export const macauName = (year) => (year >= MACAU.china ? 'Macau (China)' : 'Macau (Portugal)');
 
 /** Island groups labelled "Unknown" in the 1994+ maps: [name, s, w, n, e]. */
 export const ISLANDS = [
@@ -99,6 +135,30 @@ export function fixFrame(g, year) {
         log.push(`${from} -> ${to}`);
         break;
       }
+    }
+  }
+  // 1b. places that were part of the state around them before they split off
+  for (const [place, since, lon, lat] of SURROUNDED) {
+    if (year >= since) continue;
+    const f = g.features.find((x) => x.properties?.name === place);
+    const around = g.features.find(
+      (x) => x !== f && x.properties?.name && polysOf(x.geometry).some((p) => pointInRing(lon, lat, p[0])),
+    );
+    if (f && around) {
+      f.properties.name = around.properties.name;
+      log.push(`${place} -> ${around.properties.name}`);
+    }
+  }
+  // 1c. Macau, drawn on top (last) so no neighbour hides it
+  if (year >= MACAU.from) {
+    const want = macauName(year);
+    const f = g.features.find((x) => (x.properties?.name ?? '').startsWith('Macau'));
+    if (!f) {
+      g.features.push({ type: 'Feature', properties: { name: want }, geometry: MACAU.geometry });
+      log.push(`added ${want}`);
+    } else if (f.properties.name !== want) {
+      log.push(`${f.properties.name} -> ${want}`);
+      f.properties.name = want;
     }
   }
   if (year < MODERN_FROM) return { g, log, left: 0 };

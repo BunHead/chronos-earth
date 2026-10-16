@@ -24,6 +24,8 @@ import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 import { isBuilderActive, sitePlanNear } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
+import { budgetTier } from './renderTier';
+import { estuaryRibbon } from './atlantisVision';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -72,10 +74,49 @@ interface Placement {
    * half its width + 40 m. Giza's model is the whole 1 km plateau but anchors
    * at Khufu, so it reads the plateau round Khufu, not the Nile-side edge. */
   baseRingM?: number;
+  /** [E–W, N–S] metres of TERRAIN to cut away and floor flat (in the cover
+   * colour) until builtYear. The terrain is a surface model that holds the real
+   * pyramids themselves (THE BUMP, below): before and while one is built, its
+   * 140 m terrain hill stood there under the half-built course (the Captain's
+   * Giza redo, 15 Oct 2026). Square, north-aligned, centred on lat/lon. */
+  clipM?: [number, number];
+  /** Keep the clipM cut at every date, not only until builtYear (the great
+   * pyramids: the surface model's hill pokes through their stripped ruins). */
+  clipAlways?: boolean;
   /** Added on the fly by ensurePlacement (a site visited on the globe), not
    * from the curated list — a curated placement at the same spot replaces it. */
   generic?: boolean;
 }
+
+// The Giza pyramids and queens' pyramids (see PLACEMENTS). built = complete;
+// buildYears = the rise before it; clip = the square of terrain hill cut away
+// until then (base + ~30 m: the surface model's hill spreads past the stone).
+const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number; always?: boolean }> = [
+  { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 , always: true },
+  { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 , always: true },
+  { model: 'giza-menkaure', title: 'Pyramid of Menkaure', lat: 29.97251, lon: 31.12826, built: -2503, buildYears: 29, ring: 95, clip: 132, cover: 90 , always: true },
+  // The queens' pyramids east of Khufu (Khufu's reign) and south of Menkaure.
+  { model: 'giza-queen', title: 'Pyramid G1-a (Hetepheres I)', lat: 29.97887, lon: 31.13621, built: -2570, clip: 68, cover: 38 },
+  { model: 'giza-queen', title: 'Pyramid G1-b (Meritites I)', lat: 29.97834, lon: 31.13621, built: -2570, clip: 68, cover: 38 },
+  { model: 'giza-queen', title: 'Pyramid G1-c (Henutsen)', lat: 29.97788, lon: 31.1362, built: -2566, clip: 64, cover: 36 },
+  { model: 'giza-queen', title: 'Pyramid G3-a', lat: 29.97162, lon: 31.1283, built: -2510, clip: 60, cover: 34 },
+  { model: 'giza-queen-step', title: 'Pyramid G3-b', lat: 29.97163, lon: 31.12781, built: -2510, clip: 44, cover: 26 },
+  { model: 'giza-queen-step', title: 'Pyramid G3-c', lat: 29.97162, lon: 31.12734, built: -2510, clip: 44, cover: 26 },
+];
+/** The Sphinx stands in her hollow, ~20 m below the plateau: her ring is read
+ * INSIDE the enclosure, not out on the plateau rim round it. */
+const SPHINX_RING_M = 46;
+/** The three causeways from each pyramid's mortuary temple down to its valley
+ * temple, DRAPED on the terrain (the old one was a beam 14 m in the air). Ends
+ * from OpenStreetMap: the temples' footprints and Khufu's causeway path (way
+ * 354844304, as far as it is traced before the village covers it). Widths are
+ * approximate. Drawn from completion until the photo's own remains take over. */
+const GIZA_CAUSEWAYS: Array<{ from: number; widthM: number; lonLat: number[] }> = [
+  { from: -2566, widthM: 10, lonLat: [31.13538, 29.97917, 31.135905, 29.979196, 31.136046, 29.979208, 31.136246, 29.979239, 31.136442, 29.979308, 31.136568, 29.979361, 31.137079, 29.979467, 31.137932, 29.979647] },
+  { from: -2532, widthM: 5, lonLat: [31.133104, 29.975992, 31.138066, 29.974745] },
+  { from: -2503, widthM: 5, lonLat: [31.129813, 29.97249, 31.1361, 29.972507] },
+];
+const CAUSEWAY_UNTIL = 1356;
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
 const PLACEMENTS: Placement[] = [
@@ -90,19 +131,35 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: when the monument became the ruin we know — the casing goes
   // to Cairo's mosques, the earthquake fells the Colosseum's south ring,
   // the Venetian shell guts the Parthenon, the sarsens topple.
-  { model: 'giza', title: 'Giza Pyramids', lat: 29.9792, lon: 31.1342, builtYear: -2560, ruinYear: 1356, buildYears: 80, baseRingM: 175,
-    // Khufu, Khafre and Menkaure at their Wikipedia coordinates, with the queens'
-    // pyramids beside Khufu (east) and Menkaure (south) as they show in the photo.
-    cover: { rgb: [214, 192, 148], at: [
-      [29.97917, 31.13417, 170], [29.97611, 31.13083, 160], [29.9725, 31.12833, 90],
-      [29.9786, 31.1358, 65], [29.9716, 31.1281, 65],
-    ], until: 'built' } },
+  // THE GIZA PYRAMIDS, one true-metre model each (the Captain, 15 Oct 2026), so
+  // each stands on its OWN ground — the plateau falls ~45 m from Khafre down to
+  // the Sphinx, and the old single 1 km plateau model (still exported as
+  // giza*.glb for the 3D viewer) could only sit right at one point.
+  // Centres: the OpenStreetMap footprints (ways 4420397 / 4420396 / 4420398 and
+  // the queens' ways), which agree with Wikipedia's coordinates to ~10–40 m
+  // and match the satellite photo they were traced from. Each rises in its own
+  // king's reign (Wikipedia, conventional dates): Khufu c. 2589–2566 BCE,
+  // Khafre c. 2558–2532, Menkaure c. 2532–2503. The casing was stripped for
+  // Cairo after the 1303 earthquake; 1356 (Sultan Hasan's works) is the date
+  // the stripped cores take over.
+  ...GIZA_PYRAMIDS.map((g) => ({
+    model: g.model, title: g.title, lat: g.lat, lon: g.lon, builtYear: g.built,
+    // The queens' ruins are left to the photo's own surface model (it holds them
+    // as they stand): a ruin model on top of that hill read as stacked beige
+    // blocks by Khufu (the PR #12 review). The great three keep their ruins.
+    ...(g.always ? { ruinYear: 1356 } : { endYear: 1356 }),
+    ...(g.buildYears ? { buildYears: g.buildYears } : {}),
+    ...(g.ring ? { baseRingM: g.ring } : {}),
+    clipM: [g.clip, g.clip] as [number, number],
+    ...(g.always ? { clipAlways: true } : {}),
+    cover: { rgb: [214, 192, 148] as [number, number, number], at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
+  })),
   // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
   // lower than the pyramids — so she clamps to her own (lower) ground and sits in
   // her hollow instead of floating at plateau height baked into the flat giza
   // model. Carved under Khafre, ~2500 BCE. (The plateau model no longer draws its
   // own Sphinx — see Monument3D 'giza'.)
-  { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500,
+  { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500, baseRingM: SPHINX_RING_M,
     cover: { rgb: [214, 192, 148], at: [[29.97526, 31.13758, 50]], until: 'built' } },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
@@ -155,9 +212,11 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: unlike most of Angkor it was never abandoned to the forest — it
   // stayed in use as a Buddhist temple and is on Cambodia's flag today.
   { model: 'angkor', title: 'Angkor Wat', lat: 13.4125, lon: 103.8667, builtYear: 1150, buildYears: 37 },
-  // The flagged hypothesis: the ringed city stands on the Richat from deep
-  // prehistory until the deluge of 9600 BCE takes her.
-  { model: 'rings', title: 'Atlantis', lat: 21.124, lon: -11.396, builtYear: -11000, endYear: -9600 },
+  // PLATO'S ATLANTIS, IMAGINED — a flagged artistic reconstruction. It never
+  // stands by default: the real Richat landform is the view. It shows only
+  // while the visitor has the vision switched on in the Richat panel
+  // (setAtlantisVision), whatever the year; 9600 BCE is Plato's date.
+  { model: 'rings', title: 'Atlantis', lat: 21.124, lon: -11.396, builtYear: -9600 },
 ];
 
 const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
@@ -213,6 +272,81 @@ let transforms: Record<string, ModelTransform> = {};
 const BUMP_M = 5;
 const baseGround = new Map<string, number | null>();
 const grounding = new Set<string>();
+/** The ring's median ground (m) per entity id — the floor laid in a clipM hole. */
+const ringGround = new Map<string, number>();
+
+/** CLIPPED TERRAIN (Placement.clipM): the hole cut in the surface model, and the
+ * flat floor laid in it, per entity id — on until the monument stands complete. */
+const clips = new Map<string, { poly: Cesium.ClippingPolygon; floor: Cesium.Entity; on: boolean; h: number }>();
+
+function gateClip(entity: Cesium.Entity, p: Placement): void {
+  const viewer = theViewer;
+  const coll = viewer?.scene.globe.clippingPolygons;
+  if (!viewer || viewer.isDestroyed() || !p.clipM || !coll) return;
+  const id = entity.id;
+  const modern = !(viewer.terrainProvider instanceof Cesium.EllipsoidTerrainProvider);
+  // The great pyramids are cut at EVERY date: the surface model's hill pokes
+  // through their stripped ruins (Khafre's dark photo top). The queens only until
+  // built — their floors left flat slabs by Khufu in 2026 (the PR #12 review).
+  const curYear = yearsBPToYear(lastYearsBP);
+  let want = modern && lastShowSites && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
+  if (want && !ringGround.has(id)) {
+    // The floor's height is the ring's ground: find it first (never a hole into the void).
+    if (!grounding.has(id)) void findBase(entity, p);
+    want = false;
+  }
+  let c = clips.get(id);
+  const h = ringGround.get(id) ?? 0;
+  if (want && (!c || c.h !== h)) {
+    if (c) {
+      if (c.on) coll.remove(c.poly);
+      viewer.entities.remove(c.floor);
+    }
+    const [ew, ns] = p.clipM;
+    const dLat = 1 / 111_320;
+    const dLon = 1 / (111_320 * Math.cos((p.lat * Math.PI) / 180));
+    const square = (ew2: number, ns2: number) => Cesium.Cartesian3.fromDegreesArray([
+      p.lon - ew2 * dLon, p.lat - ns2 * dLat, p.lon + ew2 * dLon, p.lat - ns2 * dLat,
+      p.lon + ew2 * dLon, p.lat + ns2 * dLat, p.lon - ew2 * dLon, p.lat + ns2 * dLat,
+    ]);
+    const rgb = p.cover?.rgb ?? [214, 192, 148];
+    c = {
+      poly: new Cesium.ClippingPolygon({ positions: square(ew / 2, ns / 2) }),
+      floor: viewer.entities.add({
+        show: false,
+        polygon: {
+          hierarchy: new Cesium.PolygonHierarchy(square(ew / 2 + 3, ns / 2 + 3)),
+          height: h,
+          // A shade darker: the flat floor is unlit, the sunlit sand around it is not.
+          material: Cesium.Color.fromBytes(Math.round(rgb[0] * 0.9), Math.round(rgb[1] * 0.9), Math.round(rgb[2] * 0.9), 255),
+        },
+      }),
+      on: false,
+      h,
+    };
+    clips.set(id, c);
+  }
+  if (!c || c.on === want) return;
+  if (want) coll.add(c.poly);
+  else coll.remove(c.poly);
+  c.floor.show = want;
+  c.on = want;
+  viewer.scene.requestRender();
+}
+
+/** The Giza causeways, draped on the terrain (GIZA_CAUSEWAYS). */
+const causeways: Array<{ entity: Cesium.Entity; from: number }> = [];
+const CAUSEWAY_AT = Cesium.Cartesian3.fromDegrees(31.1335, 29.976);
+function gateCauseways(): void {
+  const cam = theViewer?.camera;
+  if (!cam) return;
+  const curYear = yearsBPToYear(lastYearsBP);
+  const near = Cesium.Cartesian3.distance(cam.positionWC, CAUSEWAY_AT) < LOAD_DISTANCE;
+  for (const c of causeways) {
+    const on = lastShowSites && near && curYear >= c.from && curYear < CAUSEWAY_UNTIL;
+    if (c.entity.show !== on) c.entity.show = on;
+  }
+}
 
 async function findBase(entity: Cesium.Entity, p: Placement): Promise<void> {
   const viewer = theViewer;
@@ -243,6 +377,8 @@ async function findBase(entity: Cesium.Entity, p: Placement): Promise<void> {
     const edge = ring.length ? ring[Math.floor(ring.length / 2)] : NaN;
     baseGround.set(id, Number.isFinite(centre) && Number.isFinite(edge) && centre - edge > BUMP_M ? edge : null);
     seat(entity, p);
+    if (Number.isFinite(edge)) ringGround.set(id, edge);
+    gateClip(entity, p);
   } catch {
     /* terrain unavailable — the clamp stands */
   } finally {
@@ -264,7 +400,9 @@ export function transformKey(model: string, lat: number, lon: number): string {
 function seat(entity: Cesium.Entity, p: Placement): void {
   const info = theManifest[p.model];
   if (!entity.model || !info?.footprint) return;
-  const t = transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
+  // The imagined Atlantis is built at TRUE scale (1 unit = 10 m), so it takes
+  // no maker trim: the saved ×21.6 was for the old 2.5 km stylised rings.
+  const t = p.model === 'rings' ? {} : transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
   const { widthM, facingDeg } = fitFor(p.title, p.model);
   const mPerDeg = 111_320;
   const lat = p.lat + (t.northM ?? 0) / mPerDeg;
@@ -313,6 +451,7 @@ export function placementKeyFor(model: string, lat: number, lon: number): string
  * model must re-seat, or it floats at the OLD ground's height. */
 export function reseatAll(): void {
   baseGround.clear(); // a new terrain has new bumps — re-found as each comes near
+  ringGround.clear();
   for (const { entity, p } of entities) seat(entity, p);
 }
 
@@ -323,7 +462,9 @@ function addPlacement(p: Placement): void {
   const viewer = theViewer;
   const info = theManifest[p.model];
   if (!viewer || !info?.footprint) return;
-  const id = `mon3d-${p.model}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`;
+  // The Giza queens stand ~50 m apart — one more decimal keeps their ids apart.
+  const dp = p.model.startsWith('giza-') ? 4 : 3;
+  const id = `mon3d-${p.model}-${p.lat.toFixed(dp)}-${p.lon.toFixed(dp)}`;
   // THE LOAD RACE (found 8 Oct 2026). loadGlobeModels awaits the review file
   // between reading the manifest and adding the curated list, and a camera
   // that opens near a monument can ensurePlacement() a generic one in that
@@ -421,11 +562,29 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   }
   // …and this device's own local tweaks win on top (maker mode, no key).
   Object.assign(transforms, loadLocalTransforms());
+  if (Cesium.ClippingPolygonCollection.isSupported(viewer.scene) && !viewer.scene.globe.clippingPolygons) {
+    viewer.scene.globe.clippingPolygons = new Cesium.ClippingPolygonCollection();
+  }
+  for (const c of GIZA_CAUSEWAYS) {
+    causeways.push({
+      from: c.from,
+      entity: viewer.entities.add({
+        show: false,
+        corridor: {
+          positions: Cesium.Cartesian3.fromDegreesArray(c.lonLat),
+          width: c.widthM,
+          material: Cesium.Color.fromBytes(205, 190, 158, 255),
+          classificationType: Cesium.ClassificationType.TERRAIN,
+        },
+      }),
+    });
+  }
   for (const p of PLACEMENTS) addPlacement(p);
   // The camera moving brings models into (and out of) reach.
   viewer.camera.percentageChanged = 0.05;
   viewer.camera.changed.addEventListener(() => {
     for (const { entity, p } of entities) gate(entity, p);
+    gateCauseways();
   });
   // Whole-site plans arriving later supplant any generic stand-in (gate()).
   window.addEventListener('chronos:siteplans-loaded', () => {
@@ -477,7 +636,50 @@ for (const s of PLACEMENTS) {
   STAGE_TABLE[s.model] = buildStages(s.builtYear, s.buildYears);
 }
 
+/** "Plato's Atlantis, imagined" switched on in the Richat panel. */
+let atlantisVision = false;
+/** Show (or hide) the imagined Atlantis on the Richat. */
+export function setAtlantisVision(on: boolean): void {
+  if (on === atlantisVision) return;
+  atlantisVision = on;
+  for (const { entity, p } of entities) if (p.model === 'rings') gate(entity, p);
+  showEstuary(on);
+  theViewer?.scene.requestRender();
+}
+/** The estuary ribbon (our invention, not Plato's) — built on first use. */
+let estuary: Cesium.Entity[] = [];
+function showEstuary(on: boolean): void {
+  if (!theViewer) return;
+  if (on && !estuary.length) {
+    const sea = Cesium.Color.fromCssColorString('#2f6f9c');
+    // Lite gets fewer quads; either way a few KB, draped on the real terrain.
+    const segs = estuaryRibbon(budgetTier() === 'software' ? 5 : 10);
+    estuary = segs.map((g) => theViewer!.entities.add({
+      polygon: {
+        hierarchy: new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArray(g.ring.flat())),
+        material: sea.withAlpha(g.alpha),
+        classificationType: Cesium.ClassificationType.TERRAIN,
+      },
+    }));
+  }
+  for (const e of estuary) e.show = on;
+}
+export function isAtlantisVision(): boolean {
+  return atlantisVision;
+}
+
 function gate(entity: Cesium.Entity, p: Placement): void {
+  if (p.model === 'rings') {
+    // The vision is a toggle, never the default — and never a timeline event.
+    entity.show = atlantisVision && cameraNear(p);
+    if (!entity.model) return;
+    // Phones / no-GPU machines get the light build (same plan, same footprint).
+    const lite = budgetTier() === 'software' && theManifest['rings-lite']?.footprint;
+    const uri = `./models/${lite ? 'rings-lite' : 'rings'}.glb`;
+    const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
+    if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+    return;
+  }
   const curYear = yearsBPToYear(lastYearsBP);
   const { suffix: staged, bornYear } = stageFor(p.model, p.builtYear, curYear);
   // Only ever point at a stage glb we actually exported; else fall back to base.
@@ -495,6 +697,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   const supplanted = !!p.generic && sitePlanNear(p.lat, p.lon);
   entity.show = lastShowSites && born && !gone && !buried && !supplanted && cameraNear(p);
   if (entity.show && !p.sinkM && !baseGround.has(entity.id) && !grounding.has(entity.id)) void findBase(entity, p);
+  gateClip(entity, p);
   // The photo comes true at the ruin date (or, with no ruin, the build date).
   const patches = covers.get(entity.id);
   if (patches) {
@@ -516,4 +719,5 @@ export function updateGlobeModelVisibility(currentYearsBP: number, showSites: bo
   lastYearsBP = currentYearsBP;
   lastShowSites = showSites;
   for (const { entity, p } of entities) gate(entity, p);
+  gateCauseways();
 }

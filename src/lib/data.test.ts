@@ -39,6 +39,18 @@ describe('battles.json', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('has no duplicate battles by name or Wikidata id', () => {
+    // Same name + year = same battle (two Breitenfelds, 1631 and 1642, are fine).
+    const norm = (s: string) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, '');
+    const keys = battles.map((b: { name: string; year: number }) => `${norm(b.name)}@${b.year}`);
+    expect(new Set(keys).size).toBe(keys.length);
+    const qids = battles.flatMap((b: { links: { url: string }[] }) =>
+      b.links.map((l) => l.url.match(/wikidata\.org\/wiki\/(Q\d+)$/)?.[1]).filter(Boolean),
+    );
+    expect(qids.length).toBeGreaterThanOrEqual(12);
+    expect(new Set(qids).size).toBe(qids.length);
+  });
+
   it('commanders are well-formed and cover both sides', () => {
     let withCommanders = 0;
     for (const b of battles) {

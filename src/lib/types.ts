@@ -258,6 +258,12 @@ export interface TimelineEvent {
   partOf?: string;
   /** Battles: recorded death toll (P1120). */
   deaths?: number;
+  /** Battles: a hand-checked one-paragraph summary (scripts/data/battle-panels.json). */
+  summary?: string;
+  /** Battles: the outcome, e.g. "Soviet victory" (battle-panels.json). */
+  result?: string;
+  /** Where the hand-checked summary/sides/result were taken from. */
+  sourceUrl?: string;
   /** Wikidata Q-id, e.g. "Q243". */
   wikidataId?: string;
   /** English Wikipedia article title — for links + image/summary fetching. */
@@ -360,6 +366,11 @@ export interface PanelContent {
   title: string;
   date?: string;
   summary?: string;
+  /** The summary was checked by hand (battle-panels.json): show it instead of
+   * the live Wikipedia extract, which still supplies the photo. */
+  summaryChecked?: boolean;
+  /** Where the hand-checked text came from, shown as "Source" under it. */
+  sourceUrl?: string;
   /** If present, InfoPanel live-fetches the Wikipedia summary + thumbnail for this title. */
   wikiTitle?: string;
   /** The ruling polity's flag banner (drawn from the flag registry, time-aware).

@@ -3,7 +3,7 @@ import MakerRow from './MakerRow';
 import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
-import { eventToPanel, yearLabel } from '../lib/panel';
+import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
 import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
@@ -15,6 +15,8 @@ interface InfoPanelProps {
   onFly: (content: PanelContent) => void;
   onZoomToBattle: (battleId: string) => void;
   onViewMonument: (monument: NonNullable<PanelContent['monument3d']>) => void;
+  /** The Richat's "Plato's Atlantis, imagined" switch. */
+  atlantis?: { on: boolean; onToggle: (monument: NonNullable<PanelContent['monument3d']>) => void };
   /** The battle map, when this panel's battle is the one on the field.
    * Rendered inline here by default; `onPopOutMap` floats it instead. */
   battleMap?: ReactNode;
@@ -123,7 +125,7 @@ function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (
   );
 }
 
-export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, battleMap, onPopOutMap }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, atlantis, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
   // fetch its per-cell detail lazily and rebuild the panel when it lands. The
@@ -334,6 +336,49 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 🌍 Visit on the globe
               </button>
             )}
+            {content.monument3d && /giza/i.test(content.monument3d.title) && content.monument3d.model !== 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D pyramids: a reconstruction from the best evidence — published sizes (Lehner 1997,
+                Verner 2007), OpenStreetMap footprints and reign dates. The white casing, the courses
+                rising and the stripped ruins follow that evidence; how the stone was raised is
+                debated, so no ramps are shown.
+              </p>
+            )}
+            {content.monument3d?.model === 'rings' && atlantis && (
+              <div className={`atlantis-vision${atlantis.on ? ' on' : ''}`}>
+                <button
+                  className="btn atlantis-toggle"
+                  aria-pressed={atlantis.on}
+                  onClick={() => atlantis.onToggle(content.monument3d!)}
+                >
+                  {atlantis.on ? '✕ Back to the real Richat' : "🏛 Plato's Atlantis, imagined"}
+                </button>
+                <p className="atlantis-label">
+                  <strong>A representation, not evidence.</strong> Imagined with AI logic and the best evidence we have,
+                  following Plato's own description (<em>Timaeus</em> 24e–25d, <em>Critias</em> 113c–117e): rings of land
+                  and water, red, white and black stone, metal-clad walls, bridges, harbours, Poseidon's temple and a
+                  50-stadia canal to the sea. Geologists agree the Richat is a natural eroded dome, and no trace of a
+                  city has ever been found here.
+                  {atlantis.on && (
+                    <>
+                      {' '}The sea is raised +200 m with the real elevation data, which brings the Atlantic from about
+                      530 km away to about 195 km. The harbour sea around the city is imagined too.{' '}
+                      <strong>The estuary linking Plato's canal to the raised Atlantic is our own invention, not in Plato;
+                      the real coast would be about 195 km away even at +200 m.</strong>
+                    </>
+                  )}
+                </p>
+              </div>
+            )}
+            {content.monument3d?.model === 'sphinx' && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                3D model:{' '}
+                <a href="https://sketchfab.com/3d-models/f169dbe7974648babe327179091e0ee3" target="_blank" rel="noreferrer">
+                  'The Great Sphinx of Giza - Egypt'
+                </a>{' '}
+                by Chenzoss, CC BY 4.0
+              </p>
+            )}
             {content.fly && (
               <button className="btn" onClick={() => onFly(content)}>
                 ✈ Fly here
@@ -371,15 +416,25 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
             <CommanderFaces commanders={content.commanders} sideNames={content.sideNames} size="lg" />
           )}
 
-          {wiki.status === 'done' && wiki.extract ? (
+          {content.summaryChecked && content.summary ? (
+            <p className="info-summary">{content.summary}</p>
+          ) : wiki.status === 'done' && wiki.extract ? (
             <p className="info-summary">{wiki.extract}</p>
           ) : (
             content.summary && <p className="info-summary">{content.summary}</p>
           )}
-          {content.wikiTitle && wiki.status === 'loading' && (
+          {content.sourceUrl && (
+            <p className="info-source">
+              Source:{' '}
+              <a href={content.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {sourceLabel(content.sourceUrl)}
+              </a>
+            </p>
+          )}
+          {content.wikiTitle && !content.summaryChecked && wiki.status === 'loading' && (
             <p className="info-loading">Loading the full summary…</p>
           )}
-          {content.wikiTitle && wiki.status === 'error' && (
+          {content.wikiTitle && !content.summaryChecked && wiki.status === 'error' && (
             <p className="info-note">Couldn't reach Wikipedia just now — the link below has the full article.</p>
           )}
 

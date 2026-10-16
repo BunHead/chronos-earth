@@ -4,7 +4,7 @@ import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, loadSearchTop, rowToEvent, type SearchRow } from '../lib/searchIndex';
 import type { VideoPin } from '../lib/videos';
 import { loadCountryIndex, relatedNames, spanLabel, type CountryIndex, type CountryRow } from '../lib/countryIndex';
-import { didYouMean, matchTier } from '../lib/searchRank';
+import { buildFuzzyIndex, didYouMean, fuzzySearch, matchTier } from '../lib/searchRank';
 import { yearLabel } from '../lib/panel';
 
 interface SearchBoxProps {
@@ -113,6 +113,11 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   const [countries, setCountries] = useState<CountryIndex | null>(null);
   // Folded once when the index arrives, not ~50,000 times per keystroke.
   const foldedIndex = useMemo(() => indexRows.map((r) => fold(r.name)), [indexRows]);
+  // Word lists for typo-tolerant search, built once per list (~0.1 s for
+  // the full index), so each keystroke only costs a few milliseconds.
+  const fuzzyIndex = useMemo(() => buildFuzzyIndex(foldedIndex), [foldedIndex]);
+  const fuzzyEvents = useMemo(() => buildFuzzyIndex(events.map((e) => fold(e.name))), [events]);
+  const fuzzyBattles = useMemo(() => buildFuzzyIndex(battles.map((b) => fold(b.name))), [battles]);
   // Every name the box can find, for "did you mean…?" — folded once.
   const knownNames = useMemo<Array<[string, string]>>(() => {
     const all = [
@@ -235,7 +240,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     // Philadelphia. Within a tier, the in-memory rows (the most notable) come
     // first, then the more notable, then the shorter name.
     const inMemory = new Set(events.map((e) => e.id));
-    const ranked: { tier: number; mem: number; notability: number; len: number; name: string; ev?: TimelineEvent; row?: SearchRow }[] = [];
+    const ranked: { tier: number; mem: number; notability: number; len: number; name: string; ev?: TimelineEvent; row?: SearchRow; battle?: Battle }[] = [];
     for (const e of events) {
       if (taken.has(norm(e.name))) continue;
       const tier = matchTier(fold(e.name), q);
@@ -248,9 +253,40 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       if (tier < 0 || taken.has(norm(r.name))) continue;
       ranked.push({ tier, mem: 1, notability: 0, len: r.name.length, name: r.name, row: r });
     }
+    // TYPOS: nothing above found it exactly, so let a slip or two through
+    // ("Tangdo" → Battle of Tangdao, "Hastngs" → Battle of Hastings). Tier 5
+    // and up, so every exact and prefix match still ranks first; fewer slips
+    // rank higher. Only when the exact tiers left room in the list.
+    if (ranked.length + out.length < 9) {
+      const listed = new Set(ranked.map((m) => m.name));
+      const fuzzyTier = (d: number) => 5 + d;
+      for (const { i, d } of fuzzySearch(fuzzyBattles, q, 9)) {
+        const b = battles[i];
+        if (taken.has(norm(b.name)) || listed.has(b.name)) continue;
+        listed.add(b.name);
+        ranked.push({ tier: fuzzyTier(d), mem: -1, notability: 0, len: b.name.length, name: b.name, battle: b });
+      }
+      for (const { i, d } of fuzzySearch(fuzzyEvents, q, 20)) {
+        const e = events[i];
+        if (taken.has(norm(e.name)) || listed.has(e.name)) continue;
+        listed.add(e.name);
+        ranked.push({ tier: fuzzyTier(d), mem: 0, notability: e.notability ?? 0, len: e.name.length, name: e.name, ev: e });
+      }
+      for (const { i, d } of fuzzySearch(fuzzyIndex, q, 40)) {
+        const r = indexRows[i];
+        if (inMemory.has(r.id) || taken.has(norm(r.name)) || listed.has(r.name)) continue;
+        listed.add(r.name);
+        ranked.push({ tier: fuzzyTier(d), mem: 1, notability: 0, len: r.name.length, name: r.name, row: r });
+      }
+    }
     ranked.sort((a, b) => a.tier - b.tier || a.mem - b.mem || b.notability - a.notability || a.len - b.len);
     for (const m of ranked.slice(0, Math.max(3, 9 - out.length))) {
       taken.add(norm(m.name));
+      if (m.battle) {
+        const b = m.battle;
+        out.push({ key: `b-${b.id}`, label: b.name, sub: b.dateLabel, badge: '⚔️ Battle', run: () => onPickBattle(b) });
+        continue;
+      }
       const startYear = m.ev ? m.ev.startYear : m.row!.startYear;
       const src = m.ev ?? m.row!;
       const category = m.ev ? m.ev.category : m.row!.category;
@@ -297,7 +333,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     const seen = new Map<string, number>();
     for (const r of shown) seen.set(r.label + '|' + r.sub, (seen.get(r.label + '|' + r.sub) ?? 0) + 1);
     return shown.map((r) => (r.at && (seen.get(r.label + '|' + r.sub) ?? 0) > 1 ? { ...r, sub: `${r.sub} · ${coord(r.at)}` } : r));
-  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, knownNames, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
+  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, fuzzyIndex, fuzzyEvents, fuzzyBattles, knownNames, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
     r.run();

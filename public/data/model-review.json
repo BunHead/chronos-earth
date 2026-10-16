@@ -509,8 +509,9 @@
   },
   "tpillars": {
     "note": "Try an include the glyphs on them",
-    "ts": 1791272969736,
-    "status": "allowed"
+    "ts": 1792086787663,
+    "status": "allowed",
+    "rework": true
   },
   "mausoleum": {
     "status": "allowed",
@@ -528,5 +529,12 @@
   "shard": {
     "status": "allowed",
     "ts": 1791273201067
+  },
+  "place:tpillars@37.223,38.922": {
+    "transform": {
+      "eastM": 40,
+      "northM": 20
+    },
+    "ts": 1792086781043
   }
 }

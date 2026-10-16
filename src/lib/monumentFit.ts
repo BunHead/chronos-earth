@@ -19,6 +19,17 @@ export interface MonumentFit {
 // Specific, well-known monuments — real footprint (m) and facing where known.
 // `match` is a lowercase substring of the title (first hit wins).
 const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
+  // The Giza pyramids, each its own true-metre model (Monument3D buildGizaPart):
+  // widths are the real bases (Wikipedia; Verner 2007). Before 'giza' — first hit wins.
+  { match: 'pyramid of khufu', widthM: 230.33, facingDeg: 0 },
+  { match: 'pyramid of khafre', widthM: 215.25, facingDeg: 0 },
+  { match: 'pyramid of menkaure', widthM: 104.6, facingDeg: 0 },
+  { match: 'pyramid g1-a', widthM: 49.5, facingDeg: 0 },
+  { match: 'pyramid g1-b', widthM: 49.5, facingDeg: 0 },
+  { match: 'pyramid g1-c', widthM: 46.25, facingDeg: 0 },
+  { match: 'pyramid g3-a', widthM: 44, facingDeg: 0 },
+  { match: 'pyramid g3-b', widthM: 31, facingDeg: 0 },
+  { match: 'pyramid g3-c', widthM: 31, facingDeg: 0 },
   { match: 'giza pyramids', widthM: 1000 }, // whole plateau: Menkaure west edge → Sphinx east edge
   // 'sphinx' MUST precede 'giza': first-hit-wins, and "Great Sphinx of Giza"
   // contains "giza" — without this it sized as the 230 m pyramid base, not the
@@ -65,7 +76,7 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
   { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
-  { match: 'richat', widthM: 2500 }, // ~40 km across, but the stylised rings sit at this scale
+  { match: 'richat', widthM: 12000 }, // ~40 km across — 'Visit' frames the real landform (Plato's city is a toggle)
   // London expansion — real footprints (m); facings READ off geo plan-renders
   // on the real satellite imagery 2026-07-12 (world −Z = north, +X = east).
   { match: 'tower bridge', widthM: 260, facingDeg: 90 }, // span crosses the Thames ~N–S
@@ -104,7 +115,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
-  rings: { widthM: 2500, facingDeg: 180 }, // Atlantis rings — turned so the harbour reads at ~7 o'clock
+  // Plato's Atlantis, imagined (components/atlantisCity.ts): TRUE scale — the
+  // exported footprint is 2491.1 units of 10 m. facingDeg −90 turns the
+  // canal (local +Z) to bearing 270°: due west, toward the Atlantic.
+  rings: { widthM: 24911, facingDeg: -90 },
   // Seven Wonders of the Ancient World — real footprints (m) of what stood.
   'hanging-gardens': { widthM: 120, facingDeg: 0 },
   'zeus-statue': { widthM: 40, facingDeg: 0 },
@@ -113,6 +127,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   colossus: { widthM: 18, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
+  'giza-khufu': { widthM: 230.33, facingDeg: 0 },
+  'giza-khafre': { widthM: 215.25, facingDeg: 0 },
+  'giza-menkaure': { widthM: 104.6, facingDeg: 0 },
+  'giza-queen': { widthM: 49.5, facingDeg: 0 },
+  'giza-queen-step': { widthM: 31, facingDeg: 0 },
   // London landmarks — real footprints (m). Facing numbers were READ off
   // calibration plan-renders on real satellite terrain (world −Z = imagery
   // north, +X = imagery east — confirmed at Westminster), not guessed.
