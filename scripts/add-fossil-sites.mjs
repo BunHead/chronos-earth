@@ -99,6 +99,31 @@ export const FOSSIL_SITES = [
     'A World Heritage Site since 1995. Shale was mined here from 1859, and the pit became famous for whole ' +
       'animals — early horses, bats, birds — kept with their fur, feathers and stomach contents. The shale is about ' +
       '47 million years old (Eocene).'),
+  // Added 16 Oct 2026 (daytime job). Dinosaur Provincial Park, Riversleigh and
+  // Mistaken Point were already on the globe by Q-id, so are not listed.
+  site('rhynie-chert', 'Rhynie chert fossils found', 1912, 57.3367, -2.84139, 'Q1633601', 'Rhynie chert',
+    'Found by William Mackie in 1912 near Rhynie, Aberdeenshire. Hot springs turned a whole marsh to stone about ' +
+      '407 million years ago (Early Devonian), keeping some of the first land plants and tiny animals cell by cell.'),
+  site('ediacara', 'Ediacara Hills fossils found', 1946, -29.79753, 138.75613, 'Q1119841', 'Ediacara Hills',
+    'In 1946 the geologist Reg Sprigg found soft-bodied fossils in these South Australian hills. They are about ' +
+      '555 million years old — older than the Cambrian, and among the first large living things.'),
+  site('joggins', 'Joggins Fossil Cliffs', 2008, 45.75194, -64.41806, 'Q1439433', 'Joggins Fossil Cliffs',
+    'A World Heritage Site since 2008. Sea cliffs in Nova Scotia with whole fossil tree stumps about 310 million ' +
+      'years old (Carboniferous); inside them was found Hylonomus, one of the first reptiles.'),
+  site('bernissart', 'Bernissart Iguanodons found', 1878, 50.48333, 3.65, 'Q95112', 'Bernissart',
+    'In 1878 coal miners at Bernissart, Belgium, broke into a clay-filled pit holding dozens of Iguanodon ' +
+      'skeletons, more than 300 m underground. The bones are about 125 million years old (Early Cretaceous).',
+    'Pinned at the Wikidata point for the village of Bernissart.'),
+  site('monte-san-giorgio', 'Monte San Giorgio fossil site', 2003, 45.91667, 8.95, 'Q16648', 'Monte San Giorgio',
+    'A World Heritage Site since 2003, on the Swiss–Italian border. Its rocks are a Triassic lagoon about 240 ' +
+      'million years old, full of sea reptiles and fish — including the long-necked Tanystropheus.'),
+  site('ashfall', 'Ashfall Fossil Beds found', 1971, 42.425, -98.1586, 'Q4804942', 'Ashfall Fossil Beds',
+    'In 1971 Mike Voorhies spotted a baby rhino skull in a Nebraska gully. About 12 million years ago a far-off ' +
+      'volcano buried a waterhole in ash, and whole herds of rhinos and horses still lie where they fell.'),
+  site('la-brea', 'La Brea Tar Pits fossils recognised', 1875, 34.06306, -118.35583, 'Q1147168', 'La Brea Tar Pits',
+    'In 1875 William Denton named a sabre-tooth cat tooth from the asphalt in Los Angeles. The tar has trapped ' +
+      'animals for the last 50,000 years or so — well under one million years — giving dire wolves, ' +
+      'mammoths and thousands of Smilodon.'),
 ];
 
 async function main() {
