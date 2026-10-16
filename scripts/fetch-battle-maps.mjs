@@ -9,16 +9,21 @@
  * For each battle we try a curated list of known Commons file names first and
  * fall back to a Commons file search. Re-run after adding battle views:
  *   node scripts/fetch-battle-maps.mjs
+ *   node scripts/fetch-battle-maps.mjs --limit 5    (a small test run)
+ *
+ * Re-runs RESUME: a battle whose map is already on disk is skipped, and the
+ * manifest is saved after every success. Requests go one at a time with
+ * backoff on 429/503 — see scripts/lib/polite-fetch.mjs.
  */
-import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import { writeFile, mkdir, readFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { createPoliteFetch, limitFromArgs } from './lib/polite-fetch.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = join(__dirname, '..', 'public', 'data');
 const OUT_DIR = join(DATA, 'battlemaps');
 const API = 'https://commons.wikimedia.org/w/api.php';
-const UA = 'ChronosEarth-educational-app/1.0 (personal history-teaching project)';
 const THUMB_WIDTH = 1400;
 
 /** Known-good Commons file candidates per battle id (tried in order). */
@@ -109,19 +114,13 @@ const SEARCH_QUERY = {
   bulge: 'Battle of the Bulge map',
 };
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// One request at a time, a gap between each, backoff on 429/503.
+const politeFetch = createPoliteFetch({ gapMs: 400 });
+const exists = (p) => access(p).then(() => true, () => false);
 
 async function api(params) {
-  const qs = new URLSearchParams({ format: 'json', ...params });
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(`${API}?${qs}`, { headers: { 'User-Agent': UA } });
-    if (res.ok) return res.json();
-    if ((res.status === 429 || res.status >= 500) && attempt < 5) {
-      await sleep(1000 * 2 ** attempt);
-      continue;
-    }
-    throw new Error(`API HTTP ${res.status}`);
-  }
+  const qs = new URLSearchParams({ format: 'json', maxlag: '5', ...params });
+  return (await politeFetch(`${API}?${qs}`)).json();
 }
 
 function stripHtml(s) {
@@ -168,41 +167,49 @@ async function searchFile(query) {
     if (!/map|battle|plan|situation|campaign|invasion/i.test(title)) continue;
     const info = await fileInfo(title);
     if (info) return info;
-    await sleep(150);
   }
   return null;
 }
 
 async function download(url) {
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(url, { headers: { 'User-Agent': UA } });
-    if (res.ok) return Buffer.from(await res.arrayBuffer());
-    if ((res.status === 429 || res.status >= 500) && attempt < 5) {
-      await sleep(1000 * 2 ** attempt);
-      continue;
-    }
-    throw new Error(`image HTTP ${res.status}`);
-  }
+  return Buffer.from(await (await politeFetch(url)).arrayBuffer());
 }
 
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const { battleViews } = JSON.parse(await readFile(join(DATA, 'battle-views.json'), 'utf-8'));
   const ids = [...new Set([...Object.keys(battleViews), ...EXTRA_IDS])];
-  console.log(`Fetching maps for ${ids.length} battles...`);
 
-  const maps = {};
-  for (const id of ids) {
+  // Resume: keep maps already on disk; only fetch the missing ones.
+  let maps = {};
+  try {
+    maps = JSON.parse(await readFile(join(OUT_DIR, 'manifest.json'), 'utf-8')).maps ?? {};
+  } catch {
+    /* first run */
+  }
+  for (const [id, entry] of Object.entries(maps)) {
+    if (!(await exists(join(OUT_DIR, entry.file)))) delete maps[id];
+  }
+  const save = () => writeFile(join(OUT_DIR, 'manifest.json'), JSON.stringify({ maps }, null, 2));
+  const todo = ids.filter((id) => !maps[id]).slice(0, limitFromArgs());
+  console.log(`${ids.length - Object.keys(maps).filter((id) => ids.includes(id)).length} battles missing a map; fetching ${todo.length}...`);
+
+  let saved = 0;
+  for (const id of todo) {
     process.stdout.write(`${id}: `);
     let info = null;
-    for (const candidate of CANDIDATES[id] ?? []) {
-      info = await fileInfo(candidate);
-      if (info) break;
-      await sleep(150);
-    }
-    if (!info) {
-      process.stdout.write('(curated files not found, searching) ');
-      info = await searchFile(SEARCH_QUERY[id] ?? `${id} battle map`);
+    try {
+      for (const candidate of CANDIDATES[id] ?? []) {
+        info = await fileInfo(candidate);
+        if (info) break;
+      }
+      if (!info) {
+        process.stdout.write('(curated files not found, searching) ');
+        info = await searchFile(SEARCH_QUERY[id] ?? `${id} battle map`);
+      }
+    } catch (err) {
+      console.log(`FAILED lookup: ${err.message}`);
+      continue;
     }
     if (!info) {
       console.log('NO MAP FOUND');
@@ -227,15 +234,16 @@ async function main() {
         credit: `"${info.title}" · ${info.license} · Wikimedia Commons`,
         page: info.page,
       };
+      await save(); // keep progress even if a later request fails
+      saved++;
       console.log(`ok — ${info.title} (${(buf.length / 1024).toFixed(0)} KB, ${info.license})`);
     } catch (err) {
       console.log(`FAILED download: ${err.message}`);
     }
-    await sleep(200);
   }
 
-  await writeFile(join(OUT_DIR, 'manifest.json'), JSON.stringify({ maps }, null, 2));
-  console.log(`\nDone: ${Object.keys(maps).length}/${ids.length} maps saved to public/data/battlemaps/`);
+  await save();
+  console.log(`\nDone: ${saved}/${todo.length} new maps saved (${Object.keys(maps).length} in total) to public/data/battlemaps/`);
 }
 
 main();
