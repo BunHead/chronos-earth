@@ -37,6 +37,8 @@ export interface FaunaEntry {
   region: string;
   blurb: string;
   wiki: string;
+  /** Wikidata Q-id of the animal (newer rows only). */
+  wikidata?: string;
   track?: TrackPoint[];
 }
 
