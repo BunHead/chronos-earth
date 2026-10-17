@@ -503,5 +503,17 @@
   "rings-lite": {
     "footprint": 2350.5,
     "kb": 90
+  },
+  "ravne-tunnels": {
+    "footprint": 144.164,
+    "kb": 4
+  },
+  "bimini-beachrock": {
+    "footprint": 570.995,
+    "kb": 26
+  },
+  "yonaguni-rock": {
+    "footprint": 220,
+    "kb": 13
   }
 }
