@@ -242,6 +242,9 @@ body {
   border-radius: calc(10px * var(--r-scale));
   padding: 6px;
   max-height: calc(100vh - 90px);
+  /* Phones: 100vh includes the hidden URL bar, so the menu's foot sat
+     off-screen. dvh is the visible height (ignored by older browsers). */
+  max-height: calc(100dvh - 90px);
   overflow-y: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
@@ -260,6 +263,7 @@ body {
   cursor: pointer;
 }
 .app-menu-item:hover { background: var(--surface-hover); }
+.app-menu-item select { margin-left: auto; font-size: 13px; padding: 4px 6px; min-height: 32px; } /* Lite Mode picker: finger-sized */
 a.app-menu-item { text-decoration: none; box-sizing: border-box; } /* link items (Workshop, harvester) match the buttons */
 .app-menu-item.tour { align-items: flex-start; }
 .app-menu-item.tour small { display: block; color: var(--text-dim); font-size: 11px; }
