@@ -2,6 +2,617 @@
   "_comment": "Chronos Earth — curated battles dataset. See public/data/README.md for the schema. 'year' is a signed calendar year (negative = BCE). Casualty figures are rough historical estimates and vary by source. Add a battle by copying an entry. 'commanders' lists each side's leaders: side is 1 or 2 (matching belligerents), wiki is the English Wikipedia article title (used for the portrait + link; run scripts/fetch-portraits.mjs after adding). Set 'hasBattleView': true only if you also add phase data in battle-views.json.",
   "battles": [
     {
+      "id": "qarqar-853bce",
+      "name": "Battle of Qarqar",
+      "year": -853,
+      "dateLabel": "853 BCE",
+      "lat": 35.743,
+      "lon": 36.331,
+      "belligerents": {
+        "side1": "Neo-Assyrian Empire",
+        "side2": "Coalition of Levantine kings (Damascus, Israel and others)"
+      },
+      "victor": "Indecisive (Assyria claimed victory)",
+      "outcome": "Shalmaneser III fought a league of twelve kings by the Orontes river. He claimed a win but did not push on for years.",
+      "significance": "The first record of Arabs (with camels) in a battle, and the first mention of King Ahab of Israel outside the Bible.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Qarqar",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Qarqar"
+        },
+        {
+          "label": "Wikidata: Q849474",
+          "url": "https://www.wikidata.org/wiki/Q849474"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Shalmaneser III",
+          "side": 1,
+          "wiki": "Shalmaneser III"
+        },
+        {
+          "name": "Hadadezer",
+          "side": 2,
+          "wiki": "Hadadezer"
+        },
+        {
+          "name": "Ahab",
+          "side": 2,
+          "wiki": "Ahab"
+        }
+      ]
+    },
+    {
+      "id": "carchemish-605bce",
+      "name": "Battle of Carchemish",
+      "year": -605,
+      "dateLabel": "Summer 605 BCE",
+      "lat": 36.83,
+      "lon": 38.015,
+      "belligerents": {
+        "side1": "Neo-Babylonian Empire",
+        "side2": "Egypt, with the last Assyrian forces"
+      },
+      "victor": "Babylonian victory",
+      "outcome": "Crown prince Nebuchadnezzar crushed the army of Pharaoh Necho II at Carchemish on the Euphrates.",
+      "significance": "It ended Egyptian power in Syria and made Babylon the master of the Near East.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Carchemish",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Carchemish"
+        },
+        {
+          "label": "Wikidata: Q633560",
+          "url": "https://www.wikidata.org/wiki/Q633560"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Nebuchadnezzar II",
+          "side": 1,
+          "wiki": "Nebuchadnezzar II"
+        },
+        {
+          "name": "Necho II",
+          "side": 2,
+          "wiki": "Necho II"
+        }
+      ]
+    },
+    {
+      "id": "cunaxa-401bce",
+      "name": "Battle of Cunaxa",
+      "year": -401,
+      "dateLabel": "401 BCE",
+      "lat": 33.325,
+      "lon": 44.08,
+      "belligerents": {
+        "side1": "Cyrus the Younger, with Greek mercenaries",
+        "side2": "Achaemenid Empire (Artaxerxes II)"
+      },
+      "victor": "Victory for Artaxerxes II",
+      "outcome": "The Greek mercenaries won on their wing, but Cyrus was killed charging at his brother, so his revolt failed.",
+      "significance": "The stranded 'Ten Thousand' Greeks then marched home, a journey told by Xenophon in the Anabasis.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Cunaxa",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Cunaxa"
+        },
+        {
+          "label": "Wikidata: Q431205",
+          "url": "https://www.wikidata.org/wiki/Q431205"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Cyrus the Younger",
+          "side": 1,
+          "wiki": "Cyrus the Younger"
+        },
+        {
+          "name": "Clearchus",
+          "side": 1,
+          "wiki": "Clearchus of Sparta"
+        },
+        {
+          "name": "Artaxerxes II",
+          "side": 2,
+          "wiki": "Artaxerxes II of Persia"
+        }
+      ]
+    },
+    {
+      "id": "jaxartes-329bce",
+      "name": "Battle of Jaxartes",
+      "year": -329,
+      "dateLabel": "October 329 BCE",
+      "lat": 40.283,
+      "lon": 69.617,
+      "belligerents": {
+        "side1": "Macedonian Empire",
+        "side2": "Saka (Scythians)"
+      },
+      "victor": "Macedonian victory",
+      "outcome": "Alexander crossed the Syr Darya river under catapult cover and beat the Scythian horse archers.",
+      "significance": "It made Alexander's far north-east frontier safe, near today's Khujand in Tajikistan.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Jaxartes",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Jaxartes"
+        },
+        {
+          "label": "Wikidata: Q123215",
+          "url": "https://www.wikidata.org/wiki/Q123215"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Alexander the Great",
+          "side": 1,
+          "wiki": "Alexander the Great"
+        },
+        {
+          "name": "Saka leaders",
+          "side": 2,
+          "wiki": "Battle of Jaxartes",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
+      "id": "raphia-217bce",
+      "name": "Battle of Raphia",
+      "year": -217,
+      "dateLabel": "June 217 BCE",
+      "lat": 31.289,
+      "lon": 34.252,
+      "belligerents": {
+        "side1": "Ptolemaic Kingdom",
+        "side2": "Seleucid Empire"
+      },
+      "victor": "Ptolemaic victory",
+      "outcome": "Ptolemy IV beat Antiochus III near Gaza in one of the largest battles of the ancient world, with war elephants on both sides.",
+      "significance": "It kept southern Syria and Palestine in Egyptian hands for almost twenty more years.",
+      "casualties": "Uncertain; thousands on each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Raphia",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Raphia"
+        },
+        {
+          "label": "Wikidata: Q630781",
+          "url": "https://www.wikidata.org/wiki/Q630781"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ptolemy IV",
+          "side": 1,
+          "wiki": "Ptolemy IV Philopator"
+        },
+        {
+          "name": "Antiochus III",
+          "side": 2,
+          "wiki": "Antiochus III the Great"
+        }
+      ]
+    },
+    {
+      "id": "uhud-625",
+      "name": "Battle of Uhud",
+      "year": 625,
+      "dateLabel": "23 March 625",
+      "lat": 24.503,
+      "lon": 39.612,
+      "belligerents": {
+        "side1": "Muslims of Medina",
+        "side2": "Quraysh of Mecca"
+      },
+      "victor": "Meccan victory",
+      "outcome": "Muslim archers left their hill post too early, and a Meccan cavalry charge led by Khalid ibn al-Walid broke Muhammad's army.",
+      "significance": "A setback for early Islam, but Mecca did not follow it up by taking Medina.",
+      "casualties": "About 70 Muslims and about 22–37 Meccans killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Uhud",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Uhud"
+        },
+        {
+          "label": "Wikidata: Q488278",
+          "url": "https://www.wikidata.org/wiki/Q488278"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Muhammad",
+          "side": 1,
+          "wiki": "Muhammad"
+        },
+        {
+          "name": "Abu Sufyan",
+          "side": 2,
+          "wiki": "Abu Sufyan ibn Harb"
+        },
+        {
+          "name": "Khalid ibn al-Walid",
+          "side": 2,
+          "wiki": "Khalid ibn al-Walid"
+        }
+      ]
+    },
+    {
+      "id": "dongola-652",
+      "name": "Second Battle of Dongola",
+      "year": 652,
+      "dateLabel": "652",
+      "lat": 18.223,
+      "lon": 30.744,
+      "kind": "siege",
+      "belligerents": {
+        "side1": "Kingdom of Makuria",
+        "side2": "Rashidun Caliphate"
+      },
+      "victor": "Makurian victory",
+      "outcome": "The Christian Nubian kingdom of Makuria held off an Arab army besieging its capital, Dongola.",
+      "significance": "It led to the Baqt treaty, which kept Nubia independent and Christian for about 600 years.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Second battle of Dongola",
+          "url": "https://en.wikipedia.org/wiki/Second_battle_of_Dongola"
+        },
+        {
+          "label": "Wikidata: Q7443083",
+          "url": "https://www.wikidata.org/wiki/Q7443083"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Qalidurut",
+          "side": 1,
+          "wiki": "Qalidurut"
+        },
+        {
+          "name": "Abdallah ibn Sa'd",
+          "side": 2,
+          "wiki": "Abdallah ibn Sa'd"
+        }
+      ]
+    },
+    {
+      "id": "bach-dang-938",
+      "name": "Battle of Bạch Đằng (938)",
+      "year": 938,
+      "dateLabel": "938",
+      "lat": 20.844,
+      "lon": 106.632,
+      "belligerents": {
+        "side1": "Vietnamese forces of Ngô Quyền",
+        "side2": "Southern Han"
+      },
+      "victor": "Vietnamese victory",
+      "outcome": "Ngô Quyền planted iron-tipped stakes in the river bed. When the tide went out, the Southern Han fleet was caught and destroyed.",
+      "significance": "It ended about a thousand years of Chinese rule over northern Vietnam.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Bạch Đằng (938)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Bạch_Đằng_(938)"
+        },
+        {
+          "label": "Wikidata: Q2890760",
+          "url": "https://www.wikidata.org/wiki/Q2890760"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ngô Quyền",
+          "side": 1,
+          "wiki": "Ngô Quyền"
+        },
+        {
+          "name": "Liu Hongcao",
+          "side": 2,
+          "wiki": "Liu Hongcao"
+        }
+      ]
+    },
+    {
+      "id": "dandanaqan-1040",
+      "name": "Battle of Dandanaqan",
+      "year": 1040,
+      "dateLabel": "May 1040",
+      "lat": 37.392,
+      "lon": 61.345,
+      "belligerents": {
+        "side1": "Seljuk Turks",
+        "side2": "Ghaznavid Empire"
+      },
+      "victor": "Seljuk victory",
+      "outcome": "Seljuk horsemen beat the larger, thirsty Ghaznavid army in the desert near Merv.",
+      "significance": "It founded the Seljuk Empire, which went on to rule Iran, Iraq and Anatolia.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Dandanaqan",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Dandanaqan"
+        },
+        {
+          "label": "Wikidata: Q26493",
+          "url": "https://www.wikidata.org/wiki/Q26493"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Tughril",
+          "side": 1,
+          "wiki": "Tughril"
+        },
+        {
+          "name": "Chaghri Beg",
+          "side": 1,
+          "wiki": "Chaghri Beg"
+        },
+        {
+          "name": "Mas'ud I of Ghazni",
+          "side": 2,
+          "wiki": "Mas'ud I of Ghazni"
+        }
+      ]
+    },
+    {
+      "id": "malacca-1511",
+      "name": "Capture of Malacca",
+      "year": 1511,
+      "dateLabel": "August 1511",
+      "lat": 2.189,
+      "lon": 102.251,
+      "kind": "siege",
+      "belligerents": {
+        "side1": "Portuguese Empire",
+        "side2": "Malacca Sultanate"
+      },
+      "victor": "Portuguese victory",
+      "outcome": "Afonso de Albuquerque's fleet stormed the port city after weeks of fighting.",
+      "significance": "Portugal took control of the Strait of Malacca, the key sea route of the spice trade.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Capture of Malacca (1511)",
+          "url": "https://en.wikipedia.org/wiki/Capture_of_Malacca_(1511)"
+        },
+        {
+          "label": "Wikidata: Q4110453",
+          "url": "https://www.wikidata.org/wiki/Q4110453"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Afonso de Albuquerque",
+          "side": 1,
+          "wiki": "Afonso de Albuquerque"
+        },
+        {
+          "name": "Mahmud Shah",
+          "side": 2,
+          "wiki": "Mahmud Shah of Malacca"
+        }
+      ]
+    },
+    {
+      "id": "mactan-1521",
+      "name": "Battle of Mactan",
+      "year": 1521,
+      "dateLabel": "27 April 1521",
+      "lat": 10.311,
+      "lon": 124.015,
+      "belligerents": {
+        "side1": "Mactan (Lapulapu)",
+        "side2": "Spanish expedition of Magellan, with Cebu allies"
+      },
+      "victor": "Mactan victory",
+      "outcome": "Lapulapu's warriors drove off Magellan's landing party, and Magellan was killed in the shallows.",
+      "significance": "It ended Magellan's own voyage, though his ships went on to finish the first trip around the world.",
+      "casualties": "Magellan and several of his men killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Mactan",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Mactan"
+        },
+        {
+          "label": "Wikidata: Q2091449",
+          "url": "https://www.wikidata.org/wiki/Q2091449"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lapulapu",
+          "side": 1,
+          "wiki": "Lapulapu"
+        },
+        {
+          "name": "Ferdinand Magellan",
+          "side": 2,
+          "wiki": "Ferdinand Magellan"
+        }
+      ]
+    },
+    {
+      "id": "elmina-1625",
+      "name": "Battle of Elmina",
+      "year": 1625,
+      "dateLabel": "25 October 1625",
+      "lat": 5.083,
+      "lon": -1.347,
+      "belligerents": {
+        "side1": "Portuguese Empire, with Elmina townsmen",
+        "side2": "Dutch Republic (Dutch West India Company)"
+      },
+      "victor": "Portuguese victory",
+      "outcome": "Dutch troops landing to take São Jorge da Mina castle were ambushed and routed by the Portuguese and their local allies.",
+      "significance": "One of the Dutch Republic's worst colonial defeats. Elmina stayed Portuguese until the Dutch took it in 1637.",
+      "casualties": "Several hundred Dutch killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Elmina (1625)",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Elmina_(1625)"
+        },
+        {
+          "label": "Wikidata: Q1140266",
+          "url": "https://www.wikidata.org/wiki/Q1140266"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Portuguese commanders",
+          "side": 1,
+          "wiki": "Battle of Elmina (1625)",
+          "noPortrait": true
+        },
+        {
+          "name": "Dutch commanders",
+          "side": 2,
+          "wiki": "Battle of Elmina (1625)",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
+      "id": "guararapes-1649",
+      "name": "Second Battle of Guararapes",
+      "year": 1649,
+      "dateLabel": "19 February 1649",
+      "lat": -8.112,
+      "lon": -35.016,
+      "belligerents": {
+        "side1": "Portuguese Brazil",
+        "side2": "Dutch Republic (Dutch Brazil)"
+      },
+      "victor": "Luso-Brazilian victory",
+      "outcome": "Luso-Brazilian forces beat the Dutch again on the Guararapes hills south of Recife.",
+      "significance": "It broke Dutch power in north-east Brazil, which fell in 1654. Brazil marks it as the birth of its army.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Second Battle of Guararapes",
+          "url": "https://en.wikipedia.org/wiki/Second_Battle_of_Guararapes"
+        },
+        {
+          "label": "Wikidata: Q3504102",
+          "url": "https://www.wikidata.org/wiki/Q3504102"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Francisco Barreto de Menezes",
+          "side": 1,
+          "wiki": "Francisco Barreto de Menezes"
+        },
+        {
+          "name": "João Fernandes Vieira",
+          "side": 1,
+          "wiki": "João Fernandes Vieira"
+        },
+        {
+          "name": "Dutch commanders",
+          "side": 2,
+          "wiki": "Second Battle of Guararapes",
+          "noPortrait": true
+        }
+      ]
+    },
+    {
+      "id": "maipu-1818",
+      "name": "Battle of Maipú",
+      "year": 1818,
+      "dateLabel": "5 April 1818",
+      "lat": -33.501,
+      "lon": -70.772,
+      "belligerents": {
+        "side1": "United Liberation Army of Chile",
+        "side2": "Royal Army (Spanish royalists)"
+      },
+      "victor": "Patriot victory",
+      "outcome": "José de San Martín's army destroyed the royalist army on the plain near Santiago.",
+      "significance": "It secured Chile's independence from Spain.",
+      "casualties": "Uncertain; royalist losses heavy",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Maipú",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Maipú"
+        },
+        {
+          "label": "Wikidata: Q1073849",
+          "url": "https://www.wikidata.org/wiki/Q1073849"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "José de San Martín",
+          "side": 1,
+          "wiki": "José de San Martín"
+        },
+        {
+          "name": "Bernardo O'Higgins",
+          "side": 1,
+          "wiki": "Bernardo O'Higgins"
+        },
+        {
+          "name": "Mariano Osorio",
+          "side": 2,
+          "wiki": "Mariano Osorio"
+        }
+      ]
+    },
+    {
+      "id": "carabobo-1821",
+      "name": "Battle of Carabobo",
+      "year": 1821,
+      "dateLabel": "24 June 1821",
+      "lat": 10.005,
+      "lon": -68.166,
+      "belligerents": {
+        "side1": "Gran Colombia",
+        "side2": "Spanish Empire"
+      },
+      "victor": "Patriot victory",
+      "outcome": "Simón Bolívar's army, helped by the British Legion, routed the royalists on the plain of Carabobo.",
+      "significance": "It won the independence of Venezuela.",
+      "casualties": "Uncertain; royalist losses heavy",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Carabobo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Carabobo"
+        },
+        {
+          "label": "Wikidata: Q388210",
+          "url": "https://www.wikidata.org/wiki/Q388210"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Simón Bolívar",
+          "side": 1,
+          "wiki": "Simón Bolívar"
+        },
+        {
+          "name": "José Antonio Páez",
+          "side": 1,
+          "wiki": "José Antonio Páez"
+        },
+        {
+          "name": "Miguel de la Torre",
+          "side": 2,
+          "wiki": "Miguel de la Torre"
+        }
+      ]
+    },
+    {
       "id": "megiddo-1457bce",
       "name": "Battle of Megiddo",
       "year": -1457,
