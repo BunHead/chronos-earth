@@ -114,6 +114,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'leaning-tower': { widthM: 21, facingDeg: 0 }, // widest axis N–S: 18.8 m base steps plus the ~3.9 m southward lean of the top; facing 0 keeps the authored +Z lean pointing south
   amphitheatre: { widthM: 150, facingDeg: 0 },
   impact: { widthM: 120, facingDeg: 0 },
+  // Built in TRUE METRES (lib/precursorMesh.ts), so the width is the model's
+  // own span — scale ×1 — and facing 0 keeps its x east, z south.
+  'ravne-tunnels': { widthM: 144.164, facingDeg: 0 },
+  'bimini-beachrock': { widthM: 570.995, facingDeg: 0 },
+  'yonaguni-rock': { widthM: 220, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
   // Plato's Atlantis, imagined (components/atlantisCity.ts): TRUE scale — the
   // exported footprint is 2491.1 units of 10 m. facingDeg −90 turns the

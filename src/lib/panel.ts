@@ -23,6 +23,12 @@ const MODEL_BY_ID: Record<string, string> = {
   pumapunku: 'megalith',
   'gunung-padang': 'megalith',
   'younger-dryas-impact': 'impact',
+  // Precursor claims with an honest model of what is really there (none is a
+  // building): the claimed tunnels below ground, the beachrock on the seabed,
+  // the natural stepped rock under the sea. lib/precursorMesh.ts builds them.
+  'bosnian-pyramid-claims': 'ravne-tunnels',
+  'bimini-road': 'bimini-beachrock',
+  'yonaguni-monument': 'yonaguni-rock',
 };
 
 /**
@@ -162,8 +168,9 @@ export function resolveMonumentModel(site: AncientSite): string | null {
   // A precursor HYPOTHESIS is a claim, not a building. Handing every one the
   // impact crater put a dark crater "donut" on Yonaguni's natural rock, on a
   // 1513 map in Istanbul, on a Bosnian hill. Only the ones with an honest
-  // model of their own (Richat's rings, the Younger Dryas impact) get one;
-  // the rest get NO 3D button — prefer none to a wrong one.
+  // model of their own (Richat's rings, the Younger Dryas impact, and the
+  // below-surface three in MODEL_BY_ID) get one; the rest — the maps — get
+  // NO 3D button: prefer none to a wrong one.
   if (site.category === 'precursor-hypothesis') return null;
   return 'megalith';
 }
