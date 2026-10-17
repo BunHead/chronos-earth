@@ -65,6 +65,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { cleanText } from './lib/data-quality.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'videos.json');
@@ -123,7 +124,8 @@ export function parseFeed(xml) {
       const r = new RegExp(`<${tag}>([^<]*)</${tag}>`).exec(m[1]);
       return r ? r[1] : null;
     };
-    return { id: get('yt:videoId'), title: get('title'), published: get('published') };
+    // Feed titles arrive XML-escaped (&amp;) and sometimes with a trailing space.
+    return { id: get('yt:videoId'), title: cleanText(get('title')), published: get('published') };
   }).filter((v) => v.id && v.title);
 }
 
@@ -183,7 +185,7 @@ async function fetchViaApi(channelId) {
       if (!id || !sn.title) continue;
       // Private and deleted videos still appear, with their titles replaced.
       if (sn.title === 'Private video' || sn.title === 'Deleted video') continue;
-      out.push({ id, title: sn.title, published: sn.publishedAt ?? null });
+      out.push({ id, title: sn.title.trim(), published: sn.publishedAt ?? null });
     }
     pageToken = body.nextPageToken ?? '';
     if (!pageToken) break;

@@ -112,7 +112,7 @@ async function main() {
 
     const next = {
       id,
-      title: meta.title,
+      title: meta.title?.trim(),
       author: meta.author_name,
       authorUrl: meta.author_url,
       thumb: meta.thumbnail_url,
