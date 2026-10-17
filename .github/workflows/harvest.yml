@@ -187,6 +187,12 @@ jobs:
         # in Kentucky and in North Carolina: identical labels, different
         # articles. Each takes its article title so they stop looking doubled.
         run: node scripts/disambiguate-names.mjs
+      - name: Clean up names and summaries (idempotent)
+        if: '!cancelled()'
+        # Mechanical only: doubled spaces, untrimmed text, "&amp;" and stray
+        # tags copied in from Wikidata/Wikipedia. Anything needing judgement
+        # is reported by the lint step below, never changed here.
+        run: node scripts/fix-data-quality.mjs
       - name: Rebuild the core index
         if: '!cancelled()'
         run: node scripts/build-core-index.mjs
