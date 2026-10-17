@@ -5297,6 +5297,548 @@
           "noPortrait": true
         }
       ]
+    },
+    {
+      "id": "fei-river-383",
+      "name": "Battle of Fei River",
+      "year": 383,
+      "dateLabel": "Late 383",
+      "lat": 31.736,
+      "lon": 116.52,
+      "belligerents": {
+        "side1": "Eastern Jin",
+        "side2": "Former Qin"
+      },
+      "victor": "Eastern Jin victory",
+      "outcome": "A small Jin army routed a much larger Former Qin host after a feigned retreat turned into panic.",
+      "significance": "It kept southern China out of Former Qin's hands and the north–south split of China lasted another two centuries.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Fei River",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Fei_River"
+        },
+        {
+          "label": "Wikidata: Q1333898",
+          "url": "https://www.wikidata.org/wiki/Q1333898"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Xie Shi",
+          "side": 1,
+          "wiki": "Xie Shi"
+        },
+        {
+          "name": "Xie Xuan",
+          "side": 1,
+          "wiki": "Xie Xuan"
+        },
+        {
+          "name": "Fu Jian",
+          "side": 2,
+          "wiki": "Fu Jiān (337–385)"
+        }
+      ]
+    },
+    {
+      "id": "badr-624",
+      "name": "Battle of Badr",
+      "year": 624,
+      "dateLabel": "March 624",
+      "lat": 23.733,
+      "lon": 38.767,
+      "belligerents": {
+        "side1": "Muslims of Medina",
+        "side2": "Quraysh of Mecca"
+      },
+      "victor": "Muslim victory",
+      "outcome": "Muhammad's smaller force defeated the Meccan army near the wells of Badr.",
+      "significance": "The first major battle of early Islam; it greatly raised Muhammad's standing in Arabia.",
+      "casualties": "About 14 Muslims and about 70 Meccans killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Badr",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Badr"
+        },
+        {
+          "label": "Wikidata: Q486124",
+          "url": "https://www.wikidata.org/wiki/Q486124"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Muhammad",
+          "side": 1,
+          "wiki": "Muhammad"
+        },
+        {
+          "name": "Abu Jahl",
+          "side": 2,
+          "wiki": "Abu Jahl"
+        }
+      ]
+    },
+    {
+      "id": "karbala-680",
+      "name": "Battle of Karbala",
+      "year": 680,
+      "dateLabel": "10 October 680",
+      "lat": 32.615,
+      "lon": 44.031,
+      "belligerents": {
+        "side1": "Husayn ibn Ali and followers",
+        "side2": "Umayyad Caliphate"
+      },
+      "victor": "Umayyad victory",
+      "outcome": "Husayn, grandson of Muhammad, and most of his small band were killed by an Umayyad army.",
+      "significance": "A defining moment in the Sunni–Shia split; it is mourned every year on Ashura.",
+      "casualties": "About 72 of Husayn's companions killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Karbala",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Karbala"
+        },
+        {
+          "label": "Wikidata: Q626058",
+          "url": "https://www.wikidata.org/wiki/Q626058"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Husayn ibn Ali",
+          "side": 1,
+          "wiki": "Husayn ibn Ali"
+        },
+        {
+          "name": "Umar ibn Sa'd",
+          "side": 2,
+          "wiki": "Umar ibn Sa'd"
+        }
+      ]
+    },
+    {
+      "id": "kosovo-1389",
+      "name": "Battle of Kosovo",
+      "year": 1389,
+      "dateLabel": "15 June 1389",
+      "lat": 42.63,
+      "lon": 21.12,
+      "belligerents": {
+        "side1": "Serbian coalition",
+        "side2": "Ottoman Empire"
+      },
+      "victor": "Indecisive (both rulers killed)",
+      "outcome": "Both Prince Lazar and Sultan Murad I died; both armies were badly hurt.",
+      "significance": "Serbia was left too weak to resist the Ottomans for long. The battle became central to Serbian identity.",
+      "casualties": "Heavy on both sides",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Kosovo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Kosovo"
+        },
+        {
+          "label": "Wikidata: Q179288",
+          "url": "https://www.wikidata.org/wiki/Q179288"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lazar of Serbia",
+          "side": 1,
+          "wiki": "Lazar of Serbia"
+        },
+        {
+          "name": "Murad I",
+          "side": 2,
+          "wiki": "Murad I"
+        }
+      ]
+    },
+    {
+      "id": "chaldiran-1514",
+      "name": "Battle of Chaldiran",
+      "year": 1514,
+      "dateLabel": "23 August 1514",
+      "lat": 39.089,
+      "lon": 44.327,
+      "belligerents": {
+        "side1": "Ottoman Empire",
+        "side2": "Safavid Iran"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "Ottoman cannon and muskets broke the Safavid cavalry.",
+      "significance": "It fixed a rough Ottoman–Persian border for centuries and showed the power of gunpowder armies.",
+      "casualties": "Uncertain; several thousand on each side",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Chaldiran",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Chaldiran"
+        },
+        {
+          "label": "Wikidata: Q745110",
+          "url": "https://www.wikidata.org/wiki/Q745110"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Selim I",
+          "side": 1,
+          "wiki": "Selim I"
+        },
+        {
+          "name": "Ismail I",
+          "side": 2,
+          "wiki": "Ismail I"
+        }
+      ]
+    },
+    {
+      "id": "okehazama-1560",
+      "name": "Battle of Okehazama",
+      "year": 1560,
+      "dateLabel": "12 June 1560 (Julian calendar)",
+      "lat": 35.06,
+      "lon": 136.981,
+      "belligerents": {
+        "side1": "Oda clan",
+        "side2": "Imagawa clan"
+      },
+      "victor": "Oda victory",
+      "outcome": "Oda Nobunaga's small force made a surprise attack in a storm and killed Imagawa Yoshimoto.",
+      "significance": "It launched Nobunaga's rise towards uniting Japan.",
+      "casualties": "Uncertain",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Okehazama",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Okehazama"
+        },
+        {
+          "label": "Wikidata: Q349422",
+          "url": "https://www.wikidata.org/wiki/Q349422"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oda Nobunaga",
+          "side": 1,
+          "wiki": "Oda Nobunaga"
+        },
+        {
+          "name": "Imagawa Yoshimoto",
+          "side": 2,
+          "wiki": "Imagawa Yoshimoto"
+        }
+      ]
+    },
+    {
+      "id": "talikota-1565",
+      "name": "Battle of Talikota",
+      "year": 1565,
+      "dateLabel": "26 January 1565",
+      "lat": 16.473,
+      "lon": 76.312,
+      "belligerents": {
+        "side1": "Deccan Sultanates",
+        "side2": "Vijayanagara Empire"
+      },
+      "victor": "Deccan Sultanates victory",
+      "outcome": "The allied sultanates defeated Vijayanagara and later sacked its capital, Hampi.",
+      "significance": "It ended the last great Hindu empire of south India.",
+      "casualties": "Uncertain; very heavy",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Talikota",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Talikota"
+        },
+        {
+          "label": "Wikidata: Q1362188",
+          "url": "https://www.wikidata.org/wiki/Q1362188"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hussain Nizam Shah I",
+          "side": 1,
+          "wiki": "Hussain Nizam Shah I"
+        },
+        {
+          "name": "Aliya Rama Raya",
+          "side": 2,
+          "wiki": "Aliya Rama Raya"
+        }
+      ]
+    },
+    {
+      "id": "nagashino-1575",
+      "name": "Battle of Nagashino",
+      "year": 1575,
+      "dateLabel": "28 June 1575 (Julian calendar)",
+      "lat": 34.921,
+      "lon": 137.525,
+      "belligerents": {
+        "side1": "Oda and Tokugawa clans",
+        "side2": "Takeda clan"
+      },
+      "victor": "Oda–Tokugawa victory",
+      "outcome": "Massed musketeers behind fences cut down the charging Takeda cavalry.",
+      "significance": "A famous early use of firearms on a large scale in Japan.",
+      "casualties": "Takeda losses very heavy",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Nagashino",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Nagashino"
+        },
+        {
+          "label": "Wikidata: Q428369",
+          "url": "https://www.wikidata.org/wiki/Q428369"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Oda Nobunaga",
+          "side": 1,
+          "wiki": "Oda Nobunaga"
+        },
+        {
+          "name": "Tokugawa Ieyasu",
+          "side": 1,
+          "wiki": "Tokugawa Ieyasu"
+        },
+        {
+          "name": "Takeda Katsuyori",
+          "side": 2,
+          "wiki": "Takeda Katsuyori"
+        }
+      ]
+    },
+    {
+      "id": "myeongnyang-1597",
+      "name": "Battle of Myeongnyang",
+      "year": 1597,
+      "dateLabel": "26 October 1597",
+      "lat": 34.568,
+      "lon": 126.308,
+      "belligerents": {
+        "side1": "Joseon Korea",
+        "side2": "Japan (Toyotomi)"
+      },
+      "victor": "Korean victory",
+      "outcome": "Admiral Yi Sun-sin, with 13 ships, used a narrow fast-flowing strait to beat a much bigger Japanese fleet.",
+      "significance": "It stopped the Japanese navy from supporting its army on land.",
+      "casualties": "Korean losses light; about 30 Japanese ships destroyed or damaged",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Myeongnyang",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Myeongnyang"
+        },
+        {
+          "label": "Wikidata: Q385677",
+          "url": "https://www.wikidata.org/wiki/Q385677"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Yi Sun-sin",
+          "side": 1,
+          "wiki": "Yi Sun-sin"
+        },
+        {
+          "name": "Tōdō Takatora",
+          "side": 2,
+          "wiki": "Tōdō Takatora"
+        }
+      ]
+    },
+    {
+      "id": "panipat-1761",
+      "name": "Third Battle of Panipat",
+      "year": 1761,
+      "dateLabel": "14 January 1761",
+      "lat": 29.39,
+      "lon": 76.97,
+      "belligerents": {
+        "side1": "Durrani Empire and allies",
+        "side2": "Maratha Empire"
+      },
+      "victor": "Durrani victory",
+      "outcome": "Ahmad Shah Durrani's army crushed the Marathas in one of the largest battles of the 18th century.",
+      "significance": "It halted Maratha expansion in the north and helped open the way for British power in India.",
+      "casualties": "Tens of thousands killed",
+      "links": [
+        {
+          "label": "Wikipedia: Third Battle of Panipat",
+          "url": "https://en.wikipedia.org/wiki/Third_Battle_of_Panipat"
+        },
+        {
+          "label": "Wikidata: Q1259218",
+          "url": "https://www.wikidata.org/wiki/Q1259218"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ahmad Shah Durrani",
+          "side": 1,
+          "wiki": "Ahmad Shah Durrani"
+        },
+        {
+          "name": "Sadashivrao Bhau",
+          "side": 2,
+          "wiki": "Sadashivrao Bhau"
+        }
+      ]
+    },
+    {
+      "id": "boyaca-1819",
+      "name": "Battle of Boyacá",
+      "year": 1819,
+      "dateLabel": "7 August 1819",
+      "lat": 5.45,
+      "lon": -73.429,
+      "belligerents": {
+        "side1": "Patriots (New Granada and Venezuela)",
+        "side2": "Spanish Empire"
+      },
+      "victor": "Patriot victory",
+      "outcome": "Bolívar's army, fresh from crossing the Andes, captured most of the royalist force.",
+      "significance": "It won independence for what is now Colombia.",
+      "casualties": "About 13 patriots and 100 royalists killed; about 1,600 royalists captured",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Boyacá",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Boyacá"
+        },
+        {
+          "label": "Wikidata: Q1150410",
+          "url": "https://www.wikidata.org/wiki/Q1150410"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Simón Bolívar",
+          "side": 1,
+          "wiki": "Simón Bolívar"
+        },
+        {
+          "name": "José María Barreiro",
+          "side": 2,
+          "wiki": "José María Barreiro"
+        }
+      ]
+    },
+    {
+      "id": "pichincha-1822",
+      "name": "Battle of Pichincha",
+      "year": 1822,
+      "dateLabel": "24 May 1822",
+      "lat": -0.219,
+      "lon": -78.527,
+      "belligerents": {
+        "side1": "Gran Colombia and allies",
+        "side2": "Spanish Empire"
+      },
+      "victor": "Patriot victory",
+      "outcome": "Fought on the slopes of the Pichincha volcano above Quito.",
+      "significance": "It freed what is now Ecuador from Spanish rule.",
+      "casualties": "About 200 patriots and 400 royalists killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Pichincha",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Pichincha"
+        },
+        {
+          "label": "Wikidata: Q1402751",
+          "url": "https://www.wikidata.org/wiki/Q1402751"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Antonio José de Sucre",
+          "side": 1,
+          "wiki": "Antonio José de Sucre"
+        },
+        {
+          "name": "Melchor Aymerich",
+          "side": 2,
+          "wiki": "Melchor Aymerich"
+        }
+      ]
+    },
+    {
+      "id": "puebla-1862",
+      "name": "Battle of Puebla",
+      "year": 1862,
+      "dateLabel": "5 May 1862",
+      "lat": 19.05,
+      "lon": -98.208,
+      "belligerents": {
+        "side1": "Mexico",
+        "side2": "Second French Empire"
+      },
+      "victor": "Mexican victory",
+      "outcome": "A smaller Mexican army beat back the French attack on the forts above Puebla.",
+      "significance": "A morale-boosting win remembered as Cinco de Mayo, though France later took Mexico City.",
+      "casualties": "About 80–100 Mexicans and 460 French killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Puebla",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Puebla"
+        },
+        {
+          "label": "Wikidata: Q1061228",
+          "url": "https://www.wikidata.org/wiki/Q1061228"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ignacio Zaragoza",
+          "side": 1,
+          "wiki": "Ignacio Zaragoza"
+        },
+        {
+          "name": "Charles de Lorencez",
+          "side": 2,
+          "wiki": "Charles de Lorencez"
+        }
+      ]
+    },
+    {
+      "id": "ulundi-1879",
+      "name": "Battle of Ulundi",
+      "year": 1879,
+      "dateLabel": "4 July 1879",
+      "lat": -28.311,
+      "lon": 31.426,
+      "belligerents": {
+        "side1": "British Empire",
+        "side2": "Zulu Kingdom"
+      },
+      "victor": "British victory",
+      "outcome": "A British square with rifles, cannon and Gatling guns broke the Zulu attack, then burned the royal kraal.",
+      "significance": "The last major battle of the Anglo-Zulu War; it ended Zulu independence.",
+      "casualties": "About 13 British and 500 or more Zulu killed",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ulundi",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ulundi"
+        },
+        {
+          "label": "Wikidata: Q2166177",
+          "url": "https://www.wikidata.org/wiki/Q2166177"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Lord Chelmsford",
+          "side": 1,
+          "wiki": "Frederic Thesiger, 2nd Baron Chelmsford"
+        },
+        {
+          "name": "Cetshwayo",
+          "side": 2,
+          "wiki": "Cetshwayo"
+        }
+      ]
     }
   ]
 }
