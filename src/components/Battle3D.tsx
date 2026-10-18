@@ -9,6 +9,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import type { BattleUnit, BattleView } from '../lib/types';
 import { loadSatellitePatch, waterAt, type WaterReport } from '../lib/satPatch';
 import { figureCount, keepFraction } from '../lib/battleMath';
+import { isLite } from '../lib/liteMode';
 
 /** A box positioned by its centre, ready to merge into a unit model. */
 function box(w: number, h: number, d: number, x: number, y: number, z: number): THREE.BufferGeometry {
@@ -172,11 +173,12 @@ export default function Battle3D({ view, phase, mapUrl, showMap = false, showGro
     camera.position.set(0, 55, 78);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Lite mode (weak PCs, phones): one pixel per CSS pixel, no shadows.
+    renderer.setPixelRatio(isLite() ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = !isLite();
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 

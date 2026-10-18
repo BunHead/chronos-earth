@@ -13,6 +13,7 @@ import { buildAtlantis } from './atlantisCity';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
+import { isLite } from '../lib/liteMode';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
@@ -6626,11 +6627,12 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     camera.position.set(0, 9, 20);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Lite mode (weak PCs, phones): one pixel per CSS pixel, no shadows.
+    renderer.setPixelRatio(isLite() ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = !isLite();
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
