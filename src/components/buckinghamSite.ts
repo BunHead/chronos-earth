@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import PLAN from '../data/buckingham-plan.json';
-import { Batch, centroid, gable, hipRoof, pip, prism, signedArea } from './westminsterSite';
+import { Batch, centroid, gable, hipRoof, prism, signedArea } from './westminsterSite';
 
 /**
  * Buckingham Palace over time, in TRUE METRES on the real plan.
@@ -44,7 +44,7 @@ const RAILINGS = ring(PLAN.railings);
 const GATES = ring(PLAN.gates);
 
 /** The East Front: the range in front of the quadrangle (v above this line). */
-export const EAST_RANGE_V = -11;
+export const EAST_RANGE_V = -9.5;
 export const FRONT_V = Math.max(...OUTER.map((p) => p[1]));
 const COURT = COURTS.reduce((a, c) => (Math.abs(signedArea(c)) > Math.abs(signedArea(a)) ? c : a));
 export const COURT_C = centroid(COURT);
@@ -98,7 +98,8 @@ function clipV(p: P2[], c: number, keepBelow: boolean): P2[] {
  */
 export function openCourt(outer: P2[], court: P2[], c: number): P2[] {
   const o = clipV(outer, c, true);
-  const k = clipV(court, c, true);
+  // The court's east side (its jogs within 4 m of the cut) opens through the cut.
+  const k = clipV(court.map(([u, v]) => [u, v > c - 4 ? c + 5 : v] as P2), c, true);
   const onCut = (q: P2) => Math.abs(q[1] - c) < 1e-6;
   const kc = k.map((q, i) => (onCut(q) ? i : -1)).filter((i) => i >= 0);
   if (kc.length !== 2) return o;
@@ -320,9 +321,6 @@ function railings(B: Batch): void {
     B.box(GOLD, 7, 0.9, 0.22, gu, 4.6, gv);
     B.box(GOLD, 1.6, 1.2, 0.24, gu, 5.6, gv); // the royal arms over the gate
   }
-  // The forecourt's gravel, inside the railings.
-  const yard: P2[] = [...RAILINGS, ...[[RAILINGS[RAILINGS.length - 1][0], FRONT_V - 2], [RAILINGS[0][0], FRONT_V - 2]] as P2[]];
-  if (pip(yard, MID_U, FRONT_V + 10) || pip(yard.slice().reverse(), MID_U, FRONT_V + 10)) B.add(GRAVEL, prism(signedArea(yard) > 0 ? yard : yard.slice().reverse(), [], 0.06));
 }
 
 /** The whole site at a stage, into `group`. Returns the ground colour. */
