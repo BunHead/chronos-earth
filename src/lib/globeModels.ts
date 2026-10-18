@@ -199,7 +199,11 @@ const PLACEMENTS: Placement[] = [
   // The model includes Pei's glass pyramid, so it stands from the pyramid's
   // year — an 1800s Louvre without it would be the honest earlier form.
   { model: 'louvre', title: 'Louvre', lat: 48.8606, lon: 2.3376, builtYear: 1989 },
-  { model: 'westminster', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860 },
+  // The whole palace through time (westminsterSite.ts): Westminster Hall from
+  // 1097, the medieval palace, the 1834 fire, Barry & Pugin's rebuild. The photo
+  // is today's palace, so it is covered until the Victoria Tower is done.
+  { model: 'westminster-site', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860,
+    cover: { rgb: [88, 94, 80], at: [[51.4995, -0.1246, 70], [51.5005, -0.1243, 55], [51.4985, -0.1251, 55]], until: 'built' } },
   { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
