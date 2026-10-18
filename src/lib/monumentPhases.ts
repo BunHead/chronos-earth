@@ -70,7 +70,7 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
   },
   {
     // The Giza plateau, raised across three reigns — the phase bar steps through
-    // the CONSTRUCTION: bare cores rise, then white casing and gold caps go on,
+    // the CONSTRUCTION: bare cores rise, then white casing (and perhaps gold caps) go on,
     // and the Sphinx is carved from the bedrock.
     match: 'giza',
     phases: [
@@ -81,7 +81,7 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
       { fromYear: -2530, yearLabel: 'c. 2530 BCE', label: 'The Sphinx is carved', model: 'giza', build: 0.88,
         note: 'Khafre’s pyramid is complete, and the Great Sphinx is carved from a knoll of bedrock nearby, guarding the plateau. Menkaure’s smaller pyramid rises last.' },
       { fromYear: -2500, yearLabel: 'c. 2500 BCE', label: 'The plateau complete', model: 'giza', build: 1,
-        note: 'All three pyramids stand cased and gold-capped, the Sphinx before them, the Nile and its harbours close to the east — the plateau at its height.' },
+        note: 'All three pyramids stand cased in white (perhaps gold-capped, though no capstone survives), the Sphinx before them, the Nile and its harbours close to the east — the plateau at its height.' },
     ],
   },
   {
