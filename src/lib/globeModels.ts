@@ -16,6 +16,7 @@
  * heading = B − 90 = 90 − θ. GLOBE_HEADING_CAL is the one knob to turn if
  * the Captain's Westminster check reads otherwise.
  */
+import WESTMINSTER_PLAN from '../data/westminster-plan.json';
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
 import { eclipseLightFactor } from './eclipseDim';
@@ -70,7 +71,9 @@ interface Placement {
    * finished model hides the photo's monument by itself (Giza's pyramids sit
    * on the real ones to ~20 m, measured top-down), so cover only until it
    * stands complete — not around it for 4,000 years. */
-  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built' };
+  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built';
+    /** Exact plan-shaped patches instead of discs: rings of [lat, lon]. */
+    poly?: Array<Array<[number, number]>> };
   /** Radius (m) of the ring whose ground the monument stands on — default
    * half its width + 40 m. Giza's model is the whole 1 km plateau but anchors
    * at Khufu, so it reads the plateau round Khufu, not the Nile-side edge. */
@@ -123,6 +126,15 @@ const CAUSEWAY_UNTIL = 1356;
  * Bottom. Only the straight first leg — 530 m NE from the entrance along the
  * solstice axis (49.9°) — is drawn; the rest of its 2.8 km to the Avon bends
  * east and is left to the photo. */
+/** Today's palace, traced from OpenStreetMap (westminster-plan.json), as lat/lon
+ * rings: the photo of Barry's palace is covered exactly to its own outline,
+ * so before 1860 no disc of plain ground spills over Old Palace Yard or the river. */
+const WESTMINSTER_COVER: Array<Array<[number, number]>> = (() => {
+  const k = 111320 * Math.cos((51.4995 * Math.PI) / 180);
+  const ll = (r: number[][]) => r.map(([x, y]) => [51.4995 + y / 110574, -0.1248 + x / k] as [number, number]);
+  return [WESTMINSTER_PLAN.outer, ...Object.values(WESTMINSTER_PLAN.parts)].map(ll);
+})();
+
 const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
   { from: -2300, until: 400, widthM: 4, lonLat: [-1.825607, 51.179295, -1.819798, 51.182362] },
   { from: -2300, until: 400, widthM: 4, lonLat: [-1.825478, 51.179199, -1.819668, 51.182266] },
@@ -203,7 +215,7 @@ const PLACEMENTS: Placement[] = [
   // 1097, the medieval palace, the 1834 fire, Barry & Pugin's rebuild. The photo
   // is today's palace, so it is covered until the Victoria Tower is done.
   { model: 'westminster-site', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860,
-    cover: { rgb: [88, 94, 80], at: [[51.4985, -0.1253, 48], [51.4992, -0.1251, 48], [51.4999, -0.1249, 48], [51.5006, -0.1247, 44]], until: 'built' } },
+    cover: { rgb: [98, 102, 84], at: [], poly: WESTMINSTER_COVER, until: 'built' } },
   { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
@@ -556,16 +568,26 @@ function addPlacement(p: Placement): void {
     // photo's texture instead of ending in a hard line.
     const colour = Cesium.Color.fromBytes(...p.cover.rgb, 255);
     const FEATHER: Array<[number, number]> = [[1, 1], [1.15, 0.45], [1.3, 0.25]];
-    covers.set(id, p.cover.at.flatMap(([lat, lon, r]) => FEATHER.map(([k, alpha]) => viewer.entities.add({
-      position: Cesium.Cartesian3.fromDegrees(lon, lat),
-      show: false,
-      ellipse: {
-        semiMajorAxis: r * k,
-        semiMinorAxis: r * k,
-        material: colour.withAlpha(alpha),
-        classificationType: Cesium.ClassificationType.TERRAIN,
-      },
-    }))));
+    covers.set(id, [
+      ...p.cover.at.flatMap(([lat, lon, r]) => FEATHER.map(([k, alpha]) => viewer.entities.add({
+        position: Cesium.Cartesian3.fromDegrees(lon, lat),
+        show: false,
+        ellipse: {
+          semiMajorAxis: r * k,
+          semiMinorAxis: r * k,
+          material: colour.withAlpha(alpha),
+          classificationType: Cesium.ClassificationType.TERRAIN,
+        },
+      }))),
+      ...(p.cover.poly ?? []).map((ring) => viewer.entities.add({
+        show: false,
+        polygon: {
+          hierarchy: new Cesium.PolygonHierarchy(ring.map(([lat, lon]) => Cesium.Cartesian3.fromDegrees(lon, lat))),
+          material: colour,
+          classificationType: Cesium.ClassificationType.TERRAIN,
+        },
+      })),
+    ]);
   }
   seat(entity, p);
   gate(entity, p);
