@@ -28,6 +28,7 @@ import { MigrationController, type MigrationSite } from './migration';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
 import { isPhone, renderTier } from '../lib/renderTier';
+import { fpsTooLow, globeSettings, isLite, markSlowDevice, readLitePref } from '../lib/liteMode';
 import { eventPasses } from '../lib/subLayers';
 import type { CameraState } from '../lib/sceneState';
 import {
@@ -68,7 +69,10 @@ const EVENT_PER_CATEGORY_BY_TIER = [10, 16, 25, 42];
 const PLACE_PER_CATEGORY_BY_TIER = [10, 24, 40, 60];
 /** A phone draws 60% as many markers: a smaller screen shows fewer anyway, and
  * every marker handed over is work for a phone CPU. 1 on a PC. */
-const MARKER_SHARE = isPhone() ? 0.6 : 1;
+// Lite mode (lib/liteMode — weak PCs and phones) halves them.
+const LITE = isLite();
+const LITE_SETTINGS = globeSettings(LITE);
+const MARKER_SHARE = LITE ? LITE_SETTINGS.markerShare : isPhone() ? 0.6 : 1;
 const markerCap = (n: number) => Math.max(4, Math.round(n * MARKER_SHARE));
 // HOW FAR APART PLACE MARKERS PREFER TO SIT, in km, per zoom tier.
 //
@@ -142,6 +146,21 @@ const zoomOut =
     ? Math.max(1, window.innerWidth / Math.min(window.screen.width, window.screen.height))
     : 1;
 const PIN = isPhone() ? 1.4 * zoomOut : 1;
+
+/** Lite mode's viewer settings (lib/liteMode): fewer pixels, coarser
+ * terrain, and none of the per-pixel decoration — fog, atmosphere, the star
+ * skybox, shadows. Safe to call on a live viewer. */
+function applyLite(viewer: Cesium.Viewer): void {
+  const g = globeSettings(true);
+  viewer.resolutionScale = g.resolutionScale;
+  viewer.scene.globe.maximumScreenSpaceError = g.maximumScreenSpaceError;
+  viewer.scene.globe.showGroundAtmosphere = g.groundAtmosphere;
+  viewer.shadows = g.shadows;
+  if (viewer.scene.fog) viewer.scene.fog.enabled = g.fog;
+  if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = g.skyAtmosphere;
+  if (viewer.scene.skyBox) viewer.scene.skyBox.show = g.skyBox;
+  viewer.scene.requestRender();
+}
 
 /** Marker scale grows with fame, so Waterloo outranks a skirmish at a glance. */
 function fameScale(notability: number | undefined, base: number): number {
@@ -327,6 +346,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
   // timeline's ice-age overlay stands down until the frame lets go.
   const manualSeaActiveRef = useRef(false);
   const riversRef = useRef<RiversController | null>(null);
+  /** Lite switched on mid-visit by the slow-start check (see below). */
+  const liteLiveRef = useRef(false);
   const bordersRef = useRef<BordersController | null>(null);
   const campaignRef = useRef<CampaignController | null>(null);
   const faunaRef = useRef<FaunaController | null>(null);
@@ -902,7 +923,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // single biggest cost on an old laptop ("basically unusable", a reviewer,
     // 2026-07-30), but a black globe would be far worse than a slow one, so
     // the saving is only taken once there is something to save.
-    if (onDemandRenderingEnabled()) {
+    // Lite mode always takes the saving; elsewhere the Settings switch decides.
+    if (onDemandRenderingEnabled() || (LITE && LITE_SETTINGS.requestRenderMode)) {
       let settled = false;
       const goOnDemand = () => {
         if (settled || viewer.isDestroyed()) return;
@@ -969,6 +991,41 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // there is no graphics card to do it on.
     if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = !lightweight;
     if (viewer.scene.fog) viewer.scene.fog.enabled = !lightweight && !isPhone();
+    if (LITE) applyLite(viewer);
+
+    // SLOW-START CHECK. A weak machine no other sign caught (Auto mode only):
+    // count frames from 2 s to 6 s after boot, while the boot lease still draws
+    // continuously. Under SLOW_FPS, switch the cheap viewer settings to lite
+    // now and remember it, so the next visit starts fully lite. A hidden tab
+    // throttles frames to nothing, so any hidden moment voids the test.
+    let stopFpsProbe: (() => void) | undefined;
+    if (!LITE && readLitePref() === 'auto' && typeof document !== 'undefined') {
+      let frames = 0;
+      let counting = false;
+      let voided = document.visibilityState !== 'visible';
+      const onFrame = () => { if (counting) frames++; };
+      const onVis = () => { if (document.visibilityState !== 'visible') voided = true; };
+      viewer.scene.postRender.addEventListener(onFrame);
+      document.addEventListener('visibilitychange', onVis);
+      const t0 = window.setTimeout(() => { counting = true; }, 2000);
+      const t1 = window.setTimeout(() => {
+        counting = false;
+        stopFpsProbe?.();
+        if (voided || viewer.isDestroyed()) return;
+        if (fpsTooLow(frames / 4)) {
+          markSlowDevice();
+          applyLite(viewer);
+          liteLiveRef.current = true;
+          riversRef.current?.update(0, false);
+        }
+      }, 6000);
+      stopFpsProbe = () => {
+        window.clearTimeout(t0);
+        window.clearTimeout(t1);
+        if (!viewer.isDestroyed()) viewer.scene.postRender.removeEventListener(onFrame);
+        document.removeEventListener('visibilitychange', onVis);
+      };
+    }
     (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = 'none';
 
     // Natural Earth (bundled, low-res) stays as an offline fallback at the
@@ -1427,8 +1484,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // fleet, clamped to the ground at true scale and calibrated bearing,
     // revealed as you fly close. Fire-and-forget: no fleet manifest, no
     // models — the globe simply keeps its markers.
-    void loadGlobeModels(viewer);
-    void loadSitePlans(viewer); // traced site compositions stand for everyone
+    // Lite mode leaves them out: each is a download plus a draw call per frame.
+    if (LITE_SETTINGS.models) {
+      void loadGlobeModels(viewer);
+      void loadSitePlans(viewer); // traced site compositions stand for everyone
+    }
 
     return () => {
       tooltip.remove();
@@ -1441,6 +1501,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       }
       popAnimsRef.current.clear();
       cleanupRenderMode?.();
+      stopFpsProbe?.();
       stopGpuWatch();
       unbindRenderLease();
       handler.destroy();
@@ -1480,7 +1541,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     applyTerrain(ma < PALEO_MA);
     paleoRef.current?.update(ma, modernLayersRef.current);
     seaRef.current?.update(currentYearsBP, showSeaLevel && ma < PALEO_MA && !closeUp && !manualSeaActiveRef.current);
-    riversRef.current?.update(year, showRivers && ma < PALEO_MA && !closeUp);
+    riversRef.current?.update(year, showRivers && LITE_SETTINGS.rivers && !liteLiveRef.current && ma < PALEO_MA && !closeUp);
     bordersRef.current?.update(year, showBorders && !closeUp, ma >= PALEO_MA);
     campaignRef.current?.update(year, showCampaigns && ma < PALEO_MA && !closeUp);
     faunaRef.current?.update(ma, showFauna);
@@ -1797,6 +1858,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       for (let k = lo; k < hi; k++) {
         const ev = spatialPool[k];
         if (dupEventIdsRef.current.has(ev.id)) continue; // curated twin wins in overview
+        // Lite mode pins only the better-known events (cities rank by
+        // prominence, so they keep their own rules).
+        if (LITE && !isPlaceRow(ev) && (ev.notability ?? 0) < LITE_SETTINGS.minNotability) continue;
         if (eventVisibleAt(ev, year)) inWindow.push(ev);
       }
       const byCat = new Map<string, TimelineEvent[]>();

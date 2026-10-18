@@ -25,6 +25,7 @@ import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
 import { isBuilderActive, sitePlanNear } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
+import { lightModelName, preferSmallModels } from './liteMode';
 import { estuaryRibbon } from './atlantisVision';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
@@ -224,7 +225,12 @@ const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
 // Kept module-level so any site — not just the curated fleet — can be placed
 // on the globe the moment the visitor asks to see it (`ensurePlacement`).
 let theViewer: Cesium.Viewer | null = null;
-let theManifest: Record<string, { footprint: number }> = {};
+let theManifest: Record<string, { footprint: number; kb?: number }> = {};
+/** The glb to load for a model: a heavy scan (the 509 KB Sphinx) swaps for
+ * its small `-lite` build on phones and in lite mode — see lib/liteMode. */
+function fileFor(model: string): string {
+  return lightModelName(model, theManifest, preferSmallModels());
+}
 // Last visibility gate, so a just-placed model obeys it immediately.
 let lastYearsBP = Number.NEGATIVE_INFINITY;
 
@@ -398,7 +404,7 @@ export function transformKey(model: string, lat: number, lon: number): string {
  * clamps: re-assigning the position forces Cesium to re-clamp.
  */
 function seat(entity: Cesium.Entity, p: Placement): void {
-  const info = theManifest[p.model];
+  const info = theManifest[fileFor(p.model)];
   if (!entity.model || !info?.footprint) return;
   // The imagined Atlantis is built at TRUE scale (1 unit = 10 m), so it takes
   // no maker trim: the saved ×21.6 was for the old 2.5 km stylised rings.
@@ -493,7 +499,7 @@ function addPlacement(p: Placement): void {
     id,
     position: Cesium.Cartesian3.fromDegrees(p.lon, p.lat),
     model: {
-      uri: `./models/${p.model}.glb`,
+      uri: `./models/${fileFor(p.model)}.glb`,
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, REVEAL_DISTANCE),
       // Monuments sleep at night: glTF models carry their own light, so
@@ -709,7 +715,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   }
 
   if (!entity.model) return;
-  const uri = `./models/${p.model}${suffix}.glb`;
+  const uri = `./models/${suffix ? p.model + suffix : fileFor(p.model)}.glb`;
   const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
   if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
 }
