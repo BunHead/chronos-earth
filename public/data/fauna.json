@@ -3992,6 +3992,31 @@
           "lat": 34.08
         }
       ]
+    },
+    {
+      "id": "diprotodon",
+      "name": "Diprotodon",
+      "emoji": "🦛",
+      "wikidata": "Q131563",
+      "lat": -32.62083,
+      "lon": 148.93806,
+      "fromMa": 1.77,
+      "toMa": 0.04,
+      "region": "Wellington Caves, New South Wales (Australia)",
+      "wiki": "Diprotodon",
+      "blurb": "The largest marsupial that ever lived: a wombat relative the size of a hippo, alive when the first people reached Australia.",
+      "track": [
+        {
+          "ma": 0.04,
+          "lon": 148.93806,
+          "lat": -32.62083
+        },
+        {
+          "ma": 1.77,
+          "lon": 148.93806,
+          "lat": -32.62083
+        }
+      ]
     }
   ]
 }
