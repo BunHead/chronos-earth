@@ -595,5 +595,17 @@
   "buckingham-site-b85": {
     "footprint": 312.952,
     "kb": 77
+  },
+  "temple-of-heaven": {
+    "footprint": 91,
+    "kb": 8
+  },
+  "trajans-column": {
+    "footprint": 6.2,
+    "kb": 3
+  },
+  "pompeys-pillar": {
+    "footprint": 5.4,
+    "kb": 3
   }
 }

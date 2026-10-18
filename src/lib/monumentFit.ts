@@ -164,6 +164,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   liberty: { widthM: 100, facingDeg: 45 },
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
+  // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
+  // width is each model's own span (manifest footprint), so scale ×1.
+  'temple-of-heaven': { widthM: 91, facingDeg: 0 }, // the altar's lowest tier, 91 m across
+  'trajans-column': { widthM: 6.2, facingDeg: 0 }, // pedestal plinth
+  'pompeys-pillar': { widthM: 5.4, facingDeg: 0 }, // pedestal footing
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
   // Whole-site temples (src/data/meso-temples.json): authored in true metres
   // with the stair at +Z, so width = their own footprint and θ = 180 − bearing.

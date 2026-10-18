@@ -133,6 +133,12 @@ export function monumentModelForName(name: string): string | null {
   if (/^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/.test(n)) return 'machu-picchu';
   // The Terracotta Army — Pit 1 of Qin Shi Huang's mausoleum, in true metres.
   if (/terracotta (army|warriors)/.test(n)) return 'terracotta-army';
+  // 3D monuments batch 2 (lib/landmarkMesh.ts): three whose shape is well
+  // documented, each in true metres. The Temple of Heaven pin wears its Hall
+  // of Prayer for Good Harvests; the two columns are matched by their names.
+  if (/temple of heaven|hall of prayer for good harvests|^tiantan$/.test(n)) return 'temple-of-heaven';
+  if (/trajan'?s column|column of trajan/.test(n)) return 'trajans-column';
+  if (/pompey'?s pillar/.test(n)) return 'pompeys-pillar';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before
