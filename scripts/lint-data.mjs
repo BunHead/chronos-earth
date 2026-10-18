@@ -12,11 +12,21 @@
 //   node scripts/lint-data.mjs --wikidata-offline  # same, against the harvested
 //                                         # copy of Wikidata (no network)
 //
+// It also runs the data-quality rules in scripts/lib/data-quality.mjs (names,
+// Q-ids, duplicates, swapped coordinates, BCE signs, future years, missing
+// image/model files). In curated files they are errors; in the harvester's
+// output (imported/events.json) they are warnings, and the nightly harvest
+// fixes the mechanical ones itself (scripts/fix-data-quality.mjs).
+//
 // Errors fail the run; warnings are printed but don't. Zero cost — pure node.
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import {
   MAX_KM, fetchP625, findFarPins, handPlacedPins, lookupFromHarvest,
 } from './lib/wikidata-coords.mjs';
+import {
+  checkBceSign, checkCoords, checkFuture, checkNameYearDupes, checkQids, checkSwapped, checkText, referencedFiles, textProblems,
+} from './lib/data-quality.mjs';
 
 const ROOT = 'public/data';
 // Each file has its own category vocabulary. Sites carry 'precursor-hypothesis'
@@ -109,6 +119,59 @@ for (const [rel, opts] of jobs) {
 }
 
 console.log(`\nlinted ${total} rows across ${jobs.length} files`);
+
+// ---- Data-quality rules (scripts/lib/data-quality.mjs) ----
+{
+  const readJson = (p) => readFile(p, 'utf8').then(JSON.parse).catch(() => null);
+  const [b, s, ev, fauna, mig, vids, battlemaps, portraits, siteplans, models] = await Promise.all([
+    load('battles.json'), load('ancient-sites.json'), load('imported/events.json'),
+    load('fauna.json'), load('human-migration.json'), load('videos.json'),
+    readJson(`${ROOT}/battlemaps/manifest.json`), readJson(`${ROOT}/portraits/manifest.json`),
+    readJson(`${ROOT}/siteplans/manifest.json`), readJson('public/models/manifest.json'),
+  ]);
+  const report = (file, level) => (f) => (level === 'error' ? err : warn)(f.file ?? file, f.id, `[${f.rule}] ${f.msg}`);
+  let n = 0;
+  const run = (file, level, findings) => { n += findings.length; findings.forEach(report(file, level)); };
+
+  // Curated by hand: every finding is an error.
+  run('battles.json', 'error', [
+    ...b.battles.flatMap((r) => [...checkText(r, ['name']), ...checkBceSign(r, 'year', 'dateLabel'), ...checkFuture(r, 'year')]),
+    ...checkQids(b.battles), ...checkNameYearDupes(b.battles, 'year'),
+  ]);
+  run('ancient-sites.json', 'error', [
+    ...s.sites.flatMap((r) => [...checkText(r, ['name']), ...checkBceSign(r, 'builtYear', 'builtYearLabel'), ...checkFuture(r, 'builtYear')]),
+    ...checkQids(s.sites),
+  ]);
+  run('fauna.json', 'error', [
+    ...fauna.fauna.flatMap((r) => [...checkText(r, ['name', 'blurb']), ...checkCoords(r)]),
+    ...checkQids(fauna.fauna, 'wikidata'),
+  ]);
+  run('human-migration.json', 'error', mig.sites.flatMap((r) => [...checkText(r, ['name']), ...checkCoords(r)]));
+  // Video titles come from YouTube; the fetchers trim and unescape them.
+  run('videos.json', 'error', [...vids.videos, ...(vids.suggested ?? [])]
+    .flatMap((v) => textProblems(v.title).map((p) => ({ id: v.id, rule: 'names', msg: `title: ${p} — ${JSON.stringify(v.title)}` }))));
+
+  // The harvester's output: warn, never fail a night's harvest over one row.
+  run('imported/events.json', 'warn', [
+    ...ev.events.flatMap((r) => [...checkText(r, ['name', 'summary']), ...checkFuture(r, 'startYear')]),
+    ...checkQids(ev.events), ...checkNameYearDupes(ev.events, 'startYear'),
+  ]);
+
+  // Swapped lat/lon on hand-placed pins, against the harvested Wikidata copy.
+  const pins = handPlacedPins({ battles: b.battles, sites: s.sites, events: ev.events });
+  run('', 'error', checkSwapped(pins, lookupFromHarvest(ev.events)));
+
+  // Image and model files the data points at.
+  const refs = referencedFiles({ battlemaps, portraits, siteplans, models, sites: s.sites });
+  for (const r of refs) {
+    if (existsSync(`public/${r.path}`)) continue;
+    n++;
+    // A site model with no .glb is drawn in code by the 3D viewer — a gap on
+    // the globe, not a broken page.
+    (r.soft ? warn : err)('links', r.id, `[links] missing file public/${r.path}`);
+  }
+  console.log(`  ✓ data-quality rules      ${refs.length} file links checked, ${n} finding(s)`);
+}
 
 // ---- Pins vs Wikidata P625 (opt-in: needs the network, or the harvest copy) ----
 const online = process.argv.includes('--wikidata');
