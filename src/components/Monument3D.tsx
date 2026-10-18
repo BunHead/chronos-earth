@@ -1563,8 +1563,9 @@ function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | un
     if (y > s.granite) slice(s.granite, y, TURA_RAW);
     return;
   }
-  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex (no gilded
-  // capstone: none survives and its finish is unknown).
+  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex (no
+  // capstone drawn: it may have been gilded, but none survives and its finish
+  // is unknown).
   if (s.granite) slice(0, s.granite, GRANITE);
   slice(s.granite, s.h, TURA);
 }
@@ -4506,7 +4507,8 @@ export function buildModel(
     // The Giza plateau — the three great pyramids and the Sphinx, built up
     // through time. `buildFrac` (0..1) drives the CONSTRUCTION: bare stepped
     // cores rise first, then each is sheathed in smooth white Tura limestone
-    // and crowned with a gold-electrum capstone; the Sphinx is carved once the
+    // and topped with a gold capstone — a guess: it may have been gilded, but
+    // none survives; the Sphinx is carved once the
     // plateau is well advanced. The Nile is deliberately NOT drawn here: the
     // river lies several kilometres east of this ~1 km plateau scene, and the
     // old straight blue rectangle was neither geographically placed nor shaped
@@ -4578,7 +4580,7 @@ export function buildModel(
         if (!bodyGeo) white.rotation.y = Math.PI / 4;
         white.position.set(cx, bodyGeo ? 0 : h / 2, cz);
         group.add(white);
-        // The electrum cap sits PROUD of the casing (radius 15% over the
+        // The (conjectural) gilded cap sits PROUD of the casing (radius 15% over the
         // surface line) so its faces never share a plane with the white stone
         // beneath — coplanar faces were z-fighting into interlaced stripes.
         const capH = h * 0.13;

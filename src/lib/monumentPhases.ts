@@ -77,7 +77,7 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
       { fromYear: -2600, yearLabel: 'c. 2600 BCE', label: 'Khufu’s pyramid rises', model: 'giza', build: 0.35,
         note: 'The Great Pyramid’s core goes up first — some 2.3 million limestone blocks, hauled up mud-brick ramps under Pharaoh Khufu.' },
       { fromYear: -2560, yearLabel: 'c. 2560 BCE', label: 'Cased in white', model: 'giza', build: 0.6,
-        note: 'The finished pyramid is sheathed in smooth white Tura limestone and crowned with a gold-electrum capstone — dazzling in the sun. Khafre begins his own.' },
+        note: 'The finished pyramid is sheathed in smooth white Tura limestone, dazzling in the sun. It may have been crowned with a gilded capstone, but none survives. Khafre begins his own.' },
       { fromYear: -2530, yearLabel: 'c. 2530 BCE', label: 'The Sphinx is carved', model: 'giza', build: 0.88,
         note: 'Khafre’s pyramid is complete, and the Great Sphinx is carved from a knoll of bedrock nearby, guarding the plateau. Menkaure’s smaller pyramid rises last.' },
       { fromYear: -2500, yearLabel: 'c. 2500 BCE', label: 'The plateau complete', model: 'giza', build: 1,
