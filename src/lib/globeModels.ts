@@ -17,6 +17,7 @@
  * the Captain's Westminster check reads otherwise.
  */
 import WESTMINSTER_PLAN from '../data/westminster-plan.json';
+import BUCKINGHAM_PLAN from '../data/buckingham-plan.json';
 import * as Cesium from 'cesium';
 import { fitFor } from './monumentFit';
 import { eclipseLightFactor } from './eclipseDim';
@@ -135,6 +136,18 @@ const WESTMINSTER_COVER: Array<Array<[number, number]>> = (() => {
   return [WESTMINSTER_PLAN.outer, ...Object.values(WESTMINSTER_PLAN.parts)].map(ll);
 })();
 
+/** Today's palace and the Victoria Memorial with its gardens, traced from
+ * OpenStreetMap (buckingham-plan.json), as lat/lon rings for the photo cover. */
+const BUCKINGHAM_COVER: Array<Array<[number, number]>> = (() => {
+  const k = 111320 * Math.cos((51.5014 * Math.PI) / 180);
+  const ll = (r: number[][]) => r.map(([x, y]) => [51.5014 + y / 110574, -0.1419 + x / k] as [number, number]);
+  const m = BUCKINGHAM_PLAN.memorial;
+  const cx = m.reduce((a, p) => a + p[0], 0) / m.length;
+  const cy = m.reduce((a, p) => a + p[1], 0) / m.length;
+  const disc = Array.from({ length: 32 }, (_, i) => [cx + 37 * Math.cos((i * Math.PI) / 16), cy + 37 * Math.sin((i * Math.PI) / 16)]);
+  return [BUCKINGHAM_PLAN.outer, disc].map(ll);
+})();
+
 const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
   { from: -2300, until: 400, widthM: 4, lonLat: [-1.825607, 51.179295, -1.819798, 51.182362] },
   { from: -2300, until: 400, widthM: 4, lonLat: [-1.825478, 51.179199, -1.819668, 51.182266] },
@@ -216,7 +229,11 @@ const PLACEMENTS: Placement[] = [
   // is today's palace, so it is covered until the Victoria Tower is done.
   { model: 'westminster-site', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860,
     cover: { rgb: [98, 102, 84], at: [], poly: WESTMINSTER_COVER, until: 'built' } },
-  { model: 'buckingham', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1850 },
+  // The whole palace through time (buckinghamSite.ts): Buckingham House 1703,
+  // Nash, Blore's East Front, the Victoria Memorial and Webb's 1913 front. The
+  // photo is today's palace, so it is covered to its own outline until 1913.
+  { model: 'buckingham-site', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1913,
+    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, until: 'built' } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
   { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },

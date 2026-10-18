@@ -51,6 +51,14 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1859, suffix: '-b90' }, // Elizabeth Tower (Big Ben) complete
     { from: 1860, suffix: '' },     // Victoria Tower complete; today
   ],
+  // Buckingham Palace over time (buckinghamSite.ts) — Royal Collection Trust dates.
+  'buckingham-site': [
+    { from: 1703, suffix: '-b10' }, // Buckingham House, built for the Duke of Buckingham
+    { from: 1837, suffix: '-b35' }, // Nash's palace (1826-30, finished by Blore); Victoria moves in
+    { from: 1850, suffix: '-b60' }, // Blore's East Front closes the quadrangle (1847-50)
+    { from: 1911, suffix: '-b85' }, // the Victoria Memorial unveiled; Webb's railings and gates
+    { from: 1913, suffix: '' },     // Webb refaces the East Front in Portland stone; today
+  ],
   'stonehenge-site': [
     { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes
     { from: -2900, suffix: '-b35' }, // bluestones standing in the Aubrey holes

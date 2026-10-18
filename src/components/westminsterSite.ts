@@ -42,7 +42,7 @@ const OUTER = ring(PLAN.outer);
 const COURTS = PLAN.courts.map(ring);
 const PART = Object.fromEntries(Object.entries(PLAN.parts).map(([k, v]) => [k, ring(v)])) as Record<string, P2[]>;
 
-function centroid(p: P2[]): P2 {
+export function centroid(p: P2[]): P2 {
   let u = 0;
   let v = 0;
   for (const q of p) { u += q[0]; v += q[1]; }
@@ -90,7 +90,7 @@ const CHAR_LT = '#57504a';
 const WATER = '#3f4a3c';      // the Thames, as the photo reads it
 
 /** Collects boxes by colour and merges them, so hundreds of windows cost one mesh each. */
-class Batch {
+export class Batch {
   private parts = new Map<string, THREE.BufferGeometry[]>();
   box(color: string, w: number, h: number, d: number, u: number, y: number, v: number, rotY = 0): void {
     const g = new THREE.BoxGeometry(w, h, d);
@@ -118,7 +118,7 @@ function shapeOf(p: P2[]): THREE.Shape {
   return new THREE.Shape(p.map(([u, v]) => new THREE.Vector2(u, v)));
 }
 /** A prism standing on the ground with the given plan (and holes). */
-function prism(outer: P2[], holes: P2[][], h: number, y0 = 0): THREE.BufferGeometry {
+export function prism(outer: P2[], holes: P2[][], h: number, y0 = 0): THREE.BufferGeometry {
   const s = shapeOf(outer);
   for (const hole of holes) s.holes.push(new THREE.Path(hole.map(([u, v]) => new THREE.Vector2(u, v))));
   const g = new THREE.ExtrudeGeometry(s, { depth: h, bevelEnabled: false, curveSegments: 1 });
@@ -126,7 +126,7 @@ function prism(outer: P2[], holes: P2[][], h: number, y0 = 0): THREE.BufferGeome
   g.translate(0, y0, 0);
   return g;
 }
-function pip(p: P2[], u: number, v: number): boolean {
+export function pip(p: P2[], u: number, v: number): boolean {
   let inside = false;
   for (let i = 0, j = p.length - 1; i < p.length; j = i++) {
     const [ui, vi] = p[i];
@@ -151,7 +151,7 @@ function clipHalfPlane(p: P2[], u0: number): P2[] {
   }
   return out;
 }
-function signedArea(p: P2[]): number {
+export function signedArea(p: P2[]): number {
   let a = 0;
   for (let i = 0, j = p.length - 1; i < p.length; j = i++) a += p[j][0] * p[i][1] - p[i][0] * p[j][1];
   return a / 2;
@@ -163,7 +163,7 @@ function signedArea(p: P2[]): number {
  * range gets a pitched roof running its length, the corners hip, and the wide
  * ranges level off as Barry's lead flats do.
  */
-function hipRoof(outer: P2[], holes: P2[][], eaves: number, slope: number, cap: number, cell = 2): THREE.BufferGeometry {
+export function hipRoof(outer: P2[], holes: P2[][], eaves: number, slope: number, cap: number, cell = 2): THREE.BufferGeometry {
   const us = outer.map((p) => p[0]);
   const vs = outer.map((p) => p[1]);
   const u0 = Math.min(...us) - cell;
@@ -265,7 +265,7 @@ function walls(batch: Batch, p: P2[], eaves: number, tiers: number[], step = 4, 
 }
 
 /** A gabled roof along v (ridge north-south), or along u. */
-function gable(batch: Batch, color: string, u: number, v: number, w: number, l: number, y: number, rise: number, alongU = false): void {
+export function gable(batch: Batch, color: string, u: number, v: number, w: number, l: number, y: number, rise: number, alongU = false): void {
   const span = alongU ? l : w;
   const len = alongU ? w : l;
   const s = new THREE.Shape([new THREE.Vector2(-span / 2, 0), new THREE.Vector2(span / 2, 0), new THREE.Vector2(0, rise)]);

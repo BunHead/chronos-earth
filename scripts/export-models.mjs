@@ -40,6 +40,8 @@ const FLEET = [
   ['cathedral', 'Notre-Dame de Paris'],
   ['westminster', 'Palace of Westminster'],
   ['buckingham', 'Buckingham Palace'],
+  // Buckingham Palace over time (buckinghamSite.ts).
+  ['buckingham-site', 'Buckingham Palace'],
   ['london-eye', 'London Eye'],
   ['liberty', 'Statue of Liberty'],
   ['leaning-tower', 'Leaning Tower of Pisa'],
@@ -115,6 +117,9 @@ const BUILD_STAGES = [
   // b10 Rufus's Hall 1097 · b30 hammerbeam roof 1393 · b45 the 1834 fire · b60 Barry rising 1840
   // · b75 Lords 1847 / Commons 1852 · b90 Elizabeth Tower 1859 · '' Victoria Tower 1860, today
   ['westminster-site', 'Palace of Westminster', [10, 30, 45, 60, 75, 90]],
+  // b10 Buckingham House 1703 · b35 Nash's palace 1837 · b60 Blore's East Front 1850
+  // · b85 Victoria Memorial & gates 1911 · '' Webb's Portland-stone front 1913, today
+  ['buckingham-site', 'Buckingham Palace', [10, 35, 60, 85]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
   // (The impact's five frames — b15/b30/b50/b72 + base — are built
   // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)
