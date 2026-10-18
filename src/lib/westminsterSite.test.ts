@@ -3,7 +3,8 @@ import { readFileSync } from 'node:fs';
 import { stageFor, STAGE_TABLE } from './stageTable';
 import { fitFor } from './monumentFit';
 import { westminsterNote } from './westminsterNote';
-import { westminsterStage } from '../components/westminsterSite';
+import { AXIS, HALL, westminsterStage } from '../components/westminsterSite';
+import PLAN from '../data/westminster-plan.json';
 
 const manifest = JSON.parse(readFileSync('public/models/manifest.json', 'utf8')) as Record<string, { footprint: number }>;
 const review = JSON.parse(readFileSync('public/data/model-review.json', 'utf8')) as Record<string, { transform?: unknown }>;
@@ -27,10 +28,21 @@ describe('Palace of Westminster over time', () => {
     }
     for (const s of ['', '-b10', '-b30', '-b45', '-b60', '-b75', '-b90']) expect(manifest[`westminster-site${s}`]?.footprint).toBeGreaterThan(20);
   });
-  it('shares the present-day palace frame, scale and placement trim', () => {
-    expect(manifest['westminster-site'].footprint).toBeCloseTo(manifest['westminster'].footprint, 1);
-    expect(fitFor('Palace of Westminster', 'westminster-site')).toEqual(fitFor('Palace of Westminster', 'westminster'));
-    expect(review['place:westminster-site@51.499,-0.125'].transform).toEqual(review['place:westminster@51.499,-0.125'].transform);
+  it('stands in true metres on the real plan, with no hand trim', () => {
+    expect(fitFor('Palace of Westminster', 'westminster-site').widthM).toBeCloseTo(manifest['westminster-site'].footprint, 0);
+    expect(review['place:westminster-site@51.499,-0.125']).toBeUndefined();
+  });
+  it('is no wider east to west than the real palace', () => {
+    // OSM: the block is ~105 m across its axis; with Westminster Hall and the
+    // porch on its west side the whole palace spans ~140 m, and ~290 m long.
+    const a = (AXIS * Math.PI) / 180;
+    const us = PLAN.outer.map(([x, y]) => x * Math.cos(a) - y * Math.sin(a)); // across the palace's axis
+    expect(Math.max(...us) - Math.min(...us)).toBeLessThan(115);
+    const all = [...PLAN.outer, ...Object.values(PLAN.parts).flat()];
+    const ys = all.map((p) => p[1]);
+    expect(Math.max(...ys) - Math.min(...ys)).toBeGreaterThan(270);
+    expect(PLAN.courts.length).toBeGreaterThanOrEqual(10);
+    expect(HALL.l).toBe(73);
   });
   it('the panel calls it a representation', () => {
     expect(westminsterNote({ model: 'westminster', title: 'Palace of Westminster' })).toMatch(/representation based on best known evidence/);

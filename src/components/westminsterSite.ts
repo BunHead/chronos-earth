@@ -1,30 +1,62 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import PLAN from '../data/westminster-plan.json';
 
 /**
- * The Palace of Westminster over time, in the SAME frame as the present-day
- * `westminster` model (Monument3D.tsx): units of 6.91 m (M()), +X north along
- * the river, +Z east (the river), the Barry palace's river front at z = 3 and
- * Westminster Hall at the back (west).
+ * The Palace of Westminster over time, in TRUE METRES on the real plan.
  *
- * A representation based on best known evidence: the medieval layout follows
- * the surveys made before and after the 1834 fire (the Hall, St Stephen's
- * Chapel and its cloister, the Painted Chamber, the Lesser Hall and the old
- * House of Lords); sizes are true where they are recorded, typical elsewhere.
+ * The plan is traced from OpenStreetMap (© OpenStreetMap contributors, ODbL:
+ * relation 1567699 and the named ways inside it), so from above the palace
+ * matches the satellite photo: Barry's long block about 90 m deep with its
+ * eleven courts, Westminster Hall against its west side, St Stephen's Porch
+ * and Hall, and the two great towers where they stand.
  *
- * Stages (westminsterStage):
- *  1  1097      William II (Rufus) builds Westminster Hall, aisled under a
- *               lower roof; the medieval palace grows round it to the south
- *  2  1393      Richard II's hammerbeam roof: walls raised, new north front
- *  3  1834      the fire of 16 October: the Hall saved, the rest a shell
- *  4  1840      Barry & Pugin's new palace rising round the Hall
- *  5  1847      Lords (1847) and Commons (1852) open; towers still rising
- *  6  1859      Elizabeth Tower (Big Ben) complete; Victoria Tower not yet
- *  7  1860      Victoria Tower complete; the palace as it stands today
+ * Frame: the model's origin is the placement point (51.4995 N, 0.1248 W),
+ * +X east, -Z north, everything inside one sub-group turned to the palace's
+ * axis (AXIS degrees east of north). Inside it, local X = u (across, towards
+ * the river) and local Z = -v (v along the axis, north positive).
+ *
+ * A representation based on best known evidence. Stages (westminsterStage):
+ *  1  1097  William II's Westminster Hall, aisled under a lower roof; the
+ *           medieval palace grows round it, down to the old river wall
+ *  2  1393  Richard II's hammerbeam roof: walls raised, the north front,
+ *           St Stephen's Chapel and its cloister
+ *  3  1834  the fire of 16 October: the Hall and cloister saved, the rest shells
+ *  4  1840  Barry & Pugin's palace rising round the Hall (embankment built)
+ *  5  1847  Lords (1847) and Commons (1852) open; the towers still rising
+ *  6  1859  Elizabeth Tower (Big Ben) complete; Victoria Tower not yet
+ *  7  1860  Victoria Tower complete; the palace as it stands today
  */
 
-export const M = (metres: number): number => metres / 6.91;
+export const AXIS = 9; // degrees east of north
 
-/** buildFrac → stage (the -bNN exports: b10 b30 b45 b60 b75 b90, '' = 7). */
+type P2 = [number, number];
+const RAD = Math.PI / 180;
+const ca = Math.cos(AXIS * RAD);
+const sa = Math.sin(AXIS * RAD);
+/** OSM metres (east, north) -> palace frame (u across, v along). */
+const toUV = ([x, y]: number[]): P2 => [x * ca - y * sa, x * sa + y * ca];
+const ring = (pts: number[][]): P2[] => pts.map(toUV);
+
+const OUTER = ring(PLAN.outer);
+const COURTS = PLAN.courts.map(ring);
+const PART = Object.fromEntries(Object.entries(PLAN.parts).map(([k, v]) => [k, ring(v)])) as Record<string, P2[]>;
+
+function centroid(p: P2[]): P2 {
+  let u = 0;
+  let v = 0;
+  for (const q of p) { u += q[0]; v += q[1]; }
+  return [u / p.length, v / p.length];
+}
+
+// Key positions on the real plan (u, v metres).
+export const HALL = { u: -45.7, v: 37.5, w: 24, l: 73 };     // Westminster Hall, 73 m long
+export const ELIZABETH = { u: centroid(PART['Elizabeth Tower'])[0], v: centroid(PART['Elizabeth Tower'])[1], w: 12.2 };
+export const VICTORIA = { u: centroid(PART['Victoria Tower'])[0], v: centroid(PART['Victoria Tower'])[1], w: 22.6 };
+export const CENTRAL = { u: 3, v: -12 };                     // the Central Lobby and its tower
+const OLD_RIVER_U = 25;                                      // the river wall before Barry's embankment
+
+/** buildFrac -> stage (the -bNN exports: b10 b30 b45 b60 b75 b90, '' = 7). */
 export function westminsterStage(buildFrac: number | undefined): number {
   if (buildFrac == null || buildFrac >= 1) return 7;
   if (buildFrac < 0.2) return 1;
@@ -35,214 +67,535 @@ export function westminsterStage(buildFrac: number | undefined): number {
   return 6;
 }
 
-// The frame, shared with the present-day model.
-const FRONT = 3;
-const BACK = FRONT - M(100);
-const HALF_LEN = M(265) / 2;
-export const HALL = { cx: M(34), cz: BACK - M(4), w: M(73), d: M(21) };
-export const ELIZABETH = { x: HALF_LEN - M(12.2) / 2, z: BACK + M(12.2) / 2, w: M(12.2) };
-export const VICTORIA = { x: -HALF_LEN + M(22.6) / 2, z: BACK + M(22.6) / 2, w: M(22.6) };
-
+// ---------------------------------------------------------------- materials
 const mats = new Map<string, THREE.MeshStandardMaterial>();
-const mat = (color: string): THREE.MeshStandardMaterial => {
-  let m = mats.get(color);
-  if (!m) mats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.9, flatShading: true })));
-  return m;
-};
-function box(g: THREE.Group, w: number, h: number, d: number, x: number, y: number, z: number, color: string): THREE.Mesh {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(color));
-  m.position.set(x, y, z);
-  g.add(m);
+function mat(color: string, o: { metal?: number; rough?: number; flat?: boolean } = {}): THREE.MeshStandardMaterial {
+  const key = `${color}|${o.metal ?? 0}|${o.rough ?? 0.9}|${o.flat ?? true}`;
+  let m = mats.get(key);
+  if (!m) {
+    m = new THREE.MeshStandardMaterial({ color, metalness: o.metal ?? 0, roughness: o.rough ?? 0.9, flatShading: o.flat ?? true });
+    mats.set(key, m);
+  }
   return m;
 }
-/** A gabled roof, ridge along X (or Z), sitting on top of walls at height y. */
-function roof(g: THREE.Group, cx: number, cz: number, w: number, d: number, y: number, rise: number, color: string, alongZ = false): void {
-  const span = alongZ ? w : d;
-  const len = alongZ ? d : w;
-  const s = new THREE.Shape();
-  s.moveTo(-span / 2, 0);
-  s.lineTo(span / 2, 0);
-  s.lineTo(0, rise);
-  s.lineTo(-span / 2, 0);
-  const geo = new THREE.ExtrudeGeometry(s, { depth: len, bevelEnabled: false });
-  geo.translate(0, 0, -len / 2);
-  const m = new THREE.Mesh(geo, mat(color));
-  // The shape's X spans across the ridge; extrusion runs along the ridge.
-  if (alongZ) m.position.set(cx, y, cz);
-  else { m.rotation.y = Math.PI / 2; m.position.set(cx, y, cz); }
-  g.add(m);
+const STONE = '#c6b994';     // Anston limestone
+const STONE_DK = '#a99d7d';
+const STONE_OLD = '#b7aa8b';  // the medieval Reigate and Caen stone
+const LEAD = '#5d646a';       // lead and slate roofs, as the photo reads them
+const TILE = '#8b6b55';
+const GLASS = '#2f3742';
+const GOLD = '#c9a64b';
+const CHAR = '#3b3732';
+const CHAR_LT = '#57504a';
+const WATER = '#3f4a3c';      // the Thames, as the photo reads it
+
+/** Collects boxes by colour and merges them, so hundreds of windows cost one mesh each. */
+class Batch {
+  private parts = new Map<string, THREE.BufferGeometry[]>();
+  box(color: string, w: number, h: number, d: number, u: number, y: number, v: number, rotY = 0): void {
+    const g = new THREE.BoxGeometry(w, h, d);
+    g.applyMatrix4(new THREE.Matrix4().makeRotationY(rotY).setPosition(u, y, -v));
+    this.add(color, g);
+  }
+  add(color: string, g: THREE.BufferGeometry): void {
+    const ng = g.index ? g.toNonIndexed() : g;
+    ng.deleteAttribute('uv');
+    if (!this.parts.has(color)) this.parts.set(color, []);
+    this.parts.get(color)!.push(ng);
+  }
+  flush(into: THREE.Group, opts: Record<string, { metal?: number; rough?: number }> = {}): void {
+    for (const [color, list] of this.parts) {
+      const merged = mergeGeometries(list, false);
+      if (merged) into.add(new THREE.Mesh(merged, mat(color, opts[color])));
+    }
+    this.parts.clear();
+  }
 }
 
-const STONE = '#bdb193';
-const STONE_DK = '#a59a7e';
-const LEAD = '#7a7f82';
-const TILE = '#8a6a55';
-const GLASS = '#3a4250';
-const CHAR = '#3d3934';
-const CHAR_LT = '#5b544b';
-const WATER = '#5d6f74';
-
-/** A building block of the old palace: walls, then a roof (or, burnt, none). */
-function range(
-  g: THREE.Group, cx: number, cz: number, w: number, d: number, h: number, rise: number,
-  opts: { alongZ?: boolean; burnt?: boolean; roofColor?: string; wall?: string } = {},
-): void {
-  if (opts.burnt) {
-    // Roofless shell: blackened walls standing to uneven heights.
-    const t = M(1.2);
-    const hh = [0.85, 0.6, 0.95, 0.7];
-    box(g, w, h * hh[0], t, cx, (h * hh[0]) / 2, cz - d / 2 + t / 2, CHAR);
-    box(g, w, h * hh[1], t, cx, (h * hh[1]) / 2, cz + d / 2 - t / 2, CHAR_LT);
-    box(g, t, h * hh[2], d, cx - w / 2 + t / 2, (h * hh[2]) / 2, cz, CHAR);
-    box(g, t, h * hh[3], d, cx + w / 2 - t / 2, (h * hh[3]) / 2, cz, CHAR_LT);
-    box(g, w * 0.9, M(1.5), d * 0.9, cx, M(0.75), cz, CHAR); // the fallen roof and floors
-    return;
-  }
-  box(g, w, h, d, cx, h / 2, cz, opts.wall ?? STONE);
-  roof(g, cx, cz, w, d, h, rise, opts.roofColor ?? LEAD, opts.alongZ);
+// ---------------------------------------------------------------- geometry helpers
+function shapeOf(p: P2[]): THREE.Shape {
+  // Shape in (u, v); extruded along +Z then turned so +Z -> +Y and v -> -Z.
+  return new THREE.Shape(p.map(([u, v]) => new THREE.Vector2(u, v)));
 }
-
-/** Westminster Hall itself: 73 m x 21 m, its long axis north-south (X). */
-function hall(g: THREE.Group, stage: number): void {
-  const { cx, cz, w, d } = HALL;
-  const wallH = stage === 1 ? M(12) : M(17);
-  box(g, w, wallH, d, cx, wallH / 2, cz, stage === 1 ? STONE_DK : STONE);
-  // Rufus's hall was aisled under a lower roof; Richard II's hammerbeam roof
-  // spans the whole 21 m without posts and rises far steeper.
-  roof(g, cx, cz, w, d, wallH, stage === 1 ? M(8) : M(13), LEAD);
-  // Windows down both long sides: small round-headed Norman ones, then the
-  // tall Perpendicular windows of the 1390s.
-  const n = stage === 1 ? 12 : 9;
-  for (let i = 0; i < n; i++) {
-    const x = cx - w / 2 + (w * (i + 0.5)) / n;
-    for (const s of [-1, 1]) {
-      box(g, stage === 1 ? M(1.5) : M(3), stage === 1 ? M(3) : M(6), 0.05, x, wallH * 0.65, cz + s * (d / 2 + 0.02), GLASS);
-    }
-  }
-  if (stage >= 2) {
-    // The 1390s north front: the great window between two towers.
-    const nx = cx + w / 2;
-    box(g, 0.06, M(11), M(9), nx + 0.03, M(15), cz, GLASS);
-    for (const s of [-1, 1]) {
-      box(g, M(6), M(24), M(6), nx - M(2), M(12), cz + s * (d / 2 - M(1)), STONE);
-      roof(g, nx - M(2), cz + s * (d / 2 - M(1)), M(6), M(6), M(24), M(3), LEAD);
-    }
-    // Buttresses along the sides, carrying the new roof's thrust.
-    for (let i = 0; i <= 9; i++) {
-      const x = cx - w / 2 + (w * i) / 9;
-      for (const s of [-1, 1]) box(g, M(1.6), wallH * 0.9, M(2.2), x, (wallH * 0.9) / 2, cz + s * (d / 2 + M(1.1)), STONE_DK);
-    }
-  }
-  // The south window over the end the palace joins.
-  box(g, 0.06, wallH * 0.5, d * 0.45, cx - w / 2 - 0.03, wallH * 0.6, cz, GLASS);
+/** A prism standing on the ground with the given plan (and holes). */
+function prism(outer: P2[], holes: P2[][], h: number, y0 = 0): THREE.BufferGeometry {
+  const s = shapeOf(outer);
+  for (const hole of holes) s.holes.push(new THREE.Path(hole.map(([u, v]) => new THREE.Vector2(u, v))));
+  const g = new THREE.ExtrudeGeometry(s, { depth: h, bevelEnabled: false, curveSegments: 1 });
+  g.rotateX(-Math.PI / 2); // shape (u, v) -> (u, -v) at y 0..h
+  g.translate(0, y0, 0);
+  return g;
 }
-
-/** The medieval palace, stages 1 to 3. Returns the ground colour. */
-export function buildWestminsterMedieval(g: THREE.Group, stage: number): string {
-  const burnt = stage === 3;
-  hall(g, stage); // the Hall was saved from the 1834 fire
-  // Positions in metres from the frame's origin (see the header).
-  const P = (x: number, z: number): [number, number] => [M(x), M(z)];
-  // St Stephen's Chapel, east of the Hall's south end (the Commons from 1548):
-  // 28 m x 9.5 m, tall, with corner turrets at its east end.
-  const [scx, scz] = P(-8, -52);
-  if (burnt) range(g, scx, scz, M(9.5), M(28), M(20), 0, { burnt: true });
-  else {
-    range(g, scx, scz, M(9.5), M(28), M(20), M(8), { alongZ: true });
-    for (const s of [-1, 1]) box(g, M(2.5), M(27), M(2.5), scx + s * M(5.5), M(13.5), scz + M(14), STONE_DK);
-    box(g, 0.05, M(10), M(4), scx + M(4.8), M(12), scz, GLASS);
+function pip(p: P2[], u: number, v: number): boolean {
+  let inside = false;
+  for (let i = 0, j = p.length - 1; i < p.length; j = i++) {
+    const [ui, vi] = p[i];
+    const [uj, vj] = p[j];
+    if ((vi > v) !== (vj > v) && u < ((uj - ui) * (v - vi)) / (vj - vi) + ui) inside = !inside;
   }
-  // Its cloister (1526-29), north of the chapel: two storeys round a garth.
-  // The cloister and the chapel's crypt came through the fire.
-  const [ccx, ccz] = P(12, -50);
-  if (stage >= 2) {
-    for (const [w, d, dx, dz] of [[24, 5, 0, -9.5], [24, 5, 0, 9.5], [5, 14, -9.5, 0], [5, 14, 9.5, 0]] as const) {
-      range(g, ccx + M(dx), ccz + M(dz), M(w), M(d), M(8), M(2.5));
+  return inside;
+}
+/** The part of a polygon with u >= u0 (Sutherland-Hodgman against one line). */
+function clipHalfPlane(p: P2[], u0: number): P2[] {
+  const out: P2[] = [];
+  for (let i = 0; i < p.length; i++) {
+    const a = p[i];
+    const b = p[(i + 1) % p.length];
+    const ina = a[0] >= u0;
+    const inb = b[0] >= u0;
+    if (ina) out.push(a);
+    if (ina !== inb) {
+      const t = (u0 - a[0]) / (b[0] - a[0]);
+      out.push([u0, a[1] + t * (b[1] - a[1])]);
     }
   }
-  // The Painted Chamber (east-west), the Lesser Hall (north-south, the Lords
-  // from 1801) and the old House of Lords at the south.
-  const blocks: Array<[number, number, number, number, number, number, boolean]> = [
-    [-30, -45, 24.4, 8, 12, 5, false],
-    [-52, -62, 12, 21, 13, 5, true],
-    [-74, -52, 9, 21, 11, 4, true],
-  ];
-  for (const [x, z, w, d, h, r, alongZ] of blocks) {
-    const [bx, bz] = P(x, z);
-    range(g, bx, bz, M(w), M(d), M(h), M(r), { alongZ, burnt, roofColor: TILE });
-  }
-  // The river ranges: lodgings, the Speaker's House, the river stairs.
-  const river: Array<[number, number, number, number]> = [
-    [-60, -18, 34, 9], [-20, -16, 30, 10], [16, -20, 30, 9], [50, -26, 24, 8],
-  ];
-  for (const [x, z, w, d] of river) {
-    const [bx, bz] = P(x, z);
-    range(g, bx, bz, M(w), M(d), M(10), M(4), { burnt: burnt && x < 30, roofColor: TILE });
-  }
-  // The river wall, and the Thames lapping it: Barry's embankment later
-  // reclaimed this strip for the new river front.
-  box(g, M(170), M(2), M(1.5), M(-5), M(1), M(-10), STONE_DK);
-  const water = box(g, M(240), M(0.2), M(34), M(-5), M(0.1), M(7), WATER);
-  water.userData.noShadow = true;
-  return '#56604a';
+  return out;
+}
+function signedArea(p: P2[]): number {
+  let a = 0;
+  for (let i = 0, j = p.length - 1; i < p.length; j = i++) a += p[j][0] * p[i][1] - p[i][0] * p[j][1];
+  return a / 2;
 }
 
 /**
- * Barry & Pugin's palace under construction (stages 4 to 6), cut down from the
- * finished present-day build in `group`: every mesh outside the Hall is
- * trimmed to `cap` units high, and the two great towers to their own caps.
+ * Hipped roofs over any plan: a 2 m grid over the building, each point raised
+ * by its distance from the nearest outside wall (a chamfer distance), so every
+ * range gets a pitched roof running its length, the corners hip, and the wide
+ * ranges level off as Barry's lead flats do.
  */
-export function trimToStage(group: THREE.Group, stage: number): void {
-  if (stage >= 7) return;
-  const caps = {
-    // stage 4: walls a storey or two up, no roofs yet; towers at their bases.
-    4: { body: M(12), eliz: M(20), vic: M(14) },
-    // stage 5: Lords (1847) and Commons (1852) roofed; towers half-way.
-    //   (the Central Tower over the lobby, finished c. 1858, held down too).
-    5: { body: M(32), eliz: M(50), vic: M(40) },
-    // stage 6: Elizabeth Tower complete (1859); Victoria Tower short of its top.
-    6: { body: Infinity, eliz: Infinity, vic: M(72) },
-  }[stage as 4 | 5 | 6];
-  if (!caps) return;
-  const inRect = (b: THREE.Box3, x: number, z: number, half: number): boolean => {
-    const c = b.getCenter(new THREE.Vector3());
-    return Math.abs(c.x - x) <= half && Math.abs(c.z - z) <= half;
-  };
-  const inHall = (b: THREE.Box3): boolean => {
-    const c = b.getCenter(new THREE.Vector3());
-    return Math.abs(c.x - HALL.cx) <= HALL.w / 2 + M(3) && Math.abs(c.z - HALL.cz) <= HALL.d / 2 + M(3);
-  };
-  group.updateMatrixWorld(true);
-  const doomed: THREE.Object3D[] = [];
-  const meshes: THREE.Mesh[] = [];
-  group.traverse((o) => { if (o instanceof THREE.Mesh) meshes.push(o); });
-  for (const m of meshes) {
-    const b = new THREE.Box3().setFromObject(m);
-    if (inHall(b)) continue;
-    const cap = inRect(b, ELIZABETH.x, ELIZABETH.z, ELIZABETH.w * 0.75) ? caps.eliz
-      : inRect(b, VICTORIA.x, VICTORIA.z, VICTORIA.w * 0.75) ? caps.vic
-      : caps.body;
-    if (!Number.isFinite(cap) || b.max.y <= cap) continue;
-    if (b.min.y >= cap - 0.01) { doomed.push(m); continue; }
-    // Straddles the cap: squash it so it stops at the cap. Pieces nested in
-    // a rotated sub-group (the roofs) are simply removed, as unbuilt.
-    if (m.parent !== group) { doomed.push(m); continue; }
-    const k = (cap - b.min.y) / (b.max.y - b.min.y);
-    m.scale.y *= k;
-    m.updateMatrixWorld(true);
-    const nb = new THREE.Box3().setFromObject(m);
-    m.position.y += b.min.y - nb.min.y;
+function hipRoof(outer: P2[], holes: P2[][], eaves: number, slope: number, cap: number, cell = 2): THREE.BufferGeometry {
+  const us = outer.map((p) => p[0]);
+  const vs = outer.map((p) => p[1]);
+  const u0 = Math.min(...us) - cell;
+  const v0 = Math.min(...vs) - cell;
+  const nu = Math.ceil((Math.max(...us) - u0) / cell) + 2;
+  const nv = Math.ceil((Math.max(...vs) - v0) / cell) + 2;
+  const inside = new Uint8Array(nu * nv);
+  for (let j = 0; j < nv; j++) {
+    for (let i = 0; i < nu; i++) {
+      const u = u0 + (i + 0.5) * cell;
+      const v = v0 + (j + 0.5) * cell;
+      inside[j * nu + i] = pip(outer, u, v) && !holes.some((h) => pip(h, u, v)) ? 1 : 0;
+    }
   }
-  for (const m of doomed) m.parent?.remove(m);
-  if (stage === 4) {
-    // Scaffold poles round the rising towers.
-    const pole = mat('#6b5a44');
-    for (const t of [ELIZABETH, VICTORIA]) {
-      for (const [dx, dz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-        const p = new THREE.Mesh(new THREE.BoxGeometry(0.12, M(26), 0.12), pole);
-        p.position.set(t.x + dx * (t.w / 2 + 0.3), M(13), t.z + dz * (t.w / 2 + 0.3));
-        group.add(p);
+  // Chamfer distance (3-4) from outside cells, in metres.
+  const INF = 1e9;
+  const d = new Float32Array(nu * nv);
+  for (let k = 0; k < d.length; k++) d[k] = inside[k] ? INF : 0;
+  const a = cell;
+  const b = cell * Math.SQRT2;
+  const at = (i: number, j: number) => (i < 0 || j < 0 || i >= nu || j >= nv ? 0 : d[j * nu + i]);
+  for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) {
+    const k = j * nu + i;
+    if (!d[k]) continue;
+    d[k] = Math.min(d[k], at(i - 1, j) + a, at(i, j - 1) + a, at(i - 1, j - 1) + b, at(i + 1, j - 1) + b);
+  }
+  for (let j = nv - 1; j >= 0; j--) for (let i = nu - 1; i >= 0; i--) {
+    const k = j * nu + i;
+    if (!d[k]) continue;
+    d[k] = Math.min(d[k], at(i + 1, j) + a, at(i, j + 1) + a, at(i + 1, j + 1) + b, at(i - 1, j + 1) + b);
+  }
+  // Vertex heights: corner of four cells, its distance the least of theirs less half a cell.
+  const vh = (i: number, j: number): number => {
+    const m = Math.min(at(i - 1, j - 1), at(i, j - 1), at(i - 1, j), at(i, j));
+    return eaves + Math.min(cap, Math.max(0, m - a / 2) * slope);
+  };
+  const pos: number[] = [];
+  const idx: number[] = [];
+  const vid = new Map<number, number>();
+  const vert = (i: number, j: number): number => {
+    const key = j * (nu + 1) + i;
+    let id = vid.get(key);
+    if (id == null) {
+      id = pos.length / 3;
+      pos.push(u0 + i * cell, vh(i, j), -(v0 + j * cell));
+      vid.set(key, id);
+    }
+    return id;
+  };
+  for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) {
+    if (!inside[j * nu + i]) continue;
+    const p00 = vert(i, j);
+    const p10 = vert(i + 1, j);
+    const p01 = vert(i, j + 1);
+    const p11 = vert(i + 1, j + 1);
+    idx.push(p00, p10, p11, p00, p11, p01); // wound to face up
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+/**
+ * Perpendicular Gothic walls: windows in tiers, buttress strips and a
+ * pinnacle on the parapet every few metres, along every outer edge of a plan.
+ */
+function walls(batch: Batch, p: P2[], eaves: number, tiers: number[], step = 4, pinnacles = true, inward = false): void {
+  const ccw = (signedArea(p) > 0) !== inward;
+  for (let i = 0; i < p.length; i++) {
+    const [ua, va] = p[i];
+    const [ub, vb] = p[(i + 1) % p.length];
+    const du = ub - ua;
+    const dv = vb - va;
+    const L = Math.hypot(du, dv);
+    if (L < 5) continue;
+    // Outward normal in (u, v).
+    const nu = (ccw ? dv : -dv) / L;
+    const nv = (ccw ? -du : du) / L;
+    const rot = Math.atan2(dv, du);
+    const n = Math.max(1, Math.floor(L / step));
+    for (let k = 0; k < n; k++) {
+      const t = (k + 0.5) / n;
+      const u = ua + du * t + nu * 0.06;
+      const v = va + dv * t + nv * 0.06;
+      for (const y of tiers) batch.box(GLASS, Math.min(1.7, (L / n) * 0.45), 3.2, 0.12, u, y, v, rot);
+      if (pinnacles) {
+        const tb = k / n;
+        const ub2 = ua + du * tb + nu * 0.25;
+        const vb2 = va + dv * tb + nv * 0.25;
+        batch.box(STONE_DK, 0.5, eaves + 0.2, 0.5, ub2, (eaves + 0.2) / 2, vb2, rot);   // buttress strip
+        batch.box(STONE, 0.55, 2.6, 0.55, ub2, eaves + 1.3, vb2, rot);                   // pinnacle
+        batch.box(GOLD, 0.25, 0.6, 0.25, ub2, eaves + 2.9, vb2, rot);                    // gilded finial
+      }
+    }
+    batch.box(STONE, L, 1.2, 0.5, (ua + ub) / 2 + nu * 0.2, eaves + 0.6, (va + vb) / 2 + nv * 0.2, rot); // parapet
+  }
+}
+
+/** A gabled roof along v (ridge north-south), or along u. */
+function gable(batch: Batch, color: string, u: number, v: number, w: number, l: number, y: number, rise: number, alongU = false): void {
+  const span = alongU ? l : w;
+  const len = alongU ? w : l;
+  const s = new THREE.Shape([new THREE.Vector2(-span / 2, 0), new THREE.Vector2(span / 2, 0), new THREE.Vector2(0, rise)]);
+  const g = new THREE.ExtrudeGeometry(s, { depth: len, bevelEnabled: false });
+  g.translate(0, 0, -len / 2);
+  // Default: span across X (u), ridge along Z (v). alongU: ridge along X.
+  if (alongU) g.rotateY(Math.PI / 2);
+  g.translate(u, y, -v);
+  batch.add(color, g);
+}
+
+/** A simple building block: walls, windows, and a gable or hipped roof. */
+function block(
+  batch: Batch, u: number, v: number, w: number, l: number, h: number, rise: number,
+  o: { alongU?: boolean; wall?: string; roof?: string; burnt?: boolean; windows?: boolean } = {},
+): void {
+  if (o.burnt) {
+    // A roofless shell: blackened walls standing to uneven heights, the roof and floors fallen in.
+    const t = 1.1;
+    const hh = [0.9, 0.62, 0.8, 0.7];
+    batch.box(CHAR, w, h * hh[0], t, u, (h * hh[0]) / 2, v + l / 2 - t / 2);
+    batch.box(CHAR_LT, w, h * hh[1], t, u, (h * hh[1]) / 2, v - l / 2 + t / 2);
+    batch.box(CHAR, t, h * hh[2], l, u - w / 2 + t / 2, (h * hh[2]) / 2, v);
+    batch.box(CHAR_LT, t, h * hh[3], l, u + w / 2 - t / 2, (h * hh[3]) / 2, v);
+    batch.box(CHAR, w * 0.86, 1.4, l * 0.86, u, 0.7, v);
+    return;
+  }
+  batch.box(o.wall ?? STONE_OLD, w, h, l, u, h / 2, v);
+  gable(batch, o.roof ?? TILE, u, v, w + 0.6, l + 0.6, h, rise, o.alongU);
+  if (o.windows !== false) {
+    const long = o.alongU ? w : l;
+    const n = Math.max(1, Math.floor(long / 4.5));
+    for (let k = 0; k < n; k++) {
+      const t = -long / 2 + (long * (k + 0.5)) / n;
+      for (const s of [-1, 1]) {
+        if (o.alongU) batch.box(GLASS, 1.3, 2.4, 0.1, u + t, h * 0.55, v + s * (l / 2 + 0.03));
+        else batch.box(GLASS, 0.1, 2.4, 1.3, u + s * (w / 2 + 0.03), h * 0.55, v + t);
       }
     }
   }
+}
+
+/** A great Perpendicular window: glass with stone mullions and a transom. */
+function greatWindow(batch: Batch, u: number, v: number, w: number, h: number, y: number, faceU: boolean): void {
+  // faceU: the window looks along u (an east or west wall); else along v.
+  const W = (a: number, b: number) => (faceU ? [0.12, a, b] : [b, a, 0.12]) as [number, number, number];
+  const [gw, gh, gd] = W(h, w);
+  batch.box(GLASS, gw, gh, gd, u, y, v);
+  for (let k = 1; k < 7; k++) { // mullions
+    const t = -w / 2 + (w * k) / 7;
+    const [mw, mh, md] = W(h, 0.22);
+    batch.box(STONE, mw, mh, md, faceU ? u : u + t, y, faceU ? v + t : v);
+  }
+  const [tw, th, td] = W(0.3, w);
+  batch.box(STONE, tw, th, td, u, y + h * 0.15, v); // transom
+}
+
+// ---------------------------------------------------------------- Westminster Hall
+function hall(batch: Batch, stage: number): void {
+  const { u, v, w, l } = HALL;
+  const wallH = stage === 1 ? 12 : 16;
+  batch.box(stage === 1 ? STONE_DK : STONE_OLD, w, wallH, l, u, wallH / 2, v);
+  // Rufus's hall stood under a lower, aisled roof; Richard II's hammerbeam roof
+  // spans the full 21 m without posts and rises far steeper.
+  gable(batch, LEAD, u, v, w + 0.8, l + 0.8, wallH, stage === 1 ? 8 : 13);
+  // Side windows: small round-headed Norman ones, then the tall Perpendicular windows.
+  const n = stage === 1 ? 12 : 9;
+  for (let k = 0; k < n; k++) {
+    const t = v - l / 2 + (l * (k + 0.5)) / n;
+    for (const s of [-1, 1]) {
+      batch.box(GLASS, 0.1, stage === 1 ? 2.6 : 5.5, stage === 1 ? 1.4 : 2.8, u + s * (w / 2 + 0.04), wallH * 0.62, t);
+      if (stage >= 2) batch.box(STONE_DK, 1.6, wallH * 0.85, 1.8, u + s * (w / 2 + 0.8), (wallH * 0.85) / 2, t - l / n / 2);
+    }
+  }
+  const north = v + l / 2;
+  const south = v - l / 2;
+  if (stage >= 2) {
+    // The 1390s north front: the great window between two square towers.
+    greatWindow(batch, u, north + 0.08, 11, 12, 15, false);
+    for (const s of [-1, 1]) {
+      batch.box(STONE_OLD, 6.5, 26, 6.5, u + s * (w / 2 - 1.5), 13, north - 1.5);
+      batch.box(LEAD, 6.9, 0.8, 6.9, u + s * (w / 2 - 1.5), 26.4, north - 1.5);
+      for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+        batch.box(STONE, 0.6, 3, 0.6, u + s * (w / 2 - 1.5) + a * 2.9, 28, north - 1.5 + c * 2.9);
+      }
+    }
+  }
+  // The great SOUTH window, the famous one: in the gable over the Hall's south
+  // end, where Barry re-set it to look down the Hall from St Stephen's Porch.
+  greatWindow(batch, u, south - 0.08, 12, stage === 1 ? 6 : 13, stage === 1 ? 8 : 14.5, false);
+}
+
+// ---------------------------------------------------------------- the medieval palace
+/** Stages 1 to 3. Returns the ground colour. */
+export function buildMedieval(site: THREE.Group, stage: number): string {
+  const B = new Batch();
+  const burnt = stage === 3;
+  hall(B, stage); // the Hall came through the 1834 fire
+  // St Stephen's Chapel, on the site of today's St Stephen's Hall: 28.6 m by
+  // 10.5 m, east-west, tall and steep-roofed, with an octagonal turret at each
+  // corner and the great east window over the river side. The Commons sat in
+  // it from 1548 until the fire.
+  const sc = { u: -20.6, v: -12, l: 28.6, w: 10.5, h: 19 };
+  if (burnt) block(B, sc.u, sc.v, sc.l, sc.w, sc.h, 0, { burnt: true });
+  else {
+    B.box(STONE_OLD, sc.l, sc.h, sc.w, sc.u, sc.h / 2, sc.v);
+    gable(B, LEAD, sc.u, sc.v, sc.l + 0.6, sc.w + 0.6, sc.h, 7, true);
+    for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+      const tu = sc.u + a * (sc.l / 2);
+      const tv = sc.v + c * (sc.w / 2);
+      const t = new THREE.CylinderGeometry(1.5, 1.6, 27, 8);
+      t.translate(tu, 13.5, -tv);
+      B.add(STONE_OLD, t);
+      const sp = new THREE.ConeGeometry(1.7, 5, 8);
+      sp.translate(tu, 29.5, -tv);
+      B.add(LEAD, sp);
+    }
+    greatWindow(B, sc.u + sc.l / 2 + 0.08, sc.v, 7, 11, 11, true); // east window
+    for (let k = 0; k < 5; k++) for (const s of [-1, 1]) {
+      B.box(GLASS, 2.6, 9, 0.1, sc.u - sc.l / 2 + 3 + k * 5.6, 11, sc.v + s * (sc.w / 2 + 0.04));
+    }
+  }
+  // The cloister of St Stephen's (1526-29), two storeys round a square garth,
+  // north of the chapel: it and the chapel's crypt survived the fire.
+  if (stage >= 2) {
+    const c = { u: -16, v: 9, s: 20, d: 5, h: 8 };
+    for (const [du, dv, w, l] of [[0, c.s / 2 - c.d / 2, c.s, c.d], [0, -c.s / 2 + c.d / 2, c.s, c.d], [c.s / 2 - c.d / 2, 0, c.d, c.s - 2 * c.d], [-c.s / 2 + c.d / 2, 0, c.d, c.s - 2 * c.d]] as const) {
+      block(B, c.u + du, c.v + dv, w, l, c.h, 2.5, { roof: LEAD, alongU: w > l });
+    }
+  }
+  // The Painted Chamber (the king's great chamber, east-west), the Lesser Hall
+  // (north-south; the Lords from 1801) and the old House of Lords at the south.
+  block(B, 4, -31, 24.4, 8, 12, 5, { alongU: true, burnt });
+  block(B, -22, -52, 12, 21, 13, 5.5, { burnt });
+  block(B, -20, -80, 21, 9, 11, 4.5, { alongU: true, burnt });
+  block(B, -2, -66, 14, 9, 10, 4, { alongU: true, burnt });          // the Prince's Chamber
+  // The Exchequer and Star Chamber, north of the Hall towards the river.
+  block(B, -12, 86, 30, 10, 10, 4, { alongU: true });
+  // The river ranges: the Speaker's House, lodgings and offices, with the
+  // river stairs; they stood on the old river wall.
+  for (const [u, v, w, l, h] of [[15, 12, 12, 30, 12], [16, -48, 11, 26, 10], [14, -100, 10, 30, 10], [14, 52, 10, 26, 10]] as const) {
+    block(B, u, v, w, l, h, 4.5, { burnt: burnt && v < 30 });
+  }
+  // The old river wall, and the Thames up to it: Barry's embankment later
+  // reclaimed this strip for the new river front.
+  B.box(STONE_DK, 2, 2.4, 262, OLD_RIVER_U, 1.2, -8); // along the palace's length
+  B.flush(site);
+  // The Thames came up to the old river wall: water over exactly the strip of
+  // today's palace that Barry's embankment later reclaimed (the palace plan
+  // east of the old wall), so it meets the photo's real river at the
+  // embankment line and never spills out over it.
+  const strip = clipHalfPlane(OUTER, OLD_RIVER_U + 1);
+  if (strip.length >= 3) {
+    const water = new THREE.Mesh(prism(strip, [], 0.12), mat(WATER, { rough: 0.35, flat: false }));
+    water.userData.noShadow = true;
+    site.add(water);
+  }
+  return '#5f6450';
+}
+
+// ---------------------------------------------------------------- Barry & Pugin
+function elizabethTower(B: Batch): void {
+  const { u, v, w } = ELIZABETH;
+  B.box(STONE_DK, w + 0.6, 6, w + 0.6, u, 3, v);
+  B.box(STONE, w, 49, w, u, 30.5, v);                            // shaft
+  for (let k = 0; k < 4; k++) B.box(STONE_DK, w + 0.3, 0.4, w + 0.3, u, 10 + k * 11, v);
+  for (let k = 0; k < 6; k++) for (const s of [-1, 1]) {           // the shaft's tall panels
+    B.box(GLASS, 0.1, 30, 0.8, u + s * (w / 2 + 0.03), 30, v - w / 2 + 1.2 + k * ((w - 2.4) / 5));
+    B.box(GLASS, 0.8, 30, 0.1, u - w / 2 + 1.2 + k * ((w - 2.4) / 5), 30, v + s * (w / 2 + 0.03));
+  }
+  B.box(STONE, w + 1.0, 9, w + 1.0, u, 59.5, v);                 // clock stage
+  for (const [du, dv, faceU] of [[w / 2 + 0.55, 0, true], [-w / 2 - 0.55, 0, true], [0, w / 2 + 0.55, false], [0, -w / 2 - 0.55, false]] as const) {
+    const c = new THREE.CylinderGeometry(3.5, 3.5, 0.15, 24);
+    c.rotateX(Math.PI / 2);
+    if (faceU) c.rotateY(Math.PI / 2);
+    c.translate(u + du, 59.5, -(v + dv));
+    B.add('#efe9d8', c);
+    const r = new THREE.TorusGeometry(3.6, 0.3, 6, 24);
+    if (faceU) r.rotateY(Math.PI / 2);
+    r.translate(u + du * 1.01, 59.5, -(v + dv * 1.01));
+    B.add(GOLD, r);
+  }
+  B.box(STONE_DK, w + 0.6, 9, w + 0.6, u, 68.5, v);              // belfry
+  for (const s of [-1, 1]) {
+    B.box(GLASS, 0.1, 6, w * 0.6, u + s * (w / 2 + 0.32), 68.5, v);
+    B.box(GLASS, w * 0.6, 6, 0.1, u, 68.5, v + s * (w / 2 + 0.32));
+  }
+  for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) B.box(STONE, 1, 7, 1, u + a * (w / 2), 76.5, v + c * (w / 2));
+  const spire = new THREE.ConeGeometry(w * 0.6, 23, 4);
+  spire.rotateY(Math.PI / 4);
+  spire.translate(u, 73 + 11.5, -v);
+  B.add(LEAD, spire);
+  B.box(GOLD, 0.5, 3, 0.5, u, 97, v);
+}
+function victoriaTower(B: Batch, top = 98.5): void {
+  const { u, v, w } = VICTORIA;
+  const shaft = Math.min(top, 86);
+  B.box(STONE_DK, w + 0.8, 8, w + 0.8, u, 4, v);
+  B.box(STONE, w, shaft, w, u, shaft / 2, v);
+  greatWindow(B, u - w / 2 - 0.08, v, 9, 15, 9, true); // the Sovereign's Entrance arch, on the west
+  for (let k = 0; k < Math.floor(shaft / 12); k++) {
+    B.box(STONE_DK, w + 0.3, 0.5, w + 0.3, u, 12 + k * 12, v);
+    if (k > 0 && k < 6) for (const s of [-1, 1]) {
+      for (const t of [-1, 1]) {
+        B.box(GLASS, 0.1, 8, 2.4, u + s * (w / 2 + 0.03), 18 + k * 12, v + t * 4.5);
+        B.box(GLASS, 2.4, 8, 0.1, u + t * 4.5, 18 + k * 12, v + s * (w / 2 + 0.03));
+      }
+    }
+  }
+  if (top < 98) return; // short of its crown
+  for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    B.box(STONE, 2.6, 14, 2.6, u + a * (w / 2 - 1.1), 91, v + c * (w / 2 - 1.1));
+    const p = new THREE.ConeGeometry(1.6, 6, 8);
+    p.translate(u + a * (w / 2 - 1.1), 101, -(v + c * (w / 2 - 1.1)));
+    B.add(LEAD, p);
+  }
+  B.box(LEAD, w - 2, 1.5, w - 2, u, 87, v);
+  B.box('#3a3a3a', 0.45, 22, 0.45, u, 98, v);                    // the flagstaff
+  B.box('#c8102e', 0.1, 3, 5, u, 106, v + 2.6);                  // and its flag
+}
+function centralTower(B: Batch): void {
+  const { u, v } = CENTRAL;
+  const o = new THREE.CylinderGeometry(6.2, 6.6, 40, 8);
+  o.translate(u, 20 + 20, -v);
+  B.add(STONE, o);
+  const l = new THREE.CylinderGeometry(5.2, 6.2, 12, 8);
+  l.translate(u, 66, -v);
+  B.add(STONE_DK, l);
+  const s = new THREE.ConeGeometry(5.2, 19, 8);
+  s.translate(u, 72 + 9.5, -v);
+  B.add(LEAD, s);
+  for (let k = 0; k < 8; k++) {
+    const a = (k / 8) * Math.PI * 2;
+    B.box(STONE, 0.7, 5, 0.7, u + Math.cos(a) * 6, 74, v + Math.sin(a) * 6);
+  }
+}
+
+/** Barry & Pugin's palace, finished (stage 7) or still rising (4 to 6). */
+export function buildBarry(site: THREE.Group, stage: number): string {
+  const B = new Batch();
+  const EAVES = 21;
+  // The great block, true to the plan: its walls with the eleven courts open.
+  B.add(STONE, prism(OUTER, COURTS, EAVES));
+  B.add(LEAD, hipRoof(OUTER, COURTS, EAVES, 0.85, 7.5));
+  walls(B, OUTER, EAVES, [5, 11.5, 17], 4.2);
+  for (const c of COURTS) walls(B, c, EAVES, [8, 15], 4.5, false, true); // facing into each court
+  // St Stephen's Porch and St Stephen's Hall, on their own lines of the plan.
+  const porch = PART["St. Stephen's Porch"];
+  const ssh = PART["St. Stephen's Hall"];
+  B.add(STONE, prism(porch, [], 27));
+  B.add(LEAD, hipRoof(porch, [], 27, 1.0, 6, 1.5));
+  walls(B, porch, 27, [7, 15, 22], 4.5);
+  const pc = centroid(porch);
+  greatWindow(B, Math.min(...porch.map((p) => p[0])) - 0.1, pc[1], 10, 16, 15, true); // the porch's great west window
+  B.add(STONE, prism(ssh, [], 24));
+  B.add(LEAD, hipRoof(ssh, [], 24, 1.1, 7, 1.5));
+  walls(B, ssh, 24, [14], 4);
+  // Westminster Hall, the medieval survivor, against the block's west side.
+  hall(B, 2);
+  elizabethTower(B);
+  victoriaTower(B, stage === 6 ? 74 : 98.5);
+  centralTower(B);
+  B.flush(site, { [GOLD]: { metal: 0.5, rough: 0.4 } });
+  return '#3f5138';
+}
+
+/**
+ * Barry's palace under construction (stages 4 to 6), cut down from the
+ * finished build: everything outside the Hall trimmed to the stage's height,
+ * the towers to their own heights. Pieces wholly above a cap go; pieces that
+ * straddle it are not split (they are merged), so the caps are applied by
+ * clipping planes baked into the geometry instead.
+ */
+export function trimToStage(site: THREE.Group, stage: number): void {
+  if (stage >= 7) return;
+  const caps = {
+    4: { body: 12, eliz: 20, vic: 14, central: 0 },   // walls a storey or two up; no roofs
+    5: { body: Infinity, eliz: 50, vic: 40, central: 30 },
+    6: { body: Infinity, eliz: Infinity, vic: Infinity, central: Infinity },
+  }[stage as 4 | 5 | 6];
+  if (!caps) return;
+  const near = (u: number, v: number, x: number, z: number, r: number) => Math.abs(x - u) <= r && Math.abs(-z - v) <= r;
+  const inHall = (x: number, z: number) => Math.abs(x - HALL.u) <= HALL.w / 2 + 4 && Math.abs(-z - HALL.v) <= HALL.l / 2 + 3;
+  for (const m of site.children) {
+    if (!(m instanceof THREE.Mesh)) continue;
+    const src = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry;
+    const pos = src.getAttribute('position');
+    const keep: number[] = [];
+    for (let t = 0; t < pos.count; t += 3) {
+      let cx = 0;
+      let cz = 0;
+      let maxY = -Infinity;
+      for (let q = 0; q < 3; q++) { cx += pos.getX(t + q) / 3; cz += pos.getZ(t + q) / 3; maxY = Math.max(maxY, pos.getY(t + q)); }
+      if (inHall(cx, cz)) { keep.push(t); continue; }
+      const cap = near(ELIZABETH.u, ELIZABETH.v, cx, cz, 9) ? caps.eliz
+        : near(VICTORIA.u, VICTORIA.v, cx, cz, 14) ? caps.vic
+        : near(CENTRAL.u, CENTRAL.v, cx, cz, 7.5) && maxY > 27 ? caps.central
+        : caps.body;
+      if (maxY <= cap + 0.01) keep.push(t);
+      else {
+        // Clamp a triangle that rises through the cap down to it.
+        let minY = Infinity;
+        for (let q = 0; q < 3; q++) minY = Math.min(minY, pos.getY(t + q));
+        if (minY < cap) { for (let q = 0; q < 3; q++) pos.setY(t + q, Math.min(pos.getY(t + q), cap)); keep.push(t); }
+      }
+    }
+    const out = new THREE.BufferGeometry();
+    const arr = new Float32Array(keep.length * 9);
+    keep.forEach((t, i) => { for (let q = 0; q < 3; q++) { arr[i * 9 + q * 3] = pos.getX(t + q); arr[i * 9 + q * 3 + 1] = pos.getY(t + q); arr[i * 9 + q * 3 + 2] = pos.getZ(t + q); } });
+    out.setAttribute('position', new THREE.BufferAttribute(arr, 3));
+    out.computeVertexNormals();
+    m.geometry = out;
+  }
+  if (stage === 4) {
+    // Scaffold round the rising towers, and the new embankment's coffer dam.
+    const B = new Batch();
+    for (const t of [ELIZABETH, VICTORIA]) {
+      for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) B.box('#6b5a44', 0.25, 26, 0.25, t.u + a * (t.w / 2 + 1), 13, t.v + c * (t.w / 2 + 1));
+      for (let y = 4; y < 26; y += 4) B.box('#6b5a44', t.w + 2.2, 0.2, t.w + 2.2, t.u, y, t.v);
+    }
+    B.flush(site);
+  }
+}
+
+/** The whole site at a stage, into `group`. Returns the ground colour. */
+export function buildWestminsterSite(group: THREE.Group, stage: number): string {
+  const site = new THREE.Group();
+  const ground = stage <= 3 ? buildMedieval(site, stage) : buildBarry(site, stage);
+  if (stage >= 4) trimToStage(site, stage);
+  site.rotation.y = -AXIS * RAD; // local -Z (v) to the palace's true bearing
+  group.add(site);
+  return ground;
 }

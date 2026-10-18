@@ -549,31 +549,31 @@
     "kb": 190
   },
   "westminster-site": {
-    "footprint": 38.761,
-    "kb": 366
+    "footprint": 301.985,
+    "kb": 60
   },
   "westminster-site-b10": {
-    "footprint": 24.602,
-    "kb": 58
+    "footprint": 271.868,
+    "kb": 12
   },
   "westminster-site-b30": {
-    "footprint": 24.602,
-    "kb": 90
+    "footprint": 272.118,
+    "kb": 13
   },
   "westminster-site-b45": {
-    "footprint": 24.602,
-    "kb": 112
+    "footprint": 272.118,
+    "kb": 14
   },
   "westminster-site-b60": {
-    "footprint": 39.07,
-    "kb": 147
+    "footprint": 301.57,
+    "kb": 30
   },
   "westminster-site-b75": {
-    "footprint": 38.62,
-    "kb": 248
+    "footprint": 301.57,
+    "kb": 59
   },
   "westminster-site-b90": {
-    "footprint": 38.73,
-    "kb": 352
+    "footprint": 301.985,
+    "kb": 67
   }
 }

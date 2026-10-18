@@ -12,7 +12,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { buildMesoTemple, type MesoTemple } from './mesoTemple';
 import { buildAtlantis } from './atlantisCity';
 import { buildRoundBarrow, buildStonehengeSite, stonehengeStage } from './stonehengeSite';
-import { buildWestminsterMedieval, trimToStage, westminsterStage } from './westminsterSite';
+import { buildWestminsterSite, westminsterStage } from './westminsterSite';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
@@ -4845,10 +4845,10 @@ export function buildModel(
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
     vic.position.set(0, 4.1, memZ);
     group.add(vic);
-  } else if (model === 'westminster-site' && westminsterStage(buildFrac) <= 3) {
-    // The medieval palace, then the 1834 fire (westminsterSite.ts).
-    ground = buildWestminsterMedieval(group, westminsterStage(buildFrac));
-  } else if (model === 'westminster' || model === 'westminster-site') {
+  } else if (model === 'westminster-site') {
+    // The whole palace through time, on the real plan (westminsterSite.ts).
+    ground = buildWestminsterSite(group, westminsterStage(buildFrac));
+  } else if (model === 'westminster') {
     // The Palace of Westminster (Houses of Parliament) — Barry & Pugin's long
     // Perpendicular-Gothic river frontage. The Captain's brief: the two towers
     // are the north tower (Elizabeth Tower, Big Ben) and the south tower
@@ -5203,8 +5203,6 @@ export function buildModel(
     for (const cx of endCx) minorTower(cx, front - rangeD / 2, M(15), M(40));
     minorTower(ccx, back + rangeD / 2, M(13), M(34));                              // back centre turret
     for (const cx of crossCx) minorTower(cx, front - rangeD / 2, M(12), M(32));    // river-front turrets
-    // westminster-site: Barry & Pugin's palace still rising (1840-1859).
-    if (model === 'westminster-site') trimToStage(group, westminsterStage(buildFrac));
   } else if (model === 'london-eye') {
     // The London Eye — a giant cantilevered observation wheel: a steel rim on
     // spokes, glass passenger capsules around it, held out over the Thames on an

@@ -5,7 +5,8 @@ export const WESTMINSTER_NOTE =
   'Westminster Hall, the medieval palace grows round it · 1393 Richard II\u2019s hammerbeam roof · ' +
   '1834 the fire: only the Hall, the cloister and the crypt survive · 1840 Barry & Pugin\u2019s new palace ' +
   'rises · 1847 Lords and 1852 Commons open · 1859 Elizabeth Tower (Big Ben) · 1860 Victoria Tower · ' +
-  'works finished c. 1870. Medieval buildings other than the Hall are drawn at typical sizes.';
+  'works finished c. 1870. Today\u2019s plan is traced from OpenStreetMap (\u00a9 OpenStreetMap contributors); ' +
+  'medieval buildings other than the Hall are drawn at typical sizes.';
 
 export function westminsterNote(monument: { model: string; title: string } | null | undefined): string | null {
   if (!monument) return null;
