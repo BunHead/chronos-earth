@@ -6,6 +6,18 @@ import { SKINS, type SkinId } from '../lib/skin';
 import { TONES, type ToneId } from '../lib/tone';
 import Glyph from './Glyph';
 import { PATREON_URL } from '../lib/manifest';
+import { activeLiteReasons, readLitePref, setLitePref, type LiteReason, type LitePref } from '../lib/liteMode';
+
+/** Plain words for why lite mode is on. */
+const LITE_WHY: Record<LiteReason, string> = {
+  mobile: 'phone or tablet',
+  touch: 'touch screen',
+  'low-memory': 'low memory',
+  'few-cores': 'few CPU cores',
+  'weak-gpu': 'basic graphics chip',
+  'slow-fps': 'slow start',
+  chosen: 'switched on',
+};
 
 interface AppMenuProps {
   tours: Tour[];
@@ -50,9 +62,8 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, onManife
   const [maker, setMaker] = useState(getLocalMaker());
   // Read once for the Performance switches' initial state. Both settings are
   // consumed when the globe is constructed, so changing either reloads.
-  const [lightGraphics] = useState(() => {
-    try { return localStorage.getItem('chronos.perf') === 'low'; } catch { return false; }
-  });
+  const [litePref] = useState(readLitePref);
+  const [liteWhy] = useState(activeLiteReasons);
   const [onDemand] = useState(() => {
     try { return localStorage.getItem('chronos.ondemand') !== '0'; } catch { return true; }
   });
@@ -234,23 +245,27 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, onManife
                   built, so both reload. */}
               <div className="app-menu-heading">Performance</div>
               <label className="app-menu-item toggle">
-                <input
-                  type="checkbox"
-                  defaultChecked={lightGraphics}
+                <span><Glyph name="feather" /> Lite Mode</span>
+                <select
+                  aria-label="Lite mode"
+                  defaultValue={litePref}
                   onChange={(e) => {
-                    try {
-                      if (e.target.checked) localStorage.setItem('chronos.perf', 'low');
-                      else localStorage.removeItem('chronos.perf');
-                    } catch { /* storage blocked — the choice just won't stick */ }
+                    setLitePref(e.target.value as LitePref);
                     location.reload();
                   }}
-                />
-                <span><Glyph name="feather" /> Lighter Graphics</span>
+                >
+                  <option value="auto">Auto</option>
+                  <option value="on">On</option>
+                  <option value="off">Off</option>
+                </select>
               </label>
               <div className="app-menu-note">
-                For older or slower machines: smaller map textures, simpler
-                terrain, and no haze or atmosphere. The globe looks a little
-                softer and runs a great deal faster. Reloads the page.
+                For phones and slower machines: fewer pins, softer picture,
+                no rivers, 3D buildings, haze or atmosphere. The globe runs a
+                great deal faster. Auto turns it on by itself for phones,
+                weak graphics chips and slow starts.{' '}
+                <strong>Now: {liteWhy.length ? `on (${liteWhy.map((r) => LITE_WHY[r]).join(', ')})` : 'off'}.</strong>{' '}
+                Reloads the page.
               </div>
               <label className="app-menu-item toggle">
                 <input
