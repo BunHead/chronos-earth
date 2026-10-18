@@ -124,6 +124,50 @@ export const FOSSIL_SITES = [
     'In 1875 William Denton named a sabre-tooth cat tooth from the asphalt in Los Angeles. The tar has trapped ' +
       'animals for the last 50,000 years or so — well under one million years — giving dire wolves, ' +
       'mammoths and thousands of Smilodon.'),
+  // Added 18 Oct 2026. Lyme Regis, Hell Creek, the Flaming Cliffs, Dinosaur
+  // Provincial Park, Liaoning (Yixian), Solnhofen, Ghost Ranch and La Brea were
+  // already on the globe; of that list only the Isle of Wight was missing.
+  // Polacanthus: Rev. William Fox, early 1865, Barnes High (Blows, biostor 165764).
+  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.7, -1.3, 'Q9679', 'Isle of Wight',
+    'Early in 1865 the Rev. William Fox found an armoured dinosaur, Polacanthus, at Barnes High. The island\'s ' +
+      'south-west cliffs are about 125 million years old (Early Cretaceous) and are among the richest dinosaur ' +
+      'grounds in Europe.',
+    'The Wessex Formation has no Wikidata point, so the pin is the island\'s own.'),
+  // Named by William Buckland, Geological Society of London, 20 Feb 1824 (oumnh.ox.ac.uk/megalosaurus-0).
+  site('stonesfield', 'Stonesfield: Megalosaurus, the first dinosaur named', 1824, 51.851, -1.429, 'Q2185932', 'Stonesfield',
+    'On 20 February 1824 William Buckland named Megalosaurus from bones dug from the slate pits at Stonesfield, ' +
+      'near Oxford — the first dinosaur ever given a scientific name. The slate is about 166 million years old ' +
+      '(Middle Jurassic).',
+    'Pinned at the Wikidata point for the village.'),
+  // Reed and Carlin's letter to O. C. Marsh, July 1877 (wyohistory.org/dates/july-19-1877).
+  site('como-bluff', 'Como Bluff: Marsh\'s dinosaur quarries', 1877, 41.916111, -106.064167, 'Q5155122', 'Como Bluff',
+    'In July 1877 two Union Pacific railwaymen, William Reed and William Carlin, wrote to O. C. Marsh about huge ' +
+      'bones at Como Bluff, Wyoming. His crews went on to dig Stegosaurus, Allosaurus and Brontosaurus there. The ' +
+      'rock is the Morrison Formation, about 150 million years old (Late Jurassic).'),
+  // Markgraf 1912, named by Stromer 1915, destroyed in the RAF raid on Munich of
+  // 24/25 April 1944 (scientificamerican.com tetrapod-zoology, Spinosaurus discovery).
+  site('bahariya', 'Bahariya Oasis: the first Spinosaurus', 1912, 28.40555556, 28.80555556, 'Q581427', 'Bahariya Formation',
+    'In 1912 Richard Markgraf dug up the first Spinosaurus in Egypt\'s Western Desert; Ernst Stromer named it in ' +
+      '1915. The bones were lost when Munich was bombed in April 1944. The rock is about 95 million years old ' +
+      '(Late Cretaceous).'),
+  // Hauff's body-outline ichthyosaur, 1892 (urweltmuseum.de/english). A Tübingen
+  // paper credits the soft-tissue finds to Fraas 1894; 1892 is the museum's own date.
+  site('holzmaden', 'Holzmaden: ichthyosaurs with their skin', 1892, 48.576666666, 9.518333333, 'Q2105647', 'Posidonia Shale',
+    'In 1892 Bernhard Hauff of Holzmaden showed an ichthyosaur prepared with its whole body outline, proving ' +
+      'these sea reptiles had a fin on their backs. The Posidonia Shale was laid down in a still, airless sea ' +
+      'about 183 million years ago (Early Jurassic).',
+    'Pinned at the Wikidata point for the Posidonia Shale, beside Holzmaden.'),
+  // Excavated 1976–77 by the Queensland Museum and University of Queensland
+  // (dinosaurtrackways.com.au fact sheet 1; Thulborn & Wade 1984).
+  site('lark-quarry', 'Lark Quarry dinosaur trackways dug out', 1976, -23.021171347, 142.399382558, 'Q724265', 'Lark Quarry Dinosaur Trackways',
+    'Dug out in 1976–77 by volunteers led by the Queensland Museum: about 3,300 footprints of small dinosaurs, ' +
+      'long read as a "stampede", now often as a river crossing. The sandstone is about 104–92 million years ' +
+      'old (Winton Formation, Cretaceous).'),
+  // Broom and Robinson, April 1947 (Wikidata Q1476862; Cradle of Humankind WHS, 1999).
+  site('sterkfontein', 'Sterkfontein: "Mrs Ples" found', 1947, -26.01604, 27.73456, 'Q1476862', 'Sterkfontein',
+    'In 1947 Robert Broom and John Robinson blasted out "Mrs Ples", the most complete skull of Australopithecus ' +
+      'africanus, from these caves near Johannesburg. It is about 2.5 million years old; the caves are part of ' +
+      'the Cradle of Humankind World Heritage Site.'),
 ];
 
 async function main() {
