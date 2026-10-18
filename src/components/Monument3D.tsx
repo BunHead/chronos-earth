@@ -1466,6 +1466,12 @@ const TURA = '#e2d7bd'; // fine white Tura limestone casing
 const TURA_RAW = '#e0d4b6'; // casing blocks laid but not yet dressed
 const CORE = ['#c7ad7f', '#bea475', '#c3a97a']; // the weathered local core stone
 const GRANITE = '#9c5f50'; // red Aswan granite
+/** Height of Khufu's (possible) gold capstone on the globe model, metres —
+ *  about 3× a real ~1.5 m pyramidion, so it can be seen. See buildGizaPart. */
+export const GIZA_CAP_H = 4.5;
+/** The old viewer's shiny gold (GOLD), with a touch of self-light so the
+ *  globe's lighting never turns the metal brown. */
+const GIZA_GOLD = new THREE.MeshStandardMaterial({ color: '#d4af37', metalness: 0.6, roughness: 0.32, emissive: '#d4af37', emissiveIntensity: 0.12, flatShading: true, side: THREE.DoubleSide });
 
 /** One horizontal slice [y0, y1] of a square pyramid (apex height H), with a
  * flat top cap when it stops short of the apex. UVs included: glTF needs them. */
@@ -1563,11 +1569,24 @@ function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | un
     if (y > s.granite) slice(s.granite, y, TURA_RAW);
     return;
   }
-  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex (no
-  // capstone drawn: it may have been gilded, but none survives and its finish
-  // is unknown).
+  // COMPLETE, as built: smooth Tura limestone casing to a pointed apex.
   if (s.granite) slice(0, s.granite, GRANITE);
   slice(s.granite, s.h, TURA);
+  // KHUFU'S GOLD CAPSTONE — A MAYBE, NOT A FACT (the Captain, 18 Oct 2026).
+  // Khufu's pyramidion may have been gilded (electrum), but none survives, so
+  // this is a possibility shown, and the info panel says so (gizaCapNote).
+  // Drawn only on the finished, cased pyramid: the -ruin model (1356 → today)
+  // has no tip at all. SCALE IS EXAGGERATED FOR VISIBILITY: a real pyramidion
+  // stood ~1.5 m; this one is GIZA_CAP_H (4.5 m, about 3×) so it reads on the
+  // globe. It sits PROUD of the casing (base 12% wider, apex 0.3 m higher) so
+  // its faces never share a plane with the white stone — no z-fighting.
+  if (model === 'giza-khufu') {
+    const base = (hx * GIZA_CAP_H) / s.h;
+    const cap = new THREE.Mesh(pyramidSlice(base * 1.12, ((hz * GIZA_CAP_H) / s.h) * 1.12, GIZA_CAP_H + 0.3, 0, GIZA_CAP_H + 0.3), GIZA_GOLD);
+    cap.position.y = s.h - GIZA_CAP_H;
+    cap.name = 'khufu-gold-cap';
+    group.add(cap);
+  }
 }
 
 export function buildModel(

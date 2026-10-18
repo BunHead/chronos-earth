@@ -4,6 +4,7 @@ import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
 import { flagCanvasFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
 import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
+import { gizaCapNote } from '../lib/gizaCap';
 import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
@@ -369,6 +370,11 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                   )}
                 </p>
               </div>
+            )}
+            {gizaCapNote(content.monument3d) && (
+              <p className="model-credit giza-cap-note" style={{ fontSize: '0.75em', opacity: 0.85, margin: '4px 0' }}>
+                ✨ {gizaCapNote(content.monument3d)}
+              </p>
             )}
             {content.monument3d?.model === 'sphinx' && (
               <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
