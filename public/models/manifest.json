@@ -519,5 +519,33 @@
   "yonaguni-rock": {
     "footprint": 220,
     "kb": 13
+  },
+  "stonehenge-site": {
+    "footprint": 124.293,
+    "kb": 214
+  },
+  "round-barrow": {
+    "footprint": 24,
+    "kb": 5
+  },
+  "stonehenge-site-ruin": {
+    "footprint": 102.278,
+    "kb": 172
+  },
+  "stonehenge-site-b15": {
+    "footprint": 122,
+    "kb": 87
+  },
+  "stonehenge-site-b35": {
+    "footprint": 122,
+    "kb": 86
+  },
+  "stonehenge-site-b60": {
+    "footprint": 122.663,
+    "kb": 189
+  },
+  "stonehenge-site-b80": {
+    "footprint": 124.293,
+    "kb": 190
   }
 }

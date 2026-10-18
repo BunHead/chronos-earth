@@ -118,6 +118,21 @@ const GIZA_CAUSEWAYS: Array<{ from: number; widthM: number; lonLat: number[] }> 
   { from: -2503, widthM: 5, lonLat: [31.129813, 29.97249, 31.1361, 29.972507] },
 ];
 const CAUSEWAY_UNTIL = 1356;
+/** The Stonehenge Avenue (c. 2400–2200 BCE): its two banks, ~14 m apart,
+ * DRAPED on the terrain so they follow the real ground down into Stonehenge
+ * Bottom. Only the straight first leg — 530 m NE from the entrance along the
+ * solstice axis (49.9°) — is drawn; the rest of its 2.8 km to the Avon bends
+ * east and is left to the photo. */
+const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
+  { from: -2300, until: 400, widthM: 4, lonLat: [-1.825607, 51.179295, -1.819798, 51.182362] },
+  { from: -2300, until: 400, widthM: 4, lonLat: [-1.825478, 51.179199, -1.819668, 51.182266] },
+];
+const STONEHENGE_BARROWS = [
+  { title: 'Bell barrow 100 m east of Stonehenge', lat: 51.1786, lon: -1.82365 }, // Q17673274
+  { title: 'Bowl barrow 230 m west of Stonehenge', lat: 51.1786, lon: -1.83063 }, // Q17673197
+  { title: 'Bowl barrow 300 m WSW of Stonehenge', lat: 51.1779, lon: -1.83135 }, // Q17673316
+  { title: 'Bowl barrow 650 m SSE of Stonehenge', lat: 51.173, lon: -1.82108 }, // Q17672522
+];
 
 // The MVP fleet — the same marquee sites the Workshop calibrated.
 const PLACEMENTS: Placement[] = [
@@ -169,8 +184,14 @@ const PLACEMENTS: Placement[] = [
   // The last sourced use is late-4th-century Roman coins and pottery — still
   // a ceremonial site (2008 excavation). It was 1500 BCE (the end of building
   // work), which showed the ruin through the whole Bronze and Iron Ages.
-  { model: 'stonehenge', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -2500, ruinYear: 400, buildYears: 400,
+  // STONEHENGE AS A WHOLE SITE OVER TIME (the Captain, 18 Oct 2026), true
+  // metres — stonehengeSite.ts, staged by STAGE_TABLE['stonehenge-site'].
+  { model: 'stonehenge-site', title: 'Stonehenge', lat: 51.1789, lon: -1.8262, builtYear: -1900, ruinYear: 400,
     cover: { rgb: [64, 91, 52], at: [[51.1789, -1.8262, 26]] } },
+  // A few of the round barrows nearest the stones (Bronze Age, c. 2200–1500
+  // BCE; here all from 1900 BCE). Positions: Wikidata / Historic England
+  // scheduling records. Representative, not the whole cemetery.
+  ...STONEHENGE_BARROWS.map((b) => ({ model: 'round-barrow', title: b.title, lat: b.lat, lon: b.lon, builtYear: -1900 })),
   { model: 'cathedral', title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499, builtYear: 1345 },
   // The Paris trio — all of Paris standing together from 1989 onward.
   { model: 'eiffel', title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945, builtYear: 1889 },
@@ -341,15 +362,15 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
 }
 
 /** The Giza causeways, draped on the terrain (GIZA_CAUSEWAYS). */
-const causeways: Array<{ entity: Cesium.Entity; from: number }> = [];
-const CAUSEWAY_AT = Cesium.Cartesian3.fromDegrees(31.1335, 29.976);
+// (Also the Stonehenge Avenue's banks — any dated, terrain-draped line.)
+const causeways: Array<{ entity: Cesium.Entity; from: number; until: number; at: Cesium.Cartesian3 }> = [];
 function gateCauseways(): void {
   const cam = theViewer?.camera;
   if (!cam) return;
   const curYear = yearsBPToYear(lastYearsBP);
-  const near = Cesium.Cartesian3.distance(cam.positionWC, CAUSEWAY_AT) < LOAD_DISTANCE;
   for (const c of causeways) {
-    const on = lastShowSites && near && curYear >= c.from && curYear < CAUSEWAY_UNTIL;
+    const near = Cesium.Cartesian3.distance(cam.positionWC, c.at) < LOAD_DISTANCE;
+    const on = lastShowSites && near && curYear >= c.from && curYear < c.until;
     if (c.entity.show !== on) c.entity.show = on;
   }
 }
@@ -571,15 +592,22 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   if (Cesium.ClippingPolygonCollection.isSupported(viewer.scene) && !viewer.scene.globe.clippingPolygons) {
     viewer.scene.globe.clippingPolygons = new Cesium.ClippingPolygonCollection();
   }
-  for (const c of GIZA_CAUSEWAYS) {
+  const drapes = [
+    ...GIZA_CAUSEWAYS.map((c) => ({ ...c, until: CAUSEWAY_UNTIL, rgb: [205, 190, 158], at: [31.1335, 29.976] })),
+    // The Avenue's banks: fresh chalk, greying as the turf takes them.
+    ...STONEHENGE_AVENUE.map((c) => ({ ...c, rgb: [176, 180, 140], at: [-1.8262, 51.1789] })),
+  ];
+  for (const c of drapes) {
     causeways.push({
       from: c.from,
+      until: c.until,
+      at: Cesium.Cartesian3.fromDegrees(c.at[0], c.at[1]),
       entity: viewer.entities.add({
         show: false,
         corridor: {
           positions: Cesium.Cartesian3.fromDegreesArray(c.lonLat),
           width: c.widthM,
-          material: Cesium.Color.fromBytes(205, 190, 158, 255),
+          material: Cesium.Color.fromBytes(c.rgb[0], c.rgb[1], c.rgb[2], 255),
           classificationType: Cesium.ClassificationType.TERRAIN,
         },
       }),

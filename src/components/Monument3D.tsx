@@ -11,6 +11,7 @@ import { phasesFor, phaseIndexAt } from '../lib/monumentPhases';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { buildMesoTemple, type MesoTemple } from './mesoTemple';
 import { buildAtlantis } from './atlantisCity';
+import { buildRoundBarrow, buildStonehengeSite, stonehengeStage } from './stonehengeSite';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
@@ -1619,6 +1620,12 @@ export function buildModel(
     }
     const c1 = tPillar(); c1.position.set(-1.2, 0, 0); group.add(c1);
     const c2 = tPillar(); c2.position.set(1.2, 0, 0); group.add(c2);
+  } else if (model === 'stonehenge-site') {
+    // The whole site over time, in true metres (stonehengeSite.ts).
+    ground = buildStonehengeSite(group, stonehengeStage(buildFrac), ruined);
+    if (ruined) group.userData.selfRuined = true;
+  } else if (model === 'round-barrow') {
+    ground = buildRoundBarrow(group);
   } else if (model === 'stonehenge') {
     buildStonehenge(group, phase, buildFrac);
   } else if (model === 'pyramid') {

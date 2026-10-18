@@ -32,6 +32,9 @@ const FLEET = [
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
+  // Stonehenge as a whole site over time, true metres (stonehengeSite.ts).
+  ['stonehenge-site', 'Stonehenge'],
+  ['round-barrow', 'Round barrow'],
   ['cathedral', 'Notre-Dame de Paris'],
   ['westminster', 'Palace of Westminster'],
   ['buckingham', 'Buckingham Palace'],
@@ -91,6 +94,7 @@ const RUINS = [
   ['amphitheatre', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
+  ['stonehenge-site', 'Stonehenge'],
   ['machu-picchu', 'Machu Picchu'],
   // Not a ruin but an EXCAVATION: the open pit as shown since 1974.
   ['terracotta-army', 'Terracotta Army'],
@@ -104,6 +108,8 @@ const BUILD_STAGES = [
   ['giza-khafre', 'Pyramid of Khafre', [30, 60, 90]],
   ['giza-menkaure', 'Pyramid of Menkaure', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
+  // b15 ditch & bank · b35 bluestones in the Aubrey holes · b60 sarsens · b80 Heel Stone ditch (Avenue draped)
+  ['stonehenge-site', 'Stonehenge', [15, 35, 60, 80]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
   // (The impact's five frames — b15/b30/b50/b72 + base — are built
   // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)
