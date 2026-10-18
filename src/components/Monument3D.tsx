@@ -12,6 +12,7 @@ import { buildMesoTemple, type MesoTemple } from './mesoTemple';
 import { buildAtlantis } from './atlantisCity';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
+import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
 import { isLite } from '../lib/liteMode';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -3294,9 +3295,14 @@ export function buildModel(
   } else if (model === 'impact') {
     // An impact told as a FIVE-frame sequence (buildFrac drives the frame):
     //   <0.2 comet FAR · <0.4 comet NEAR · <0.6 the IMPACT flash ·
-    //   <0.82 the FRESH raw crater · ≥0.82 the SETTLED, weathered crater.
-    ground = '#3a3a42';
+    //   <0.82 the FRESH crater · ≥0.82 the SETTLED, weathered crater.
+    // The ground itself is one heightfield from lib/craterMesh — the same mesh
+    // scripts/build-impact-crater.mjs writes to the globe's .glb files: a bowl
+    // dug BELOW ground, a raised irregular rim, an ejecta blanket with rays.
+    ground = '#9a8b70';
     const f = buildFrac ?? 1;
+    // The viewer's ground disc would lid the bowl: cut it back to the crater's edge.
+    group.userData.groundHoleR = CRATER_OUTER * 0.98;
     const glow = (c: string, e: string, ei: number) =>
       new THREE.MeshStandardMaterial({ color: c, emissive: e, emissiveIntensity: ei });
     const dir = new THREE.Vector3(8, -12, 5).normalize(); // the bolide's heading into ground zero
@@ -3313,77 +3319,43 @@ export function buildModel(
       trail.userData.noShadow = true;
       group.add(trail);
     };
-    const disc = (r: number, col: string) => {
-      const s = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.16, 44), stoneLike({ color: col }));
-      s.position.y = 0.06;
-      group.add(s);
+    const land = (o: CraterOpts) => {
+      const m = craterMesh(o);
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(m.positions, 3));
+      g.setAttribute('normal', new THREE.BufferAttribute(m.normals, 3));
+      g.setAttribute('color', new THREE.BufferAttribute(m.colors, 3));
+      g.setIndex(new THREE.BufferAttribute(m.indices, 1));
+      const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 }));
+      mesh.receiveShadow = true;
+      group.add(mesh);
     };
     if (f < 0.2) {
-      // --- COMET FAR: pristine desert floor, the bolide a distant streak on high. ---
-      disc(8, '#8f8574');
+      // --- COMET FAR: untouched ground, the bolide a distant streak on high. ---
+      land({ kind: 'flat', fresh: true });
       cometAt(16, 0.85, 2.2);
     } else if (f < 0.4) {
       // --- COMET NEAR: ground zero already scorching, the fireball almost down. ---
-      disc(8, '#39332b');
-      const tgt = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.5, 8, 32), stoneLike({ color: '#241f19' }));
-      tgt.rotation.x = -Math.PI / 2; tgt.position.y = 0.16;
-      group.add(tgt);
+      land({ kind: 'flat', fresh: true, scorch: true });
       cometAt(6, 1.55, 2.7);
     } else if (f < 0.6) {
-      // --- IMPACT: the flash, ejecta starburst, shock ring, raw gouged bowl. ---
-      const core = new THREE.Mesh(new THREE.SphereGeometry(2.6, 20, 16), glow('#ffffff', '#ffd27a', 3.0));
-      core.position.y = 1.2; core.userData.noShadow = true;
+      // --- IMPACT: the fireball over the deep transient bowl (a simple bowl —
+      //     it slumps into the complex form next), an ejecta curtain flung out. ---
+      land({ kind: 'simple', fresh: true, scorch: true });
+      const core = new THREE.Mesh(new THREE.SphereGeometry(2.4, 20, 16), glow('#ffffff', '#ffd27a', 3.0));
+      core.position.y = 1.0; core.userData.noShadow = true;
       group.add(core);
-      const fire = new THREE.Mesh(new THREE.SphereGeometry(3.6, 20, 16), glow('#ffb14a', '#ff7a1e', 2.2));
-      fire.position.y = 1.4; fire.scale.set(1, 0.8, 1); fire.userData.noShadow = true;
-      fire.material.transparent = true; fire.material.opacity = 0.75;
-      group.add(fire);
-      for (let i = 0; i < 12; i++) {
-        const a = (i / 12) * Math.PI * 2;
-        const ray = new THREE.Mesh(new THREE.ConeGeometry(0.35, 5.5, 6), glow('#ff9b3d', '#ff6a12', 1.6));
-        const tip = new THREE.Vector3(Math.cos(a), 0, Math.sin(a)).multiplyScalar(6).add(new THREE.Vector3(0, 4.5, 0));
-        ray.position.copy(tip).multiplyScalar(0.5).add(new THREE.Vector3(0, 0.5, 0));
-        ray.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tip.clone().normalize());
-        ray.userData.noShadow = true;
-        group.add(ray);
-      }
-      const shock = new THREE.Mesh(new THREE.TorusGeometry(7.3, 0.7, 10, 40), stoneLike({ color: '#6b6862' }));
-      shock.rotation.x = -Math.PI / 2; shock.position.y = 0.3;
-      group.add(shock);
-      const raw = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 3.4, 1.1, 32), stoneLike({ color: '#4a473f' }));
-      raw.position.y = -0.2;
-      group.add(raw);
+      const curtain = new THREE.Mesh(
+        new THREE.CylinderGeometry(7.0, 4.4, 3.0, 24, 1, true),
+        new THREE.MeshStandardMaterial({ color: '#6b5a45', emissive: '#3a1a06', transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+      );
+      curtain.position.y = 1.7; curtain.userData.noShadow = true;
+      group.add(curtain);
     } else {
-      // --- AFTERMATH: a realistic complex crater — an overturned raised rim,
-      //     terraced (slumped) inner walls stepping down to a sunk floor, and a
-      //     central uplift peak. FRESH (dark, sharp) at first, then SETTLED
-      //     (weathered, softened, shallower, part-infilled) after long ages. ---
-      const fresh = f < 0.82;
-      const rimCol = fresh ? '#514c43' : '#726a5b';
-      const wallCol = fresh ? '#453f37' : '#645d50';
-      const floorCol = fresh ? '#38352d' : '#5a5348';
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(7, 1.5, 14, 44), stoneLike({ color: rimCol, flatShading: true }));
-      rim.rotation.x = -Math.PI / 2; rim.position.y = fresh ? 0.5 : 0.32;
-      group.add(rim);
-      const terr = fresh ? 3 : 2; // slumped, terraced inner walls
-      for (let i = 0; i < terr; i++) {
-        const rTop = 6.3 - i * 1.7;
-        const step = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rTop - 1.5, 0.5, 40), stoneLike({ color: wallCol, flatShading: true }));
-        step.position.y = (fresh ? 0.1 : 0.03) - i * (fresh ? 0.28 : 0.2);
-        group.add(step);
-      }
-      const floor = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.0, 0.45, 36), stoneLike({ color: floorCol }));
-      floor.position.y = fresh ? -0.32 : -0.16;
-      group.add(floor);
-      const peak = new THREE.Mesh(new THREE.ConeGeometry(fresh ? 1.5 : 1.05, fresh ? 2.1 : 1.3, 14), stoneLike({ color: rimCol, flatShading: true }));
-      peak.position.y = fresh ? 0.2 : 0.05;
-      group.add(peak);
-      const rays = fresh ? 16 : 9; // ejecta apron — short radial stubs hugging the rim
-      for (let i = 0; i < rays; i++) {
-        const a = (i / rays) * Math.PI * 2;
-        const len = 0.8 + (i % 3) * 0.32;
-        group.add(block(0.5, 0.14, len, Math.cos(a) * 7.9, 0.12, Math.sin(a) * 7.9, fresh ? (i % 2 ? '#33302a' : '#413c34') : '#6f6858', Math.PI / 2 - a));
-      }
+      // --- AFTERMATH: a complex crater (as at Hiawatha, where the pin stands) —
+      //     flat floor below ground, slumped terraced walls, central peak. FRESH
+      //     (sharp, bright rays) at first, then SETTLED (worn, shallower). ---
+      land({ kind: 'complex', fresh: f < 0.82 });
     }
   } else if (model === 'rings') {
     // Plato's ATLANTIS, IMAGINED — rebuilt 15 Oct 2026 from the Critias' own
@@ -6722,7 +6694,9 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
         groundMat.needsUpdate = true;
       });
     }
-    const groundMesh = new THREE.Mesh(new THREE.CircleGeometry(40, 48), groundMat);
+    // A crater carries its own ground, dug below this one: leave it a hole.
+    const holeR = group.userData.groundHoleR as number | undefined;
+    const groundMesh = new THREE.Mesh(holeR ? new THREE.RingGeometry(holeR, 40, 48, 1) : new THREE.CircleGeometry(40, 48), groundMat);
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
