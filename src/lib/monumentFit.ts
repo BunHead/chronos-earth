@@ -98,6 +98,10 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
 const BY_MODEL: Record<string, MonumentFit> = {
   tpillars: { widthM: 30, facingDeg: 0 },
   stonehenge: { widthM: 110, facingDeg: 0 },
+  // Authored in true metres (stonehengeSite.ts), so widthM = the exported
+  // footprint and the site stands at scale 1; north-aligned like Giza.
+  'stonehenge-site': { widthM: 124.3, facingDeg: 0 },
+  'round-barrow': { widthM: 24, facingDeg: 0 },
   pyramid: { widthM: 200, facingDeg: 0 },
   'stepped-pyramid': { widthM: 120, facingDeg: 0 },
   sphinx: { widthM: 73, facingDeg: 90 },

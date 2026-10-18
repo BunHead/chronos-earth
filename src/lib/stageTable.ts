@@ -40,6 +40,14 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: -3500, suffix: '-b78' }, // Uruk: the great terrace
     { from: -2050, suffix: '' },     // Amar-Sin's ziggurat — the base glb
   ],
+  // Stonehenge as a whole site (stonehengeSite.ts) — English Heritage dates.
+  'stonehenge-site': [
+    { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes
+    { from: -2900, suffix: '-b35' }, // bluestones standing in the Aubrey holes
+    { from: -2500, suffix: '-b60' }, // sarsen circle, lintels, trilithons
+    { from: -2300, suffix: '-b80' }, // the Avenue (draped) and the Heel Stone ditch
+    { from: -1900, suffix: '' },     // bluestone horseshoe; round barrows around
+  ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort
     { from: 1100, suffix: '-b35' }, // the White Tower alone
