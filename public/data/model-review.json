@@ -536,12 +536,5 @@
       "northM": 20
     },
     "ts": 1792086781043
-  },
-  "place:westminster-site@51.499,-0.125": {
-    "transform": {
-      "headingDeg": 7.5,
-      "eastM": 30
-    },
-    "ts": 1784798475310
   }
 }
