@@ -55,7 +55,6 @@ export const ELIZABETH = { u: centroid(PART['Elizabeth Tower'])[0], v: centroid(
 export const VICTORIA = { u: centroid(PART['Victoria Tower'])[0], v: centroid(PART['Victoria Tower'])[1], w: 22.6 };
 export const CENTRAL = { u: 3, v: -12 };                     // the Central Lobby and its tower
 const OLD_RIVER_U = 25;                                      // the river wall before Barry's embankment
-const RIVER_U = 60;                                          // today's embankment, east of the river front
 
 /** buildFrac -> stage (the -bNN exports: b10 b30 b45 b60 b75 b90, '' = 7). */
 export function westminsterStage(buildFrac: number | undefined): number {
@@ -88,7 +87,7 @@ const GLASS = '#2f3742';
 const GOLD = '#c9a64b';
 const CHAR = '#3b3732';
 const CHAR_LT = '#57504a';
-const WATER = '#43514a';      // the Thames, as the photo reads it
+const WATER = '#3f4a3c';      // the Thames, as the photo reads it
 
 /** Collects boxes by colour and merges them, so hundreds of windows cost one mesh each. */
 class Batch {
@@ -135,6 +134,22 @@ function pip(p: P2[], u: number, v: number): boolean {
     if ((vi > v) !== (vj > v) && u < ((uj - ui) * (v - vi)) / (vj - vi) + ui) inside = !inside;
   }
   return inside;
+}
+/** The part of a polygon with u >= u0 (Sutherland-Hodgman against one line). */
+function clipHalfPlane(p: P2[], u0: number): P2[] {
+  const out: P2[] = [];
+  for (let i = 0; i < p.length; i++) {
+    const a = p[i];
+    const b = p[(i + 1) % p.length];
+    const ina = a[0] >= u0;
+    const inb = b[0] >= u0;
+    if (ina) out.push(a);
+    if (ina !== inb) {
+      const t = (u0 - a[0]) / (b[0] - a[0]);
+      out.push([u0, a[1] + t * (b[1] - a[1])]);
+    }
+  }
+  return out;
 }
 function signedArea(p: P2[]): number {
   let a = 0;
@@ -396,12 +411,18 @@ export function buildMedieval(site: THREE.Group, stage: number): string {
   }
   // The old river wall, and the Thames up to it: Barry's embankment later
   // reclaimed this strip for the new river front.
-  B.box(STONE_DK, 2, 2.4, 245, OLD_RIVER_U, 1.2, -10);
+  B.box(STONE_DK, 2, 2.4, 262, OLD_RIVER_U, 1.2, -8); // along the palace's length
   B.flush(site);
-  const water = new THREE.Mesh(new THREE.BoxGeometry(RIVER_U - OLD_RIVER_U, 0.1, 290), mat(WATER, { rough: 0.35, flat: false }));
-  water.position.set((OLD_RIVER_U + RIVER_U) / 2 + 1, 0.05, 6);
-  water.userData.noShadow = true;
-  site.add(water);
+  // The Thames came up to the old river wall: water over exactly the strip of
+  // today's palace that Barry's embankment later reclaimed (the palace plan
+  // east of the old wall), so it meets the photo's real river at the
+  // embankment line and never spills out over it.
+  const strip = clipHalfPlane(OUTER, OLD_RIVER_U + 1);
+  if (strip.length >= 3) {
+    const water = new THREE.Mesh(prism(strip, [], 0.12), mat(WATER, { rough: 0.35, flat: false }));
+    water.userData.noShadow = true;
+    site.add(water);
+  }
   return '#5f6450';
 }
 

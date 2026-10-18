@@ -553,16 +553,16 @@
     "kb": 60
   },
   "westminster-site-b10": {
-    "footprint": 255.077,
-    "kb": 11
-  },
-  "westminster-site-b30": {
-    "footprint": 255.328,
+    "footprint": 271.868,
     "kb": 12
   },
-  "westminster-site-b45": {
-    "footprint": 255.328,
+  "westminster-site-b30": {
+    "footprint": 272.118,
     "kb": 13
+  },
+  "westminster-site-b45": {
+    "footprint": 272.118,
+    "kb": 14
   },
   "westminster-site-b60": {
     "footprint": 301.57,
