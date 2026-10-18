@@ -27240,6 +27240,2308 @@
       ],
       "loser": "a",
       "severity": 1.3
+    },
+    "sedan": {
+      "title": "Battle of Sedan",
+      "subtitle": "1–2 September 1870 — Moltke's ring closes on Napoleon III and the Army of Châlons",
+      "sides": {
+        "a": {
+          "name": "French Army of Châlons (MacMahon, then Ducrot and Wimpffen)",
+          "color": "#2f56a6"
+        },
+        "b": {
+          "name": "German armies (Moltke)",
+          "color": "#4a4a4a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              96,
+              62
+            ],
+            [
+              66,
+              53
+            ],
+            [
+              48,
+              47
+            ],
+            [
+              30,
+              49
+            ],
+            [
+              20,
+              42
+            ],
+            [
+              10,
+              47
+            ],
+            [
+              0,
+              50
+            ]
+          ],
+          "label": "Meuse"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              66,
+              53
+            ],
+            [
+              68,
+              40
+            ],
+            [
+              66,
+              24
+            ],
+            [
+              64,
+              8
+            ]
+          ],
+          "label": "Givonne stream"
+        },
+        {
+          "type": "town",
+          "x": 45,
+          "y": 42,
+          "r": 4,
+          "label": "Sedan"
+        },
+        {
+          "type": "town",
+          "x": 54,
+          "y": 46,
+          "r": 2,
+          "label": "Balan"
+        },
+        {
+          "type": "town",
+          "x": 66,
+          "y": 51,
+          "r": 2.5,
+          "label": "Bazeilles"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 30,
+          "r": 2.5,
+          "label": "Floing"
+        },
+        {
+          "type": "town",
+          "x": 48,
+          "y": 10,
+          "r": 2.5,
+          "label": "Illy"
+        },
+        {
+          "type": "town",
+          "x": 8,
+          "y": 47,
+          "r": 2,
+          "label": "Donchery"
+        },
+        {
+          "type": "hill",
+          "x": 46,
+          "y": 17,
+          "r": 4,
+          "label": "Calvaire d'Illy"
+        },
+        {
+          "type": "forest",
+          "x": 54,
+          "y": 25,
+          "r": 5
+        },
+        {
+          "type": "hill",
+          "x": 38,
+          "y": 62,
+          "r": 6,
+          "label": "Heights of Frénois"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Into the bowl",
+          "narration": "Mauled at Beaumont, the Army of Châlons — some 120,000 men with Napoleon III himself — falls back into a triangle of heights around the old fortress of Sedan, with the Meuse at its back. Through the night the Germans, about 200,000 strong, close from the south and east while two Prussian corps cross the Meuse at Donchery to the west."
+        },
+        {
+          "name": "Bazeilles at four in the morning",
+          "narration": "At 04:00 a Bavarian brigade crosses the Meuse on pontoon bridges and storms into Bazeilles. French marines fight from house to house until Bavarian guns bring the buildings down; by 06:00 the Saxons are attacking La Moncelle on the Givonne.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                58
+              ],
+              "to": [
+                65,
+                51
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                78,
+                44
+              ],
+              "to": [
+                69,
+                45
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Three commanders before nine",
+          "narration": "MacMahon is wounded early and hands command to Ducrot, who orders the westward retreat Moltke had expected. Wimpffen produces a commission naming him successor, cancels the retreat and counter-attacks the Saxons at La Moncelle — while behind him the Prussian V and XI Corps swing round to the north-west and close the ring by 09:00.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                44
+              ],
+              "to": [
+                70,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The ring of guns",
+          "narration": "German batteries — over 700 guns — line every height around the pocket, including Frénois across the river, and grind the French down. Wimpffen orders a breakout to the south-east at 13:00 and it fails; above Floing the Prussian 22nd Division turns Douay’s left flank and the French front is breached.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                24
+              ],
+              "to": [
+                33,
+                27
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                52,
+                44
+              ],
+              "to": [
+                60,
+                49
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Margueritte's charges",
+          "narration": "Ducrot throws General Margueritte’s cavalry, the Chasseurs d’Afrique, at the Prussians above Floing. Margueritte is mortally wounded in the first of three charges and the rest break on German rifle fire by 15:00; meanwhile the Calvaire d’Illy falls, the 7th Corps breaks, and the Prussian Guard clears the Bois de la Garenne.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                27
+              ],
+              "to": [
+                29,
+                27
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                11
+              ],
+              "to": [
+                45,
+                16
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                66,
+                20
+              ],
+              "to": [
+                56,
+                24
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The white flag",
+          "narration": "Crammed into the town under shellfire, the army is finished. Napoleon III has the white flag raised over Sedan; Wimpffen tries one last sortie towards Balan and is thrown back. At 11:30 on 2 September he signs the capitulation: some 104,000 men and 558 guns pass into captivity, and the Emperor with them.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                44
+              ],
+              "to": [
+                56,
+                47
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "fr-12th",
+          "side": "a",
+          "label": "12th Corps (Lebrun)",
+          "pos": [
+            [
+              63,
+              49
+            ],
+            [
+              63,
+              49
+            ],
+            [
+              62,
+              47
+            ],
+            [
+              57,
+              46
+            ],
+            [
+              52,
+              44
+            ],
+            [
+              47,
+              42
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "cap"
+        },
+        {
+          "id": "fr-1st",
+          "side": "a",
+          "label": "1st Corps (Ducrot)",
+          "pos": [
+            [
+              62,
+              32
+            ],
+            [
+              62,
+              32
+            ],
+            [
+              60,
+              32
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              54,
+              32
+            ],
+            [
+              48,
+              40
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "cap"
+        },
+        {
+          "id": "fr-7th",
+          "side": "a",
+          "label": "7th Corps (Douay)",
+          "pos": [
+            [
+              38,
+              23
+            ],
+            [
+              38,
+              23
+            ],
+            [
+              38,
+              23
+            ],
+            [
+              38,
+              25
+            ],
+            [
+              42,
+              30
+            ],
+            [
+              44,
+              38
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "cap"
+        },
+        {
+          "id": "fr-5th",
+          "side": "a",
+          "label": "5th Corps (Wimpffen)",
+          "pos": [
+            [
+              48,
+              32
+            ],
+            [
+              48,
+              32
+            ],
+            [
+              58,
+              43
+            ],
+            [
+              52,
+              44
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              50,
+              44
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "cap"
+        },
+        {
+          "id": "margueritte",
+          "side": "a",
+          "label": "Margueritte's cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              46,
+              27
+            ],
+            [
+              46,
+              27
+            ],
+            [
+              46,
+              27
+            ],
+            [
+              44,
+              27
+            ],
+            [
+              35,
+              28
+            ],
+            [
+              44,
+              36
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "cap"
+        },
+        {
+          "id": "bav-1",
+          "side": "b",
+          "label": "I Bavarian Corps (von der Tann)",
+          "pos": [
+            [
+              62,
+              64
+            ],
+            [
+              66,
+              55
+            ],
+            [
+              66,
+              53
+            ],
+            [
+              61,
+              50
+            ],
+            [
+              58,
+              48
+            ],
+            [
+              54,
+              48
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "saxon-12",
+          "side": "b",
+          "label": "XII Saxon Corps",
+          "pos": [
+            [
+              84,
+              40
+            ],
+            [
+              74,
+              44
+            ],
+            [
+              72,
+              44
+            ],
+            [
+              68,
+              42
+            ],
+            [
+              64,
+              38
+            ],
+            [
+              58,
+              40
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "guard",
+          "side": "b",
+          "label": "Prussian Guard Corps",
+          "pos": [
+            [
+              86,
+              22
+            ],
+            [
+              80,
+              22
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              68,
+              20
+            ],
+            [
+              57,
+              23
+            ],
+            [
+              52,
+              28
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "xi",
+          "side": "b",
+          "label": "Prussian XI Corps",
+          "pos": [
+            [
+              10,
+              54
+            ],
+            [
+              14,
+              40
+            ],
+            [
+              21,
+              24
+            ],
+            [
+              24,
+              25
+            ],
+            [
+              29,
+              27
+            ],
+            [
+              36,
+              30
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "v",
+          "side": "b",
+          "label": "Prussian V Corps",
+          "pos": [
+            [
+              5,
+              46
+            ],
+            [
+              12,
+              34
+            ],
+            [
+              30,
+              9
+            ],
+            [
+              38,
+              11
+            ],
+            [
+              44,
+              15
+            ],
+            [
+              44,
+              22
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "bav-2",
+          "side": "b",
+          "label": "II Bavarian Corps & guns (south bank)",
+          "pos": [
+            [
+              36,
+              63
+            ],
+            [
+              36,
+              63
+            ],
+            [
+              36,
+              62
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              38,
+              58
+            ],
+            [
+              40,
+              56
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "pickelhaube"
+        }
+      ],
+      "loser": "a",
+      "severity": 1.3
+    },
+    "sekigahara-1600": {
+      "title": "Battle of Sekigahara",
+      "subtitle": "21 October 1600 — Tokugawa Ieyasu against Ishida Mitsunari’s Western Army",
+      "sides": {
+        "a": {
+          "name": "Eastern Army (Tokugawa Ieyasu)",
+          "color": "#2d4a7a"
+        },
+        "b": {
+          "name": "Western Army (Ishida Mitsunari)",
+          "color": "#a83232"
+        }
+      },
+      "terrain": [
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              36
+            ],
+            [
+              100,
+              36
+            ]
+          ],
+          "label": "Nakasendō"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 34,
+          "r": 2.5,
+          "label": "Sekigahara"
+        },
+        {
+          "type": "hill",
+          "x": 21,
+          "y": 13,
+          "r": 5,
+          "label": "Sasaoyama (Ishida)"
+        },
+        {
+          "type": "hill",
+          "x": 23,
+          "y": 66,
+          "r": 6,
+          "label": "Mt Matsuo (Kobayakawa)"
+        },
+        {
+          "type": "hill",
+          "x": 76,
+          "y": 28,
+          "r": 4,
+          "label": "Momokubariyama (Ieyasu)"
+        },
+        {
+          "type": "hill",
+          "x": 92,
+          "y": 54,
+          "r": 7,
+          "label": "Mt Nangū (Mōri)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Fog in the valley",
+          "narration": "At dawn, after days of rain, fog fills the narrow valley where the Nakasendō crosses the hills. The Western Army, about 80,000 strong, holds an arc of high ground across its western end, from Ishida’s hill in the north to Kobayakawa Hideaki’s camp on Mt Matsuo in the south; some 89,000 Eastern troops fill the valley floor, with Mōri and Kikkawa camped on Mt Nangū behind them. The advance guards blunder into each other and pull back."
+        },
+        {
+          "name": "Ii Naomasa opens the battle",
+          "narration": "As the fog lifts — traditionally at about 08:00, though recent Japanese research and a letter from Ieyasu point nearer 10:00 — Ii Naomasa leads his 3,600 against the Western centre. Fukushima Masanori crashes into Ukita Hideie’s 17,000 in the south, Kuroda and Hosokawa climb towards Ishida, and the line locks into deadlock.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                30
+              ],
+              "to": [
+                28,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                44
+              ],
+              "to": [
+                27,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                16
+              ],
+              "to": [
+                24,
+                16
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Mount Matsuo decides",
+          "narration": "Kobayakawa’s 15,600 come down off Mt Matsuo into the flank of Ōtani Yoshitsugu, and Wakisaka, Ogawa, Akaza and Kutsuki turn on him too. Edo-period sources say Ieyasu forced the waverer’s hand with arquebus fire; modern historians, Stephen Turnbull among them, doubt the story, and letters suggest Kobayakawa had promised himself to the East before the battle.",
+          "arrows": [
+            {
+              "from": [
+                23,
+                60
+              ],
+              "to": [
+                19,
+                55
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                58
+              ],
+              "to": [
+                21,
+                55
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The right wing rolls up",
+          "narration": "Ōtani takes his own life and his wing dissolves. Fukushima and Kobayakawa roll up the Western right; Ukita’s and Konishi’s men give way, Shima Sakon falls to an arquebus as Kuroda’s flanking force reaches Ishida, and Mitsunari begins to withdraw. On Mt Nangū the Mōri never move: Kikkawa Hiroie, already in talks with Ieyasu, blocks the road down.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                44
+              ],
+              "to": [
+                20,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                22,
+                50
+              ],
+              "to": [
+                20,
+                36
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                16
+              ],
+              "to": [
+                19,
+                13
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Shimazu breakout",
+          "narration": "Surrounded, Shimazu Yoshihiro’s 1,500 charge forward straight through the Eastern Army rather than back, and only about 200 come out the far side; Ii Naomasa, pursuing, is brought down by a rifle shot. Mitsunari escapes into the hills, to be captured and executed on 6 November. One modern estimate puts the whole battle at only two hours.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                28
+              ],
+              "to": [
+                60,
+                41
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                34
+              ],
+              "to": [
+                56,
+                39
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "ieyasu",
+          "side": "a",
+          "label": "Tokugawa Ieyasu (HQ)",
+          "pos": [
+            [
+              76,
+              30
+            ],
+            [
+              74,
+              30
+            ],
+            [
+              70,
+              30
+            ],
+            [
+              60,
+              30
+            ],
+            [
+              56,
+              28
+            ]
+          ],
+          "strength": 30000
+        },
+        {
+          "id": "ii",
+          "side": "a",
+          "label": "Ii Naomasa",
+          "pos": [
+            [
+              44,
+              30
+            ],
+            [
+              32,
+              31
+            ],
+            [
+              34,
+              31
+            ],
+            [
+              32,
+              31
+            ],
+            [
+              54,
+              37
+            ]
+          ],
+          "strength": 3600
+        },
+        {
+          "id": "fukushima",
+          "side": "a",
+          "label": "Fukushima Masanori",
+          "pos": [
+            [
+              42,
+              44
+            ],
+            [
+              30,
+              44
+            ],
+            [
+              32,
+              44
+            ],
+            [
+              24,
+              44
+            ],
+            [
+              22,
+              40
+            ]
+          ],
+          "strength": 6000
+        },
+        {
+          "id": "kuroda-hosokawa",
+          "side": "a",
+          "label": "Kuroda & Hosokawa",
+          "pos": [
+            [
+              42,
+              16
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              24,
+              15
+            ],
+            [
+              22,
+              13
+            ]
+          ],
+          "strength": 10400
+        },
+        {
+          "id": "todo-kyogoku",
+          "side": "a",
+          "label": "Tōdō & Kyōgoku",
+          "pos": [
+            [
+              42,
+              54
+            ],
+            [
+              34,
+              54
+            ],
+            [
+              32,
+              54
+            ],
+            [
+              24,
+              52
+            ],
+            [
+              22,
+              48
+            ]
+          ],
+          "strength": 5500
+        },
+        {
+          "id": "kobayakawa",
+          "side": "a",
+          "label": "Kobayakawa Hideaki (turned)",
+          "pos": [
+            [
+              23,
+              66
+            ],
+            [
+              23,
+              66
+            ],
+            [
+              21,
+              57
+            ],
+            [
+              22,
+              47
+            ],
+            [
+              20,
+              40
+            ]
+          ],
+          "strength": 15600
+        },
+        {
+          "id": "wakisaka",
+          "side": "a",
+          "label": "Wakisaka & three lords (turned)",
+          "pos": [
+            [
+              29,
+              60
+            ],
+            [
+              29,
+              60
+            ],
+            [
+              23,
+              56
+            ],
+            [
+              22,
+              51
+            ],
+            [
+              20,
+              46
+            ]
+          ],
+          "strength": 4200
+        },
+        {
+          "id": "ishida",
+          "side": "b",
+          "label": "Ishida Mitsunari & Shima Sakon",
+          "pos": [
+            [
+              22,
+              16
+            ],
+            [
+              22,
+              16
+            ],
+            [
+              22,
+              16
+            ],
+            [
+              16,
+              12
+            ],
+            [
+              6,
+              6
+            ]
+          ],
+          "strength": 4000
+        },
+        {
+          "id": "shimazu",
+          "side": "b",
+          "label": "Shimazu Yoshihiro",
+          "pos": [
+            [
+              26,
+              26
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              26,
+              26
+            ],
+            [
+              62,
+              42
+            ]
+          ],
+          "strength": 1500
+        },
+        {
+          "id": "konishi",
+          "side": "b",
+          "label": "Konishi Yukinaga",
+          "pos": [
+            [
+              26,
+              33
+            ],
+            [
+              26,
+              33
+            ],
+            [
+              26,
+              33
+            ],
+            [
+              16,
+              31
+            ],
+            [
+              6,
+              28
+            ]
+          ],
+          "strength": 4000
+        },
+        {
+          "id": "ukita",
+          "side": "b",
+          "label": "Ukita Hideie",
+          "pos": [
+            [
+              24,
+              44
+            ],
+            [
+              26,
+              44
+            ],
+            [
+              26,
+              44
+            ],
+            [
+              16,
+              44
+            ],
+            [
+              6,
+              40
+            ]
+          ],
+          "strength": 17000
+        },
+        {
+          "id": "otani",
+          "side": "b",
+          "label": "Ōtani Yoshitsugu",
+          "pos": [
+            [
+              19,
+              54
+            ],
+            [
+              19,
+              54
+            ],
+            [
+              18,
+              54
+            ],
+            [
+              12,
+              56
+            ],
+            [
+              6,
+              60
+            ]
+          ],
+          "strength": 600
+        },
+        {
+          "id": "mori",
+          "side": "b",
+          "label": "Mōri & Kikkawa (never engaged)",
+          "pos": [
+            [
+              92,
+              52
+            ],
+            [
+              92,
+              52
+            ],
+            [
+              92,
+              52
+            ],
+            [
+              92,
+              52
+            ],
+            [
+              94,
+              54
+            ]
+          ],
+          "strength": 18000
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "towton-1461": {
+      "title": "Battle of Towton",
+      "subtitle": "Palm Sunday, 29 March 1461 — York against Lancaster in a snowstorm",
+      "sides": {
+        "a": {
+          "name": "House of York (Edward IV, Fauconberg)",
+          "color": "#3d5a99"
+        },
+        "b": {
+          "name": "House of Lancaster (Somerset)",
+          "color": "#c0392b"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 50,
+          "y": 5,
+          "r": 3,
+          "label": "Towton"
+        },
+        {
+          "type": "town",
+          "x": 42,
+          "y": 66,
+          "r": 3,
+          "label": "Saxton"
+        },
+        {
+          "type": "ridge",
+          "x": 48,
+          "y": 30,
+          "w": 50,
+          "h": 4,
+          "label": "Towton Dale"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              30,
+              70
+            ],
+            [
+              18,
+              50
+            ],
+            [
+              13,
+              30
+            ],
+            [
+              19,
+              12
+            ],
+            [
+              38,
+              1
+            ]
+          ],
+          "label": "Cock Beck"
+        },
+        {
+          "type": "forest",
+          "x": 19,
+          "y": 33,
+          "r": 5
+        },
+        {
+          "type": "forest",
+          "x": 22,
+          "y": 14,
+          "r": 4
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              80,
+              70
+            ],
+            [
+              76,
+              44
+            ],
+            [
+              66,
+              8
+            ]
+          ],
+          "label": "Old London Road"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Palm Sunday on the plateau",
+          "narration": "On the plateau between Saxton and Towton the Lancastrians stand behind Towton Dale, a natural ditch across the field. The Yorkists crest the southern ridge as snow begins to fall. Chroniclers claimed hundreds of thousands; modern historians put both armies together at 50,000–65,000 — still perhaps the largest ever to meet on English soil."
+        },
+        {
+          "name": "Arrows on the wind",
+          "narration": "Lord Fauconberg sees the snow driving into Lancastrian faces. His archers loose long-range volleys that the wind carries home, then step back; the blinded Lancastrian reply falls short, and the Yorkists pick up the fallen arrows and shoot them back.",
+          "arrows": [
+            {
+              "from": [
+                45,
+                37
+              ],
+              "to": [
+                45,
+                25
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Into the dale",
+          "narration": "Goaded past bearing, the Lancastrians abandon their position and come down into close combat. Mounted men hidden in Castle Hill Wood strike the Yorkist left, the line wavers, and the eighteen-year-old Edward rides there in person to hold it.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                28
+              ],
+              "to": [
+                48,
+                39
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                21,
+                35
+              ],
+              "to": [
+                30,
+                42
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Hours of slaughter",
+          "narration": "The fight becomes a grinding press of bills and swords, the Lancastrians feeding in fresh men and the Yorkists slowly giving ground up the southern ridge. English Heritage reckons about three hours of main fighting; Polydore Vergil wrote of ten.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                38
+              ],
+              "to": [
+                50,
+                45
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                38
+              ],
+              "to": [
+                60,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Norfolk on the ridge",
+          "narration": "The Duke of Norfolk’s late contingent marches up the Old London Road, keeps out of sight until it crests the ridge, and falls on the Lancastrian left. The weight of the battle swings to York.",
+          "arrows": [
+            {
+              "from": [
+                73,
+                44
+              ],
+              "to": [
+                63,
+                35
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The bridge of bodies",
+          "narration": "The Lancastrian army breaks westward towards the Cock Beck, men throwing off armour to run; no quarter has been ordered, and the chronicles tell of fugitives crossing the swollen stream on the bodies of the drowned. Contemporary letters spoke of 28,000 dead; modern estimates range from about 9,000–13,000 down to under 4,000, but Lancaster’s northern nobility was shattered and Edward IV’s throne secured.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                30
+              ],
+              "to": [
+                22,
+                24
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                52,
+                26
+              ],
+              "to": [
+                27,
+                15
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "y-archers",
+          "side": "a",
+          "label": "Fauconberg's archers",
+          "pos": [
+            [
+              45,
+              41
+            ],
+            [
+              45,
+              38
+            ],
+            [
+              45,
+              40
+            ],
+            [
+              46,
+              45
+            ],
+            [
+              48,
+              40
+            ],
+            [
+              34,
+              26
+            ]
+          ],
+          "strength": 6000
+        },
+        {
+          "id": "edward",
+          "side": "a",
+          "label": "Edward IV’s main battle",
+          "pos": [
+            [
+              50,
+              46
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              48,
+              42
+            ],
+            [
+              50,
+              47
+            ],
+            [
+              50,
+              40
+            ],
+            [
+              36,
+              24
+            ]
+          ],
+          "strength": 10000
+        },
+        {
+          "id": "y-left",
+          "side": "a",
+          "label": "Yorkist left",
+          "pos": [
+            [
+              32,
+              46
+            ],
+            [
+              32,
+              46
+            ],
+            [
+              32,
+              43
+            ],
+            [
+              34,
+              48
+            ],
+            [
+              36,
+              42
+            ],
+            [
+              28,
+              26
+            ]
+          ],
+          "strength": 4000
+        },
+        {
+          "id": "norfolk",
+          "side": "a",
+          "label": "Norfolk's contingent",
+          "pos": [
+            [
+              80,
+              68
+            ],
+            [
+              80,
+              64
+            ],
+            [
+              78,
+              56
+            ],
+            [
+              76,
+              49
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              50,
+              22
+            ]
+          ],
+          "strength": 5000
+        },
+        {
+          "id": "l-archers",
+          "side": "b",
+          "label": "Lancastrian archers",
+          "pos": [
+            [
+              45,
+              23
+            ],
+            [
+              45,
+              23
+            ],
+            [
+              45,
+              34
+            ],
+            [
+              46,
+              40
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              24,
+              22
+            ]
+          ],
+          "strength": 6000
+        },
+        {
+          "id": "somerset",
+          "side": "b",
+          "label": "Somerset’s main battle",
+          "pos": [
+            [
+              50,
+              18
+            ],
+            [
+              50,
+              18
+            ],
+            [
+              48,
+              36
+            ],
+            [
+              50,
+              42
+            ],
+            [
+              50,
+              36
+            ],
+            [
+              22,
+              18
+            ]
+          ],
+          "strength": 12000
+        },
+        {
+          "id": "l-left",
+          "side": "b",
+          "label": "Lancastrian left",
+          "pos": [
+            [
+              64,
+              20
+            ],
+            [
+              64,
+              20
+            ],
+            [
+              62,
+              34
+            ],
+            [
+              62,
+              41
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              26,
+              13
+            ]
+          ],
+          "strength": 7000
+        },
+        {
+          "id": "l-right",
+          "side": "b",
+          "label": "Lancastrian right",
+          "pos": [
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              34,
+              34
+            ],
+            [
+              34,
+              42
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              18,
+              27
+            ]
+          ],
+          "strength": 5000
+        },
+        {
+          "id": "castle-hill",
+          "side": "b",
+          "label": "Castle Hill Wood ambush",
+          "shape": "cavalry",
+          "pos": [
+            [
+              19,
+              32
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              30,
+              42
+            ],
+            [
+              32,
+              45
+            ],
+            [
+              30,
+              38
+            ],
+            [
+              16,
+              23
+            ]
+          ],
+          "strength": 1000
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "battle-of-the-nile": {
+      "title": "Battle of the Nile",
+      "subtitle": "1–3 August 1798 — Nelson finds Brueys’s fleet at anchor in Aboukir Bay",
+      "sides": {
+        "a": {
+          "name": "Royal Navy (Nelson)",
+          "color": "#1f3a68"
+        },
+        "b": {
+          "name": "French Republic (Brueys)",
+          "color": "#b03a2e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 30,
+          "w": 100,
+          "h": 60,
+          "label": "Aboukir Bay"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              40
+            ],
+            [
+              8,
+              32
+            ],
+            [
+              18,
+              42
+            ],
+            [
+              40,
+              60
+            ],
+            [
+              70,
+              66
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "label": "Egyptian coast"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              15,
+              23
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              46,
+              46
+            ],
+            [
+              68,
+              55
+            ]
+          ],
+          "label": "Edge of the shoals"
+        },
+        {
+          "type": "hill",
+          "x": 14,
+          "y": 20,
+          "r": 2,
+          "label": "Aboukir Island"
+        },
+        {
+          "type": "town",
+          "x": 7,
+          "y": 33,
+          "r": 2,
+          "label": "Aboukir Castle"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The French at anchor",
+          "narration": "Brueys has anchored his thirteen ships of the line in a line running south-east along the edge of the shoals, about 160 yards apart, with four frigates inshore. Believing the shallows guard his landward side, he has not cleared the port-side guns. At 14:00 British lookouts sight him, and Nelson’s fourteen ships stand straight in."
+        },
+        {
+          "name": "Goliath rounds the head",
+          "narration": "At 18:20 Guerrier and Conquérant open fire. Minutes later Captain Foley takes Goliath across the head of the line, between Guerrier and the shoal, and Zealous, Orion, Theseus and Audacious follow him inside; Vanguard, Minotaur and Defence anchor on the seaward side. The French van is caught between two fires. Culloden runs aground near Aboukir Island and takes no part.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                22
+              ],
+              "to": [
+                25,
+                29
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                25,
+                20
+              ],
+              "to": [
+                26,
+                25
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The van crushed",
+          "narration": "Guerrier and Conquérant are dismasted and strike; Spartiate follows at about 21:00. In the centre Bellerophon takes on the 120-gun Orient alone and is shot to a wreck, while Majestic tangles with Tonnant. Brueys is struck by a cannonball and dies within a quarter of an hour; Nelson is struck above the eye by a splinter.",
+          "arrows": [
+            {
+              "from": [
+                43,
+                33
+              ],
+              "to": [
+                41,
+                37
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                24
+              ],
+              "to": [
+                27,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "L’Orient burns",
+          "narration": "After 20:00 Swiftsure, Alexander and Leander come in against the French centre. Fire is seen aboard Orient at 21:00 and the British ships haul away; at 22:00 her magazines explode, showering burning debris onto Swiftsure, Alexander and Franklin.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                33
+              ],
+              "to": [
+                41,
+                37
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Through the night",
+          "narration": "Franklin reopens fire, is dismasted and surrenders to Swiftsure and Defence. By midnight only Tonnant is still fighting, against Majestic; by 03:00 both are dismasted. Commodore Du Petit Thouars, both legs and an arm gone, keeps command as Tonnant drifts south towards the rear.",
+          "arrows": [
+            {
+              "from": [
+                38,
+                32
+              ],
+              "to": [
+                36,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                38
+              ],
+              "to": [
+                48,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Villeneuve slips away",
+          "narration": "Fighting resumes at 04:00 with the French rear, which the wind had kept out of the battle. Heureux and Mercure drift onto the shoal and surrender; Timoléon runs aground and is burned by her crew. By 11:00 Villeneuve takes Guillaume Tell, Généreux and two frigates out to sea — the only French ships of the line to escape. Eleven of thirteen are taken or destroyed, and Bonaparte’s army is stranded in Egypt.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                50
+              ],
+              "to": [
+                58,
+                49
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "br-inshore",
+          "side": "a",
+          "label": "Goliath, Zealous, Orion, Theseus, Audacious",
+          "shape": "ship",
+          "pos": [
+            [
+              8,
+              10
+            ],
+            [
+              22,
+              30
+            ],
+            [
+              26,
+              31
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              30,
+              34
+            ],
+            [
+              52,
+              50
+            ]
+          ],
+          "strength": 5
+        },
+        {
+          "id": "br-vanguard",
+          "side": "a",
+          "label": "Vanguard (Nelson), Minotaur, Defence",
+          "shape": "ship",
+          "pos": [
+            [
+              10,
+              5
+            ],
+            [
+              26,
+              22
+            ],
+            [
+              28,
+              24
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              33,
+              29
+            ],
+            [
+              50,
+              40
+            ]
+          ],
+          "strength": 3
+        },
+        {
+          "id": "br-bellerophon",
+          "side": "a",
+          "label": "Bellerophon & Majestic",
+          "shape": "ship",
+          "pos": [
+            [
+              6,
+              3
+            ],
+            [
+              20,
+              14
+            ],
+            [
+              43,
+              34
+            ],
+            [
+              44,
+              36
+            ],
+            [
+              46,
+              38
+            ],
+            [
+              52,
+              42
+            ]
+          ],
+          "strength": 2
+        },
+        {
+          "id": "br-late",
+          "side": "a",
+          "label": "Swiftsure, Alexander, Leander",
+          "shape": "ship",
+          "pos": [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              14,
+              13
+            ],
+            [
+              40,
+              33
+            ],
+            [
+              38,
+              32
+            ],
+            [
+              56,
+              44
+            ]
+          ],
+          "strength": 3
+        },
+        {
+          "id": "br-culloden",
+          "side": "a",
+          "label": "Culloden (aground)",
+          "shape": "ship",
+          "pos": [
+            [
+              4,
+              8
+            ],
+            [
+              13,
+              22
+            ],
+            [
+              13,
+              22
+            ],
+            [
+              13,
+              22
+            ],
+            [
+              13,
+              22
+            ],
+            [
+              13,
+              22
+            ]
+          ],
+          "strength": 1
+        },
+        {
+          "id": "fr-van",
+          "side": "b",
+          "label": "French van (Guerrier to Peuple Souverain)",
+          "shape": "ship",
+          "pos": [
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              27
+            ],
+            [
+              26,
+              27
+            ]
+          ],
+          "strength": 5
+        },
+        {
+          "id": "franklin",
+          "side": "b",
+          "label": "Franklin",
+          "shape": "ship",
+          "pos": [
+            [
+              35,
+              34
+            ],
+            [
+              35,
+              34
+            ],
+            [
+              35,
+              34
+            ],
+            [
+              35,
+              34
+            ],
+            [
+              35,
+              34
+            ],
+            [
+              35,
+              34
+            ]
+          ],
+          "strength": 1
+        },
+        {
+          "id": "orient",
+          "side": "b",
+          "label": "L’Orient (Brueys)",
+          "shape": "ship",
+          "pos": [
+            [
+              41,
+              38
+            ],
+            [
+              41,
+              38
+            ],
+            [
+              41,
+              38
+            ],
+            [
+              41,
+              38
+            ],
+            [
+              41,
+              38
+            ],
+            [
+              41,
+              38
+            ]
+          ],
+          "strength": 1
+        },
+        {
+          "id": "tonnant",
+          "side": "b",
+          "label": "Tonnant",
+          "shape": "ship",
+          "pos": [
+            [
+              47,
+              42
+            ],
+            [
+              47,
+              42
+            ],
+            [
+              47,
+              42
+            ],
+            [
+              47,
+              42
+            ],
+            [
+              52,
+              46
+            ],
+            [
+              55,
+              52
+            ]
+          ],
+          "strength": 1
+        },
+        {
+          "id": "fr-rear",
+          "side": "b",
+          "label": "Villeneuve's rear (Heureux to Timoléon)",
+          "shape": "ship",
+          "pos": [
+            [
+              60,
+              48
+            ],
+            [
+              60,
+              48
+            ],
+            [
+              60,
+              48
+            ],
+            [
+              60,
+              48
+            ],
+            [
+              60,
+              48
+            ],
+            [
+              78,
+              14
+            ]
+          ],
+          "strength": 5
+        },
+        {
+          "id": "fr-frigates",
+          "side": "b",
+          "label": "Frigates (inshore)",
+          "shape": "ship",
+          "pos": [
+            [
+              38,
+              46
+            ],
+            [
+              38,
+              46
+            ],
+            [
+              38,
+              46
+            ],
+            [
+              38,
+              46
+            ],
+            [
+              38,
+              46
+            ],
+            [
+              74,
+              20
+            ]
+          ],
+          "strength": 4
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
     }
   }
 }
