@@ -41,6 +41,16 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: -2050, suffix: '' },     // Amar-Sin's ziggurat — the base glb
   ],
   // Stonehenge as a whole site (stonehengeSite.ts) — English Heritage dates.
+  // The Palace of Westminster over time (westminsterSite.ts) — UK Parliament dates.
+  'westminster-site': [
+    { from: 1097, suffix: '-b10' }, // William II's Westminster Hall; the medieval palace
+    { from: 1393, suffix: '-b30' }, // Richard II's hammerbeam roof (1393-1401)
+    { from: 1834, suffix: '-b45' }, // the fire of 16 October 1834
+    { from: 1840, suffix: '-b60' }, // Barry & Pugin's new palace rising
+    { from: 1847, suffix: '-b75' }, // Lords open 1847, Commons 1852
+    { from: 1859, suffix: '-b90' }, // Elizabeth Tower (Big Ben) complete
+    { from: 1860, suffix: '' },     // Victoria Tower complete; today
+  ],
   'stonehenge-site': [
     { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes
     { from: -2900, suffix: '-b35' }, // bluestones standing in the Aubrey holes

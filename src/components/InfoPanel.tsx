@@ -6,6 +6,7 @@ import { hydrateEvent } from '../lib/detail';
 import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
 import { gizaCapNote } from '../lib/gizaCap';
 import { stonehengeNote } from '../lib/stonehengeNote';
+import { westminsterNote } from '../lib/westminsterNote';
 import { applyTone, type ToneId } from '../lib/tone';
 import CommanderFaces from './CommanderFaces';
 
@@ -371,6 +372,11 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                   )}
                 </p>
               </div>
+            )}
+            {westminsterNote(content.monument3d) && (
+              <p className="model-credit westminster-note" style={{ fontSize: '0.75em', opacity: 0.85, margin: '4px 0' }}>
+                {westminsterNote(content.monument3d)}
+              </p>
             )}
             {stonehengeNote(content.monument3d) && (
               <p className="model-credit stonehenge-note" style={{ fontSize: '0.75em', opacity: 0.85, margin: '4px 0' }}>

@@ -145,7 +145,8 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // calibration plan-renders on real satellite terrain (world −Z = imagery
   // north, +X = imagery east — confirmed at Westminster), not guessed.
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
-  westminster: { widthM: 265, facingDeg: 90 }, // long axis along the Thames, Elizabeth Tower at the north end
+  westminster: { widthM: 265, facingDeg: 90 },
+  'westminster-site': { widthM: 265, facingDeg: 90 }, // same frame as westminster, through time // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
   'tower-bridge': { widthM: 260, facingDeg: 90 }, // deck spans the Thames ~N–S
   'st-pauls': { widthM: 75, facingDeg: 245 }, // west front to the WSW
