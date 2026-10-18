@@ -87,6 +87,8 @@ export const VALID_MODELS = [
   'liberty',
   // Paris.
   'eiffel', 'arc-triomphe', 'louvre',
+  // Precursor claims, below the surface (lib/precursorMesh.ts).
+  'ravne-tunnels', 'bimini-beachrock', 'yonaguni-rock',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -108,6 +110,12 @@ export const MODEL_BY_ID = {
   pumapunku: 'megalith',
   'gunung-padang': 'megalith',
   'younger-dryas-impact': 'impact',
+  // Precursor claims with an honest model of what is really there (none is a
+  // building): the claimed tunnels below ground, the beachrock on the seabed,
+  // the natural stepped rock under the sea. lib/precursorMesh.ts builds them.
+  'bosnian-pyramid-claims': 'ravne-tunnels',
+  'bimini-road': 'bimini-beachrock',
+  'yonaguni-monument': 'yonaguni-rock',
 };
 
 // The keyword cascade, expressed as ordered {rule, re, model} rows so the

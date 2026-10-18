@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { startWindowDrag } from '../lib/windowDrag';
+import { isPrecursorModel, precursorMesh, PRECURSOR_SETTING } from '../lib/precursorMesh';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import SkyDial from './SkyDial';
@@ -6444,6 +6445,21 @@ export function buildModel(
   } else if (model === 'terracotta-army') {
     ground = '#8a7556';
     buildTerracottaArmy(group, ruined);
+  } else if (isPrecursorModel(model)) {
+    // Below the surface, in true metres (lib/precursorMesh.ts — the same mesh
+    // scripts/build-precursor-models.mjs writes for the globe): the claimed
+    // Ravne tunnels under the ground, Bimini's beachrock and Yonaguni's
+    // natural stepped rock under the sea. The viewer keeps them BELOW its
+    // ground and turns that ground see-through (belowSurface).
+    const m = precursorMesh(model);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(m.positions, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(m.normals, 3));
+    g.setAttribute('color', new THREE.BufferAttribute(m.colors, 3));
+    g.setIndex(new THREE.BufferAttribute(m.indices, 1));
+    group.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 })));
+    ground = PRECURSOR_SETTING[model] === 'sea' ? '#2f6f86' : '#6f6a4a';
+    group.userData.belowSurface = PRECURSOR_SETTING[model];
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen
@@ -6713,6 +6729,17 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
     apron.position.y = -0.04;
     apron.receiveShadow = true;
     scene.add(apron);
+    // A model below the surface (precursorMesh): the ground — or the sea, tinted
+    // blue — goes see-through so the tunnels or the seabed show beneath it.
+    const below = group.userData.belowSurface as 'sea' | 'ground' | undefined;
+    if (below) {
+      for (const m of [groundMat, apron.material as THREE.MeshStandardMaterial]) {
+        m.transparent = true;
+        m.opacity = below === 'sea' ? 0.3 : 0.4;
+        m.depthWrite = false;
+        if (below === 'sea') m.color.set('#3d8fae');
+      }
+    }
     // Orient, size & frame Stonehenge to the real summer-solstice sunrise. The
     // Heel Stone sits on local +Z; we aim that axis at the true sunrise bearing
     // (scene north = +Z) so the sun rises straight over it, shrink the ring to
@@ -6757,7 +6784,8 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
       // but a few pivot off it — the leaning tower tilts about its base and dips
       // below zero — so drop (or lift) the whole group until its lowest point
       // rests on the terrain. No-op for models already grounded.
-      group.position.y -= sBox.min.y;
+      // (Not a model that lies BELOW the surface: it keeps its true depth.)
+      if (!group.userData.belowSurface) group.position.y -= sBox.min.y;
       const sSize = sBox.getSize(new THREE.Vector3());
       const maxDim = Math.max(sSize.x, sSize.y, sSize.z) || 20;
       // Flat, wide models (the Richat's rings, stone circles) would be missed by
@@ -6790,6 +6818,8 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
         );
         controls.target.set(0, ty, 0);
       }
+      // Look down at a below-surface model's middle, not the empty air above it.
+      if (group.userData.belowSurface) controls.target.y = (sBox.min.y + sBox.max.y) / 2;
       controls.update();
     }
     scene.add(group);
