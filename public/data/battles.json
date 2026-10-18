@@ -2,6 +2,586 @@
   "_comment": "Chronos Earth — curated battles dataset. See public/data/README.md for the schema. 'year' is a signed calendar year (negative = BCE). Casualty figures are rough historical estimates and vary by source. Add a battle by copying an entry. 'commanders' lists each side's leaders: side is 1 or 2 (matching belligerents), wiki is the English Wikipedia article title (used for the portrait + link; run scripts/fetch-portraits.mjs after adding). Set 'hasBattleView': true only if you also add phase data in battle-views.json.",
   "battles": [
     {
+      "id": "ankara-1402",
+      "name": "Battle of Ankara",
+      "year": 1402,
+      "dateLabel": "July 1402",
+      "lat": 40.15,
+      "lon": 32.95,
+      "belligerents": {
+        "side1": "Timurid Empire",
+        "side2": "Ottoman Empire"
+      },
+      "victor": "Timurid victory",
+      "outcome": "Timur's army beat the Ottoman Sultan Bayezid I near Ankara. Bayezid was captured and died a prisoner.",
+      "significance": "It nearly broke the young Ottoman state, which fell into eleven years of civil war, and gave Byzantium fifty more years.",
+      "casualties": "Uncertain; tens of thousands",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Ankara",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Ankara"
+        },
+        {
+          "label": "Wikidata: Q209387",
+          "url": "https://www.wikidata.org/wiki/Q209387"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Timur",
+          "side": 1,
+          "wiki": "Timur"
+        },
+        {
+          "name": "Bayezid I",
+          "side": 2,
+          "wiki": "Bayezid I"
+        }
+      ]
+    },
+    {
+      "id": "marj-dabiq-1516",
+      "name": "Battle of Marj Dabiq",
+      "year": 1516,
+      "dateLabel": "24 August 1516",
+      "lat": 36.545,
+      "lon": 37.275,
+      "belligerents": {
+        "side1": "Ottoman Empire",
+        "side2": "Mamluk Sultanate"
+      },
+      "victor": "Ottoman victory",
+      "outcome": "Selim I's guns and musketeers routed the Mamluk cavalry north of Aleppo. Sultan al-Ghawri died on the field.",
+      "significance": "It opened Syria to the Ottomans; Egypt fell the next year and the Mamluk Sultanate ended.",
+      "casualties": "Uncertain; Mamluk losses heavy",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Marj Dabiq",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Marj_Dabiq"
+        },
+        {
+          "label": "Wikidata: Q971248",
+          "url": "https://www.wikidata.org/wiki/Q971248"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Selim I",
+          "side": 1,
+          "wiki": "Selim I"
+        },
+        {
+          "name": "Al-Ashraf Qansuh al-Ghawri",
+          "side": 2,
+          "wiki": "Al-Ashraf Qansuh al-Ghawri"
+        }
+      ]
+    },
+    {
+      "id": "haldighati-1576",
+      "name": "Battle of Haldighati",
+      "year": 1576,
+      "dateLabel": "18 June 1576",
+      "lat": 24.892,
+      "lon": 73.698,
+      "belligerents": {
+        "side1": "Mughal Empire",
+        "side2": "Kingdom of Mewar"
+      },
+      "victor": "Mughal victory",
+      "outcome": "Akbar's army under Man Singh fought Maharana Pratap in a narrow mountain pass in Rajasthan. Pratap escaped to the hills.",
+      "significance": "Mewar was not conquered; Pratap's stand became a lasting symbol of Rajput resistance.",
+      "casualties": "Uncertain; a few hundred to a few thousand",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Haldighati",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Haldighati"
+        },
+        {
+          "label": "Wikidata: Q3635360",
+          "url": "https://www.wikidata.org/wiki/Q3635360"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Man Singh I",
+          "side": 1,
+          "wiki": "Man Singh I"
+        },
+        {
+          "name": "Maharana Pratap",
+          "side": 2,
+          "wiki": "Maharana Pratap"
+        }
+      ]
+    },
+    {
+      "id": "karnal-1739",
+      "name": "Battle of Karnal",
+      "year": 1739,
+      "dateLabel": "24 February 1739",
+      "lat": 29.725,
+      "lon": 77.07,
+      "belligerents": {
+        "side1": "Afsharid Persia",
+        "side2": "Mughal Empire"
+      },
+      "victor": "Persian victory",
+      "outcome": "Nader Shah beat the much larger Mughal army in about three hours, then marched on Delhi and sacked it.",
+      "significance": "He carried off the Peacock Throne and the Koh-i-Noor. Mughal power never recovered.",
+      "casualties": "Around 20,000 Mughal dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Karnal",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Karnal"
+        },
+        {
+          "label": "Wikidata: Q2736986",
+          "url": "https://www.wikidata.org/wiki/Q2736986"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Nader Shah",
+          "side": 1,
+          "wiki": "Nader Shah"
+        },
+        {
+          "name": "Muhammad Shah",
+          "side": 2,
+          "wiki": "Muhammad Shah"
+        }
+      ]
+    },
+    {
+      "id": "buxar-1764",
+      "name": "Battle of Buxar",
+      "year": 1764,
+      "dateLabel": "22 October 1764",
+      "lat": 25.567,
+      "lon": 83.983,
+      "belligerents": {
+        "side1": "East India Company",
+        "side2": "Mughal Empire, Awadh and Bengal"
+      },
+      "victor": "East India Company victory",
+      "outcome": "Hector Munro's small Company army beat the joint forces of the Mughal emperor and the Nawabs of Bengal and Awadh on the Ganges.",
+      "significance": "The Company won the right to collect taxes in Bengal, Bihar and Orissa: the real start of British rule in India.",
+      "casualties": "About 850 Company killed or wounded; around 2,000 allied dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Buxar",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Buxar"
+        },
+        {
+          "label": "Wikidata: Q2355467",
+          "url": "https://www.wikidata.org/wiki/Q2355467"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Hector Munro",
+          "side": 1,
+          "wiki": "Hector Munro, 8th Laird of Novar"
+        },
+        {
+          "name": "Shuja-ud-Daula",
+          "side": 2,
+          "wiki": "Shuja-ud-Daula"
+        },
+        {
+          "name": "Mir Qasim",
+          "side": 2,
+          "wiki": "Mir Qasim"
+        }
+      ]
+    },
+    {
+      "id": "rach-gam-1785",
+      "name": "Battle of Rạch Gầm–Xoài Mút",
+      "year": 1785,
+      "dateLabel": "20 January 1785",
+      "lat": 10.339,
+      "lon": 106.325,
+      "belligerents": {
+        "side1": "Tây Sơn dynasty",
+        "side2": "Siam (Rattanakosin Kingdom), with Nguyễn lord forces"
+      },
+      "victor": "Tây Sơn victory",
+      "outcome": "Nguyễn Huệ trapped the Siamese fleet in an ambush on the Mekong river and destroyed it.",
+      "significance": "It drove the Siamese out of southern Vietnam and made Nguyễn Huệ a national hero.",
+      "casualties": "Most of the Siamese force lost",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Rạch Gầm–Xoài Mút",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Rạch_Gầm-Xoài_Mút"
+        },
+        {
+          "label": "Wikidata: Q1047091",
+          "url": "https://www.wikidata.org/wiki/Q1047091"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Nguyễn Huệ",
+          "side": 1,
+          "wiki": "Quang Trung"
+        },
+        {
+          "name": "Nguyễn Ánh",
+          "side": 2,
+          "wiki": "Gia Long"
+        }
+      ]
+    },
+    {
+      "id": "pyramids-1798",
+      "name": "Battle of the Pyramids",
+      "year": 1798,
+      "dateLabel": "21 July 1798",
+      "lat": 30.083,
+      "lon": 31.2,
+      "belligerents": {
+        "side1": "French Republic",
+        "side2": "Mamluks of Egypt"
+      },
+      "victor": "French victory",
+      "outcome": "Napoleon's infantry squares broke the Mamluk cavalry charges on the west bank of the Nile, in sight of the pyramids.",
+      "significance": "It gave France Cairo and Lower Egypt and began the French occupation of Egypt.",
+      "casualties": "About 300 French killed or wounded; several thousand Mamluk dead",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of the Pyramids",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_the_Pyramids"
+        },
+        {
+          "label": "Wikidata: Q332543",
+          "url": "https://www.wikidata.org/wiki/Q332543"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Napoleon Bonaparte",
+          "side": 1,
+          "wiki": "Napoleon"
+        },
+        {
+          "name": "Murad Bey",
+          "side": 2,
+          "wiki": "Murad Bey"
+        }
+      ]
+    },
+    {
+      "id": "blaauwberg-1806",
+      "name": "Battle of Blaauwberg",
+      "year": 1806,
+      "dateLabel": "8 January 1806",
+      "lat": -33.756,
+      "lon": 18.466,
+      "belligerents": {
+        "side1": "United Kingdom",
+        "side2": "Batavian Republic"
+      },
+      "victor": "British victory",
+      "outcome": "A British army landed north of Cape Town and beat the Dutch defenders on the slopes of the Blaauwberg.",
+      "significance": "The Cape became a British colony, which shaped the later history of South Africa.",
+      "casualties": "About 200 British and 350 Dutch killed or wounded",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Blaauwberg",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Blaauwberg"
+        },
+        {
+          "label": "Wikidata: Q2786767",
+          "url": "https://www.wikidata.org/wiki/Q2786767"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "David Baird",
+          "side": 1,
+          "wiki": "Sir David Baird, 1st Baronet"
+        },
+        {
+          "name": "Jan Willem Janssens",
+          "side": 2,
+          "wiki": "Jan Willem Janssens"
+        }
+      ]
+    },
+    {
+      "id": "isly-1844",
+      "name": "Battle of Isly",
+      "year": 1844,
+      "dateLabel": "14 August 1844",
+      "lat": 34.69,
+      "lon": -1.93,
+      "belligerents": {
+        "side1": "France",
+        "side2": "Morocco"
+      },
+      "victor": "French victory",
+      "outcome": "Marshal Bugeaud's army routed the Moroccan army near Oujda by the Isly river.",
+      "significance": "Morocco stopped backing Abd al-Qadir's fight against France in Algeria.",
+      "casualties": "Under 30 French dead; around 800 Moroccan",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Isly",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Isly"
+        },
+        {
+          "label": "Wikidata: Q348998",
+          "url": "https://www.wikidata.org/wiki/Q348998"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Thomas Robert Bugeaud",
+          "side": 1,
+          "wiki": "Thomas Robert Bugeaud"
+        },
+        {
+          "name": "Sidi Mohammed",
+          "side": 2,
+          "wiki": "Mohammed IV of Morocco"
+        }
+      ]
+    },
+    {
+      "id": "riachuelo-1865",
+      "name": "Battle of Riachuelo",
+      "year": 1865,
+      "dateLabel": "11 June 1865",
+      "lat": -27.562,
+      "lon": -58.839,
+      "belligerents": {
+        "side1": "Empire of Brazil",
+        "side2": "Paraguay"
+      },
+      "victor": "Brazilian victory",
+      "outcome": "The Brazilian river fleet destroyed the Paraguayan navy on the Paraná river near Corrientes.",
+      "significance": "Paraguay lost its fleet and was cut off from the sea for the rest of the war.",
+      "casualties": "About 250 Brazilian and over 1,000 Paraguayan killed or wounded",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Riachuelo",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Riachuelo"
+        },
+        {
+          "label": "Wikidata: Q2236812",
+          "url": "https://www.wikidata.org/wiki/Q2236812"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Francisco Manuel Barroso",
+          "side": 1,
+          "wiki": "Francisco Manuel Barroso, Baron of Amazonas"
+        },
+        {
+          "name": "Pedro Ignacio Meza",
+          "side": 2,
+          "wiki": "Pedro Ignacio Meza"
+        }
+      ]
+    },
+    {
+      "id": "tuyuti-1866",
+      "name": "Battle of Tuyutí",
+      "year": 1866,
+      "dateLabel": "24 May 1866",
+      "lat": -27.204,
+      "lon": -58.548,
+      "belligerents": {
+        "side1": "Brazil, Argentina and Uruguay",
+        "side2": "Paraguay"
+      },
+      "victor": "Allied victory",
+      "outcome": "A Paraguayan surprise attack on the allied camp in the marshes of southern Paraguay failed after hours of fighting.",
+      "significance": "The bloodiest battle in South American history. Paraguay lost much of its army in a single day.",
+      "casualties": "About 13,000 Paraguayan and 4,000 allied killed or wounded",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tuyutí",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tuyutí"
+        },
+        {
+          "label": "Wikidata: Q3307845",
+          "url": "https://www.wikidata.org/wiki/Q3307845"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Bartolomé Mitre",
+          "side": 1,
+          "wiki": "Bartolomé Mitre"
+        },
+        {
+          "name": "Manuel Luís Osório",
+          "side": 1,
+          "wiki": "Manuel Luís Osório, Marquis of Erval"
+        },
+        {
+          "name": "Francisco Solano López",
+          "side": 2,
+          "wiki": "Francisco Solano López"
+        }
+      ]
+    },
+    {
+      "id": "magdala-1868",
+      "name": "Battle of Magdala",
+      "year": 1868,
+      "dateLabel": "April 1868",
+      "lat": 11.346,
+      "lon": 39.181,
+      "belligerents": {
+        "side1": "United Kingdom",
+        "side2": "Ethiopian Empire"
+      },
+      "victor": "British victory",
+      "outcome": "A British and Indian army marched across the Ethiopian highlands, beat Tewodros II's army and stormed his mountain fortress.",
+      "significance": "Tewodros shot himself rather than be taken. The British freed the captives and then left.",
+      "casualties": "Two British dead; around 700 Ethiopian",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Magdala",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Magdala"
+        },
+        {
+          "label": "Wikidata: Q947667",
+          "url": "https://www.wikidata.org/wiki/Q947667"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Robert Napier",
+          "side": 1,
+          "wiki": "Robert Napier, 1st Baron Napier of Magdala"
+        },
+        {
+          "name": "Tewodros II",
+          "side": 2,
+          "wiki": "Tewodros II"
+        }
+      ]
+    },
+    {
+      "id": "tacna-1880",
+      "name": "Battle of Tacna",
+      "year": 1880,
+      "dateLabel": "26 May 1880",
+      "lat": -18.0,
+      "lon": -70.294,
+      "belligerents": {
+        "side1": "Chile",
+        "side2": "Peru and Bolivia"
+      },
+      "victor": "Chilean victory",
+      "outcome": "The Chilean army beat the allied army on the Alto de la Alianza plateau above Tacna in the War of the Pacific.",
+      "significance": "Bolivia left the war, and later lost its coastline. Chile went on to take Lima.",
+      "casualties": "About 2,100 Chilean and several thousand allied killed or wounded",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Tacna",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Tacna"
+        },
+        {
+          "label": "Wikidata: Q18014904",
+          "url": "https://www.wikidata.org/wiki/Q18014904"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Manuel Baquedano",
+          "side": 1,
+          "wiki": "Manuel Baquedano"
+        },
+        {
+          "name": "Narciso Campero",
+          "side": 2,
+          "wiki": "Narciso Campero"
+        }
+      ]
+    },
+    {
+      "id": "maiwand-1880",
+      "name": "Battle of Maiwand",
+      "year": 1880,
+      "dateLabel": "27 July 1880",
+      "lat": 31.733,
+      "lon": 65.133,
+      "belligerents": {
+        "side1": "Emirate of Afghanistan",
+        "side2": "United Kingdom (British India)"
+      },
+      "victor": "Afghan victory",
+      "outcome": "Ayub Khan's army beat a British brigade west of Kandahar in the Second Anglo-Afghan War.",
+      "significance": "One of the worst British defeats in Asia. Malalai of Maiwand became an Afghan heroine.",
+      "casualties": "About 950 British and Indian dead; perhaps 2,500 Afghan",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Maiwand",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Maiwand"
+        },
+        {
+          "label": "Wikidata: Q548625",
+          "url": "https://www.wikidata.org/wiki/Q548625"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "Ayub Khan",
+          "side": 1,
+          "wiki": "Ayub Khan (Emir of Afghanistan)"
+        },
+        {
+          "name": "George Burrows",
+          "side": 2,
+          "wiki": "George Burrows (British Army officer)"
+        }
+      ]
+    },
+    {
+      "id": "manila-bay-1898",
+      "name": "Battle of Manila Bay",
+      "year": 1898,
+      "dateLabel": "1 May 1898",
+      "lat": 14.49,
+      "lon": 120.93,
+      "belligerents": {
+        "side1": "United States",
+        "side2": "Spain"
+      },
+      "victor": "American victory",
+      "outcome": "Commodore Dewey's squadron sank the Spanish fleet at anchor off Cavite in a few hours, losing no ships.",
+      "significance": "The first big battle of the Spanish-American War. It led to American rule of the Philippines.",
+      "casualties": "1 American dead (not in combat); about 160 Spanish",
+      "links": [
+        {
+          "label": "Wikipedia: Battle of Manila Bay",
+          "url": "https://en.wikipedia.org/wiki/Battle_of_Manila_Bay"
+        },
+        {
+          "label": "Wikidata: Q528550",
+          "url": "https://www.wikidata.org/wiki/Q528550"
+        }
+      ],
+      "commanders": [
+        {
+          "name": "George Dewey",
+          "side": 1,
+          "wiki": "George Dewey"
+        },
+        {
+          "name": "Patricio Montojo",
+          "side": 2,
+          "wiki": "Patricio Montojo"
+        }
+      ]
+    },
+    {
       "id": "qarqar-853bce",
       "name": "Battle of Qarqar",
       "year": -853,
