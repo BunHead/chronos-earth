@@ -13,8 +13,9 @@
 //                                         # copy of Wikidata (no network)
 //
 // It also runs the data-quality rules in scripts/lib/data-quality.mjs (names,
-// Q-ids, duplicates, swapped coordinates, BCE signs, future years, missing
-// image/model files). In curated files they are errors; in the harvester's
+// Q-ids, duplicates, swapped coordinates, one Q-id in two places, whole-degree
+// battle pins, BCE signs, years outside their own date label, future years,
+// missing image/model files). In curated files they are errors; in the harvester's
 // output (imported/events.json) they are warnings, and the nightly harvest
 // fixes the mechanical ones itself (scripts/fix-data-quality.mjs).
 //
@@ -25,7 +26,8 @@ import {
   MAX_KM, fetchP625, findFarPins, handPlacedPins, lookupFromHarvest,
 } from './lib/wikidata-coords.mjs';
 import {
-  checkBceSign, checkCoords, checkFuture, checkNameYearDupes, checkQids, checkSwapped, checkText, referencedFiles, textProblems,
+  checkBceSign, checkCoords, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords, checkQids,
+  checkSwapped, checkText, checkWholeDegree, referencedFiles, textProblems,
 } from './lib/data-quality.mjs';
 
 const ROOT = 'public/data';
@@ -135,11 +137,18 @@ console.log(`\nlinted ${total} rows across ${jobs.length} files`);
 
   // Curated by hand: every finding is an error.
   run('battles.json', 'error', [
-    ...b.battles.flatMap((r) => [...checkText(r, ['name']), ...checkBceSign(r, 'year', 'dateLabel'), ...checkFuture(r, 'year')]),
-    ...checkQids(b.battles), ...checkNameYearDupes(b.battles, 'year'),
+    ...b.battles.flatMap((r) => [
+      ...checkText(r, ['name']), ...checkBceSign(r, 'year', 'dateLabel'), ...checkLabelYear(r, 'year', 'dateLabel'), ...checkFuture(r, 'year'),
+    ]),
+    ...checkQids(b.battles), ...checkNameYearDupes(b.battles, 'year'), ...checkLooseDupes(b.battles, 'year'),
   ]);
+  // Whole-degree battle pins: listed for a person to check, never moved by a script.
+  run('battles.json', 'warn', b.battles.flatMap(checkWholeDegree));
   run('ancient-sites.json', 'error', [
-    ...s.sites.flatMap((r) => [...checkText(r, ['name']), ...checkBceSign(r, 'builtYear', 'builtYearLabel'), ...checkFuture(r, 'builtYear')]),
+    ...s.sites.flatMap((r) => [
+      ...checkText(r, ['name']), ...checkBceSign(r, 'builtYear', 'builtYearLabel'),
+      ...checkLabelYear(r, 'builtYear', 'builtYearLabel'), ...checkFuture(r, 'builtYear'),
+    ]),
     ...checkQids(s.sites),
   ]);
   run('fauna.json', 'error', [
@@ -156,6 +165,12 @@ console.log(`\nlinted ${total} rows across ${jobs.length} files`);
     ...ev.events.flatMap((r) => [...checkText(r, ['name', 'summary']), ...checkFuture(r, 'startYear')]),
     ...checkQids(ev.events), ...checkNameYearDupes(ev.events, 'startYear'),
   ]);
+
+  // One Q-id, two places: a curated pin and its harvested twin should agree.
+  run('', 'warn', checkQidCoords([
+    { file: 'battles.json', rows: b.battles }, { file: 'ancient-sites.json', rows: s.sites },
+    { file: 'fauna.json', rows: fauna.fauna, key: 'wikidata' }, { file: 'imported/events.json', rows: ev.events },
+  ]));
 
   // Swapped lat/lon on hand-placed pins, against the harvested Wikidata copy.
   const pins = handPlacedPins({ battles: b.battles, sites: s.sites, events: ev.events });
