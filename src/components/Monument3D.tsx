@@ -13,6 +13,7 @@ import { buildMesoTemple, type MesoTemple } from './mesoTemple';
 import { buildAtlantis } from './atlantisCity';
 import { buildRoundBarrow, buildStonehengeSite, stonehengeStage } from './stonehengeSite';
 import { buildWestminsterSite, westminsterStage } from './westminsterSite';
+import { buildBuckinghamSite, buckinghamStage } from './buckinghamSite';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
@@ -4845,6 +4846,9 @@ export function buildModel(
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
     vic.position.set(0, 4.1, memZ);
     group.add(vic);
+  } else if (model === 'buckingham-site') {
+    // Buckingham Palace through time, on the real plan (buckinghamSite.ts).
+    ground = buildBuckinghamSite(group, buckinghamStage(buildFrac));
   } else if (model === 'westminster-site') {
     // The whole palace through time, on the real plan (westminsterSite.ts).
     ground = buildWestminsterSite(group, westminsterStage(buildFrac));

@@ -575,5 +575,25 @@
   "westminster-site-b90": {
     "footprint": 301.985,
     "kb": 67
+  },
+  "buckingham-site": {
+    "footprint": 312.952,
+    "kb": 76
+  },
+  "buckingham-site-b10": {
+    "footprint": 102.547,
+    "kb": 8
+  },
+  "buckingham-site-b35": {
+    "footprint": 251.984,
+    "kb": 51
+  },
+  "buckingham-site-b60": {
+    "footprint": 260.783,
+    "kb": 66
+  },
+  "buckingham-site-b85": {
+    "footprint": 312.952,
+    "kb": 77
   }
 }
