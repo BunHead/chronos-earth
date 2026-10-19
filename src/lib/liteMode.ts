@@ -108,7 +108,11 @@ export function globeSettings(lite: boolean): GlobeSettings {
         shadows: false,
         requestRenderMode: true,
         rivers: false,
-        models: false,
+        // The monuments ARE the app: lite keeps them, on their small builds
+        // (lightModelName) and only within reach (globeModels' LOAD_DISTANCE).
+        // Leaving them out made a desktop that once started slowly show no 3D
+        // at all, with no hint why (19 Oct 2026).
+        models: true,
         markerShare: 0.5,
         minNotability: 25,
       }
@@ -146,7 +150,7 @@ export function lightModelName(
 
 export type LitePref = 'auto' | 'on' | 'off';
 const PREF_KEY = 'chronos.perf'; // 'low' = on, 'high' = off, absent = auto
-const SLOW_KEY = 'chronos.lite.slow'; // '1' once a slow frame rate was seen
+const SLOW_KEY = 'chronos.lite.slow'; // the time (ms) a slow frame rate was seen
 
 export function readLitePref(): LitePref {
   try {
@@ -201,7 +205,8 @@ export function activeLiteReasons(): LiteReason[] {
   if (pref === 'off') return (cachedReasons = []);
   const reasons = liteReasons(readSignals());
   try {
-    if (window.localStorage.getItem(SLOW_KEY) === '1') reasons.push('slow-fps');
+    if (slowMarkFresh(window.localStorage.getItem(SLOW_KEY), Date.now())) reasons.push('slow-fps');
+    else window.localStorage.removeItem(SLOW_KEY);
   } catch { /* no storage */ }
   if (pref === 'on') reasons.push('chosen');
   return (cachedReasons = reasons);
@@ -216,10 +221,19 @@ export function preferSmallModels(): boolean {
   return isLite() || isMobileDevice(readSignals());
 }
 
+/** A slow start is remembered for a week, then the globe tries full again
+ * (one busy first few seconds must not make a good PC lite for ever). The
+ * old mark '1' carries no date, so it counts as expired. */
+export const SLOW_MARK_DAYS = 7;
+export function slowMarkFresh(mark: string | null, now: number): boolean {
+  const t = Number(mark);
+  return !!mark && mark !== '1' && Number.isFinite(t) && now - t < SLOW_MARK_DAYS * 86_400_000;
+}
+
 /** Remember a slow first few seconds so the next visit starts lite. */
 export function markSlowDevice(): void {
   try {
-    window.localStorage.setItem(SLOW_KEY, '1');
+    window.localStorage.setItem(SLOW_KEY, String(Date.now()));
   } catch { /* no storage */ }
   if (cachedReasons && !cachedReasons.includes('slow-fps')) cachedReasons = [...cachedReasons, 'slow-fps'];
 }

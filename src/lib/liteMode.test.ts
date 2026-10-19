@@ -71,9 +71,9 @@ describe('lite mode switches the heavy paths off', () => {
   const lite = globeSettings(true);
   const full = globeSettings(false);
 
-  it('turns off rivers, 3D models, fog, atmosphere, skybox and shadows', () => {
+  it('turns off rivers, fog, atmosphere, skybox and shadows, but keeps the 3D models', () => {
     expect(lite.rivers).toBe(false);
-    expect(lite.models).toBe(false);
+    expect(lite.models).toBe(true); // small builds, within reach (19 Oct 2026)
     expect(lite.fog).toBe(false);
     expect(lite.groundAtmosphere).toBe(false);
     expect(lite.skyAtmosphere).toBe(false);
@@ -124,5 +124,16 @@ describe('heavy scans fall back to the small build', () => {
   it('the shipped manifest has the small Sphinx', () => {
     const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
     expect(lightModelName('sphinx', real, true)).toBe('sphinx-lite');
+  });
+});
+
+describe('a slow start is remembered for a week only', () => {
+  it('expires the mark', async () => {
+    const { slowMarkFresh, SLOW_MARK_DAYS } = await import('./liteMode');
+    const now = Date.UTC(2026, 9, 19);
+    expect(slowMarkFresh(String(now - 86_400_000), now)).toBe(true);
+    expect(slowMarkFresh(String(now - (SLOW_MARK_DAYS + 1) * 86_400_000), now)).toBe(false);
+    expect(slowMarkFresh('1', now)).toBe(false); // the old undated mark
+    expect(slowMarkFresh(null, now)).toBe(false);
   });
 });

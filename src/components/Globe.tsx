@@ -1484,7 +1484,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // fleet, clamped to the ground at true scale and calibrated bearing,
     // revealed as you fly close. Fire-and-forget: no fleet manifest, no
     // models — the globe simply keeps its markers.
-    // Lite mode leaves them out: each is a download plus a draw call per frame.
+    // Lite mode keeps them too, on their small builds (lib/liteMode).
     if (LITE_SETTINGS.models) {
       void loadGlobeModels(viewer);
       void loadSitePlans(viewer); // traced site compositions stand for everyone
