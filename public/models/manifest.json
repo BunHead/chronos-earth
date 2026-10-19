@@ -438,19 +438,19 @@
   },
   "giza-khufu": {
     "footprint": 230.33,
-    "kb": 3
+    "kb": 5
   },
   "giza-khafre": {
     "footprint": 215.25,
-    "kb": 3
+    "kb": 5
   },
   "giza-menkaure": {
     "footprint": 104.6,
-    "kb": 3
+    "kb": 5
   },
   "giza-queen": {
     "footprint": 49.5,
-    "kb": 2
+    "kb": 4
   },
   "giza-queen-step": {
     "footprint": 31,
@@ -462,11 +462,11 @@
   },
   "giza-khafre-ruin": {
     "footprint": 215.25,
-    "kb": 128
+    "kb": 129
   },
   "giza-menkaure-ruin": {
     "footprint": 104.6,
-    "kb": 118
+    "kb": 119
   },
   "giza-khufu-b30": {
     "footprint": 230.33,
@@ -482,15 +482,15 @@
   },
   "giza-khafre-b30": {
     "footprint": 215.25,
-    "kb": 3
+    "kb": 4
   },
   "giza-khafre-b60": {
     "footprint": 215.25,
-    "kb": 3
+    "kb": 4
   },
   "giza-khafre-b90": {
     "footprint": 215.25,
-    "kb": 3
+    "kb": 4
   },
   "giza-menkaure-b30": {
     "footprint": 104.6,
@@ -498,11 +498,11 @@
   },
   "giza-menkaure-b60": {
     "footprint": 104.6,
-    "kb": 3
+    "kb": 4
   },
   "giza-menkaure-b90": {
     "footprint": 104.6,
-    "kb": 3
+    "kb": 4
   },
   "rings-lite": {
     "footprint": 2350.5,
@@ -595,6 +595,90 @@
   "buckingham-site-b85": {
     "footprint": 312.952,
     "kb": 77
+  },
+  "stonehenge-site-b20": {
+    "footprint": 122,
+    "kb": 87
+  },
+  "tower-bridge-site": {
+    "footprint": 331.772,
+    "kb": 28
+  },
+  "tower-bridge-site-b30": {
+    "footprint": 331.772,
+    "kb": 28
+  },
+  "tower-bridge-site-b70": {
+    "footprint": 331.772,
+    "kb": 28
+  },
+  "tower-of-london-site": {
+    "footprint": 281.28,
+    "kb": 140
+  },
+  "tower-of-london-site-b10": {
+    "footprint": 120,
+    "kb": 9
+  },
+  "tower-of-london-site-b20": {
+    "footprint": 42.954,
+    "kb": 17
+  },
+  "tower-of-london-site-b35": {
+    "footprint": 191.399,
+    "kb": 47
+  },
+  "tower-of-london-site-b50": {
+    "footprint": 281.28,
+    "kb": 106
+  },
+  "tower-of-london-site-b65": {
+    "footprint": 281.28,
+    "kb": 112
+  },
+  "tower-of-london-site-b80": {
+    "footprint": 281.28,
+    "kb": 126
+  },
+  "tower-of-london-site-b90": {
+    "footprint": 281.28,
+    "kb": 133
+  },
+  "tower-of-london-site-b95": {
+    "footprint": 281.28,
+    "kb": 140
+  },
+  "st-pauls-site": {
+    "footprint": 157.53,
+    "kb": 44
+  },
+  "st-pauls-site-b10": {
+    "footprint": 191.557,
+    "kb": 9
+  },
+  "st-pauls-site-b25": {
+    "footprint": 191.557,
+    "kb": 10
+  },
+  "st-pauls-site-b40": {
+    "footprint": 191.557,
+    "kb": 9
+  },
+  "st-pauls-site-b50": {
+    "footprint": 198.465,
+    "kb": 11
+  },
+  "st-pauls-site-b60": {
+    "footprint": 188.032,
+    "kb": 6
+  },
+  "st-pauls-site-b65": {
+    "footprint": 157.53,
+    "kb": 4
+  },
+  "st-pauls-site-b75": {
+    "footprint": 157.53,
+    "kb": 11
   },
   "temple-of-heaven": {
     "footprint": 91,

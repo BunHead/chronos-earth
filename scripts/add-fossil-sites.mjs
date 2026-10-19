@@ -124,6 +124,92 @@ export const FOSSIL_SITES = [
     'In 1875 William Denton named a sabre-tooth cat tooth from the asphalt in Los Angeles. The tar has trapped ' +
       'animals for the last 50,000 years or so — well under one million years — giving dire wolves, ' +
       'mammoths and thousands of Smilodon.'),
+  // Added 18 Oct 2026. Lyme Regis, Hell Creek, the Flaming Cliffs, Dinosaur
+  // Provincial Park, Liaoning (Yixian), Solnhofen, Ghost Ranch and La Brea were
+  // already on the globe; of that list only the Isle of Wight was missing.
+  // Polacanthus: Rev. William Fox, early 1865, Barnes High (Blows, biostor 165764);
+  // "between Barnes and Cowleaze Chines" (Hulke 1881, Proc. R. Soc. 31:336,
+  // doi:10.1098/rspl.1880.0045). Barnes High is OS grid SZ 437 808 (Radley &
+  // Barker, Univ. Portsmouth, "The Hypsilophodon Bed"); converted and checked
+  // against OSM's Cowleaze Chine node (50.6189, -1.3725), 19 Oct 2026.
+  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
+    'Early in 1865 the Rev. William Fox found an armoured dinosaur, Polacanthus, at Barnes High. The island\'s ' +
+      'south-west cliffs are about 125 million years old (Early Cretaceous) and are among the richest dinosaur ' +
+      'grounds in Europe.',
+    'Pinned at Barnes High in Brighstone Bay, where it was found; the Wessex Formation has no Wikidata point, ' +
+      'so the Q-id is the island\'s.'),
+  // Named by William Buckland, Geological Society of London, 20 Feb 1824 (oumnh.ox.ac.uk/megalosaurus-0).
+  site('stonesfield', 'Stonesfield: Megalosaurus, the first dinosaur named', 1824, 51.851, -1.429, 'Q2185932', 'Stonesfield',
+    'On 20 February 1824 William Buckland named Megalosaurus from bones dug from the slate pits at Stonesfield, ' +
+      'near Oxford — the first dinosaur ever given a scientific name. The slate is about 166 million years old ' +
+      '(Middle Jurassic).',
+    'Pinned at the Wikidata point for the village.'),
+  // Reed and Carlin's letter to O. C. Marsh, July 1877 (wyohistory.org/dates/july-19-1877).
+  site('como-bluff', 'Como Bluff: Marsh\'s dinosaur quarries', 1877, 41.916111, -106.064167, 'Q5155122', 'Como Bluff',
+    'In July 1877 two Union Pacific railwaymen, William Reed and William Carlin, wrote to O. C. Marsh about huge ' +
+      'bones at Como Bluff, Wyoming. His crews went on to dig Stegosaurus, Allosaurus and Brontosaurus there. The ' +
+      'rock is the Morrison Formation, about 150 million years old (Late Jurassic).'),
+  // Markgraf 1912, named by Stromer 1915, destroyed in the RAF raid on Munich of
+  // 24/25 April 1944 (scientificamerican.com tetrapod-zoology, Spinosaurus discovery).
+  site('bahariya', 'Bahariya Oasis: the first Spinosaurus', 1912, 28.40555556, 28.80555556, 'Q581427', 'Bahariya Formation',
+    'In 1912 Richard Markgraf dug up the first Spinosaurus in Egypt\'s Western Desert; Ernst Stromer named it in ' +
+      '1915. The bones were lost when Munich was bombed in April 1944. The rock is about 95 million years old ' +
+      '(Late Cretaceous).'),
+  // Hauff's body-outline ichthyosaur, 1892 (urweltmuseum.de/english). A Tübingen
+  // paper credits the soft-tissue finds to Fraas 1894; 1892 is the museum's own date.
+  site('holzmaden', 'Holzmaden: ichthyosaurs with their skin', 1892, 48.576666666, 9.518333333, 'Q2105647', 'Posidonia Shale',
+    'In 1892 Bernhard Hauff of Holzmaden showed an ichthyosaur prepared with its whole body outline, proving ' +
+      'these sea reptiles had a fin on their backs. The Posidonia Shale was laid down in a still, airless sea ' +
+      'about 183 million years ago (Early Jurassic).',
+    'Pinned at the Wikidata point for the Posidonia Shale, beside Holzmaden.'),
+  // Excavated 1976–77 by the Queensland Museum and University of Queensland
+  // (dinosaurtrackways.com.au fact sheet 1; Thulborn & Wade 1984). Age: the
+  // upper Winton Formation, late Cenomanian–early Turonian, c. 93.9 Ma by
+  // detrital zircons (Tucker et al. 2013, 2017; Fletcher & Salisbury 2018,
+  // PMC6130253); "about 95 million years" (Australian Museum).
+  site('lark-quarry', 'Lark Quarry dinosaur trackways dug out', 1976, -23.021171347, 142.399382558, 'Q724265', 'Lark Quarry Dinosaur Trackways',
+    'Dug out in 1976–77 by volunteers led by the Queensland Museum: about 3,300 footprints of small dinosaurs, ' +
+      'long read as a "stampede", now often as a river crossing. The sandstone is about 95 million years ' +
+      'old (Winton Formation, Late Cretaceous).'),
+  // Broom and Robinson, April 1947 (Wikidata Q1476862; Cradle of Humankind WHS, 1999).
+  // Age disputed: flowstones in Member 4 gave c. 2.6–2.1 Ma (Pickering & Kramers
+  // 2010); cosmogenic burial dating of the Member 4 breccia itself gave 3.4–3.6
+  // Ma, with Little Foot (StW 573, Member 2) at 3.67 Ma (Granger et al. 2015
+  // Nature 522:85; 2022 PNAS 119:e2123516119), arguing the flowstones are
+  // intrusive. Both are given.
+  site('sterkfontein', 'Sterkfontein: "Mrs Ples" found', 1947, -26.01604, 27.73456, 'Q1476862', 'Sterkfontein',
+    'In 1947 Robert Broom and John Robinson blasted out "Mrs Ples", the most complete skull of Australopithecus ' +
+      'africanus, from these caves near Johannesburg. Its age is disputed: dates from flowstones in the cave put ' +
+      'it at about 2.1–2.6 million years, but 2022 cosmogenic dating of the rock it lay in gives 3.4–3.6 million ' +
+      '(Little Foot, from a deeper layer, about 3.7 million). The caves are part of the Cradle of Humankind ' +
+      'World Heritage Site.'),
+  // Added 19 Oct 2026 (daytime job). Each pin is the site's Wikidata P625.
+  // Mary Leakey, 17 July 1959 (Leakey 1959, Nature 184:491). Bed I is about 1.8 Ma.
+  site('olduvai', 'Olduvai Gorge: "Nutcracker Man" found', 1959, -2.98333, 35.35, 'Q217043', 'Olduvai Gorge',
+    'On 17 July 1959 Mary Leakey found the skull of "Nutcracker Man" (Paranthropus boisei) in this Tanzanian gorge. ' +
+      'Its layers hold about 2 million years of stone tools and bones; the skull is about 1.8 million years old.'),
+  // Pei Wenzhong, 2 Dec 1929. Cosmogenic burial dating: about 770 ka (Shen et al. 2009, Nature 458:198).
+  site('zhoukoudian', 'Zhoukoudian: Peking Man skull found', 1929, 39.67965, 115.94603, 'Q13659137', 'Zhoukoudian',
+    'On 2 December 1929 Pei Wenzhong found the first skullcap of "Peking Man" (Homo erectus) in these caves near ' +
+      'Beijing. The lower layers are about 770,000 years old (0.77 million years). A World Heritage Site since 1987.'),
+  // Rick Hunter and Steven Tucker, 13 Sept 2013 (Berger et al. 2015, eLife 4:e09560).
+  site('rising-star', 'Rising Star Cave: Homo naledi found', 2013, -26.02036, 27.70923, 'Q16899337', 'Rising Star Cave',
+    'In September 2013 two cavers squeezed through a gap 18 cm wide and found bones of a new human, Homo naledi. ' +
+      'Over 1,500 pieces have come out. The bones are about 335,000–236,000 years old (about 0.3 million years).'),
+  // LB1, September 2003 (Brown et al. 2004, Nature 431:1055; dates Sutikna et al. 2016).
+  site('liang-bua', 'Liang Bua: the "hobbit" found', 2003, -8.53417, 120.46028, 'Q1822737', 'Liang Bua',
+    'In September 2003 a team digging this cave on Flores found LB1, a tiny adult human: Homo floresiensis. ' +
+      'Its bones are about 100,000–60,000 years old (0.1–0.06 million years).'),
+  // Found 1980 by Tim Flannery and John Long; dug 1984–1994 by Tom Rich and
+  // Patricia Vickers-Rich (Museums Victoria). Eumeralla Formation, Albian.
+  site('dinosaur-cove', 'Dinosaur Cove: polar dinosaurs', 1980, -38.78167, 143.41472, 'Q376965', 'Dinosaur Cove',
+    'In 1980 Tim Flannery and John Long found dinosaur bones in the sea cliffs of Victoria; tunnels were dug in later. ' +
+      'The rock is about 106 million years old (Early Cretaceous), when this coast lay near the South Pole: home ' +
+      'of the big-eyed Leaellynasaura.'),
+  // UNESCO World Heritage list, 2005 (whc.unesco.org/en/list/1186): late Eocene, about 40–37 Ma.
+  site('wadi-al-hitan', 'Wadi Al-Hitan: Whale Valley', 2005, 29.27083, 30.04389, 'Q501833', 'Wadi Al-Hitan',
+    'A World Heritage Site since 2005, in Egypt\'s Western Desert. Hundreds of early whales such as Basilosaurus ' +
+      'lie in the sand, some with tiny back legs. The rock is about 40–37 million years old (Eocene).'),
 ];
 
 async function main() {

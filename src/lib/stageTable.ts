@@ -51,6 +51,12 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1859, suffix: '-b90' }, // Elizabeth Tower (Big Ben) complete
     { from: 1860, suffix: '' },     // Victoria Tower complete; today
   ],
+  // Tower Bridge (towerBridgeSite.ts): only the paint changed. Opened 30 June 1894.
+  'tower-bridge-site': [
+    { from: 1894, suffix: '-b30' }, // chocolate-brown ironwork
+    { from: 1977, suffix: '-b70' }, // red, white and blue for the Silver Jubilee
+    { from: 2010, suffix: '' },     // blue and white (2008-12 repaint); today
+  ],
   // Buckingham Palace over time (buckinghamSite.ts) — Royal Collection Trust dates.
   'buckingham-site': [
     { from: 1703, suffix: '-b10' }, // Buckingham House, built for the Duke of Buckingham
@@ -60,11 +66,35 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1913, suffix: '' },     // Webb refaces the East Front in Portland stone; today
   ],
   'stonehenge-site': [
-    { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes
+    { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes (fresh white chalk)
+    { from: -2950, suffix: '-b20' }, // the same, grassed over: chalk is white only for a few decades
     { from: -2900, suffix: '-b35' }, // bluestones standing in the Aubrey holes
     { from: -2500, suffix: '-b60' }, // sarsen circle, lintels, trilithons
     { from: -2300, suffix: '-b80' }, // the Avenue (draped) and the Heel Stone ditch
     { from: -1900, suffix: '' },     // bluestone horseshoe; round barrows around
+  ],
+  // The Tower of London on its OSM plan (towerOfLondonSite.ts): each part's own build year.
+  // St Paul's (stPaulsSite.ts): Old St Paul's from the published plans, Wren's on its OSM plan.
+  'st-pauls-site': [
+    { from: 1087, suffix: '-b10' }, // the Norman cathedral begun
+    { from: 1221, suffix: '-b25' }, // the spire, ~149 m
+    { from: 1561, suffix: '-b40' }, // spire burned by lightning
+    { from: 1634, suffix: '-b50' }, // Inigo Jones's west portico
+    { from: 1666, suffix: '-b60' }, // the Great Fire: a roofless shell
+    { from: 1675, suffix: '-b65' }, // Wren begins: the ruins cleared
+    { from: 1697, suffix: '-b75' }, // Wren's choir in use, no dome yet
+    { from: 1710, suffix: '' },     // the dome complete; today
+  ],
+  'tower-of-london-site': [
+    { from: 1067, suffix: '-b10' }, // William's timber corner-fort
+    { from: 1100, suffix: '-b20' }, // the White Tower (begun c. 1078) alone
+    { from: 1240, suffix: '-b35' }, // Henry III's inner curtain; the keep whitewashed
+    { from: 1285, suffix: '-b50' }, // Edward I's outer curtain and wet moat
+    { from: 1532, suffix: '-b65' }, // Tudor: the White Tower's cupolas
+    { from: 1700, suffix: '-b80' }, // Stuart storehouses and houses on the green
+    { from: 1843, suffix: '-b90' }, // the moat drained; Waterloo Block (1845)
+    { from: 1900, suffix: '-b95' },
+    { from: 1990, suffix: '' },     // today
   ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort

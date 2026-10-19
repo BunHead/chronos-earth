@@ -255,6 +255,34 @@ export function windowPosToBP(pos: number, win: TimeWindow): number {
 }
 
 /**
+ * A tick label precise enough to tell neighbouring ticks `step` years apart
+ * (the Captain, 19 Oct 2026: zoomed in at 151 Mya every tick read "151 Mya").
+ * Deep time gets as many decimals as the step needs (151.2, 151.25, 151.002
+ * Mya; 14.5 kya); steps finer than 1,000 years in Mya are shown as an offset
+ * from the window's oldest tick (`base`), e.g. "+200 yr", which reads far
+ * better than 151.0002 Mya. Calendar years are already exact.
+ */
+export function formatTick(yearsBP: number, step: number, base?: number): string {
+  const bp = clamp(yearsBP, 0, OLDEST_BP);
+  if (bp >= 1_000_000) {
+    if (step < 1000 && base != null && Math.abs(base - bp) > 1e-6) {
+      const d = Math.round(base - bp);
+      return `+${d.toLocaleString('en-GB')} yr`;
+    }
+    const mya = bp / 1_000_000;
+    const need = Math.ceil(-Math.log10(step / 1_000_000) - 1e-9);
+    const dp = Math.max(mya >= 10 ? 0 : 1, Math.min(3, need));
+    return `${mya.toFixed(dp)} Mya`;
+  }
+  if (bp >= 12_000) {
+    const need = Math.ceil(-Math.log10(step / 1000) - 1e-9);
+    const dp = Math.max(0, Math.min(3, need));
+    return `${(bp / 1000).toFixed(dp)} kya`;
+  }
+  return formatTime(bp);
+}
+
+/**
  * Evenly spaced "nice" tick marks across a window — roughly 8 of them, landing
  * on round numbers (…1, 2, 5, 10, 20, 50…). In recent history they fall on
  * round CALENDAR years (1800, 1850 CE); deeper in time they fall on round
@@ -278,12 +306,16 @@ export function niceTicks(win: TimeWindow): TimeTick[] {
     const firstYear = Math.ceil(yearsBPToYear(older) / step) * step;
     for (let year = firstYear; year <= yearsBPToYear(younger) + 1e-6; year += step) {
       const bp = yearToYearsBP(year);
-      if (bp >= -1e-6 && bp <= OLDEST_BP) ticks.push({ yearsBP: bp, label: formatTime(bp) });
+      if (bp >= -1e-6 && bp <= OLDEST_BP) ticks.push({ yearsBP: bp, label: formatTick(bp, step) });
     }
   } else {
     const first = Math.ceil(younger / step) * step;
+    // The oldest tick in the window carries the full label; with very fine
+    // steps in deep time the rest read as offsets from it (formatTick).
+    let base = first;
+    for (let bp = first; bp <= older + 1e-6; bp += step) if (bp <= OLDEST_BP) base = bp;
     for (let bp = first; bp <= older + 1e-6; bp += step) {
-      if (bp >= -1e-6 && bp <= OLDEST_BP) ticks.push({ yearsBP: bp, label: formatTime(bp) });
+      if (bp >= -1e-6 && bp <= OLDEST_BP) ticks.push({ yearsBP: bp, label: formatTick(bp, step, base) });
     }
   }
 

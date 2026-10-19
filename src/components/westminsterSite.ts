@@ -103,6 +103,10 @@ export class Batch {
     if (!this.parts.has(color)) this.parts.set(color, []);
     this.parts.get(color)!.push(ng);
   }
+  /** Visit every collected geometry (to transform a batch before merging it into another). */
+  each(fn: (color: string, g: THREE.BufferGeometry) => void): void {
+    for (const [color, list] of this.parts) for (const g of list) fn(color, g);
+  }
   flush(into: THREE.Group, opts: Record<string, { metal?: number; rough?: number }> = {}): void {
     for (const [color, list] of this.parts) {
       const merged = mergeGeometries(list, false);
@@ -419,7 +423,9 @@ export function buildMedieval(site: THREE.Group, stage: number): string {
   // embankment line and never spills out over it.
   const strip = clipHalfPlane(OUTER, OLD_RIVER_U + 1);
   if (strip.length >= 3) {
-    const water = new THREE.Mesh(prism(strip, [], 0.12), mat(WATER, { rough: 0.35, flat: false }));
+    // Laid 0.8 m up (0.65 m after export grounding), over the flat cover sheet that hides today's photo
+    // (globeModels FLAT_COVER_M, 0.4 m), so the water is not buried under it.
+    const water = new THREE.Mesh(prism(strip, [], 0.15, 0.8), mat(WATER, { rough: 0.35, flat: false }));
     water.userData.noShadow = true;
     site.add(water);
   }

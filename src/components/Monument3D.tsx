@@ -15,6 +15,9 @@ import { buildAtlantis } from './atlantisCity';
 import { buildRoundBarrow, buildStonehengeSite, stonehengeStage } from './stonehengeSite';
 import { buildWestminsterSite, westminsterStage } from './westminsterSite';
 import { buildBuckinghamSite, buckinghamStage } from './buckinghamSite';
+import { buildTowerBridgeSite, towerBridgeStage } from './towerBridgeSite';
+import { buildTowerOfLondonSite, towerOfLondonYear } from './towerOfLondonSite';
+import { buildStPaulsSite, stPaulsYear } from './stPaulsSite';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
@@ -1479,7 +1482,7 @@ const GIZA_GOLD = new THREE.MeshStandardMaterial({ color: '#d4af37', metalness: 
 
 /** One horizontal slice [y0, y1] of a square pyramid (apex height H), with a
  * flat top cap when it stops short of the apex. UVs included: glTF needs them. */
-function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number): THREE.BufferGeometry {
+function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number, faceShade?: readonly number[]): THREE.BufferGeometry {
   const k0 = 1 - y0 / H;
   const k1 = Math.max(0, 1 - y1 / H);
   const a = [hx * k0, hz * k0];
@@ -1503,9 +1506,24 @@ function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number)
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  if (faceShade) {
+    // One grey per face (E, N, W, S, then the flat top if any), multiplied
+    // into the material colour: baked light, so the four faces and the ridge
+    // lines up to the apex read even under a high sun or from straight above.
+    const col: number[] = [];
+    for (let f = 0; f < pos.length / 18; f++) {
+      const k = faceShade[Math.min(f, faceShade.length - 1)];
+      for (let v = 0; v < 6; v++) col.push(k, k, k);
+    }
+    g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  }
   g.computeVertexNormals();
   return g;
 }
+/** Baked face shades for a cased pyramid: east, north, west, south, top.
+ *  (The Captain, 19 Oct 2026: seen from above, the even-lit white casing read
+ *  as flat-topped, truncated pyramids.) */
+export const GIZA_FACE_SHADE = [0.8, 0.6, 0.7, 0.9, 0.85] as const;
 const gizaMats = new Map<string, THREE.MeshStandardMaterial>();
 const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   let m = gizaMats.get(color);
@@ -1515,11 +1533,54 @@ const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   return m;
 };
 
+const shadedMats = new Map<string, THREE.MeshStandardMaterial>();
+/** smoothMat with the baked face shades (vertex colours) switched on. */
+const shadedMat = (color: string): THREE.MeshStandardMaterial => {
+  let m = shadedMats.get(color);
+  if (!m) shadedMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide, vertexColors: true,
+    emissive: color, emissiveIntensity: 0 })));
+  return m;
+};
+/** The four arrises (corner ridges) of a finished pyramid, as thin darker
+ * strips from each base corner to the apex: from straight above they draw the
+ * X that says "pointed", which the even white casing alone does not. */
+function arrises(group: THREE.Group, hx: number, hz: number, h: number, y0: number): void {
+  const pos: number[] = [];
+  const w = Math.max(0.8, hx * 0.009); // width of each strip, either side of the corner, at the base
+  // Start 1 m up, so the strips (pushed a hair outward) stay inside the base
+  // square: the exported footprint, and so the globe's scale, is unchanged.
+  const yb = y0 + 1;
+  const k0 = 1 - yb / h;
+  for (const [sx, sz] of [[1, 1], [1, -1], [-1, -1], [-1, 1]] as const) {
+    const cx = sx * hx * k0;
+    const cz = sz * hz * k0;
+    const corner = [cx, yb, cz];
+    const onX = [cx, yb, cz - sz * w]; // along the face x = cx
+    const onZ = [cx - sx * w, yb, cz]; // along the face z = cz
+    const top = [0, h, 0];
+    // Each triangle lies IN a face plane (both run through the apex), then is
+    // pushed ~0.12 m outward so it never z-fights the casing.
+    pos.push(...onX, ...corner, ...top, ...corner, ...onZ, ...top);
+  }
+  const push = 1 + 0.12 / hx;
+  for (let i = 0; i < pos.length; i += 3) {
+    pos[i] *= push;
+    pos[i + 2] *= push;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(new Array((pos.length / 3) * 2).fill(0), 2));
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, smoothMat('#a89a7e'));
+  m.name = 'arrises';
+  group.add(m);
+}
+
 function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | undefined, ruined: boolean): void {
   const s = GIZA[model];
   const hx = s.bx / 2;
   const hz = s.bz / 2;
-  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1), smoothMat(color)));
+  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1, GIZA_FACE_SHADE), shadedMat(color)));
   // The stripped core: the slope of rough local stone (inside the old casing
   // line — the casing was ~2–3 m of dressed stone), ribbed with its courses.
   // Not solid stacked boxes: their vertical faces lit near-black on the globe
@@ -1576,6 +1637,7 @@ function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | un
   // COMPLETE, as built: smooth Tura limestone casing to a pointed apex.
   if (s.granite) slice(0, s.granite, GRANITE);
   slice(s.granite, s.h, TURA);
+  arrises(group, hx, hz, s.h, s.granite);
   // KHUFU'S GOLD CAPSTONE — A MAYBE, NOT A FACT (the Captain, 18 Oct 2026).
   // Khufu's pyramidion may have been gilded (electrum), but none survives, so
   // this is a possibility shown, and the info panel says so (gizaCapNote).
@@ -4847,6 +4909,15 @@ export function buildModel(
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
     vic.position.set(0, 4.1, memZ);
     group.add(vic);
+  } else if (model === 'st-pauls-site') {
+    // St Paul's through time: Old St Paul's, then Wren's on its OSM plan (stPaulsSite.ts).
+    ground = buildStPaulsSite(group, stPaulsYear(buildFrac));
+  } else if (model === 'tower-of-london-site') {
+    // The Tower of London through time on its OSM plan (towerOfLondonSite.ts).
+    ground = buildTowerOfLondonSite(group, towerOfLondonYear(buildFrac));
+  } else if (model === 'tower-bridge-site') {
+    // Tower Bridge on its OSM plan (towerBridgeSite.ts).
+    ground = buildTowerBridgeSite(group, towerBridgeStage(buildFrac));
   } else if (model === 'buckingham-site') {
     // Buckingham Palace through time, on the real plan (buckinghamSite.ts).
     ground = buildBuckinghamSite(group, buckinghamStage(buildFrac));
