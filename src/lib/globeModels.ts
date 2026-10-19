@@ -261,7 +261,9 @@ const PLACEMENTS: Placement[] = [
   // towers, bascules, walkways, suspension chains and shore towers, from 1894,
   // repainted 1977 and 2010. No ground patch: the river is the photo's own.
   { model: 'tower-bridge-site', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
-  { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
+  // St Paul's in true metres (stPaulsSite.ts): Old St Paul's (1087, spire
+  // 1221-1561, burned 1666), then Wren's cathedral on its OSM plan (1697, dome 1710).
+  { model: 'st-pauls-site', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1087 },
   // The Tower of London in true metres on its OSM plan (towerOfLondonSite.ts),
   // phased from William's timber fort (1067) to today.
   { model: 'tower-of-london-site', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1067,

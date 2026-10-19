@@ -1,0 +1,8 @@
+{
+  "note": "Wren's cathedral: begun 1675, choir in use 1697, declared complete 1711 (dome and lantern 1708-10, west towers 1705-08). Sources: St Paul's Cathedral (stpauls.co.uk) history; Historic England list entry 1079157. Every part is dated 1710 (the dome's completion) except the body walls, standing by 1697.",
+  "nearM": 6,
+  "defaultFrom": 1710,
+  "defaultH": { "chapel": 30, "house": 15 },
+  "byName": {},
+  "byId": {}
+}
