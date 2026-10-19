@@ -167,6 +167,11 @@ const BY_MODEL: Record<string, MonumentFit> = {
   liberty: { widthM: 100, facingDeg: 45 },
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
+  // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
+  // width is each model's own span (manifest footprint), so scale ×1.
+  'temple-of-heaven': { widthM: 91, facingDeg: 0 }, // the altar's lowest tier, 91 m across
+  'trajans-column': { widthM: 6.2, facingDeg: 0 }, // pedestal plinth
+  'pompeys-pillar': { widthM: 5.4, facingDeg: 0 }, // pedestal footing
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
   // Whole-site temples (src/data/meso-temples.json): authored in true metres
   // with the stair at +Z, so width = their own footprint and θ = 180 − bearing.
@@ -222,4 +227,27 @@ export function computeFit(footprintUnits: number, widthM: number, latDeg: numbe
   const metersPerUnit = (TILE_PATCH * tileMeters(zoom)) / GROUND_UNITS;
   const scale = widthM / (Math.max(0.001, footprintUnits) * metersPerUnit);
   return { scale, zoom };
+}
+
+/** A landmark this small (fit width, m) is its own thing, not a stand-in for a site. */
+export const SMALL_LANDMARK_M = 30;
+
+/**
+ * Does a curated model at `c` already stand for the spot `t`? Within ~1 km a
+ * generic archetype beside a curated site would only be wrong (a dark stepped
+ * pyramid on Uxmal's pin), so the curated one wins. A SMALL landmark (a column,
+ * an obelisk, a statue: fit width <= SMALL_LANDMARK_M) is a separate monument,
+ * though, and stands unless it falls on the curated model's own ground (its
+ * half-width + 40 m): Trajan's Column ~0.9 km from the Colosseum.
+ */
+export function curatedCovers(
+  c: { model: string; title: string; lat: number; lon: number },
+  t: { model: string; title: string; lat: number; lon: number },
+): boolean {
+  if (Math.abs(c.lat - t.lat) >= 0.01 || Math.abs(c.lon - t.lon) >= 0.01) return false;
+  const small = fitFor(t.title, t.model).widthM <= SMALL_LANDMARK_M;
+  if (!small) return true;
+  const dN = (t.lat - c.lat) * 111_320;
+  const dE = (t.lon - c.lon) * 111_320 * Math.cos((c.lat * Math.PI) / 180);
+  return Math.hypot(dN, dE) < fitFor(c.title, c.model).widthM / 2 + 40;
 }

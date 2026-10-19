@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { startWindowDrag } from '../lib/windowDrag';
 import { isPrecursorModel, precursorMesh, PRECURSOR_SETTING } from '../lib/precursorMesh';
+import { isLandmarkModel, landmarkMesh } from '../lib/landmarkMesh';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import SkyDial from './SkyDial';
@@ -6567,6 +6568,17 @@ export function buildModel(
     group.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 })));
     ground = PRECURSOR_SETTING[model] === 'sea' ? '#2f6f86' : '#6f6a4a';
     group.userData.belowSurface = PRECURSOR_SETTING[model];
+  } else if (isLandmarkModel(model)) {
+    // 3D monuments batch 2, in true metres (lib/landmarkMesh.ts — the same
+    // mesh scripts/build-landmark-models.mjs writes for the globe).
+    const m = landmarkMesh(model);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(m.positions, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(m.normals, 3));
+    g.setAttribute('color', new THREE.BufferAttribute(m.colors, 3));
+    g.setIndex(new THREE.BufferAttribute(m.indices, 1));
+    group.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 })));
+    ground = model === 'pompeys-pillar' ? '#b8a27c' : '#8a8a78';
   } else {
     // The honest generic ruin — megaliths, stone circles, and anything
     // without a handcrafted model: weathered standing stones and a fallen

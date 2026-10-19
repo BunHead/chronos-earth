@@ -679,5 +679,17 @@
   "st-pauls-site-b75": {
     "footprint": 157.53,
     "kb": 11
+  },
+  "temple-of-heaven": {
+    "footprint": 91,
+    "kb": 15
+  },
+  "trajans-column": {
+    "footprint": 6.2,
+    "kb": 3
+  },
+  "pompeys-pillar": {
+    "footprint": 5.4,
+    "kb": 3
   }
 }

@@ -19,7 +19,7 @@
 import WESTMINSTER_PLAN from '../data/westminster-plan.json';
 import BUCKINGHAM_PLAN from '../data/buckingham-plan.json';
 import * as Cesium from 'cesium';
-import { fitFor } from './monumentFit';
+import { fitFor, curatedCovers } from './monumentFit';
 import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
@@ -596,7 +596,7 @@ function addPlacement(p: Placement): void {
   if (!p.generic) {
     for (let i = entities.length - 1; i >= 0; i--) {
       const e = entities[i];
-      if (e.p.generic && Math.abs(e.p.lat - p.lat) < 0.01 && Math.abs(e.p.lon - p.lon) < 0.01) {
+      if (e.p.generic && curatedCovers(p, e.p)) {
         viewer.entities.remove(e.entity);
         entities.splice(i, 1);
       }
@@ -747,9 +747,7 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
   // temple — Uxmal's Magician — or any hand-placed monument within ~1 km):
   // a generic archetype beside it would only be wrong (a dark stepped
   // pyramid sat on Uxmal's pin, 11 Oct 2026). Dive to the real one instead.
-  const curated = entities.find(
-    (e) => !e.p.generic && Math.abs(e.p.lat - t.lat) < 0.01 && Math.abs(e.p.lon - t.lon) < 0.01,
-  );
+  const curated = entities.find((e) => !e.p.generic && curatedCovers(e.p, t));
   if (curated) return curated.p.builtYear;
   // …nor beside a whole-site ground plan (Monte Albán is plan-only).
   if (sitePlanNear(t.lat, t.lon)) return t.builtYear ?? null;
