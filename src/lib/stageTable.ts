@@ -73,6 +73,18 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: -2300, suffix: '-b80' }, // the Avenue (draped) and the Heel Stone ditch
     { from: -1900, suffix: '' },     // bluestone horseshoe; round barrows around
   ],
+  // The Tower of London on its OSM plan (towerOfLondonSite.ts): each part's own build year.
+  'tower-of-london-site': [
+    { from: 1067, suffix: '-b10' }, // William's timber corner-fort
+    { from: 1100, suffix: '-b20' }, // the White Tower (begun c. 1078) alone
+    { from: 1240, suffix: '-b35' }, // Henry III's inner curtain; the keep whitewashed
+    { from: 1285, suffix: '-b50' }, // Edward I's outer curtain and wet moat
+    { from: 1532, suffix: '-b65' }, // Tudor: the White Tower's cupolas
+    { from: 1700, suffix: '-b80' }, // Stuart storehouses and houses on the green
+    { from: 1843, suffix: '-b90' }, // the moat drained; Waterloo Block (1845)
+    { from: 1900, suffix: '-b95' },
+    { from: 1990, suffix: '' },     // today
+  ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort
     { from: 1100, suffix: '-b35' }, // the White Tower alone

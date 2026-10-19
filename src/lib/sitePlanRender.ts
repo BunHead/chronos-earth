@@ -306,6 +306,17 @@ function ensureBakeEntity(key: string, plan: SitePlan): void {
   bakeEntities.set(key, entity);
 }
 
+/** Curated site models that take over a traced plan's place on the globe. */
+const supplanters: Array<{ lat: number; lon: number; from: number }> = [];
+/** Register a curated model standing at (lat, lon) from `from`: a traced site
+ * plan within ~300 m hides on the globe while it stands (not in the builder). */
+export function supplantSitePlans(lat: number, lon: number, from: number): void {
+  if (!supplanters.some((s) => s.lat === lat && s.lon === lon)) supplanters.push({ lat, lon, from });
+}
+export function isSupplanted(lat: number, lon: number, year: number): boolean {
+  return supplanters.some((s) => year >= s.from && Math.abs(s.lat - lat) < 0.003 && Math.abs(s.lon - lon) < 0.0045);
+}
+
 /**
  * Push the current year / layer / builder state onto every site: each part
  * shows unless the baked glb has taken it over, and the glb shows only when it
@@ -313,14 +324,17 @@ function ensureBakeEntity(key: string, plan: SitePlan): void {
  */
 function applyVisibility(): void {
   for (const [key, { plan, entities }] of sites.entries()) {
-    const bake = bakeVisible(key, plan);
+    // A curated true-metre model of the same site (the Tower of London's OSM
+    // model) stands for it on the globe; the traced plan stays the builder's.
+    const gone = !builderActive && isSupplanted(plan.origin.lat, plan.origin.lon, lastYear);
+    const bake = gone ? null : bakeVisible(key, plan);
     const taken = new Set(bake?.parts ?? []);
     entities.forEach((e, i) => {
       // Entity order mirrors part order (nulls never pushed), so map back via id.
       const raw = Number(String(e.id).split('|')[2]);
       const idx = Number.isFinite(raw) ? raw : i;
       const part = plan.parts[idx];
-      if (part) e.show = lastShow && partStandsAt(part, lastYear) && !taken.has(idx);
+      if (part) e.show = !gone && lastShow && partStandsAt(part, lastYear) && !taken.has(idx);
     });
     const be = bakeEntities.get(key);
     if (be) be.show = !!bake;

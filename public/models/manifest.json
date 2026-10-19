@@ -611,5 +611,41 @@
   "tower-bridge-site-b70": {
     "footprint": 331.772,
     "kb": 28
+  },
+  "tower-of-london-site": {
+    "footprint": 281.28,
+    "kb": 140
+  },
+  "tower-of-london-site-b10": {
+    "footprint": 120,
+    "kb": 9
+  },
+  "tower-of-london-site-b20": {
+    "footprint": 42.954,
+    "kb": 17
+  },
+  "tower-of-london-site-b35": {
+    "footprint": 191.399,
+    "kb": 47
+  },
+  "tower-of-london-site-b50": {
+    "footprint": 281.28,
+    "kb": 106
+  },
+  "tower-of-london-site-b65": {
+    "footprint": 281.28,
+    "kb": 112
+  },
+  "tower-of-london-site-b80": {
+    "footprint": 281.28,
+    "kb": 126
+  },
+  "tower-of-london-site-b90": {
+    "footprint": 281.28,
+    "kb": 133
+  },
+  "tower-of-london-site-b95": {
+    "footprint": 281.28,
+    "kb": 140
   }
 }
