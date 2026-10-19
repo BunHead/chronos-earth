@@ -127,12 +127,17 @@ export const FOSSIL_SITES = [
   // Added 18 Oct 2026. Lyme Regis, Hell Creek, the Flaming Cliffs, Dinosaur
   // Provincial Park, Liaoning (Yixian), Solnhofen, Ghost Ranch and La Brea were
   // already on the globe; of that list only the Isle of Wight was missing.
-  // Polacanthus: Rev. William Fox, early 1865, Barnes High (Blows, biostor 165764).
-  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.7, -1.3, 'Q9679', 'Isle of Wight',
+  // Polacanthus: Rev. William Fox, early 1865, Barnes High (Blows, biostor 165764);
+  // "between Barnes and Cowleaze Chines" (Hulke 1881, Proc. R. Soc. 31:336,
+  // doi:10.1098/rspl.1880.0045). Barnes High is OS grid SZ 437 808 (Radley &
+  // Barker, Univ. Portsmouth, "The Hypsilophodon Bed"); converted and checked
+  // against OSM's Cowleaze Chine node (50.6189, -1.3725), 19 Oct 2026.
+  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
     'Early in 1865 the Rev. William Fox found an armoured dinosaur, Polacanthus, at Barnes High. The island\'s ' +
       'south-west cliffs are about 125 million years old (Early Cretaceous) and are among the richest dinosaur ' +
       'grounds in Europe.',
-    'The Wessex Formation has no Wikidata point, so the pin is the island\'s own.'),
+    'Pinned at Barnes High in Brighstone Bay, where it was found; the Wessex Formation has no Wikidata point, ' +
+      'so the Q-id is the island\'s.'),
   // Named by William Buckland, Geological Society of London, 20 Feb 1824 (oumnh.ox.ac.uk/megalosaurus-0).
   site('stonesfield', 'Stonesfield: Megalosaurus, the first dinosaur named', 1824, 51.851, -1.429, 'Q2185932', 'Stonesfield',
     'On 20 February 1824 William Buckland named Megalosaurus from bones dug from the slate pits at Stonesfield, ' +
@@ -158,16 +163,26 @@ export const FOSSIL_SITES = [
       'about 183 million years ago (Early Jurassic).',
     'Pinned at the Wikidata point for the Posidonia Shale, beside Holzmaden.'),
   // Excavated 1976–77 by the Queensland Museum and University of Queensland
-  // (dinosaurtrackways.com.au fact sheet 1; Thulborn & Wade 1984).
+  // (dinosaurtrackways.com.au fact sheet 1; Thulborn & Wade 1984). Age: the
+  // upper Winton Formation, late Cenomanian–early Turonian, c. 93.9 Ma by
+  // detrital zircons (Tucker et al. 2013, 2017; Fletcher & Salisbury 2018,
+  // PMC6130253); "about 95 million years" (Australian Museum).
   site('lark-quarry', 'Lark Quarry dinosaur trackways dug out', 1976, -23.021171347, 142.399382558, 'Q724265', 'Lark Quarry Dinosaur Trackways',
     'Dug out in 1976–77 by volunteers led by the Queensland Museum: about 3,300 footprints of small dinosaurs, ' +
-      'long read as a "stampede", now often as a river crossing. The sandstone is about 104–92 million years ' +
-      'old (Winton Formation, Cretaceous).'),
+      'long read as a "stampede", now often as a river crossing. The sandstone is about 95 million years ' +
+      'old (Winton Formation, Late Cretaceous).'),
   // Broom and Robinson, April 1947 (Wikidata Q1476862; Cradle of Humankind WHS, 1999).
+  // Age disputed: flowstones in Member 4 gave c. 2.6–2.1 Ma (Pickering & Kramers
+  // 2010); cosmogenic burial dating of the Member 4 breccia itself gave 3.4–3.6
+  // Ma, with Little Foot (StW 573, Member 2) at 3.67 Ma (Granger et al. 2015
+  // Nature 522:85; 2022 PNAS 119:e2123516119), arguing the flowstones are
+  // intrusive. Both are given.
   site('sterkfontein', 'Sterkfontein: "Mrs Ples" found', 1947, -26.01604, 27.73456, 'Q1476862', 'Sterkfontein',
     'In 1947 Robert Broom and John Robinson blasted out "Mrs Ples", the most complete skull of Australopithecus ' +
-      'africanus, from these caves near Johannesburg. It is about 2.5 million years old; the caves are part of ' +
-      'the Cradle of Humankind World Heritage Site.'),
+      'africanus, from these caves near Johannesburg. Its age is disputed: dates from flowstones in the cave put ' +
+      'it at about 2.1–2.6 million years, but 2022 cosmogenic dating of the rock it lay in gives 3.4–3.6 million ' +
+      '(Little Foot, from a deeper layer, about 3.7 million). The caves are part of the Cradle of Humankind ' +
+      'World Heritage Site.'),
 ];
 
 async function main() {
