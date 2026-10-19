@@ -1543,21 +1543,25 @@ const shadedMat = (color: string): THREE.MeshStandardMaterial => {
 function arrises(group: THREE.Group, hx: number, hz: number, h: number, y0: number): void {
   const pos: number[] = [];
   const w = Math.max(0.8, hx * 0.009); // width of each strip, either side of the corner, at the base
-  const k0 = 1 - y0 / h;
+  // Start 1 m up, so the strips (pushed a hair outward) stay inside the base
+  // square: the exported footprint, and so the globe's scale, is unchanged.
+  const yb = y0 + 1;
+  const k0 = 1 - yb / h;
   for (const [sx, sz] of [[1, 1], [1, -1], [-1, -1], [-1, 1]] as const) {
     const cx = sx * hx * k0;
     const cz = sz * hz * k0;
-    const corner = [cx, y0, cz];
-    const onX = [cx, y0, cz - sz * w]; // along the face x = cx
-    const onZ = [cx - sx * w, y0, cz]; // along the face z = cz
+    const corner = [cx, yb, cz];
+    const onX = [cx, yb, cz - sz * w]; // along the face x = cx
+    const onZ = [cx - sx * w, yb, cz]; // along the face z = cz
     const top = [0, h, 0];
     // Each triangle lies IN a face plane (both run through the apex), then is
-    // pushed 0.4% outward so it never z-fights the casing.
+    // pushed ~0.12 m outward so it never z-fights the casing.
     pos.push(...onX, ...corner, ...top, ...corner, ...onZ, ...top);
   }
+  const push = 1 + 0.12 / hx;
   for (let i = 0; i < pos.length; i += 3) {
-    pos[i] *= 1.004;
-    pos[i + 2] *= 1.004;
+    pos[i] *= push;
+    pos[i + 2] *= push;
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
