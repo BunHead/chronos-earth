@@ -68,6 +68,35 @@ export const NEW_ANIMALS = [
   a('diprotodon', 'Diprotodon', '🦛', 'Q131563', 'Q7981344', -32.62083, 148.93806, 1.77, 0.04,
     'Wellington Caves, New South Wales (Australia)', 'Diprotodon',
     'The largest marsupial that ever lived: a wombat relative the size of a hippo, alive when the first people reached Australia.'),
+  // Added 19 Oct 2026 (daytime job). GPlates was unreachable again, so this
+  // batch is human relatives younger than 2 Ma, which need no drift track.
+  // Each site is the Wikidata P625 of the cave or find item named after it;
+  // each age is from the dating paper named beside it.
+  // Dirks et al. 2017, eLife 6:e24231: 335–236 ka.
+  a('homo-naledi', 'Homo naledi', '🚶', 'Q20962857', 'Q16899337', -26.02036, 27.70923, 0.335, 0.236,
+    'Rising Star Cave, South Africa', 'Homo naledi',
+    'A small-brained human cousin found deep in a dark cave in 2013 — alive at the same time as the first Homo sapiens.'),
+  // Sutikna et al. 2016, Nature 532:366: skeletons about 100–60 ka.
+  a('homo-floresiensis', 'Homo floresiensis', '🚶', 'Q186266', 'Q1822737', -8.53417, 120.46028, 0.1, 0.06,
+    'Liang Bua, Flores (Indonesia)', 'Homo floresiensis',
+    'The "hobbit": a human about 1.1 metres tall who lived on the island of Flores, hunting baby dwarf elephants.'),
+  // Détroit et al. 2019, Nature 568:181: at least 67 ka (foot bone) and 50 ka (teeth).
+  a('homo-luzonensis', 'Homo luzonensis', '🚶', 'Q5021780', 'Q5021779', 17.70326, 121.82375, 0.067, 0.05,
+    'Callao Cave, Luzon (Philippines)', 'Homo luzonensis',
+    'A small island human known from a few teeth and bones, named in 2019. The dates are minimums: it may be older.'),
+  // Duval et al. 2018, Quaternary Geochronology 47:120: Gran Dolina TD6, 949–772 ka.
+  a('homo-antecessor', 'Homo antecessor', '🚶', 'Q310846', 'Q5884310', 42.3525, -3.51833, 0.949, 0.772,
+    'Gran Dolina, Atapuerca (Spain)', 'Homo antecessor',
+    'One of the first humans in western Europe, found in a cave dug open by a railway cutting.'),
+  // Wagner et al. 2010, PNAS 107:19726: the Mauer jaw is 609 ± 40 ka.
+  a('homo-heidelbergensis', 'Homo heidelbergensis', '🚶', 'Q105784', 'Q475670', 49.34856, 8.80069, 0.649, 0.569,
+    'Mauer, near Heidelberg (Germany)', 'Homo heidelbergensis',
+    'Named in 1908 from a jaw found by a sand-pit worker. A big, strong human, maybe the ancestor of Neanderthals and of us.'),
+  // Grün et al. 2020, Nature 580:372: the Kabwe 1 skull is 299 ± 25 ka.
+  // Found in the Broken Hill mine in 1921; pinned at the Wikidata point for the town.
+  a('homo-rhodesiensis', 'Homo rhodesiensis', '🚶', 'Q131464', 'Q216902', -14.43333, 28.45, 0.324, 0.274,
+    'Kabwe (Broken Hill), Zambia', 'Homo rhodesiensis',
+    'A heavy-browed skull found by miners in 1921. It lived at the same time as Homo naledi, far to the south.'),
 ];
 
 async function main() {
