@@ -251,7 +251,10 @@ const PLACEMENTS: Placement[] = [
     cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built', flat: true } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
-  { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
+  // Tower Bridge in true metres on its OSM plan (towerBridgeSite.ts): piers,
+  // towers, bascules, walkways, suspension chains and shore towers, from 1894,
+  // repainted 1977 and 2010. No ground patch: the river is the photo's own.
+  { model: 'tower-bridge-site', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
   { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
   { model: 'tower-of-london', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1097 },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },

@@ -599,5 +599,17 @@
   "stonehenge-site-b20": {
     "footprint": 122,
     "kb": 87
+  },
+  "tower-bridge-site": {
+    "footprint": 331.772,
+    "kb": 28
+  },
+  "tower-bridge-site-b30": {
+    "footprint": 331.772,
+    "kb": 28
+  },
+  "tower-bridge-site-b70": {
+    "footprint": 331.772,
+    "kb": 28
   }
 }

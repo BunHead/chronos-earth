@@ -103,6 +103,10 @@ export class Batch {
     if (!this.parts.has(color)) this.parts.set(color, []);
     this.parts.get(color)!.push(ng);
   }
+  /** Visit every collected geometry (to transform a batch before merging it into another). */
+  each(fn: (color: string, g: THREE.BufferGeometry) => void): void {
+    for (const [color, list] of this.parts) for (const g of list) fn(color, g);
+  }
   flush(into: THREE.Group, opts: Record<string, { metal?: number; rough?: number }> = {}): void {
     for (const [color, list] of this.parts) {
       const merged = mergeGeometries(list, false);
