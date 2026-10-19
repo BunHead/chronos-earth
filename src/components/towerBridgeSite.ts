@@ -112,8 +112,10 @@ function riverTower(B: Batch, side: 'S' | 'N', trim: string): void {
   const [cu, cv] = t.c;
   const { hu, hv } = t;
   // The legs either side of the road arch, then the solid upper storeys.
-  const arch = 0.3 * hu * 2;          // half the opening, across the bridge
-  const archTop = DECK + 13;
+  // The tower stands on four corner columns (the turrets); between them the
+  // road runs through a tall pointed arch almost the tower's whole width.
+  const arch = hu - 2.4;              // half the opening, across the bridge
+  const archTop = DECK + 12;
   for (const s of [-1, 1]) {
     const w = hu - arch;
     B.box(STONE, w, archTop - PIER_TOP, hv * 2, cu + s * (arch + w / 2), (PIER_TOP + archTop) / 2, cv);
@@ -205,6 +207,24 @@ function deck(B: Batch, r: P2[], main: string, trim: string): void {
   for (const s of [-1, 1]) B.box(trim, 0.5, 1.2, d.hv * 2, d.c[0] + s * (d.hu - 0.3), DECK + 0.6, d.c[1]);
 }
 
+/** How far the bascules stand raised, degrees (the Captain's review note: "have
+ * it partly open"). Fully open they reach 86 degrees; a ship passes ~800 times a year. */
+export const BASCULE_OPEN_DEG = 22;
+
+/** One bascule leaf on its plan ring, turned up about its pivot at the pier face (v = pivotV). */
+function leaf(B: Batch, r: P2[], pivotV: number, up: number, main: string, trim: string): void {
+  const tmp = new Batch();
+  deck(tmp, r, main, trim);
+  const d = rectOf(r);
+  // the leaf's counterweight tail, down inside the pier
+  tmp.box(main, d.hu * 2 - 1, 2.5, 6, d.c[0], DECK_LO - 1.2, pivotV - Math.sign(d.c[1] - pivotV) * 3);
+  const m = new THREE.Matrix4()
+    .makeTranslation(0, DECK_LO, -pivotV)
+    .multiply(new THREE.Matrix4().makeRotationX(up))
+    .multiply(new THREE.Matrix4().makeTranslation(0, -DECK_LO, pivotV));
+  tmp.each((color, g) => { g.applyMatrix4(m); B.add(color, g); });
+}
+
 /** A shore tower (the abutment towers at each end) with its hipped roof. */
 function shoreTower(B: Batch, side: 'S' | 'N'): void {
   const body = ring(PLAN.gates[side]);
@@ -219,13 +239,26 @@ function shoreTower(B: Batch, side: 'S' | 'N'): void {
   for (const [du, dv] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) turret(B, r.c[0] + du * r.hu, r.c[1] + dv * r.hv, 0.9, 0, 24, 28);
 }
 
+/** A leaf's plan as a clean rectangle from the pier face to the centre line of the span. */
+function clipV(r: P2[], face: number, mid: number, side: 'S' | 'N'): P2[] {
+  const d = rectOf(r);
+  const v0 = side === 'S' ? face : mid - 0.15;
+  const v1 = side === 'S' ? mid + 0.15 : face;
+  const w = Math.min(d.hu, 9.5);
+  return [[d.c[0] - w, v0], [d.c[0] + w, v0], [d.c[0] + w, v1], [d.c[0] - w, v1]].map(([u, v]) => [u, v] as P2);
+}
+
 /** Where each river tower's inner (river-span) and outer (shore-span) faces lie, along v. */
-export function towerFaces(): { S: { inner: number; outer: number; c: P2; hu: number }; N: { inner: number; outer: number; c: P2; hu: number } } {
+type Faces = { inner: number; outer: number; pier: number; c: P2; hu: number };
+export function towerFaces(): { S: Faces; N: Faces } {
   const s = rectOf(ring(PLAN.towers.S));
   const n = rectOf(ring(PLAN.towers.N));
+  const ps = rectOf(ring(PLAN.piers.S));
+  const pn = rectOf(ring(PLAN.piers.N));
   return {
-    S: { inner: s.c[1] + s.hv, outer: s.c[1] - s.hv, c: s.c, hu: s.hu },
-    N: { inner: n.c[1] - n.hv, outer: n.c[1] + n.hv, c: n.c, hu: n.hu },
+    // inner/outer: the tower body's faces; pier: the pier's river face, where the bascule pivots
+    S: { inner: s.c[1] + s.hv, outer: s.c[1] - s.hv, pier: ps.c[1] + ps.hv, c: s.c, hu: s.hu },
+    N: { inner: n.c[1] - n.hv, outer: n.c[1] + n.hv, pier: pn.c[1] - pn.hv, c: n.c, hu: n.hu },
   };
 }
 
@@ -236,9 +269,17 @@ export function buildTowerBridgeSite(group: THREE.Group, stage: number): string 
   const F = towerFaces();
   riverTower(B, 'S', trim);
   riverTower(B, 'N', trim);
-  // The bascules, down: the road across the 61 m river span.
-  deck(B, ring(PLAN.bascules.S), main, trim);
-  deck(B, ring(PLAN.bascules.N), main, trim);
+  // The bascules, partly raised: the two leaves of the road across the 61 m river span.
+  const up = BASCULE_OPEN_DEG * RAD;
+  const mid = (F.S.pier + F.N.pier) / 2;
+  leaf(B, clipV(ring(PLAN.bascules.S), F.S.pier, mid, 'S'), F.S.pier, up, main, trim);
+  leaf(B, clipV(ring(PLAN.bascules.N), F.N.pier, mid, 'N'), F.N.pier, -up, main, trim);
+  // The fixed road over each pier, from the tower to the bascule's pivot.
+  for (const side of ['S', 'N'] as const) {
+    const t = F[side];
+    const [v0, v1] = side === 'S' ? [t.outer, t.pier] : [t.pier, t.outer];
+    deck(B, [[t.c[0] - 9.5, v0], [t.c[0] + 9.5, v0], [t.c[0] + 9.5, v1], [t.c[0] - 9.5, v1]], main, trim);
+  }
   // The two high-level walkways, 42 m over the river between the towers.
   for (const w of PLAN.walkways) {
     const r = rectOf(ring(w));
