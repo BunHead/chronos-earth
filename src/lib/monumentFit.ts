@@ -147,6 +147,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
   westminster: { widthM: 265, facingDeg: 90 },
   // True metres on the OSM plan, north-aligned (westminsterSite.ts): scale 1.
+  'tower-bridge-site': { widthM: 300, facingDeg: 0 }, // true metres on the OSM plan (towerBridgeSite.ts)
   'buckingham-site': { widthM: 313.0, facingDeg: 0 }, // true metres on the OSM plan (buckinghamSite.ts)
   'westminster-site': { widthM: 302.0, facingDeg: 0 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side

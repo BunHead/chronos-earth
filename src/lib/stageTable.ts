@@ -51,6 +51,12 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1859, suffix: '-b90' }, // Elizabeth Tower (Big Ben) complete
     { from: 1860, suffix: '' },     // Victoria Tower complete; today
   ],
+  // Tower Bridge (towerBridgeSite.ts): only the paint changed. Opened 30 June 1894.
+  'tower-bridge-site': [
+    { from: 1894, suffix: '-b30' }, // chocolate-brown ironwork
+    { from: 1977, suffix: '-b70' }, // red, white and blue for the Silver Jubilee
+    { from: 2010, suffix: '' },     // blue and white (2008-12 repaint); today
+  ],
   // Buckingham Palace over time (buckinghamSite.ts) — Royal Collection Trust dates.
   'buckingham-site': [
     { from: 1703, suffix: '-b10' }, // Buckingham House, built for the Duke of Buckingham
