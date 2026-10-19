@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import * as Cesium from 'cesium';
+import { readableLabel } from '../lib/labelStyle';
 // NOTE: Cesium's widget CSS is NOT imported here. vite-plugin-cesium already
 // injects `<link href="cesium/Widgets/widgets.css">` into index.html, so
 // importing it again would bundle a second ~30 KB copy into the app's main
@@ -525,11 +526,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           },
           label: {
             text: v.title,
-            font: '12px "Segoe UI", sans-serif',
+            font: '600 12px "Segoe UI", sans-serif',
             fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 3,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            ...readableLabel(),
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -60 * PIN),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2_500_000),
@@ -648,11 +647,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         },
         label: {
           text: ev.name,
-          font: '12px "Segoe UI", sans-serif',
+          font: '600 12px "Segoe UI", sans-serif',
           fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          ...readableLabel(),
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffset: new Cesium.Cartesian2(0, -28 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),
@@ -1595,13 +1592,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         },
         label: {
           text: site.name,
-          font: '13px "Segoe UI", sans-serif',
+          font: '600 13px "Segoe UI", sans-serif',
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
           fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          ...readableLabel(),
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffset: new Cesium.Cartesian2(0, -32 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 8_000_000),
@@ -1652,13 +1647,11 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
         },
         label: {
           text: battle.name,
-          font: '12px "Segoe UI", sans-serif',
+          font: '600 12px "Segoe UI", sans-serif',
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: MARKER_DEPTH_TEST_DISTANCE,
           fillColor: Cesium.Color.fromCssColorString('#ffd7d7'),
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          ...readableLabel(),
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffset: new Cesium.Cartesian2(0, -32 * PIN),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 6_000_000),
@@ -1706,11 +1699,9 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
           },
           label: {
             text: '',
-            font: '12px "Segoe UI", sans-serif',
+            font: '600 12px "Segoe UI", sans-serif',
             fillColor: Cesium.Color.WHITE,
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 3,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            ...readableLabel(),
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -28 * PIN),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1_500_000),

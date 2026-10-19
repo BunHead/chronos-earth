@@ -14,6 +14,7 @@
  * known — not a territory — and the panel says so.
  */
 import * as Cesium from 'cesium';
+import { readableLabel } from '../lib/labelStyle';
 import type { PanelContent } from '../lib/types';
 import { faunaIcon } from '../lib/markerIcons';
 import { horizonCheck, onCameraTurn } from '../lib/horizon';
@@ -116,11 +117,9 @@ export class FaunaController {
           },
           label: {
             text: entry.name,
-            font: '12px "Segoe UI", sans-serif',
+            font: '600 12px "Segoe UI", sans-serif',
             fillColor: Cesium.Color.fromCssColorString('#d6f5d6'),
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 3,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            ...readableLabel(),
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -34),
           },

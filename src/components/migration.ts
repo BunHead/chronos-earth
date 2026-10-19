@@ -15,6 +15,7 @@
  * Captain, 11 Oct 2026: "a yellow border seems to have got stuck").
  */
 import * as Cesium from 'cesium';
+import { readableLabel } from '../lib/labelStyle';
 import type { PanelContent } from '../lib/types';
 import { faunaIcon } from '../lib/markerIcons';
 import { areaAround, clusterPoints, type LonLat } from '../lib/rangeGeometry';
@@ -95,11 +96,9 @@ export class MigrationController {
           },
           label: {
             text: s.name,
-            font: '12px "Segoe UI", sans-serif',
+            font: '600 12px "Segoe UI", sans-serif',
             fillColor: Cesium.Color.fromCssColorString('#ffe2b8'),
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 3,
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            ...readableLabel(),
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -34 - 15 * stack),
           },
