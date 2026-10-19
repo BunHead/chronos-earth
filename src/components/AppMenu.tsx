@@ -6,6 +6,7 @@ import { SKINS, type SkinId } from '../lib/skin';
 import { TONES, type ToneId } from '../lib/tone';
 import Glyph from './Glyph';
 import { PATREON_URL } from '../lib/manifest';
+import { useEscape } from '../lib/escapeStack';
 import { activeLiteReasons, readLitePref, setLitePref, type LiteReason, type LitePref } from '../lib/liteMode';
 
 /** Plain words for why lite mode is on. */
@@ -84,6 +85,7 @@ export default function AppMenu({ tours, onStartTour, onShare, onAbout, onManife
   }, [open]);
 
   const close = () => { setOpen(false); setView('root'); };
+  useEscape(close, open);
 
   return (
     <div className="app-menu" ref={ref}>
