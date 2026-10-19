@@ -183,6 +183,33 @@ export const FOSSIL_SITES = [
       'it at about 2.1–2.6 million years, but 2022 cosmogenic dating of the rock it lay in gives 3.4–3.6 million ' +
       '(Little Foot, from a deeper layer, about 3.7 million). The caves are part of the Cradle of Humankind ' +
       'World Heritage Site.'),
+  // Added 19 Oct 2026 (daytime job). Each pin is the site's Wikidata P625.
+  // Mary Leakey, 17 July 1959 (Leakey 1959, Nature 184:491). Bed I is about 1.8 Ma.
+  site('olduvai', 'Olduvai Gorge: "Nutcracker Man" found', 1959, -2.98333, 35.35, 'Q217043', 'Olduvai Gorge',
+    'On 17 July 1959 Mary Leakey found the skull of "Nutcracker Man" (Paranthropus boisei) in this Tanzanian gorge. ' +
+      'Its layers hold about 2 million years of stone tools and bones; the skull is about 1.8 million years old.'),
+  // Pei Wenzhong, 2 Dec 1929. Cosmogenic burial dating: about 770 ka (Shen et al. 2009, Nature 458:198).
+  site('zhoukoudian', 'Zhoukoudian: Peking Man skull found', 1929, 39.67965, 115.94603, 'Q13659137', 'Zhoukoudian',
+    'On 2 December 1929 Pei Wenzhong found the first skullcap of "Peking Man" (Homo erectus) in these caves near ' +
+      'Beijing. The lower layers are about 770,000 years old (0.77 million years). A World Heritage Site since 1987.'),
+  // Rick Hunter and Steven Tucker, 13 Sept 2013 (Berger et al. 2015, eLife 4:e09560).
+  site('rising-star', 'Rising Star Cave: Homo naledi found', 2013, -26.02036, 27.70923, 'Q16899337', 'Rising Star Cave',
+    'In September 2013 two cavers squeezed through a gap 18 cm wide and found bones of a new human, Homo naledi. ' +
+      'Over 1,500 pieces have come out. The bones are about 335,000–236,000 years old (about 0.3 million years).'),
+  // LB1, September 2003 (Brown et al. 2004, Nature 431:1055; dates Sutikna et al. 2016).
+  site('liang-bua', 'Liang Bua: the "hobbit" found', 2003, -8.53417, 120.46028, 'Q1822737', 'Liang Bua',
+    'In September 2003 a team digging this cave on Flores found LB1, a tiny adult human: Homo floresiensis. ' +
+      'Its bones are about 100,000–60,000 years old (0.1–0.06 million years).'),
+  // Found 1980 by Tim Flannery and John Long; dug 1984–1994 by Tom Rich and
+  // Patricia Vickers-Rich (Museums Victoria). Eumeralla Formation, Albian.
+  site('dinosaur-cove', 'Dinosaur Cove: polar dinosaurs', 1980, -38.78167, 143.41472, 'Q376965', 'Dinosaur Cove',
+    'In 1980 Tim Flannery and John Long found dinosaur bones in the sea cliffs of Victoria; tunnels were dug in later. ' +
+      'The rock is about 106 million years old (Early Cretaceous), when this coast lay near the South Pole: home ' +
+      'of the big-eyed Leaellynasaura.'),
+  // UNESCO World Heritage list, 2005 (whc.unesco.org/en/list/1186): late Eocene, about 40–37 Ma.
+  site('wadi-al-hitan', 'Wadi Al-Hitan: Whale Valley', 2005, 29.27083, 30.04389, 'Q501833', 'Wadi Al-Hitan',
+    'A World Heritage Site since 2005, in Egypt\'s Western Desert. Hundreds of early whales such as Basilosaurus ' +
+      'lie in the sand, some with tiny back legs. The rock is about 40–37 million years old (Eocene).'),
 ];
 
 async function main() {

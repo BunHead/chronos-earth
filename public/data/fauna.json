@@ -4017,6 +4017,156 @@
           "lat": -32.62083
         }
       ]
+    },
+    {
+      "id": "homo-naledi",
+      "name": "Homo naledi",
+      "emoji": "🚶",
+      "wikidata": "Q20962857",
+      "lat": -26.02036,
+      "lon": 27.70923,
+      "fromMa": 0.335,
+      "toMa": 0.236,
+      "region": "Rising Star Cave, South Africa",
+      "wiki": "Homo naledi",
+      "blurb": "A small-brained human cousin found deep in a dark cave in 2013 — alive at the same time as the first Homo sapiens.",
+      "track": [
+        {
+          "ma": 0.236,
+          "lon": 27.70923,
+          "lat": -26.02036
+        },
+        {
+          "ma": 0.335,
+          "lon": 27.70923,
+          "lat": -26.02036
+        }
+      ]
+    },
+    {
+      "id": "homo-floresiensis",
+      "name": "Homo floresiensis",
+      "emoji": "🚶",
+      "wikidata": "Q186266",
+      "lat": -8.53417,
+      "lon": 120.46028,
+      "fromMa": 0.1,
+      "toMa": 0.06,
+      "region": "Liang Bua, Flores (Indonesia)",
+      "wiki": "Homo floresiensis",
+      "blurb": "The \"hobbit\": a human about 1.1 metres tall who lived on the island of Flores, hunting baby dwarf elephants.",
+      "track": [
+        {
+          "ma": 0.06,
+          "lon": 120.46028,
+          "lat": -8.53417
+        },
+        {
+          "ma": 0.1,
+          "lon": 120.46028,
+          "lat": -8.53417
+        }
+      ]
+    },
+    {
+      "id": "homo-luzonensis",
+      "name": "Homo luzonensis",
+      "emoji": "🚶",
+      "wikidata": "Q5021780",
+      "lat": 17.70326,
+      "lon": 121.82375,
+      "fromMa": 0.067,
+      "toMa": 0.05,
+      "region": "Callao Cave, Luzon (Philippines)",
+      "wiki": "Homo luzonensis",
+      "blurb": "A small island human known from a few teeth and bones, named in 2019. The dates are minimums: it may be older.",
+      "track": [
+        {
+          "ma": 0.05,
+          "lon": 121.82375,
+          "lat": 17.70326
+        },
+        {
+          "ma": 0.067,
+          "lon": 121.82375,
+          "lat": 17.70326
+        }
+      ]
+    },
+    {
+      "id": "homo-antecessor",
+      "name": "Homo antecessor",
+      "emoji": "🚶",
+      "wikidata": "Q310846",
+      "lat": 42.3525,
+      "lon": -3.51833,
+      "fromMa": 0.949,
+      "toMa": 0.772,
+      "region": "Gran Dolina, Atapuerca (Spain)",
+      "wiki": "Homo antecessor",
+      "blurb": "One of the first humans in western Europe, found in a cave dug open by a railway cutting.",
+      "track": [
+        {
+          "ma": 0.772,
+          "lon": -3.51833,
+          "lat": 42.3525
+        },
+        {
+          "ma": 0.949,
+          "lon": -3.51833,
+          "lat": 42.3525
+        }
+      ]
+    },
+    {
+      "id": "homo-heidelbergensis",
+      "name": "Homo heidelbergensis",
+      "emoji": "🚶",
+      "wikidata": "Q105784",
+      "lat": 49.34856,
+      "lon": 8.80069,
+      "fromMa": 0.649,
+      "toMa": 0.569,
+      "region": "Mauer, near Heidelberg (Germany)",
+      "wiki": "Homo heidelbergensis",
+      "blurb": "Named in 1908 from a jaw found by a sand-pit worker. A big, strong human, maybe the ancestor of Neanderthals and of us.",
+      "track": [
+        {
+          "ma": 0.569,
+          "lon": 8.80069,
+          "lat": 49.34856
+        },
+        {
+          "ma": 0.649,
+          "lon": 8.80069,
+          "lat": 49.34856
+        }
+      ]
+    },
+    {
+      "id": "homo-rhodesiensis",
+      "name": "Homo rhodesiensis",
+      "emoji": "🚶",
+      "wikidata": "Q131464",
+      "lat": -14.43333,
+      "lon": 28.45,
+      "fromMa": 0.324,
+      "toMa": 0.274,
+      "region": "Kabwe (Broken Hill), Zambia",
+      "wiki": "Homo rhodesiensis",
+      "blurb": "A heavy-browed skull found by miners in 1921. It lived at the same time as Homo naledi, far to the south.",
+      "track": [
+        {
+          "ma": 0.274,
+          "lon": 28.45,
+          "lat": -14.43333
+        },
+        {
+          "ma": 0.324,
+          "lon": 28.45,
+          "lat": -14.43333
+        }
+      ]
     }
   ]
 }
