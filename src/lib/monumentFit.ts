@@ -151,7 +151,7 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'tower-of-london-site': { widthM: 281.3, facingDeg: 0 }, // true metres on the OSM plan (towerOfLondonSite.ts)
   'tower-bridge-site': { widthM: 331.8, facingDeg: 0 }, // true metres on the OSM plan (towerBridgeSite.ts)
   'buckingham-site': { widthM: 313.0, facingDeg: 0 }, // true metres on the OSM plan (buckinghamSite.ts)
-  'westminster-site': { widthM: 302.0, facingDeg: 0 }, // long axis along the Thames, Elizabeth Tower at the north end
+  'westminster-site': { widthM: 303.7, facingDeg: 0 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
   'tower-bridge': { widthM: 260, facingDeg: 90 }, // deck spans the Thames ~N–S
   'st-pauls': { widthM: 75, facingDeg: 245 }, // west front to the WSW

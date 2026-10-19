@@ -549,8 +549,8 @@
     "kb": 190
   },
   "westminster-site": {
-    "footprint": 301.985,
-    "kb": 60
+    "footprint": 303.665,
+    "kb": 193
   },
   "westminster-site-b10": {
     "footprint": 271.868,
@@ -565,20 +565,20 @@
     "kb": 14
   },
   "westminster-site-b60": {
-    "footprint": 301.57,
-    "kb": 30
+    "footprint": 302.985,
+    "kb": 86
   },
   "westminster-site-b75": {
-    "footprint": 301.57,
-    "kb": 59
+    "footprint": 302.985,
+    "kb": 184
   },
   "westminster-site-b90": {
-    "footprint": 301.985,
-    "kb": 67
+    "footprint": 303.535,
+    "kb": 197
   },
   "buckingham-site": {
     "footprint": 312.952,
-    "kb": 76
+    "kb": 83
   },
   "buckingham-site-b10": {
     "footprint": 102.547,
@@ -590,11 +590,11 @@
   },
   "buckingham-site-b60": {
     "footprint": 260.783,
-    "kb": 66
+    "kb": 73
   },
   "buckingham-site-b85": {
     "footprint": 312.952,
-    "kb": 77
+    "kb": 84
   },
   "stonehenge-site-b20": {
     "footprint": 122,

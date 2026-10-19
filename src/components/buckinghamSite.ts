@@ -212,7 +212,58 @@ function palace(B: Batch, stage: number): void {
   for (const s of [-3.6, 0, 3.6]) B.box(GLASS, 1.6, 3.4, 0.12, MID_U + s, 11.6, FRONT_V + 2.25);
   // The three arches of the centre archway into the quadrangle.
   for (const s of [-4.2, 0, 4.2]) B.box(IRON, 3, 5.4, 0.2, MID_U + s, 2.7, FRONT_V + 2.25);
+  eastFrontDetail(B, face, uL, uR, stage);
 }
+
+/**
+ * The East Front's finer detail (19 Oct 2026): the rusticated ground storey,
+ * giant pilasters with capitals across the whole front (Webb, 1913; Blore's
+ * front had its own, in Caen stone), the frieze, window architraves with
+ * alternating pediments on the principal floor, urns on the balustrade, and
+ * the balcony with its balusters and the great consoles under it.
+ */
+function eastFrontDetail(B: Batch, face: string, uL: number, uR: number, stage: number): void {
+  const F = FRONT_V + 0.52;
+  const W = uR - uL;
+  const groove = stage >= 5 ? '#bdb7a6' : '#8f8672';
+  const trim = stage >= 5 ? '#f0ece2' : '#c7bea8';
+  // Rustication: deep horizontal joints up the ground storey.
+  for (let y = 0.8; y < 7.6; y += 0.75) B.box(groove, W, 0.09, 0.08, (uL + uR) / 2, y, F + 0.02);
+  B.box(trim, W, 0.5, 0.35, (uL + uR) / 2, 7.8, F + 0.15);                 // the band over it
+  B.box(trim, W, 1.2, 0.3, (uL + uR) / 2, 19.9, F + 0.12);                 // frieze under the cornice
+  // Giant pilasters across the whole front, the principal and second floors.
+  for (let uu = uL + 2.2; uu <= uR - 2.1; uu += 4.5) {
+    if (Math.abs(uu - MID_U) < 13.5) continue; // the centre has its own
+    B.box(face, 0.85, 11.6, 0.45, uu, 13.9, F + 0.24);
+    B.box(trim, 1.25, 0.9, 0.6, uu, 19.25, F + 0.3);                       // capital
+    B.box(trim, 1.15, 0.5, 0.55, uu, 8.3, F + 0.28);                       // base
+  }
+  // Window surrounds: architraves on every window of the two upper floors,
+  // pediments over the principal floor, alternately triangular and flat.
+  let k = 0;
+  for (let uu = uL + 4.45; uu < uR - 2; uu += 4.5, k++) {
+    if (Math.abs(uu - MID_U) < 13.5) continue;
+    for (const y of [10.6, 15.6]) {
+      B.box(trim, 1.75, 0.18, 0.2, uu, y + 1.55, F + 0.1);
+      B.box(trim, 1.75, 0.18, 0.2, uu, y - 1.55, F + 0.1);
+      for (const sx of [-0.85, 0.85]) B.box(trim, 0.16, 3.1, 0.2, uu + sx, y, F + 0.1);
+    }
+    if (k % 2 === 0) pediment(B, trim, uu, F + 0.15, 2.3, 12.35, 0.7, 0.35);
+    else B.box(trim, 2.3, 0.3, 0.4, uu, 12.5, F + 0.15);
+  }
+  // Urns along the balustrade over the pavilions and the centre.
+  for (const uu of [uL + 1, uL + 7, uL + 13, MID_U - 12, MID_U - 6, MID_U + 6, MID_U + 12, uR - 13, uR - 7, uR - 1]) {
+    const urn = new THREE.CylinderGeometry(0.28, 0.4, 1.3, 8);
+    urn.translate(uu, EAVES_TOP + 1.9, -(F + 1.2));
+    B.add(face, urn);
+  }
+  // The balcony: balusters under its rail, and three great consoles below.
+  for (let x = -5.2; x <= 5.21; x += 0.5) B.box(DRESS, 0.2, 0.75, 0.2, MID_U + x, 9.85, FRONT_V + 4.3);
+  for (const x of [-4.5, 0, 4.5]) B.box(face, 0.8, 1.6, 2.2, MID_U + x, 8.15, FRONT_V + 3.0);
+  // Its crimson hanging (the balcony's dress for state days is the same colour).
+  B.box('#8a1c24', 6, 0.9, 0.06, MID_U, 9.55, FRONT_V + 4.45);
+}
+const EAVES_TOP = 21.5;
 const EAVES_CUT = EAST_RANGE_V;
 
 /** Nash's Marble Arch (1827-33), the state entrance until it went to Hyde Park in 1851. */

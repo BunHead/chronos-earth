@@ -80,6 +80,8 @@ function mat(color: string, o: { metal?: number; rough?: number; flat?: boolean 
 }
 const STONE = '#c6b994';     // Anston limestone
 const STONE_DK = '#a99d7d';
+const STONE_WARM = '#cdbd93';  // the honey of the cleaned Anston stone, bay by bay
+const SHADOW = '#4a4639';     // deep reveals: the parapet's pierced tracery
 const STONE_OLD = '#b7aa8b';  // the medieval Reigate and Caen stone
 const LEAD = '#5d646a';       // lead and slate roofs, as the photo reads them
 const TILE = '#8b6b55';
@@ -250,21 +252,66 @@ function walls(batch: Batch, p: P2[], eaves: number, tiers: number[], step = 4, 
     const nv = (ccw ? -du : du) / L;
     const rot = Math.atan2(dv, du);
     const n = Math.max(1, Math.floor(L / step));
+    const bay = L / n;
+    const mu = (ua + ub) / 2, mv = (va + vb) / 2;
+    // String courses under each tier of windows, and a plinth: the
+    // horizontal lines that tie Barry's bays together.
+    for (const y of tiers) batch.box(STONE_DK, L, 0.32, 0.3, mu + nu * 0.12, y - 2.05, mv + nv * 0.12, rot);
+    batch.box(STONE_DK, L, 1.2, 0.4, mu + nu * 0.15, 0.6, mv + nv * 0.15, rot);
     for (let k = 0; k < n; k++) {
       const t = (k + 0.5) / n;
       const u = ua + du * t + nu * 0.06;
       const v = va + dv * t + nv * 0.06;
-      for (const y of tiers) batch.box(GLASS, Math.min(1.7, (L / n) * 0.45), 3.2, 0.12, u, y, v, rot);
+      // Every other bay a shade warmer: the stone is not one flat colour.
+      if (k % 2 === 1) batch.box(STONE_WARM, bay * 0.86, eaves - 1.5, 0.05, u + nu * 0.01, 1.2 + (eaves - 1.5) / 2, v + nv * 0.01, rot);
+      // Paired Perpendicular lights: two tall lancets, a stone mullion
+      // between and a hood mould over, in every tier.
+      const lw = Math.min(0.8, bay * 0.2);
+      for (const y of tiers) {
+        for (const s2 of [-1, 1]) {
+          const off = s2 * (lw / 2 + 0.12);
+          batch.box(GLASS, lw, 3.0, 0.12, u + (du / L) * off, y, v + (dv / L) * off, rot);
+        }
+        batch.box(STONE, 0.18, 3.0, 0.16, u, y, v, rot);                                  // mullion
+        batch.box(STONE_DK, lw * 2 + 0.7, 0.28, 0.32, u + nu * 0.1, y + 1.75, v + nv * 0.1, rot); // hood mould
+        batch.box(STONE_DK, lw * 2 + 0.5, 0.18, 0.28, u + nu * 0.08, y - 1.6, v + nv * 0.08, rot); // sill
+      }
       if (pinnacles) {
         const tb = k / n;
         const ub2 = ua + du * tb + nu * 0.25;
         const vb2 = va + dv * tb + nv * 0.25;
         batch.box(STONE_DK, 0.5, eaves + 0.2, 0.5, ub2, (eaves + 0.2) / 2, vb2, rot);   // buttress strip
-        batch.box(STONE, 0.55, 2.6, 0.55, ub2, eaves + 1.3, vb2, rot);                   // pinnacle
-        batch.box(GOLD, 0.25, 0.6, 0.25, ub2, eaves + 2.9, vb2, rot);                    // gilded finial
+        batch.box(STONE, 0.55, 1.6, 0.55, ub2, eaves + 0.8, vb2, rot);                   // pinnacle shaft
+        const sp = new THREE.ConeGeometry(0.42, 2.2, 4);                                 // its spirelet
+        sp.rotateY(Math.PI / 4 - rot);
+        sp.translate(ub2, eaves + 2.7, -vb2);
+        batch.add(STONE, sp);
+        batch.box(GOLD, 0.16, 0.5, 0.16, ub2, eaves + 4.0, vb2, rot);                    // gilded finial
       }
     }
-    batch.box(STONE, L, 1.2, 0.5, (ua + ub) / 2 + nu * 0.2, eaves + 0.6, (va + vb) / 2 + nv * 0.2, rot); // parapet
+    batch.box(STONE, L, 1.2, 0.5, mu + nu * 0.2, eaves + 0.6, mv + nv * 0.2, rot); // parapet
+    batch.box(STONE_DK, L, 0.2, 0.62, mu + nu * 0.2, eaves + 1.3, mv + nv * 0.2, rot); // its coping
+    // The parapet's pierced tracery: dark quatrefoil panels along it.
+    const np = Math.floor(L / 1.6);
+    for (let k = 0; k < np; k++) {
+      const t = (k + 0.5) / np;
+      batch.box(SHADOW, 0.7, 0.55, 0.05, ua + du * t + nu * 0.46, eaves + 0.62, va + dv * t + nv * 0.46, rot);
+    }
+    // Octagonal corner turrets where the outer wall turns.
+    if (pinnacles && !inward) {
+      const [uc, vc] = p[(i + 1) % p.length];
+      const [ud, vd] = p[(i + 2) % p.length];
+      const turn = Math.abs(Math.atan2(du * (vd - vc) - dv * (ud - uc), du * (ud - uc) + dv * (vd - vc)));
+      if (turn > 0.6 && Math.hypot(ud - uc, vd - vc) > 5) {
+        const tw = new THREE.CylinderGeometry(1.5, 1.5, eaves + 4, 8);
+        tw.translate(uc, (eaves + 4) / 2, -vc);
+        batch.add(STONE, tw);
+        const cap = new THREE.ConeGeometry(1.7, 4.5, 8);
+        cap.translate(uc, eaves + 4 + 2.25, -vc);
+        batch.add(LEAD, cap);
+        batch.box(GOLD, 0.2, 1.0, 0.2, uc, eaves + 9.2, vc);
+      }
+    }
   }
 }
 
@@ -459,12 +506,54 @@ function elizabethTower(B: Batch): void {
     B.box(GLASS, 0.1, 6, w * 0.6, u + s * (w / 2 + 0.32), 68.5, v);
     B.box(GLASS, w * 0.6, 6, 0.1, u, 68.5, v + s * (w / 2 + 0.32));
   }
-  for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) B.box(STONE, 1, 7, 1, u + a * (w / 2), 76.5, v + c * (w / 2));
-  const spire = new THREE.ConeGeometry(w * 0.6, 23, 4);
+  // Corner buttresses up the shaft, and gilt bands round the clock stage.
+  for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    B.box(STONE_DK, 1.2, 49, 1.2, u + a * (w / 2), 30.5, v + c * (w / 2));
+    // Corner spirelets on the belfry, each on its shaft with a gilt finial.
+    B.box(STONE, 1.2, 5, 1.2, u + a * (w / 2), 75.5, v + c * (w / 2));
+    const sp = new THREE.ConeGeometry(0.9, 5, 4);
+    sp.rotateY(Math.PI / 4);
+    sp.translate(u + a * (w / 2), 80.5, -(v + c * (w / 2)));
+    B.add(STONE, sp);
+    B.box(GOLD, 0.25, 1.2, 0.25, u + a * (w / 2), 83.5, v + c * (w / 2));
+  }
+  for (const y of [55.2, 63.8]) B.box(GOLD, w + 1.15, 0.35, w + 1.15, u, y, v);
+  // The dials: twelve gilt hour marks and the hands (at ten past ten).
+  for (const [du, dv, faceU] of [[w / 2 + 0.64, 0, true], [-w / 2 - 0.64, 0, true], [0, w / 2 + 0.64, false], [0, -w / 2 - 0.64, false]] as const) {
+    for (let h = 0; h < 12; h++) {
+      const a = (h / 12) * Math.PI * 2;
+      const x = Math.sin(a) * 3.0, y = Math.cos(a) * 3.0;
+      if (faceU) B.box(GOLD, 0.08, 0.6, 0.25, u + du, 59.5 + y, v + dv + x);
+      else B.box(GOLD, 0.25, 0.6, 0.08, u + du + x, 59.5 + y, v + dv);
+    }
+    const hand = (len: number, ang: number) => {
+      const g = new THREE.BoxGeometry(faceU ? 0.08 : 0.22, len, faceU ? 0.22 : 0.08);
+      g.translate(0, len / 2, 0);
+      g.rotateX(faceU ? -ang : 0);
+      g.rotateZ(faceU ? 0 : -ang);
+      g.translate(u + du * 1.005, 59.5, -(v + dv * 1.005));
+      B.add('#1e1e1e', g);
+    };
+    hand(2.0, -Math.PI / 3);   // hour hand at ten
+    hand(2.8, Math.PI / 3);    // minute hand at two
+  }
+  // The belfry's pointed louvred openings, three a side.
+  for (const s2 of [-1, 1]) for (const t of [-1, 0, 1]) {
+    B.box(SHADOW, 0.12, 5.5, 1.8, u + s2 * (w / 2 + 0.34), 68.5, v + t * 2.8);
+    B.box(SHADOW, 1.8, 5.5, 0.12, u + t * 2.8, 68.5, v + s2 * (w / 2 + 0.34));
+  }
+  // The iron spire: steep, with gilt bands, the Ayrton Light's lantern and
+  // the cross and orb at the top.
+  const spire = new THREE.ConeGeometry(w * 0.5, 23, 4);
   spire.rotateY(Math.PI / 4);
   spire.translate(u, 73 + 11.5, -v);
   B.add(LEAD, spire);
+  for (const [y, r] of [[78, 0.38], [84, 0.27], [89, 0.17]] as const) B.box(GOLD, w * r * 1.42, 0.35, w * r * 1.42, u, y, v);
+  B.box('#f0e3a8', 1.6, 1.8, 1.6, u, 86, v); // the Ayrton Light
   B.box(GOLD, 0.5, 3, 0.5, u, 97, v);
+  const orb = new THREE.SphereGeometry(0.55, 8, 6);
+  orb.translate(u, 98.6, -v);
+  B.add(GOLD, orb);
 }
 function victoriaTower(B: Batch, top = 98.5): void {
   const { u, v, w } = VICTORIA;
@@ -481,14 +570,45 @@ function victoriaTower(B: Batch, top = 98.5): void {
       }
     }
   }
+  // Octagonal corner turrets up the whole height (Barry's design), and the
+  // carved bands of statues and shields between the stages.
+  for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    const t = new THREE.CylinderGeometry(1.5, 1.7, shaft, 8);
+    t.translate(u + a * (w / 2), shaft / 2, -(v + c * (w / 2)));
+    B.add(STONE, t);
+  }
+  for (let k = 1; k < Math.floor(shaft / 12); k++) {
+    for (const s2 of [-1, 1]) for (let q = -3; q <= 3; q++) {
+      B.box(STONE_DK, 0.35, 2.2, 1.1, u + s2 * (w / 2 + 0.2), 12 + k * 12 - 1.8, v + q * 2.6);
+      B.box(STONE_DK, 1.1, 2.2, 0.35, u + q * 2.6, 12 + k * 12 - 1.8, v + s2 * (w / 2 + 0.2));
+    }
+  }
   if (top < 98) return; // short of its crown
   for (const [a, c] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
-    B.box(STONE, 2.6, 14, 2.6, u + a * (w / 2 - 1.1), 91, v + c * (w / 2 - 1.1));
-    const p = new THREE.ConeGeometry(1.6, 6, 8);
-    p.translate(u + a * (w / 2 - 1.1), 101, -(v + c * (w / 2 - 1.1)));
+    const cu = u + a * (w / 2), cv = v + c * (w / 2);
+    const t = new THREE.CylinderGeometry(1.5, 1.5, 14, 8);
+    t.translate(cu, 91, -cv);
+    B.add(STONE, t);
+    const p = new THREE.ConeGeometry(1.8, 7, 8);
+    p.translate(cu, 101.5, -cv);
     B.add(LEAD, p);
+    B.box(GOLD, 0.3, 1.6, 0.3, cu, 105.8, cv);
   }
-  B.box(LEAD, w - 2, 1.5, w - 2, u, 87, v);
+  // The pierced parapet with its ring of pinnacles round the crown.
+  for (const s2 of [-1, 1]) for (let q = -3; q <= 3; q++) {
+    for (const [pu, pv] of [[u + s2 * (w / 2), v + q * 2.6], [u + q * 2.6, v + s2 * (w / 2)]]) {
+      B.box(STONE, 0.6, 3, 0.6, pu, 89.5, pv);
+      const sp = new THREE.ConeGeometry(0.45, 2.2, 4);
+      sp.translate(pu, 92.1, -pv);
+      B.add(STONE, sp);
+    }
+  }
+  B.box(STONE, w, 1.6, w, u, 87.2, v);
+  // The low cast-iron pyramid roof.
+  const roof = new THREE.ConeGeometry((w - 2) * 0.7, 6, 4);
+  roof.rotateY(Math.PI / 4);
+  roof.translate(u, 91, -v);
+  B.add(LEAD, roof);
   B.box('#3a3a3a', 0.45, 22, 0.45, u, 98, v);                    // the flagstaff
   B.box('#c8102e', 0.1, 3, 5, u, 106, v + 2.6);                  // and its flag
 }
