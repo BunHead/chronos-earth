@@ -15,7 +15,11 @@
         "Carved T-pillars up to ~5.5 m tall, weighing many tonnes",
         "Built by hunter-gatherers, before pottery or the wheel",
         "Filled in with rubble in antiquity, which preserved it — long thought deliberate, now thought to be partly slope slides",
-        "Part of the wider 'Taş Tepeler' cluster of early Neolithic sites"
+        "Part of the wider 'Taş Tepeler' cluster of early Neolithic sites",
+        "Human remains: over 900 scattered, mostly unrelated bone fragments (928 counted by 2026), from men, women and children of all ages, found mostly in the fill of the great enclosures",
+        "2017: fragments of three skulls with deep grooves carved along the top, one also drilled and with traces of red ochre, made with stone tools. The excavators read them as a possible 'skull cult', perhaps skulls hung up on show; that reading is still debated",
+        "2026: the first two intact burials published, both from the later part of the site's life, c. 8700–8000 BCE. They lay under the floors of houses on the mound: a pit holding at least three people (a woman over 35, a man of 20–30, a girl of 11–14), and a young woman laid on her side with knees drawn up",
+        "The graves suggest people lived here, not only gathered for rituals. Many scattered bones may have slid down from graves upslope, though the excavators do not rule out other rites, such as the skull cult"
       ],
       "links": [
         {
@@ -25,6 +29,18 @@
         {
           "label": "UNESCO World Heritage listing",
           "url": "https://whc.unesco.org/en/list/1572/"
+        },
+        {
+          "label": "Gresky & Clare 2026, First burials at Göbeklitepe (PLOS One)",
+          "url": "https://doi.org/10.1371/journal.pone.0358979"
+        },
+        {
+          "label": "Gresky, Haelm & Clare 2017, Modified human crania (Science Advances)",
+          "url": "https://doi.org/10.1126/sciadv.1700564"
+        },
+        {
+          "label": "Dr Hugh Thomas: The First Skeletons Found at Göbekli Tepe (video)",
+          "url": "https://www.youtube.com/watch?v=mWZ0Jq0OqAE"
         }
       ],
       "alternative": {
