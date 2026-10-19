@@ -8,9 +8,12 @@
 // Rules:
 //   names    missing/empty, untrimmed, doubled spaces, HTML entities, markup
 //   qids     a Wikidata id not in the form Q123; the same Q-id twice in a file
-//   dupes    same name + same year within 5 km
+//   dupes    same name + same year within 5 km · the same battle under two
+//            names ("Battle of X" / "X", a year apart at most)
 //   coords   0,0 · lat/lon swapped (the swap sits on Wikidata, the pin doesn't)
-//   years    BCE sign that disagrees with the date label · in the future
+//            · one Q-id pinned in two places · whole-degree guesses
+//   years    BCE sign that disagrees with the date label · a year outside its
+//            own date label · in the future
 //   links    image/model files the data points at that are not in the repo
 import { haversineKm, MAX_KM } from './wikidata-coords.mjs';
 
@@ -116,6 +119,95 @@ export function checkNameYearDupes(rows, yearKey, km = 5) {
     }
   }
   return out;
+}
+
+/** A name with "Battle of", "Siege of" and punctuation taken off, for matching. */
+export function battleKey(name) {
+  return String(name).toLowerCase()
+    .replace(/^(?:the\s+)?(?:naval\s+)?(?:battle|siege|sack|fall|capture)\s+of\s+(?:the\s+)?/, '')
+    .normalize('NFD').replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * The same battle entered twice under slightly different names: the same
+ * name once "Battle of" and punctuation are taken off, a year apart at most.
+ * An ordinal is kept, so "First" and "Second Battle of Bull Run" stay apart.
+ */
+export function checkLooseDupes(rows, yearKey) {
+  const out = [];
+  const seen = new Map();
+  for (const r of rows) {
+    if (typeof r.name !== 'string' || typeof r[yearKey] !== 'number') continue;
+    const k = battleKey(r.name);
+    if (!k) continue;
+    for (const o of seen.get(k) ?? []) {
+      if (o.name !== r.name && Math.abs(o[yearKey] - r[yearKey]) <= 1) {
+        out.push({ id: r.id, rule: 'dupes', msg: `looks like the same battle as ${o.id} ("${r.name}" / "${o.name}")` });
+      }
+    }
+    (seen.get(k) ?? seen.set(k, []).get(k)).push(r);
+  }
+  return out;
+}
+
+/**
+ * One Wikidata id pinned in two places more than `km` apart, across files.
+ * `sets` is [{ file, rows, key? }]. A pin and its harvested twin should sit on
+ * the same spot; if they don't, one of them is wrong (or the Q-id is).
+ */
+export function checkQidCoords(sets, km = MAX_KM) {
+  const byQ = new Map();
+  for (const { file, rows, key } of sets) {
+    for (const r of rows) {
+      if (!Number.isFinite(r.lat) || !Number.isFinite(r.lon)) continue;
+      for (const q of new Set(qidsOf(r, key))) (byQ.get(q) ?? byQ.set(q, []).get(q)).push({ file, r });
+    }
+  }
+  const out = [];
+  for (const [q, g] of byQ) {
+    for (let i = 1; i < g.length; i++) {
+      const [a, b] = [g[0], g[i]];
+      const d = haversineKm(a.r.lat, a.r.lon, b.r.lat, b.r.lon);
+      if (d > km) out.push({ file: b.file, id: b.r.id, rule: 'coords', msg: `same Wikidata ${q} as ${a.file} ${a.r.id}, but ${Math.round(d)} km away` });
+    }
+  }
+  return out;
+}
+
+/** Both lat and lon whole degrees: usually a rough guess, not a surveyed spot. */
+export function checkWholeDegree(row) {
+  const { lat, lon } = row;
+  if (!Number.isInteger(lat) || !Number.isInteger(lon) || (lat === 0 && lon === 0)) return [];
+  return [{ id: row.id, rule: 'coords', msg: `whole-degree coordinates (${lat}, ${lon}) — a rough guess? check before moving` }];
+}
+
+/**
+ * The signed years a date label names: "5 November 333 BCE" → [-333],
+ * "262–260 BCE" → [-262, -260]. Small numbers with no era are days of the
+ * month and are skipped; vague labels ("c. 2,800 years ago", "1st
+ * millennium BCE") give null.
+ */
+export function labelYears(label) {
+  if (typeof label !== 'string' || /\bago\b|million|\bmya\b|millenni|centur/i.test(label)) return null;
+  const eras = new Set([...label.matchAll(/\b(BCE|BC|CE|AD)\b/gi)].map((x) => (/^b/i.test(x[1]) ? -1 : 1)));
+  const fallback = eras.size === 1 ? [...eras][0] : 1;
+  const out = [];
+  for (const m of label.matchAll(/(\d[\d,]*)(?:\s*(BCE|BC|CE|AD)\b)?/gi)) {
+    const n = Number(m[1].replace(/,/g, ''));
+    const era = m[2] ? (/^b/i.test(m[2]) ? -1 : 1) : null;
+    if (!era && n < 100) continue;
+    out.push(n * (era ?? fallback));
+  }
+  return out.length ? out : null;
+}
+
+/** A year that lies outside the years its own date label gives. */
+export function checkLabelYear(row, yearKey, labelKey) {
+  const y = row[yearKey];
+  const ys = labelYears(row[labelKey]);
+  if (typeof y !== 'number' || !ys) return [];
+  if (y >= Math.min(...ys) && y <= Math.max(...ys)) return [];
+  return [{ id: row.id, rule: 'years', msg: `${yearKey} ${y} is not in ${labelKey} ${JSON.stringify(row[labelKey])}` }];
 }
 
 /**
