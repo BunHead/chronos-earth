@@ -359,7 +359,11 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
   // through their stripped ruins (Khafre's dark photo top). The queens only until
   // built — their floors left flat slabs by Khufu in 2026 (the PR #12 review).
   const curYear = yearsBPToYear(lastYearsBP);
-  let want = modern && lastShowSites && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
+  // Never before the work starts (bornYear): at 5406 BCE the great three's
+  // floors read as flat cream slabs where the pyramids would one day stand
+  // (the Captain, 19 Oct 2026). Before then the sand cover alone hides today's photo.
+  const { bornYear } = stageFor(p.model, p.builtYear, curYear);
+  let want = modern && lastShowSites && curYear >= bornYear && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
   if (want && !ringGround.has(id)) {
     // The floor's height is the ring's ground: find it first (never a hole into the void).
     if (!grounding.has(id)) void findBase(entity, p);

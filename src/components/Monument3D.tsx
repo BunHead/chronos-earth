@@ -1478,7 +1478,7 @@ const GIZA_GOLD = new THREE.MeshStandardMaterial({ color: '#d4af37', metalness: 
 
 /** One horizontal slice [y0, y1] of a square pyramid (apex height H), with a
  * flat top cap when it stops short of the apex. UVs included: glTF needs them. */
-function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number): THREE.BufferGeometry {
+function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number, faceShade?: readonly number[]): THREE.BufferGeometry {
   const k0 = 1 - y0 / H;
   const k1 = Math.max(0, 1 - y1 / H);
   const a = [hx * k0, hz * k0];
@@ -1502,9 +1502,24 @@ function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number)
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  if (faceShade) {
+    // One grey per face (E, N, W, S, then the flat top if any), multiplied
+    // into the material colour: baked light, so the four faces and the ridge
+    // lines up to the apex read even under a high sun or from straight above.
+    const col: number[] = [];
+    for (let f = 0; f < pos.length / 18; f++) {
+      const k = faceShade[Math.min(f, faceShade.length - 1)];
+      for (let v = 0; v < 6; v++) col.push(k, k, k);
+    }
+    g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  }
   g.computeVertexNormals();
   return g;
 }
+/** Baked face shades for a cased pyramid: east, north, west, south, top.
+ *  (The Captain, 19 Oct 2026: seen from above, the even-lit white casing read
+ *  as flat-topped, truncated pyramids.) */
+export const GIZA_FACE_SHADE = [0.9, 0.72, 0.82, 1, 0.95] as const;
 const gizaMats = new Map<string, THREE.MeshStandardMaterial>();
 const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   let m = gizaMats.get(color);
@@ -1514,11 +1529,20 @@ const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   return m;
 };
 
+const shadedMats = new Map<string, THREE.MeshStandardMaterial>();
+/** smoothMat with the baked face shades (vertex colours) switched on. */
+const shadedMat = (color: string): THREE.MeshStandardMaterial => {
+  let m = shadedMats.get(color);
+  if (!m) shadedMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide, vertexColors: true,
+    emissive: color, emissiveIntensity: 0.05 })));
+  return m;
+};
+
 function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | undefined, ruined: boolean): void {
   const s = GIZA[model];
   const hx = s.bx / 2;
   const hz = s.bz / 2;
-  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1), smoothMat(color)));
+  const slice = (y0: number, y1: number, color: string) => group.add(new THREE.Mesh(pyramidSlice(hx, hz, s.h, y0, y1, GIZA_FACE_SHADE), shadedMat(color)));
   // The stripped core: the slope of rough local stone (inside the old casing
   // line — the casing was ~2–3 m of dressed stone), ribbed with its courses.
   // Not solid stacked boxes: their vertical faces lit near-black on the globe
