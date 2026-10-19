@@ -58,5 +58,7 @@ describe('Tower Bridge on its OSM plan', () => {
   it('is exported and fitted at true scale', () => {
     for (const s of ['', '-b30', '-b70']) expect(manifest[`tower-bridge-site${s}`]?.footprint).toBeGreaterThan(200);
     expect(fitFor('Tower Bridge', 'tower-bridge-site').widthM).toBeCloseTo(manifest['tower-bridge-site'].footprint, 0);
+    // the old "tower bridge" title rule (260 m, facing 90) must not turn the site model
+    expect(fitFor('Tower Bridge', 'tower-bridge-site').facingDeg).toBe(0);
   });
 });
