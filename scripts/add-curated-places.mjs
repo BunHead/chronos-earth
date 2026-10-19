@@ -50,6 +50,26 @@ export const PLACES = [
       'Visiting: as of September 2026 Roden Crater is closed to the public while construction ' +
       'continues, and fundraising is under way to finish it and open it. rodencrater.com has the latest.',
   },
+  {
+    // Asked for on 19 Oct 2026 with the 3D model (lib/landmarkMesh.ts).
+    id: 'cur-temple-of-heaven',
+    name: 'Temple of Heaven',
+    category: 'monument',
+    // Built 1406-1420 under the Yongle Emperor, with the Forbidden City.
+    startYear: 1420,
+    // The Hall of Prayer for Good Harvests, the pin's model.
+    lat: 39.8822,
+    lon: 116.4066,
+    wikidataId: 'Q125445',
+    wikiTitle: 'Temple of Heaven',
+    // Hand-set weight: enough to hold its own when you are looking at Beijing.
+    notability: 120,
+    dateNote:
+      'Built 1406-1420 under the Yongle Emperor, alongside the Forbidden City, for the emperors\' ' +
+      'prayers to Heaven for good harvests. The round Hall of Prayer for Good Harvests (38 m, three ' +
+      'blue-tiled roofs on a three-tier white marble terrace) burned after a lightning strike in 1889 ' +
+      'and was rebuilt to the same design by 1896. UNESCO World Heritage Site, 1998.',
+  },
   // THE MAYA LOWLANDS, asked for on 10 Oct 2026 with a video on Minanbé (the
   // new city itself is a curated SITE in ancient-sites.json, with its facts).
   // Neither Wikidata nor the harvest dates these, so each date is the period
@@ -217,6 +237,17 @@ export const MONUMENT_FIXES = [
   { id: 'cur-taj-mahal', wikidataId: 'Q9141', lat: 27.175, lon: 78.04194 },
   { id: 'cur-rapa-nui', wikidataId: 'Q20350', lat: -27.11423, lon: -109.36399 },
   { id: 'cur-forbidden-city', wikidataId: 'Q80290', lat: 39.91583, lon: 116.39083 },
+  // Pompey's Pillar (19 Oct 2026): the Pleiades row carried the Roman period's
+  // start (30 BC) as its year. The column was raised in AD 297-298 for
+  // Diocletian, in the precinct of the Serapeum; the name is a medieval error.
+  {
+    id: 'pl941771944', name: "Pompey's Pillar", startYear: 297, wikidataId: 'Q492487', wikiTitle: "Pompey's Pillar (column)",
+    dateNote:
+      'Raised in AD 297-298 for the emperor Diocletian (its inscription names him), after he put down ' +
+      'the Alexandrian revolt, in the precinct of the Serapeum, the great temple of Serapis (built ' +
+      'under Ptolemy III, 3rd century BC). Crusader-era travellers wrongly tied it to Pompey the Great. ' +
+      'A single red Aswan granite shaft, 20.46 m; 26.85 m in all.',
+  },
 ];
 
 async function main() {

@@ -596,7 +596,7 @@ function addPlacement(p: Placement): void {
   if (!p.generic) {
     for (let i = entities.length - 1; i >= 0; i--) {
       const e = entities[i];
-      if (e.p.generic && Math.abs(e.p.lat - p.lat) < 0.01 && Math.abs(e.p.lon - p.lon) < 0.01) {
+      if (e.p.generic && curatedCovers(p, e.p)) {
         viewer.entities.remove(e.entity);
         entities.splice(i, 1);
       }
@@ -728,6 +728,29 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   });
 }
 
+/** A landmark this small (fit width, m) is its own thing, not a stand-in for a site. */
+export const SMALL_LANDMARK_M = 30;
+
+/**
+ * Does a curated model at `c` already stand for the spot `t`? Within ~1 km a
+ * generic archetype beside a curated site would only be wrong (a dark stepped
+ * pyramid on Uxmal's pin), so the curated one wins. A SMALL landmark (a column,
+ * an obelisk, a statue: fit width <= SMALL_LANDMARK_M) is a separate monument,
+ * though, and stands unless it falls on the curated model's own ground (its
+ * half-width + 40 m): Trajan's Column ~0.9 km from the Colosseum.
+ */
+export function curatedCovers(
+  c: { model: string; title: string; lat: number; lon: number },
+  t: { model: string; title: string; lat: number; lon: number },
+): boolean {
+  if (Math.abs(c.lat - t.lat) >= 0.01 || Math.abs(c.lon - t.lon) >= 0.01) return false;
+  const small = fitFor(t.title, t.model).widthM <= SMALL_LANDMARK_M;
+  if (!small) return true;
+  const dN = (t.lat - c.lat) * 111_320;
+  const dE = (t.lon - c.lon) * 111_320 * Math.cos((c.lat * Math.PI) / 180);
+  return Math.hypot(dN, dE) < fitFor(c.title, c.model).widthM / 2 + 40;
+}
+
 /**
  * THE GLOBE IS THE VIEWER: place any site's archetype at its own coordinates
  * (once), so "Visit on the globe" always has something standing there.
@@ -747,9 +770,7 @@ export function ensurePlacement(t: { model: string; title: string; lat: number; 
   // temple — Uxmal's Magician — or any hand-placed monument within ~1 km):
   // a generic archetype beside it would only be wrong (a dark stepped
   // pyramid sat on Uxmal's pin, 11 Oct 2026). Dive to the real one instead.
-  const curated = entities.find(
-    (e) => !e.p.generic && Math.abs(e.p.lat - t.lat) < 0.01 && Math.abs(e.p.lon - t.lon) < 0.01,
-  );
+  const curated = entities.find((e) => !e.p.generic && curatedCovers(e.p, t));
   if (curated) return curated.p.builtYear;
   // …nor beside a whole-site ground plan (Monte Albán is plan-only).
   if (sitePlanNear(t.lat, t.lon)) return t.builtYear ?? null;
