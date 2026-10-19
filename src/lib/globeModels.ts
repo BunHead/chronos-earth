@@ -243,7 +243,7 @@ const PLACEMENTS: Placement[] = [
   // Nash, Blore's East Front, the Victoria Memorial and Webb's 1913 front. The
   // photo is today's palace, so it is covered to its own outline until 1913.
   { model: 'buckingham-site', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1913,
-    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built' } },
+    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built', flat: true } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
   { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
