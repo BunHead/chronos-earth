@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { overHorizon, HORIZON_SLACK_M } from './horizonCull';
+import { overHorizon, HORIZON_SLACK_M, slackFor } from './horizonCull';
 
 const R = 6_371_000;
 const at = (latDeg: number, lonDeg: number, h = 0) => {
@@ -28,5 +28,12 @@ describe('horizon culling of labels', () => {
     expect(overHorizon(cam, at(0, h + 0.005))).toBe(true); // ~0.5 km past
     expect(overHorizon(cam, at(0, h + 1))).toBe(false);
     expect(HORIZON_SLACK_M).toBeLessThan(5000);
+  });
+  it('from street level, hides labels ~100 km off (they are far below the horizon)', () => {
+    const cam = at(51.5014, -0.14, 25); // over the Mall
+    const winchester = at(51.06, -1.32);
+    expect(overHorizon(cam, winchester, slackFor(cam))).toBe(false);
+    expect(overHorizon(cam, at(51.51, -0.12), slackFor(cam))).toBe(true); // 1.6 km off: in view
+    expect(slackFor(at(0, 0, 4_000_000))).toBe(HORIZON_SLACK_M);
   });
 });

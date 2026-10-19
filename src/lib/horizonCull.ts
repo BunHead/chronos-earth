@@ -18,6 +18,17 @@ import * as Cesium from 'cesium';
  */
 export const HORIZON_SLACK_M = 1500;
 
+/**
+ * The slack for a camera: it must shrink as the camera comes down. At street
+ * level the horizon is only ~15 km off, and a fixed 1.5 km slack let points
+ * hundreds of km past it through (Winchester's labels from 20 m over the Mall).
+ * About 2% of the camera's height, 5 m to HORIZON_SLACK_M.
+ */
+export function slackFor(cam: { x: number; y: number; z: number }): number {
+  const h = Math.hypot(cam.x, cam.y, cam.z) - 6_371_000;
+  return Math.min(HORIZON_SLACK_M, Math.max(5, h * 0.02));
+}
+
 export function overHorizon(
   cam: { x: number; y: number; z: number },
   p: { x: number; y: number; z: number },
@@ -71,12 +82,13 @@ export function installHorizonCull(viewer: Cesium.Viewer): () => void {
     lastCount = ents.length;
     lastAt = now;
     let changed = false;
+    const slack = slackFor(cam);
     const t = viewer.clock.currentTime;
     for (const e of ents) {
       if (!e.label && !e.billboard) continue;
       const pos = e.position?.getValue(t, scratch);
       if (!pos) continue;
-      const vis = overHorizon(cam, pos);
+      const vis = overHorizon(cam, pos, slack);
       if (setGraphicShow(e.label, vis)) changed = true;
       if (setGraphicShow(e.billboard, vis)) changed = true;
     }
@@ -84,7 +96,7 @@ export function installHorizonCull(viewer: Cesium.Viewer): () => void {
       if (c.isDestroyed()) { collections.delete(c); continue; }
       for (let i = 0; i < c.length; i++) {
         const g = c.get(i) as Cesium.Label | Cesium.Billboard;
-        const vis = overHorizon(cam, g.position);
+        const vis = overHorizon(cam, g.position, slack);
         if (!vis && g.show) { g.show = false; hidden.add(g); changed = true; }
         else if (vis && !g.show && hidden.has(g)) { g.show = true; hidden.delete(g); changed = true; }
       }
