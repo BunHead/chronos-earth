@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { monumentModelForName, eventToPanel } from './panel';
-import { fitFor } from './monumentFit';
+import { fitFor, curatedCovers } from './monumentFit';
 import {
   landmarkMesh, landmarkBounds, landmarkNote, LANDMARK_MODELS, LANDMARK_HEIGHT_M, type LandmarkModel,
 } from './landmarkMesh';
@@ -90,11 +90,46 @@ describe('only these sites gain the 3D button', () => {
         if (j.category[i] === 'monument' && m && (LANDMARK_MODELS as readonly string[]).includes(m)) hits.set(n, m);
       });
     }
-    expect(Object.fromEntries(hits)).toEqual({ "Trajan's Column": 'trajans-column', "Pompey's pillar": 'pompeys-pillar' });
+    expect(Object.fromEntries(hits)).toEqual({
+      "Trajan's Column": 'trajans-column',
+      "Pompey's Pillar": 'pompeys-pillar',
+      'Temple of Heaven': 'temple-of-heaven',
+    });
   });
 
   it('the panel offers the 3D button for them', () => {
     const e = { id: 'q192784', name: "Trajan's Column", startYear: 113, lat: 41.8958, lon: 12.4842, category: 'monument' } as TimelineEvent;
     expect(eventToPanel(e).monument3d?.model).toBe('trajans-column');
+  });
+});
+
+describe('small landmarks beside curated models (19 Oct 2026)', () => {
+  const colosseum = { model: 'colosseum', title: 'Colosseum', lat: 41.8902, lon: 12.4922 };
+  it("Trajan's Column ~0.9 km from the Colosseum stands as its own monument", () => {
+    expect(curatedCovers(colosseum, { model: 'trajans-column', title: "Trajan's Column", lat: 41.8958, lon: 12.4843 })).toBe(false);
+  });
+  it('a small landmark on the curated model\'s own ground is still covered', () => {
+    expect(curatedCovers(colosseum, { model: 'trajans-column', title: "Trajan's Column", lat: 41.8903, lon: 12.4923 })).toBe(true);
+  });
+  it('a big generic archetype near a curated site is still covered, and far away is not', () => {
+    expect(curatedCovers(colosseum, { model: 'colosseum', title: 'Roman amphitheatre', lat: 41.8930, lon: 12.4960 })).toBe(true);
+    expect(curatedCovers(colosseum, { model: 'colosseum', title: 'Roman amphitheatre', lat: 41.95, lon: 12.4922 })).toBe(false);
+  });
+});
+
+describe('Temple of Heaven colours', () => {
+  it('has deep blue glazed roofs (not bright flat blue) and a gilt finial at the top', () => {
+    const m = landmarkMesh('temple-of-heaven');
+    let topY = -1, topCol: number[] = [];
+    const blues: number[][] = [];
+    for (let i = 0; i < m.positions.length / 3; i++) {
+      const y = m.positions[i * 3 + 1];
+      const c = [m.colors[i * 3], m.colors[i * 3 + 1], m.colors[i * 3 + 2]];
+      if (y > topY) { topY = y; topCol = c; }
+      if (c[2] > c[0] * 2 && c[2] > c[1] * 1.5) blues.push(c);
+    }
+    expect(blues.length).toBeGreaterThan(100);
+    for (const c of blues) expect(c[2]).toBeLessThan(0.25); // linear; #2d5aa0 is 0.35
+    expect(topCol[0]).toBeGreaterThan(topCol[2] * 2); // gold
   });
 });

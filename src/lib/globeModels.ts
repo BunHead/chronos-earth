@@ -19,7 +19,7 @@
 import WESTMINSTER_PLAN from '../data/westminster-plan.json';
 import BUCKINGHAM_PLAN from '../data/buckingham-plan.json';
 import * as Cesium from 'cesium';
-import { fitFor } from './monumentFit';
+import { fitFor, curatedCovers } from './monumentFit';
 import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
@@ -726,29 +726,6 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   window.addEventListener('chronos:siteplans-loaded', () => {
     for (const { entity, p } of entities) gate(entity, p);
   });
-}
-
-/** A landmark this small (fit width, m) is its own thing, not a stand-in for a site. */
-export const SMALL_LANDMARK_M = 30;
-
-/**
- * Does a curated model at `c` already stand for the spot `t`? Within ~1 km a
- * generic archetype beside a curated site would only be wrong (a dark stepped
- * pyramid on Uxmal's pin), so the curated one wins. A SMALL landmark (a column,
- * an obelisk, a statue: fit width <= SMALL_LANDMARK_M) is a separate monument,
- * though, and stands unless it falls on the curated model's own ground (its
- * half-width + 40 m): Trajan's Column ~0.9 km from the Colosseum.
- */
-export function curatedCovers(
-  c: { model: string; title: string; lat: number; lon: number },
-  t: { model: string; title: string; lat: number; lon: number },
-): boolean {
-  if (Math.abs(c.lat - t.lat) >= 0.01 || Math.abs(c.lon - t.lon) >= 0.01) return false;
-  const small = fitFor(t.title, t.model).widthM <= SMALL_LANDMARK_M;
-  if (!small) return true;
-  const dN = (t.lat - c.lat) * 111_320;
-  const dE = (t.lon - c.lon) * 111_320 * Math.cos((c.lat * Math.PI) / 180);
-  return Math.hypot(dN, dE) < fitFor(c.title, c.model).widthM / 2 + 40;
 }
 
 /**

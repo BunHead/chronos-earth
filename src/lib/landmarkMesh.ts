@@ -130,7 +130,10 @@ class Builder {
 const MARBLE = '#e9e5da';
 const MARBLE_SHADE = '#d6d1c4';
 const HALL_RED = '#9e2f22';
-const ROOF_BLUE = '#2d5aa0';
+const ROOF_BLUE = '#1f3c78'; // deep cobalt glazed tiles
+const ROOF_RIB = '#1a3363'; // the darker tile courses
+const LATTICE = '#7c2a1e'; // the lattice doors and windows between the columns
+const LATTICE_GILT = '#b8913a';
 const EAVE_PAINT = '#2f6b62'; // the blue-green painted brackets under each eave
 const GILT = '#c9a23a';
 
@@ -160,24 +163,45 @@ function templeOfHeaven(): LandmarkMesh {
       b.box(dx * off, h / 2, dz * off, dx ? len / 6 : w, h, dz ? len / 6 : w, MARBLE_SHADE);
     }
   }
-  // The hall: red columns and lattice walls under three blue-tiled eaves,
-  // the lowest 32.7 m across, rising to the gilded finial at 38 m.
+  // The hall (rebuilt 1889-96 to the Ming design): a ring of red columns with
+  // lattice doors between, under three deep-blue glazed roofs that sweep up
+  // at the eaves, the lowest 32.7 m across, to the gilded finial at 38 m.
   const Y0 = 5.6;
-  b.lathe([[0, Y0], [14.5, Y0], [14.5, Y0 + 0.9], [0, Y0 + 0.9]], MARBLE, SEG); // the hall's own marble plinth
-  const tiers: Array<{ wallR: number; wall0: number; wall1: number; eaveR: number; eaveY: number; topR: number; topY: number }> = [
-    { wallR: 12.5, wall0: Y0 + 0.9, wall1: 15.5, eaveR: 16.35, eaveY: 14.6, topR: 11.2, topY: 18.0 },
-    { wallR: 10.6, wall0: 18.0, wall1: 21.6, eaveR: 13.6, eaveY: 21.0, topR: 9.0, topY: 24.2 },
-    { wallR: 8.6, wall0: 24.2, wall1: 27.4, eaveR: 11.2, eaveY: 26.9, topR: 0.9, topY: 35.6 },
+  b.lathe([[0, Y0], [15.2, Y0], [15.2, Y0 + 0.45], [14.6, Y0 + 0.45], [14.6, Y0 + 0.9], [0, Y0 + 0.9]], MARBLE, SEG); // the hall's own plinth
+  const tiers: Array<{ wallR: number; wall0: number; wall1: number; eaveR: number; eaveY: number; topR: number; topY: number; cols: number }> = [
+    { wallR: 12.5, wall0: Y0 + 0.9, wall1: 15.6, eaveR: 16.35, eaveY: 14.4, topR: 11.0, topY: 18.0, cols: 24 },
+    { wallR: 10.4, wall0: 18.0, wall1: 21.7, eaveR: 13.7, eaveY: 20.9, topR: 8.8, topY: 24.3, cols: 16 },
+    { wallR: 8.4, wall0: 24.3, wall1: 27.5, eaveR: 11.3, eaveY: 26.8, topR: 0.9, topY: 35.6, cols: 12 },
   ];
   for (const t of tiers) {
-    b.lathe([[t.wallR, t.wall0], [t.wallR, t.wall1]], HALL_RED, SEG);
-    // Painted bracket band under the eave, then the tiled roof sweeping up.
-    b.lathe([[t.wallR, t.eaveY - 1.2], [t.eaveR - 0.4, t.eaveY - 0.3]], EAVE_PAINT, SEG);
-    b.lathe([[t.eaveR - 0.4, t.eaveY - 0.3], [t.eaveR, t.eaveY], [t.topR, t.topY]], ROOF_BLUE, SEG);
-    if (t.topR > 1) b.lathe([[t.topR, t.topY], [0, t.topY]], ROOF_BLUE, SEG);
+    // the drum: lattice doors, a gilt lintel band, and the red columns proud of it
+    b.lathe([[t.wallR - 0.4, t.wall0], [t.wallR - 0.4, t.wall1 - 1.6]], LATTICE, SEG);
+    b.lathe([[t.wallR - 0.4, t.wall1 - 1.6], [t.wallR - 0.4, t.wall1 - 1.1]], LATTICE_GILT, SEG);
+    b.lathe([[t.wallR - 0.4, t.wall1 - 1.1], [t.wallR - 0.4, t.wall1]], HALL_RED, SEG);
+    const colH = t.wall1 - 1.1 - t.wall0;
+    for (let k = 0; k < t.cols; k++) {
+      const a = (k / t.cols) * Math.PI * 2;
+      b.box(Math.cos(a) * t.wallR, t.wall0 + colH / 2, Math.sin(a) * t.wallR, 0.75, colH, 0.75, HALL_RED);
+    }
+    // painted brackets under the eave
+    b.lathe([[t.wallR, t.eaveY - 1.3], [t.eaveR - 0.6, t.eaveY - 0.35]], EAVE_PAINT, SEG);
+    // the roof: a concave sweep, steep near the top and lifting at the eave,
+    // in alternating tile courses so the glaze reads as rows of tiles
+    const N = 8;
+    const prof: Array<[number, number]> = [[t.eaveR - 0.6, t.eaveY - 0.35], [t.eaveR, t.eaveY + 0.15]];
+    for (let k = 1; k <= N; k++) {
+      const f = k / N;
+      const r = t.eaveR + (t.topR - t.eaveR) * f;
+      const y = t.eaveY + 0.15 + (t.topY - t.eaveY - 0.15) * Math.pow(f, 1.7); // concave
+      prof.push([r, y]);
+    }
+    for (let k = 0; k < prof.length - 1; k++) b.lathe([prof[k], prof[k + 1]], k % 2 ? ROOF_RIB : ROOF_BLUE, SEG);
+    if (t.topR > 1) {
+      b.lathe([[t.topR, t.topY], [t.topR - 0.3, t.topY + 0.25], [0, t.topY + 0.25]], ROOF_RIB, SEG);
+    }
   }
-  // The gilded finial.
-  b.lathe([[0.9, 35.6], [1.3, 36.2], [1.0, 36.9], [0.5, 37.4], [0.15, 38], [0, 38]], GILT, 16);
+  // The gilded finial: a ring, a ball and a point.
+  b.lathe([[0.95, 35.6], [1.35, 35.9], [1.35, 36.2], [0.7, 36.3], [1.05, 36.8], [0.95, 37.2], [0.45, 37.5], [0.12, 38], [0, 38]], GILT, 16);
   return b.done();
 }
 
