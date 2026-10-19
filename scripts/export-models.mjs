@@ -40,6 +40,12 @@ const FLEET = [
   ['cathedral', 'Notre-Dame de Paris'],
   ['westminster', 'Palace of Westminster'],
   ['buckingham', 'Buckingham Palace'],
+  // Tower Bridge on its OSM plan (towerBridgeSite.ts).
+  ['tower-bridge-site', 'Tower Bridge'],
+  // The Tower of London on its OSM plan (towerOfLondonSite.ts).
+  ['tower-of-london-site', 'Tower of London'],
+  // St Paul's: Old St Paul's, then Wren's on its OSM plan (stPaulsSite.ts).
+  ['st-pauls-site', "St Paul's Cathedral"],
   // Buckingham Palace over time (buckinghamSite.ts).
   ['buckingham-site', 'Buckingham Palace'],
   ['london-eye', 'London Eye'],
@@ -113,13 +119,21 @@ const BUILD_STAGES = [
   ['giza-menkaure', 'Pyramid of Menkaure', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
   // b15 ditch & bank · b35 bluestones in the Aubrey holes · b60 sarsens · b80 Heel Stone ditch (Avenue draped)
-  ['stonehenge-site', 'Stonehenge', [15, 35, 60, 80]],
+  ['stonehenge-site', 'Stonehenge', [15, 20, 35, 60, 80]],
   // b10 Rufus's Hall 1097 · b30 hammerbeam roof 1393 · b45 the 1834 fire · b60 Barry rising 1840
   // · b75 Lords 1847 / Commons 1852 · b90 Elizabeth Tower 1859 · '' Victoria Tower 1860, today
   ['westminster-site', 'Palace of Westminster', [10, 30, 45, 60, 75, 90]],
   // b10 Buckingham House 1703 · b35 Nash's palace 1837 · b60 Blore's East Front 1850
   // · b85 Victoria Memorial & gates 1911 · '' Webb's Portland-stone front 1913, today
   ['buckingham-site', 'Buckingham Palace', [10, 35, 60, 85]],
+  // b30 brown 1894 · b70 Jubilee red, white and blue 1977 · '' blue and white 2010, today
+  ['tower-bridge-site', 'Tower Bridge', [30, 70]],
+  // b10 timber fort 1067 · b20 White Tower 1100 · b35 Henry III 1240 · b50 Edward I + moat 1285
+  // · b65 Tudor 1540 · b80 1700 · b90 moat drained 1845 · b95 1900 · '' today
+  ['tower-of-london-site', 'Tower of London', [10, 20, 35, 50, 65, 80, 90, 95]],
+  // b10 Norman 1087 · b25 spire 1221 · b40 spire lost 1561 · b50 Jones portico 1634 · b60 Fire 1666
+  // · b65 Wren's footings 1675 · b75 choir 1697 · '' dome 1710, today
+  ['st-pauls-site', "St Paul's Cathedral", [10, 25, 40, 50, 60, 65, 75]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
   // (The impact's five frames — b15/b30/b50/b72 + base — are built
   // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)

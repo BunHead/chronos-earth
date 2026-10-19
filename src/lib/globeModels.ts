@@ -24,7 +24,7 @@ import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
-import { isBuilderActive, sitePlanNear } from './sitePlanRender';
+import { isBuilderActive, sitePlanNear, supplantSitePlans } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
 import { lightModelName, preferSmallModels } from './liteMode';
@@ -72,7 +72,9 @@ interface Placement {
    * finished model hides the photo's monument by itself (Giza's pyramids sit
    * on the real ones to ~20 m, measured top-down), so cover only until it
    * stands complete — not around it for 4,000 years. */
-  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built';
+  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>;
+    /** When the photo comes true: the build year ('built') or a year of its own. */
+    until?: 'built' | number;
     /** Exact plan-shaped patches instead of discs: rings of [lat, lon]. */
     poly?: Array<Array<[number, number]>>;
     /** A colour per poly ring (falls back to rgb): e.g. a gravel forecourt. */
@@ -104,6 +106,8 @@ interface Placement {
 // The Giza pyramids and queens' pyramids (see PLACEMENTS). built = complete;
 // buildYears = the rise before it; clip = the square of terrain hill cut away
 // until then (base + ~30 m: the surface model's hill spreads past the stone).
+/** The Giza plateau's sand as the satellite photo shows it. */
+export const GIZA_SAND: [number, number, number] = [200, 177, 134];
 const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number; always?: boolean }> = [
   { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 , always: true },
   { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 , always: true },
@@ -119,6 +123,10 @@ const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: num
 /** The Sphinx stands in her hollow, ~20 m below the plateau: her ring is read
  * INSIDE the enclosure, not out on the plateau rim round it. */
 const SPHINX_RING_M = 46;
+/** The Tower of London's walled area (OSM way 370870741), grassed over until
+ * Henry III's curtain walls (1240): the photo holds today's castle. */
+const TOWER_OF_LONDON_COVER: Array<[number, number]> = [[51.507724,-0.077822],[51.507676,-0.077899],[51.507744,-0.077903],[51.507742,-0.077967],[51.507739,-0.078021],[51.507766,-0.078052],[51.507797,-0.078029],[51.5078,-0.077975],[51.507837,-0.077952],[51.507864,-0.077984],[51.507895,-0.077961],[51.507898,-0.077907],[51.507969,-0.077841],[51.508394,-0.077583],[51.508878,-0.077304],[51.508916,-0.077306],[51.508953,-0.077284],[51.508984,-0.077239],[51.508997,-0.077183],[51.509,-0.077125],[51.508992,-0.077067],[51.509111,-0.075701],[51.508879,-0.074837],[51.508869,-0.074761],[51.508875,-0.07469],[51.508858,-0.074615],[51.508822,-0.074556],[51.50878,-0.074528],[51.508742,-0.074521],[51.508702,-0.074534],[51.508672,-0.074564],[51.508651,-0.074609],[51.508374,-0.074668],[51.508339,-0.074615],[51.507298,-0.07478],[51.50721,-0.074662],[51.507172,-0.074804],[51.507179,-0.074985],[51.507157,-0.075054],[51.507192,-0.075348],[51.507193,-0.075372],[51.5072,-0.075541],[51.507178,-0.075565],[51.507204,-0.075639],[51.507448,-0.076736],[51.507434,-0.076757],[51.507367,-0.076791],[51.507358,-0.076784],[51.507347,-0.076786],[51.507339,-0.076795],[51.507335,-0.07681],[51.507335,-0.076826],[51.50734,-0.07684],[51.507349,-0.076848],[51.507359,-0.076848],[51.507429,-0.077138],[51.507422,-0.07715],[51.50742,-0.077165],[51.507423,-0.07718],[51.50743,-0.077191],[51.507439,-0.077195],[51.507449,-0.077192],[51.507457,-0.077181],[51.50746,-0.077166],[51.507458,-0.07715],[51.507676,-0.077625]];
+
 /** The three causeways from each pyramid's mortuary temple down to its valley
  * temple, DRAPED on the terrain (the old one was a beam 14 m in the air). Ends
  * from OpenStreetMap: the temples' footprints and Khufu's causeway path (way
@@ -203,7 +211,10 @@ const PLACEMENTS: Placement[] = [
     ...(g.ring ? { baseRingM: g.ring } : {}),
     clipM: [g.clip, g.clip] as [number, number],
     ...(g.always ? { clipAlways: true } : {}),
-    cover: { rgb: [214, 192, 148] as [number, number, number], at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
+    // The plateau's own sand as the photo shows it round the pyramids (sampled
+    // on the globe, 19 Oct 2026), so the patch over today's pyramids, and the
+    // cut floor under it, sink into the desert instead of reading as cream slabs.
+    cover: { rgb: GIZA_SAND, at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
   })),
   // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
   // lower than the pyramids — so she clamps to her own (lower) ground and sits in
@@ -246,9 +257,17 @@ const PLACEMENTS: Placement[] = [
     cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built', flat: true } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
-  { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
-  { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
-  { model: 'tower-of-london', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1097 },
+  // Tower Bridge in true metres on its OSM plan (towerBridgeSite.ts): piers,
+  // towers, bascules, walkways, suspension chains and shore towers, from 1894,
+  // repainted 1977 and 2010. No ground patch: the river is the photo's own.
+  { model: 'tower-bridge-site', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
+  // St Paul's in true metres (stPaulsSite.ts): Old St Paul's (1087, spire
+  // 1221-1561, burned 1666), then Wren's cathedral on its OSM plan (1697, dome 1710).
+  { model: 'st-pauls-site', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1087 },
+  // The Tower of London in true metres on its OSM plan (towerOfLondonSite.ts),
+  // phased from William's timber fort (1067) to today.
+  { model: 'tower-of-london-site', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1067,
+    cover: { rgb: [96, 106, 76], at: [], poly: [TOWER_OF_LONDON_COVER], until: 1240 } },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
   { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
@@ -347,7 +366,18 @@ const ringGround = new Map<string, number>();
 
 /** CLIPPED TERRAIN (Placement.clipM): the hole cut in the surface model, and the
  * flat floor laid in it, per entity id — on until the monument stands complete. */
-const clips = new Map<string, { poly: Cesium.ClippingPolygon; floor: Cesium.Entity; on: boolean; h: number }>();
+const clips = new Map<string, { poly: Cesium.ClippingPolygon; floor: Cesium.Entity; on: boolean; h: number; unbuilt: boolean }>();
+/** The cut's flat floor. The floor polygon renders ~17% brighter than its
+ * material (measured on the globe, 19 Oct 2026: 193 → 225), while the draped
+ * sand cover renders true. So before the work starts the floor is laid at
+ * 0.85 × the cover colour, which renders as the cover itself and vanishes into
+ * it; once building it is 0.9 ×, a touch paler: the levelled pavement. */
+export function floorRgb(p: Pick<Placement, 'cover'>, unbuilt: boolean): [number, number, number] {
+  const rgb = p.cover?.rgb ?? [214, 192, 148];
+  const k = unbuilt ? 0.85 : 0.9;
+  return [Math.round(rgb[0] * k), Math.round(rgb[1] * k), Math.round(rgb[2] * k)];
+}
+const floorColour = (p: Placement, unbuilt: boolean): Cesium.Color => Cesium.Color.fromBytes(...floorRgb(p, unbuilt), 255);
 
 function gateClip(entity: Cesium.Entity, p: Placement): void {
   const viewer = theViewer;
@@ -359,6 +389,13 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
   // through their stripped ruins (Khafre's dark photo top). The queens only until
   // built — their floors left flat slabs by Khufu in 2026 (the PR #12 review).
   const curYear = yearsBPToYear(lastYearsBP);
+  // Before the work starts (bornYear) the cut must stay — the terrain model
+  // holds today's pyramids as sand-coloured hills — but its floor must not read
+  // as a slab: at 5406 BCE the great three's darker floors showed as flat cream
+  // squares where the pyramids would one day stand (the Captain, 19 Oct 2026).
+  // So until then the floor wears exactly the sand cover's colour and merges into it.
+  const { bornYear } = stageFor(p.model, p.builtYear, curYear);
+  const unbuilt = curYear < bornYear;
   let want = modern && lastShowSites && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
   if (want && !ringGround.has(id)) {
     // The floor's height is the ring's ground: find it first (never a hole into the void).
@@ -379,7 +416,6 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
       p.lon - ew2 * dLon, p.lat - ns2 * dLat, p.lon + ew2 * dLon, p.lat - ns2 * dLat,
       p.lon + ew2 * dLon, p.lat + ns2 * dLat, p.lon - ew2 * dLon, p.lat + ns2 * dLat,
     ]);
-    const rgb = p.cover?.rgb ?? [214, 192, 148];
     c = {
       poly: new Cesium.ClippingPolygon({ positions: square(ew / 2, ns / 2) }),
       floor: viewer.entities.add({
@@ -387,14 +423,19 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
         polygon: {
           hierarchy: new Cesium.PolygonHierarchy(square(ew / 2 + 3, ns / 2 + 3)),
           height: h,
-          // A shade darker: the flat floor is unlit, the sunlit sand around it is not.
-          material: Cesium.Color.fromBytes(Math.round(rgb[0] * 0.9), Math.round(rgb[1] * 0.9), Math.round(rgb[2] * 0.9), 255),
+          material: floorColour(p, unbuilt),
         },
       }),
       on: false,
       h,
+      unbuilt,
     };
     clips.set(id, c);
+  }
+  if (c && c.unbuilt !== unbuilt && c.floor.polygon) {
+    c.unbuilt = unbuilt;
+    c.floor.polygon.material = new Cesium.ColorMaterialProperty(floorColour(p, unbuilt));
+    viewer.scene.requestRender();
   }
   if (!c || c.on === want) return;
   if (want) coll.add(c.poly);
@@ -670,7 +711,11 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
       }),
     });
   }
-  for (const p of PLACEMENTS) addPlacement(p);
+  for (const p of PLACEMENTS) {
+    addPlacement(p);
+    // A true-metre OSM site model replaces a hand-traced plan of the same site.
+    if (p.model === 'tower-of-london-site') supplantSitePlans(p.lat, p.lon, p.builtYear);
+  }
   // The camera moving brings models into (and out of) reach.
   viewer.camera.percentageChanged = 0.05;
   viewer.camera.changed.addEventListener(() => {
@@ -792,7 +837,9 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   // The photo comes true at the ruin date (or, with no ruin, the build date).
   const patches = covers.get(entity.id);
   if (patches) {
-    const trueFrom = p.cover?.until === 'built'
+    const trueFrom = typeof p.cover?.until === 'number'
+      ? p.cover.until
+      : p.cover?.until === 'built'
       ? p.builtYear
       : p.ruinYear != null && theManifest[`${p.model}-ruin`]?.footprint ? p.ruinYear : bornYear;
     const on = lastShowSites && !supplanted && cameraNear(p) && curYear < trueFrom;

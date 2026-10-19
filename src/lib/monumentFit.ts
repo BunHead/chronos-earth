@@ -147,6 +147,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   buckingham: { widthM: 108, facingDeg: 90 }, // East Front faces the Victoria Memorial (east)
   westminster: { widthM: 265, facingDeg: 90 },
   // True metres on the OSM plan, north-aligned (westminsterSite.ts): scale 1.
+  'st-pauls-site': { widthM: 157.5, facingDeg: 0 }, // true metres (stPaulsSite.ts)
+  'tower-of-london-site': { widthM: 281.3, facingDeg: 0 }, // true metres on the OSM plan (towerOfLondonSite.ts)
+  'tower-bridge-site': { widthM: 331.8, facingDeg: 0 }, // true metres on the OSM plan (towerBridgeSite.ts)
   'buckingham-site': { widthM: 313.0, facingDeg: 0 }, // true metres on the OSM plan (buckinghamSite.ts)
   'westminster-site': { widthM: 302.0, facingDeg: 0 }, // long axis along the Thames, Elizabeth Tower at the north end
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
@@ -181,6 +184,10 @@ const DEFAULT: MonumentFit = { widthM: 80, facingDeg: 0 };
 
 /** Real size + facing for a monument, by name first, then archetype. */
 export function fitFor(title: string, model: string): MonumentFit {
+  // A true-metre site model (westminster-site, tower-bridge-site …) carries its
+  // own size and north-up frame; the title rules were for the old stylised
+  // models and would rescale and turn it ("tower bridge": 260 m, facing 90).
+  if (model.endsWith('-site') && BY_MODEL[model]) return BY_MODEL[model];
   const t = String(title).toLowerCase();
   for (const k of KNOWN) {
     if (t.includes(k.match)) {
