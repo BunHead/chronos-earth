@@ -45,3 +45,11 @@ describe('Giza through time', () => {
     expect(floorRgb(p, false)).toEqual([193, 173, 133]);
   });
 });
+
+describe('Giza sand patch matches the desert', () => {
+  it('is the photo sand, not cream', async () => {
+    const { GIZA_SAND } = await import('./globeModels');
+    expect(GIZA_SAND[0]).toBeLessThan(210);
+    expect(GIZA_SAND[0] - GIZA_SAND[2]).toBeGreaterThan(50); // warm sand, not grey
+  });
+});

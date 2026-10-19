@@ -104,6 +104,8 @@ interface Placement {
 // The Giza pyramids and queens' pyramids (see PLACEMENTS). built = complete;
 // buildYears = the rise before it; clip = the square of terrain hill cut away
 // until then (base + ~30 m: the surface model's hill spreads past the stone).
+/** The Giza plateau's sand as the satellite photo shows it. */
+export const GIZA_SAND: [number, number, number] = [200, 177, 134];
 const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number; always?: boolean }> = [
   { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 , always: true },
   { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 , always: true },
@@ -203,7 +205,10 @@ const PLACEMENTS: Placement[] = [
     ...(g.ring ? { baseRingM: g.ring } : {}),
     clipM: [g.clip, g.clip] as [number, number],
     ...(g.always ? { clipAlways: true } : {}),
-    cover: { rgb: [214, 192, 148] as [number, number, number], at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
+    // The plateau's own sand as the photo shows it round the pyramids (sampled
+    // on the globe, 19 Oct 2026), so the patch over today's pyramids, and the
+    // cut floor under it, sink into the desert instead of reading as cream slabs.
+    cover: { rgb: GIZA_SAND, at: [[g.lat, g.lon, g.cover] as [number, number, number]], until: 'built' as const },
   })),
   // The Great Sphinx stands as her OWN model at her true coordinates — SE of and
   // lower than the pyramids — so she clamps to her own (lower) ground and sits in
