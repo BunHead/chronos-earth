@@ -20,6 +20,7 @@
  * than vector entities (unreliable across drivers).
  */
 import * as Cesium from 'cesium';
+import { readableLabel } from '../lib/labelStyle';
 import { diffOwners, morphOpen } from '../lib/borderStatus';
 import { flagCanvasFor } from '../lib/flags';
 import { densifyRing } from '../lib/ringSmooth';
@@ -1332,9 +1333,7 @@ export class BordersController {
         text: polity.name,
         font: at.small ? '600 13px "Segoe UI", system-ui, sans-serif' : '600 15px "Segoe UI", system-ui, sans-serif',
         fillColor: Cesium.Color.fromCssColorString('#fdf6e3'),
-        outlineColor: Cesium.Color.fromCssColorString('#1a140a').withAlpha(0.85),
-        outlineWidth: 3,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        ...readableLabel(),
         // Only visible on a regional zoom; faint far off, brighter up close.
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, at.small ? SMALL_LABEL_FAR : LABEL_FADE_FAR),
         translucencyByDistance: new Cesium.NearFarScalar(
