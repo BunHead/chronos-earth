@@ -74,7 +74,15 @@ interface Placement {
    * stands complete — not around it for 4,000 years. */
   cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built';
     /** Exact plan-shaped patches instead of discs: rings of [lat, lon]. */
-    poly?: Array<Array<[number, number]>> };
+    poly?: Array<Array<[number, number]>>;
+    /** A colour per poly ring (falls back to rgb): e.g. a gravel forecourt. */
+    polyRgb?: Array<[number, number, number] | undefined>;
+    /** Lay the poly rings flat FLAT_COVER_M above the ground at their centre
+     * instead of draping them (terrain classification). A draped patch whose
+     * edge meets ground dropping to a river draws its shadow volume as thin
+     * vertical streaks down into the water (Westminster's embankment, 19 Oct
+     * 2026); a flat sheet has no volume. Only for a level site. */
+    flat?: boolean };
   /** Radius (m) of the ring whose ground the monument stands on — default
    * half its width + 40 m. Giza's model is the whole 1 km plateau but anchors
    * at Khufu, so it reads the plateau round Khufu, not the Nile-side edge. */
@@ -137,15 +145,17 @@ const WESTMINSTER_COVER: Array<Array<[number, number]>> = (() => {
 })();
 
 /** Today's palace and the Victoria Memorial with its gardens, traced from
- * OpenStreetMap (buckingham-plan.json), as lat/lon rings for the photo cover. */
-const BUCKINGHAM_COVER: Array<Array<[number, number]>> = (() => {
+ * OpenStreetMap (buckingham-plan.json), as lat/lon rings for the photo cover;
+ * the third ring is the forecourt inside Webb's 1911 railings, whose modern
+ * pink gravel and parade lines showed in the photo before 1913 (19 Oct 2026). */
+export const BUCKINGHAM_COVER: Array<Array<[number, number]>> = (() => {
   const k = 111320 * Math.cos((51.5014 * Math.PI) / 180);
   const ll = (r: number[][]) => r.map(([x, y]) => [51.5014 + y / 110574, -0.1419 + x / k] as [number, number]);
   const m = BUCKINGHAM_PLAN.memorial;
   const cx = m.reduce((a, p) => a + p[0], 0) / m.length;
   const cy = m.reduce((a, p) => a + p[1], 0) / m.length;
   const disc = Array.from({ length: 32 }, (_, i) => [cx + 37 * Math.cos((i * Math.PI) / 16), cy + 37 * Math.sin((i * Math.PI) / 16)]);
-  return [BUCKINGHAM_PLAN.outer, disc].map(ll);
+  return [BUCKINGHAM_PLAN.outer, disc, BUCKINGHAM_PLAN.railings].map(ll);
 })();
 
 const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
@@ -228,12 +238,12 @@ const PLACEMENTS: Placement[] = [
   // 1097, the medieval palace, the 1834 fire, Barry & Pugin's rebuild. The photo
   // is today's palace, so it is covered until the Victoria Tower is done.
   { model: 'westminster-site', title: 'Palace of Westminster', lat: 51.4995, lon: -0.1248, builtYear: 1860,
-    cover: { rgb: [98, 102, 84], at: [], poly: WESTMINSTER_COVER, until: 'built' } },
+    cover: { rgb: [98, 102, 84], at: [], poly: WESTMINSTER_COVER, until: 'built', flat: true } },
   // The whole palace through time (buckinghamSite.ts): Buckingham House 1703,
   // Nash, Blore's East Front, the Victoria Memorial and Webb's 1913 front. The
   // photo is today's palace, so it is covered to its own outline until 1913.
   { model: 'buckingham-site', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1913,
-    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, until: 'built' } },
+    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built' } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
   { model: 'tower-bridge', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
@@ -515,6 +525,8 @@ export function reseatAll(): void {
   for (const { entity, p } of entities) seat(entity, p);
 }
 
+/** How far a flat cover sheet floats over the ground at its centre (m). */
+export const FLAT_COVER_M = 0.4;
 /** Ground patches over today's photo (Placement.cover), by monument entity id. */
 const covers = new Map<string, Cesium.Entity[]>();
 
@@ -596,12 +608,14 @@ function addPlacement(p: Placement): void {
           classificationType: Cesium.ClassificationType.TERRAIN,
         },
       }))),
-      ...(p.cover.poly ?? []).map((ring) => viewer.entities.add({
+      ...(p.cover.poly ?? []).map((ring, i) => viewer.entities.add({
         show: false,
         polygon: {
           hierarchy: new Cesium.PolygonHierarchy(ring.map(([lat, lon]) => Cesium.Cartesian3.fromDegrees(lon, lat))),
-          material: colour,
-          classificationType: Cesium.ClassificationType.TERRAIN,
+          material: p.cover!.polyRgb?.[i] ? Cesium.Color.fromBytes(...p.cover!.polyRgb[i]!, 255) : colour,
+          ...(p.cover!.flat
+            ? { height: FLAT_COVER_M, heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND }
+            : { classificationType: Cesium.ClassificationType.TERRAIN }),
         },
       })),
     ]);
