@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  formatTick,
   OLDEST_BP,
   PRESENT_YEAR,
   parseYear,
@@ -220,5 +221,31 @@ describe('parseYear', () => {
     expect(parseYear('')).toBeNull();
     expect(parseYear('3000')).toBeNull(); // bare future year
     expect(parseYear(String(OLDEST_BP + PRESENT_YEAR + 1) + ' bce')).toBeNull();
+  });
+});
+
+describe('zoomed tick labels are distinct (19 Oct 2026)', () => {
+  const distinct = (centerBP: number, span: number) => {
+    const t = niceTicks({ centerBP, span });
+    expect(t.length).toBeGreaterThan(3);
+    expect(new Set(t.map((x) => x.label)).size).toBe(t.length);
+    return t.map((x) => x.label);
+  };
+  it('151 Mya zoomed to 2 Myr, 200 kyr, 20 kyr, 2 kyr and 500 years', () => {
+    expect(distinct(151_000_000, 2_000_000)).toContain('151.0 Mya');
+    expect(distinct(151_000_000, 200_000).some((l) => /^151\.\d\d Mya$/.test(l))).toBe(true);
+    distinct(151_000_000, 20_000);
+    distinct(151_000_000, 2_000);
+    const fine = distinct(151_000_000, 500);
+    expect(fine[0]).toMatch(/Mya$/);
+    expect(fine.slice(1).every((l) => /^\+[\d,]+ yr$/.test(l))).toBe(true);
+  });
+  it('kya windows too', () => {
+    distinct(14_500, 2_000);
+    distinct(14_500, 100);
+  });
+  it('wide views keep their plain labels', () => {
+    expect(formatTick(250_000_000, 50_000_000)).toBe('250 Mya');
+    expect(formatTick(5_000_000, 1_000_000)).toBe('5.0 Mya');
   });
 });
