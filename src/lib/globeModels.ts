@@ -18,6 +18,7 @@
  */
 import WESTMINSTER_PLAN from '../data/westminster-plan.json';
 import BUCKINGHAM_PLAN from '../data/buckingham-plan.json';
+import { periodGround, periodTrees, PERIOD_GROUND_UNTIL } from './buckinghamGround';
 import * as Cesium from 'cesium';
 import { fitFor, curatedCovers } from './monumentFit';
 import { eclipseLightFactor } from './eclipseDim';
@@ -79,6 +80,18 @@ interface Placement {
     poly?: Array<Array<[number, number]>>;
     /** A colour per poly ring (falls back to rgb): e.g. a gravel forecourt. */
     polyRgb?: Array<[number, number, number] | undefined>;
+    /** A year window per poly ring, inside the cover's own: shown from
+     * polyFrom[i] and only before polyUntil[i] (the cover's `until` otherwise).
+     * Buckingham's period ground goes when the Memorial's roads come (1911). */
+    polyFrom?: Array<number | undefined>;
+    polyUntil?: Array<number | undefined>;
+    /** Drape these rings on the terrain even on a `flat` cover: a long road
+     * (the old Mall, Constitution Hill) runs over too much rise for one sheet. */
+    polyDrape?: boolean[];
+    /** Period trees on the cover ([lat, lon, crown radius m, height m]),
+     * standing until treesUntil (Buckingham's park before the Memorial). */
+    trees?: Array<[number, number, number, number]>;
+    treesUntil?: number;
     /** Lay the poly rings flat FLAT_COVER_M above the ground at their centre
      * instead of draping them (terrain classification). A draped patch whose
      * edge meets ground dropping to a river draws its shadow volume as thin
@@ -163,8 +176,18 @@ export const BUCKINGHAM_COVER: Array<Array<[number, number]>> = (() => {
   const cx = m.reduce((a, p) => a + p[0], 0) / m.length;
   const cy = m.reduce((a, p) => a + p[1], 0) / m.length;
   const disc = Array.from({ length: 32 }, (_, i) => [cx + 37 * Math.cos((i * Math.PI) / 16), cy + 37 * Math.sin((i * Math.PI) / 16)]);
-  return [BUCKINGHAM_PLAN.outer, disc, BUCKINGHAM_PLAN.railings].map(ll);
+  return [BUCKINGHAM_PLAN.outer, disc, ...periodGround().map(([r]) => r), BUCKINGHAM_PLAN.railings].map(ll);
 })();
+/** Per ring: the palace patch, the Memorial disc (1911-13 only), the period
+ * ground (before 1911), then the gravel forecourt on top. */
+const BUCKINGHAM_GROUND = periodGround();
+const BUCKINGHAM_POLY_RGB = [undefined, undefined, ...BUCKINGHAM_GROUND.map(([, c]) => c), [150, 140, 118] as [number, number, number]];
+const BUCKINGHAM_POLY_FROM = [undefined, PERIOD_GROUND_UNTIL];
+const BUCKINGHAM_POLY_UNTIL = [undefined, undefined, ...BUCKINGHAM_GROUND.map(() => PERIOD_GROUND_UNTIL)];
+const BUCKINGHAM_POLY_DRAPE = [false, false, ...BUCKINGHAM_GROUND.map(() => true)];
+const BUCKINGHAM_TREES: Array<[number, number, number, number]> = periodTrees().map(([x, y, r, h]) => [
+  51.5014 + y / 110574, -0.1419 + x / (111320 * Math.cos((51.5014 * Math.PI) / 180)), r, h,
+]);
 
 const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
   { from: -2300, until: 400, widthM: 4, lonLat: [-1.825607, 51.179295, -1.819798, 51.182362] },
@@ -254,7 +277,9 @@ const PLACEMENTS: Placement[] = [
   // Nash, Blore's East Front, the Victoria Memorial and Webb's 1913 front. The
   // photo is today's palace, so it is covered to its own outline until 1913.
   { model: 'buckingham-site', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1913,
-    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: [undefined, undefined, [150, 140, 118]], until: 'built', flat: true } },
+    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: BUCKINGHAM_POLY_RGB,
+      polyFrom: BUCKINGHAM_POLY_FROM, polyUntil: BUCKINGHAM_POLY_UNTIL, polyDrape: BUCKINGHAM_POLY_DRAPE,
+      trees: BUCKINGHAM_TREES, treesUntil: PERIOD_GROUND_UNTIL, until: 'built', flat: true } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
   // The London expansion.
   // Tower Bridge in true metres on its OSM plan (towerBridgeSite.ts): piers,
@@ -570,6 +595,8 @@ export function reseatAll(): void {
 export const FLAT_COVER_M = 0.4;
 /** Ground patches over today's photo (Placement.cover), by monument entity id. */
 const covers = new Map<string, Cesium.Entity[]>();
+/** A cover ring's own [from, until) years, where it has one. */
+const coverWindow = new Map<Cesium.Entity, [number | undefined, number | undefined]>();
 
 function addPlacement(p: Placement): void {
   const viewer = theViewer;
@@ -649,16 +676,39 @@ function addPlacement(p: Placement): void {
           classificationType: Cesium.ClassificationType.TERRAIN,
         },
       }))),
-      ...(p.cover.poly ?? []).map((ring, i) => viewer.entities.add({
-        show: false,
-        polygon: {
-          hierarchy: new Cesium.PolygonHierarchy(ring.map(([lat, lon]) => Cesium.Cartesian3.fromDegrees(lon, lat))),
-          material: p.cover!.polyRgb?.[i] ? Cesium.Color.fromBytes(...p.cover!.polyRgb[i]!, 255) : colour,
-          ...(p.cover!.flat
-            ? { height: FLAT_COVER_M, heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND }
-            : { classificationType: Cesium.ClassificationType.TERRAIN }),
-        },
-      })),
+      ...(p.cover.poly ?? []).map((ring, i) => {
+        const e = viewer.entities.add({
+          show: false,
+          polygon: {
+            hierarchy: new Cesium.PolygonHierarchy(ring.map(([lat, lon]) => Cesium.Cartesian3.fromDegrees(lon, lat))),
+            material: p.cover!.polyRgb?.[i] ? Cesium.Color.fromBytes(...p.cover!.polyRgb[i]!, 255) : colour,
+            // Later rings lie a hair higher, so overlapping sheets (a road on
+            // the lawn) draw in order instead of z-fighting.
+            ...(p.cover!.flat && !p.cover!.polyDrape?.[i]
+              ? { height: FLAT_COVER_M + 0.04 * i, heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND }
+              : { classificationType: Cesium.ClassificationType.TERRAIN, zIndex: i }),
+          },
+        });
+        const from = p.cover!.polyFrom?.[i], until = p.cover!.polyUntil?.[i];
+        if (from != null || until != null) coverWindow.set(e, [from, until]);
+        return e;
+      }),
+      ...(p.cover.trees ?? []).map(([lat, lon, r, h], i) => {
+        const tone = 0.85 + 0.3 * ((i * 37) % 10) / 10;
+        const e = viewer.entities.add({
+          show: false,
+          position: Cesium.Cartesian3.fromDegrees(lon, lat, h * 0.58),
+          ellipsoid: {
+            radii: new Cesium.Cartesian3(r, r, h * 0.42),
+            heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+            material: Cesium.Color.fromBytes(Math.round(48 * tone), Math.round(70 * tone), Math.round(38 * tone), 255),
+            slicePartitions: 8,
+            stackPartitions: 6,
+          },
+        });
+        if (p.cover!.treesUntil != null) coverWindow.set(e, [undefined, p.cover!.treesUntil]);
+        return e;
+      }),
     ]);
   }
   seat(entity, p);
@@ -841,7 +891,11 @@ function gate(entity: Cesium.Entity, p: Placement): void {
       ? p.builtYear
       : p.ruinYear != null && theManifest[`${p.model}-ruin`]?.footprint ? p.ruinYear : bornYear;
     const on = lastShowSites && !supplanted && cameraNear(p) && curYear < trueFrom;
-    for (const c of patches) if (c.show !== on) c.show = on;
+    for (const c of patches) {
+      const w = coverWindow.get(c);
+      const show = on && (!w || ((w[0] == null || curYear >= w[0]) && (w[1] == null || curYear < w[1])));
+      if (c.show !== show) c.show = show;
+    }
   }
 
   if (!entity.model) return;

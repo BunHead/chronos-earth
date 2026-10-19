@@ -33,9 +33,12 @@ describe('photo covers, v3', () => {
     }
   });
   it("covers Buckingham's forecourt inside the railings, in gravel, until 1913", () => {
-    expect(src).toMatch(/\[BUCKINGHAM_PLAN\.outer, disc, BUCKINGHAM_PLAN\.railings\]/);
+    // The forecourt is the LAST ring, so it lies over the period ground (19 Oct 2026).
+    expect(src).toMatch(/\[BUCKINGHAM_PLAN\.outer, disc, \.\.\.periodGround\(\)\.map\(\(\[r\]\) => r\), BUCKINGHAM_PLAN\.railings\]/);
+    expect(src).toMatch(/BUCKINGHAM_POLY_RGB = \[undefined, undefined, \.\.\.BUCKINGHAM_GROUND\.map\(\(\[, c\]\) => c\), \[\d+, \d+, \d+\]/);
     const line = src.split('\n').find((l) => l.includes('poly: BUCKINGHAM_COVER'))!;
-    expect(line).toMatch(/polyRgb: \[undefined, undefined, \[\d+, \d+, \d+\]\]/);
-    expect(line).toMatch(/until: 'built'/);
+    expect(line).toMatch(/polyRgb: BUCKINGHAM_POLY_RGB/);
+    const block = src.slice(src.indexOf('poly: BUCKINGHAM_COVER'), src.indexOf('poly: BUCKINGHAM_COVER') + 400);
+    expect(block).toMatch(/until: 'built'/);
   });
 });
