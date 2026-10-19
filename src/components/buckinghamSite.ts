@@ -66,6 +66,7 @@ const CAEN = '#b9b09b';     // Blore's Caen stone, soon sooty and decaying
 const BATH = '#d6c8a4';     // Nash's Bath stone, the rest of the palace
 const BRICK = '#9b5b45';    // Buckingham House, red brick
 const DRESS = '#d9d2bf';    // stone dressings
+const BAND = '#d2c9b1';    // string courses and plinths (kept apart from the Memorial's stone)
 const ROOF = '#7b8084';     // lead and slate, low-pitched behind the balustrade
 const GLASS = '#323a44';
 const GOLD = '#c9a64b';
@@ -143,6 +144,8 @@ function classical(B: Batch, p: P2[], eaves: number, tiers: number[], stone: str
     const mu = (ua + ub) / 2;
     const mv = (va + vb) / 2;
     B.box(stone, L + 0.6, 0.8, 0.9, mu + nu * 0.3, eaves - 0.4, mv + nv * 0.3, rot);        // cornice
+    B.box(BAND, L, 0.4, 0.3, mu + nu * 0.12, 7.8, mv + nv * 0.12, rot);                    // first-floor band
+    B.box(BAND, L, 0.8, 0.4, mu + nu * 0.15, 0.4, mv + nv * 0.15, rot);                    // plinth
     B.box(stone, L, 0.25, 0.55, mu + nu * 0.15, eaves + 0.15, mv + nv * 0.15, rot);         // balustrade plinth
     B.box(stone, L, 0.2, 0.55, mu + nu * 0.15, eaves + 1.05, mv + nv * 0.15, rot);          // its rail
     const np = Math.max(1, Math.floor(L / 1.6));
@@ -227,6 +230,7 @@ function eastFrontDetail(B: Batch, face: string, uL: number, uR: number, stage: 
   const W = uR - uL;
   const groove = stage >= 5 ? '#bdb7a6' : '#8f8672';
   const trim = stage >= 5 ? '#f0ece2' : '#c7bea8';
+  const pil = stage >= 5 ? '#d3cdbd' : '#a89f88'; // the pilasters read a shade off the wall
   // Rustication: deep horizontal joints up the ground storey.
   for (let y = 0.8; y < 7.6; y += 0.75) B.box(groove, W, 0.09, 0.08, (uL + uR) / 2, y, F + 0.02);
   B.box(trim, W, 0.5, 0.35, (uL + uR) / 2, 7.8, F + 0.15);                 // the band over it
@@ -234,7 +238,7 @@ function eastFrontDetail(B: Batch, face: string, uL: number, uR: number, stage: 
   // Giant pilasters across the whole front, the principal and second floors.
   for (let uu = uL + 2.2; uu <= uR - 2.1; uu += 4.5) {
     if (Math.abs(uu - MID_U) < 13.5) continue; // the centre has its own
-    B.box(face, 0.85, 11.6, 0.45, uu, 13.9, F + 0.24);
+    B.box(pil, 0.85, 11.6, 0.45, uu, 13.9, F + 0.24);
     B.box(trim, 1.25, 0.9, 0.6, uu, 19.25, F + 0.3);                       // capital
     B.box(trim, 1.15, 0.5, 0.55, uu, 8.3, F + 0.28);                       // base
   }
@@ -260,8 +264,6 @@ function eastFrontDetail(B: Batch, face: string, uL: number, uR: number, stage: 
   // The balcony: balusters under its rail, and three great consoles below.
   for (let x = -5.2; x <= 5.21; x += 0.5) B.box(DRESS, 0.2, 0.75, 0.2, MID_U + x, 9.85, FRONT_V + 4.3);
   for (const x of [-4.5, 0, 4.5]) B.box(face, 0.8, 1.6, 2.2, MID_U + x, 8.15, FRONT_V + 3.0);
-  // Its crimson hanging (the balcony's dress for state days is the same colour).
-  B.box('#8a1c24', 6, 0.9, 0.06, MID_U, 9.55, FRONT_V + 4.45);
 }
 const EAVES_TOP = 21.5;
 const EAVES_CUT = EAST_RANGE_V;

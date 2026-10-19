@@ -578,7 +578,7 @@
   },
   "buckingham-site": {
     "footprint": 312.952,
-    "kb": 83
+    "kb": 90
   },
   "buckingham-site-b10": {
     "footprint": 102.547,
@@ -586,15 +586,15 @@
   },
   "buckingham-site-b35": {
     "footprint": 251.984,
-    "kb": 51
+    "kb": 57
   },
   "buckingham-site-b60": {
     "footprint": 260.783,
-    "kb": 73
+    "kb": 80
   },
   "buckingham-site-b85": {
     "footprint": 312.952,
-    "kb": 84
+    "kb": 91
   },
   "stonehenge-site-b20": {
     "footprint": 122,
