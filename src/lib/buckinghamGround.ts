@@ -110,7 +110,7 @@ export function periodTrees(): Tree[] {
   for (let s = 22; s < L + 60; s += 12) {
     for (const off of [-15, -22, 15, 22]) {
       const p: XY = [a[0] + ux * s - uy * off, a[1] + uy * s + ux * off];
-      if (inRing(p, PARK_EDGE) && lineDist(p, FRONT_ROAD) > 14) out.push([p[0], p[1], 4.5, 16]);
+      if (inRing(p, PARK_EDGE) && lineDist(p, FRONT_ROAD) > 14) out.push([p[0], p[1], 6.5, 18]);
     }
   }
   let seed = 7;
@@ -119,10 +119,10 @@ export function periodTrees(): Tree[] {
   for (let x = -10; x <= 215; x += 26) {
     for (let y = -125; y <= 142; y += 26) {
       const p: XY = [x + (rnd() - 0.5) * 18, y + (rnd() - 0.5) * 18];
-      const keep = rnd() < 0.55;
+      const keep = rnd() < 0.7;
       if (!keep || !inRing(p, PARK_EDGE)) continue;
-      if (roads.some((r) => lineDist(p, r) < 26)) continue;
-      out.push([p[0], p[1], 5 + rnd() * 3, 13 + rnd() * 7]);
+      if (roads.some((r) => lineDist(p, r) < 22)) continue;
+      out.push([p[0], p[1], 7 + rnd() * 4, 15 + rnd() * 7]);
     }
   }
   return out;
