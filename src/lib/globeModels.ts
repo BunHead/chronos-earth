@@ -347,7 +347,18 @@ const ringGround = new Map<string, number>();
 
 /** CLIPPED TERRAIN (Placement.clipM): the hole cut in the surface model, and the
  * flat floor laid in it, per entity id — on until the monument stands complete. */
-const clips = new Map<string, { poly: Cesium.ClippingPolygon; floor: Cesium.Entity; on: boolean; h: number }>();
+const clips = new Map<string, { poly: Cesium.ClippingPolygon; floor: Cesium.Entity; on: boolean; h: number; unbuilt: boolean }>();
+/** The cut's flat floor. The floor polygon renders ~17% brighter than its
+ * material (measured on the globe, 19 Oct 2026: 193 → 225), while the draped
+ * sand cover renders true. So before the work starts the floor is laid at
+ * 0.85 × the cover colour, which renders as the cover itself and vanishes into
+ * it; once building it is 0.9 ×, a touch paler: the levelled pavement. */
+export function floorRgb(p: Pick<Placement, 'cover'>, unbuilt: boolean): [number, number, number] {
+  const rgb = p.cover?.rgb ?? [214, 192, 148];
+  const k = unbuilt ? 0.85 : 0.9;
+  return [Math.round(rgb[0] * k), Math.round(rgb[1] * k), Math.round(rgb[2] * k)];
+}
+const floorColour = (p: Placement, unbuilt: boolean): Cesium.Color => Cesium.Color.fromBytes(...floorRgb(p, unbuilt), 255);
 
 function gateClip(entity: Cesium.Entity, p: Placement): void {
   const viewer = theViewer;
@@ -359,11 +370,14 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
   // through their stripped ruins (Khafre's dark photo top). The queens only until
   // built — their floors left flat slabs by Khufu in 2026 (the PR #12 review).
   const curYear = yearsBPToYear(lastYearsBP);
-  // Never before the work starts (bornYear): at 5406 BCE the great three's
-  // floors read as flat cream slabs where the pyramids would one day stand
-  // (the Captain, 19 Oct 2026). Before then the sand cover alone hides today's photo.
+  // Before the work starts (bornYear) the cut must stay — the terrain model
+  // holds today's pyramids as sand-coloured hills — but its floor must not read
+  // as a slab: at 5406 BCE the great three's darker floors showed as flat cream
+  // squares where the pyramids would one day stand (the Captain, 19 Oct 2026).
+  // So until then the floor wears exactly the sand cover's colour and merges into it.
   const { bornYear } = stageFor(p.model, p.builtYear, curYear);
-  let want = modern && lastShowSites && curYear >= bornYear && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
+  const unbuilt = curYear < bornYear;
+  let want = modern && lastShowSites && (p.clipAlways || curYear < p.builtYear) && cameraNear(p);
   if (want && !ringGround.has(id)) {
     // The floor's height is the ring's ground: find it first (never a hole into the void).
     if (!grounding.has(id)) void findBase(entity, p);
@@ -383,7 +397,6 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
       p.lon - ew2 * dLon, p.lat - ns2 * dLat, p.lon + ew2 * dLon, p.lat - ns2 * dLat,
       p.lon + ew2 * dLon, p.lat + ns2 * dLat, p.lon - ew2 * dLon, p.lat + ns2 * dLat,
     ]);
-    const rgb = p.cover?.rgb ?? [214, 192, 148];
     c = {
       poly: new Cesium.ClippingPolygon({ positions: square(ew / 2, ns / 2) }),
       floor: viewer.entities.add({
@@ -391,14 +404,19 @@ function gateClip(entity: Cesium.Entity, p: Placement): void {
         polygon: {
           hierarchy: new Cesium.PolygonHierarchy(square(ew / 2 + 3, ns / 2 + 3)),
           height: h,
-          // A shade darker: the flat floor is unlit, the sunlit sand around it is not.
-          material: Cesium.Color.fromBytes(Math.round(rgb[0] * 0.9), Math.round(rgb[1] * 0.9), Math.round(rgb[2] * 0.9), 255),
+          material: floorColour(p, unbuilt),
         },
       }),
       on: false,
       h,
+      unbuilt,
     };
     clips.set(id, c);
+  }
+  if (c && c.unbuilt !== unbuilt && c.floor.polygon) {
+    c.unbuilt = unbuilt;
+    c.floor.polygon.material = new Cesium.ColorMaterialProperty(floorColour(p, unbuilt));
+    viewer.scene.requestRender();
   }
   if (!c || c.on === want) return;
   if (want) coll.add(c.poly);

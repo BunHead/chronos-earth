@@ -437,20 +437,20 @@
     "kb": 2
   },
   "giza-khufu": {
-    "footprint": 230.33,
-    "kb": 4
+    "footprint": 231.251,
+    "kb": 5
   },
   "giza-khafre": {
     "footprint": 215.25,
-    "kb": 4
+    "kb": 5
   },
   "giza-menkaure": {
     "footprint": 104.6,
-    "kb": 4
+    "kb": 5
   },
   "giza-queen": {
-    "footprint": 49.5,
-    "kb": 2
+    "footprint": 49.698,
+    "kb": 4
   },
   "giza-queen-step": {
     "footprint": 31,

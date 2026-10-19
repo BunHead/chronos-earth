@@ -1519,7 +1519,7 @@ function pyramidSlice(hx: number, hz: number, H: number, y0: number, y1: number,
 /** Baked face shades for a cased pyramid: east, north, west, south, top.
  *  (The Captain, 19 Oct 2026: seen from above, the even-lit white casing read
  *  as flat-topped, truncated pyramids.) */
-export const GIZA_FACE_SHADE = [0.9, 0.72, 0.82, 1, 0.95] as const;
+export const GIZA_FACE_SHADE = [0.8, 0.6, 0.7, 0.9, 0.85] as const;
 const gizaMats = new Map<string, THREE.MeshStandardMaterial>();
 const smoothMat = (color: string): THREE.MeshStandardMaterial => {
   let m = gizaMats.get(color);
@@ -1534,9 +1534,39 @@ const shadedMats = new Map<string, THREE.MeshStandardMaterial>();
 const shadedMat = (color: string): THREE.MeshStandardMaterial => {
   let m = shadedMats.get(color);
   if (!m) shadedMats.set(color, (m = new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, side: THREE.DoubleSide, vertexColors: true,
-    emissive: color, emissiveIntensity: 0.05 })));
+    emissive: color, emissiveIntensity: 0 })));
   return m;
 };
+/** The four arrises (corner ridges) of a finished pyramid, as thin darker
+ * strips from each base corner to the apex: from straight above they draw the
+ * X that says "pointed", which the even white casing alone does not. */
+function arrises(group: THREE.Group, hx: number, hz: number, h: number, y0: number): void {
+  const pos: number[] = [];
+  const w = Math.max(0.8, hx * 0.009); // width of each strip, either side of the corner, at the base
+  const k0 = 1 - y0 / h;
+  for (const [sx, sz] of [[1, 1], [1, -1], [-1, -1], [-1, 1]] as const) {
+    const cx = sx * hx * k0;
+    const cz = sz * hz * k0;
+    const corner = [cx, y0, cz];
+    const onX = [cx, y0, cz - sz * w]; // along the face x = cx
+    const onZ = [cx - sx * w, y0, cz]; // along the face z = cz
+    const top = [0, h, 0];
+    // Each triangle lies IN a face plane (both run through the apex), then is
+    // pushed 0.4% outward so it never z-fights the casing.
+    pos.push(...onX, ...corner, ...top, ...corner, ...onZ, ...top);
+  }
+  for (let i = 0; i < pos.length; i += 3) {
+    pos[i] *= 1.004;
+    pos[i + 2] *= 1.004;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(new Array((pos.length / 3) * 2).fill(0), 2));
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, smoothMat('#a89a7e'));
+  m.name = 'arrises';
+  group.add(m);
+}
 
 function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | undefined, ruined: boolean): void {
   const s = GIZA[model];
@@ -1599,6 +1629,7 @@ function buildGizaPart(group: THREE.Group, model: string, buildFrac: number | un
   // COMPLETE, as built: smooth Tura limestone casing to a pointed apex.
   if (s.granite) slice(0, s.granite, GRANITE);
   slice(s.granite, s.h, TURA);
+  arrises(group, hx, hz, s.h, s.granite);
   // KHUFU'S GOLD CAPSTONE — A MAYBE, NOT A FACT (the Captain, 18 Oct 2026).
   // Khufu's pyramidion may have been gilded (electrum), but none survives, so
   // this is a possibility shown, and the info panel says so (gizaCapNote).
