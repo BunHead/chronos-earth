@@ -60,7 +60,8 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1913, suffix: '' },     // Webb refaces the East Front in Portland stone; today
   ],
   'stonehenge-site': [
-    { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes
+    { from: -3000, suffix: '-b15' }, // the circular ditch & bank, 56 Aubrey holes (fresh white chalk)
+    { from: -2950, suffix: '-b20' }, // the same, grassed over: chalk is white only for a few decades
     { from: -2900, suffix: '-b35' }, // bluestones standing in the Aubrey holes
     { from: -2500, suffix: '-b60' }, // sarsen circle, lintels, trilithons
     { from: -2300, suffix: '-b80' }, // the Avenue (draped) and the Heel Stone ditch

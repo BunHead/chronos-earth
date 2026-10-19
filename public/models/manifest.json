@@ -595,5 +595,9 @@
   "buckingham-site-b85": {
     "footprint": 312.952,
     "kb": 77
+  },
+  "stonehenge-site-b20": {
+    "footprint": 122,
+    "kb": 87
   }
 }
