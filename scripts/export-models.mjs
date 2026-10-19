@@ -42,6 +42,8 @@ const FLEET = [
   ['buckingham', 'Buckingham Palace'],
   // Tower Bridge on its OSM plan (towerBridgeSite.ts).
   ['tower-bridge-site', 'Tower Bridge'],
+  // The Tower of London on its OSM plan (towerOfLondonSite.ts).
+  ['tower-of-london-site', 'Tower of London'],
   // Buckingham Palace over time (buckinghamSite.ts).
   ['buckingham-site', 'Buckingham Palace'],
   ['london-eye', 'London Eye'],
@@ -124,6 +126,9 @@ const BUILD_STAGES = [
   ['buckingham-site', 'Buckingham Palace', [10, 35, 60, 85]],
   // b30 brown 1894 · b70 Jubilee red, white and blue 1977 · '' blue and white 2010, today
   ['tower-bridge-site', 'Tower Bridge', [30, 70]],
+  // b10 timber fort 1067 · b20 White Tower 1100 · b35 Henry III 1240 · b50 Edward I + moat 1285
+  // · b65 Tudor 1540 · b80 1700 · b90 moat drained 1845 · b95 1900 · '' today
+  ['tower-of-london-site', 'Tower of London', [10, 20, 35, 50, 65, 80, 90, 95]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
   // (The impact's five frames — b15/b30/b50/b72 + base — are built
   // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)

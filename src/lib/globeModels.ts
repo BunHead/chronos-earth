@@ -24,7 +24,7 @@ import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
-import { isBuilderActive, sitePlanNear } from './sitePlanRender';
+import { isBuilderActive, sitePlanNear, supplantSitePlans } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
 import { lightModelName, preferSmallModels } from './liteMode';
@@ -256,7 +256,9 @@ const PLACEMENTS: Placement[] = [
   // repainted 1977 and 2010. No ground patch: the river is the photo's own.
   { model: 'tower-bridge-site', title: 'Tower Bridge', lat: 51.5055, lon: -0.0754, builtYear: 1894 },
   { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
-  { model: 'tower-of-london', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1097 },
+  // The Tower of London in true metres on its OSM plan (towerOfLondonSite.ts),
+  // phased from William's timber fort (1067) to today.
+  { model: 'tower-of-london-site', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1067 },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
   { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
@@ -700,7 +702,11 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
       }),
     });
   }
-  for (const p of PLACEMENTS) addPlacement(p);
+  for (const p of PLACEMENTS) {
+    addPlacement(p);
+    // A true-metre OSM site model replaces a hand-traced plan of the same site.
+    if (p.model === 'tower-of-london-site') supplantSitePlans(p.lat, p.lon, p.builtYear);
+  }
   // The camera moving brings models into (and out of) reach.
   viewer.camera.percentageChanged = 0.05;
   viewer.camera.changed.addEventListener(() => {

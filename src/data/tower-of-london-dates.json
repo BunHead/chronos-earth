@@ -1,0 +1,479 @@
+{
+ "note": "Build dates: Historic Royal Palaces (hrp.org.uk) building histories and Historic England list entry 1000099 (Tower of London scheduled monument); Parnell, 'The Tower of London: Past & Present' (2009). Unnamed wall runs are dated by the curtain they belong to (Henry III's inner, 1238; Edward I's outer, 1275-85); the houses on Tower Green by the Queen's House (1540) and their 16th-17th-century neighbours (1600, typical).",
+ "nearM": 6,
+ "defaultFrom": 1700,
+ "defaultH": {
+  "castle": 9,
+  "tower": 14,
+  "house": 9,
+  "chapel": 12,
+  "ruin": 4,
+  "roof": 12,
+  "bridge": 9
+ },
+ "byName": {
+  "White Tower": [
+   1078,
+   null,
+   "keep"
+  ],
+  "Wardrobe Tower": [
+   1190,
+   null,
+   "ruin"
+  ],
+  "Bell Tower": [
+   1190,
+   null,
+   "tower"
+  ],
+  "Wakefield Tower": [
+   1220,
+   null,
+   "tower"
+  ],
+  "Bloody Tower": [
+   1225,
+   null,
+   "tower"
+  ],
+  "Lanthorne Tower": [
+   1220,
+   null,
+   "tower"
+  ],
+  "Wall of the Innermost Ward": [
+   1220,
+   null,
+   "ruin"
+  ],
+  "Coldharbour Gate": [
+   1230,
+   null,
+   "ruin"
+  ],
+  "Devereux Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Flint Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Bowyer Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Brick Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Martin Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Constable Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Broad Arrow Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Salt Tower": [
+   1238,
+   null,
+   "tower"
+  ],
+  "Beauchamp Tower": [
+   1281,
+   null,
+   "tower"
+  ],
+  "Byward Tower": [
+   1280,
+   null,
+   "tower"
+  ],
+  "St. Thomas's Tower": [
+   1279,
+   null,
+   "tower"
+  ],
+  "Develin Tower": [
+   1280,
+   null,
+   "tower"
+  ],
+  "Well Tower": [
+   1280,
+   null,
+   "tower"
+  ],
+  "Legge's Mount": [
+   1280,
+   null,
+   "tower"
+  ],
+  "Brass Mount": [
+   1280,
+   null,
+   "tower"
+  ],
+  "Cradle Tower": [
+   1348,
+   null,
+   "tower"
+  ],
+  "Chapel of Saint Peter ad Vincula": [
+   1520,
+   null,
+   "chapel"
+  ],
+  "New Armouries": [
+   1664,
+   null,
+   "house"
+  ],
+  "Waterloo Block": [
+   1845,
+   null,
+   "house"
+  ],
+  "Royal Regiment of Fusiliers Headquarters": [
+   1900,
+   null,
+   "house"
+  ],
+  "Ravens Enclosure": [
+   1990,
+   null,
+   "roof"
+  ],
+  "Middle Tower": [
+   1280,
+   null,
+   "tower"
+  ]
+ },
+ "byId": {
+  "369135032": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369135041": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369135044": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369135042": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369139031": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369139034": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369139035": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369142727": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369142729": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369143069": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369143089": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369143426": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369143427": [
+   1238,
+   null,
+   "castle"
+  ],
+  "369135031": [
+   1238,
+   null,
+   "castle"
+  ],
+  "370868078": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370868089": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370868091": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370868092": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370870742": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370870743": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370870747": [
+   1280,
+   null,
+   "castle"
+  ],
+  "933937192": [
+   1280,
+   null,
+   "castle"
+  ],
+  "933937193": [
+   1280,
+   null,
+   "castle"
+  ],
+  "933937194": [
+   1280,
+   null,
+   "castle"
+  ],
+  "933942623": [
+   1280,
+   null,
+   "castle"
+  ],
+  "933942624": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720731": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720733": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720734": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720735": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720736": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720738": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720739": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720740": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720741": [
+   1280,
+   null,
+   "castle"
+  ],
+  "370870749": [
+   1280,
+   null,
+   "castle"
+  ],
+  "936720737": [
+   1848,
+   null,
+   "castle"
+  ],
+  "933043546": [
+   1540,
+   null,
+   "house"
+  ],
+  "933043547": [
+   1540,
+   null,
+   "house"
+  ],
+  "933043545": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043548": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043549": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043550": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043551": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043554": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043555": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043556": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043558": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043559": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043560": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043561": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043562": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043563": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043564": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043565": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043566": [
+   1600,
+   null,
+   "house"
+  ],
+  "933043567": [
+   1600,
+   null,
+   "house"
+  ],
+  "160628252": [
+   1280,
+   null,
+   "tower"
+  ],
+  "933458087": [
+   1280,
+   null,
+   "tower"
+  ],
+  "933458088": [
+   1280,
+   null,
+   "tower"
+  ],
+  "933458089": [
+   1280,
+   null,
+   "tower"
+  ]
+ },
+ "extraIds": [
+  "160628252",
+  "933458087",
+  "933458088",
+  "933458089"
+ ]
+}
