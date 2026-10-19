@@ -74,6 +74,17 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: -1900, suffix: '' },     // bluestone horseshoe; round barrows around
   ],
   // The Tower of London on its OSM plan (towerOfLondonSite.ts): each part's own build year.
+  // St Paul's (stPaulsSite.ts): Old St Paul's from the published plans, Wren's on its OSM plan.
+  'st-pauls-site': [
+    { from: 1087, suffix: '-b10' }, // the Norman cathedral begun
+    { from: 1221, suffix: '-b25' }, // the spire, ~149 m
+    { from: 1561, suffix: '-b40' }, // spire burned by lightning
+    { from: 1634, suffix: '-b50' }, // Inigo Jones's west portico
+    { from: 1666, suffix: '-b60' }, // the Great Fire: a roofless shell
+    { from: 1675, suffix: '-b65' }, // Wren begins: the ruins cleared
+    { from: 1697, suffix: '-b75' }, // Wren's choir in use, no dome yet
+    { from: 1710, suffix: '' },     // the dome complete; today
+  ],
   'tower-of-london-site': [
     { from: 1067, suffix: '-b10' }, // William's timber corner-fort
     { from: 1100, suffix: '-b20' }, // the White Tower (begun c. 1078) alone

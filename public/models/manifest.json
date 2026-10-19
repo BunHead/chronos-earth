@@ -647,5 +647,37 @@
   "tower-of-london-site-b95": {
     "footprint": 281.28,
     "kb": 140
+  },
+  "st-pauls-site": {
+    "footprint": 157.53,
+    "kb": 44
+  },
+  "st-pauls-site-b10": {
+    "footprint": 191.557,
+    "kb": 9
+  },
+  "st-pauls-site-b25": {
+    "footprint": 191.557,
+    "kb": 10
+  },
+  "st-pauls-site-b40": {
+    "footprint": 191.557,
+    "kb": 9
+  },
+  "st-pauls-site-b50": {
+    "footprint": 198.465,
+    "kb": 11
+  },
+  "st-pauls-site-b60": {
+    "footprint": 188.032,
+    "kb": 6
+  },
+  "st-pauls-site-b65": {
+    "footprint": 157.53,
+    "kb": 4
+  },
+  "st-pauls-site-b75": {
+    "footprint": 157.53,
+    "kb": 11
   }
 }

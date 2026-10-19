@@ -16,6 +16,7 @@ import { buildWestminsterSite, westminsterStage } from './westminsterSite';
 import { buildBuckinghamSite, buckinghamStage } from './buckinghamSite';
 import { buildTowerBridgeSite, towerBridgeStage } from './towerBridgeSite';
 import { buildTowerOfLondonSite, towerOfLondonYear } from './towerOfLondonSite';
+import { buildStPaulsSite, stPaulsYear } from './stPaulsSite';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
@@ -4907,6 +4908,9 @@ export function buildModel(
     const vic = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), GOLD);
     vic.position.set(0, 4.1, memZ);
     group.add(vic);
+  } else if (model === 'st-pauls-site') {
+    // St Paul's through time: Old St Paul's, then Wren's on its OSM plan (stPaulsSite.ts).
+    ground = buildStPaulsSite(group, stPaulsYear(buildFrac));
   } else if (model === 'tower-of-london-site') {
     // The Tower of London through time on its OSM plan (towerOfLondonSite.ts).
     ground = buildTowerOfLondonSite(group, towerOfLondonYear(buildFrac));
