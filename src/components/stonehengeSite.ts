@@ -15,6 +15,9 @@
  *
  * STAGES (stage 1–5, then the ruin):
  *  1  c. 3000 BCE  circular ditch and bank (fresh white chalk), 56 Aubrey holes
+ *  1.5 c. 2950 BCE  the same, grassed over: freshly dug chalk weathers and
+ *                  turfs over within a few decades (the Captain, 19 Oct 2026:
+ *                  it must not still be white at 2571 BCE)
  *  2  c. 2900 BCE  bluestones standing in the Aubrey holes (2007–08 evidence)
  *  3  c. 2500 BCE  the sarsen circle with its lintel ring, the five
  *                  trilithons, a bluestone circle, Altar, Heel, Slaughter and
@@ -155,7 +158,9 @@ function trilithon(g: THREE.Group, t: (typeof TRILITHONS)[number], parts: { left
  */
 export function buildStonehengeSite(g: THREE.Group, stage: number, ruined: boolean): string {
   const s = ruined ? 6 : stage;
-  const fresh = s <= 2; // the chalk is white for a few generations, then grasses over
+  // Bright white only in stage 1 (the first few decades after c. 3000 BCE);
+  // from stage 1.5 on the bank and ditch are grassed over.
+  const fresh = s < 1.5;
   const earth = ruined ? GRASS : fresh ? CHALK : '#9ca172';
   const gaps: Array<[number, number]> = [[AXIS, 7], [180, 2.5]]; // NE and south entrances (half-widths, deg)
 
@@ -177,8 +182,8 @@ export function buildStonehengeSite(g: THREE.Group, stage: number, ruined: boole
     const [x, z] = at(az, R_AUBREY);
     if (s === 2) {
       stone(g, az, R_AUBREY, 0.7, 1.7 + rnd(i, 3) * 0.6, 0.5, BLUE, { lean: (rnd(i, 4) - 0.5) * 0.06 });
-    } else if (s === 1 || (ruined && az % 360 > 0 && az % 360 < 200)) {
-      const pit = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.08, 10), mat(s === 1 ? PIT : '#efeee8'));
+    } else if (s < 2 || (ruined && az % 360 > 0 && az % 360 < 200)) {
+      const pit = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.08, 10), mat(s < 2 ? PIT : '#efeee8'));
       pit.position.set(x, 0.04, z);
       g.add(pit);
     }
@@ -270,7 +275,8 @@ export function buildRoundBarrow(g: THREE.Group): string {
 /** Stage from the exporter's build fraction (b15 → 1 … b80 → 4, none → 5). */
 export function stonehengeStage(buildFrac: number | undefined): number {
   if (buildFrac == null || buildFrac >= 1) return 5;
-  if (buildFrac < 0.25) return 1;
+  if (buildFrac < 0.2) return 1;
+  if (buildFrac < 0.25) return 1.5; // the first enclosure, grassed over
   if (buildFrac < 0.5) return 2;
   if (buildFrac < 0.7) return 3;
   return 4;
