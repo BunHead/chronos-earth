@@ -16,6 +16,7 @@
  * centred on the battle's coordinates.
  */
 import * as Cesium from 'cesium';
+import { readableLabel } from './labelStyle';
 import type { BattleUnit, BattleView } from './types';
 import { getViewer } from './globeModels';
 import { clampDensity, headgearForYear, keepFraction, unitFigures } from './battleMath';
@@ -675,11 +676,9 @@ export function showBattleOnGlobe(lat: number, lon: number, view: BattleView, ye
       position,
       label: {
         text: u.label,
-        font: '11px sans-serif',
+        font: '600 11px sans-serif',
         fillColor: Cesium.Color.WHITE,
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 3,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        ...readableLabel(),
         pixelOffset: new Cesium.Cartesian2(0, 12),
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,

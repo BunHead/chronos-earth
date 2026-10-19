@@ -115,7 +115,7 @@ const BUILD_STAGES = [
   ['giza-menkaure', 'Pyramid of Menkaure', [30, 60, 90]],
   ['stonehenge', 'Stonehenge', [30, 60, 90]],
   // b15 ditch & bank · b35 bluestones in the Aubrey holes · b60 sarsens · b80 Heel Stone ditch (Avenue draped)
-  ['stonehenge-site', 'Stonehenge', [15, 35, 60, 80]],
+  ['stonehenge-site', 'Stonehenge', [15, 20, 35, 60, 80]],
   // b10 Rufus's Hall 1097 · b30 hammerbeam roof 1393 · b45 the 1834 fire · b60 Barry rising 1840
   // · b75 Lords 1847 / Commons 1852 · b90 Elizabeth Tower 1859 · '' Victoria Tower 1860, today
   ['westminster-site', 'Palace of Westminster', [10, 30, 45, 60, 75, 90]],
