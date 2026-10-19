@@ -21,6 +21,7 @@
  */
 import * as Cesium from 'cesium';
 import { readableLabel } from '../lib/labelStyle';
+import { cullBeyondHorizon } from '../lib/horizonCull';
 import { diffOwners, morphOpen } from '../lib/borderStatus';
 import { flagCanvasFor } from '../lib/flags';
 import { densifyRing } from '../lib/ringSmooth';
@@ -352,6 +353,7 @@ export class BordersController {
     this.baseUrl = baseUrl;
     this.labels = new Cesium.LabelCollection();
     this.viewer.scene.primitives.add(this.labels);
+    cullBeyondHorizon(this.labels); // never through the Earth (see horizonCull)
     // Gentle heartbeat on the war borders — red stretches breathe.
     // Under render-on-demand a mutated alpha is invisible until someone asks
     // for a frame — so ask, but ONLY while there is actually a war border
@@ -1343,7 +1345,7 @@ export class BordersController {
           0.0,
         ),
         scaleByDistance: new Cesium.NearFarScalar(LABEL_FADE_NEAR, 1.0, LABEL_FADE_FAR, 0.72),
-        disableDepthTestDistance: Number.POSITIVE_INFINITY, // never hidden behind the globe
+        disableDepthTestDistance: Number.POSITIVE_INFINITY, // never buried by terrain; horizonCull hides the far side
       });
     }
     this.debug.labels = { floorYear, count: this.labels.length };

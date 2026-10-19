@@ -43,6 +43,7 @@ import {
 import { watchGpuLoss, type GpuLossReason } from '../lib/gpuRecovery';
 import { isSiteTwin } from '../lib/siteTwin';
 import { warmGlobeShaders } from '../lib/shaderWarmup';
+import { installHorizonCull } from '../lib/horizonCull';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -1122,6 +1123,8 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     eclipseRef.current = new EclipseShadowController(viewer);
     riversRef.current = new RiversController(viewer);
     bordersRef.current = new BordersController(viewer, import.meta.env.BASE_URL);
+    // Labels and pins past the horizon hide instead of drawing through the Earth.
+    const stopHorizonCull = installHorizonCull(viewer);
     // After the first paint has long settled, quietly download every border
     // frame's geojson (~8 MB over ~10s, one file at a time) so time-travel in
     // EITHER direction never waits on the network — only the quick rasterise.
@@ -1513,6 +1516,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
       eclipseRef.current = null;
       riversRef.current?.dispose();
       window.clearTimeout(warmTimer);
+      stopHorizonCull();
       window.clearTimeout(shaderTimer);
       bordersRef.current?.dispose();
       campaignRef.current?.dispose();
