@@ -21,7 +21,7 @@ export interface OsmPart {
   mh?: number;
   roof?: string;
   rh?: number;
-  k: string;   // castle | tower | keep | house | chapel | ruin | roof | bridge
+  k: string;   // castle | tower | keep | house | chapel | ruin | roof | bridge | column
   f: number;   // from year
   u?: number;  // until year
   n?: string;  // its own name
@@ -73,7 +73,7 @@ export function obb(r: P2[]): { c: P2; hl: number; hw: number; ang: number } {
 }
 
 /** Roof over a ring from y0 rising rh to an apex (pyramidal) or a ridge (gabled / hipped). */
-function ridgeRoof(B: Batch, color: string, r: P2[], y0: number, rh: number, shape: string): void {
+export function ridgeRoof(B: Batch, color: string, r: P2[], y0: number, rh: number, shape: string): void {
   const o = obb(r);
   const ridge = shape === 'pyramidal' ? 0 : shape === 'gabled' ? o.hl : Math.max(0, o.hl - o.hw);
   // Build in the box's frame: u along the ridge, v across, then turn to the plan.
@@ -179,6 +179,11 @@ export function buildOsmParts(B: Batch, parts: OsmPart[], year: number, pal: Osm
     const wallH = Math.max(0.5, top - mh);
     const castle = p.k === 'castle' || p.k === 'tower' || p.k === 'keep';
     const body = opts.colour?.(p, year) ?? (p.k === 'keep' ? pal.keep : castle || p.k === 'ruin' || p.k === 'chapel' || p.k === 'bridge' ? pal.stone : pal.house);
+    if (p.k === 'column') {
+      // a column (a drum colonnade, a portico): the shaft alone
+      B.add(body, prism(r, [], wallH, mh));
+      continue;
+    }
     if (p.k === 'roof' && !mh) {
       // a free-standing roof (a canopy): a thin slab at its height
       B.add(pal.roof, prism(r, [], 0.4, p.h - 0.4));

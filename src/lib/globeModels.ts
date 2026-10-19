@@ -72,7 +72,9 @@ interface Placement {
    * finished model hides the photo's monument by itself (Giza's pyramids sit
    * on the real ones to ~20 m, measured top-down), so cover only until it
    * stands complete — not around it for 4,000 years. */
-  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>; until?: 'built';
+  cover?: { rgb: [number, number, number]; at: Array<[number, number, number]>;
+    /** When the photo comes true: the build year ('built') or a year of its own. */
+    until?: 'built' | number;
     /** Exact plan-shaped patches instead of discs: rings of [lat, lon]. */
     poly?: Array<Array<[number, number]>>;
     /** A colour per poly ring (falls back to rgb): e.g. a gravel forecourt. */
@@ -121,6 +123,10 @@ const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: num
 /** The Sphinx stands in her hollow, ~20 m below the plateau: her ring is read
  * INSIDE the enclosure, not out on the plateau rim round it. */
 const SPHINX_RING_M = 46;
+/** The Tower of London's walled area (OSM way 370870741), grassed over until
+ * Henry III's curtain walls (1240): the photo holds today's castle. */
+const TOWER_OF_LONDON_COVER: Array<[number, number]> = [[51.507724,-0.077822],[51.507676,-0.077899],[51.507744,-0.077903],[51.507742,-0.077967],[51.507739,-0.078021],[51.507766,-0.078052],[51.507797,-0.078029],[51.5078,-0.077975],[51.507837,-0.077952],[51.507864,-0.077984],[51.507895,-0.077961],[51.507898,-0.077907],[51.507969,-0.077841],[51.508394,-0.077583],[51.508878,-0.077304],[51.508916,-0.077306],[51.508953,-0.077284],[51.508984,-0.077239],[51.508997,-0.077183],[51.509,-0.077125],[51.508992,-0.077067],[51.509111,-0.075701],[51.508879,-0.074837],[51.508869,-0.074761],[51.508875,-0.07469],[51.508858,-0.074615],[51.508822,-0.074556],[51.50878,-0.074528],[51.508742,-0.074521],[51.508702,-0.074534],[51.508672,-0.074564],[51.508651,-0.074609],[51.508374,-0.074668],[51.508339,-0.074615],[51.507298,-0.07478],[51.50721,-0.074662],[51.507172,-0.074804],[51.507179,-0.074985],[51.507157,-0.075054],[51.507192,-0.075348],[51.507193,-0.075372],[51.5072,-0.075541],[51.507178,-0.075565],[51.507204,-0.075639],[51.507448,-0.076736],[51.507434,-0.076757],[51.507367,-0.076791],[51.507358,-0.076784],[51.507347,-0.076786],[51.507339,-0.076795],[51.507335,-0.07681],[51.507335,-0.076826],[51.50734,-0.07684],[51.507349,-0.076848],[51.507359,-0.076848],[51.507429,-0.077138],[51.507422,-0.07715],[51.50742,-0.077165],[51.507423,-0.07718],[51.50743,-0.077191],[51.507439,-0.077195],[51.507449,-0.077192],[51.507457,-0.077181],[51.50746,-0.077166],[51.507458,-0.07715],[51.507676,-0.077625]];
+
 /** The three causeways from each pyramid's mortuary temple down to its valley
  * temple, DRAPED on the terrain (the old one was a beam 14 m in the air). Ends
  * from OpenStreetMap: the temples' footprints and Khufu's causeway path (way
@@ -258,7 +264,8 @@ const PLACEMENTS: Placement[] = [
   { model: 'st-pauls', title: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, builtYear: 1710 },
   // The Tower of London in true metres on its OSM plan (towerOfLondonSite.ts),
   // phased from William's timber fort (1067) to today.
-  { model: 'tower-of-london-site', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1067 },
+  { model: 'tower-of-london-site', title: 'Tower of London', lat: 51.5081, lon: -0.0759, builtYear: 1067,
+    cover: { rgb: [96, 106, 76], at: [], poly: [TOWER_OF_LONDON_COVER], until: 1240 } },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
   { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
@@ -828,7 +835,9 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   // The photo comes true at the ruin date (or, with no ruin, the build date).
   const patches = covers.get(entity.id);
   if (patches) {
-    const trueFrom = p.cover?.until === 'built'
+    const trueFrom = typeof p.cover?.until === 'number'
+      ? p.cover.until
+      : p.cover?.until === 'built'
       ? p.builtYear
       : p.ruinYear != null && theManifest[`${p.model}-ruin`]?.footprint ? p.ruinYear : bornYear;
     const on = lastShowSites && !supplanted && cameraNear(p) && curYear < trueFrom;
