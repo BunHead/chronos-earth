@@ -342,6 +342,7 @@ function modelState(id: string): LoadState {
   const v = theViewer;
   const entity = v && !v.isDestroyed() ? v.entities.getById(id) : undefined;
   if (!v || !entity) return 'failed';
+  if (!entity.isShowing) return 'hidden';
   // Cesium's own readiness test (what viewer.zoomTo waits on) — present at
   // runtime but left out of its typings. BoundingSphereState: 0 DONE, 1 PENDING.
   const display = v.dataSourceDisplay as unknown as {

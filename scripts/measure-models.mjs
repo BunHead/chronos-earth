@@ -12,10 +12,9 @@
  *     (order, start, finish), the requests that must finish before them
  *     (manifest, review file), and when each model was actually DRAWN, from
  *     the page's own window.__chronosModelLog (lib/modelLoadWatch).
- *     Two ways in, per monument:
- *       cold  — the page opens straight at the monument (a shared link);
- *       zoom  — the page opens high above, settles, then the mouse wheel
- *               zooms down and the visitor stops and waits (the slow case).
+ *     The page opens straight at the monument (a shared link) and nobody
+ *     touches it: after ~20 s the globe stops drawing on its own (on-demand
+ *     rendering), which is exactly when a half-built model used to stall.
  *
  *   node scripts/measure-models.mjs            # files + browser
  *   node scripts/measure-models.mjs --files    # files only
@@ -114,7 +113,7 @@ async function startPreview() {
   throw new Error('vite preview did not start');
 }
 
-async function visit(browser, base, site, mode) {
+async function visit(browser, base, site) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
   const t0 = Date.now();
@@ -127,24 +126,8 @@ async function visit(browser, base, site, mode) {
   page.on('requestfinished', done);
   page.on('requestfailed', done);
   // ?perf=high: the desktop path, so a software-GL sandbox is not measured as a phone.
-  const camH = mode === 'cold' ? 1500 : 3_000_000;
-  const q = `?perf=high&time=0&cam=${site.lon},${site.lat},${camH},0,-${mode === 'cold' ? 35 : 90}`;
+  const q = `?perf=high&time=0&cam=${site.lon},${site.lat},1500,0,-35`;
   await page.goto(`${base.replace(/\/+$/, '')}/${q}`, { waitUntil: 'domcontentloaded', timeout: 60_000 });
-  let zoomedAt = null;
-  if (mode === 'zoom') {
-    // Let the globe settle (it hands over to on-demand drawing within ~20 s),
-    // then wheel down to the monument and keep still.
-    await new Promise((r) => setTimeout(r, 25_000));
-    const cx = 640, cy = 400;
-    await page.mouse.move(cx, cy);
-    for (let i = 0; i < 80; i++) {
-      const h = await page.evaluate(() => window.__chronosCam?.().height ?? Infinity);
-      if (h < 2500) break;
-      await page.mouse.wheel({ deltaY: -400 });
-      await new Promise((r) => setTimeout(r, 120));
-    }
-    zoomedAt = Date.now() - t0;
-  }
   const from = Date.now();
   let log = [];
   while (Date.now() - from < WAIT_MS) {
@@ -158,11 +141,9 @@ async function visit(browser, base, site, mode) {
   const models = log.map((r) => ({ uri: r.uri.replace('./models/', ''), shownMs: shift(r.shownMs), readyMs: shift(r.readyMs), failed: !!r.failed }));
   const requests = [...reqs.values()].sort((a, b) => a.start - b.start);
   await page.close();
-  const startAt = zoomedAt ?? 0;
-  const ready = models.filter((m) => m.readyMs != null).map((m) => m.readyMs - startAt);
+  const ready = models.filter((m) => m.readyMs != null).map((m) => m.readyMs);
   return {
     site: site.name,
-    mode,
     glbRequests: requests.filter((r) => r.url.endsWith('.glb')).length,
     requests,
     models,
@@ -182,12 +163,12 @@ if (!flag('--files')) {
   });
   report.visits = [];
   try {
-    for (const mode of (opt('--modes', 'cold,zoom')).split(',')) {
+    {
       for (const site of SITES) {
-        const v = await visit(browser, preview.url, site, mode);
+        const v = await visit(browser, preview.url, site);
         report.visits.push(v);
         const s = (ms) => (ms == null ? `not in ${WAIT_MS / 1000} s` : `${(ms / 1000).toFixed(1)} s`);
-        console.log(`\n${v.site} (${v.mode})  glb requests ${v.glbRequests}  first model ${s(v.firstModelMs)}  all ${s(v.allModelsMs)}${v.stillLoading ? `  still loading ${v.stillLoading}` : ''}`);
+        console.log(`\n${v.site}  glb requests ${v.glbRequests}  first model ${s(v.firstModelMs)}  all ${s(v.allModelsMs)}${v.stillLoading ? `  still loading ${v.stillLoading}` : ''}`);
         for (const r of v.requests) console.log(`  ${String(r.start).padStart(6)} → ${String(r.end ?? '—').padStart(6)} ms  ${r.url}`);
         for (const m of v.models) console.log(`  shown ${String(m.shownMs).padStart(6)}  drawn ${String(m.readyMs ?? '—').padStart(6)} ms  ${m.uri}${m.failed ? '  FAILED' : ''}`);
       }

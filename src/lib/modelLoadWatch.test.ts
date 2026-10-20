@@ -114,3 +114,16 @@ describe('globeModels wiring', () => {
     expect(load).not.toMatch(/setTimeout|requestIdleCallback/);
   });
 });
+
+describe('model load watch — hidden models', () => {
+  it('a model hidden mid-load stops holding frames', () => {
+    const r = rig();
+    r.watch.watch('giza', './models/giza.glb');
+    r.states.set('giza', 'hidden');
+    r.advance(PUMP_MS);
+    expect(r.watch.pending()).toBe(0);
+    expect(r.timers.size).toBe(0);
+    expect(r.log[0].failed).toBeUndefined();
+  });
+});
+

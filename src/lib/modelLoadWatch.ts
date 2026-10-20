@@ -21,7 +21,8 @@
  * The core is free of Cesium so it can be unit-tested.
  */
 
-export type LoadState = 'done' | 'pending' | 'failed';
+/** 'hidden': no longer shown — it stops holding frames, and is watched afresh if shown again. */
+export type LoadState = 'done' | 'pending' | 'failed' | 'hidden';
 
 export interface ModelLoad {
   /** Entity id. */
@@ -83,6 +84,11 @@ export function createModelLoadWatch(deps: WatchDeps): ModelLoadWatch {
     for (const [id, rec] of loading) {
       const s = deps.stateOf(id);
       const age = t - rec.shownMs;
+      if (s === 'hidden') {
+        loading.delete(id);
+        finished = true;
+        continue;
+      }
       if (s === 'done') {
         rec.readyMs = t;
       } else if ((s === 'failed' && age > FAILED_GRACE_MS) || age > GIVE_UP_MS) {
