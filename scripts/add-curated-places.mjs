@@ -81,8 +81,10 @@ export const PLACES = [
     category: 'monument',
     startYear: 600,
     endYear: 900,
-    lat: 18.7213,
-    lon: -89.526,
+    // Was 18.7213, -89.526: Minanbé's latitude copied onto Chactún, 30 km
+    // north of it. Wikidata P625 (Q13518345). Fixed 20 Oct 2026.
+    lat: 18.455,
+    lon: -89.5081,
     wikidataId: 'Q13518345',
     wikiTitle: 'Chactún',
     notability: 110,

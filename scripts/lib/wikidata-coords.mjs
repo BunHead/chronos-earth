@@ -118,7 +118,9 @@ export async function fetchP625({ titles = [], qids = [] }, { fetchImpl = fetch 
       format: 'json',
       props: 'claims|sitelinks',
       sitefilter: 'enwiki',
-      ...(b.titles ? { sites: 'enwiki', titles: b.titles.join('|'), normalize: '1' } : { ids: b.ids.join('|') }),
+      // `normalize` is only allowed with exactly ONE title: sent with 50 it made
+      // Wikidata answer an error, so until Oct 2026 no curated pin was checked.
+      ...(b.titles ? { sites: 'enwiki', titles: b.titles.join('|'), ...(b.titles.length === 1 ? { normalize: '1' } : {}) } : { ids: b.ids.join('|') }),
     });
     let json = null;
     for (let attempt = 0; attempt < 4 && !json; attempt++) {
@@ -131,6 +133,7 @@ export async function fetchP625({ titles = [], qids = [] }, { fetchImpl = fetch 
       }
     }
     if (!json) throw new Error('Wikidata did not answer after 4 tries');
+    if (json.error) throw new Error(`Wikidata refused the request: ${json.error.info ?? json.error.code}`);
     const part = parseEntities(json);
     for (const [k, v] of part.byTitle) byTitle.set(k, v);
     for (const [k, v] of part.byQid) byQid.set(k, v);

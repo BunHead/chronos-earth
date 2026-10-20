@@ -211,6 +211,18 @@
       "lon": 26.4,
       "why": "Pin moved 138 km to the sourced location (Captain's pin review, 15 Oct 2026)",
       "source": "https://en.wikipedia.org/wiki/Dardanelles"
+    },
+    "q503387": {
+      "startYear": 1200,
+      "dateNote": "Wikidata gives the year \"13\" — the 13th century typed as a year; shown from 1200",
+      "why": "Wikidata P571 is the year 13 (precision: year) — a century number entered as a year",
+      "source": "https://www.wikidata.org/wiki/Q503387; https://en.wikipedia.org/wiki/Rock-hewn_Churches_of_Ivanovo (hewn in the 13th–14th centuries)"
+    },
+    "q15819677": {
+      "startYear": 1514,
+      "dateNote": "Wikidata gives the year \"16\" — the 16th century typed as a year; shown from 1514, when Trinidad was founded",
+      "why": "Wikidata P571 is the year 16 (precision: year) — a century number entered as a year",
+      "source": "https://www.wikidata.org/wiki/Q15819677; https://en.wikipedia.org/wiki/Trinidad,_Cuba (founded 1514)"
     }
   }
 }
