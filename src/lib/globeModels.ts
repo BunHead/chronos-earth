@@ -30,6 +30,7 @@ import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
 import { lightModelName, preferSmallModels } from './liteMode';
 import { estuaryRibbon } from './atlantisVision';
+import { createModelLoadWatch, type LoadState, type ModelLoad, type ModelLoadWatch } from './modelLoadWatch';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
 const GLOBE_HEADING_CAL = 0;
@@ -334,6 +335,21 @@ const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
 // on the globe the moment the visitor asks to see it (`ensurePlacement`).
 let theViewer: Cesium.Viewer | null = null;
 let theManifest: Record<string, { footprint: number; kb?: number }> = {};
+/** Draws frames while a shown model is still being built (lib/modelLoadWatch). */
+let loadWatch: ModelLoadWatch | null = null;
+const scratchSphere = new Cesium.BoundingSphere();
+function modelState(id: string): LoadState {
+  const v = theViewer;
+  const entity = v && !v.isDestroyed() ? v.entities.getById(id) : undefined;
+  if (!v || !entity) return 'failed';
+  // Cesium's own readiness test (what viewer.zoomTo waits on) — present at
+  // runtime but left out of its typings. BoundingSphereState: 0 DONE, 1 PENDING.
+  const display = v.dataSourceDisplay as unknown as {
+    getBoundingSphere(e: Cesium.Entity, allowPartial: boolean, result: Cesium.BoundingSphere): number;
+  };
+  const s = display.getBoundingSphere(entity, false, scratchSphere);
+  return s === 0 ? 'done' : s === 1 ? 'pending' : 'failed';
+}
 /** The glb to load for a model: a heavy scan (the 509 KB Sphinx) swaps for
  * its small `-lite` build on phones and in lite mode — see lib/liteMode. */
 function fileFor(model: string): string {
@@ -718,6 +734,22 @@ function addPlacement(p: Placement): void {
 /** Create the curated monument entities (once, after the viewer exists). */
 export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   theViewer = viewer;
+  loadWatch?.dispose();
+  const log: ModelLoad[] = [];
+  (window as unknown as { __chronosModelLog?: ModelLoad[] }).__chronosModelLog = log;
+  loadWatch = createModelLoadWatch({
+    stateOf: modelState,
+    requestFrame: () => {
+      if (!viewer.isDestroyed()) viewer.scene.requestRender();
+    },
+    now: () => performance.now(),
+    setInterval: (fn, ms) => window.setInterval(fn, ms),
+    clearInterval: (h) => window.clearInterval(h),
+    log,
+  });
+  // The manifest and the review file are fetched side by side, not one after
+  // the other: no monument can start loading until both are in.
+  const reviewing = loadReview().catch(() => ({}));
   try {
     const r = await fetch('./models/manifest.json');
     if (!r.ok) return; // no fleet exported — the globe just shows markers
@@ -728,7 +760,7 @@ export async function loadGlobeModels(viewer: Cesium.Viewer): Promise<void> {
   // The maker's saved placement trims ride in the review file (published for
   // everyone)…
   try {
-    const review = await loadReview();
+    const review = await reviewing;
     for (const [key, rec] of Object.entries(review)) {
       if (key.startsWith('place:') && rec.transform) transforms[key] = rec.transform;
     }
@@ -862,6 +894,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
     const uri = `./models/${lite ? 'rings-lite' : 'rings'}.glb`;
     const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
     if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+    if (entity.show) loadWatch?.watch(entity.id, uri);
     return;
   }
   const curYear = yearsBPToYear(lastYearsBP);
@@ -902,6 +935,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   const uri = `./models/${suffix ? p.model + suffix : fileFor(p.model)}.glb`;
   const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
   if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
+  if (entity.show) loadWatch?.watch(entity.id, uri);
 }
 
 /** Timeline + layer gate — call whenever the year or the Sites toggle moves. */
