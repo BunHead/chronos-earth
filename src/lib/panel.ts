@@ -295,6 +295,10 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
   // pinned somewhere by choice. Say where, and why, rather than let the marker
   // imply the Black Death happened at a point in Sicily.
   if (e.placeNote) sections.push({ heading: 'Why it is shown here', body: e.placeNote });
+  // A person's pin is their birthplace — say it in words, so nobody has to
+  // guess the town from the map (Malcolm X was read as Atlanta, Oct 2026).
+  if (e.born) sections.push({ heading: 'Born', body: e.born });
+  if (e.died) sections.push({ heading: 'Died', body: e.died });
   // A gold marker has to be able to explain itself. The years matter as much as
   // the fact — "capital of Japan, 794 to 1869" is the whole story of Kyoto, and
   // an undated role says so rather than implying it held forever.

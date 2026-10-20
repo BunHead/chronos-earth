@@ -211,6 +211,88 @@
       "lon": 26.4,
       "why": "Pin moved 138 km to the sourced location (Captain's pin review, 15 Oct 2026)",
       "source": "https://en.wikipedia.org/wiki/Dardanelles"
+    },
+    "q336798": {
+      "startYear": 1598,
+      "why": "People fact-check: birth year 1595 → 1598",
+      "source": "https://www.wikidata.org/wiki/Q336798"
+    },
+    "q375158": {
+      "lat": 55.711,
+      "lon": -4.723,
+      "why": "People fact-check: pin 144 km from birthplace Dalry",
+      "source": "https://www.wikidata.org/wiki/Q375158"
+    },
+    "q519806": {
+      "lat": 19.8162,
+      "lon": -97.8076,
+      "why": "People fact-check: pin 91 km from birthplace Tetela de Ocampo",
+      "source": "https://www.wikidata.org/wiki/Q519806"
+    },
+    "q735400": {
+      "lat": 6.3106,
+      "lon": -10.8047,
+      "why": "People fact-check: pin 119 km from birthplace Monrovia",
+      "source": "https://www.wikidata.org/wiki/Q735400"
+    },
+    "q328765": {
+      "lat": 28.6483,
+      "lon": 30.8422,
+      "why": "People fact-check: pin 93 km from birthplace Maghagha",
+      "source": "https://www.wikidata.org/wiki/Q328765"
+    },
+    "q103949": {
+      "lat": 37.9228,
+      "lon": -95.5353,
+      "why": "People fact-check: pin 225 km from birthplace Piqua",
+      "source": "https://www.wikidata.org/wiki/Q103949"
+    },
+    "q879003": {
+      "lat": 7.3483,
+      "lon": -62.5395,
+      "why": "People fact-check: pin 178 km from birthplace El Manteco",
+      "source": "https://www.wikidata.org/wiki/Q879003"
+    },
+    "q156567": {
+      "lat": 48.855,
+      "lon": 2.7392,
+      "why": "People fact-check: pin 450 km from birthplace Chanteloup-en-Brie",
+      "source": "https://www.wikidata.org/wiki/Q156567"
+    },
+    "q358479": {
+      "lat": 47.4728,
+      "lon": -0.5556,
+      "why": "People fact-check: pin 439 km from birthplace Angers",
+      "source": "https://www.wikidata.org/wiki/Q358479"
+    },
+    "q1236412": {
+      "lat": 41.4992,
+      "lon": -81.6947,
+      "why": "People fact-check: pin 130 km from birthplace Cleveland",
+      "source": "https://www.wikidata.org/wiki/Q1236412"
+    },
+    "q469507": {
+      "lat": -17.2167,
+      "lon": -178.9333,
+      "why": "People fact-check: pin 336 km from birthplace Vanua Balavu",
+      "source": "https://www.wikidata.org/wiki/Q469507"
+    },
+    "q7833": {
+      "lat": 48.8261,
+      "lon": 2.1933,
+      "why": "People fact-check: pin 138 km from birthplace Ville-d'Avray",
+      "source": "https://www.wikidata.org/wiki/Q7833"
+    },
+    "q234814": {
+      "startYear": 1945,
+      "why": "People fact-check: birth year 1946 → 1945",
+      "source": "https://www.wikidata.org/wiki/Q234814"
+    },
+    "q48778102": {
+      "lat": -21.1364,
+      "lon": -175.1205,
+      "why": "People fact-check: pin 69 km from birthplace Talafoʻou",
+      "source": "https://www.wikidata.org/wiki/Q48778102"
     }
   }
 }

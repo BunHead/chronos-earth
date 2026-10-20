@@ -1,0 +1,61 @@
+{
+  "_comment": "People the fact-check (scripts/factcheck-people.mjs) would change, read by a person and judged wrong or unsettled ON WIKIDATA. They are listed as doubtful in docs/people-factcheck-2026-10.md and left as they are.",
+  "people": {
+    "q307365": {
+      "name": "Abdul Qadir Gilani",
+      "why": "birthplace disputed: Gilan in Iran, or a Gilan near Baghdad"
+    },
+    "q311187": {
+      "name": "Francesco Redi",
+      "why": "born in Arezzo, Italy, where the pin is; Wikidata's Villapene (Spain) is a mix-up"
+    },
+    "q76639": {
+      "name": "Philip Johan von Strahlenberg",
+      "why": "sources differ: 1676 (the pin) or 1677 (Wikidata)"
+    },
+    "q238302": {
+      "name": "Jenny von Westphalen",
+      "why": "born 12 February 1814 (the pin); Wikidata says 1813"
+    },
+    "q60318": {
+      "name": "Karl Heinrich Ulrichs",
+      "why": "born at Westerhof near Aurich, Germany, where the pin is; Wikidata's General Bravo (Mexico) is a mix-up"
+    },
+    "q17518": {
+      "name": "Mary Anderson",
+      "why": "the inventor was born in Greene County, Alabama, where the pin is; Wikidata's \"Peru\" is a mix-up"
+    },
+    "q367697": {
+      "name": "Halil Kut",
+      "why": "sources differ: 1881 (the pin) or 1882 (Wikidata)"
+    },
+    "q723343": {
+      "name": "Lev Rudnev",
+      "why": "sources differ: Novgorod (the pin) or Opochka (Wikidata)"
+    },
+    "q123080": {
+      "name": "Blaise Cendrars",
+      "why": "born in La Chaux-de-Fonds, Switzerland, where the pin is; Wikidata says Limoges"
+    },
+    "q982335": {
+      "name": "Pote Sarasin",
+      "why": "sources differ: 1905 (the pin) or 1906 (Wikidata)"
+    },
+    "q127442": {
+      "name": "Konstantin Chernenko",
+      "why": "born 24 September 1911 (the pin); Wikidata says 1912"
+    },
+    "q740168": {
+      "name": "Amadou Mahtar M'Bow",
+      "why": "sources differ: Dakar (the pin) or Saint-Louis (Wikidata)"
+    },
+    "q25106": {
+      "name": "Fabrizio De André",
+      "why": "born in Genoa, where the pin is; Wikidata says Ferrara"
+    },
+    "q461096": {
+      "name": "Ibn Hišām",
+      "why": "the birth year on file (701) is a placeholder, and his death is given as 828 or 833"
+    }
+  }
+}
