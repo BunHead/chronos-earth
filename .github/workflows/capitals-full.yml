@@ -42,6 +42,8 @@ jobs:
         # Writes nothing unless every pass completes: half a classification
         # would strip real capitals or keep false ones.
         run: timeout 130m node scripts/fetch-capitals.mjs --full
+      - name: Put back the hand-checked state capitals (idempotent)
+        run: node scripts/add-data-batch-2026-10b.mjs
       - name: Rebuild the core index
         run: node scripts/build-core-index.mjs
       - name: Lint the data

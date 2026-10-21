@@ -162,6 +162,12 @@ jobs:
         # country check is an extra pass, and when WDQS is struggling a pass
         # that times out writes nothing — by design, never half a layer.
         run: timeout 40m node scripts/fetch-capitals.mjs || [ $? -eq 124 ]
+      - name: Add data batch 2026-10b (idempotent)
+        if: '!cancelled()'
+        # Hand-checked battles, people, discoveries and states. AFTER
+        # fetch-capitals, because that rebuilds capitalOf and would drop the
+        # ten historical-state roles this batch puts on their capitals.
+        run: node scripts/add-data-batch-2026-10b.mjs
       - name: Put harvested BCE years right (idempotent)
         if: '!cancelled()'
         # WDQS writes precise BCE dates in astronomical years (Caesar's death,
