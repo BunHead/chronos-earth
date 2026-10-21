@@ -17,7 +17,7 @@
 import { ERAS, yearsBPToPos } from './timeScale';
 
 /** Narrower than this (fraction of the rail) and a period is not named alone. */
-export const MIN_LABEL_SPAN = 0.04;
+const MIN_LABEL_SPAN = 0.04;
 /** An era grouping several periods may be a little tighter (it ellipsises). */
 const MIN_GROUP_SPAN = 0.025;
 

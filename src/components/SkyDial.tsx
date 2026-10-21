@@ -401,13 +401,14 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
         <button
           className={`sky-play${auto ? ' on' : ''}`}
           onClick={() => onChange({ auto: !auto })}
+          aria-pressed={auto}
           title={auto ? 'Stop the clock' : 'Run the clock forward — watch a whole day pass'}
         >
           {auto ? '⏸ day' : '▶ day'}
         </button>
         <span className="sky-time">{fmtTime(solarHours)}</span>
         <span className="sky-alt">{daytime ? `sun ${Math.round(altitude)}° up` : 'below horizon'}</span>
-        <button className="sky-moon" onClick={cycleMoon} title={`${MOON_NAME[moonIdx]} — click for the next phase`}>
+        <button className="sky-moon" onClick={cycleMoon} title={`${MOON_NAME[moonIdx]} — click for the next phase`} aria-label={`Moon: ${MOON_NAME[moonIdx]}. Show the next phase`}>
           {MOON_EMOJI[moonIdx]}
         </button>
       </div>
