@@ -413,8 +413,9 @@ async function main() {
   }
   // Corrections where Wikidata itself is wrong (scripts/data/accuracy-fixes.json):
   // a pin hundreds of km out, a wrong year, a typo. Re-applied every run so
-  // the harvest cannot quietly put a mistake back.
-  const FIXABLE = ['name', 'lat', 'lon', 'startYear', 'endYear', 'placeNote', 'dateNote'];
+  // the harvest cannot quietly put a mistake back. A person's Born / Died line
+  // can be set by hand too, when Wikidata's own value is wrong (Oct 2026).
+  const FIXABLE = ['name', 'lat', 'lon', 'startYear', 'endYear', 'placeNote', 'dateNote', 'born', 'died'];
   const accuracy = JSON.parse(await readFile(join(__dirname, 'data', 'accuracy-fixes.json'), 'utf8')).fixes;
   for (const e of events) {
     const fix = accuracy[e.id];

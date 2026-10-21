@@ -39,6 +39,14 @@ Why: Chronos told a child that Malcolm X was born in Atlanta. He was born in **O
 | [Khaleda Zia](https://www.wikidata.org/wiki/Q234814) | born 1946 | born 1945 | birth year 1946 → 1945 |
 | [Pōhiva Tuʻiʻonetoa](https://www.wikidata.org/wiki/Q48778102) | pin -20.5878, -174.8103 | pin -21.1364, -175.1205 (Talafoʻou) | pin 69 km from birthplace Talafoʻou |
 
+## Follow-up: doubtful people checked by hand (Oct 2026)
+
+27 doubtful people were checked against a second source (Wikipedia with its reference, Britannica, a national biography). Data is only changed where two sources agree; the source links are in `scripts/data/accuracy-fixes.json`.
+
+- **18 resolved** (✅ in the tables below): the pin and year were checked, and the panel now has a hand-checked Born line (for Ibn Hišām: his death year, 833, and a note that his birth year is unknown). 4 pins were moved to the real birthplace (Golda Meir, Czesław Miłosz, José Mujica, James Brown).
+- **9 still uncertain** (❔): good sources still disagree. Nothing false is shown as exact; the panel says the place or date is uncertain.
+- The rest of the 705 are not yet checked by hand.
+
 ## Doubtful — left as they are
 
 A script must not decide these. Each links to Wikidata. "On the globe" is the years shown now.
@@ -47,20 +55,20 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 
 | Person | On the globe | What disagrees |
 |---|---|---|
-| [Abdul Qadir Gilani](https://www.wikidata.org/wiki/Q307365) | 1078–1166 | checked by hand: birthplace disputed: Gilan in Iran, or a Gilan near Baghdad; pin 262 km from birthplace Gilan Province |
-| [Amadou Mahtar M'Bow](https://www.wikidata.org/wiki/Q740168) | 1921–2024 | checked by hand: sources differ: Dakar (the pin) or Saint-Louis (Wikidata); pin 181 km from birthplace Saint-Louis |
-| [Blaise Cendrars](https://www.wikidata.org/wiki/Q123080) | 1887–1961 | checked by hand: born in La Chaux-de-Fonds, Switzerland, where the pin is; Wikidata says Limoges; pin 449 km from birthplace Limoges |
-| [Fabrizio De André](https://www.wikidata.org/wiki/Q25106) | 1940–1999 | checked by hand: born in Genoa, where the pin is; Wikidata says Ferrara; pin 218 km from birthplace Ferrara |
-| [Francesco Redi](https://www.wikidata.org/wiki/Q311187) | 1626–1697 | checked by hand: born in Arezzo, Italy, where the pin is; Wikidata's Villapene (Spain) is a mix-up; pin 1570 km from birthplace Villapene |
-| [Halil Kut](https://www.wikidata.org/wiki/Q367697) | 1881–1957 | checked by hand: sources differ: 1881 (the pin) or 1882 (Wikidata); birth year 1881 → 1882 |
-| [Ibn Hišām](https://www.wikidata.org/wiki/Q461096) | 701–? | checked by hand: the birth year on file (701) is a placeholder, and his death is given as 828 or 833; death year none → 828 |
-| [Jenny von Westphalen](https://www.wikidata.org/wiki/Q238302) | 1814–1881 | checked by hand: born 12 February 1814 (the pin); Wikidata says 1813; birth year 1814 → 1813 |
-| [Karl Heinrich Ulrichs](https://www.wikidata.org/wiki/Q60318) | 1825–1895 | checked by hand: born at Westerhof near Aurich, Germany, where the pin is; Wikidata's General Bravo (Mexico) is a mix-up; pin 8731 km from birthplace General Bravo Municipality |
-| [Konstantin Chernenko](https://www.wikidata.org/wiki/Q127442) | 1911–1985 | checked by hand: born 24 September 1911 (the pin); Wikidata says 1912; birth year 1911 → 1912 |
-| [Lev Rudnev](https://www.wikidata.org/wiki/Q723343) | 1885–1956 | checked by hand: sources differ: Novgorod (the pin) or Opochka (Wikidata); pin 254 km from birthplace Opochka |
-| [Mary Anderson](https://www.wikidata.org/wiki/Q17518) | 1866–1953 | checked by hand: the inventor was born in Greene County, Alabama, where the pin is; Wikidata's "Peru" is a mix-up; pin 4866 km from birthplace Peru |
-| [Philip Johan von Strahlenberg](https://www.wikidata.org/wiki/Q76639) | 1676–1747 | checked by hand: sources differ: 1676 (the pin) or 1677 (Wikidata); birth year 1676 → 1677 |
-| [Pote Sarasin](https://www.wikidata.org/wiki/Q982335) | 1905–2000 | checked by hand: sources differ: 1905 (the pin) or 1906 (Wikidata); birth year 1905 → 1906 |
+| [Abdul Qadir Gilani](https://www.wikidata.org/wiki/Q307365) | 1078–1166 | checked by hand: birthplace disputed: Gilan in Iran, or a Gilan near Baghdad; pin 262 km from birthplace Gilan Province — ❔ **Still uncertain (Oct 2026), panel says so:** Still disputed (Gilan in Iran, or near Baghdad). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Abdul_Qadir_Gilani) |
+| [Amadou Mahtar M'Bow](https://www.wikidata.org/wiki/Q740168) | 1921–2024 | checked by hand: sources differ: Dakar (the pin) or Saint-Louis (Wikidata); pin 181 km from birthplace Saint-Louis — ✅ **Resolved (Oct 2026):** Dakar, 1921 (the pin). Saint-Louis is his parents' home region, not his birthplace. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Amadou-Mahtar_M%27Bow), [unesdoc.unesco.org](https://unesdoc.unesco.org/ark:/48223/pf0000048244) |
+| [Blaise Cendrars](https://www.wikidata.org/wiki/Q123080) | 1887–1961 | checked by hand: born in La Chaux-de-Fonds, Switzerland, where the pin is; Wikidata says Limoges; pin 449 km from birthplace Limoges — ✅ **Resolved (Oct 2026):** La Chaux-de-Fonds, 1887 (the pin). Wikidata's Limoges is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Blaise_Cendrars), [britannica.com](https://www.britannica.com/biography/Blaise-Cendrars) |
+| [Fabrizio De André](https://www.wikidata.org/wiki/Q25106) | 1940–1999 | checked by hand: born in Genoa, where the pin is; Wikidata says Ferrara; pin 218 km from birthplace Ferrara — ✅ **Resolved (Oct 2026):** Genoa (Pegli), 1940 (the pin). Wikidata's Ferrara is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Fabrizio_De_Andr%C3%A9), [muziekweb.nl](https://www.muziekweb.nl/en/Link/M00000050169/POPULAR/Fabrizio-de-Andr%C3%A9) |
+| [Francesco Redi](https://www.wikidata.org/wiki/Q311187) | 1626–1697 | checked by hand: born in Arezzo, Italy, where the pin is; Wikidata's Villapene (Spain) is a mix-up; pin 1570 km from birthplace Villapene — ✅ **Resolved (Oct 2026):** Arezzo, 1626 (the pin). Wikidata's Villapene (Spain) is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Francesco_Redi), [britannica.com](https://www.britannica.com/facts/Francesco-Redi) |
+| [Halil Kut](https://www.wikidata.org/wiki/Q367697) | 1881–1957 | checked by hand: sources differ: 1881 (the pin) or 1882 (Wikidata); birth year 1881 → 1882 — ✅ **Resolved (Oct 2026):** Istanbul, 1881 (the pin). 1882 is a minority date. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Halil_Kut), [encyclopedia.1914-1918-online.net](https://encyclopedia.1914-1918-online.net/article/kut_halil) |
+| [Ibn Hišām](https://www.wikidata.org/wiki/Q461096) | 701–? | checked by hand: the birth year on file (701) is a placeholder, and his death is given as 828 or 833; death year none → 828 — ✅ **Resolved (Oct 2026):** Died 833 (both sources). Birth year unknown: the panel now says 701 is a placeholder. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Ibn_Hisham), [fiqh.islamonline.net](https://fiqh.islamonline.net/en/the-biography-of-ibn-hisham-the-author-of-the-biography-of-the-prophet-sirat-ibn-hisham/) |
+| [Jenny von Westphalen](https://www.wikidata.org/wiki/Q238302) | 1814–1881 | checked by hand: born 12 February 1814 (the pin); Wikidata says 1813; birth year 1814 → 1813 — ✅ **Resolved (Oct 2026):** Salzwedel, 12 Feb 1814 (the pin). Wikidata's 1813 is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Jenny_von_Westphalen), [encyclopedia.com](https://www.encyclopedia.com/women/dictionaries-thesauruses-pictures-and-press-releases/marx-jenny-von-westphalen-1814-1881) |
+| [Karl Heinrich Ulrichs](https://www.wikidata.org/wiki/Q60318) | 1825–1895 | checked by hand: born at Westerhof near Aurich, Germany, where the pin is; Wikidata's General Bravo (Mexico) is a mix-up; pin 8731 km from birthplace General Bravo Municipality — ✅ **Resolved (Oct 2026):** Westerfeld near Aurich, 1825 (the pin). Wikidata's General Bravo (Mexico) is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Karl_Heinrich_Ulrichs), [deutsche-biographie.de](https://www.deutsche-biographie.de/11888980X.html) |
+| [Konstantin Chernenko](https://www.wikidata.org/wiki/Q127442) | 1911–1985 | checked by hand: born 24 September 1911 (the pin); Wikidata says 1912; birth year 1911 → 1912 — ✅ **Resolved (Oct 2026):** Bolshaya Tes, 24 Sep 1911 (New Style; the pin). Wikidata's 1912 is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Konstantin_Chernenko), [britannica.com](https://www.britannica.com/biography/Konstantin-Chernenko) |
+| [Lev Rudnev](https://www.wikidata.org/wiki/Q723343) | 1885–1956 | checked by hand: sources differ: Novgorod (the pin) or Opochka (Wikidata); pin 254 km from birthplace Opochka — ❔ **Still uncertain (Oct 2026), panel says so:** Still differ (Novgorod or Opochka). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Lev_Rudnev), [architectuul.com](https://architectuul.com/architect/lev-rudnev) |
+| [Mary Anderson](https://www.wikidata.org/wiki/Q17518) | 1866–1953 | checked by hand: the inventor was born in Greene County, Alabama, where the pin is; Wikidata's "Peru" is a mix-up; pin 4866 km from birthplace Peru — ✅ **Resolved (Oct 2026):** Burton Hill Plantation, Greene County, Alabama, 1866 (the pin). Wikidata's "Peru" is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Mary_Anderson_(inventor)), [encyclopediaofalabama.org](https://encyclopediaofalabama.org/article/mary-anderson/) |
+| [Philip Johan von Strahlenberg](https://www.wikidata.org/wiki/Q76639) | 1676–1747 | checked by hand: sources differ: 1676 (the pin) or 1677 (Wikidata); birth year 1676 → 1677 — ✅ **Resolved (Oct 2026):** Stralsund, 1676 (the pin). 1677 comes from one dealer's listing only. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Philip_Johan_von_Strahlenberg), [runeberg.org](https://runeberg.org/vjberingen/0229.html) |
+| [Pote Sarasin](https://www.wikidata.org/wiki/Q982335) | 1905–2000 | checked by hand: sources differ: 1905 (the pin) or 1906 (Wikidata); birth year 1905 → 1906 — ❔ **Still uncertain (Oct 2026), panel says so:** Only one good source for 1905 (a CIA file says 1904). The panel now says the year is uncertain. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Pote_Sarasin), [cia.gov](https://www.cia.gov/readingroom/print/391311) |
 
 ### Several birthplaces on Wikidata (130)
 
@@ -96,7 +104,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Caroline Harrison](https://www.wikidata.org/wiki/Q234263) | 1832–1892 | Wikidata has 2 birthplaces (Washington, D.C.; Oxford) |
 | [Claes Oldenburg](https://www.wikidata.org/wiki/Q156731) | 1929–2022 | Wikidata has 2 birthplaces (Stockholm; Malmö) |
 | [Countess Palatine Caroline of Zweibrücken](https://www.wikidata.org/wiki/Q62063) | 1721–1774 | Wikidata has 2 birthplaces (Strasbourg; Ribeauvillé) |
-| [Czesław Miłosz](https://www.wikidata.org/wiki/Q45970) | 1911–2004 | Wikidata has 2 birthplaces (Šiauliai; Šeteniai) |
+| [Czesław Miłosz](https://www.wikidata.org/wiki/Q45970) | 1911–2004 | Wikidata has 2 birthplaces (Šiauliai; Šeteniai) — ✅ **Resolved (Oct 2026):** Born in Šeteniai. The pin was at Šiauliai, about 70 km away; moved to Šeteniai. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Czes%C5%82aw_Mi%C5%82osz), [britannica.com](https://www.britannica.com/biography/Czeslaw-Milosz) |
 | [Diori Hamani](https://www.wikidata.org/wiki/Q314355) | 1916–1989 | Wikidata has 2 birthplaces (Boboye Department; Soudouré) |
 | [Don Shirley](https://www.wikidata.org/wiki/Q5293521) | 1927–2013 | Wikidata has 2 birthplaces (Kingston; Pensacola) |
 | [Eddie Van Halen](https://www.wikidata.org/wiki/Q272012) | 1955–2020 | Wikidata has 2 birthplaces (Amsterdam; Nijmegen) |
@@ -112,7 +120,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [George Washington Carver](https://www.wikidata.org/wiki/Q296898) | 1864–1943 | Wikidata has 2 birthplaces (United States; Diamond) |
 | [Georges Florovsky](https://www.wikidata.org/wiki/Q714187) | 1893–1979 | Wikidata has 2 birthplaces (Odesa; Kropyvnytskyi) |
 | [Giovanni Battista Gaulli](https://www.wikidata.org/wiki/Q520573) | 1639–1709 | Wikidata has 2 birthplaces (Genoa; Génova) |
-| [Golda Meir](https://www.wikidata.org/wiki/Q42992) | 1898–1978 | Wikidata has 3 birthplaces (Ukraine; Kyiv; Russian Empire) |
+| [Golda Meir](https://www.wikidata.org/wiki/Q42992) | 1898–1978 | Wikidata has 3 birthplaces (Ukraine; Kyiv; Russian Empire) — ✅ **Resolved (Oct 2026):** Born in Kyiv. The pin was at the middle of Ukraine (49, 32); moved to Kyiv. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Golda_Meir), [britannica.com](https://www.britannica.com/biography/Golda-Meir) |
 | [Guido of Arezzo](https://www.wikidata.org/wiki/Q192238) | 992–1050 | Wikidata has 2 birthplaces (Arezzo; Abbazia di Pomposa) |
 | [Gyula Andrássy](https://www.wikidata.org/wiki/Q313557) | 1823–1890 | Wikidata has 2 birthplaces (Vlachovo; Zemun) |
 | [Habibullah Khan](https://www.wikidata.org/wiki/Q334869) | 1872–1919 | Wikidata has 2 birthplaces (Samarkand; Tashkent) |
@@ -126,12 +134,12 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Horacio Quiroga](https://www.wikidata.org/wiki/Q16864) | 1878–1937 | Wikidata has 2 birthplaces (Salto Department; Salto) |
 | [Ibrahim Baré Maïnassara](https://www.wikidata.org/wiki/Q365417) | 1949–1999 | Wikidata has 2 birthplaces (Dogondoutchi; Maradi) |
 | [Ibrahim Nasir](https://www.wikidata.org/wiki/Q558802) | 1926–2008 | Wikidata has 2 birthplaces (Malé; Fuvahmulah) |
-| [Idi Amin](https://www.wikidata.org/wiki/Q48231) | 1925–2003 | Wikidata has 2 birthplaces (Kampala; Koboko) |
+| [Idi Amin](https://www.wikidata.org/wiki/Q48231) | 1925–2003 | Wikidata has 2 birthplaces (Kampala; Koboko) — ❔ **Still uncertain (Oct 2026), panel says so:** Still uncertain (Koboko or Kampala, about 1925). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Idi_Amin) |
 | [Irving Berlin](https://www.wikidata.org/wiki/Q128746) | 1888–1989 | Wikidata has 2 birthplaces (Tyumen; Talachyn) |
 | [Isaac Levitan](https://www.wikidata.org/wiki/Q211356) | 1860–1900 | Wikidata has 2 birthplaces (Kėdainiai; Kybartai) |
 | [Jacob Clemens non Papa](https://www.wikidata.org/wiki/Q438090) | 1510–1555 | Wikidata has 2 birthplaces (Middelburg; Ypres) |
 | [Jacopo Amigoni](https://www.wikidata.org/wiki/Q380897) | 1682–1752 | Wikidata has 2 birthplaces (Venice; Naples) |
-| [James Brown](https://www.wikidata.org/wiki/Q5950) | 1933–2006 | Wikidata has 2 birthplaces (Augusta; Barnwell) |
+| [James Brown](https://www.wikidata.org/wiki/Q5950) | 1933–2006 | Wikidata has 2 birthplaces (Augusta; Barnwell) — ✅ **Resolved (Oct 2026):** Born in Barnwell, South Carolina (raised in Augusta). The pin was at Augusta; moved to Barnwell. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/James_Brown), [britannica.com](https://www.britannica.com/biography/James-Brown) |
 | [James Salter](https://www.wikidata.org/wiki/Q1395915) | 1925–2015 | Wikidata has 2 birthplaces (New York City; Preston) |
 | [Jayadeva](https://www.wikidata.org/wiki/Q335015) | 1170–1245 | Wikidata has 2 birthplaces (Jaydev Kenduli; Kenduli Sasan) |
 | [Jiang Qing](https://www.wikidata.org/wiki/Q236017) | 1914–1991 | Wikidata has 2 birthplaces (People's Republic of China; Zhucheng) |
@@ -142,7 +150,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Jonas Mekas](https://www.wikidata.org/wiki/Q699702) | 1922–2019 | Wikidata has 2 birthplaces (Lithuania; Biržai) |
 | [Jorge Manrique](https://www.wikidata.org/wiki/Q389233) | 1440–1479 | Wikidata has 2 birthplaces (Paredes de Nava; Segura de la Sierra) |
 | [José Hernández](https://www.wikidata.org/wiki/Q377623) | 1834–1886 | Wikidata has 2 birthplaces (Argentina; San Andrés de Giles) |
-| [José Mujica](https://www.wikidata.org/wiki/Q9094) | 1935–2025 | Wikidata has 2 birthplaces (Montevideo; Cerro Largo Department) |
+| [José Mujica](https://www.wikidata.org/wiki/Q9094) | 1935–2025 | Wikidata has 2 birthplaces (Montevideo; Cerro Largo Department) — ✅ **Resolved (Oct 2026):** Born in Montevideo. The pin was in Cerro Largo, about 340 km away; moved to Montevideo. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Jos%C3%A9_Mujica), [britannica.com](https://www.britannica.com/biography/Jose-Mujica) |
 | [Juan Bautista Alberdi](https://www.wikidata.org/wiki/Q722738) | 1810–1884 | Wikidata has 2 birthplaces (Argentina; San Miguel de Tucumán) |
 | [Judith Jarvis Thomson](https://www.wikidata.org/wiki/Q3120860) | 1929–2020 | Wikidata has 2 birthplaces (United States; New York City) |
 | [Kanaiyalal Maneklal Munshi](https://www.wikidata.org/wiki/Q2721812) | 1887–1971 | Wikidata has 2 birthplaces (Bharuch; Bharuch district) |
@@ -152,7 +160,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Kumārajīva](https://www.wikidata.org/wiki/Q335293) | 344–413 | Wikidata has 2 birthplaces (Kushan Empire; Kucha) |
 | [Kusumoto Ine](https://www.wikidata.org/wiki/Q449696) | 1827–1903 | Wikidata has 2 birthplaces (Dejima; Nagasaki) |
 | [Laurent-Désiré Kabila](https://www.wikidata.org/wiki/Q135547) | 1939–2001 | Wikidata has 2 birthplaces (Likasi; Moba) |
-| [Li Bai](https://www.wikidata.org/wiki/Q7071) | 701–762 | Wikidata has 2 birthplaces (Suyab; Jiangyou) |
+| [Li Bai](https://www.wikidata.org/wiki/Q7071) | 701–762 | Wikidata has 2 birthplaces (Suyab; Jiangyou) — ❔ **Still uncertain (Oct 2026), panel says so:** Still uncertain (Suyab or Jiangyou). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Li_Bai) |
 | [Louis the Blind](https://www.wikidata.org/wiki/Q310435) | 880–928 | Wikidata has 2 birthplaces (Provence; Autun) |
 | [Lucian of Antioch](https://www.wikidata.org/wiki/Q510737) | 240–312 | Wikidata has 2 birthplaces (Antakya; Samosata) |
 | [Luiz Gonzaga](https://www.wikidata.org/wiki/Q982314) | 1912–1989 | Wikidata has 2 birthplaces (Q40942; Exu) |
@@ -182,13 +190,13 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Sebastião José de Carvalho e Melo, 1st Marquis of Pombal](https://www.wikidata.org/wiki/Q319511) | 1699–1782 | Wikidata has 2 birthplaces (Lisbon; Sernancelhe) |
 | [Semyon Dezhnyov](https://www.wikidata.org/wiki/Q333210) | 1605–1673 | Wikidata has 2 birthplaces (Pinega; Veliky Ustyug) |
 | [Siad Barre](https://www.wikidata.org/wiki/Q209828) | 1919–1995 | Wikidata has 3 birthplaces (Garbahaareey; Shilavo; Luuq) |
-| [Steve Biko](https://www.wikidata.org/wiki/Q214473) | 1946–1977 | Wikidata has 2 birthplaces (Tarkastad; Qonce) |
+| [Steve Biko](https://www.wikidata.org/wiki/Q214473) | 1946–1977 | Wikidata has 2 birthplaces (Tarkastad; Qonce) — ✅ **Resolved (Oct 2026):** Tarkastad, 1946 (the pin). Qonce (King William's Town) is where he grew up. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Steve_Biko), [repository.hsrc.ac.za](https://repository.hsrc.ac.za/handle/20.500.11910/19954) |
 | [Sylvius Leopold Weiss](https://www.wikidata.org/wiki/Q379571) | 1686–1750 | Wikidata has 2 birth years (1686, 1687); Wikidata has 2 birthplaces (Wrocław; Grodków) |
-| [Tenzing Norgay](https://www.wikidata.org/wiki/Q80732) | 1914–1986 | Wikidata has 2 birthplaces (Ü-Tsang; Tengboche) |
+| [Tenzing Norgay](https://www.wikidata.org/wiki/Q80732) | 1914–1986 | Wikidata has 2 birthplaces (Ü-Tsang; Tengboche) — ❔ **Still uncertain (Oct 2026), panel says so:** Still disputed (Tibet or Khumbu). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Tenzing_Norgay) |
 | [Theodosius I](https://www.wikidata.org/wiki/Q46696) | 347–395 | Wikidata has 2 birthplaces (Coca; Italica) |
 | [Theresa Kunegunda Sobieska](https://www.wikidata.org/wiki/Q241313) | 1676–1730 | Wikidata has 2 birthplaces (Kraków; Warsaw) |
 | [Tomás de Torquemada](https://www.wikidata.org/wiki/Q210735) | 1420–1498 | Wikidata has 2 birthplaces (Valladolid; Torquemada) |
-| [Tove Jansson](https://www.wikidata.org/wiki/Q102071) | 1914–2001 | Wikidata has 2 birthplaces (Helsinki; Helsingborg) |
+| [Tove Jansson](https://www.wikidata.org/wiki/Q102071) | 1914–2001 | Wikidata has 2 birthplaces (Helsinki; Helsingborg) — ✅ **Resolved (Oct 2026):** Helsinki, 1914 (the pin). Wikidata's Helsingborg is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Tove_Jansson), [britannica.com](https://www.britannica.com/biography/Tove-Jansson) |
 | [Vasubandhu](https://www.wikidata.org/wiki/Q316343) | 300–399 | Wikidata has 3 birthplaces (Gupta Empire; Gandhara; Peshawar) |
 | [Victor Vasarely](https://www.wikidata.org/wiki/Q154448) | 1906–1997 | Wikidata has 2 birthplaces (Hungary; Pécs) |
 | [Víctor Jara](https://www.wikidata.org/wiki/Q125133) | 1932–1973 | Wikidata has 2 birthplaces (San Ignacio; Lonquén) |
@@ -278,7 +286,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Carlos Antonio López](https://www.wikidata.org/wiki/Q235648) | 1792–1862 | Wikidata has 2 birth years (1792, 1790) |
 | [Carus](https://www.wikidata.org/wiki/Q187004) | 222–283 | Wikidata has 2 birth years (224, 222) |
 | [Catarina van Hemessen](https://www.wikidata.org/wiki/Q269445) | 1527–1567 | Wikidata has 2 birth years (1527, 1528); Wikidata has 2 death years (1600, 1567) |
-| [Charlemagne](https://www.wikidata.org/wiki/Q3044) | 742–814 | Wikidata has 2 birth years (742, 748) |
+| [Charlemagne](https://www.wikidata.org/wiki/Q3044) | 742–814 | Wikidata has 2 birth years (742, 748) — ❔ **Still uncertain (Oct 2026), panel says so:** Still uncertain (742, 747 or 748). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Charlemagne) |
 | [Charles the Fat](https://www.wikidata.org/wiki/Q150712) | 832–888 | Wikidata has 2 birth years (839, 832) |
 | [Chuck Close](https://www.wikidata.org/wiki/Q453883) | 1940–2021 | Wikidata has 2 birth years (1941, 1940) |
 | [Chögyam Trungpa](https://www.wikidata.org/wiki/Q548323) | 1939–1987 | Wikidata has 2 birth years (1940, 1939) |
@@ -461,7 +469,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Lluís Companys](https://www.wikidata.org/wiki/Q7981) | 1882–1940 | Wikidata has 2 birth years (1882, 1883) |
 | [Lola Anglada](https://www.wikidata.org/wiki/Q459343) | 1891–1984 | Wikidata has 2 birth years (1892, 1891) |
 | [Louis IV of France](https://www.wikidata.org/wiki/Q193658) | 920–954 | Wikidata has 2 birth years (921, 920) |
-| [Louis IX of France](https://www.wikidata.org/wiki/Q346) | 1214–1270 | Wikidata has 2 birth years (1214, 1215) |
+| [Louis IX of France](https://www.wikidata.org/wiki/Q346) | 1214–1270 | Wikidata has 2 birth years (1214, 1215) — ✅ **Resolved (Oct 2026):** Poissy, 25 Apr 1214 (the pin). 1215 is wrong. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Louis_IX_of_France), [britannica.com](https://www.britannica.com/summary/Louis-IX) |
 | [Louis Le Vau](https://www.wikidata.org/wiki/Q310530) | 1613–1670 | Wikidata has 2 birth years (1613, 1612) |
 | [Louis de Freycinet](https://www.wikidata.org/wiki/Q520189) | 1779–1841 | Wikidata has 2 death years (1842, 1841) |
 | [Luca Giordano](https://www.wikidata.org/wiki/Q332494) | 1632–1705 | Wikidata has 2 birth years (1632, 1634) |
@@ -564,7 +572,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Roger Ascham](https://www.wikidata.org/wiki/Q965811) | 1515–1568 | Wikidata has 2 death years (1569, 1568) |
 | [Rosario Castellanos](https://www.wikidata.org/wiki/Q260862) | 1924–1974 | Wikidata has 2 birth years (1925, 1924) |
 | [Rudolf Höss](https://www.wikidata.org/wiki/Q76975) | 1900–1947 | Wikidata has 2 birth years (1901, 1900) |
-| [Ruhollah Khomeini](https://www.wikidata.org/wiki/Q38823) | 1900–1989 | Wikidata has 2 birth years (1902, 1900) |
+| [Ruhollah Khomeini](https://www.wikidata.org/wiki/Q38823) | 1900–1989 | Wikidata has 2 birth years (1902, 1900) — ❔ **Still uncertain (Oct 2026), panel says so:** Still uncertain (1900 or 1902). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Ruhollah_Khomeini) |
 | [Rutebeuf](https://www.wikidata.org/wiki/Q918599) | 1230–1285 | Wikidata has 2 birth years (1245, 1230) |
 | [Saad Zaghloul](https://www.wikidata.org/wiki/Q328734) | 1857–1927 | Wikidata has 3 birth years (1859, 1858, 1857) |
 | [Sadegh Hedayat](https://www.wikidata.org/wiki/Q315017) | 1902–1951 | Wikidata has 2 birth years (1903, 1902) |
@@ -614,7 +622,7 @@ A script must not decide these. Each links to Wikidata. "On the globe" is the ye
 | [Uthman ibn Affan](https://www.wikidata.org/wiki/Q37731) | 574–656 | Wikidata has 2 birth years (574, 575) |
 | [Vakhtang I of Iberia](https://www.wikidata.org/wiki/Q359956) | 440–502 | Wikidata has 2 birth years (442, 440) |
 | [Valerian](https://www.wikidata.org/wiki/Q46750) | 199–260 | Wikidata has 2 birth years (200, 199); Wikidata has 2 death years (264, 260) |
-| [Vasco da Gama](https://www.wikidata.org/wiki/Q7328) | 1469–1525 | Wikidata has 2 birth years (1469, 1460) |
+| [Vasco da Gama](https://www.wikidata.org/wiki/Q7328) | 1469–1525 | Wikidata has 2 birth years (1469, 1460) — ❔ **Still uncertain (Oct 2026), panel says so:** Still uncertain (about 1460 or 1469). The panel now says so. Sources: [wikipedia.org](https://en.wikipedia.org/wiki/Vasco_da_Gama) |
 | [Vasily of Kostroma](https://www.wikidata.org/wiki/Q548014) | 1236–1276 | Wikidata has 2 birth years (1241, 1236) |
 | [Vicente López y Planes](https://www.wikidata.org/wiki/Q441072) | 1784–1856 | Wikidata has 2 birth years (1785, 1784) |
 | [Victoriano Huerta](https://www.wikidata.org/wiki/Q299168) | 1850–1916 | Wikidata has 2 birth years (1854, 1850) |

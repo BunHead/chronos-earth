@@ -1,5 +1,5 @@
 {
-  "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
+  "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote, born, died), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
   "fixes": {
     "q603549": {
       "lat": 34.193,
@@ -293,6 +293,151 @@
       "lon": -175.1205,
       "why": "People fact-check: pin 69 km from birthplace Talafoʻou",
       "source": "https://www.wikidata.org/wiki/Q48778102"
+    },
+    "q123080": {
+      "born": "1 September 1887, La Chaux-de-Fonds, Switzerland",
+      "why": "People fact-check, checked by hand (Oct 2026): La Chaux-de-Fonds, 1887 (the pin). Wikidata's Limoges is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Blaise_Cendrars; https://www.britannica.com/biography/Blaise-Cendrars"
+    },
+    "q311187": {
+      "born": "18 February 1626, Arezzo, Italy",
+      "why": "People fact-check, checked by hand (Oct 2026): Arezzo, 1626 (the pin). Wikidata's Villapene (Spain) is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Francesco_Redi; https://www.britannica.com/facts/Francesco-Redi"
+    },
+    "q25106": {
+      "born": "18 February 1940, Genoa, Italy",
+      "why": "People fact-check, checked by hand (Oct 2026): Genoa (Pegli), 1940 (the pin). Wikidata's Ferrara is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Fabrizio_De_Andr%C3%A9; https://www.muziekweb.nl/en/Link/M00000050169/POPULAR/Fabrizio-de-Andr%C3%A9"
+    },
+    "q60318": {
+      "born": "28 August 1825, Westerfeld, near Aurich, Kingdom of Hanover",
+      "why": "People fact-check, checked by hand (Oct 2026): Westerfeld near Aurich, 1825 (the pin). Wikidata's General Bravo (Mexico) is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Karl_Heinrich_Ulrichs; https://www.deutsche-biographie.de/11888980X.html"
+    },
+    "q17518": {
+      "born": "19 February 1866, Greene County, Alabama",
+      "why": "People fact-check, checked by hand (Oct 2026): Burton Hill Plantation, Greene County, Alabama, 1866 (the pin). Wikidata's \"Peru\" is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Mary_Anderson_(inventor); https://encyclopediaofalabama.org/article/mary-anderson/"
+    },
+    "q238302": {
+      "born": "12 February 1814, Salzwedel, Kingdom of Prussia",
+      "why": "People fact-check, checked by hand (Oct 2026): Salzwedel, 12 Feb 1814 (the pin). Wikidata's 1813 is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Jenny_von_Westphalen; https://www.encyclopedia.com/women/dictionaries-thesauruses-pictures-and-press-releases/marx-jenny-von-westphalen-1814-1881"
+    },
+    "q740168": {
+      "born": "20 March 1921, Dakar, French West Africa (now Senegal)",
+      "why": "People fact-check, checked by hand (Oct 2026): Dakar, 1921 (the pin). Saint-Louis is his parents' home region, not his birthplace.",
+      "source": "https://en.wikipedia.org/wiki/Amadou-Mahtar_M%27Bow; https://unesdoc.unesco.org/ark:/48223/pf0000048244"
+    },
+    "q127442": {
+      "born": "24 September 1911, Bolshaya Tes, Russian Empire",
+      "why": "People fact-check, checked by hand (Oct 2026): Bolshaya Tes, 24 Sep 1911 (New Style; the pin). Wikidata's 1912 is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Konstantin_Chernenko; https://www.britannica.com/biography/Konstantin-Chernenko"
+    },
+    "q367697": {
+      "born": "1881, Istanbul, Ottoman Empire",
+      "why": "People fact-check, checked by hand (Oct 2026): Istanbul, 1881 (the pin). 1882 is a minority date.",
+      "source": "https://en.wikipedia.org/wiki/Halil_Kut; https://encyclopedia.1914-1918-online.net/article/kut_halil"
+    },
+    "q76639": {
+      "born": "1676, Stralsund, Swedish Pomerania",
+      "why": "People fact-check, checked by hand (Oct 2026): Stralsund, 1676 (the pin). 1677 comes from one dealer's listing only.",
+      "source": "https://en.wikipedia.org/wiki/Philip_Johan_von_Strahlenberg; https://runeberg.org/vjberingen/0229.html"
+    },
+    "q461096": {
+      "endYear": 833,
+      "dateNote": "His birth year is not known; 701 is only a placeholder. He died in 833 (218 AH); a few sources say 828.",
+      "why": "People fact-check, checked by hand (Oct 2026): Died 833 (both sources). Birth year unknown: the panel now says 701 is a placeholder.",
+      "source": "https://en.wikipedia.org/wiki/Ibn_Hisham; https://fiqh.islamonline.net/en/the-biography-of-ibn-hisham-the-author-of-the-biography-of-the-prophet-sirat-ibn-hisham/"
+    },
+    "q723343": {
+      "placeNote": "Sources differ on where he was born: Novgorod, where the pin is, or Opochka.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still differ (Novgorod or Opochka). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Lev_Rudnev; https://architectuul.com/architect/lev-rudnev"
+    },
+    "q307365": {
+      "placeNote": "His birthplace is disputed. Most historians say Gilan, on the Caspian coast of Iran; others say a Jil or Gilan near Baghdad. The pin is only roughly placed.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still disputed (Gilan in Iran, or near Baghdad). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Abdul_Qadir_Gilani"
+    },
+    "q982335": {
+      "dateNote": "Sources give 1904, 1905 or 1906 for his birth. Most, including Wikipedia, say 25 March 1905.",
+      "why": "People fact-check, checked by hand (Oct 2026): Only one good source for 1905 (a CIA file says 1904). The panel now says the year is uncertain.",
+      "source": "https://en.wikipedia.org/wiki/Pote_Sarasin; https://www.cia.gov/readingroom/print/391311"
+    },
+    "q42992": {
+      "lat": 50.4501,
+      "lon": 30.5234,
+      "born": "3 May 1898, Kyiv, Russian Empire (now Ukraine)",
+      "why": "People fact-check, checked by hand (Oct 2026): Born in Kyiv. The pin was at the middle of Ukraine (49, 32); moved to Kyiv.",
+      "source": "https://en.wikipedia.org/wiki/Golda_Meir; https://www.britannica.com/biography/Golda-Meir"
+    },
+    "q45970": {
+      "lat": 55.3947,
+      "lon": 24.0328,
+      "born": "30 June 1911, Šeteniai, Lithuania",
+      "why": "People fact-check, checked by hand (Oct 2026): Born in Šeteniai. The pin was at Šiauliai, about 70 km away; moved to Šeteniai.",
+      "source": "https://en.wikipedia.org/wiki/Czes%C5%82aw_Mi%C5%82osz; https://www.britannica.com/biography/Czeslaw-Milosz"
+    },
+    "q9094": {
+      "lat": -34.9033,
+      "lon": -56.1882,
+      "born": "20 May 1935, Montevideo, Uruguay",
+      "why": "People fact-check, checked by hand (Oct 2026): Born in Montevideo. The pin was in Cerro Largo, about 340 km away; moved to Montevideo.",
+      "source": "https://en.wikipedia.org/wiki/Jos%C3%A9_Mujica; https://www.britannica.com/biography/Jose-Mujica"
+    },
+    "q5950": {
+      "lat": 33.2449,
+      "lon": -81.3587,
+      "born": "3 May 1933, Barnwell, South Carolina",
+      "why": "People fact-check, checked by hand (Oct 2026): Born in Barnwell, South Carolina (raised in Augusta). The pin was at Augusta; moved to Barnwell.",
+      "source": "https://en.wikipedia.org/wiki/James_Brown; https://www.britannica.com/biography/James-Brown"
+    },
+    "q102071": {
+      "born": "9 August 1914, Helsinki, Grand Duchy of Finland",
+      "why": "People fact-check, checked by hand (Oct 2026): Helsinki, 1914 (the pin). Wikidata's Helsingborg is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Tove_Jansson; https://www.britannica.com/biography/Tove-Jansson"
+    },
+    "q214473": {
+      "born": "18 December 1946, Tarkastad, Cape Province, South Africa",
+      "why": "People fact-check, checked by hand (Oct 2026): Tarkastad, 1946 (the pin). Qonce (King William's Town) is where he grew up.",
+      "source": "https://en.wikipedia.org/wiki/Steve_Biko; https://repository.hsrc.ac.za/handle/20.500.11910/19954"
+    },
+    "q346": {
+      "born": "25 April 1214, Poissy, France",
+      "why": "People fact-check, checked by hand (Oct 2026): Poissy, 25 Apr 1214 (the pin). 1215 is wrong.",
+      "source": "https://en.wikipedia.org/wiki/Louis_IX_of_France; https://www.britannica.com/summary/Louis-IX"
+    },
+    "q7071": {
+      "placeNote": "Where he was born is not certain: most say Suyab in Central Asia, where the pin is; some say Jiangyou in Sichuan, where he grew up.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still uncertain (Suyab or Jiangyou). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Li_Bai"
+    },
+    "q3044": {
+      "dateNote": "His birth year is not certain: 742, 747 and 748 are all given.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still uncertain (742, 747 or 748). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Charlemagne"
+    },
+    "q7328": {
+      "dateNote": "His birth year is not known exactly: about 1460 or 1469.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still uncertain (about 1460 or 1469). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Vasco_da_Gama"
+    },
+    "q38823": {
+      "dateNote": "Sources differ on his birth year: 1900 or 1902.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still uncertain (1900 or 1902). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Ruhollah_Khomeini"
+    },
+    "q48231": {
+      "placeNote": "Where he was born is not certain: probably Koboko or Kampala. The pin is at Kampala.",
+      "dateNote": "His birth date is not known; about 1925.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still uncertain (Koboko or Kampala, about 1925). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Idi_Amin"
+    },
+    "q80732": {
+      "placeNote": "Where he was born is disputed: in Tibet, where the pin is, or at Thame in the Khumbu, Nepal.",
+      "why": "People fact-check, checked by hand (Oct 2026): Still disputed (Tibet or Khumbu). The panel now says so.",
+      "source": "https://en.wikipedia.org/wiki/Tenzing_Norgay"
     }
   }
 }
