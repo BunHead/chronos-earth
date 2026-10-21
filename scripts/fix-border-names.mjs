@@ -74,11 +74,11 @@ export const RENAMES = [
   ['Kingdom of Brazil', 'Empire of Brazil', 1822, 1889], // Q217230; the Kingdom (Q3932042) was 1815-1822
   ['Kingdom of Brazil', 'Brazil', 1890, Infinity], // Republic from Nov 1889
   ['Sui Empire', 'Tang Empire', 619, 907], // Q9683; Sui (Q7405) ended 618
-  ['Jin Empire', 'Southern Qi', 479, 502], // Q1199862; Eastern Jin (Q7352) ended 420 — the 500 CE polygon is south China
-  ['Golconda', "Nizam's Dominions", 1724, 1948], // Hyderabad State Q1365345; Golconda (Q19805959) fell 1687
-  ['Kediri', 'Singhasari', 1222, 1292], // Q1193036; Kediri (Q756895) ended 1222
-  ['Kediri', 'Majapahit', 1293, 1527], // Q181651
-  ['Liao', 'Jin Empire', 1126, 1234], // Jurchen Jin Q7350; Liao (Q4958) fell 1125 — the 1200 polygon is north China
+  ['Jin Empire', 'Southern Qi', 479, 502], // Q62456; Eastern Jin (Q7352) ended 420 — the 500 CE polygon is south China
+  ['Golconda', "Nizam's Dominions", 1724, 1948], // Hyderabad State Q1240096; Golconda (Q19805959) fell 1687
+  ['Kediri', 'Singhasari', 1222, 1292], // Q2060657; Kediri (Q756895) ended 1222
+  ['Kediri', 'Majapahit', 1293, 1527], // Q49326
+  ['Liao', 'Jin Empire', 1126, 1234], // Jurchen Jin Q5066; Liao (Q4958) fell 1125 — the 1200 polygon is north China
 
   // Misspellings and broken characters in the snapshots' owner names. Spelling
   // only: no polygon moves, and the corrected name is the one Wikipedia uses.
