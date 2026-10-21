@@ -132,12 +132,16 @@ export const FOSSIL_SITES = [
   // doi:10.1098/rspl.1880.0045). Barnes High is OS grid SZ 437 808 (Radley &
   // Barker, Univ. Portsmouth, "The Hypsilophodon Bed"); converted and checked
   // against OSM's Cowleaze Chine node (50.6189, -1.3725), 19 Oct 2026.
-  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
+  // Invictibellatrix: NHM press release and Royal Society Open Science 13:260937, Oct 2026.
+  { ...site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
     'Early in 1865 the Rev. William Fox found an armoured dinosaur, Polacanthus, at Barnes High. The island\'s ' +
       'south-west cliffs are about 125 million years old (Early Cretaceous) and are among the richest dinosaur ' +
-      'grounds in Europe.',
-    'Pinned at Barnes High in Brighstone Bay, where it was found; the Wessex Formation has no Wikidata point, ' +
+      'grounds in Europe. In 2026 a piece of skull held at the Natural History Museum since 1924 was named ' +
+      'Invictibellatrix amberina: about 120 million years old, from the Wessex Formation, and the first ' +
+      'megaraptoran, a long-clawed predator, known from Europe.',
+    'Pinned at Barnes High in Brighstone Bay, where Polacanthus was found; the Wessex Formation has no Wikidata point, ' +
       'so the Q-id is the island\'s.'),
+    sourceUrl: 'https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html' },
   // Named by William Buckland, Geological Society of London, 20 Feb 1824 (oumnh.ox.ac.uk/megalosaurus-0).
   site('stonesfield', 'Stonesfield: Megalosaurus, the first dinosaur named', 1824, 51.851, -1.429, 'Q2185932', 'Stonesfield',
     'On 20 February 1824 William Buckland named Megalosaurus from bones dug from the slate pits at Stonesfield, ' +

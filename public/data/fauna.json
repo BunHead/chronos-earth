@@ -4167,6 +4167,32 @@
           "lat": -14.43333
         }
       ]
+    },
+    {
+      "id": "invictibellatrix",
+      "name": "Invictibellatrix",
+      "emoji": "🦖",
+      "lat": 50.65,
+      "lon": -1.37,
+      "fromMa": 125.8,
+      "toMa": 121.4,
+      "region": "England, United Kingdom",
+      "blurb": "A long-clawed hunter, about 120 million years old, named in 2026 from a piece of skull the Natural History Museum had held since 1924: the first megaraptoran found in Europe.",
+      "wiki": "Invictibellatrix",
+      "track": [
+        {
+          "ma": 121.4,
+          "lon": 10.47,
+          "lat": 40.59
+        },
+        {
+          "ma": 125.8,
+          "lon": 10.28,
+          "lat": 40.88
+        }
+      ],
+      "sourceUrl": "https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html",
+      "paperUrl": "https://royalsocietypublishing.org/rsos/article/13/10/260937/483607/A-new-megaraptoran-dinosaur-from-the-Lower"
     }
   ]
 }
