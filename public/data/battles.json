@@ -5163,8 +5163,8 @@
       "name": "Battle of the Coral Sea",
       "year": 1942,
       "dateLabel": "4 – 8 May 1942",
-      "lat": -14,
-      "lon": 155,
+      "lat": -15.3333,
+      "lon": 155.5,
       "belligerents": {
         "side1": "United States and Australia",
         "side2": "Japan"

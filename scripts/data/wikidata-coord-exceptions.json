@@ -3,7 +3,7 @@
   "noche-triste": "Wikidata's coordinates are wrong; the causeway retreat was in Tenochtitlan (Mexico City), where the pin is. Checked 13 Oct 2026.",
   "pharsalus": "The battlefield's site is disputed; the pin follows the Wikipedia article. Checked 13 Oct 2026.",
   "midway": "A carrier battle fought over hundreds of km of ocean; the pin is on the atoll the fight was for.",
-  "coral-sea": "A carrier battle fought over hundreds of km of ocean; the pin sits in the middle of it.",
+  "coral-sea": "A carrier battle fought over hundreds of km of ocean; the pin is where USS Lexington sank (Wikidata Q838148), at the heart of it. Checked 22 Oct 2026.",
   "britain-1940": "An air campaign over all of southern England; the pin is on London and the south-east.",
   "carthage-146bce": "Wikipedia links the Third Punic War as a whole; the pin is on Carthage, where it ended.",
   "kursk": "Wikidata pins the battle on Kursk city. The pin is on Prokhorovka, where the great tank clash of 12 July 1943 was fought (13 Oct 2026 review).",
@@ -22,5 +22,9 @@
   "q717505": "Battle of Xinkou: Wikidata's coordinates are about 90 km out; the pin follows https://www.wikidata.org/wiki/Q109410819. Checked 15 Oct 2026.",
   "q2469370": "Battle of Motien Pass: Wikidata's coordinates are about 151 km out; the pin follows https://www.wikidata.org/wiki/Q13748129. Checked 15 Oct 2026.",
   "q3772937": "Battle of Guinea: Wikidata's coordinates are about 748 km out; the pin follows https://en.wikipedia.org/wiki/Elmina. Checked 15 Oct 2026.",
-  "q1720307": "Battle of the Hellespont: Wikidata's coordinates are about 138 km out; the pin follows https://en.wikipedia.org/wiki/Dardanelles. Checked 15 Oct 2026."
+  "q1720307": "Battle of the Hellespont: Wikidata's coordinates are about 138 km out; the pin follows https://en.wikipedia.org/wiki/Dardanelles. Checked 15 Oct 2026.",
+  "q173034": "Pinned on Midway Atoll (its P276), not the battle item's open-sea point. Checked 22 Oct 2026.",
+  "q207165": "Wikidata's point is ~730 km east of the Coral Sea; pinned on the USS Lexington wreck (Q838148). Checked 22 Oct 2026.",
+  "q1851266": "Pinned on Cepeda (its P276), not the item's whole-degree point. Checked 22 Oct 2026.",
+  "cur-battle-fandane-thiouthioune": "Wikidata pins this battle on Dakar; it was fought at Fandane and Thiouthioune in Sine (Thiouthioune is Q3524684). Checked 22 Oct 2026."
 }

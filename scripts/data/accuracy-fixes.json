@@ -211,6 +211,160 @@
       "lon": 26.4,
       "why": "Pin moved 138 km to the sourced location (Captain's pin review, 15 Oct 2026)",
       "source": "https://en.wikipedia.org/wiki/Dardanelles"
+    },
+    "q42992": {
+      "lat": 50.45,
+      "lon": 30.5236,
+      "placeNote": "Born in Kyiv. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Kyiv as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Golda_Meir ; https://www.wikidata.org/wiki/Q1899 (birthplace and its coordinates)"
+    },
+    "q154448": {
+      "lat": 46.0708,
+      "lon": 18.2331,
+      "placeNote": "Born in Pécs. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Pécs as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Victor_Vasarely ; https://www.wikidata.org/wiki/Q45779 (birthplace and its coordinates)"
+    },
+    "q314362": {
+      "lat": -34.5997,
+      "lon": -58.3819,
+      "placeNote": "Born in Buenos Aires. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Buenos Aires as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Bartolom%C3%A9_Mitre ; https://www.wikidata.org/wiki/Q1486 (birthplace and its coordinates)"
+    },
+    "q311283": {
+      "lat": 35.5975,
+      "lon": 51.4344,
+      "placeNote": "Born in Ray. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Ray as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Bahram_Chobin ; https://www.wikidata.org/wiki/Q636188 (birthplace and its coordinates)"
+    },
+    "q310435": {
+      "lat": 46.9511,
+      "lon": 4.2986,
+      "placeNote": "Born in Autun. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Autun as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Louis_the_Blind ; https://www.wikidata.org/wiki/Q190827 (birthplace and its coordinates)"
+    },
+    "q201494": {
+      "lat": 37.8,
+      "lon": -122.25,
+      "placeNote": "Born in Oakland. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Oakland as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Harry_Partch ; https://www.wikidata.org/wiki/Q17042 (birthplace and its coordinates)"
+    },
+    "q57267": {
+      "lat": 54.55,
+      "lon": 17.75,
+      "placeNote": "Born in Lębork (Lauenburg in Pommern). The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Lębork (Lauenburg in Pommern) as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Erich_von_dem_Bach-Zelewski ; https://www.wikidata.org/wiki/Q497148 (birthplace and its coordinates)"
+    },
+    "q375158": {
+      "lat": 55.711,
+      "lon": -4.723,
+      "placeNote": "Born in Dalry, Ayrshire. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Dalry, Ayrshire as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/James_Dunlop ; https://www.wikidata.org/wiki/Q3467446 (birthplace and its coordinates)"
+    },
+    "q469507": {
+      "lat": -17.2167,
+      "lon": -178.9333,
+      "placeNote": "Born in Vanua Balavu. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Vanua Balavu as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Kamisese_Mara ; https://www.wikidata.org/wiki/Q2291065 (birthplace and its coordinates)"
+    },
+    "q9602": {
+      "lat": 44.5784,
+      "lon": -73.5268,
+      "placeNote": "Born in Peru, New York. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Peru, New York as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Frances_Allen ; https://www.wikidata.org/wiki/Q170254 (birthplace and its coordinates)"
+    },
+    "q66286": {
+      "lat": 51.2667,
+      "lon": 7.1833,
+      "placeNote": "Born in Wuppertal. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Wuppertal as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Rita_S%C3%BCssmuth ; https://www.wikidata.org/wiki/Q2107 (birthplace and its coordinates)"
+    },
+    "q188859": {
+      "lat": -34.5997,
+      "lon": -58.3819,
+      "placeNote": "Born in Buenos Aires. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Buenos Aires as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Esteban_Echeverr%C3%ADa ; https://www.wikidata.org/wiki/Q1486 (birthplace and its coordinates)"
+    },
+    "q722738": {
+      "lat": -26.8167,
+      "lon": -65.2167,
+      "placeNote": "Born in San Miguel de Tucumán. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records San Miguel de Tucumán as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Juan_Bautista_Alberdi ; https://www.wikidata.org/wiki/Q44255 (birthplace and its coordinates)"
+    },
+    "q380403": {
+      "lat": -28.8883,
+      "lon": 31.4483,
+      "placeNote": "Born in Eshowe. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Eshowe as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Cetshwayo ; https://www.wikidata.org/wiki/Q1367652 (birthplace and its coordinates)"
+    },
+    "q441138": {
+      "lat": 37.5302,
+      "lon": 27.2784,
+      "placeNote": "Born in Miletus. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Miletus as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Alexander_Polyhistor ; https://www.wikidata.org/wiki/Q169460 (birthplace and its coordinates)"
+    },
+    "q464728": {
+      "lat": 29.9381,
+      "lon": -90.0331,
+      "placeNote": "Born in Algiers, New Orleans. The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Algiers, New Orleans as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Memphis_Minnie ; https://www.wikidata.org/wiki/Q4724224 (birthplace and its coordinates)"
+    },
+    "q440490": {
+      "lat": -31.6764,
+      "lon": 28.0011,
+      "placeNote": "Born in Ngcobo (Engcobo). The pin was on the centre of a country or region (whole-degree coordinates), not the town.",
+      "why": "Birthplace pinned to a country/region centroid; Wikidata also records Ngcobo (Engcobo) as the birthplace (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Walter_Sisulu ; https://www.wikidata.org/wiki/Q10610936 (birthplace and its coordinates)"
+    },
+    "q314454": {
+      "lat": 64.5615,
+      "lon": -21.9154,
+      "placeNote": "Born at Borg á Mýrum in western Iceland, according to Egils saga. The pin was on the centre of Iceland.",
+      "why": "Birthplace pinned to the centre of Iceland; Egils saga places his birth at Borg (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Egill_Skallagr%C3%ADmsson ; https://www.wikidata.org/wiki/Q648234 (birthplace and its coordinates)"
+    },
+    "q173034": {
+      "lat": 28.2075,
+      "lon": -177.35,
+      "placeNote": "Pinned on Midway Atoll, the battle's location on Wikidata. The previous pin (30, -178) was a whole-degree point about 220 km north, in open sea.",
+      "why": "Pin moved to Midway Atoll (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Midway ; https://www.wikidata.org/wiki/Q173034 (location P276: Midway Atoll, https://www.wikidata.org/wiki/Q47863)"
+    },
+    "q207165": {
+      "lat": -15.3333,
+      "lon": 155.5,
+      "placeNote": "A carrier battle fought across hundreds of km of the Coral Sea. Pinned where USS Lexington sank on 8 May 1942, at the heart of the carrier action. Wikidata's own point (-16.27, 162.33) lies about 730 km east, outside the Coral Sea.",
+      "why": "Pin moved to the wreck of USS Lexington (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_the_Coral_Sea ; https://www.wikidata.org/wiki/Q838148"
+    },
+    "q712181": {
+      "lat": -0.945,
+      "lon": 135.9361,
+      "placeNote": "Pinned on Biak Island, where the battle was fought (the old pin was a whole-degree point off the coast).",
+      "why": "Pin moved to Biak Island (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Biak ; https://www.wikidata.org/wiki/Q855314 (Biak Island)"
+    },
+    "q1851266": {
+      "lat": -33.3982,
+      "lon": -60.6239,
+      "placeNote": "Pinned on Cepeda, Buenos Aires Province, the battle's location on Wikidata. The old pin was a whole-degree point about 55 km away.",
+      "why": "Pin moved to Cepeda (Pin review, 22 Oct 2026)",
+      "source": "https://en.wikipedia.org/wiki/Battle_of_Cepeda_(1820) ; https://www.wikidata.org/wiki/Q3664943 (Cepeda, the battle location P276)"
     }
   }
 }

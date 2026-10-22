@@ -214,6 +214,48 @@ export const PLACES = [
       "ahu were built c. 1250–1500 CE. These moai were toppled, hit by the 1960 tsunami, and set back up " +
       'in 1992–96.',
   },
+  // PINS PR #58 SKIPPED, 22 Oct 2026: the harvest cannot place these right,
+  // because Wikidata's own coordinates are wrong. The Q-id on each row stops
+  // a later harvest adding a second, misplaced pin.
+  {
+    id: 'cur-benito-juarez',
+    name: 'Benito Juárez',
+    category: 'person',
+    startYear: 1806,
+    endYear: 1872,
+    // Guelatao de Juárez, Oaxaca (Wikidata Q49906764). His P19 item, "San
+    // Pablo Guelatao" (Q986436), carries coordinates near Torreón, Coahuila.
+    lat: 17.3181,
+    lon: -96.4931,
+    wikidataId: 'Q182276',
+    wikiTitle: 'Benito Juárez',
+    // Hand-set weight: President of Mexico, as prominent as any 19th-century
+    // head of state on the globe.
+    notability: 100,
+    placeNote:
+      'Born in San Pablo Guelatao (now Guelatao de Juárez), a Zapotec village in the Sierra Norte of ' +
+      'Oaxaca. Wikidata gives that village coordinates in Coahuila, about 1,000 km away; the pin is ' +
+      'on the Oaxaca town.',
+  },
+  {
+    id: 'cur-battle-fandane-thiouthioune',
+    name: 'Battle of Fandane-Thiouthioune',
+    category: 'battle',
+    startYear: 1867,
+    // Thiouthioune village (Wikidata Q3524684), Fatick region. Wikidata's
+    // point for the battle (Q2888488) is on Dakar, ~130 km to the north-west.
+    lat: 14.4508,
+    lon: -16.2187,
+    wikidataId: 'Q2888488',
+    wikiTitle: 'Battle of Fandane-Thiouthioune',
+    // Hand-set weight: enough to hold its own when you are looking at Senegal.
+    notability: 30,
+    placeNote:
+      'Fought on 18 July 1867 between the villages of Fandane and Thiouthioune in the Kingdom of Sine ' +
+      '(now Fatick region, Senegal). The pin is on Thiouthioune and is approximate. Wikidata puts the ' +
+      'battle on Dakar, which is wrong.',
+    sourceUrl: 'https://en.wikipedia.org/wiki/Battle_of_Fandane-Thiouthioune',
+  },
 ];
 
 /**
