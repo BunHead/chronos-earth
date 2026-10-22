@@ -7,7 +7,7 @@ Each person was checked against Wikidata (birth date P569, death date P570, birt
 ## Totals
 
 - Checked: **150**
-- Fixed: **31** (21%). Some had a wrong year, some had the pin in the wrong place, and two had both.
+- Fixed: **31** (21%). Some had a wrong year, some had the pin in the wrong place, and one (Chamfort) had both.
 - Still uncertain: **79**. Good sources disagree, or the date or place is not known. The panel now says so ("Why it is shown here" / "About the date"), and nothing was guessed.
 - Already right: **39**
 - Needs a decision: **1**. [Wolverine](https://www.wikidata.org/wiki/Q186422) is the comic-book character, and the harvest shows him as a person born in 1832 in the middle of Canada. The override file cannot remove a row, so he is left as he is.
