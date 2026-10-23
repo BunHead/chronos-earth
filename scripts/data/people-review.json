@@ -1,61 +1,89 @@
 {
-  "_comment": "People the fact-check (scripts/factcheck-people.mjs) would change, read by a person and judged wrong or unsettled ON WIKIDATA. They are listed as doubtful in docs/people-factcheck-2026-10.md and left as they are.",
+  "_comment": "People the fact-check (scripts/factcheck-people.mjs) would change, read by a person and judged wrong or unsettled ON WIKIDATA. They are listed as doubtful in docs/people-factcheck-2026-10.md and left as they are. 'resolved' marks the ones checked against two sources in Oct 2026 ('resolved': the pin is right, the Born line is set by hand in accuracy-fixes.json; 'uncertain': sources still differ and the panel says so).",
   "people": {
     "q307365": {
       "name": "Abdul Qadir Gilani",
-      "why": "birthplace disputed: Gilan in Iran, or a Gilan near Baghdad"
+      "why": "birthplace disputed: Gilan in Iran, or a Gilan near Baghdad",
+      "resolved": "uncertain",
+      "source": "https://en.wikipedia.org/wiki/Abdul_Qadir_Gilani"
     },
     "q311187": {
       "name": "Francesco Redi",
-      "why": "born in Arezzo, Italy, where the pin is; Wikidata's Villapene (Spain) is a mix-up"
+      "why": "born in Arezzo, Italy, where the pin is; Wikidata's Villapene (Spain) is a mix-up",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Francesco_Redi; https://www.britannica.com/facts/Francesco-Redi"
     },
     "q76639": {
       "name": "Philip Johan von Strahlenberg",
-      "why": "sources differ: 1676 (the pin) or 1677 (Wikidata)"
+      "why": "sources differ: 1676 (the pin) or 1677 (Wikidata)",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Philip_Johan_von_Strahlenberg; https://runeberg.org/vjberingen/0229.html"
     },
     "q238302": {
       "name": "Jenny von Westphalen",
-      "why": "born 12 February 1814 (the pin); Wikidata says 1813"
+      "why": "born 12 February 1814 (the pin); Wikidata says 1813",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Jenny_von_Westphalen; https://www.encyclopedia.com/women/dictionaries-thesauruses-pictures-and-press-releases/marx-jenny-von-westphalen-1814-1881"
     },
     "q60318": {
       "name": "Karl Heinrich Ulrichs",
-      "why": "born at Westerhof near Aurich, Germany, where the pin is; Wikidata's General Bravo (Mexico) is a mix-up"
+      "why": "born at Westerhof near Aurich, Germany, where the pin is; Wikidata's General Bravo (Mexico) is a mix-up",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Karl_Heinrich_Ulrichs; https://www.deutsche-biographie.de/11888980X.html"
     },
     "q17518": {
       "name": "Mary Anderson",
-      "why": "the inventor was born in Greene County, Alabama, where the pin is; Wikidata's \"Peru\" is a mix-up"
+      "why": "the inventor was born in Greene County, Alabama, where the pin is; Wikidata's \"Peru\" is a mix-up",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Mary_Anderson_(inventor); https://encyclopediaofalabama.org/article/mary-anderson/"
     },
     "q367697": {
       "name": "Halil Kut",
-      "why": "sources differ: 1881 (the pin) or 1882 (Wikidata)"
+      "why": "sources differ: 1881 (the pin) or 1882 (Wikidata)",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Halil_Kut; https://encyclopedia.1914-1918-online.net/article/kut_halil"
     },
     "q723343": {
       "name": "Lev Rudnev",
-      "why": "sources differ: Novgorod (the pin) or Opochka (Wikidata)"
+      "why": "sources differ: Novgorod (the pin) or Opochka (Wikidata)",
+      "resolved": "uncertain",
+      "source": "https://en.wikipedia.org/wiki/Lev_Rudnev; https://architectuul.com/architect/lev-rudnev"
     },
     "q123080": {
       "name": "Blaise Cendrars",
-      "why": "born in La Chaux-de-Fonds, Switzerland, where the pin is; Wikidata says Limoges"
+      "why": "born in La Chaux-de-Fonds, Switzerland, where the pin is; Wikidata says Limoges",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Blaise_Cendrars; https://www.britannica.com/biography/Blaise-Cendrars"
     },
     "q982335": {
       "name": "Pote Sarasin",
-      "why": "sources differ: 1905 (the pin) or 1906 (Wikidata)"
+      "why": "sources differ: 1905 (the pin) or 1906 (Wikidata)",
+      "resolved": "uncertain",
+      "source": "https://en.wikipedia.org/wiki/Pote_Sarasin; https://www.cia.gov/readingroom/print/391311"
     },
     "q127442": {
       "name": "Konstantin Chernenko",
-      "why": "born 24 September 1911 (the pin); Wikidata says 1912"
+      "why": "born 24 September 1911 (the pin); Wikidata says 1912",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Konstantin_Chernenko; https://www.britannica.com/biography/Konstantin-Chernenko"
     },
     "q740168": {
       "name": "Amadou Mahtar M'Bow",
-      "why": "sources differ: Dakar (the pin) or Saint-Louis (Wikidata)"
+      "why": "sources differ: Dakar (the pin) or Saint-Louis (Wikidata)",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Amadou-Mahtar_M%27Bow; https://unesdoc.unesco.org/ark:/48223/pf0000048244"
     },
     "q25106": {
       "name": "Fabrizio De André",
-      "why": "born in Genoa, where the pin is; Wikidata says Ferrara"
+      "why": "born in Genoa, where the pin is; Wikidata says Ferrara",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Fabrizio_De_Andr%C3%A9; https://www.muziekweb.nl/en/Link/M00000050169/POPULAR/Fabrizio-de-Andr%C3%A9"
     },
     "q461096": {
       "name": "Ibn Hišām",
-      "why": "the birth year on file (701) is a placeholder, and his death is given as 828 or 833"
+      "why": "the birth year on file (701) is a placeholder, and his death is given as 828 or 833",
+      "resolved": "resolved",
+      "source": "https://en.wikipedia.org/wiki/Ibn_Hisham; https://fiqh.islamonline.net/en/the-biography-of-ibn-hisham-the-author-of-the-biography-of-the-prophet-sirat-ibn-hisham/"
     }
   }
 }

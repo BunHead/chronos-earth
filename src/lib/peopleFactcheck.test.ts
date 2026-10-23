@@ -119,3 +119,41 @@ describe('every person on the globe', () => {
     }
   });
 });
+
+// Follow-up to the fact-check: doubtful people settled by hand from two
+// sources each (scripts/data/accuracy-fixes.json has the links).
+describe('doubtful people checked by hand', () => {
+  const fixes = read('scripts/data/accuracy-fixes.json').fixes;
+  const born = (id: string) => eventToPanel(byId.get(id)!).sections?.find((s) => s.heading === 'Born')?.body;
+
+  it('keeps pins that were right where Wikidata was wrong, and says the place', () => {
+    expect(born('q123080')).toBe('1 September 1887, La Chaux-de-Fonds, Switzerland'); // not Limoges
+    expect(born('q311187')).toBe('18 February 1626, Arezzo, Italy'); // not Villapene, Spain
+    expect(born('q127442')).toBe('24 September 1911, Bolshaya Tes, Russian Empire'); // not 1912
+    expect(byId.get('q127442')!.startYear).toBe(1911);
+  });
+
+  it('moves pins onto the real birthplace', () => {
+    const at = (id: string, lat: number, lon: number) =>
+      expect(haversineKm(byId.get(id)!.lat, byId.get(id)!.lon, lat, lon), id).toBeLessThan(5);
+    at('q42992', 50.4501, 30.5234); // Golda Meir, Kyiv
+    at('q9094', -34.9033, -56.1882); // José Mujica, Montevideo
+    at('q5950', 33.2449, -81.3587); // James Brown, Barnwell SC
+    expect(born('q42992')).toContain('Kyiv');
+  });
+
+  it('says "uncertain" instead of a false exact value where sources still differ', () => {
+    const panel = JSON.stringify(eventToPanel(byId.get('q723343')!)); // Lev Rudnev
+    expect(panel).toContain('Opochka');
+    expect(eventToPanel(byId.get('q461096')!).sections?.find((s) => s.heading === 'About the date')?.body).toMatch(
+      /placeholder/,
+    );
+  });
+
+  it('records two sources for every hand-checked fix, so the harvest cannot undo it', () => {
+    for (const id of ['q123080', 'q311187', 'q127442', 'q42992', 'q9094', 'q5950']) {
+      expect(fixes[id].source.split('; ').length, id).toBeGreaterThanOrEqual(2);
+      expect(fixes[id].born ?? fixes[id].lat, id).toBeDefined();
+    }
+  });
+});
