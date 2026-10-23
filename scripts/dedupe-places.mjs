@@ -35,6 +35,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { FICTIONAL_PEOPLE } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -398,6 +399,14 @@ async function main() {
   for (const e of all) {
     if (WITHDRAWN.test(String(e.name)) && /^pl/.test(e.id)) ruledOut.add(e.id);
   }
+  // Fictional characters harvested as people before fetch-people learned to
+  // skip them (scripts/lib/people-rules.mjs). Not people, so not on the globe.
+  for (const e of all) {
+    if (e.category === 'person' && FICTIONAL_PEOPLE.has(e.id)) {
+      ruledOut.add(e.id);
+      console.log(`  ${e.name}: removed (${FICTIONAL_PEOPLE.get(e.id)})`);
+    }
+  }
   const events = all.filter((e) => !ruledOut.has(e.id));
   // His date rulings next, so the merge below sees the dates he chose.
   let redated = 0;
@@ -446,7 +455,7 @@ async function main() {
       .filter((r) => fixes[r.of] !== null)
       .map((r) => (fixes[r.of] ? { ...r, ...fixes[r.of] } : r));
   }
-  if (ruledOut.size) console.log(`${ruledOut.size} rows ruled out (his one-pin calls, withdrawn entries)`);
+  if (ruledOut.size) console.log(`${ruledOut.size} rows ruled out (his one-pin calls, withdrawn entries, fictional people)`);
   const { merges, disagreements } = groupDuplicates(events);
 
   console.log(`${events.length} rows in`);
