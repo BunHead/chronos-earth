@@ -43,3 +43,22 @@ describe('exported models', () => {
     expect([...new Set(broken)]).toEqual([]);
   });
 });
+
+/**
+ * THE 90-SECOND MONUMENTS (20 Oct 2026). Cesium decodes Draco one worker job
+ * per piece, a few per frame, so a model exported in hundreds of pieces
+ * (Westminster had 840 drawn) took tens of seconds to appear and held up every
+ * other model on screen. scripts/optimize-models.mjs (and the exporter) merge
+ * the pieces per material; this keeps it that way.
+ */
+describe('exported models unpack fast', () => {
+  const pieces = (file: string) => (gltfOf(file).meshes ?? []).reduce((n, m) => n + m.primitives.length, 0);
+  const files = readdirSync(DIR).filter((f) => f.endsWith('.glb'));
+  it('no model ships in more than 40 pieces', () => {
+    const many = files.map((f) => [f, pieces(f)] as const).filter(([, n]) => n > 40);
+    expect(many).toEqual([]);
+  });
+  it('the whole fleet stays well under 1,500 pieces', () => {
+    expect(files.reduce((n, f) => n + pieces(f), 0)).toBeLessThan(1500);
+  });
+});
