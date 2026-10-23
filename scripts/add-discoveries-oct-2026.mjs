@@ -132,7 +132,9 @@ async function main() {
     const own = byId.get(p.id);
     if (own) {
       Object.assign(own, p);
-      if (merged.length) own.merged = [...(own.merged ?? []), ...merged];
+      // The harvest can bring a replaced row back; fold it in again, but once.
+      const kept = (own.merged ?? []).filter((m) => !merged.some((n) => n.id === m.id));
+      if (merged.length) own.merged = [...kept, ...merged];
       updated++;
     } else {
       events.push({ ...p, ...(merged.length ? { merged } : {}) });

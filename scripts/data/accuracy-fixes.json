@@ -1734,6 +1734,61 @@
       "placeNote": "Where he was born is disputed: in Tibet, where the pin is, or at Thame in the Khumbu, Nepal.",
       "why": "People fact-check, checked by hand (Oct 2026): Still disputed (Tibet or Khumbu). The panel now says so.",
       "source": "https://en.wikipedia.org/wiki/Tenzing_Norgay"
+    },
+    "q130859": {
+      "lat": -38.9338,
+      "lon": -69.1987,
+      "placeNote": null,
+      "why": "Fossil fact-check (Oct 2026), checked by hand against Wikidata: pinned at the centre of Argentina, about 720 km off; found in 1987 on a ranch near Plaza Huincul, Neuquén (Wikidata Q980712 P625)",
+      "source": "https://en.wikipedia.org/wiki/Argentinosaurus"
+    },
+    "q14438": {
+      "lat": -39.26,
+      "lon": -68.78,
+      "placeNote": null,
+      "why": "Fossil fact-check (Oct 2026), checked by hand against Wikidata: pinned at the centre of Argentina, about 720 km off; found in 1993 by Rubén Carolini near Villa El Chocón, Neuquén (Wikidata Q2545515 P625)",
+      "source": "https://en.wikipedia.org/wiki/Giganotosaurus"
+    },
+    "q18560048": {
+      "lat": 36.1,
+      "lon": 136.6,
+      "placeNote": null,
+      "why": "Fossil fact-check (Oct 2026), checked by hand against Wikidata: pinned at the centre of Japan, about 130 km off; found in the Kitadani quarry, Katsuyama, Fukui (Kitadani Formation, Wikidata Q6417687 P625)",
+      "source": "https://en.wikipedia.org/wiki/Fukuisaurus"
+    },
+    "q1138017": {
+      "lat": 73.5333,
+      "lon": 105.8167,
+      "why": "Fossil fact-check (Oct 2026), checked by hand against Wikidata: pinned at the middle of the Taymyr Peninsula, about 210 km from the find; moved to the find's own Wikidata point (P625)",
+      "source": "https://www.wikidata.org/wiki/Q1138017"
+    },
+    "q278863": {
+      "startYear": 1994,
+      "dateNote": "Ron Clarke found its first foot bones in a museum box in 1994; they were announced in 1995, and the rest of the skeleton was found in the cave in 1997.",
+      "why": "Fossil fact-check (Oct 2026), checked by hand against Wikidata: dated 1995, the year it was announced; the first bones were recognised in 1994",
+      "source": "https://maropeng.co.za/content/page/little-foot"
+    },
+    "q131009": {
+      "lat": 11.0894,
+      "lon": -72.6753,
+      "dateNote": "Uncertain: Wikidata gives 2000, but no source checked names the year the first Titanoboa bones were found at the Cerrejón coal mine. It was named in 2009.",
+      "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: pinned at the middle of La Guajira, about 60 km off; moved to the Cerrejón mine (Wikidata Q1323960 P625). Find year not confirmed",
+      "source": "https://www.smithsonianmag.com/science-nature/how-titanoboa-the-40-foot-long-snake-was-found-115791429/"
+    },
+    "q19118036": {
+      "dateNote": "Uncertain place: SK 847 was found at Swartkrans, about 1 km from Sterkfontein. Wikidata and Wikipedia give Swartkrans the same point as Kromdraai, about 11 km away, so this pin may be several km out.",
+      "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: Swartkrans's Wikidata point equals Kromdraai's (Q653322)",
+      "source": "https://en.wikipedia.org/wiki/Swartkrans"
+    },
+    "q105087403": {
+      "dateNote": "Uncertain place: the Fighting Dinosaurs were found in 1971 at Tögrögiin Shiree; the pin is on Wikidata's point for the Djadochta Formation at the Flaming Cliffs, some way east.",
+      "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the formation, pinned at the Flaming Cliffs",
+      "source": "https://en.wikipedia.org/wiki/Fighting_Dinosaurs"
+    },
+    "q5245186": {
+      "dateNote": "Uncertain: the finds came in stages. 1929 is when Dorothy Garrod's Mount Carmel digs began; the Skhul skeletons were found in 1931–32 and the Qafzeh ones from 1933 and in 1965–79.",
+      "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: one date for two caves dug over 50 years",
+      "source": "https://en.wikipedia.org/wiki/Skhul_and_Qafzeh_hominins"
     }
   }
 }
