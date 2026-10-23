@@ -71,8 +71,11 @@ export const FOSSIL_SITES = [
     'In 1909 Earl Douglass found a line of Apatosaurus tail bones here, on the Utah–Colorado border. ' +
       'The quarry wall still shows about 1,500 bones in the rock, about 150 million years old (Morrison Formation). ' +
       'A national monument since 1915.'),
-  site('tendaguru', 'Tendaguru dinosaur beds found', 1907, -10.05, 39.11667, 'Q1432102', 'Tendaguru Formation',
-    'Giant bones were spotted here in 1907; German digs from 1909 to 1913 sent about 250 tonnes of fossils to Berlin, ' +
+  // Bones first seen in 1906 by the mining engineer Bernhard Sattler; Eberhard
+  // Fraas confirmed them in August 1907 (en.wikipedia.org/wiki/Dinosaurs_of_Tendaguru).
+  // Was 1907 until 22 Oct 2026.
+  site('tendaguru', 'Tendaguru dinosaur beds found', 1906, -10.05, 39.11667, 'Q1432102', 'Tendaguru Formation',
+    'Giant bones were spotted here in 1906 and confirmed as dinosaurs in 1907; German digs from 1909 to 1913 sent about 250 tonnes of fossils to Berlin, ' +
       'including Giraffatitan. The rock is about 155–145 million years old (Late Jurassic).'),
   site('ghost-ranch', 'Ghost Ranch: the Coelophysis quarry', 1947, 36.32979, -106.474, 'Q587888', 'Ghost Ranch',
     'In 1947 a team from the American Museum of Natural History found a mass grave of hundreds of Coelophysis ' +
@@ -132,12 +135,16 @@ export const FOSSIL_SITES = [
   // doi:10.1098/rspl.1880.0045). Barnes High is OS grid SZ 437 808 (Radley &
   // Barker, Univ. Portsmouth, "The Hypsilophodon Bed"); converted and checked
   // against OSM's Cowleaze Chine node (50.6189, -1.3725), 19 Oct 2026.
-  site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
+  // Invictibellatrix: NHM press release and Royal Society Open Science 13:260937, Oct 2026.
+  { ...site('isle-of-wight', 'Isle of Wight: Polacanthus found', 1865, 50.625, -1.382, 'Q9679', 'Isle of Wight',
     'Early in 1865 the Rev. William Fox found an armoured dinosaur, Polacanthus, at Barnes High. The island\'s ' +
       'south-west cliffs are about 125 million years old (Early Cretaceous) and are among the richest dinosaur ' +
-      'grounds in Europe.',
-    'Pinned at Barnes High in Brighstone Bay, where it was found; the Wessex Formation has no Wikidata point, ' +
+      'grounds in Europe. In 2026 a piece of skull held at the Natural History Museum since 1924 was named ' +
+      'Invictibellatrix amberina: about 120 million years old, from the Wessex Formation, and the first ' +
+      'megaraptoran, a long-clawed predator, known from Europe.',
+    'Pinned at Barnes High in Brighstone Bay, where Polacanthus was found; the Wessex Formation has no Wikidata point, ' +
       'so the Q-id is the island\'s.'),
+    sourceUrl: 'https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html' },
   // Named by William Buckland, Geological Society of London, 20 Feb 1824 (oumnh.ox.ac.uk/megalosaurus-0).
   site('stonesfield', 'Stonesfield: Megalosaurus, the first dinosaur named', 1824, 51.851, -1.429, 'Q2185932', 'Stonesfield',
     'On 20 February 1824 William Buckland named Megalosaurus from bones dug from the slate pits at Stonesfield, ' +
@@ -210,6 +217,131 @@ export const FOSSIL_SITES = [
   site('wadi-al-hitan', 'Wadi Al-Hitan: Whale Valley', 2005, 29.27083, 30.04389, 'Q501833', 'Wadi Al-Hitan',
     'A World Heritage Site since 2005, in Egypt\'s Western Desert. Hundreds of early whales such as Basilosaurus ' +
       'lie in the sand, some with tiny back legs. The rock is about 40–37 million years old (Eocene).'),
+  // Added 22 Oct 2026 (nightly job). Each pin is the site's Wikidata P625,
+  // checked against the globe by Q-id and by any fossil pin within 15 km:
+  // Hadar (Lucy), Atapuerca (Miguelón), Cro-Magnon, Koobi Fora, Lake Mungo,
+  // Shanidar, Swartkrans, Taung and the Feldhofer Cave (Neanderthal 1) are
+  // already there as finds, so are not listed. Laetoli is left out because
+  // its Wikidata point sits on Olduvai Gorge, 25 km from the footprints; Las
+  // Hoyas because no source gave a year it was found.
+  // A. K. Higgins, Geological Survey of Greenland, 1984 (en.wikipedia.org/wiki/Sirius_Passet).
+  site('sirius-passet', 'Sirius Passet fossils found', 1984, 82.79333, -42.245, 'Q427909', 'Sirius Passet',
+    'Found in 1984 by a geologist of the Geological Survey of Greenland, in Peary Land, the far north of Greenland. ' +
+      'The mudstone is about 518 million years old (Early Cambrian) and keeps early arthropods and worms with their soft parts.'),
+  // First hominin jaw, 1991; skulls dated about 1.8 Ma (en.wikipedia.org/wiki/Dmanisi_skulls).
+  site('dmanisi', 'Dmanisi: the first humans outside Africa', 1991, 41.33222, 44.20444, 'Q261243', 'Dmanisi',
+    'In 1991 a human jaw was found under the ruins of a medieval town in Georgia; five skulls followed. At about ' +
+      '1.8 million years old they are the oldest human fossils known outside Africa (early Homo erectus).',
+    'Pinned at the Wikidata point for the town; the dig is beside it.'),
+  // Barite miners, 1961; redated to c. 315 ka by Hublin et al. 2017 (Nature 546:289;
+  // eva.mpg.de press release, en.wikipedia.org/wiki/Jebel_Irhoud).
+  site('jebel-irhoud', 'Jebel Irhoud: the oldest Homo sapiens', 1961, 31.85498, -8.87251, 'Q846913', 'Jebel Irhoud',
+    'Barite miners found a human skull here in Morocco in 1961. New digs and dates in 2017 put the bones at about ' +
+      '315,000 years old (0.3 million years) — the oldest Homo sapiens known.'),
+  // Finger bone Denisova 3, 2008; genome 2010 (Krause et al., Nature 464:894). Dated
+  // about 76–52 ka (Douka et al. 2019, Nature 565:640; en.wikipedia.org/wiki/Denisova_Cave).
+  site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
+    'In 2008 a child\'s finger bone was dug from this cave in Siberia\'s Altai Mountains. Its DNA, read in 2010, ' +
+      'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years).'),
+  // Eugène Dubois, 1891 (en.wikipedia.org/wiki/Java_Man); shells from the bone layer
+  // dated 0.54–0.43 Ma (Joordens et al. 2015, Nature 518:228).
+  site('trinil', 'Trinil: "Java Man" found', 1891, -7.3743, 111.3578, 'Q1318724', 'Trinil',
+    'In 1891 Eugène Dubois dug the skullcap of "Java Man" from the banks of the Solo River, Java — the first ' +
+      'Homo erectus ever found. The layer is about 540,000–430,000 years old (about 0.5 million years).'),
+  // Petrified Forest National Monument, 8 Dec 1906; national park 1962. Chinle
+  // Formation, c. 225 Ma (nps.gov/pefo; en.wikipedia.org/wiki/Petrified_Forest_National_Park).
+  site('petrified-forest', 'Petrified Forest protected', 1906, 35.0881, -109.806, 'Q305949', 'Petrified Forest National Park',
+    'Made a National Monument in 1906 to stop people carting off its stone logs. The trees fell into rivers in ' +
+      'Arizona about 225 million years ago (Late Triassic), alongside early dinosaurs and crocodile cousins.'),
+  // National monument 23 Oct 1972; Green River Formation, c. 52 Ma (nps.gov/fobu).
+  site('fossil-butte', 'Fossil Butte National Monument', 1972, 41.8644, -110.776, 'Q1439427', 'Fossil Butte National Monument',
+    'A National Monument since 1972, in Wyoming. The rocks are the floor of an old lake, about 52 million years ' +
+      'old (Eocene), packed with whole fish, as well as bats, birds, palm leaves and a crocodile.'),
+  // Thomas Condon, 1864 (en.wikipedia.org/wiki/John_Day_Fossil_Beds_National_Monument;
+  // oregonencyclopedia.org/articles/john_day_fossil_beds).
+  site('john-day', 'John Day Fossil Beds: Condon\'s finds', 1864, 44.5558, -119.645, 'Q33762', 'John Day Fossil Beds National Monument',
+    'In 1864 the missionary Thomas Condon saw what soldiers\' fossil finds in Oregon\'s John Day valley meant. Its ' +
+      'layers run from about 44 to 7 million years ago (Eocene to Miocene): a long record of mammals and plants. ' +
+      'A National Monument since 1975.',
+    'The monument has three separate units; this is the Wikidata point.'),
+  // O. A. Peterson (Carnegie Museum) with Harold Cook found the great bonebed, 1904;
+  // about 20 Ma (nps.gov/parkhistory/online_books/agfo/proposed/sec5.htm).
+  site('agate', 'Agate Fossil Beds: the great bonebed', 1904, 42.4164, -103.728, 'Q390945', 'Agate Fossil Beds National Monument',
+    'In 1904 O. A. Peterson of the Carnegie Museum and Harold Cook found a great bed of bones on a Nebraska ranch: ' +
+      'herds of small rhinos and the clawed Moropus, killed in a drought about 20 million years ago (Miocene).'),
+  // Rod Wells and Grant Gartrell, Aug 1969; World Heritage 1994
+  // (news.flinders.edu.au/blog/2019/11/19/50-years-of-fossil-wonders; australian.museum).
+  site('naracoorte', 'Naracoorte: the Fossil Chamber found', 1969, -37.03611, 140.79667, 'Q1135796', 'Naracoorte Caves National Park',
+    'In 1969 cavers Rod Wells and Grant Gartrell squeezed into a hidden chamber of Victoria Fossil Cave, South ' +
+      'Australia, full of the bones of giant kangaroos, marsupial lions and wombats. They span about the last ' +
+      '500,000 years (0.5 million years). World Heritage since 1994.'),
+  // Walter Granger, AMNH, 1897 (en.wikipedia.org/wiki/Bone_Cabin_Quarry).
+  site('bone-cabin', 'Bone Cabin Quarry found', 1897, 41.9671, -106.291, 'Q4941505', 'Bone Cabin Quarry',
+    'In 1897 Walter Granger of the American Museum of Natural History found a shepherd\'s cabin in Wyoming built ' +
+      'of dinosaur bones — and the quarry it came from. Over the next years it gave tonnes of Morrison Formation ' +
+      'dinosaurs, about 150 million years old (Late Jurassic).'),
+  // Paul Barron and Eddie Bufkin, 1978; about 65 ka (nps.gov/waco).
+  site('waco', 'Waco Mammoth site found', 1978, 31.60466, -97.17606, 'Q7958854', 'Waco Mammoth National Monument',
+    'In 1978 two young men looking for arrowheads by the Bosque River in Texas found a mammoth bone. A whole herd ' +
+      'of Columbian mammoths lies here, killed together about 65,000 years ago (under 0.1 million years).'),
+  // Kamoya Kimeu's team, Richard Leakey's 1967 expedition; at least 233 ka
+  // (Vidal et al. 2022, Nature 601:579; en.wikipedia.org/wiki/Omo_remains).
+  site('omo', 'Omo Kibish: early Homo sapiens', 1967, 4.80035, 35.96707, 'Q1627142', 'Omo remains',
+    'In 1967 Richard Leakey\'s team found two skulls by the Omo River in southern Ethiopia. Ash above them gives ' +
+      'an age of at least 233,000 years (0.23 million years): among the oldest of our own kind.'),
+  // Tom Zwiglaar, Broken Hill mine, 1921; 299 ka ±25 (Grün et al. 2020,
+  // Nature 580:372; en.wikipedia.org/wiki/Kabwe_1).
+  site('kabwe', 'Broken Hill skull found', 1921, -14.43333, 28.45, 'Q216902', 'Kabwe',
+    'In 1921 a miner, Tom Zwiglaar, found a human skull in the Broken Hill lead mine, Zambia: the first early ' +
+      'human fossil found in Africa. In 2020 it was dated to about 300,000 years old (0.3 million years).',
+    'The mine is in the town of Kabwe; pinned at the town\'s Wikidata point.'),
+  // Harmand et al. 2015, Nature 521:310: found July 2011, 3.3 Ma.
+  site('lomekwi', 'Lomekwi: the oldest stone tools', 2011, 3.91083, 35.8503, 'Q19833854', 'Lomekwi',
+    'In 2011 a team took a wrong turn west of Lake Turkana, Kenya, and found stone tools 3.3 million years old — ' +
+      'older than any human fossil of our genus Homo.'),
+  // Arthur Lakes, March 1877 (en.wikipedia.org/wiki/Dinosaur_Ridge).
+  site('dinosaur-ridge', 'Dinosaur Ridge: Arthur Lakes\' bones', 1877, 39.6757, -105.1934, 'Q5278648', 'Dinosaur Ridge',
+    'In 1877 the teacher Arthur Lakes found giant bones on this ridge near Morrison, Colorado, among the first ' +
+      'Stegosaurus and Apatosaurus. The bones are about 150 million years old (Morrison Formation, Late Jurassic); ' +
+      'the far side has dinosaur tracks about 100 million years old.'),
+  // Charles Le Moyne de Longueuil, 1739 (en.wikipedia.org/wiki/Big_Bone_Lick_State_Park).
+  site('big-bone-lick', 'Big Bone Lick: mastodon bones found', 1739, 38.8869, -84.748, 'Q662832', 'Big Bone Lick State Park',
+    'In 1739 French soldiers under Charles Le Moyne de Longueuil picked up mastodon bones at this salt lick in ' +
+      'Kentucky. Thomas Jefferson later had them dug. The bones are from the last Ice Age, under 0.1 million years old.'),
+  // National monument 20 Aug 1969; Florissant Formation, c. 34 Ma (nps.gov/flfo).
+  site('florissant', 'Florissant Fossil Beds protected', 1969, 38.9137, -105.286, 'Q1430179', 'Florissant Fossil Beds National Monument',
+    'A National Monument since 1969, in Colorado. Volcanic mud buried a redwood forest and lake here about ' +
+      '34 million years ago (Eocene): giant stumps still stand, and the shale holds thousands of insects and leaves.'),
+  // George Adams, 1909; Roland T. Bird's sauropod trackway, 1937–38; c. 113 Ma
+  // (tpwd.texas.gov/state-parks/dinosaur-valley/nature).
+  site('dinosaur-valley', 'Paluxy River dinosaur tracks found', 1909, 32.25325, -97.81859, 'Q833892', 'Dinosaur Valley State Park',
+    'In 1909 a boy, George Adams, found three-toed tracks in the bed of the Paluxy River, Texas. In 1937–38 Roland ' +
+      'T. Bird found the first sauropod trackway known. The tracks are about 113 million years old (Early Cretaceous).'),
+  // Elmer Cook, 1928; Smithsonian digs 1929–34; Equus simplicidens 4–3 Ma
+  // (nps.gov/hafo/learn/historyculture/index.htm).
+  site('hagerman', 'Hagerman Horse Quarry found', 1928, 42.7903, -114.945, 'Q692370', 'Hagerman Fossil Beds National Monument',
+    'In 1928 the rancher Elmer Cook showed fossils from the Snake River bluffs in Idaho to a geologist; the ' +
+      'Smithsonian dug out over 200 early horses (Equus simplicidens). They are about 3.5 million years old (Pliocene).'),
+  // University of Utah digs from 1929; national monument 2019 (en.wikipedia.org/wiki/Jurassic_National_Monument).
+  site('cleveland-lloyd', 'Cleveland-Lloyd Dinosaur Quarry', 1929, 39.32282, -110.68951, 'Q63434023', 'Jurassic National Monument',
+    'The University of Utah began digging this Utah quarry in 1929. It has given over 12,000 bones, most of them ' +
+      'from more than 46 Allosaurus. The rock is about 148 million years old (Morrison Formation). A National ' +
+      'Monument since 2019.'),
+  // James Kitching, 1947: first Australopithecus from Makapansgat; about 3 Ma
+  // (en.wikipedia.org/wiki/Makapansgat).
+  site('makapansgat', 'Makapansgat: Australopithecus found', 1947, -24.15861, 29.17694, 'Q2071706', 'Makapansgat',
+    'In 1947 James Kitching found the first Australopithecus bones in this limeworks cave in South Africa. The ' +
+      'cave fill is about 3 million years old. It is part of the Cradle of Humankind World Heritage Site.'),
+  // Francis Tully, 1958 (en.wikipedia.org/wiki/Tully_monster; Mazon_Creek_fossil_beds).
+  site('mazon-creek', 'Mazon Creek: the Tully monster', 1958, 41.321, -88.346, 'Q2564342', 'Mazon Creek fossil beds',
+    'In 1958 the amateur collector Francis Tully cracked open an ironstone nodule from the coal-mine spoil near ' +
+      'Mazon Creek, Illinois, and found the strange "Tully monster". The nodules are about 309 million years old ' +
+      '(Carboniferous) and keep jellyfish, worms and insects.'),
+  // Siemon Muller, 1928; excavated by Charles Camp from 1954
+  // (ucmp.berkeley.edu/science/parks/berlin_ichthyosaur.php).
+  site('berlin-ichthyosaur', 'Berlin–Ichthyosaur: Shonisaurus found', 1928, 38.87861, -117.595, 'Q680501', 'Berlin–Ichthyosaur State Park',
+    'In 1928 the geologist Siemon Muller found the bones of giant ichthyosaurs in West Union Canyon, Nevada. ' +
+      'Shonisaurus, up to 15 m long, lay here about 215 million years ago (Late Triassic).'),
 ];
 
 async function main() {

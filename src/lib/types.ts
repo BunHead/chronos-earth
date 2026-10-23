@@ -308,6 +308,15 @@ export interface TimelineEvent {
    * placed by choice rather than by record says so here, and the panel shows it.
    */
   placeNote?: string;
+  /**
+   * A person's birth and death IN WORDS, from Wikidata (P569/P19, P570/P20),
+   * e.g. "19 May 1925, Omaha, Nebraska". The pin is where they were born, but
+   * a pin alone made the reader guess the place from the map — so the panel
+   * says it. Written by scripts/factcheck-people.mjs, which also checks the
+   * pin is within 50 km of that birthplace.
+   */
+  born?: string;
+  died?: string;
   /** Spatial grid key stamped by the core index (scripts/build-core-index.mjs).
    * Present = skeleton-loaded; names the detail/<cell>.json file with the rest. */
   cell?: string;

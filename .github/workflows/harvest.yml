@@ -141,6 +141,12 @@ jobs:
         # Roden Crater and the like: too few sitelinks for any query to reach,
         # and no "founded" date to find. Re-run nightly so edits take effect.
         run: node scripts/add-curated-places.mjs
+      - name: Add the famous fossil sites (idempotent)
+        if: '!cancelled()'
+        # Hand-checked Lagerstätten, dinosaur quarries and early-human sites,
+        # each at its Wikidata P625. Refreshed by id, so a fix made in the
+        # script survives the night instead of being left on the old row.
+        run: node scripts/add-fossil-sites.mjs
       - name: Add the capitals no query can date (idempotent)
         if: '!cancelled()'
         # Ten capitals, Beijing among them, that Wikidata records no date for at

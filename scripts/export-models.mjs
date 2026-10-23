@@ -10,8 +10,7 @@ import puppeteer from 'puppeteer';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import gltfPipeline from 'gltf-pipeline';
-const { processGlb } = gltfPipeline;
+import { optimizeGlb } from './lib/optimizeGlb.mjs';
 
 const BASE = (process.env.RENDER_BASE ?? 'http://localhost:5173') + '/export-models.html';
 const OUT = 'public/models';
@@ -200,19 +199,15 @@ try {
     const b64 = await page.evaluate('window.__glb');
     const footprint = await page.evaluate('window.__footprint');
     const raw = Buffer.from(b64, 'base64');
-    // Draco-compress the geometry — Cesium decodes it natively (its bundled
-    // decoder, no CDN, zero cost), so the globe just loads a much smaller file.
+    // Merge the parts into one piece per material, then Draco-compress —
+    // Cesium decodes Draco natively (its bundled decoder, no CDN), but one
+    // worker job PER PIECE, so a model left in hundreds of pieces took tens of
+    // seconds to appear on the globe (lib/optimizeGlb). 16-bit positions, so
+    // even Atlantis (23 km of plain, a 9 m column) keeps its detail.
     // Fall back to the raw glb if compression ever throws, so a model is never lost.
     let out = raw;
     try {
-      // A landform-sized model (Atlantis: 23 km of plain, 40 km of sea, a
-      // 9 m-wide column) needs finer position quantisation than the default
-      // 11 bits, which would round it to ~12 m steps.
-      const dracoOptions = model === 'rings'
-        ? { compressionLevel: 7, quantizePositionBits: 16 }
-        : { compressionLevel: 7 };
-      const { glb } = await processGlb(raw, { dracoOptions });
-      if (glb && glb.length) out = Buffer.from(glb);
+      out = await optimizeGlb(raw);
     } catch (e) {
       console.error(`${outName}: Draco failed (${e.message}) — writing uncompressed`);
     }
@@ -240,8 +235,7 @@ try {
     const raw = Buffer.from(await page.evaluate('window.__glb'), 'base64');
     let out = raw;
     try {
-      const { glb } = await processGlb(raw, { dracoOptions: { compressionLevel: 7 } });
-      if (glb && glb.length) out = Buffer.from(glb);
+      out = await optimizeGlb(raw);
     } catch (e) {
       console.error(`${outName}: Draco failed (${e.message}) — writing uncompressed`);
     }

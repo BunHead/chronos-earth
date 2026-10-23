@@ -13,7 +13,7 @@ import type { TimelineEvent } from './types';
 export type EventDetail = Partial<
   Pick<
     TimelineEvent,
-    'sides' | 'partOf' | 'deaths' | 'summary' | 'result' | 'sourceUrl' | 'wikidataId' | 'wikiTitle' | 'image'
+    'sides' | 'partOf' | 'deaths' | 'summary' | 'result' | 'sourceUrl' | 'wikidataId' | 'wikiTitle' | 'image' | 'born' | 'died'
   >
 >;
 
