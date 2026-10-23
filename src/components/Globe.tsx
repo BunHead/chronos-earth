@@ -29,6 +29,7 @@ import { MigrationController, type MigrationSite } from './migration';
 import { DisasterFx, CURATED_DISASTERS, CURATED_YEARS, disasterKindFor } from './disasterFx';
 import { fetchNearbyHistory } from '../lib/liveFetch';
 import { isPhone, renderTier } from '../lib/renderTier';
+import { flightSeconds } from '../lib/motion';
 import { fpsTooLow, globeSettings, isLite, markSlowDevice, readLitePref } from '../lib/liteMode';
 import { eventPasses } from '../lib/subLayers';
 import type { CameraState } from '../lib/sceneState';
@@ -683,7 +684,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     if (cameraLockedRef.current) return;
     viewerRef.current?.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(lon, lat, height),
-      duration: 2,
+      duration: flightSeconds(2),
     });
   };
 
@@ -704,12 +705,12 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     // ground that is already dressing itself.
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(lon, lat, Math.max(dist * 8, 60_000)),
-      duration: 1.3,
+      duration: flightSeconds(1.3),
       complete: () => {
         viewer.camera.flyTo({
           destination: Cesium.Cartesian3.fromDegrees(lon, offsetLat, dist * 0.75),
           orientation: { heading: 0, pitch: Cesium.Math.toRadians(-38), roll: 0 },
-          duration: 2.4,
+          duration: flightSeconds(2.4),
         });
       },
     });
@@ -784,7 +785,7 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromRadians(c.longitude, c.latitude, c.height),
       orientation: { heading: 0, pitch: viewer.camera.pitch, roll: 0 },
-      duration: 0.8,
+      duration: flightSeconds(0.8),
     });
   };
 

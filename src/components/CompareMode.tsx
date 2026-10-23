@@ -21,7 +21,7 @@ export default function CompareMode({
   onClose,
 }: CompareModeProps) {
   return (
-    <div className="compare-mode" aria-label="Time Rift comparison">
+    <div className="compare-mode" role="region" aria-label="Time Rift comparison">
       <img
         className="compare-snapshot"
         src={snapshot}
