@@ -5,7 +5,7 @@
  * content fully separate from the code and lets us lazy-load larger datasets in
  * later phases without rebuilding the app.
  */
-import type { AncientSite, Battle, BattleMapInfo, BattleView, Fauna, TimelineEvent, Tour } from './types';
+import type { AncientSite, Battle, BattleView, Fauna, TimelineEvent, Tour } from './types';
 import { eventsFromColumns, type CoreColumns } from './coreIndex';
 
 /** Resolve a path inside /public/data, respecting the app's base URL. */
@@ -93,23 +93,3 @@ export async function loadFauna(): Promise<Fauna[]> {
   }
 }
 
-/**
- * Historical map overlays for battle views (downloaded by
- * scripts/fetch-battle-maps.mjs). Missing manifest just means no maps.
- */
-export async function loadBattleMaps(): Promise<Record<string, BattleMapInfo>> {
-  try {
-    const res = await fetch(dataUrl('battlemaps/manifest.json'));
-    if (!res.ok) return {};
-    const json = (await res.json()) as {
-      maps: Record<string, { file: string; credit: string; page: string }>;
-    };
-    const out: Record<string, BattleMapInfo> = {};
-    for (const [id, m] of Object.entries(json.maps ?? {})) {
-      out[id] = { url: dataUrl(`battlemaps/${m.file}`), credit: m.credit, page: m.page };
-    }
-    return out;
-  } catch {
-    return {};
-  }
-}

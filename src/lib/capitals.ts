@@ -43,7 +43,7 @@ export const CHANGE_WINDOW_YEARS = 30;
  * Thirty years of pulsing either side is not a moment, it is a mood; ten years
  * reads as an event even when the timeline is running fast.
  */
-export const PULSE_WINDOW_YEARS = 10;
+const PULSE_WINDOW_YEARS = 10;
 
 /**
  * Should this place be drawing attention to itself right now?
