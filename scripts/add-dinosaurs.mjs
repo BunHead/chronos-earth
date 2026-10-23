@@ -144,6 +144,25 @@ export const PALAEOZOIC = [
   ['scutosaurus', 'Scutosaurus', 'Scutosaurus', LAND, 'Scutosaurus', 'A heavily armoured Permian plant-eater from Russia, as big as a car.', 'RU'],
 ];
 
+/** Too new for PBDB: named in October 2026, so placed and dated here by hand
+ * from the papers below. Its skull piece came from the Wessex Formation of
+ * the Isle of Wight, so it stands at the same PBDB locality, dating and
+ * GPlates track as Hypsilophodon from those rocks (Barremian, Early
+ * Cretaceous). Wikidata Q141728276. */
+export const HAND_PLACED = [
+  {
+    id: 'invictibellatrix', name: 'Invictibellatrix', emoji: T,
+    lat: 50.65, lon: -1.37, fromMa: 125.8, toMa: 121.4, region: 'England, United Kingdom',
+    blurb: 'A long-clawed hunter, about 120 million years old, named in 2026 from a piece of skull the Natural ' +
+      'History Museum had held since 1924: the first megaraptoran found in Europe.',
+    wiki: 'Invictibellatrix',
+    track: [{ ma: 121.4, lon: 10.47, lat: 40.59 }, { ma: 125.8, lon: 10.28, lat: 40.88 }],
+    // nhm.ac.uk press release; Royal Society Open Science 13:260937 (Oct 2026).
+    sourceUrl: 'https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html',
+    paperUrl: 'https://royalsocietypublishing.org/rsos/article/13/10/260937/483607/A-new-megaraptoran-dinosaur-from-the-Lower',
+  },
+];
+
 const countryName = (() => {
   try { const d = new Intl.DisplayNames(['en'], { type: 'region' }); return (cc) => (cc ? d.of(cc) ?? cc : ''); }
   catch { return (cc) => cc ?? ''; }
@@ -191,6 +210,12 @@ async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const have = new Set(doc.fauna.map((a) => a.id));
   let added = 0;
+  for (const a of HAND_PLACED) {
+    if (have.has(a.id)) continue;
+    doc.fauna.push({ ...a });
+    added++;
+    console.log(`  + ${a.name.padEnd(20)} ${a.fromMa}–${a.toMa} Ma  ${a.region} (placed by hand)`);
+  }
   for (const [id, genus, name, emoji, wiki, blurb, cc] of [...DINOSAURS, ...MORE_DINOSAURS, ...PALAEOZOIC]) {
     if (have.has(id)) continue;
     const recs = await occurrences(genus);
