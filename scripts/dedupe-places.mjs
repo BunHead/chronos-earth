@@ -137,6 +137,9 @@ export const CURATED_FOLDS = new Map([
   ['q320704', 'cur-benin-city'],
   // Lalibela: one site under two names; the curated row stays, at Wikidata's pin.
   ['q642979', 'cur-lalibela'],
+  // Cova Dones: the dated discovery row replaces its undated Pleiades copy,
+  // which the nightly harvest kept bringing back (Oct 2026).
+  ['pl652043992', 'cur-cova-dones'],
 ]);
 
 /**
