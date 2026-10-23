@@ -81,6 +81,9 @@ interface Placement {
     poly?: Array<Array<[number, number]>>;
     /** A colour per poly ring (falls back to rgb): e.g. a gravel forecourt. */
     polyRgb?: Array<[number, number, number] | undefined>;
+    /** An alpha (0-1) per poly ring, for feathered edges that fade into the
+     * photo (Buckingham's period lawn and roads); solid otherwise. */
+    polyAlpha?: Array<number | undefined>;
     /** A year window per poly ring, inside the cover's own: shown from
      * polyFrom[i] and only before polyUntil[i] (the cover's `until` otherwise).
      * Buckingham's period ground goes when the Memorial's roads come (1911). */
@@ -89,9 +92,9 @@ interface Placement {
     /** Drape these rings on the terrain even on a `flat` cover: a long road
      * (the old Mall, Constitution Hill) runs over too much rise for one sheet. */
     polyDrape?: boolean[];
-    /** Period trees on the cover ([lat, lon, crown radius m, height m]),
-     * standing until treesUntil (Buckingham's park before the Memorial). */
-    trees?: Array<[number, number, number, number]>;
+    /** Period trees on the cover ([lat, lon, crown radius m, height m, leaf
+     * tone]), standing until treesUntil (Buckingham's park before the Memorial). */
+    trees?: Array<[number, number, number, number, number?]>;
     treesUntil?: number;
     /** Lay the poly rings flat FLAT_COVER_M above the ground at their centre
      * instead of draping them (terrain classification). A draped patch whose
@@ -183,11 +186,12 @@ export const BUCKINGHAM_COVER: Array<Array<[number, number]>> = (() => {
  * ground (before 1911), then the gravel forecourt on top. */
 const BUCKINGHAM_GROUND = periodGround();
 const BUCKINGHAM_POLY_RGB = [undefined, undefined, ...BUCKINGHAM_GROUND.map(([, c]) => c), [150, 140, 118] as [number, number, number]];
+const BUCKINGHAM_POLY_ALPHA = [undefined, undefined, ...BUCKINGHAM_GROUND.map(([, , a]) => a)];
 const BUCKINGHAM_POLY_FROM = [undefined, PERIOD_GROUND_UNTIL];
 const BUCKINGHAM_POLY_UNTIL = [undefined, undefined, ...BUCKINGHAM_GROUND.map(() => PERIOD_GROUND_UNTIL)];
 const BUCKINGHAM_POLY_DRAPE = [false, false, ...BUCKINGHAM_GROUND.map(() => true)];
-const BUCKINGHAM_TREES: Array<[number, number, number, number]> = periodTrees().map(([x, y, r, h]) => [
-  51.5014 + y / 110574, -0.1419 + x / (111320 * Math.cos((51.5014 * Math.PI) / 180)), r, h,
+const BUCKINGHAM_TREES: Array<[number, number, number, number, number]> = periodTrees().map(([x, y, r, h, tone]) => [
+  51.5014 + y / 110574, -0.1419 + x / (111320 * Math.cos((51.5014 * Math.PI) / 180)), r, h, tone,
 ]);
 
 const STONEHENGE_AVENUE: Array<{ from: number; until: number; widthM: number; lonLat: number[] }> = [
@@ -278,7 +282,7 @@ const PLACEMENTS: Placement[] = [
   // Nash, Blore's East Front, the Victoria Memorial and Webb's 1913 front. The
   // photo is today's palace, so it is covered to its own outline until 1913.
   { model: 'buckingham-site', title: 'Buckingham Palace', lat: 51.5014, lon: -0.1419, builtYear: 1913,
-    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: BUCKINGHAM_POLY_RGB,
+    cover: { rgb: [86, 98, 70], at: [], poly: BUCKINGHAM_COVER, polyRgb: BUCKINGHAM_POLY_RGB, polyAlpha: BUCKINGHAM_POLY_ALPHA,
       polyFrom: BUCKINGHAM_POLY_FROM, polyUntil: BUCKINGHAM_POLY_UNTIL, polyDrape: BUCKINGHAM_POLY_DRAPE,
       trees: BUCKINGHAM_TREES, treesUntil: PERIOD_GROUND_UNTIL, until: 'built', flat: true } },
   { model: 'london-eye', title: 'London Eye', lat: 51.5033, lon: -0.1196, builtYear: 2000 },
@@ -698,7 +702,8 @@ function addPlacement(p: Placement): void {
           show: false,
           polygon: {
             hierarchy: new Cesium.PolygonHierarchy(ring.map(([lat, lon]) => Cesium.Cartesian3.fromDegrees(lon, lat))),
-            material: p.cover!.polyRgb?.[i] ? Cesium.Color.fromBytes(...p.cover!.polyRgb[i]!, 255) : colour,
+            material: (p.cover!.polyRgb?.[i] ? Cesium.Color.fromBytes(...p.cover!.polyRgb[i]!, 255) : colour)
+              .withAlpha(p.cover!.polyAlpha?.[i] ?? 1),
             // Later rings lie a hair higher, so overlapping sheets (a road on
             // the lawn) draw in order instead of z-fighting.
             ...(p.cover!.flat && !p.cover!.polyDrape?.[i]
@@ -710,21 +715,34 @@ function addPlacement(p: Placement): void {
         if (from != null || until != null) coverWindow.set(e, [from, until]);
         return e;
       }),
-      ...(p.cover.trees ?? []).map(([lat, lon, r, h], i) => {
-        const tone = 0.85 + 0.3 * ((i * 37) % 10) / 10;
-        const e = viewer.entities.add({
+      // Period trees: a trunk and a rounded crown each, low-poly. Phones and
+      // lite mode stand every other tree.
+      ...(p.cover.trees ?? []).filter((_, i) => !preferSmallModels() || i % 2 === 0).flatMap(([lat, lon, r, h, tone = 1]) => {
+        const trunk = viewer.entities.add({
           show: false,
-          position: Cesium.Cartesian3.fromDegrees(lon, lat, h * 0.58),
-          ellipsoid: {
-            radii: new Cesium.Cartesian3(r, r, h * 0.42),
+          position: Cesium.Cartesian3.fromDegrees(lon, lat, h * 0.2),
+          cylinder: {
+            length: h * 0.4,
+            topRadius: 0.25 + h * 0.012,
+            bottomRadius: 0.3 + h * 0.016,
             heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-            material: Cesium.Color.fromBytes(Math.round(48 * tone), Math.round(70 * tone), Math.round(38 * tone), 255),
-            slicePartitions: 8,
-            stackPartitions: 6,
+            material: Cesium.Color.fromBytes(92, 84, 70, 255),
+            slices: 6,
           },
         });
-        if (p.cover!.treesUntil != null) coverWindow.set(e, [undefined, p.cover!.treesUntil]);
-        return e;
+        const crown = viewer.entities.add({
+          show: false,
+          position: Cesium.Cartesian3.fromDegrees(lon, lat, h * 0.66),
+          ellipsoid: {
+            radii: new Cesium.Cartesian3(r, r, h * 0.34),
+            heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+            material: Cesium.Color.fromBytes(Math.round(62 * tone), Math.round(80 * tone), Math.round(44 * tone), 255),
+            slicePartitions: 8,
+            stackPartitions: 5,
+          },
+        });
+        if (p.cover!.treesUntil != null) for (const e of [trunk, crown]) coverWindow.set(e, [undefined, p.cover!.treesUntil]);
+        return [trunk, crown];
       }),
     ]);
   }
