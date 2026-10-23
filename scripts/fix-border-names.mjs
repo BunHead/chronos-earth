@@ -65,6 +65,79 @@ export const RENAMES = [
   ['Hong Kong', 'Hong Kong (UK)', 1841, 1996],
   ['Hong Kong', 'Hong Kong (China)', 1997, Infinity],
   ['Hong Kong (UK)', 'Hong Kong (China)', 1997, Infinity],
+
+  // EMPIRES FACT-CHECK, Oct 2026 (scripts/factcheck-empires.mjs,
+  // docs/empires-factcheck-2026-10.md). Owners drawn under the name of a state
+  // that did not exist in that snapshot's year, checked against Wikidata's
+  // inception/dissolution and the polygon's place on the map.
+  ['Austrian Empire', 'Habsburg Monarchy', 1700, 1803], // Q153136; the Empire (Q131964) was proclaimed 1804
+  ['Kingdom of Brazil', 'Empire of Brazil', 1822, 1889], // Q217230; the Kingdom (Q3932042) was 1815-1822
+  ['Kingdom of Brazil', 'Brazil', 1890, Infinity], // Republic from Nov 1889
+  ['Sui Empire', 'Tang Empire', 619, 907], // Q9683; Sui (Q7405) ended 618
+  ['Jin Empire', 'Southern Qi', 479, 502], // Q62456; Eastern Jin (Q7352) ended 420 — the 500 CE polygon is south China
+  ['Golconda', "Nizam's Dominions", 1724, 1948], // Hyderabad State Q1240096; Golconda (Q19805959) fell 1687
+  ['Kediri', 'Singhasari', 1222, 1292], // Q2060657; Kediri (Q756895) ended 1222
+  ['Kediri', 'Majapahit', 1293, 1527], // Q49326
+  ['Liao', 'Jin Empire', 1126, 1234], // Jurchen Jin Q5066; Liao (Q4958) fell 1125 — the 1200 polygon is north China
+
+  // Misspellings and broken characters in the snapshots' owner names. Spelling
+  // only: no polygon moves, and the corrected name is the one Wikipedia uses.
+  ['Anglo-Egyption Sudan', 'Anglo-Egyptian Sudan', -Infinity, Infinity],
+  ['Kingfom of Italy', 'Kingdom of Italy', -Infinity, Infinity],
+  ['Kongldom of Hawaii', 'Kingdom of Hawaii', -Infinity, Infinity],
+  ['Sultinate of Zanzibar', 'Sultanate of Zanzibar', -Infinity, Infinity],
+  ['Scottalnd', 'Scotland', -Infinity, Infinity],
+  ['Scottland', 'Scotland', -Infinity, Infinity],
+  ['Burgandy', 'Burgundy', -Infinity, Infinity],
+  ['Britany', 'Brittany', -Infinity, Infinity],
+  ['Castille', 'Castile', -Infinity, Infinity],
+  ['Poland-Llituania', 'Poland-Lithuania', -Infinity, Infinity],
+  ['Cuacasian Albania', 'Caucasian Albania', -Infinity, Infinity],
+  ['Cyraneica (UK Lybia)', 'Cyrenaica (UK Libya)', -Infinity, Infinity],
+  ['Tripolitana (UK Lybia)', 'Tripolitania (UK Libya)', -Infinity, Infinity],
+  ['Fezzan (Frech Lybia)', 'Fezzan (French Libya)', -Infinity, Infinity],
+  ['Dutchy of Benevento', 'Duchy of Benevento', -Infinity, Infinity],
+  ['Gilbert and Elice Islands', 'Gilbert and Ellice Islands', -Infinity, Infinity],
+  ['Bosporian Kingdom', 'Bosporan Kingdom', -Infinity, Infinity],
+  ['Mamluke Sultanate', 'Mamluk Sultanate', -Infinity, Infinity],
+  ['Watassid Morocco', 'Wattasid Morocco', -Infinity, Infinity],
+  ['Kwarezm', 'Khwarezm', -Infinity, Infinity],
+  ['Quazaq Khanate', 'Kazakh Khanate', -Infinity, Infinity],
+  ['Cimerians', 'Cimmerians', -Infinity, Infinity],
+  ['Turcik tribes', 'Turkic tribes', -Infinity, Infinity],
+  ['Turingians', 'Thuringians', -Infinity, Infinity],
+  ['Dumonii', 'Dumnonii', -Infinity, Infinity],
+  ['Rajastan', 'Rajasthan', -Infinity, Infinity],
+  ['Walbis Bay', 'Walvis Bay', -Infinity, Infinity],
+  ['Virgin Islands (Danemark)', 'Virgin Islands (Denmark)', -Infinity, Infinity],
+  ['Cherookee', 'Cherokee', -Infinity, Infinity],
+  ['Chicaksaw', 'Chickasaw', -Infinity, Infinity],
+  ['Chtimacha', 'Chitimacha', -Infinity, Infinity],
+  ['Illinnois', 'Illinois', -Infinity, Infinity],
+  ['Mahicacn', 'Mahican', -Infinity, Infinity],
+  ['Hopie', 'Hopi', -Infinity, Infinity],
+  ['Tlinoit', 'Tlingit', -Infinity, Infinity],
+  ['Winebago', 'Winnebago', -Infinity, Infinity],
+  ['Wappynger', 'Wappinger', -Infinity, Infinity],
+  ['Boethuk', 'Beothuk', -Infinity, Infinity],
+  ['Luisiana', 'Louisiana', -Infinity, Infinity],
+  ['Caloosahatchee cultureure', 'Caloosahatchee culture', -Infinity, Infinity],
+  ['Eastern North Amercian hunter-gatherers', 'Eastern North American hunter-gatherers', -Infinity, Infinity],
+  ['North American Pacifi foraging, hunting and fishing peoples', 'North American Pacific foraging, hunting and fishing peoples', -Infinity, Infinity],
+  ['Plateau fichers and hunter gatherers', 'Plateau fishers and hunter-gatherers', -Infinity, Infinity],
+  ['Prot-Altaic pastoralists', 'Proto-Altaic pastoralists', -Infinity, Infinity],
+  ['Hunters-gatherers', 'Hunter-gatherers', -Infinity, Infinity],
+  ['Ethiopian HIghland Peoples', 'Ethiopian Highland Peoples', -Infinity, Infinity],
+  ['HIghland Mesolithic Hunter-Foragers', 'Highland Mesolithic Hunter-Foragers', -Infinity, Infinity],
+  ['Khoiasan', 'Khoisan', -Infinity, Infinity],
+  // Characters lost to a bad encoding somewhere upstream (? and U+FFFD).
+  ['CochimÃ­', 'Cochimí', -Infinity, Infinity],
+  ['Monte Alb?n', 'Monte Albán', -Infinity, Infinity],
+  ['Monte Alb�n', 'Monte Albán', -Infinity, Infinity],
+  ['Monte Albàn', 'Monte Albán', -Infinity, Infinity],
+  ['Teotihuac�n', 'Teotihuacán', -Infinity, Infinity],
+  ['Teotihuacàn', 'Teotihuacán', -Infinity, Infinity],
+  ['M?ori', 'Maori', -Infinity, Infinity], // the spelling the other snapshots use
 ];
 
 /**

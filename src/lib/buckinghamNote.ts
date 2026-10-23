@@ -1,5 +1,5 @@
 /** Buckingham Palace's through-time model is a representation, and says so. */
-export const BUCKINGHAM_NOTE =
+const BUCKINGHAM_NOTE =
   '3D Buckingham Palace: a representation based on best known evidence (Royal Collection Trust; ' +
   'Survey of London; Historic England list entry 1239087). Through time: 1703 Buckingham House, ' +
   'built for the Duke of Buckingham \u00b7 1761 bought by George III \u00b7 1826\u201330 Nash rebuilds it as a ' +
