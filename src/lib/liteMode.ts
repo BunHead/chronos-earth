@@ -133,7 +133,8 @@ export function globeSettings(lite: boolean): GlobeSettings {
 }
 
 /** A scan heavier than this (KB) is swapped for its small `-lite` build on
- * phones and weak machines — the Sphinx scan is 509 KB, her old model 39 KB. */
+ * phones and weak machines — the Sphinx scan is 509 KB; its -lite build (177 KB) is the SAME scan,
+ * simplified to ~10k triangles with a 512px colour map — not the old blocky model. */
 export const HEAVY_MODEL_KB = 300;
 export function lightModelName(
   model: string,
