@@ -1815,6 +1815,96 @@
       "placeNote": "He was born at sea, on a ship off the coast of Brazil; Wikidata gives only \"Atlantic Ocean\", whose pin is in mid-ocean at 0, -30. The pin is Juiz de Fora, where he grew up.",
       "why": "Impossible-row scan (Oct 2026): not certain, the panel says so; pin at (0, -30), the centre of the Atlantic Ocean item (P19 = Atlantic Ocean); moved to Juiz de Fora (Q193019 P625).",
       "source": "https://www.wikidata.org/wiki/Q485946; https://en.wikipedia.org/wiki/Itamar_Franco; https://www.wikidata.org/wiki/Q193019"
+    },
+    "q1373037": {
+      "startYear": 401,
+      "endYear": 437,
+      "dateNote": "Wikidata gives only the 5th century for his birth; 401 is only a placeholder. He died about 437.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 500, after his death in 437 (P569 is \"5th century\", P570 437).",
+      "source": "https://www.wikidata.org/wiki/Q1373037; https://en.wikipedia.org/wiki/Syrianus"
+    },
+    "q371999": {
+      "startYear": 301,
+      "endYear": 399,
+      "dateNote": "Wikidata gives only the 4th century for his birth; 301 is only a placeholder. He was executed in 399.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 400, after his death in 399 (P569 is \"4th century\", P570 399).",
+      "source": "https://www.wikidata.org/wiki/Q371999; https://en.wikipedia.org/wiki/Eutropius_(consul_399)"
+    },
+    "q374599": {
+      "startYear": 737,
+      "dateNote": "His birth year is not known (Wikidata gives only the 1st millennium); the year shown is the year he died, 737.",
+      "why": "Impossible-row scan (Oct 2026): not certain, the panel says so; shown born 1000, after his death in 737 (P569 is only \"1st millennium\", P570 737).",
+      "source": "https://www.wikidata.org/wiki/Q374599; https://en.wikipedia.org/wiki/Orso_Ipato"
+    },
+    "q653624": {
+      "startYear": 1001,
+      "endYear": 1095,
+      "dateNote": "Wikidata gives only the 11th century for his birth; 1001 is only a placeholder. He died in December 1095 (some sources say 1096).",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 1100, after his death in 1095 (P569 is \"11th century\", P570 Dec 1095 and 1096).",
+      "source": "https://www.wikidata.org/wiki/Q653624; https://en.wikipedia.org/wiki/Vitale_Faliero"
+    },
+    "q953200": {
+      "startYear": 601,
+      "endYear": 647,
+      "dateNote": "Wikidata gives only the 7th century for his birth; 601 is only a placeholder. He died about 647.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 700, after his death in 647 (P569 is \"7th century\", P570 647).",
+      "source": "https://www.wikidata.org/wiki/Q953200; https://en.wikipedia.org/wiki/Ka'b_ibn_Zuhayr"
+    },
+    "q333770": {
+      "startYear": 201,
+      "endYear": 271,
+      "dateNote": "Wikidata gives only the 3rd century for his birth; 201 is only a placeholder. He was killed in 271.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 300, after his death in 271 (P569 is \"3rd century\", P570 271).",
+      "source": "https://www.wikidata.org/wiki/Q333770; https://en.wikipedia.org/wiki/Victorinus"
+    },
+    "q323363": {
+      "startYear": 501,
+      "endYear": 570,
+      "dateNote": "Wikidata gives only the 6th century for his birth; 501 is only a placeholder. He died about 570.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 600, after his death in 570 (P569 is \"6th century\", P570 570).",
+      "source": "https://www.wikidata.org/wiki/Q323363; https://en.wikipedia.org/wiki/Abraha"
+    },
+    "q349916": {
+      "startYear": 101,
+      "endYear": 134,
+      "dateNote": "Wikidata gives only the 2nd century for his birth; 101 is only a placeholder. He wrote about AD 125 to 134; Wikidata gives 134 for his death.",
+      "why": "Impossible-row scan (Oct 2026): not certain, the panel says so; shown born 150, after his death in 134 (P569 is \"2nd century\", P570 134).",
+      "source": "https://www.wikidata.org/wiki/Q349916; https://en.wikipedia.org/wiki/Aristides_of_Athens"
+    },
+    "q538902": {
+      "startYear": 901,
+      "endYear": 977,
+      "dateNote": "Wikidata gives only the 10th century for his birth; 901 is only a placeholder. He died about 977.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 1000, after his death in 977 (P569 is \"10th century\", P570 977).",
+      "source": "https://www.wikidata.org/wiki/Q538902; https://en.wikipedia.org/wiki/Daqiqi"
+    },
+    "q644057": {
+      "startYear": 401,
+      "endYear": 450,
+      "dateNote": "Wikidata gives only the 5th century for his birth; 401 is only a placeholder. He died about 445 to 450; 450 is the latest year.",
+      "why": "Impossible-row scan (Oct 2026): not certain, the panel says so; shown born 500, after his death in 445–450 (P569 is \"5th century\", P570 445 and 450).",
+      "source": "https://www.wikidata.org/wiki/Q644057; https://en.wikipedia.org/wiki/Vincent_of_L%C3%A9rins"
+    },
+    "q239015": {
+      "startYear": 201,
+      "endYear": 268,
+      "dateNote": "Wikidata gives only the 3rd century for her birth; 201 is only a placeholder. She died in 268.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 300, after her death in 268 (P569 is \"3rd century\", P570 268).",
+      "source": "https://www.wikidata.org/wiki/Q239015; https://en.wikipedia.org/wiki/Cornelia_Salonina"
+    },
+    "q563574": {
+      "startYear": 1001,
+      "endYear": 1061,
+      "dateNote": "Wikidata gives only the 11th century for his birth; 1001 is only a placeholder. He died about 1061.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 1100, after his death in 1061 (P569 is \"11th century\", P570 1061).",
+      "source": "https://www.wikidata.org/wiki/Q563574; https://en.wikipedia.org/wiki/Gardizi"
+    },
+    "q367598": {
+      "startYear": 301,
+      "endYear": 350,
+      "dateNote": "Wikidata gives only the 4th century for his birth; 301 is only a placeholder. He was killed in 350.",
+      "why": "Impossible-row scan (Oct 2026): corrected; shown born 400, after his death in 350 (P569 is \"4th century\", P570 30 June 350).",
+      "source": "https://www.wikidata.org/wiki/Q367598; https://en.wikipedia.org/wiki/Nepotianus"
     }
   }
 }

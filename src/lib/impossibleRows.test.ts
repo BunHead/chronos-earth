@@ -6,8 +6,9 @@ import { eventToPanel } from './panel';
 // @ts-expect-error — plain .mjs script, no types
 import { checkImpossibleYears, cleanText, deathYear, fixRows } from '../../scripts/lib/data-quality.mjs';
 
-// Impossible-row scan (Oct 2026, scripts/scan-impossible.mjs): people shown
-// born after they died, lifespans over 110 years, a (0, -30) placeholder pin,
+// Impossible-row scan (Oct 2026, scripts/scan-impossible.mjs, plus Wikidata
+// P570 for the 63 people stored with no death year): people shown born after
+// they died, lifespans over 110 years, a (0, -30) placeholder pin,
 // and Died lines ending in a raw Wikidata blank-node URL. Fixes and "uncertain"
 // notes live in accuracy-fixes.json, so the nightly harvest cannot undo them.
 // Checked against the real shipped data.
@@ -27,6 +28,18 @@ const YEARS: Array<[string, string, number, number]> = [
   ['q228649', 'John XV', 901, 996],
   ['q109244', 'Adam of Bremen', 1001, 1085],
   ['q48624', 'Afanasy Nikitin', 1401, 1475],
+  ['q1373037', 'Syrianus', 401, 437],
+  ['q371999', 'Eutropius', 301, 399],
+  ['q653624', 'Vitale Faliero', 1001, 1095],
+  ['q953200', "Ka'b ibn Zuhayr", 601, 647],
+  ['q333770', 'Victorinus', 201, 271],
+  ['q323363', 'Abraha', 501, 570],
+  ['q349916', 'Aristides of Athens', 101, 134],
+  ['q538902', 'Daqiqi', 901, 977],
+  ['q644057', 'Vincent of Lérins', 401, 450],
+  ['q239015', 'Cornelia Salonina', 201, 268],
+  ['q563574', 'Gardizi', 1001, 1061],
+  ['q367598', 'Nepotianus', 301, 350],
   ['q312551', 'Kabir', 1440, 1518],
   ['q312976', 'Tulsidas', 1532, 1623],
   ['q1325652', 'Surdas', 1479, 1584],
@@ -34,7 +47,7 @@ const YEARS: Array<[string, string, number, number]> = [
 
 describe('impossible-row fixes', () => {
   it('every fix is in accuracy-fixes.json with a Wikidata source', () => {
-    expect(batch.length).toBe(22);
+    expect(batch.length).toBe(35);
     for (const id of batch) expect(String(fixes[id].source), id).toMatch(/wikidata\.org\/wiki\/Q\d+/);
   });
 
@@ -56,6 +69,11 @@ describe('impossible-row fixes', () => {
     expect(panel('q328793')).toContain('placeholder'); // Periander, "7th century BC"
     expect(panel('q197172')).toContain('traditional'); // Zhang Daoling, 34 to 156
     expect(panel('q1060637')).toContain('756'); // Ibn al-Muqaffa', Wikidata says 840
+  });
+
+  it('Orso Ipato (birth only "1st millennium") is shown at his death year', () => {
+    expect(byId.get('q374599')!.startYear).toBe(737);
+    expect(byId.get('q374599')!.dateNote).toContain('737');
   });
 
   it('Itamar Franco is not pinned in mid-Atlantic', () => {
