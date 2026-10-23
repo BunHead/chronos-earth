@@ -132,6 +132,21 @@ export function yearOf(iso) {
   return wdqsYear(iso);
 }
 
+/**
+ * The start an undated role borrows: the polity's own inception, or the city's
+ * start when that is later — UNLESS the city's start is after the role ended.
+ * Some cities carry a modern date (a municipality's incorporation: Skopje
+ * 1991, Aden 2015), and clamping to it made Skopje "capital of the Serbian
+ * Empire from 1991 to 1371" — ten roles that began after they ended
+ * (empires fact-check, Oct 2026). A city that was a capital in 1371 existed
+ * in 1371, so then its own date is the wrong one and the polity's is kept.
+ */
+export function borrowedRoleStart(born, cityStart, to) {
+  if (typeof cityStart !== 'number' || cityStart <= born) return born;
+  if (to !== null && to !== undefined && cityStart > to) return born;
+  return cityStart;
+}
+
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const events = doc.events ?? [];
@@ -388,12 +403,11 @@ async function main() {
         // the polity's own start, so Carchemish was 'capital of the Assyrian
         // Empire from 2025 BCE' seven centuries before the city's date (27 Sept
         // 2026). Only BORROWED starts are clamped; a date the role carries stays.
+        if (out.to === null && ended !== null) { out.to = ended; bounded++; }
         if (out.from === null && born !== null) {
-          const cityStart = byQid.get(qid)?.startYear;
-          out.from = typeof cityStart === 'number' && cityStart > born ? cityStart : born;
+          out.from = borrowedRoleStart(born, byQid.get(qid)?.startYear, out.to);
           bounded++;
         }
-        if (out.to === null && ended !== null) { out.to = ended; bounded++; }
         return out;
       });
     if (kept.length) found.set(qid, kept);
