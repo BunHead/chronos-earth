@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
 import { altitudeFor, placeIn, yearToShow, type CountryRow } from './lib/countryIndex';
 import {
@@ -12,13 +12,9 @@ import InfoPanel from './components/InfoPanel';
 import LayersPanel from './components/LayersPanel';
 import BattleHud from './components/BattleHud';
 import SearchBox from './components/SearchBox';
-import About from './components/About';
-import ShipsManifest from './components/ShipsManifest';
 import Welcome, { hasSeenWelcome, markWelcomeSeen } from './components/Welcome';
 import Tours from './components/Tours';
 import AppMenu from './components/AppMenu';
-import CompareMode from './components/CompareMode';
-import SkyDial from './components/SkyDial';
 import CompassFrame from './components/CompassFrame';
 import WeatherOverlay from './components/WeatherOverlay';
 import SeaLevelFrame from './components/SeaLevelFrame';
@@ -46,6 +42,7 @@ import { cellsForRect } from './lib/eventIndex';
 import { bucketsForWindow } from './lib/buckets';
 import { loadTileManifest, loadHeadline, loadTile, tilesToLoad, type TileManifest } from './lib/coreTiles';
 import { tilingEnabled } from './lib/tilingFlag';
+import { useEscape } from './lib/escapeStack';
 import { fetchByName } from './lib/liveFetch';
 import { loadLiveCache, addToLiveCache } from './lib/liveCache';
 import { initPortraits } from './lib/portraits';
@@ -66,6 +63,13 @@ import type {
   TimelineEvent,
   Tour,
 } from './lib/types';
+
+// Panels nobody sees on first paint load on demand, so a phone downloads and
+// parses less JavaScript before the globe appears.
+const About = lazy(() => import('./components/About'));
+const ShipsManifest = lazy(() => import('./components/ShipsManifest'));
+const CompareMode = lazy(() => import('./components/CompareMode'));
+const SkyDial = lazy(() => import('./components/SkyDial'));
 
 /**
  * At speed 1×, the playhead takes this many seconds to travel the entire bar
@@ -277,6 +281,12 @@ export default function App() {
   const [focusEvent, setFocusEvent] = useState<TimelineEvent | null>(null);
   const [campaignLabel, setCampaignLabel] = useState<string | null>(null);
   const [panel, setPanel] = useState<PanelContent | null>(null);
+  const closePanel = () => {
+    setPanel(null);
+    setFocusEvent(null);
+  };
+  // Escape closes the info panel (when nothing opened later is on top of it).
+  useEscape(closePanel, !!panel);
   const panelRef = useRef(panel);
   panelRef.current = panel;
   const [toast, setToast] = useState<string | null>(null);
@@ -1171,7 +1181,7 @@ export default function App() {
       />
 
       {timeRift && (
-        <CompareMode
+        <Suspense fallback={null}><CompareMode
           snapshot={timeRift.snapshot}
           leftYearsBP={timeRift.leftYearsBP}
           rightYearsBP={yearsBP}
@@ -1179,7 +1189,7 @@ export default function App() {
           onSplitChange={(split) => setTimeRift((current) => current && { ...current, split })}
           onCaptureLeft={captureRiftLeft}
           onClose={() => setTimeRift(null)}
-        />
+        /></Suspense>
       )}
 
       {campaignLabel && <div className="campaign-banner">⚑ {campaignLabel}</div>}
@@ -1302,8 +1312,8 @@ export default function App() {
           onTakeTour={tours.length > 0 ? () => { setActiveTour(tours[0]); setTourStep(0); } : undefined}
         />
       )}
-      {showAbout && <About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} onOpenManifest={() => { setShowAbout(false); setShowManifest(true); }} />}
-      {showManifest && <ShipsManifest onClose={() => setShowManifest(false)} />}
+      {showAbout && <Suspense fallback={null}><About onClose={() => setShowAbout(false)} onReplayWelcome={() => { setShowAbout(false); setShowWelcome(true); }} onOpenManifest={() => { setShowAbout(false); setShowManifest(true); }} /></Suspense>}
+      {showManifest && <Suspense fallback={null}><ShipsManifest onClose={() => setShowManifest(false)} /></Suspense>}
 
       {/* Roadmap 12, behind ?show=1 only. Deliberately plain: the engine is
           what landed, the presentation is for the Captain to call. */}
@@ -1333,7 +1343,7 @@ export default function App() {
         </div>
       )}
       {skyOpen && (
-        <div className="app-sky">
+        <div className="app-sky"><Suspense fallback={null}>
         <SkyDial
           date={sky.date}
           solarHours={sky.solarHours}
@@ -1431,7 +1441,7 @@ export default function App() {
             }
           }}
         />
-        </div>
+        </Suspense></div>
       )}
 
       {/* The dial's weather, painted over the air when you're down low. */}
@@ -1492,10 +1502,7 @@ export default function App() {
       <InfoPanel
         content={panel}
         tone={tone}
-        onClose={() => {
-          setPanel(null);
-          setFocusEvent(null);
-        }}
+        onClose={closePanel}
         onFly={(c) => {
           if (!c.fly) return;
           // Flying to an event always shows its pin, however quiet it is.

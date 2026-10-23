@@ -109,7 +109,7 @@ const FAUNA_COLOR = '#9ad36b';
  * ERAS and the log scale are both constants, so this is computed ONCE at module
  * load rather than on every timeline render.
  */
-export const ERA_LABEL_BOXES = eraLabelBoxes(); // see lib/eraLabels.ts
+const ERA_LABEL_BOXES = eraLabelBoxes(); // see lib/eraLabels.ts
 
 /** A datable thing that can sit on the mural — built from an event or a creature. */
 interface MuralSource {
@@ -778,18 +778,19 @@ export default function Timeline({
         </div>
 
         <div className="transport">
-          <button className="btn" title="Step back in time" onClick={() => stepTime(1)}>
+          <button className="btn" title="Step back in time" aria-label="Step back in time" onClick={() => stepTime(1)}>
             ⏮ Back
           </button>
-          <button className="btn primary" onClick={onTogglePlay}>
+          <button className="btn primary" onClick={onTogglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
             {isPlaying ? '⏸ Pause' : '▶ Play'}
           </button>
-          <button className="btn" title="Step forward in time" onClick={() => stepTime(-1)}>
+          <button className="btn" title="Step forward in time" aria-label="Step forward in time" onClick={() => stepTime(-1)}>
             Fwd ⏭
           </button>
           <button
             className={`btn compare-btn${compareLeftBP !== undefined ? ' active' : ''}`}
             title="Freeze this view and compare it with another date"
+            aria-pressed={compareLeftBP !== undefined}
             onClick={onToggleCompare}
           >
             {compareLeftBP !== undefined ? '× Rift' : '◐ Compare'}

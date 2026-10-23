@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import type { AncientSite, Battle, Fauna, TimelineEvent } from '../lib/types';
 import { ERAS, parseYear, type Era } from '../lib/timeScale';
 import { loadSearchIndex, loadSearchTop, rowToEvent, type SearchRow } from '../lib/searchIndex';
@@ -154,14 +154,18 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     if (query.trim().length >= 2) wantIndex();
   }, [query]);
 
+  // Ranking runs over the whole index on each key. Deferred, so typing stays
+  // smooth on phones: the box updates at once and the list catches up when
+  // the phone is free.
+  const searchQuery = useDeferredValue(query);
   const results = useMemo<Result[]>(() => {
-    const q = fold(query.trim());
+    const q = fold(searchQuery.trim());
     if (q.length < 2) return [];
     const out: Result[] = [];
     const taken = new Set<string>(); // normalised names already listed (dedup curated vs imported)
 
     // A typed date/year jumps the timeline — and surfaces what happened that year.
-    const year = parseYear(query);
+    const year = parseYear(searchQuery);
     if (year !== null) {
       out.push({
         key: 'year-jump',
@@ -200,7 +204,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       // Other names for the same country: "Holland" -> Netherlands, "Persia"
       // -> Iran as well as Persia, "UK" -> United Kingdom. See RELATED_NAMES.
       const byName = new Map(countries.rows.map((c) => [c.name, c]));
-      const related = relatedNames(query.trim(), new Set(byName.keys()))
+      const related = relatedNames(searchQuery.trim(), new Set(byName.keys()))
         .map((n) => byName.get(n)!)
         .filter((c) => !hits.includes(c))
         .sort((a, b) => b.years[b.years.length - 1] - a.years[a.years.length - 1]);
@@ -209,7 +213,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         out.push({
           key: `c-${c.name}`,
           label: c.name,
-          sub: (alias ? `also known as "${query.trim()}" · ` : '') + spanLabel(c, countries.latestFrame),
+          sub: (alias ? `also known as "${searchQuery.trim()}" · ` : '') + spanLabel(c, countries.latestFrame),
           badge: '🗺️ Country',
           run: () => onPickCountry(c, countries.frames),
         });
@@ -333,7 +337,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     const seen = new Map<string, number>();
     for (const r of shown) seen.set(r.label + '|' + r.sub, (seen.get(r.label + '|' + r.sub) ?? 0) + 1);
     return shown.map((r) => (r.at && (seen.get(r.label + '|' + r.sub) ?? 0) > 1 ? { ...r, sub: `${r.sub} · ${coord(r.at)}` } : r));
-  }, [query, battles, sites, events, fauna, indexRows, foldedIndex, fuzzyIndex, fuzzyEvents, fuzzyBattles, knownNames, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
+  }, [searchQuery, battles, sites, events, fauna, indexRows, foldedIndex, fuzzyIndex, fuzzyEvents, fuzzyBattles, knownNames, countries, videos, onPickBattle, onPickSite, onPickEra, onPickEvent, onPickFauna, onPickYear, onPickVideo, onPickCountry]);
 
   const pick = (r: Result) => {
     r.run();
@@ -362,6 +366,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
         onFocus={() => { setFocused(true); wantIndex(); }}
         onBlur={() => setTimeout(() => setFocused(false), 150)}
         role="combobox"
+        aria-autocomplete="list"
         aria-expanded={open}
         aria-controls="chronos-search-results"
         aria-activedescendant={open && active >= 0 ? `search-row-${active}` : undefined}
