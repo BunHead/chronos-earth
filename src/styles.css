@@ -3108,7 +3108,7 @@ textarea:focus-visible,
   --text-dim: #6b6353;
   --text-bright: #14110c;
   --text-soft: #3a352a;
-  --text-mute: #8a8371;
+  --text-mute: #6e6756;  /* AA 4.5:1 on the paper panel */
 
   --accent: #9c3f2f;                        /* madder red, the plate's spot colour */
   --accent-bright: #b8503c;
@@ -3171,7 +3171,7 @@ textarea:focus-visible,
   --text-dim: #94886e;
   --text-bright: #e8ddc4;
   --text-soft: #c4b89e;
-  --text-mute: #8a7e64;
+  --text-mute: #9a8e72;  /* AA 4.5:1 on the dark panel */
 
   --accent: #c2803d;                        /* ochre */
   --accent-bright: #dc9a52;
@@ -3510,4 +3510,33 @@ textarea:focus-visible,
   font-size: 0.78em;
   line-height: 1.4;
   opacity: 0.88;
+}
+
+/* ── Phones: reading text no smaller than 14px (13px where space is tight),
+   with a little more line spacing. Plain, well-spaced text is easier to read,
+   especially with dyslexia. Labels on the globe are styled elsewhere. ── */
+@media (max-width: 760px) {
+  .info-summary,
+  .info-note,
+  .info-loading,
+  .info-source,
+  .app-menu-note,
+  .app-menu-item.tour small,
+  .layers-about,
+  .layer-row,
+  .layer-row.sub,
+  .layers-panel,
+  .search-sub,
+  .search-pending {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .info-kicker,
+  .app-menu-heading,
+  .app-menu-item.back,
+  .timeline-readout .era,
+  .info-battlemap-head {
+    font-size: 13px;
+  }
+  .info-summary { letter-spacing: 0.01em; word-spacing: 0.05em; }
 }

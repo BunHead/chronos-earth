@@ -24,7 +24,7 @@ import { holdContinuousRender } from './renderLease';
 /** Up to this many extra layers above what is showing at boot. A traced
  * play-through needed tiles carrying up to 16 textures (TEXTURE_UNITS 16) —
  * tiled imagery puts several textures on one tile — so warm the full range. */
-export const WARM_LAYERS = 16;
+const WARM_LAYERS = 16;
 
 const FULL_GLOBE = Cesium.Rectangle.fromDegrees(-180, -90, 180, 90);
 
@@ -50,7 +50,7 @@ function frames(scene: Cesium.Scene, n: number): Promise<void> {
 }
 
 /** How many shader programs Cesium holds (internal; for measuring only). */
-export function shaderCount(scene: Cesium.Scene): number | undefined {
+function shaderCount(scene: Cesium.Scene): number | undefined {
   const cache = (scene as unknown as { context?: { shaderCache?: { _numberOfShaders?: number } } }).context?.shaderCache;
   return cache?._numberOfShaders;
 }

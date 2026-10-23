@@ -39,7 +39,8 @@ describe('fossil sites', () => {
       expect(Math.abs(row!.lat), s.id).toBeLessThanOrEqual(90);
       expect(Math.abs(row!.lon), s.id).toBeLessThanOrEqual(180);
       // The year it was FOUND; the rock's age (millions of years) is in the note.
-      expect(row!.startYear, s.id).toBeGreaterThan(1800);
+      // Big Bone Lick's mastodons were picked up in 1739, the earliest find listed.
+      expect(row!.startYear, s.id).toBeGreaterThanOrEqual(1700);
       expect(row!.startYear, s.id).toBeLessThanOrEqual(new Date().getFullYear());
       expect(row!.dateNote, s.id).toMatch(/million years/);
     }
@@ -50,5 +51,32 @@ describe('fossil sites', () => {
       const same = events.filter((e) => e.wikidataId === s.wikidataId);
       expect(same.map((e) => e.id), s.id).toEqual([s.id]);
     }
+  });
+
+  it('no two fossil sites share a spot', () => {
+    // A duplicate under a different Q-id (a formation and its quarry, say)
+    // would still stack two pins; keep every pair at least 1 km apart.
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const all = FOSSIL_SITES as Row[];
+    for (let i = 0; i < all.length; i++)
+      for (let j = i + 1; j < all.length; j++)
+        expect(km(all[i], all[j]), `${all[i].id} / ${all[j].id}`).toBeGreaterThan(1);
+  });
+
+  it('keeps the checked dates (22 Oct 2026 Wikidata/Wikipedia pass)', () => {
+    const year = (id: string) => (FOSSIL_SITES as Row[]).find((s) => s.id === `cur-fossil-${id}`)?.startYear;
+    expect(year('tendaguru')).toBe(1906); // Sattler saw the bones in 1906; Fraas came in 1907
+    expect(year('trinil')).toBe(1891);
+    expect(year('sirius-passet')).toBe(1984);
+  });
+
+  it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
+    const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
+    expect(wf).toContain('node scripts/add-fossil-sites.mjs');
   });
 });

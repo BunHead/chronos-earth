@@ -107,7 +107,7 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
 
 // Phase stages RELATIVE to a model's build year, for archetypes dropped at many
 // dates. The impact crater plays comet → flash → crater around its event year.
-export const REL_STAGE_TABLE: Record<string, RelStage[]> = {
+const REL_STAGE_TABLE: Record<string, RelStage[]> = {
   impact: [
     { offset: -3, suffix: '-b15' }, // the comet, far
     { offset: -2, suffix: '-b30' }, // the comet, near
