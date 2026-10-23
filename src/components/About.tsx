@@ -1,5 +1,6 @@
 import { startWindowDrag } from '../lib/windowDrag';
 import { PATREON_URL } from '../lib/manifest';
+import { useEscape } from '../lib/escapeStack';
 
 interface AboutProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ interface AboutProps {
  * how the historical content was put together.
  */
 export default function About({ onClose, onReplayWelcome, onOpenManifest }: AboutProps) {
+  useEscape(onClose, true, true);
   return (
     <div className="bv-overlay" role="dialog" aria-label="About Chronos Earth" onClick={onClose}>
       <div className="about-window" onClick={(e) => e.stopPropagation()}>
