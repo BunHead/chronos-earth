@@ -1529,6 +1529,66 @@
       "dateNote": "Born about 1114 to 1128 (sources differ); died 1202 or 1203.",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth year only approximate (c. 1114-1128).",
       "source": "https://www.wikidata.org/wiki/Q4313; https://en.wikipedia.org/wiki/Alain_de_Lille"
+    },
+    "q239": {
+      "startYear": 979,
+      "dateNote": "Brussels is traditionally said to have been founded in 979, when Charles of Lower Lorraine built a fort on an island in the Senne. Wikidata's earliest record of the place is 966. The exact year is not certain.",
+      "why": "Wrong year (1795): Brussels dates from the 10th century, not the French annexation",
+      "source": "https://www.wikidata.org/wiki/Q239 (earliest record P1249: 966); https://en.wikipedia.org/wiki/History_of_Brussels (founding c. 979)"
+    },
+    "q1024647": {
+      "startYear": 1400,
+      "dateNote": "Founded in the 15th century; the exact year is not known.",
+      "why": "Century typed as a year: Wikidata has '15' for the 15th century, and the harvest showed it as AD 15",
+      "source": "https://www.wikidata.org/wiki/Q1024647 (P571 '15'); https://en.wikipedia.org/wiki/Ikeja"
+    },
+    "q1023721": {
+      "startYear": 1600,
+      "dateNote": "Founded in the 17th century; the exact year is not known.",
+      "why": "Century typed as a year: Wikidata has '17' for the 17th century, and the harvest showed it as AD 17",
+      "source": "https://www.wikidata.org/wiki/Q1023721 (P571 '17'); https://en.wikipedia.org/wiki/Lafia"
+    },
+    "q587085": {
+      "startYear": 1700,
+      "dateNote": "Founded in the 18th century; the exact year is not known.",
+      "why": "Century typed as a year: Wikidata has '18' for the 18th century, and the harvest showed it as AD 18",
+      "source": "https://www.wikidata.org/wiki/Q587085 (P571 '18'); https://en.wikipedia.org/wiki/Ilorin"
+    },
+    "cur-aztec-empire": {
+      "lat": 19.4333,
+      "lon": -99.1333,
+      "why": "Pin rounded to 0.1 degree, about 5 km south-east of Tenochtitlan; moved to Wikidata's point for the empire, at its capital (central Mexico City)",
+      "source": "https://www.wikidata.org/wiki/Q2608489 (P625 19.4333, -99.1333); https://en.wikipedia.org/wiki/Tenochtitlan"
+    },
+    "cur-trip-jerusalem": {
+      "dateNote": "The inn claims to date from 1189, but no record survives to prove it. Most of the present building dates from about 1650 (the date Wikidata gives); the caves behind it are older.",
+      "why": "Uncertain date: the 1189 claim is the inn's own tradition; Wikidata gives 1650",
+      "source": "https://www.wikidata.org/wiki/Q5323585 (P571 1650); https://en.wikipedia.org/wiki/Ye_Olde_Trip_to_Jerusalem"
+    },
+    "cur-mali-empire": {
+      "placeNote": "Pinned near Bamako, in the empire's heartland on the upper Niger. Where its capital stood (Niani, Dakajalan or elsewhere) is still debated, so this is not the site of a known city.",
+      "why": "Uncertain place: an empire has no single point and its capital's site is disputed; Wikidata gives no coordinates",
+      "source": "https://www.wikidata.org/wiki/Q184536 (no P625); https://en.wikipedia.org/wiki/Mali_Empire"
+    },
+    "q350": {
+      "dateNote": "A Roman settlement stood here from the 1st century AD. Wikidata gives only the century, so the year shown is approximate.",
+      "why": "Uncertain date: Wikidata P571 is century-precision ('1st century'), shown as AD 1",
+      "source": "https://www.wikidata.org/wiki/Q350 (P571 1st century); https://en.wikipedia.org/wiki/Cambridge"
+    },
+    "cur-sulawesi-art": {
+      "dateNote": "The paintings are dated by the mineral crust that grew over them, which gives only a minimum age: the hunting scene at Leang Bulu' Sipong 4 is at least 44,000 years old, the pig at Leang Tedongnge at least 45,500, and a 2024 study puts a scene at Leang Karampuang at 51,200 years.",
+      "why": "Uncertain date: minimum ages only, and different caves give different ages",
+      "source": "https://en.wikipedia.org/wiki/Leang_Tedongnge ; https://en.wikipedia.org/wiki/Leang_Karampuang"
+    },
+    "cur-chichen-itza": {
+      "dateNote": "Sources differ on when the city began: Wikidata gives 455, while most accounts put its rise around 600 and its height between about 900 and 1100.",
+      "why": "Uncertain date: Wikidata P571 is 455, the panel shows c. 600",
+      "source": "https://www.wikidata.org/wiki/Q5859 (P571 455); https://en.wikipedia.org/wiki/Chichen_Itza"
+    },
+    "cur-ife": {
+      "dateNote": "The date shown is the start of Ife's classical age, known for its bronze and terracotta heads. People lived here much earlier (Wikidata says between 1000 and 500 BC), but there is no agreed founding date.",
+      "why": "Uncertain date: no agreed founding year; Wikidata gives a range in its description only",
+      "source": "https://www.wikidata.org/wiki/Q180084; https://en.wikipedia.org/wiki/Ife"
     }
   }
 }
