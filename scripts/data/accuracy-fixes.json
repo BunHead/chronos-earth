@@ -1734,6 +1734,567 @@
       "placeNote": "Where he was born is disputed: in Tibet, where the pin is, or at Thame in the Khumbu, Nepal.",
       "why": "People fact-check, checked by hand (Oct 2026): Still disputed (Tibet or Khumbu). The panel now says so.",
       "source": "https://en.wikipedia.org/wiki/Tenzing_Norgay"
+    },
+    "q57267": {
+      "lat": 54.55,
+      "lon": 17.75,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Lauenburg in Pommern (Lębork, Poland); the pin was the middle of Germany.",
+      "source": "https://www.wikidata.org/wiki/Q57267; https://en.wikipedia.org/wiki/Erich_von_dem_Bach-Zelewski; https://www.wikidata.org/wiki/Q497148"
+    },
+    "q66286": {
+      "lat": 51.2667,
+      "lon": 7.1833,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Wuppertal; the pin was the middle of Germany.",
+      "source": "https://www.wikidata.org/wiki/Q66286; https://en.wikipedia.org/wiki/Rita_S%C3%BCssmuth; https://www.wikidata.org/wiki/Q2107"
+    },
+    "q722738": {
+      "lat": -26.8167,
+      "lon": -65.2167,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in San Miguel de Tucumán; the pin was the middle of Argentina.",
+      "source": "https://www.wikidata.org/wiki/Q722738; https://en.wikipedia.org/wiki/Juan_Bautista_Alberdi; https://www.wikidata.org/wiki/Q44255"
+    },
+    "q704356": {
+      "lat": 45.85,
+      "lon": 8.9833,
+      "placeNote": "Born at Brusata (now part of Novazzano) or nearby Rancate, in Ticino; sources differ. The pin is on Novazzano.",
+      "dateNote": "Born 22 April 1638 (some say 1634).",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Ticino (Novazzano or Rancate); the pin was the middle of Switzerland.",
+      "source": "https://www.wikidata.org/wiki/Q704356; https://en.wikipedia.org/wiki/Carlo_Fontana; https://www.wikidata.org/wiki/Q67743; https://hls-dhs-dss.ch/de/articles/024528/"
+    },
+    "q192544": {
+      "lat": 49.8647,
+      "lon": 36.9364,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Novobelgorod (now Pechenihy), not in Kharkiv where the pin was.",
+      "source": "https://www.wikidata.org/wiki/Q192544; https://en.wikipedia.org/wiki/Henryk_Siemiradzki; https://www.wikidata.org/wiki/Q4361999"
+    },
+    "q364975": {
+      "lat": 52.3892,
+      "lon": -9.8333,
+      "dateNote": "Born in the 1680s; the exact year is not known.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born at Ballyheigue, County Kerry; the pin was near Tralee. Birth year only approximate.",
+      "source": "https://www.wikidata.org/wiki/Q364975; https://en.wikipedia.org/wiki/Richard_Cantillon; https://www.wikidata.org/wiki/Q2370886"
+    },
+    "q318372": {
+      "lat": 51.9642,
+      "lon": -0.5875,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born at Milton Bryan, Bedfordshire, not in Bedford where the pin was.",
+      "source": "https://www.wikidata.org/wiki/Q318372; https://en.wikipedia.org/wiki/Joseph_Paxton; https://www.wikidata.org/wiki/Q1521738"
+    },
+    "q148400": {
+      "lat": 32.4388,
+      "lon": 119.5627,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Yangzhou (Jiangdu); the pin was the middle of Anhui province.",
+      "source": "https://www.wikidata.org/wiki/Q148400; https://en.wikipedia.org/wiki/Pan_Yuliang; https://www.wikidata.org/wiki/Q1334036"
+    },
+    "q113417": {
+      "lat": 39.2333,
+      "lon": 25.9803,
+      "placeNote": "Usually said to come from Antissa on Lesbos, where the pin is; some ancient writers say Cyme or Arne.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Terpander of Antissa (Lesbos); the pin was Arne in Boeotia, one of the minor ancient claims.",
+      "source": "https://www.wikidata.org/wiki/Q113417; https://en.wikipedia.org/wiki/Terpander; https://www.wikidata.org/wiki/Q583490"
+    },
+    "q232793": {
+      "lat": 46.9925,
+      "lon": 3.1567,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Nevers; the pin was Paris.",
+      "source": "https://www.wikidata.org/wiki/Q232793; https://en.wikipedia.org/wiki/Marie_Louise_Gonzaga; https://www.wikidata.org/wiki/Q166997"
+    },
+    "q379571": {
+      "lat": 50.6833,
+      "lon": 17.3667,
+      "startYear": 1687,
+      "placeNote": "Probably born in Grottkau (Grodków), where the pin is; he may have been born in Breslau (Wrocław).",
+      "dateNote": "Born 12 October 1687 (older books say 1686).",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Probably born in Grottkau (Grodków), not Breslau; born 1687, not 1686.",
+      "source": "https://www.wikidata.org/wiki/Q379571; https://en.wikipedia.org/wiki/Silvius_Leopold_Weiss; https://www.wikidata.org/wiki/Q941844"
+    },
+    "q558802": {
+      "lat": -0.2792,
+      "lon": 73.4083,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born on Fuvahmulah; the pin was Malé, about 495 km away.",
+      "source": "https://www.wikidata.org/wiki/Q558802; https://en.wikipedia.org/wiki/Ibrahim_Nasir; https://www.wikidata.org/wiki/Q2060910"
+    },
+    "q4924": {
+      "startYear": 1216,
+      "dateNote": "Born 25 January 1216 or 1217; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born January 1216/1217, not 1212.",
+      "source": "https://www.wikidata.org/wiki/Q4924; https://en.wikipedia.org/wiki/Isabella,_Queen_of_Armenia"
+    },
+    "q332049": {
+      "startYear": 1515,
+      "dateNote": "Born about 1515 (some say 1500); died 1544.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born about 1515, not 1500.",
+      "source": "https://www.wikidata.org/wiki/Q332049; https://en.wikipedia.org/wiki/Manco_Inca_Yupanqui"
+    },
+    "q463723": {
+      "startYear": 1829,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 9 June 1829, not 1828.",
+      "source": "https://www.wikidata.org/wiki/Q463723; https://en.wikipedia.org/wiki/Nikolai_Fyodorov_(philosopher)"
+    },
+    "q242834": {
+      "startYear": 1904,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 20 December 1904, not 1903.",
+      "source": "https://www.wikidata.org/wiki/Q242834; https://en.wikipedia.org/wiki/Yevgenia_Ginzburg"
+    },
+    "q741700": {
+      "startYear": 1861,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 15 September 1861, not 1860.",
+      "source": "https://www.wikidata.org/wiki/Q741700; https://en.wikipedia.org/wiki/M._Visvesvaraya"
+    },
+    "q309482": {
+      "endYear": 1977,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died 23 August 1977, not 1973.",
+      "source": "https://www.wikidata.org/wiki/Q309482; https://en.wikipedia.org/wiki/Naum_Gabo"
+    },
+    "q434834": {
+      "startYear": 1392,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 1392, not 1388.",
+      "source": "https://www.wikidata.org/wiki/Q434834; https://en.wikipedia.org/wiki/Flavio_Biondo"
+    },
+    "q529146": {
+      "endYear": 1799,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died 15 August 1799, not 1779.",
+      "source": "https://www.wikidata.org/wiki/Q529146; https://en.wikipedia.org/wiki/Giuseppe_Parini"
+    },
+    "q360466": {
+      "endYear": 1878,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died 1 February 1878, not 1873.",
+      "source": "https://www.wikidata.org/wiki/Q360466; https://en.wikipedia.org/wiki/George_Cruikshank"
+    },
+    "q5260": {
+      "startYear": 1113,
+      "endYear": 1148,
+      "dateNote": "Born about 1113; died about 1147 to 1148, on the Second Crusade. Both years are approximate.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Birth shown as 1000, a century value read as a year; he was born about 1113 and died about 1148.",
+      "source": "https://www.wikidata.org/wiki/Q5260; https://en.wikipedia.org/wiki/Jaufre_Rudel"
+    },
+    "q441072": {
+      "startYear": 1785,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 3 May 1785, not 1784.",
+      "source": "https://www.wikidata.org/wiki/Q441072; https://en.wikipedia.org/wiki/Vicente_L%C3%B3pez_y_Planes"
+    },
+    "q332435": {
+      "startYear": 1552,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 1 February 1552, not 1549.",
+      "source": "https://www.wikidata.org/wiki/Q332435; https://en.wikipedia.org/wiki/Edward_Coke"
+    },
+    "q464300": {
+      "startYear": 1849,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 19 April 1849, not 1847.",
+      "source": "https://www.wikidata.org/wiki/Q464300; https://en.wikipedia.org/wiki/Eva_Gonzal%C3%A8s"
+    },
+    "q716051": {
+      "startYear": 1894,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 4 December 1894, not 1893.",
+      "source": "https://www.wikidata.org/wiki/Q716051; https://en.wikipedia.org/wiki/T._V._Soong; https://www.britannica.com/biography/T-V-Soong"
+    },
+    "q55426": {
+      "startYear": 1939,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 14 March 1939, not 1938.",
+      "source": "https://www.wikidata.org/wiki/Q55426; https://en.wikipedia.org/wiki/Glauber_Rocha"
+    },
+    "q1379164": {
+      "startYear": 1526,
+      "endYear": 1585,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 1526 and died 1585; the death year 1580 is a decade value read as a year.",
+      "source": "https://www.wikidata.org/wiki/Q1379164; https://en.wikipedia.org/wiki/Taqi_ad-Din_Muhammad_ibn_Ma'ruf"
+    },
+    "q595486": {
+      "startYear": 1703,
+      "dateNote": "Born about 1703; died about 1759.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born about 1703, not 1700 (a rounded value).",
+      "source": "https://www.wikidata.org/wiki/Q595486; https://en.wikipedia.org/wiki/Anton_Wilhelm_Amo"
+    },
+    "q459343": {
+      "startYear": 1892,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 29 October 1892, not 1891.",
+      "source": "https://www.wikidata.org/wiki/Q459343; https://en.wikipedia.org/wiki/Lola_Anglada; https://www.enciclopedia.cat/gran-enciclopedia-catalana/lola-anglada"
+    },
+    "q20297": {
+      "startYear": 1890,
+      "dateNote": "Born 13 August 1890 or 1891; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 13 August 1890 (or 1891), not 1889.",
+      "source": "https://www.wikidata.org/wiki/Q20297; https://en.wikipedia.org/wiki/Li_Zongren; https://www.berkshirepublishing.com/ecph-china/2018/01/08/li-zongren-1891-1969/"
+    },
+    "q452299": {
+      "startYear": 1900,
+      "dateNote": "Born in 1900 or 1901; the exact year is not known.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 1900 or 1901, not 1899.",
+      "source": "https://www.wikidata.org/wiki/Q452299; https://en.wikipedia.org/wiki/Amadou_Hamp%C3%A2t%C3%A9_B%C3%A2; https://www.seneplus.com/node/174622"
+    },
+    "q714739": {
+      "startYear": 1902,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 13 December 1902, not 1903.",
+      "source": "https://www.wikidata.org/wiki/Q714739; https://en.wikipedia.org/wiki/Yevgeny_Petrov_(writer)"
+    },
+    "q671601": {
+      "startYear": 1901,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 4 March 1901, not 1903 (he gave the later year himself).",
+      "source": "https://www.wikidata.org/wiki/Q671601; https://en.wikipedia.org/wiki/Jean-Joseph_Rabearivelo"
+    },
+    "q368219": {
+      "endYear": -43,
+      "dateNote": "Born about 120 BC; the year shown is only a placeholder. He died in 43 BC.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Death year 43 BC was missing; birth shown as 200 BC, a century value.",
+      "source": "https://www.wikidata.org/wiki/Q368219; https://en.wikipedia.org/wiki/Gaius_Verres"
+    },
+    "q856223": {
+      "startYear": 790,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 790, not 805 (he died at 26, in 816).",
+      "source": "https://www.wikidata.org/wiki/Q856223; https://en.wikipedia.org/wiki/Li_He"
+    },
+    "q1584707": {
+      "endYear": 1564,
+      "dateNote": "Died about 1562 to 1564, after his fall from power in 1541; sources differ on the year.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died about 1564, not 1553.",
+      "source": "https://www.wikidata.org/wiki/Q1584707; https://en.wikipedia.org/wiki/L%C3%BCtfi_Pasha"
+    },
+    "q458650": {
+      "startYear": 1608,
+      "endYear": 1697,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 6 February 1608 and died 18 July 1697, not 1607 and 1696.",
+      "source": "https://www.wikidata.org/wiki/Q458650; https://en.wikipedia.org/wiki/Ant%C3%B3nio_Vieira"
+    },
+    "q26648": {
+      "endYear": 1487,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died 26 June 1487; 1480 is a decade value read as a year.",
+      "source": "https://www.wikidata.org/wiki/Q26648; https://en.wikipedia.org/wiki/John_Argyropoulos"
+    },
+    "q247005": {
+      "startYear": 1602,
+      "dateNote": "Born about 1602; died 1670.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born about 1602; 1600 is a decade value read as a year.",
+      "source": "https://www.wikidata.org/wiki/Q247005; https://en.wikipedia.org/wiki/Salomon_van_Ruysdael"
+    },
+    "q177059": {
+      "startYear": 1686,
+      "endYear": 1769,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 19 January 1686 and died 18 January 1769 (Japanese calendar years end in our January).",
+      "source": "https://www.wikidata.org/wiki/Q177059; https://en.wikipedia.org/wiki/Hakuin_Ekaku"
+    },
+    "q472232": {
+      "startYear": 1757,
+      "placeNote": "Born at Bughtridge, Roxburghshire, a farm whose exact place is not known; the pin is in Roxburghshire.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 20 September 1757, not 1755. The pin is the county, the farm cannot be placed.",
+      "source": "https://www.wikidata.org/wiki/Q472232; https://en.wikipedia.org/wiki/Robert_Kerr_(writer)"
+    },
+    "q562402": {
+      "endYear": 1911,
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Died 20 December 1911, not 1910.",
+      "source": "https://www.wikidata.org/wiki/Q562402; https://en.wikipedia.org/wiki/Joan_Maragall"
+    },
+    "q199991": {
+      "dateNote": "Born about 1130 to 1135; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1130-1135.",
+      "source": "https://www.wikidata.org/wiki/Q199991; https://en.wikipedia.org/wiki/Joachim_of_Fiore"
+    },
+    "q683485": {
+      "placeNote": "Born in Moscow (the official account) or in Kovno (Kaunas), where the pin is; sources differ.",
+      "dateNote": "Born 17 February 1906 (the official date), 1901 or 1907; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth 1901, 1906 or 1907; Moscow or Kaunas.",
+      "source": "https://www.wikidata.org/wiki/Q683485; https://en.wikipedia.org/wiki/Agniya_Barto; https://moskvichmag.ru/?p=478891"
+    },
+    "q354431": {
+      "dateNote": "Born 117; died after 181 (185 or 189 are given); the year is not known.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Death year not known (after 181).",
+      "source": "https://www.wikidata.org/wiki/Q354431; https://en.wikipedia.org/wiki/Aelius_Aristides"
+    },
+    "q333770": {
+      "placeNote": "Where in Gaul he was born is not known; the pin is the middle of Gaul.",
+      "dateNote": "He was killed in 271; his birth year is not known, so the year shown (300) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death; region pin.",
+      "source": "https://www.wikidata.org/wiki/Q333770; https://en.wikipedia.org/wiki/Victorinus"
+    },
+    "q468288": {
+      "dateNote": "Born in 866 or 872; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 866 or 872.",
+      "source": "https://www.wikidata.org/wiki/Q468288; https://en.wikipedia.org/wiki/Ki_no_Tsurayuki"
+    },
+    "q293640": {
+      "dateNote": "Born in 904 or 908; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 904 or 908.",
+      "source": "https://www.wikidata.org/wiki/Q293640; https://en.wikipedia.org/wiki/Al-Mustakfi"
+    },
+    "q356568": {
+      "placeNote": "Born probably near Valencia, where the pin is; some say Villanueva de Jiloca in Aragon.",
+      "dateNote": "Born about 1240 (some say 1258); died 1311 or 1313.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace and birth year disputed.",
+      "source": "https://www.wikidata.org/wiki/Q356568; https://en.wikipedia.org/wiki/Arnaldus_de_Villa_Nova"
+    },
+    "q1777502": {
+      "dateNote": "His life is almost unknown; some scholars doubt he existed. Born about 1290 to 1296; died about 1365 to 1372.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Dates unknown (c. 1296-1372); existence doubted.",
+      "source": "https://www.wikidata.org/wiki/Q1777502; https://en.wikipedia.org/wiki/Shi_Nai'an"
+    },
+    "q504949": {
+      "dateNote": "Born about 1520 to 1525; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1520-1525.",
+      "source": "https://www.wikidata.org/wiki/Q504949; https://en.wikipedia.org/wiki/Giovanni_Battista_Moroni"
+    },
+    "q467976": {
+      "placeNote": "Born in Montevideo, where the pin is, or in the Durazno area; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace Montevideo or Durazno.",
+      "source": "https://www.wikidata.org/wiki/Q467976; https://en.wikipedia.org/wiki/Fructuoso_Rivera"
+    },
+    "q84335": {
+      "dateNote": "When he died is not known; he is thought to have died in Damascus in 2001 or about 2010.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Death 2001 or c. 2010.",
+      "source": "https://www.wikidata.org/wiki/Q84335; https://en.wikipedia.org/wiki/Alois_Brunner"
+    },
+    "q367422": {
+      "dateNote": "He wrote in the 330s and 340s; his birth and death years are not known.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Only active years known (4th century).",
+      "source": "https://www.wikidata.org/wiki/Q367422; https://en.wikipedia.org/wiki/Julius_Firmicus_Maternus"
+    },
+    "q323363": {
+      "dateNote": "He died about 570; his birth year is not known, so the year shown (600) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q323363; https://en.wikipedia.org/wiki/Abraha"
+    },
+    "q438601": {
+      "placeNote": "Wikidata gives only the Arabian Peninsula; the town is not sourced. The pin is the middle of Arabia.",
+      "dateNote": "He died in 791; his birth year (745) is not sourced.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin; Wikidata birth date is garbage (2013).",
+      "source": "https://www.wikidata.org/wiki/Q438601; https://en.wikipedia.org/wiki/Idris_I_of_Morocco"
+    },
+    "q314454": {
+      "placeNote": "The saga says he was born at Borg in western Iceland; the pin is the middle of Iceland.",
+      "dateNote": "Born about 910; died about 983 to 990. His life is known from a saga written long after.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Saga figure; country pin; death 983 or 990.",
+      "source": "https://www.wikidata.org/wiki/Q314454; https://en.wikipedia.org/wiki/Egill_Skallagr%C3%ADmsson"
+    },
+    "q175772": {
+      "dateNote": "Born about 1190 or 1217; died about 1255. His life is known mostly from oral epic.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1190 or 1217; semi-legendary.",
+      "source": "https://www.wikidata.org/wiki/Q175772; https://en.wikipedia.org/wiki/Sundiata_Keita"
+    },
+    "q348340": {
+      "dateNote": "Born about 1474 to 1484; died in late 1557.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1474-1484.",
+      "source": "https://www.wikidata.org/wiki/Q348340; https://en.wikipedia.org/wiki/Sebastian_Cabot_(explorer)"
+    },
+    "q2428749": {
+      "placeNote": "Born in Milan, where the pin is, or in Trento (her father came from there); sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Milan or Trento.",
+      "source": "https://www.wikidata.org/wiki/Q2428749; https://en.wikipedia.org/wiki/Fede_Galizia"
+    },
+    "q380897": {
+      "placeNote": "Born in Venice, where the pin is, or in Naples; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Venice or Naples.",
+      "source": "https://www.wikidata.org/wiki/Q380897; https://en.wikipedia.org/wiki/Jacopo_Amigoni"
+    },
+    "q328732": {
+      "placeNote": "Probably born at Armant (Iuny), but Wikidata gives only Egypt; the pin is the middle of Egypt.",
+      "dateNote": "Born about 1500 BC or earlier; the year shown is a placeholder. He died about 1463 BC.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Country pin; century value as birth year.",
+      "source": "https://www.wikidata.org/wiki/Q328732; https://en.wikipedia.org/wiki/Senenmut"
+    },
+    "q256241": {
+      "placeNote": "Ancient sources place her on Telos (Tilos), Rhodes, Lesbos or Tenos; the pin is Rhodes.",
+      "dateNote": "She lived in the 4th century BC; the year shown is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Four ancient birthplaces; century value.",
+      "source": "https://www.wikidata.org/wiki/Q256241; https://en.wikipedia.org/wiki/Erinna"
+    },
+    "q349916": {
+      "dateNote": "He wrote about AD 125 to 134; his birth year is not known, so the year shown (150) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q349916; https://en.wikipedia.org/wiki/Aristides_of_Athens"
+    },
+    "q538902": {
+      "placeNote": "Born in Tus, Balkh or Samarkand; sources differ. The pin is in Khorasan.",
+      "dateNote": "He died about 977; his birth year is not known, so the year shown (1000) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace unknown; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q538902; https://en.wikipedia.org/wiki/Daqiqi"
+    },
+    "q53446": {
+      "dateNote": "Born between 1191 and 1196; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth 1191-1196.",
+      "source": "https://www.wikidata.org/wiki/Q53446; https://en.wikipedia.org/wiki/Henry_II_the_Pious"
+    },
+    "q442491": {
+      "dateNote": "Born about 1475 to 1485; died 1524.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1475-1485.",
+      "source": "https://www.wikidata.org/wiki/Q442491; https://en.wikipedia.org/wiki/Joachim_Patinir"
+    },
+    "q365201": {
+      "dateNote": "Born between 1790 and 1795; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth 1790-1795.",
+      "source": "https://www.wikidata.org/wiki/Q365201; https://en.wikipedia.org/wiki/Konstantinos_Kanaris"
+    },
+    "q40427": {
+      "placeNote": "Wikidata gives only the Emirate of Afghanistan; the pin is at Kabul, its capital.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Country-level birthplace.",
+      "source": "https://www.wikidata.org/wiki/Q40427; https://en.wikipedia.org/wiki/Sher_Ali_Khan"
+    },
+    "q334081": {
+      "dateNote": "His birth year is not known (132 to 139 are given); he died in 192.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth 132-139.",
+      "source": "https://www.wikidata.org/wiki/Q334081; https://en.wikipedia.org/wiki/Dong_Zhuo"
+    },
+    "q644057": {
+      "dateNote": "He died about 445 to 450; his birth year is not known, so the year shown (500) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q644057; https://en.wikipedia.org/wiki/Vincent_of_L%C3%A9rins"
+    },
+    "q552696": {
+      "dateNote": "Born about 875 to 888; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 875-888.",
+      "source": "https://www.wikidata.org/wiki/Q552696; https://en.wikipedia.org/wiki/Vratislaus_I_of_Bohemia"
+    },
+    "q284779": {
+      "dateNote": "Born in 929 or 932; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 929 or 932.",
+      "source": "https://www.wikidata.org/wiki/Q284779; https://en.wikipedia.org/wiki/Al-Ta'i'"
+    },
+    "q355013": {
+      "dateNote": "Born about 1002 to 1005; the year shown is rounded.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1002-1005.",
+      "source": "https://www.wikidata.org/wiki/Q355013; https://en.wikipedia.org/wiki/Bretislav_I"
+    },
+    "q158181": {
+      "dateNote": "Born in 1351 or 1354; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1351 or 1354.",
+      "source": "https://www.wikidata.org/wiki/Q158181; https://en.wikipedia.org/wiki/Jobst_of_Moravia"
+    },
+    "q380726": {
+      "placeNote": "Born in Kashan or in Mashhad, where the pin is; sources differ.",
+      "dateNote": "Born about 1565 to 1570.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Kashan or Mashhad, 785 km apart.",
+      "source": "https://www.wikidata.org/wiki/Q380726; https://en.wikipedia.org/wiki/Reza_Abbasi"
+    },
+    "q365334": {
+      "placeNote": "Wikidata gives only the Lavalleja Department; the pin is at Minas, its capital.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Department-level birthplace.",
+      "source": "https://www.wikidata.org/wiki/Q365334; https://en.wikipedia.org/wiki/Gregorio_Conrado_%C3%81lvarez"
+    },
+    "q343607": {
+      "placeNote": "Born in Athens or Miletus, where the pin is; ancient sources differ.",
+      "dateNote": "He lived in the 5th century BC; the year shown is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Athens or Miletus; century value.",
+      "source": "https://www.wikidata.org/wiki/Q343607; https://en.wikipedia.org/wiki/Archelaus_(philosopher)"
+    },
+    "q316825": {
+      "dateNote": "Born about 95 to 99 BC; died 46 BC.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 95-99 BC.",
+      "source": "https://www.wikidata.org/wiki/Q316825; https://en.wikipedia.org/wiki/Quintus_Caecilius_Metellus_Pius_Scipio"
+    },
+    "q239015": {
+      "placeNote": "Said to come from Bithynia; the town is not known. The pin is the middle of Bithynia.",
+      "dateNote": "She died in 268; her birth year is not known, so the year shown (300) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin; shown born after her death.",
+      "source": "https://www.wikidata.org/wiki/Q239015; https://en.wikipedia.org/wiki/Cornelia_Salonina"
+    },
+    "q269445": {
+      "dateNote": "Born 1527 or 1528; she died after 1565, the year is not known.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Death year unknown.",
+      "source": "https://www.wikidata.org/wiki/Q269445; https://en.wikipedia.org/wiki/Catharina_van_Hemessen"
+    },
+    "q510879": {
+      "dateNote": "Born between 1194 and 1199; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth 1194-1199.",
+      "source": "https://www.wikidata.org/wiki/Q510879; https://en.wikipedia.org/wiki/Muhammad_I_of_Granada"
+    },
+    "q7034181": {
+      "dateNote": "Born in 1856 or 1862; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1856 or 1862.",
+      "source": "https://www.wikidata.org/wiki/Q7034181; https://en.wikipedia.org/wiki/Nig%C3%A2r_Han%C4%B1m"
+    },
+    "q365417": {
+      "placeNote": "Born in Dogondoutchi, where the pin is, or in Maradi; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Dogondoutchi or Maradi.",
+      "source": "https://www.wikidata.org/wiki/Q365417; https://en.wikipedia.org/wiki/Ibrahim_Bar%C3%A9_Ma%C3%AFnassara; https://www.britannica.com/biography/Ibrahim-Bare-Mainassara"
+    },
+    "q1190757": {
+      "placeNote": "Probably from Kanchipuram; Wikidata gives only South India. The pin is in South India.",
+      "dateNote": "He lived about the 7th century; the year shown is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin; century value.",
+      "source": "https://www.wikidata.org/wiki/Q1190757; https://en.wikipedia.org/wiki/Da%E1%B9%87%E1%B8%8Din"
+    },
+    "q563574": {
+      "dateNote": "He died after 1050 (about 1061); his birth year is not known, so the year shown (1100) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q563574; https://en.wikipedia.org/wiki/Gardizi"
+    },
+    "q457968": {
+      "dateNote": "Born about 1175 to 1185; died 1245.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1175-1185.",
+      "source": "https://www.wikidata.org/wiki/Q457968; https://en.wikipedia.org/wiki/Alexander_of_Hales"
+    },
+    "q5269": {
+      "dateNote": "Died about 1205 to 1215; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Death c. 1205-1215.",
+      "source": "https://www.wikidata.org/wiki/Q5269; https://en.wikipedia.org/wiki/Peire_Vidal"
+    },
+    "q362016": {
+      "placeNote": "Born in Siena, where the pin is, or in Cortona; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Siena or Cortona.",
+      "source": "https://www.wikidata.org/wiki/Q362016; https://en.wikipedia.org/wiki/Sassetta"
+    },
+    "q470208": {
+      "dateNote": "Died in 1554 or 1557; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Died 1554 or 1557.",
+      "source": "https://www.wikidata.org/wiki/Q470208; https://en.wikipedia.org/wiki/S%C3%B6yembik%C3%A4_of_Kazan"
+    },
+    "q3595821": {
+      "placeNote": "Born in Madras (Chennai) or in Kerala; sources differ. The pin is at Palakkad, Kerala.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Madras or Kerala.",
+      "source": "https://www.wikidata.org/wiki/Q3595821; https://en.wikipedia.org/wiki/Mrinalini_Sarabhai"
+    },
+    "q318021": {
+      "dateNote": "He died in 266 BC; his birth year is not known, so the year shown (400 BC) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year.",
+      "source": "https://www.wikidata.org/wiki/Q318021; https://en.wikipedia.org/wiki/Mithridates_I_of_Pontus"
+    },
+    "q367598": {
+      "dateNote": "He was killed in 350; his birth year is not known, so the year shown (400) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year; shown born after his death.",
+      "source": "https://www.wikidata.org/wiki/Q367598; https://en.wikipedia.org/wiki/Nepotianus"
+    },
+    "q561440": {
+      "placeNote": "Where he was born is not known; the pin is the middle of the Mongol Empire.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Country pin.",
+      "source": "https://www.wikidata.org/wiki/Q561440; https://en.wikipedia.org/wiki/Baiju_Noyan"
+    },
+    "q2429461": {
+      "dateNote": "Born about 1352 to 1360; died 1448.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1352-1360.",
+      "source": "https://www.wikidata.org/wiki/Q2429461; https://en.wikipedia.org/wiki/Vidyapati"
+    },
+    "q357782": {
+      "dateNote": "Born about 1465 to 1475; died about 1530.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth c. 1465-1475.",
+      "source": "https://www.wikidata.org/wiki/Q357782; https://en.wikipedia.org/wiki/Luis_Ram%C3%ADrez_de_Lucena"
+    },
+    "q60535": {
+      "dateNote": "Born in 1692 or 1698; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1692 or 1698.",
+      "source": "https://www.wikidata.org/wiki/Q60535; https://en.wikipedia.org/wiki/Joseph_S%C3%BC%C3%9F_Oppenheimer"
+    },
+    "q449239": {
+      "placeNote": "He said he was born in Scott, Mississippi (the pin is Scott County); later research says Jefferson County, Arkansas.",
+      "dateNote": "Born 1893 (his own account) or 1903 (later research).",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: 1893 Mississippi or 1903 Arkansas.",
+      "source": "https://www.wikidata.org/wiki/Q449239; https://en.wikipedia.org/wiki/Big_Bill_Broonzy; https://encyclopediaofarkansas.net/entries/big-bill-broonzy-2489/"
+    },
+    "q1453045": {
+      "placeNote": "Born in Mérida, where the pin is, or in Ticul, Yucatán; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Mérida or Ticul.",
+      "source": "https://www.wikidata.org/wiki/Q1453045; https://en.wikipedia.org/wiki/Armando_Manzanero; https://www.sdpnoticias.com/columnas/eduardo-esquivel-lugar-de-nacimiento-de-armando-manzanero.html"
+    },
+    "q927057": {
+      "dateNote": "Born 10 August 1897 or 1898; sources differ.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1897 or 1898.",
+      "source": "https://www.wikidata.org/wiki/Q927057; https://en.wikipedia.org/wiki/Jack_Haley"
+    },
+    "q553856": {
+      "dateNote": "He died about 270 BC; his birth year is not known, so the year shown (400 BC) is only a placeholder.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Century value read as a year.",
+      "source": "https://www.wikidata.org/wiki/Q553856; https://en.wikipedia.org/wiki/Polemon_of_Athens"
+    },
+    "q503230": {
+      "placeNote": "He came from Judea (Palestine); the town is not known. The pin is in Judea.",
+      "why": "People fact-check batch 4, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin.",
+      "source": "https://www.wikidata.org/wiki/Q503230; https://en.wikipedia.org/wiki/Hegesippus_(chronicler)"
     }
   }
 }
