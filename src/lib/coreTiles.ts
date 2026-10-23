@@ -4,7 +4,7 @@
  * The monolithic public/data/core-index.json holds the whole planet's whole
  * timeline and loads in full at startup. That's fine at a few thousand events
  * but becomes a multi-MB blocking download as the harvest climbs. This module
- * is the alternative path (behind tilingFlag): load only the spatial cells the
+ * is the path the app uses (since 2026-08-14): load only the spatial cells the
  * view covers and the era buckets the timeline window touches, with a tiny
  * always-loaded "headline" tier so the globe is never empty while cells stream.
  *

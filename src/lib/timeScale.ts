@@ -77,10 +77,11 @@ export function yearToYearsBP(year: number): number {
 export function formatTime(yearsBP: number): string {
   const bp = clamp(yearsBP, 0, OLDEST_BP);
 
-  // Deep time: millions of years ago.
-  if (bp >= 1_000_000) {
+  // Deep time: millions of years ago. From 999,500 up, "kya" would round to
+  // "1000 kya", so the switch is made where the rounded label would cross.
+  if (bp >= 999_500) {
     const mya = bp / 1_000_000;
-    return `${mya >= 10 ? Math.round(mya) : mya.toFixed(1)} Mya`;
+    return `${mya >= 9.95 ? Math.round(mya) : mya.toFixed(1)} Mya`; // never "10.0 Mya"
   }
 
   // Prehistory: thousands of years ago.

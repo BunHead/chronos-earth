@@ -3,12 +3,10 @@
 _Status: **SHIPPED behind a flag, 2026-07-17.** The design below is intact; this
 note records what landed and how to switch it on._
 
-## Shipped (behind the `tiles` flag — default OFF / monolithic)
+## Shipped (default since 2026-08-14; the `?tiles` switch was removed 2026-10-23)
 
-The tiled skeleton is live but dormant by default, so the current load path can't
-regress. Turn it on per-load with **`?tiles=1`** in the URL (`?tiles=0` turns it
-back off and clears the sticky bit; the choice persists in `localStorage`
-`chronos.tiling`). See `src/lib/tilingFlag.ts`.
+The app always loads the tiled skeleton now. `core-index.json` is still built,
+but is read only as a fallback if the headline tier is missing.
 
 - **Build side** — `scripts/build-core-index.mjs` still writes the monolithic
   `core-index.json` unchanged, and now ALSO emits `public/data/core-index/`:

@@ -249,3 +249,19 @@ describe('zoomed tick labels are distinct (19 Oct 2026)', () => {
     expect(formatTick(5_000_000, 1_000_000)).toBe('5.0 Mya');
   });
 });
+
+describe('formatTime at the unit boundaries (23 Oct 2026)', () => {
+  it('never reads "1000 kya" or "10.0 Mya"', () => {
+    expect(formatTime(999_600)).toBe('1.0 Mya');
+    expect(formatTime(999_400)).toBe('999 kya');
+    expect(formatTime(9_970_000)).toBe('10 Mya');
+    expect(formatTime(9_940_000)).toBe('9.9 Mya');
+  });
+
+  it('keeps the BCE / CE edge and the present', () => {
+    expect(formatTime(yearToYearsBP(1))).toBe('1 CE');
+    expect(formatTime(yearToYearsBP(0))).toBe('1 BCE');
+    expect(formatTime(0)).toBe(`${PRESENT_YEAR} CE`);
+    expect(formatTime(-50)).toBe(`${PRESENT_YEAR} CE`); // future clamps to now
+  });
+});
