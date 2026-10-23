@@ -106,7 +106,7 @@ describe('lite mode switches the heavy paths off', () => {
 describe('heavy scans fall back to the small build', () => {
   const manifest = {
     sphinx: { footprint: 1.899, kb: 509 },
-    'sphinx-lite': { footprint: 13.95, kb: 39 },
+    'sphinx-lite': { footprint: 1.899, kb: 177 },
     eiffel: { footprint: 20, kb: 526 },
     giza: { footprint: 45, kb: 52 },
   };
