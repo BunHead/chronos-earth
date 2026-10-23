@@ -139,7 +139,7 @@ export function loadCountryIndex(baseUrl: string): Promise<CountryIndex | null> 
  * other", not a claim of legal continuity. Persia sits with Iran, not with
  * every empire that ever ruled from Persepolis.
  */
-export const RELATED_NAMES: string[][] = [
+const RELATED_NAMES: string[][] = [
   ['Netherlands', 'Holland', 'Dutch Republic'],
   ['Iran', 'Persia'],
   ['Myanmar', 'Burma'],

@@ -1,5 +1,5 @@
 /** The Palace of Westminster's through-time model is a representation, and says so. */
-export const WESTMINSTER_NOTE =
+const WESTMINSTER_NOTE =
   '3D Palace of Westminster: a representation based on best known evidence (Survey of London; ' +
   'UK Parliament; plans made before and after the 1834 fire). Through time: 1097 William II builds ' +
   'Westminster Hall, the medieval palace grows round it · 1393 Richard II\u2019s hammerbeam roof · ' +

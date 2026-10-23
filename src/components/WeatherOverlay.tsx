@@ -24,6 +24,14 @@ interface Drop {
   len: number; // streak length (rain/fire) or flake radius (snow)
 }
 
+/**
+ * True when a frame has nothing to change: no drops, no lightning flash
+ * still fading, and the canvas already blank. Then the draw is skipped.
+ */
+export function canSkipFrame(dropCount: number, now: number, flashUntil: number, blank: boolean): boolean {
+  return dropCount === 0 && now >= flashUntil && blank;
+}
+
 export default function WeatherOverlay({ temperature, cloud, active, reduceMotion }: WeatherOverlayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef({ temperature, cloud });
@@ -41,10 +49,12 @@ export default function WeatherOverlay({ temperature, cloud, active, reduceMotio
     let flashUntil = 0;
     let nextFlash = last + 2500 + Math.random() * 5000;
     const drops: Drop[] = [];
+    let blank = false;
 
     const fit = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      blank = true; // resizing a canvas wipes it
     };
     fit();
     window.addEventListener('resize', fit);
@@ -68,7 +78,14 @@ export default function WeatherOverlay({ temperature, cloud, active, reduceMotio
       while (drops.length < want) drops.push(spawn(kind));
       drops.length = Math.min(drops.length, want);
 
+      // Clear sky: nothing to draw, and the canvas is already blank, so skip
+      // the full-screen clear (a real cost on phones at 60 frames a second).
+      if (canSkipFrame(drops.length, now, flashUntil, blank)) {
+        raf = requestAnimationFrame(step);
+        return;
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      blank = drops.length === 0;
       ctx.strokeStyle =
         kind === 'fire' ? 'rgba(255,140,50,0.75)' : 'rgba(190,215,245,0.55)';
       ctx.fillStyle = 'rgba(255,255,255,0.85)';
@@ -102,6 +119,7 @@ export default function WeatherOverlay({ temperature, cloud, active, reduceMotio
         if (now < flashUntil) {
           ctx.fillStyle = `rgba(255,255,255,${0.35 * ((flashUntil - now) / 130)})`;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
+          blank = false;
         }
       }
       raf = requestAnimationFrame(step);

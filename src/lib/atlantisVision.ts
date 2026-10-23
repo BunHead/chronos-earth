@@ -18,9 +18,6 @@
 export const ATLANTIS_SEA_M = 200;
 /** Framing width (m) for the dive onto the city: rings, canal and some sea. */
 export const ATLANTIS_VIEW_M = 5000;
-/** Coast distance from the Richat at today's sea and at +200 m (km). */
-export const RICHAT_COAST_KM = { today: 530, raised: 195 } as const;
-
 /**
  * The sea levels to step through, from `from` to `to` in `steps` even steps
  * (rounded to whole metres, no repeats, ending exactly on `to`). Empty when
