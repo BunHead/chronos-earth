@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { startDrag } from '../lib/windowDrag';
 import { SUB_LAYERS } from '../lib/subLayers';
 import Glyph from './Glyph';
+import { useEscape } from '../lib/escapeStack';
 
 interface LayersPanelProps {
   showSites: boolean;
@@ -107,6 +108,7 @@ export default function LayersPanel({
   const [openSubs, setOpenSubs] = useState<Record<string, boolean>>({});
   // Collapsible, and folded by default for a clean view of the planet.
   const [open, setOpen] = useState(false);
+  useEscape(() => setOpen(false), open);
   // Draggable by its title bar — a real drag swallows the collapse-click.
   const draggedRef = useRef<(() => boolean) | undefined>(undefined);
 

@@ -16,7 +16,7 @@
 const NEAR_KM = 1.5;
 const BOX_DEG = 0.3;
 
-export function foldName(s: string): string {
+function foldName(s: string): string {
   return s
     .toLowerCase()
     .normalize('NFD')

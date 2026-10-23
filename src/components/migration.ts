@@ -51,7 +51,7 @@ const LINK_DEG = 45;
 /** The margin drawn around each find (degrees). */
 const MARGIN_DEG = 4;
 /** The layer closes here (years ago): the spread is told, history takes over. */
-export const MIGRATION_ENDS_YEARS_AGO = 10_000;
+const MIGRATION_ENDS_YEARS_AGO = 10_000;
 const COLOUR = Cesium.Color.fromCssColorString('#f0a33a');
 
 /** 315000 -> "315,000 years ago". */

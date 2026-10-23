@@ -52,7 +52,7 @@ export function isWeakGpu(renderer: string | null | undefined): boolean {
 }
 
 /** Frames per second below which the globe counts as struggling. */
-export const SLOW_FPS = 20;
+const SLOW_FPS = 20;
 export function fpsTooLow(fps: number): boolean {
   return Number.isFinite(fps) && fps > 0 && fps < SLOW_FPS;
 }
@@ -133,8 +133,9 @@ export function globeSettings(lite: boolean): GlobeSettings {
 }
 
 /** A scan heavier than this (KB) is swapped for its small `-lite` build on
- * phones and weak machines — the Sphinx scan is 509 KB, her old model 39 KB. */
-export const HEAVY_MODEL_KB = 300;
+ * phones and weak machines — the Sphinx scan is 509 KB; its -lite build (177 KB) is the SAME scan,
+ * simplified to ~10k triangles with a 512px colour map — not the old blocky model. */
+const HEAVY_MODEL_KB = 300;
 export function lightModelName(
   model: string,
   manifest: Record<string, { footprint: number; kb?: number }>,
@@ -181,7 +182,7 @@ export function setLitePref(p: LitePref): void {
 
 /** Read once — probing the renderer creates a WebGL context. */
 let cachedSignals: DeviceSignals | null = null;
-export function readSignals(): DeviceSignals {
+function readSignals(): DeviceSignals {
   if (cachedSignals) return cachedSignals;
   if (typeof window === 'undefined' || typeof navigator === 'undefined') return {};
   let coarse = false;
@@ -236,10 +237,4 @@ export function markSlowDevice(): void {
     window.localStorage.setItem(SLOW_KEY, String(Date.now()));
   } catch { /* no storage */ }
   if (cachedReasons && !cachedReasons.includes('slow-fps')) cachedReasons = [...cachedReasons, 'slow-fps'];
-}
-
-/** For tests. */
-export function _resetLiteCache(): void {
-  cachedReasons = null;
-  cachedSignals = null;
 }

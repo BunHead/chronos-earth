@@ -61,7 +61,7 @@ import { holdContinuousRender, requestFrame } from '../lib/renderLease';
 const DEG = Math.PI / 180;
 
 /** How long a play-through takes, wall-clock. The real thing takes ~5 hours. */
-export const PLAY_SECONDS = 30;
+const PLAY_SECONDS = 30;
 /** Animation step. 20 fps is plenty for a shadow — it is a soft-edged blob. */
 const FRAME_MS = 50;
 
