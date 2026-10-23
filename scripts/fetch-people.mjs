@@ -65,7 +65,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings, wdqsYear } from './lib/wdqs-json.mjs';
+import { wdqsBindings } from './lib/wdqs-json.mjs';
+import { AREA_CLASSES, FICTIONAL_CLASSES, areaPlaceNote, personYears } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -150,14 +151,21 @@ function buildQuery(qids, humans, band = null) {
   // about who matters: Maradona and Bolívar come through, the current Peru
   // squad does not. It costs us living figures of real weight, which is the
   // price. To take them back, delete this line.
-  const dead = humans ? '?item wdt:P570 ?dod .' : '';
+  const dead = humans
+    ? '?item wdt:P570 ?dod . OPTIONAL { ?item p:P570/psv:P570 [ wikibase:timeValue ?dod ; wikibase:timePrecision ?dodPrec ] }'
+    : '';
+  const wd = (qs) => qs.map((q) => `wd:${q}`).join(' ');
   // ?dod is SELECTED as well as required. It was required and thrown away:
   // on 26 Sept 2026 only 24 of 17,091 people had a death year, so the globe
   // guessed a lifespan for everyone — Napoleon stood on it into the 1850s.
-  return `SELECT ?item ?itemLabel ?coord ?date ?dod ?sl ?enwiki WHERE {
+  // The three people rules (scripts/lib/people-rules.mjs): no fictional
+  // characters; each date's PRECISION, so "12th century" is not read as 1200;
+  // and whether the birthplace is a whole country or region (?bpArea).
+  return `SELECT ?item ?itemLabel ?coord ?date ?prec ?dod ?dodPrec ?bpLabel ?bpArea ?sl ?enwiki WHERE {
   VALUES ?occ { ${qids.join(' ')} }
   ?item wdt:P106 ?occ .
   ${kind}
+  FILTER NOT EXISTS { VALUES ?fic { ${wd(FICTIONAL_CLASSES)} } ?item wdt:P31 ?fic }
   ${dead}
   ${anchor}
   ?bp wdt:P625 ?coord .
@@ -166,6 +174,9 @@ function buildQuery(qids, humans, band = null) {
   # Wikidata records an unknown date as "somevalue", which arrives as a blank
   # node and would parse to nonsense. Gilgamesh's own date of birth is one.
   FILTER(DATATYPE(?date) = xsd:dateTime)
+  OPTIONAL { ?item p:P569/psv:P569 [ wikibase:timeValue ?date ; wikibase:timePrecision ?prec ] }
+  BIND(IF(EXISTS { VALUES ?area { ${wd(AREA_CLASSES)} } ?bp wdt:P31 ?area },
+          NOT EXISTS { ?bp wdt:P31/wdt:P279* wd:Q486972 }, false) AS ?bpArea)
   OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?enwiki . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 } LIMIT ${LIMIT}`;
@@ -289,8 +300,6 @@ async function fetchComplete(qids, humans) {
   return [...byUri.values()];
 }
 
-/** The shared WDQS year parse (BCE years are corrected afterwards — see wdqsYear). */
-const parseYear = (iso) => wdqsYear(iso);
 const parseCoord = (w) => { const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(w); return m ? { lon: +m[1], lat: +m[2] } : null; };
 
 const json = JSON.parse(await readFile(FILE, 'utf-8'));
@@ -337,6 +346,9 @@ for (const occ of OCCUPATIONS) {
     }
     let a = 0;
     let dupWiki = 0;
+    // A person with two birthplaces, a town and its country, takes the town.
+    const isArea = (r) => r.bpArea?.value === 'true';
+    rows.sort((x, y) => isArea(x) - isArea(y));
     for (const r of rows) {
       const qid = r.item.value.split('/').pop();
       const id = qid.toLowerCase();
@@ -346,18 +358,24 @@ for (const occ of OCCUPATIONS) {
       const wk = wikiKey(r.enwiki?.value ?? null);
       if (wk && haveWiki.has(wk)) { dupWiki++; continue; }
       const c = parseCoord(r.coord.value);
-      const y = parseYear(r.date.value);
-      if (!c || y === null || y < -3000 || y > NOW) continue;
-      // An unknown death date arrives as a blank node and parses to null.
-      const d = r.dod?.type === 'literal' ? parseYear(r.dod.value) : null;
-      const died = d !== null && d >= y && d <= NOW ? d : null;
+      // An unknown death date arrives as a blank node and is left out.
+      const years = personYears(
+        r.date.value, r.prec?.value,
+        r.dod?.type === 'literal' ? r.dod.value : null, r.dodPrec?.value,
+        NOW,
+      );
+      if (!c || !years || years.startYear < -3000 || years.startYear > NOW) continue;
+      const area = humans && isArea(r) && r.bpLabel?.value && !/^Q\d+$/.test(r.bpLabel.value);
       json.events.push({
-        id, name, startYear: y, ...(died !== null ? { endYear: died } : {}),
+        id, name, startYear: years.startYear, ...(years.endYear !== undefined ? { endYear: years.endYear } : {}),
         lat: +c.lat.toFixed(4), lon: +c.lon.toFixed(4),
         category: 'person', wikidataId: qid,
         ...(r.enwiki?.value ? { wikiTitle: r.enwiki.value } : {}),
         notability: +r.sl.value,
-        ...(humans ? {} : { attestation: 'traditional', dateNote: TRADITIONAL_NOTE }),
+        ...(humans
+          ? years.dateNote ? { dateNote: years.dateNote } : {}
+          : { attestation: 'traditional', dateNote: years.dateNote ? `${TRADITIONAL_NOTE} ${years.dateNote}` : TRADITIONAL_NOTE }),
+        ...(area ? { placeNote: areaPlaceNote(r.bpLabel.value) } : {}),
       });
       have.add(id);
       if (wk) haveWiki.add(wk);
