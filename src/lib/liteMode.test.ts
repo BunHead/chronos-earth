@@ -132,7 +132,8 @@ describe('heavy scans fall back to the small build', () => {
       expect(lightModelName(m, real, true)).toBe(`${m}-lite`);
       expect(lightModelName(m, real, false)).toBe(m);
       expect(real[`${m}-lite`].kb).toBeLessThan(real[m].kb);
-      expect(real[m].kb).toBeLessThan(1024);
+      expect(real[m].kb).toBeLessThan(4096); // desktop detail build (Göbekli ~3.8 MB)
+      expect(real[`${m}-lite`].kb).toBeLessThan(300); // phones
     }
   });
 
