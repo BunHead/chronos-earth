@@ -467,6 +467,130 @@ export const FOSSIL_SITES = [
     'Wikidata pins the island; the bones came from near Santa Marta Cove.'),
   'Where the first dinosaur bones in Antarctica were found.',
   'https://en.wikipedia.org/wiki/Antarctopelta'),
+  // Batch 3 (24 Oct 2026): more of the thin regions. Each at its Wikidata P625.
+  cited(site('koro-toro', 'Koro Toro: "Abel" found', 1995, 16.065, 18.500833333, 'Q1010626', 'Abel (hominid)',
+    'In January 1995 Michel Brunet\'s French–Chadian team found a jawbone in the Djurab desert of Chad. Named ' +
+      'Australopithecus bahrelghazali, it is about 3.5 million years old: the first australopith found west of the Rift Valley.',
+    'Pinned on the town of Koro Toro; the find site, KT 12, is nearby.'),
+  'The first early human relative found in Central Africa, far west of the Rift Valley.',
+  'https://doi.org/10.1038/378273a0'),
+  cited(site('kanapoi', 'Kanapoi: Australopithecus anamensis', 1965, 2.316667, 36.066667, 'Q24236261', 'Kanapoi',
+    'In 1965 a Harvard team led by Bryan Patterson found an arm bone here, west of Lake Turkana in Kenya. In 1994 Meave ' +
+      'Leakey\'s team found more, and named Australopithecus anamensis. It is about 4.2 million years old.'),
+  'Home of Australopithecus anamensis, one of the oldest known australopiths.',
+  'https://en.wikipedia.org/wiki/Australopithecus_anamensis'),
+  cited(site('border-cave', 'Border Cave: early modern humans', 1940, -27.025833, 31.988889, 'Q2910728', 'Border Cave',
+    'In 1940 W. E. Horton, digging bat guano, found part of a human skull in this rock shelter on the South Africa–Eswatini ' +
+      'border. Cooke\'s team dug more in 1941–42, including a baby\'s grave. People used the cave for over 0.2 million years.'),
+  'A rock shelter on the Eswatini border with early modern human bones and a baby\'s grave.',
+  'https://en.wikipedia.org/wiki/Border_Cave'),
+  cited(site('rooidraai', 'Rooidraai: the oldest dinosaur embryos', 1976, -28.5244, 28.6208, 'Q654851', 'Golden Gate Highlands National Park',
+    'In 1976 James Kitching found a clutch of six eggs by the road at Rooidraai, in what is now Golden Gate Highlands ' +
+      'National Park. In 2005 the embryos inside were shown to be Massospondylus, about 190 million years old (Early Jurassic).',
+    'Pinned at the Wikidata point for the national park.'),
+  'Where the oldest known dinosaur embryos, of Massospondylus, were found in South Africa.',
+  'https://mg.co.za/article/2015-06-22-south-african-dinosaur-eggs-get-ready-to-hatch-their-secrets'),
+  cited(site('kirkwood', 'Kirkwood Formation: Africa\'s first dinosaur', 1845, -33.4, 25.5, 'Q6415891', 'Paranthodon',
+    'In 1845 William Atherstone and Andrew Geddes Bain found bones near Dassieklip in the Bushmans River valley, Eastern ' +
+      'Cape: the first dinosaur found in Africa, later named Paranthodon. The rock is about 139–131 million years old (Early Cretaceous).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Where the first dinosaur in Africa, the plated Paranthodon, was found in 1845.',
+  'https://maropeng.co.za/news/entry/earliest_dinosaur_discoveries_in_south_africa_made_in_1845'),
+  cited(site('rusinga', 'Rusinga Island: the Proconsul skull', 1948, -0.4, 34.166666666, 'Q2356704', 'Rusinga Island',
+    'In October 1948 Mary Leakey found the skull of Proconsul, an early ape, on this island in Lake Victoria, Kenya. ' +
+      'It is about 18 million years old (Early Miocene).'),
+  'Where Mary Leakey found the skull of Proconsul, an early ape, in 1948.',
+  'https://en.wikipedia.org/wiki/Rusinga_Island'),
+  cited(site('saldanha', 'Elandsfontein: the Saldanha skull', 1953, -33.091666666, 18.238888888, 'Q7403777', 'Saldanha man',
+    'In 1953 Keith Jolly and Ronald Singer found pieces of an archaic human skull among the dunes at Elandsfontein, ' +
+      'near Saldanha Bay, South Africa. It is over 0.5 million years old (Middle Pleistocene).'),
+  'An archaic human skull found among the dunes near Saldanha Bay, South Africa.',
+  'https://en.wikipedia.org/wiki/Saldanha_man'),
+  cited(site('melka-kunture', 'Melka Kunture: early human camps', 1963, 8.7025, 38.608333333, 'Q3063392', 'Melka Kunture',
+    'In 1963 the engineer Gérard Dekker found stone tools along the upper Awash River, south of Addis Ababa. Digs since ' +
+      'have found tools and early human bones from about 1.7 million years ago on.'),
+  'A string of early human camps on the upper Awash River in Ethiopia, with tools and bones.',
+  'https://en.wikipedia.org/wiki/Melka_Kunture'),
+  cited(site('tabon', 'Tabon Caves: Tabon Man found', 1962, 9.27988, 117.981, 'Q477329', 'Tabon Caves',
+    'In 1962 Robert Fox\'s team found a human skullcap in these caves on Palawan: "Tabon Man", among the oldest modern ' +
+      'humans in the Philippines. Bones here are up to about 47,000 years old (0.047 million years).'),
+  'The Palawan caves where "Tabon Man", among the oldest humans in the Philippines, was found.',
+  'https://en.wikipedia.org/wiki/Tabon_Man'),
+  cited(site('hathnora', 'Hathnora: the Narmada skull', 1982, 22.866667, 77.883333, 'Q29592830', 'Narmada Human',
+    'In December 1982 Arun Sonakia of the Geological Survey of India found a human skull in the banks of the Narmada ' +
+      'River at Hathnora: the only archaic human skull found in India. Its age is not settled, about 0.5–0.15 million years.'),
+  'Where India\'s only archaic human skull was found, in the banks of the Narmada River.',
+  'https://en.wikipedia.org/wiki/Narmada_Human'),
+  cited(site('kota', 'Kota Formation: Barapasaurus dug up', 1958, 18.9, 80.0, 'Q1785351', 'Barapasaurus',
+    'In 1958 Indian Statistical Institute geologists found giant bones near Pochampally in the Pranhita–Godavari valley; ' +
+      'digs in 1960–61 brought out the long-necked dinosaur Barapasaurus. The rock is about 190 million years old (Early Jurassic).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Where one of the first giant long-necked dinosaurs, Barapasaurus, was dug up in India.',
+  'https://en.wikipedia.org/wiki/Barapasaurus'),
+  cited(site('dera-bugti', 'Dera Bugti: the giant hornless rhino', 1908, 29.030555555, 69.150833333, 'Q2989478', 'Paraceratherium',
+    'In 1907–08 the geologist Guy Pilgrim found jaws and teeth in the Bugti Hills of Balochistan, Pakistan. They were later ' +
+      'named Paraceratherium, one of the largest land mammals ever. The rock is about 30–23 million years old (Oligocene).',
+    'Pinned on the town of Dera Bugti; the fossil beds are in the hills around it.'),
+  'Where the first fossils of Paraceratherium, a giant hornless rhino, were found.',
+  'https://en.wikipedia.org/wiki/Paraceratherium'),
+  cited(site('jinniushan', 'Jinniushan: an archaic human skeleton', 1984, 40.578107, 122.450425, 'Q13473465', 'Jinniushan',
+    'In 1984 a Peking University team led by Lü Zun\'e dug a skull and much of a skeleton out of a collapsed cave near ' +
+      'Yingkou, Liaoning. It is about 0.26 million years old.'),
+  'One of the most complete archaic human skeletons from East Asia.',
+  'https://en.wikipedia.org/wiki/Jinniushan_human'),
+  cited(site('yana', 'Yana: people in the Arctic 32,000 years ago', 2001, 70.723611111, 135.429722222, 'Q18399201', 'Yana Rhinoceros Horn Site',
+    'In 2001 Vladimir Pitulko\'s team found spear shafts of woolly rhino horn and mammoth ivory by the Yana River in Arctic ' +
+      'Siberia. They are about 32,000 years old (0.032 million years).'),
+  'Spear shafts of rhino horn show people lived in the Siberian Arctic 32,000 years ago.',
+  'https://en.wikipedia.org/wiki/Yana_Rhinoceros_Horn_Site'),
+  cited(site('emu-bay', 'Emu Bay Shale: Cambrian sea life', 1952, -35.58333333, 137.5, 'Q94767', 'Emu Bay Shale',
+    'In 1952 Reg Sprigg found fossils near the Emu Bay jetty on Kangaroo Island; Brian Daily found the richer Big Gully ' +
+      'site in 1954. The shale is about 514 million years old (Cambrian) and keeps soft parts, even eyes.'),
+  'Australia\'s own Burgess Shale: Cambrian sea animals, soft parts and eyes included.',
+  'https://en.wikipedia.org/wiki/Emu_Bay_Shale'),
+  cited(site('callabonna', 'Lake Callabonna: a Diprotodon graveyard', 1892, -29.683333333, 140.05, 'Q1800880', 'Lake Callabonna',
+    'In 1892 a stockman, Frederick Ragless, found giant bones in this dry salt lake in South Australia. In 1893 Edward ' +
+      'Stirling and Amandus Zietz dug out whole Diprotodon skeletons. They are Ice Age bones, well under 1 million years old.'),
+  'A dry lake where dozens of Diprotodons were found stuck in the mud where they died.',
+  'https://en.wikipedia.org/wiki/Lake_Callabonna'),
+  cited(site('kow-swamp', 'Kow Swamp burials dug', 1968, -35.9583, 144.296, 'Q1785673', 'Ghow Swamp',
+    'In 1968 Alan Thorne began digging this burial ground in northern Victoria, after bones turned up here in 1962. ' +
+      'By 1972 more than 22 people had been found. They are about 0.02–0.013 million years old (Late Ice Age).'),
+  'An Ice Age burial ground in Victoria whose people had heavy, archaic-looking skulls.',
+  'https://en.wikipedia.org/wiki/Kow_Swamp_Archaeological_Site'),
+  cited(site('cuddie-springs', 'Cuddie Springs: megafauna in a claypan', 1876, -30.7869, 147.478, 'Q5192495', 'Cuddie Springs',
+    'In 1876 the Yeomans family dug a well here in New South Wales and hit giant bones; William B. Clarke sent some to ' +
+      'Richard Owen. They include Diprotodon and the giant bird Genyornis: Ice Age bones, well under 1 million years old.'),
+  'A claypan in New South Wales full of the bones of Australia\'s giant Ice Age animals.',
+  'https://australian.museum/learn/collections/natural-science/australian-archaeology/cuddie-springs-archaeological-site-new-south-wales/'),
+  cited(site('winton', 'Winton: Australia\'s biggest dinosaurs', 1999, -22.476356, 143.184299, 'Q16826292', 'Australian Age of Dinosaurs',
+    'In 1999 David Elliott, mustering sheep on Belmont Station near Winton, found part of a giant sauropod thigh bone. ' +
+      'More finds followed, and in 2002 he set up a museum. The Winton Formation is about 95 million years old (Late Cretaceous).',
+    'Pinned at the Australian Age of Dinosaurs museum, outside Winton.'),
+  'Where a sheep farmer\'s find in 1999 started Australia\'s dinosaur rush.',
+  'https://en.wikipedia.org/wiki/Australian_Age_of_Dinosaurs'),
+  cited(site('mangahouanga', 'Mangahouanga Stream: New Zealand\'s first dinosaur', 1975, -38.922425, 176.817505, 'Q32256170', 'Joan Wiffen',
+    'In 1975 Joan Wiffen, an amateur fossil hunter, found a theropod tail bone in this stream in Hawke\'s Bay: the first ' +
+      'dinosaur from New Zealand. The rock is about 70 million years old (Late Cretaceous).'),
+  'Where Joan Wiffen found the first dinosaur bone in New Zealand.',
+  'https://en.wikipedia.org/wiki/Joan_Wiffen'),
+  cited(site('santa-maria', 'Santa Maria: Staurikosaurus found', 1936, -29.695042, -53.795403, 'Q1546703', 'Santa Maria Formation',
+    'In 1936 Llewellyn Ivor Price collected a skeleton near Santa Maria, Rio Grande do Sul. Named Staurikosaurus in 1970, ' +
+      'it is one of the oldest dinosaurs known. The rock is about 233 million years old (Late Triassic).',
+    'Wikidata pins the formation at the city of Santa Maria.'),
+  'Red rocks in southern Brazil with some of the oldest dinosaurs in the world.',
+  'https://en.wikipedia.org/wiki/Staurikosaurus'),
+  cited(site('pisco', 'Pisco Formation: Livyatan found', 2008, -15.7, -74.5, 'Q19421315', 'Livyatan',
+    'In November 2008 Klaas Post\'s team found the skull of Livyatan, a giant sperm whale with teeth 36 cm long, at Cerro ' +
+      'Colorado in the desert of southern Peru. The rock is about 9 million years old (Late Miocene).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Peru\'s desert of fossil whales, home of the giant sperm whale Livyatan.',
+  'https://en.wikipedia.org/wiki/Livyatan'),
+  cited(site('taima-taima', 'Taima-Taima: a mastodon hunt', 1962, 11.499219, -69.5222052, 'Q3514036', 'Taima-Taima',
+    'In 1962 José Cruxent began digging this spring near Coro, Venezuela. In the pelvis of a young mastodon he found part ' +
+      'of a stone spear point. It is about 13,000 years old (0.013 million years), older than the Clovis people.'),
+  'A Venezuelan spring where a young mastodon was killed with a stone spear about 13,000 years ago.',
+  'https://doi.org/10.1186/s13358-022-00253-3'),
 ];
 
 async function main() {
