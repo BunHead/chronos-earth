@@ -1,1 +1,1 @@
-{"v":1,"id":["q383455"],"name":["Afonso I of Kongo"],"lat":[-6.2667],"lon":[14.25],"year":[1456],"endYear":[1543],"category":["person"],"notability":[25],"wiki":[""],"cell":["-1|1"],"attest":[null],"cap":[null]}
+{"v":1,"id":["q500189","q383455"],"name":["M'banza-Kongo","Afonso I of Kongo"],"lat":[-6.2667,-6.2667],"lon":[14.25,14.25],"year":[1395,1456],"endYear":[null,1543],"category":["city","person"],"notability":[60,25],"wiki":["",""],"cell":["-1|1","-1|1"],"attest":[null,null],"cap":[[[1395,1914]],null]}
