@@ -1,0 +1,1016 @@
+{
+  "_comment": "Battle batch 2026-10d, applied by scripts/add-battles-batch-2026-10d.mjs. Read from Wikidata (WDQS) on 23 Oct 2026: the pin is the item's single P625, the year is its P585 (or P580 if it has no P585) recorded to at least the year (BC years converted from WDQS's astronomical numbering, so -435 means 435 BC), partOf is P361, sides are P710 where Wikidata names two or more, notability is the sitelink count. Wikidata records no result (P1346) for any of these, so none is given; English Wikipedia could not be read from the machine that made this batch. Battles already in open PR #58 (batch 2026-10b) were left out so the two batches do not overlap. Picked for the thin parts of the globe: Africa, the Middle East and Central Asia, South, Southeast and East Asia, the Americas before 1800, Oceania, and ancient and medieval times.",
+  "battles": [
+    {
+      "id": "q15908564",
+      "name": "Battle of Changshao",
+      "startYear": -684,
+      "lat": 36.3739,
+      "lon": 117.721,
+      "category": "battle",
+      "wikidataId": "Q15908564",
+      "wikiTitle": "Battle of Changshao",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q15908564",
+      "dateNote": "684 BC (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q4870298",
+      "name": "Battle of An",
+      "startYear": -589,
+      "lat": 36.7286,
+      "lon": 117.0639,
+      "category": "battle",
+      "wikidataId": "Q4870298",
+      "wikiTitle": "Battle of An",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4870298",
+      "dateNote": "589 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4872539",
+      "name": "Battle of Thermopylae (323 BC)",
+      "startYear": -323,
+      "lat": 38.8053,
+      "lon": 22.5628,
+      "category": "battle",
+      "wikidataId": "Q4872539",
+      "wikiTitle": "Battle of Thermopylae (323 BC)",
+      "notability": 5,
+      "partOf": "Lamian War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872539",
+      "dateNote": "323 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q16330226",
+      "name": "Battle of the Echinades (322 BC)",
+      "startYear": -322,
+      "lat": 38.3036,
+      "lon": 21.1108,
+      "category": "battle",
+      "wikidataId": "Q16330226",
+      "wikiTitle": "Battle of the Echinades (322 BC)",
+      "notability": 5,
+      "partOf": "Lamian War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q16330226",
+      "dateNote": "322 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q61999900",
+      "name": "Battle of Phintias",
+      "startYear": -249,
+      "lat": 37.1083,
+      "lon": 13.9469,
+      "category": "battle",
+      "wikidataId": "Q61999900",
+      "wikiTitle": "Battle of Phintias",
+      "notability": 5,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q61999900",
+      "dateNote": "249 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4871805",
+      "name": "Battle of Mount Lycaeum",
+      "startYear": -227,
+      "lat": 37.4569,
+      "lon": 21.975,
+      "category": "battle",
+      "wikidataId": "Q4871805",
+      "wikiTitle": "Battle of Mount Lycaeum",
+      "notability": 5,
+      "partOf": "Cleomenean War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871805",
+      "dateNote": "227 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q17622605",
+      "name": "Battle of Cumae (215 BC)",
+      "startYear": -215,
+      "lat": 40.8486,
+      "lon": 14.0536,
+      "category": "battle",
+      "wikidataId": "Q17622605",
+      "wikiTitle": "Battle of Cumae (215 BC)",
+      "notability": 5,
+      "partOf": "Second Punic War",
+      "sides": [
+        "Ancient Carthage",
+        "Campanians",
+        "Roman Republic"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q17622605",
+      "dateNote": "215 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q3822486",
+      "name": "Battle of Carteia (naval)",
+      "startYear": -206,
+      "lat": 36.1603,
+      "lon": -5.4151,
+      "category": "battle",
+      "wikidataId": "Q3822486",
+      "wikiTitle": "Battle of Carteia (naval)",
+      "notability": 5,
+      "partOf": "Second Punic War",
+      "sides": [
+        "Ancient Carthage",
+        "Roman Republic"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3822486",
+      "dateNote": "206 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4871806",
+      "name": "Battle of Mount Olympus",
+      "startYear": -189,
+      "lat": 40.0694,
+      "lon": 29.2214,
+      "category": "battle",
+      "wikidataId": "Q4871806",
+      "wikiTitle": "Battle of Mount Olympus",
+      "notability": 5,
+      "partOf": "Galatian War",
+      "sides": [
+        "Galatians",
+        "Kingdom of Pergamon",
+        "Roman Republic"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871806",
+      "dateNote": "189 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q2920325",
+      "name": "Battle of the Ascent of Lebonah",
+      "startYear": -167,
+      "lat": 32.0544,
+      "lon": 35.2408,
+      "category": "battle",
+      "wikidataId": "Q2920325",
+      "wikiTitle": "Battle of the Ascent of Lebonah",
+      "notability": 5,
+      "partOf": "Maccabean Revolt",
+      "sides": [
+        "Maccabees",
+        "Seleucid Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2920325",
+      "dateNote": "167 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q27863955",
+      "name": "Battle of Lake Tunis",
+      "startYear": -149,
+      "lat": 36.8167,
+      "lon": 10.25,
+      "category": "battle",
+      "wikidataId": "Q27863955",
+      "wikiTitle": "Battle of Lake Tunis",
+      "notability": 5,
+      "partOf": "Third Punic War",
+      "sides": [
+        "Ancient Carthage",
+        "Ancient Rome"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q27863955",
+      "dateNote": "149 BC (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q7443103",
+      "name": "Battle of Nepheris (147 BC)",
+      "startYear": -147,
+      "lat": 36.6151,
+      "lon": 10.3831,
+      "category": "battle",
+      "wikidataId": "Q7443103",
+      "wikiTitle": "Battle of Nepheris (147 BC)",
+      "notability": 5,
+      "partOf": "Third Punic War",
+      "sides": [
+        "Ancient Carthage",
+        "Ancient Rome"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7443103",
+      "dateNote": "147 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q17277303",
+      "name": "Battle of Halys",
+      "startYear": -82,
+      "lat": 41.7344,
+      "lon": 35.9564,
+      "category": "battle",
+      "wikidataId": "Q17277303",
+      "wikiTitle": "Battle of Halys",
+      "notability": 5,
+      "partOf": "Second Mithridatic War",
+      "sides": [
+        "Kingdom of Pontus",
+        "Roman Republic"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q17277303",
+      "dateNote": "82 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q60524410",
+      "name": "Battle of Italica",
+      "startYear": -75,
+      "lat": 37.4439,
+      "lon": -6.0467,
+      "category": "battle",
+      "wikidataId": "Q60524410",
+      "wikiTitle": "Battle of Italica",
+      "notability": 5,
+      "partOf": "Sertorian War",
+      "sides": [
+        "optimates",
+        "populares"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q60524410",
+      "dateNote": "75 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q2095250",
+      "name": "Battle of the Rhyndacus (73 BC)",
+      "startYear": -73,
+      "lat": 40.2125,
+      "lon": 28.3978,
+      "category": "battle",
+      "wikidataId": "Q2095250",
+      "wikiTitle": "Battle of the Rhyndacus (73 BC)",
+      "notability": 5,
+      "partOf": "Third Mithridatic War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2095250",
+      "dateNote": "73 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q109377210",
+      "name": "Siege of Antioch (51 BC)",
+      "startYear": -51,
+      "lat": 36.2045,
+      "lon": 36.1813,
+      "category": "battle",
+      "wikidataId": "Q109377210",
+      "wikiTitle": "Siege of Antioch (51 BC)",
+      "notability": 4,
+      "partOf": "Roman–Parthian Wars",
+      "sides": [
+        "Parthian Empire",
+        "Roman Republic"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q109377210",
+      "dateNote": "51 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q28662986",
+      "name": "Battle of Hippo Regius",
+      "startYear": -46,
+      "lat": 36.8832,
+      "lon": 7.7519,
+      "category": "battle",
+      "wikidataId": "Q28662986",
+      "wikiTitle": "Battle of Hippo Regius",
+      "notability": 4,
+      "partOf": "Caesar's Civil War",
+      "sides": [
+        "Caesarians",
+        "Pompeians"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q28662986",
+      "dateNote": "46 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q3467874",
+      "name": "Siege of Jicheng",
+      "startYear": 213,
+      "lat": 34.7397,
+      "lon": 105.3297,
+      "category": "battle",
+      "wikidataId": "Q3467874",
+      "wikiTitle": "Siege of Jicheng",
+      "notability": 5,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3467874",
+      "dateNote": "213 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q3818303",
+      "name": "Battle of Ba",
+      "startYear": 215,
+      "lat": 33.1728,
+      "lon": 106.6706,
+      "category": "battle",
+      "wikidataId": "Q3818303",
+      "wikiTitle": "Battle of Ba",
+      "notability": 5,
+      "partOf": "Hanzhong Campaign",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3818303",
+      "dateNote": "215 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q2949747",
+      "name": "Battle of Ruxu (222–223)",
+      "startYear": 222,
+      "lat": 31.6353,
+      "lon": 117.889,
+      "category": "battle",
+      "wikidataId": "Q2949747",
+      "wikiTitle": "Battle of Ruxu (222–223)",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2949747",
+      "dateNote": "222 (Wikidata P580, start date, recorded to the year)."
+    },
+    {
+      "id": "q4873022",
+      "name": "Battle of the Tanais River",
+      "startYear": 373,
+      "lat": 47.0608,
+      "lon": 39.2875,
+      "category": "battle",
+      "wikidataId": "Q4873022",
+      "wikiTitle": "Battle of the Tanais River",
+      "notability": 4,
+      "sides": [
+        "Alans",
+        "Hunnic Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4873022",
+      "dateNote": "373 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4870331",
+      "name": "Battle of Arelate",
+      "startYear": 458,
+      "lat": 43.677,
+      "lon": 4.628,
+      "category": "battle",
+      "wikidataId": "Q4870331",
+      "wikiTitle": "Battle of Arelate",
+      "notability": 5,
+      "partOf": "Gothic War",
+      "sides": [
+        "Visigothic Kingdom",
+        "Western Roman Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4870331",
+      "dateNote": "458 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q124958496",
+      "name": "Battle of Abraq",
+      "startYear": 632,
+      "lat": 24.8398,
+      "lon": 39.5034,
+      "category": "battle",
+      "wikidataId": "Q124958496",
+      "wikiTitle": "Battle of Abraq",
+      "notability": 5,
+      "partOf": "Ridda Wars",
+      "sides": [
+        "Arabs",
+        "Rashidun Caliphate"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q124958496",
+      "dateNote": "632 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q18920218",
+      "name": "Battle of Burs",
+      "startYear": 636,
+      "lat": 32.3934,
+      "lon": 44.3449,
+      "category": "battle",
+      "wikidataId": "Q18920218",
+      "wikiTitle": "Battle of Burs",
+      "notability": 5,
+      "partOf": "Muslim conquest of Persia",
+      "sides": [
+        "Rashidun Caliphate",
+        "Sasanian Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q18920218",
+      "dateNote": "636 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4872459",
+      "name": "Siege of Suiyang",
+      "startYear": 757,
+      "lat": 34.3831,
+      "lon": 115.6189,
+      "category": "battle",
+      "wikidataId": "Q4872459",
+      "wikiTitle": "Siege of Suiyang",
+      "notability": 5,
+      "partOf": "An Lushan Rebellion",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872459",
+      "dateNote": "757 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q3636499",
+      "name": "Battle of Licosa (846)",
+      "startYear": 846,
+      "lat": 40.15,
+      "lon": 14.54,
+      "category": "battle",
+      "wikidataId": "Q3636499",
+      "wikiTitle": "Battle of Licosa (846)",
+      "notability": 4,
+      "partOf": "Muslim invasions of Italy",
+      "sides": [
+        "Aghlabids",
+        "Campanian League"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3636499",
+      "dateNote": "846 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q28717575",
+      "name": "Sack of Aleppo (962)",
+      "startYear": 962,
+      "lat": 36.2,
+      "lon": 37.15,
+      "category": "battle",
+      "wikidataId": "Q28717575",
+      "wikiTitle": "Sack of Aleppo (962)",
+      "notability": 5,
+      "partOf": "Arab–Byzantine wars",
+      "sides": [
+        "Byzantine Empire",
+        "Hamdanid dynasty"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q28717575",
+      "dateNote": "962 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4871081",
+      "name": "Battle of Gaoliang River",
+      "startYear": 979,
+      "lat": 39.9042,
+      "lon": 116.4074,
+      "category": "battle",
+      "wikidataId": "Q4871081",
+      "wikiTitle": "Battle of Gaoliang River",
+      "notability": 5,
+      "sides": [
+        "Liao dynasty",
+        "Song dynasty"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871081",
+      "dateNote": "979 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q116148546",
+      "name": "Battle of al-Uqhuwana",
+      "startYear": 1029,
+      "lat": 31.866,
+      "lon": 34.7463,
+      "category": "battle",
+      "wikidataId": "Q116148546",
+      "wikiTitle": "Battle of al-Uqhuwana",
+      "notability": 5,
+      "sides": [
+        "Banu Fazara",
+        "Banu Kalb",
+        "Banu Kilab",
+        "Fatimid Caliphate",
+        "Tayy"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q116148546",
+      "dateNote": "1029 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q51933216",
+      "name": "Siege of Tyre (1124)",
+      "startYear": 1124,
+      "lat": 33.2667,
+      "lon": 35.2,
+      "category": "battle",
+      "wikidataId": "Q51933216",
+      "wikiTitle": "Siege of Tyre (1124)",
+      "notability": 4,
+      "partOf": "Crusader–Fatimid Wars",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q51933216",
+      "dateNote": "1124 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q113993568",
+      "name": "Battle of Andkhud",
+      "startYear": 1204,
+      "lat": 36.953,
+      "lon": 65.1253,
+      "category": "battle",
+      "wikidataId": "Q113993568",
+      "wikiTitle": "Battle of Andkhud",
+      "notability": 4,
+      "sides": [
+        "Ghurid Empire",
+        "Karakhanid Khanate",
+        "Khwarazmian Empire",
+        "Qara Khitai"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q113993568",
+      "dateNote": "1204 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q107629208",
+      "name": "Irghiz River skirmish",
+      "startYear": 1209,
+      "lat": 48.25,
+      "lon": 62.02,
+      "category": "battle",
+      "wikidataId": "Q107629208",
+      "wikiTitle": "Irghiz River skirmish",
+      "notability": 12,
+      "partOf": "Mongol invasion of Khwarazmian Empire and Eastern Iran",
+      "sides": [
+        "Khwarazmian Empire",
+        "Mongol Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q107629208",
+      "dateNote": "1209 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q48880934",
+      "name": "Siege of Diaoyucheng",
+      "startYear": 1259,
+      "lat": 30.0038,
+      "lon": 106.3127,
+      "category": "battle",
+      "wikidataId": "Q48880934",
+      "wikiTitle": "Siege of Diaoyucheng",
+      "notability": 4,
+      "partOf": "Mongol conquest of the Song dynasty",
+      "sides": [
+        "Mongol Empire",
+        "Southern Song dynasty"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q48880934",
+      "dateNote": "1259 (Wikidata P580, start date, recorded to the month)."
+    },
+    {
+      "id": "q4871487",
+      "name": "Battle of Kotesashi (1333)",
+      "startYear": 1333,
+      "lat": 35.797,
+      "lon": 139.4231,
+      "category": "battle",
+      "wikidataId": "Q4871487",
+      "wikiTitle": "Battle of Kotesashi (1333)",
+      "notability": 5,
+      "partOf": "Genkō War",
+      "sides": [
+        "Nitta Yoshisada",
+        "Sakurada Sadakuni"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871487",
+      "dateNote": "1333 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q130279251",
+      "name": "Battle of Hamadan (1503)",
+      "startYear": 1503,
+      "lat": 34.8,
+      "lon": 48.5167,
+      "category": "battle",
+      "wikidataId": "Q130279251",
+      "wikiTitle": "Battle of Hamadan (1503)",
+      "notability": 5,
+      "partOf": "Safavid–Aq Qoyunlu wars",
+      "sides": [
+        "Aq Qoyunlu",
+        "Safavid Iran"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q130279251",
+      "dateNote": "1503 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q3636492",
+      "name": "Battle of Lagunillas",
+      "startYear": 1557,
+      "lat": -36.8472,
+      "lon": -73.0947,
+      "category": "battle",
+      "wikidataId": "Q3636492",
+      "wikiTitle": "Battle of Lagunillas",
+      "notability": 4,
+      "partOf": "Arauco War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3636492",
+      "dateNote": "1557 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q99526592",
+      "name": "Fourth Battle of Kawanakajima",
+      "startYear": 1561,
+      "lat": 36.5913,
+      "lon": 138.1864,
+      "category": "battle",
+      "wikidataId": "Q99526592",
+      "wikiTitle": "Fourth Battle of Kawanakajima",
+      "notability": 4,
+      "partOf": "Battles of Kawanakajima",
+      "sides": [
+        "Takeda Shingen",
+        "Uesugi Kenshin"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q99526592",
+      "dateNote": "1561 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q3636379",
+      "name": "Battle of Catirai",
+      "startYear": 1569,
+      "lat": -37.1856,
+      "lon": -72.9328,
+      "category": "battle",
+      "wikidataId": "Q3636379",
+      "wikiTitle": "Battle of Catirai",
+      "notability": 4,
+      "partOf": "Arauco War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3636379",
+      "dateNote": "1569 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4873206",
+      "name": "Battles of Kizugawaguchi",
+      "startYear": 1576,
+      "lat": 34.6311,
+      "lon": 135.4289,
+      "category": "battle",
+      "wikidataId": "Q4873206",
+      "wikiTitle": "Battles of Kizugawaguchi",
+      "notability": 5,
+      "partOf": "Ishiyama Hongan-ji War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4873206",
+      "dateNote": "1576 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q4872245",
+      "name": "Battle of Salga",
+      "startYear": 1581,
+      "lat": 38.6156,
+      "lon": -27.0975,
+      "category": "battle",
+      "wikidataId": "Q4872245",
+      "wikiTitle": "Battle of Salga",
+      "notability": 4,
+      "partOf": "War of the Portuguese Succession",
+      "sides": [
+        "Hispanic Monarchy",
+        "Kingdom of France",
+        "Kingdom of Portugal"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872245",
+      "dateNote": "1581 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4870736",
+      "name": "Battle of Cheongju",
+      "startYear": 1592,
+      "lat": 36.6333,
+      "lon": 127.4833,
+      "category": "battle",
+      "wikidataId": "Q4870736",
+      "wikiTitle": "Battle of Cheongju",
+      "notability": 4,
+      "partOf": "First Japanese Invasion of Korea",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4870736",
+      "dateNote": "1592 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872428",
+      "name": "Battle of St. Kitts (1629)",
+      "startYear": 1629,
+      "lat": 17.15,
+      "lon": -62.5833,
+      "category": "battle",
+      "wikidataId": "Q4872428",
+      "wikiTitle": "Battle of St. Kitts (1629)",
+      "notability": 5,
+      "partOf": "Thirty Years' War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872428",
+      "dateNote": "1629 (Wikidata P580, start date, recorded to the day)."
+    },
+    {
+      "id": "q4871930",
+      "name": "Battle of Ocho Rios",
+      "startYear": 1657,
+      "lat": 18.4079,
+      "lon": -77.1086,
+      "category": "battle",
+      "wikidataId": "Q4871930",
+      "wikiTitle": "Battle of Ocho Rios",
+      "notability": 4,
+      "partOf": "Anglo-Spanish War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871930",
+      "dateNote": "1657 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q16251266",
+      "name": "Battle of Nevis",
+      "startYear": 1667,
+      "lat": 17.0863,
+      "lon": -62.6101,
+      "category": "battle",
+      "wikidataId": "Q16251266",
+      "wikiTitle": "Battle of Nevis",
+      "notability": 4,
+      "partOf": "Second Anglo-Dutch War",
+      "sides": [
+        "Dutch Republic",
+        "Kingdom of England",
+        "Kingdom of France"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q16251266",
+      "dateNote": "1667 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q16251272",
+      "name": "Recapture of Fort Zeelandia (1667)",
+      "startYear": 1667,
+      "lat": 5.8252,
+      "lon": -55.1499,
+      "category": "battle",
+      "wikidataId": "Q16251272",
+      "wikiTitle": "Recapture of Fort Zeelandia (1667)",
+      "notability": 4,
+      "partOf": "Second Anglo-Dutch War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q16251272",
+      "dateNote": "1667 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q86667083",
+      "name": "Battle of Moulouya",
+      "startYear": 1692,
+      "lat": 34.2333,
+      "lon": -3.3667,
+      "category": "battle",
+      "wikidataId": "Q86667083",
+      "wikiTitle": "Battle of Moulouya",
+      "notability": 4,
+      "partOf": "Campaigns of Ismail Ibn Sharif",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q86667083",
+      "dateNote": "1692 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q2889560",
+      "name": "Action of 6 July 1746",
+      "startYear": 1746,
+      "lat": 10.7667,
+      "lon": 79.8333,
+      "category": "battle",
+      "wikidataId": "Q2889560",
+      "wikiTitle": "Action of 6 July 1746",
+      "notability": 5,
+      "partOf": "War of the Austrian Succession",
+      "sides": [
+        "France",
+        "Kingdom of Great Britain"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2889560",
+      "dateNote": "1746 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q5037055",
+      "name": "Capture of Saint Vincent",
+      "startYear": 1779,
+      "lat": 13.25,
+      "lon": -61.2,
+      "category": "battle",
+      "wikidataId": "Q5037055",
+      "wikiTitle": "Capture of Saint Vincent",
+      "notability": 5,
+      "partOf": "Anglo-French War of 1778–1783",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q5037055",
+      "dateNote": "1779 (Wikidata P580, start date, recorded to the day)."
+    },
+    {
+      "id": "q4872193",
+      "name": "Battle of Roatán",
+      "startYear": 1782,
+      "lat": 16.3834,
+      "lon": -86.4178,
+      "category": "battle",
+      "wikidataId": "Q4872193",
+      "wikiTitle": "Battle of Roatán",
+      "notability": 5,
+      "partOf": "Anglo-Spanish War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872193",
+      "dateNote": "1782 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4871655",
+      "name": "Battle of Mandora",
+      "startYear": 1801,
+      "lat": 31.275,
+      "lon": 30.0125,
+      "category": "battle",
+      "wikidataId": "Q4871655",
+      "wikiTitle": "Battle of Mandora",
+      "notability": 5,
+      "partOf": "French Revolutionary Wars",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871655",
+      "dateNote": "1801 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q5452541",
+      "name": "First Battle of Tripoli Harbor",
+      "startYear": 1802,
+      "lat": 32.9047,
+      "lon": 13.1933,
+      "category": "battle",
+      "wikidataId": "Q5452541",
+      "wikiTitle": "First Battle of Tripoli Harbor",
+      "notability": 5,
+      "partOf": "First Barbary War",
+      "sides": [
+        "Sweden",
+        "Tripoli eyalet",
+        "United States"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q5452541",
+      "dateNote": "1802 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872079",
+      "name": "Battle of Poona",
+      "startYear": 1802,
+      "lat": 18.5317,
+      "lon": 73.8568,
+      "category": "battle",
+      "wikidataId": "Q4872079",
+      "wikiTitle": "Battle of Poona",
+      "notability": 4,
+      "partOf": "Second Anglo-Maratha War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872079",
+      "dateNote": "1802 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872498",
+      "name": "Battle of Tamatave",
+      "startYear": 1811,
+      "lat": -18.15,
+      "lon": 49.5,
+      "category": "battle",
+      "wikidataId": "Q4872498",
+      "wikiTitle": "Battle of Tamatave",
+      "notability": 4,
+      "partOf": "Mauritius campaign",
+      "sides": [
+        "First French Empire",
+        "United Kingdom of Great Britain and Ireland"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872498",
+      "dateNote": "1811 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4087428",
+      "name": "Battle of Kaba",
+      "startYear": 1855,
+      "lat": -18.7098,
+      "lon": -174.03,
+      "category": "battle",
+      "wikidataId": "Q4087428",
+      "wikiTitle": "Battle of Kaba",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4087428",
+      "dateNote": "1855 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q106880868",
+      "name": "Battle of Leybar Bridge",
+      "startYear": 1855,
+      "lat": 15.9807,
+      "lon": -16.4831,
+      "category": "battle",
+      "wikidataId": "Q106880868",
+      "wikiTitle": "Battle of Leybar Bridge",
+      "notability": 5,
+      "sides": [
+        "Emirate of Trarza",
+        "Second French Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q106880868",
+      "dateNote": "1855 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q2887866",
+      "name": "Battle of Aong",
+      "startYear": 1857,
+      "lat": 26.1546,
+      "lon": 80.5662,
+      "category": "battle",
+      "wikidataId": "Q2887866",
+      "wikiTitle": "Battle of Aong",
+      "notability": 5,
+      "partOf": "Indian Mutiny of 1857",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2887866",
+      "dateNote": "1857 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q15275784",
+      "name": "Second Battle of Edea",
+      "startYear": 1915,
+      "lat": 3.8,
+      "lon": 10.1333,
+      "category": "battle",
+      "wikidataId": "Q15275784",
+      "wikiTitle": "Second Battle of Edea",
+      "notability": 5,
+      "partOf": "Kamerun campaign",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q15275784",
+      "dateNote": "1915 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4871477",
+      "name": "Battle of Kondoa Irangi",
+      "startYear": 1916,
+      "lat": -4.9036,
+      "lon": 35.7767,
+      "category": "battle",
+      "wikidataId": "Q4871477",
+      "wikiTitle": "Battle of Kondoa Irangi",
+      "notability": 4,
+      "partOf": "East African Campaign",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871477",
+      "dateNote": "1916 (Wikidata P580, start date, recorded to the day)."
+    },
+    {
+      "id": "q115819674",
+      "name": "Capture of Wejh",
+      "startYear": 1917,
+      "lat": 26.2833,
+      "lon": 36.4167,
+      "category": "battle",
+      "wikidataId": "Q115819674",
+      "wikiTitle": "Capture of Wejh",
+      "notability": 4,
+      "partOf": "Arab Revolt",
+      "sides": [
+        "Kingdom of Hejaz",
+        "Ottoman Empire",
+        "United Kingdom of Great Britain and Ireland"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q115819674",
+      "dateNote": "1917 (Wikidata P580, start date, recorded to the day)."
+    },
+    {
+      "id": "q691273",
+      "name": "Battle of Toungoo",
+      "startYear": 1942,
+      "lat": 18.9333,
+      "lon": 96.4333,
+      "category": "battle",
+      "wikidataId": "Q691273",
+      "wikiTitle": "Battle of Toungoo",
+      "notability": 5,
+      "partOf": "Battle of Yunnan-Burma Road",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q691273",
+      "dateNote": "1942 (Wikidata P585, recorded to the day)."
+    }
+  ],
+  "skipped": [
+    {
+      "wikidataId": "Q28554166",
+      "name": "Battle of Megara (1359)",
+      "reason": "P625 is a whole-degree point in Iran, nowhere near Megara in Greece"
+    },
+    {
+      "wikidataId": "Q4870477",
+      "name": "Battle of Bhopal",
+      "reason": "P625 is a whole-degree point in Chad, not in India"
+    },
+    {
+      "wikidataId": "Q4872923",
+      "name": "Battle of the Gulf of Oman",
+      "reason": "P625 is a whole-degree point"
+    },
+    {
+      "wikidataId": "Q4870839",
+      "name": "Battle of Damour",
+      "reason": "P625 is a whole-degree point in Iraq, not in Lebanon"
+    },
+    {
+      "wikidataId": "Q15710625",
+      "name": "Battle of Protopachium",
+      "reason": "P625 longitude is a whole degree (rough guess)"
+    },
+    {
+      "wikidataId": "Q4870691",
+      "name": "Battle of Cellorigo",
+      "reason": "P625 longitude is a whole degree (rough guess)"
+    },
+    {
+      "wikidataId": "Q635213",
+      "name": "Battle of Clavijo",
+      "reason": "Wikidata calls it a legendary battle, not a real one"
+    },
+    {
+      "wikidataId": "Q1273506",
+      "name": "Battle of Muye",
+      "reason": "no P625 on Wikidata"
+    },
+    {
+      "wikidataId": "Q696448",
+      "name": "Operation Ichi-Go",
+      "reason": "no P625 on Wikidata"
+    }
+  ]
+}
