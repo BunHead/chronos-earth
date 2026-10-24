@@ -19,6 +19,7 @@ import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
 import { ELSEWHERE, laneRegionFor, greatCircleKm, viewReachKm } from '../lib/laneRegions';
 import { eventPasses } from '../lib/subLayers';
+import { keyboardClick } from '../lib/keyboard';
 
 interface TimelineProps {
   yearsBP: number;
@@ -311,10 +312,12 @@ function MuralCircle({
         } as React.CSSProperties
       }
       title={`${item.title} — double-click to fly there`}
+      aria-label={item.title}
       onPointerDown={(e) => {
         e.stopPropagation();
         onSelect(item.toPanel());
       }}
+      onClick={keyboardClick(() => onSelect(item.toPanel()))}
       onDoubleClick={(e) => {
         e.stopPropagation();
         onFlyTo?.(item.lon, item.lat);
@@ -868,10 +871,12 @@ export default function Timeline({
                 className={hot ? 'battle-pin hot' : 'battle-pin'}
                 style={{ left: `${bpos * 100}%` }}
                 title={`${battle.name} (${battle.dateLabel})`}
+                aria-label={`${battle.name} (${battle.dateLabel})`}
                 onPointerDown={(e) => {
                   e.stopPropagation();
                   onJumpToBattle(battle);
                 }}
+                onClick={keyboardClick(() => onJumpToBattle(battle))}
               >
                 ⚔
               </button>
