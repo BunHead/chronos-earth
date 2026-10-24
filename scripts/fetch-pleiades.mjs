@@ -38,7 +38,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
-import { coreName } from './dedupe-places.mjs';
+import { coreName, knownIds } from './dedupe-places.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -110,7 +110,9 @@ async function main() {
   const data = rows.slice(1).filter((r) => r.length > 5);
   console.log(`  ${data.length} places in the dump`);
 
-  const haveIds = new Set(events.map((e) => e.id));
+  // Includes ids folded into another row, so a place merged away (e.g. the
+  // undated Pleiades copy of Cova Dones) is not re-added every night.
+  const haveIds = knownIds(events);
   // Spatial dedupe, because NAME dedupe cannot work here: Pleiades calls Rome
   // "Roma" and Athens "Athenae", so a row would slip straight past a name
   // check and land a second pin on top of a city we already have. Same

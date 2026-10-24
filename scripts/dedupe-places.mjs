@@ -192,6 +192,15 @@ export function addMerged(keep, drop) {
   keep.merged = [...new Map(list.filter((r) => r.id !== keep.id).map((r) => [r.id, r])).values()];
 }
 
+/**
+ * Every id the data already accounts for: the rows themselves AND the rows
+ * folded into them (`merged`). An importer must skip both, or it re-adds a
+ * row the cleaner or a curator deliberately folded away.
+ */
+export function knownIds(events) {
+  return new Set(events.flatMap((e) => [e.id, ...(e.merged ?? []).map((m) => m.id)]));
+}
+
 /** Same name, within this distance → one pin (the Captain's rule, 11 Oct). */
 const SAME_NAME_KM = 30;
 
