@@ -27,6 +27,8 @@ const NAMED_ENTITIES = {
   hellip: '…', lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
 };
 
+const GENID = /,?\s*https?:\/\/www\.wikidata\.org\/\.well-known\/genid\/[0-9a-f]+/g;
+
 /** "&amp;" → "&", "&#233;" → "é". Unknown names are left as they are. */
 export function decodeEntities(s) {
   return s.replace(/&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]{1,7});/gi, (m, e) => {
@@ -40,12 +42,15 @@ export function decodeEntities(s) {
 
 /**
  * The safe, mechanical clean-up of one piece of display text: decode HTML
- * entities, drop tags, fold runs of spaces, trim. Nothing about the meaning
- * changes, so a nightly step may apply it without a person looking.
+ * entities, drop tags, drop a raw Wikidata blank-node URL (an "unknown value"
+ * place: "671 BCE, http://www.wikidata.org/.well-known/genid/…"), fold runs of
+ * spaces, trim. Nothing about the meaning changes, so a nightly step may apply
+ * it without a person looking.
  */
 export function cleanText(s) {
   if (typeof s !== 'string') return s;
-  return decodeEntities(s).replace(/<\/?[a-z][^<>]*>/gi, '').replace(/[ \t ]+/g, ' ').trim();
+  return decodeEntities(s).replace(/<\/?[a-z][^<>]*>/gi, '').replace(GENID, '')
+    .replace(/[ \t ]+/g, ' ').trim();
 }
 
 /** What is wrong with one piece of display text (empty = fine). */
@@ -288,8 +293,8 @@ export function referencedFiles({ battlemaps, portraits, siteplans, models, site
 }
 
 /**
- * Apply `cleanText` to the display text of every row in place. Returns the
- * rows it changed as [{ id, field, from, to }] — the nightly fix step's log.
+ * Apply `cleanText` to the display text of every row in place (a field left
+ * empty is removed). Returns the rows it changed as [{ id, field, from, to }] — the nightly fix step's log.
  */
 export function fixRows(rows, fields = ['name', 'summary']) {
   const changed = [];
@@ -297,11 +302,41 @@ export function fixRows(rows, fields = ['name', 'summary']) {
     for (const f of fields) {
       if (typeof r[f] !== 'string') continue;
       const to = cleanText(r[f]);
-      if (to !== r[f] && to) {
-        changed.push({ id: r.id, field: f, from: r[f], to });
-        r[f] = to;
-      }
+      if (to === r[f]) continue;
+      changed.push({ id: r.id, field: f, from: r[f], to: to || null });
+      if (to) r[f] = to;
+      else delete r[f]; // nothing left: a Died line that was only the URL
     }
   }
   return changed;
+}
+
+/**
+ * A person's death year: endYear, else the Died line ("13 March 44 BCE, Rome"),
+ * else a date note ("He died in 1475"). null when none names one.
+ */
+export function deathYear(row) {
+  if (typeof row.endYear === 'number') return row.endYear;
+  const died = typeof row.died === 'string' && !/https?:/.test(row.died) ? labelYears(row.died.split(',')[0]) : null;
+  if (died) return Math.max(...died);
+  const m = typeof row.dateNote === 'string' &&
+    row.dateNote.match(/\bdied (?:in |about |around |c\. )?(?:\d{1,2} )?(?:(?:January|February|March|April|May|June|July|August|September|October|November|December) )?(\d[\d,]*)(\s*(?:BCE|BC)\b)?/);
+  return m ? Number(m[1].replace(/,/g, '')) * (m[2] ? -1 : 1) : null;
+}
+
+/**
+ * Years that cannot be right: an end before its start, or a person shown as
+ * born after they died (a placeholder birth year past the death year).
+ * `row.startYear` is the start; callers map `year` / `builtYear` onto it.
+ */
+export function checkImpossibleYears(row) {
+  const y = row.startYear;
+  if (typeof y !== 'number') return [];
+  const person = row.category === 'person';
+  if (typeof row.endYear === 'number' && row.endYear < y) {
+    return [{ id: row.id, rule: 'years', kind: person ? 'born-after-death' : 'end-before-start', msg: `${person ? 'died' : 'ends'} ${row.endYear}, before ${person ? 'born' : 'starts'} ${y}` }];
+  }
+  const d = person ? deathYear(row) : null;
+  if (d != null && d < y) return [{ id: row.id, rule: 'years', kind: 'born-after-death', msg: `shown born ${y}, but died ${d}` }];
+  return [];
 }
