@@ -13,6 +13,19 @@ function dataUrl(file: string): string {
   return `${import.meta.env.BASE_URL}data/${file}`;
 }
 
+/**
+ * Add streamed-in events (region chunks, core-index tiles) to the ones already
+ * held, skipping any we have by id or by Wikidata id. Returns `prev` itself
+ * when nothing is new, so React skips the re-render.
+ */
+export function mergeNewEvents(prev: TimelineEvent[], fresh: TimelineEvent[]): TimelineEvent[] {
+  if (fresh.length === 0) return prev;
+  const seenIds = new Set(prev.map((e) => e.id));
+  const seenQids = new Set(prev.map((e) => e.wikidataId).filter(Boolean));
+  const add = fresh.filter((e) => !seenIds.has(e.id) && !(e.wikidataId && seenQids.has(e.wikidataId)));
+  return add.length ? [...prev, ...add] : prev;
+}
+
 export async function loadAncientSites(): Promise<AncientSite[]> {
   const res = await fetch(dataUrl('ancient-sites.json'));
   if (!res.ok) {

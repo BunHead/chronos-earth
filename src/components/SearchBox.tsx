@@ -111,15 +111,28 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
   // enough that "Holland" found only two counts of Holland and no country.
   const [indexReady, setIndexReady] = useState(false);
   const [countries, setCountries] = useState<CountryIndex | null>(null);
+  // Ranking runs over the whole index on each key. Deferred, so typing stays
+  // smooth on phones: the box updates at once and the list catches up when
+  // the phone is free.
+  const searchQuery = useDeferredValue(query);
+  // Only build the per-events lists while someone is searching. Events stream
+  // in as the map moves and the timeline plays; rebuilding "did you mean" over
+  // ~54,000 names on every batch cost ~70 ms each time (desktop) for a box
+  // nobody was typing in.
+  const searching = fold(searchQuery.trim()).length >= 2;
   // Folded once when the index arrives, not ~50,000 times per keystroke.
   const foldedIndex = useMemo(() => indexRows.map((r) => fold(r.name)), [indexRows]);
   // Word lists for typo-tolerant search, built once per list (~0.1 s for
   // the full index), so each keystroke only costs a few milliseconds.
   const fuzzyIndex = useMemo(() => buildFuzzyIndex(foldedIndex), [foldedIndex]);
-  const fuzzyEvents = useMemo(() => buildFuzzyIndex(events.map((e) => fold(e.name))), [events]);
+  const fuzzyEvents = useMemo(
+    () => buildFuzzyIndex(searching ? events.map((e) => fold(e.name)) : []),
+    [events, searching],
+  );
   const fuzzyBattles = useMemo(() => buildFuzzyIndex(battles.map((b) => fold(b.name))), [battles]);
   // Every name the box can find, for "did you mean…?" — folded once.
   const knownNames = useMemo<Array<[string, string]>>(() => {
+    if (!searching) return [];
     const all = [
       ...indexRows.map((r) => r.name), ...events.map((e) => e.name), ...battles.map((b) => b.name),
       ...sites.map((x) => x.name), ...ERAS.map((e) => e.name), ...fauna.map((x) => x.name),
@@ -135,7 +148,7 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
       if (first !== k && first.length >= 5 && !seen.has(first)) { seen.add(first); out.push([first, n]); }
     }
     return out;
-  }, [indexRows, events, battles, sites, fauna, countries]);
+  }, [searching, indexRows, events, battles, sites, fauna, countries]);
   const asked = useRef(false);
   const wantIndex = () => {
     if (asked.current) return;
@@ -154,10 +167,6 @@ export default function SearchBox({ sites, battles, events, fauna, onPickBattle,
     if (query.trim().length >= 2) wantIndex();
   }, [query]);
 
-  // Ranking runs over the whole index on each key. Deferred, so typing stays
-  // smooth on phones: the box updates at once and the list catches up when
-  // the phone is free.
-  const searchQuery = useDeferredValue(query);
   const results = useMemo<Result[]>(() => {
     const q = fold(searchQuery.trim());
     if (q.length < 2) return [];

@@ -433,7 +433,7 @@ coarse ones right. The value alone cannot tell them apart, so:
 
 **People have death years** (16,974 of 17,091). `fetch-people` required a
 date of death and threw it away; it keeps it now, and `add-death-years.mjs`
-back-filled (it replaced `enrich-people-death.mjs`, which nothing ran). A
+back-filled once (both since removed; fetch-people keeps death years for new people). A
 person now leaves the map when they died, and panels show a lifespan.
 
 **Dedupe never merges two different Wikipedia articles.** Sault Ste. Marie,

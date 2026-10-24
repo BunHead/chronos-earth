@@ -132,9 +132,12 @@ async function main() {
     const own = byId.get(p.id);
     if (own) {
       Object.assign(own, p);
-      // The harvest can bring a replaced row back; fold it in again, but once.
-      const kept = (own.merged ?? []).filter((m) => !merged.some((n) => n.id === m.id));
-      if (merged.length) own.merged = [...kept, ...merged];
+      // A nightly re-run can meet the replaced row again (the Pleiades import
+      // puts it back): keep one copy of each in `merged`.
+      if (merged.length || own.merged) {
+        const seen = new Set();
+        own.merged = [...(own.merged ?? []), ...merged].filter((m) => !seen.has(m.id) && seen.add(m.id));
+      }
       updated++;
     } else {
       events.push({ ...p, ...(merged.length ? { merged } : {}) });

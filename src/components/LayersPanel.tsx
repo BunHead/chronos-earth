@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { startDrag } from '../lib/windowDrag';
 import { SUB_LAYERS } from '../lib/subLayers';
 import Glyph from './Glyph';
@@ -70,7 +70,7 @@ interface LayerRow {
  * Note: continental drift is deliberately NOT a toggle — when you scrub into
  * deep time the continents simply move, which is self-evident on the globe.
  */
-export default function LayersPanel({
+function LayersPanel({
   showSites,
   onToggleSites,
   showBorders,
@@ -238,3 +238,7 @@ export default function LayersPanel({
     </div>
   );
 }
+
+// Memoised: every prop is a state value or a stable setter, so during Play
+// (the whole app re-renders each frame) this panel no longer does.
+export default memo(LayersPanel);

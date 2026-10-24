@@ -137,6 +137,9 @@ export const CURATED_FOLDS = new Map([
   ['q320704', 'cur-benin-city'],
   // Lalibela: one site under two names; the curated row stays, at Wikidata's pin.
   ['q642979', 'cur-lalibela'],
+  // Cova Dones: the dated discovery row replaces its undated Pleiades copy,
+  // which the nightly harvest kept bringing back (Oct 2026).
+  ['pl652043992', 'cur-cova-dones'],
 ]);
 
 /**
@@ -187,6 +190,15 @@ export function recordOf(e) {
 export function addMerged(keep, drop) {
   const list = [...(keep.merged ?? []), ...(drop.merged ?? []), recordOf(drop)];
   keep.merged = [...new Map(list.filter((r) => r.id !== keep.id).map((r) => [r.id, r])).values()];
+}
+
+/**
+ * Every id the data already accounts for: the rows themselves AND the rows
+ * folded into them (`merged`). An importer must skip both, or it re-adds a
+ * row the cleaner or a curator deliberately folded away.
+ */
+export function knownIds(events) {
+  return new Set(events.flatMap((e) => [e.id, ...(e.merged ?? []).map((m) => m.id)]));
 }
 
 /** Same name, within this distance → one pin (the Captain's rule, 11 Oct). */

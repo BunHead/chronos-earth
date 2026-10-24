@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Globe, { type GlobeHandle } from './components/Globe';
 import { altitudeFor, placeIn, yearToShow, type CountryRow } from './lib/countryIndex';
 import {
@@ -35,13 +35,12 @@ import { parseBattleDate, seasonalTemperature } from './lib/battleSky';
 import { fitFor } from './lib/monumentFit';
 import { OLDEST_BP, ZOOM_SPANS, clampWindow, posToYearsBP, yearsBPToPos, yearsBPToYear, yearToYearsBP, type Era } from './lib/timeScale';
 import { useThrottledValue } from './lib/useThrottledValue';
-import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna } from './lib/data';
+import { loadAncientSites, loadBattles, loadBattleViews, loadTours, loadEvents, loadFauna, mergeNewEvents } from './lib/data';
 import { loadVideos, relatedFor, watchUrl, timestampLabel, type VideoPin } from './lib/videos';
 import { loadSearchIndex, rowToEvent } from './lib/searchIndex';
 import { cellsForRect } from './lib/eventIndex';
 import { bucketsForWindow } from './lib/buckets';
 import { loadTileManifest, loadHeadline, loadTile, tilesToLoad, type TileManifest } from './lib/coreTiles';
-import { tilingEnabled } from './lib/tilingFlag';
 import { useEscape } from './lib/escapeStack';
 import { fetchByName } from './lib/liveFetch';
 import { loadLiveCache, addToLiveCache } from './lib/liveCache';
@@ -152,7 +151,9 @@ export default function App() {
       return new Set<string>();
     }
   });
-  const toggleSub = (kind: string, on: boolean) => {
+  // Stable (useCallback), so the memoised LayersPanel skips the re-render
+  // the play loop would otherwise give it every frame.
+  const toggleSub = useCallback((kind: string, on: boolean) => {
     setOffSubs((prev) => {
       const next = new Set(prev);
       if (on) next.delete(kind);
@@ -164,7 +165,7 @@ export default function App() {
       }
       return next;
     });
-  };
+  }, []);
   // Counts shown beside each sub-row, so the panel is honest about what is
   // actually in the data rather than implying an even spread.
   const subCounts = useMemo(() => countSubKinds(events), [events]);
@@ -190,12 +191,11 @@ export default function App() {
   // Harvested long-tail history streams in by 20° cell as the camera settles
   // over a region (see lib/regionChunks + scripts/harvest-world.mjs). The
   // index is fetched once; missing index = harvest not run yet = feature off.
-  const regionIndexRef = useRef<RegionIndex | null | 'pending'>('pending');
+  // Held as the promise, so pans made while it is still downloading share one fetch.
+  const regionIndexRef = useRef<Promise<RegionIndex | null> | null>(null);
   const loadedCellsRef = useRef(new Set<string>());
-  // Tiled-skeleton state (docs/plan-spatial-tiling.md) — only touched when the
-  // ?tiles flag is on; the monolithic path never sees these.
-  const tilingRef = useRef(tilingEnabled());
-  const tileManifestRef = useRef<TileManifest | null | 'pending'>('pending');
+  // Tiled-skeleton state (docs/plan-spatial-tiling.md).
+  const tileManifestRef = useRef<Promise<TileManifest | null> | null>(null);
   const loadedTilesRef = useRef(new Set<string>());
   // The patch of Earth the camera is looking at (null = orbit / whole globe);
   // when set, the timeline tells that region's own story.
@@ -211,12 +211,9 @@ export default function App() {
   const [viewCentre, setViewCentre] = useState<{ lon: number; lat: number }>({ lon: -0.12, lat: 51.5 });
   useEffect(() => {
     if (!viewRegion) return;
-    let live = true;
     void (async () => {
-      if (regionIndexRef.current === 'pending') {
-        regionIndexRef.current = await loadRegionIndex(import.meta.env.BASE_URL);
-      }
-      const idx = regionIndexRef.current;
+      regionIndexRef.current ??= loadRegionIndex(import.meta.env.BASE_URL);
+      const idx = await regionIndexRef.current;
       if (!idx) return;
       const keys = cellKeysForRect(viewRegion).filter(
         (k) => idx.cells[k] && !loadedCellsRef.current.has(k),
@@ -226,31 +223,19 @@ export default function App() {
       const fresh = (
         await Promise.all(keys.map((k) => loadRegionChunk(import.meta.env.BASE_URL, k)))
       ).flat();
-      if (!live || fresh.length === 0) return;
-      setEvents((prev) => {
-        const seenIds = new Set(prev.map((e) => e.id));
-        const seenQids = new Set(prev.map((e) => e.wikidataId).filter(Boolean));
-        const add = fresh.filter(
-          (e) => !seenIds.has(e.id) && !(e.wikidataId && seenQids.has(e.wikidataId)),
-        );
-        return add.length ? [...prev, ...add] : prev;
-      });
+      // Merged even if the view has moved on since: these keys are already
+      // marked loaded, so dropping the result would lose them for the visit.
+      if (fresh.length) setEvents((prev) => mergeNewEvents(prev, fresh));
     })();
-    return () => {
-      live = false;
-    };
   }, [viewRegion]);
-  // Tiled skeleton (flag on only): stream the core-index tiles the current view
-  // + timeline window need, mirroring the region-chunk loader above but keyed on
-  // the 10° cell grid and era buckets. Off by default → this whole effect no-ops.
+  // Tiled skeleton: stream the core-index tiles the current view + timeline
+  // window need, mirroring the region-chunk loader above but keyed on the 10°
+  // cell grid and era buckets.
   useEffect(() => {
-    if (!tilingRef.current || !viewRegion) return;
-    let live = true;
+    if (!viewRegion) return;
     void (async () => {
-      if (tileManifestRef.current === 'pending') {
-        tileManifestRef.current = await loadTileManifest(import.meta.env.BASE_URL);
-      }
-      const manifest = tileManifestRef.current;
+      tileManifestRef.current ??= loadTileManifest(import.meta.env.BASE_URL);
+      const manifest = await tileManifestRef.current;
       if (!manifest) return;
       const cells = cellsForRect(viewRegion, 10, 10); // one-cell margin, seamless pan
       const window = clampWindow({ centerBP: heavyYearsBP, span: ZOOM_SPANS[zoomIdx] });
@@ -260,19 +245,10 @@ export default function App() {
       const fresh = (
         await Promise.all(need.map((t) => loadTile(import.meta.env.BASE_URL, t.cell, t.bucket)))
       ).flat();
-      if (!live || fresh.length === 0) return;
-      setEvents((prev) => {
-        const seenIds = new Set(prev.map((e) => e.id));
-        const seenQids = new Set(prev.map((e) => e.wikidataId).filter(Boolean));
-        const add = fresh.filter(
-          (e) => !seenIds.has(e.id) && !(e.wikidataId && seenQids.has(e.wikidataId)),
-        );
-        return add.length ? [...prev, ...add] : prev;
-      });
+      // Merged even if the view has moved on since: these keys are already
+      // marked loaded, so dropping the result would lose them for the visit.
+      if (fresh.length) setEvents((prev) => mergeNewEvents(prev, fresh));
     })();
-    return () => {
-      live = false;
-    };
   }, [viewRegion, heavyYearsBP, zoomIdx]);
   // The imported event you just picked (search/click) — its globe marker stays
   // visible even when the declutter caps would have hidden it.
@@ -606,17 +582,12 @@ export default function App() {
       const ids = new Set(evs.map((e) => e.id));
       setEvents([...evs, ...cached.filter((e) => !ids.has(e.id))]);
     };
-    if (tilingRef.current) {
-      // Tiled path: the headline LOD tier loads first + fast so the globe is
-      // never empty; per-cell/era tiles then stream via the viewRegion effect.
-      loadHeadline(import.meta.env.BASE_URL)
-        .then((head) => (head.length ? foldCache(head) : loadEvents().then(foldCache)))
-        .catch((err) => console.error('Could not load headline tier:', err));
-    } else {
-      loadEvents()
-        .then(foldCache)
-        .catch((err) => console.error('Could not load events:', err));
-    }
+    // The headline LOD tier loads first + fast so the globe is never empty;
+    // per-cell/era tiles then stream via the viewRegion effect. The full
+    // monolithic index is only a fallback for a missing headline file.
+    loadHeadline(import.meta.env.BASE_URL)
+      .then((head) => (head.length ? foldCache(head) : loadEvents().then(foldCache)))
+      .catch((err) => console.error('Could not load headline tier:', err));
     loadFauna()
       .then(setFauna)
       .catch((err) => console.error('Could not load fauna:', err));
