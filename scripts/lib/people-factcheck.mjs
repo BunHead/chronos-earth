@@ -199,7 +199,7 @@ export function lifeLine(dates, places, titles = {}) {
   const ds = uniq(dates ?? [], (d) => d.time);
   const ps = uniq(places ?? [], (p) => p.qid);
   const date = ds.length === 1 ? formatDate(ds[0]) : null;
-  const place = ps.length === 1 && !/^Q\d+$/.test(ps[0].label) ? placeName(titles[ps[0].qid] ?? ps[0].label) : null;
+  const place = ps.length === 1 && !/^Q\d+$|^https?:/.test(ps[0].label) ? placeName(titles[ps[0].qid] ?? ps[0].label) : null;
   const parts = [date, place].filter(Boolean);
   return parts.length ? parts.join(', ') : undefined;
 }
