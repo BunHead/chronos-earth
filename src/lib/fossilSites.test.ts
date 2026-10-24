@@ -152,6 +152,45 @@ describe('fossil sites', () => {
     expect(events.find((e) => e.id === 'q278863')!.startYear).toBe(1994); // Little Foot
   });
 
+  it('batch 3 (24 Oct 2026) fills the thin regions without stacking on an existing find', () => {
+    const batch3 = [
+      'koro-toro', 'kanapoi', 'border-cave', 'rooidraai', 'kirkwood', 'rusinga', 'saldanha', 'melka-kunture',
+      'tabon', 'hathnora', 'kota', 'dera-bugti', 'jinniushan', 'yana', 'emu-bay', 'callabonna', 'kow-swamp',
+      'cuddie-springs', 'winton', 'mangahouanga', 'santa-maria', 'pisco', 'taima-taima',
+    ].map((id) => `cur-fossil-${id}`);
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch3) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      // Every new pin is in a gap: no other find within 25 km.
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+    }
+  });
+
+  it('keeps the batch 3 fossil fact-check fixes (24 Oct 2026)', () => {
+    const row = (id: string) => events.find((e) => e.id === id)!;
+    // Quetzalcoatlus was on the Hell Creek pin in North Dakota; it was found in Big Bend, Texas.
+    expect(row('q131205').lat).toBeCloseTo(29.3, 1);
+    // Dakota no longer sits on top of the Hell Creek pin.
+    const hell = row('cur-fossil-hell-creek');
+    expect([row('q3501566').lat, row('q3501566').lon]).not.toEqual([hell.lat, hell.lon]);
+    expect(row('q76138037').lat).toBeCloseTo(49.52, 1); // Scotty: Eastend, not mid-Saskatchewan
+    expect(row('q1952802').startYear).toBe(1968); // Mungo Lady, before Mungo Man (1974)
+    // Country-centre pins moved to the find, and the country-centre note went with them.
+    for (const id of ['q131565', 'q100196']) expect(row(id).placeNote, id).toBeUndefined();
+    expect(row('q131565').lat).toBeCloseTo(50.73, 1); // Ichthyosaurus: Lyme Regis
+    for (const id of ['q131475', 'q5209906', 'q27163629', 'q15807308'])
+      expect(row(id).dateNote, id).toMatch(/^Uncertain/);
+  });
+
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
     const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
     expect(wf).toContain('node scripts/add-fossil-sites.mjs');
