@@ -1900,6 +1900,90 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Callao or Ichocán; both are Wikidata preferred values.",
       "source": "https://www.wikidata.org/wiki/Q239030; https://en.wikipedia.org/wiki/Yma_Sumac; https://en.wikipedia.org/wiki/Ichoc%C3%A1n"
     },
+    "q48278": {
+      "startYear": 1616,
+      "dateNote": "Founded in 1616 as the village of San Lorenzo de Aburrá. It was made a town (villa) under the name Medellín in 1675.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1675). That is when it got its town charter; the settlement was founded in 1616",
+      "source": "https://www.wikidata.org/wiki/Q48278 (P571 1675); https://en.wikipedia.org/wiki/Medell%C3%ADn"
+    },
+    "q11725": {
+      "startYear": -316,
+      "dateNote": "The city goes back to Jiangzhou, the seat Qin set up here after it conquered the state of Ba in 316 BC (some sources say 314 BC). It took the name Chongqing in 1189 and became a city in 1929.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1929). That is when it gained city status; the city dates from the Qin conquest of Ba in 316 BC",
+      "source": "https://www.wikidata.org/wiki/Q11725 (P571 1929); https://en.wikipedia.org/wiki/History_of_Chongqing"
+    },
+    "q14960": {
+      "startYear": 1091,
+      "dateNote": "First written record: Cosmas of Prague's chronicle, under 1091, when King Vratislaus II besieged Brno castle. It got royal town privileges in 1243.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1243). That is when it got town privileges; Wikidata P1249 gives 1091, the first record",
+      "source": "https://www.wikidata.org/wiki/Q14960 (P571 1243, P1249 1091); https://en.wikipedia.org/wiki/History_of_Brno"
+    },
+    "q36312": {
+      "startYear": 1875,
+      "dateNote": "Founded in 1875 as a North-West Mounted Police fort (named Fort Calgary in 1876). It became a town in 1884.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1884). That is when it became a town; Wikidata P571 and P1249 also give 1875, the fort",
+      "source": "https://www.wikidata.org/wiki/Q36312 (P571 1875 and 1884); https://en.wikipedia.org/wiki/History_of_Calgary"
+    },
+    "q34217": {
+      "startYear": 912,
+      "dateNote": "First written record: the Anglo-Saxon Chronicle, under 912 (some say 911). Wikidata gives only \"10th century\", which showed as the year 1000.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\"; Oxford is first recorded in 912",
+      "source": "https://www.wikidata.org/wiki/Q34217 (P571 10th century); https://en.wikipedia.org/wiki/History_of_Oxford"
+    },
+    "q1735": {
+      "startYear": 1180,
+      "dateNote": "First written record: 1180, as a small market town of the Counts of Andechs. Its town charter was confirmed in 1239.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1234). Wikidata P1249 gives 1180, the first record; the charter is usually dated 1239",
+      "source": "https://www.wikidata.org/wiki/Q1735 (P571 1234, P1249 1180); https://en.wikipedia.org/wiki/Innsbruck; https://www.britannica.com/place/Innsbruck"
+    },
+    "q503387": {
+      "startYear": 1220,
+      "dateNote": "Monks first carved cells and churches here in the 1220s, led by the future Patriarch Joachim I. Wikidata gives the year 13, a slip for the 13th century.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (AD 13). Wikidata P571 is the year 13 (meant as the 13th century); the monastery was founded in the 1220s",
+      "source": "https://www.wikidata.org/wiki/Q503387 (P571 13); https://en.wikipedia.org/wiki/Rock-hewn_Churches_of_Ivanovo"
+    },
+    "q543419": {
+      "startYear": 400,
+      "dateNote": "Made about AD 400: its inscription names a king Chandra, taken to be Chandragupta II (ruled about 375 to 415). Wikidata gives only \"5th century\", which showed as 500. It was moved to Delhi much later.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (500). Wikidata P571 is just \"5th century\"; the pillar is dated to about 400 by its Gupta inscription",
+      "source": "https://www.wikidata.org/wiki/Q543419 (P571 5th century); https://en.wikipedia.org/wiki/Iron_pillar_of_Delhi"
+    },
+    "q330564": {
+      "startYear": 1764,
+      "dateNote": "Building began in 1764. Work stopped in the Revolution, Napoleon restarted it as a temple to his army, and it was finished and consecrated as a church in 1842.",
+      "why": "Places fact-check batch 5 (Oct 2026): wrong year (1845). Building began in 1764 and the church was consecrated in 1842; 1845 matches neither",
+      "source": "https://www.wikidata.org/wiki/Q330564 (P571 1845); https://en.wikipedia.org/wiki/La_Madeleine,_Paris"
+    },
+    "q3751": {
+      "dateNote": "The year shown is when Praia was made a city (1858). The town is older: it is first mentioned in 1516, became a town around 1615 and the capital in 1770. Sources differ on its founding.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 1858 is city status; the founding is given as 1516 or 1615",
+      "source": "https://www.wikidata.org/wiki/Q3751 (P571 1858); https://en.wikipedia.org/wiki/Praia; https://en.wikipedia.org/wiki/Timeline_of_Praia"
+    },
+    "q23154": {
+      "dateNote": "The year shown is Bristol's first royal charter (1155). The town is older: it had a mint by about 1020 and is named in the Anglo-Saxon Chronicle in the 1050s. Sources differ on the first record.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 1155 is the first charter; the first record is given as 1051 or 1054",
+      "source": "https://www.wikidata.org/wiki/Q23154 (P571 1155); https://en.wikipedia.org/wiki/History_of_Bristol"
+    },
+    "q2211": {
+      "dateNote": "Sources differ: Wikidata gives 1353 and also an earlier record of 1170, while most histories say Malmö is first mentioned in 1275.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 1353, P1249 1170; Wikipedia gives a first mention in 1275",
+      "source": "https://www.wikidata.org/wiki/Q2211 (P571 1353, P1249 1170); https://en.wikipedia.org/wiki/Malm%C3%B6"
+    },
+    "q1555": {
+      "dateNote": "The year shown is when the Spanish founded the first capital of Guatemala in 1524, at Iximché, not here. The capital moved twice, and this city was founded in 1776 after earthquakes wrecked Antigua.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 1524 is the first Spanish capital elsewhere; the present city dates from 1776",
+      "source": "https://www.wikidata.org/wiki/Q1555 (P571 1524); https://en.wikipedia.org/wiki/Guatemala_City"
+    },
+    "q226": {
+      "dateNote": "The year shown is when Hans Egede set up the Hope Colony nearby, on Kangeq island (1721). The colony moved to the present site, as Godthåb, in 1728.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 1721 is Egede's colony on Kangeq; the city proper dates from 1728",
+      "source": "https://www.wikidata.org/wiki/Q226 (P571 1721); https://en.wikipedia.org/wiki/Nuuk"
+    },
+    "q283680": {
+      "dateNote": "The year shown is when the Hittites took Carchemish (about 1321 BC). The city is much older: it was lived in from the Neolithic and is named in records from the third millennium BC.",
+      "why": "Places fact-check batch 5 (Oct 2026), uncertain: Wikidata P571 gives 1321 BC and \"19th century BC\"; the city is older than both",
+      "source": "https://www.wikidata.org/wiki/Q283680 (P571 -1321 and 19th century BC); https://en.wikipedia.org/wiki/Carchemish"
+    },
     "q40234": {
       "dateNote": "She died in 270 or 268 BC; sources differ.",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Death 270 or 268 BC.",
