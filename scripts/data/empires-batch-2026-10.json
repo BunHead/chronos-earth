@@ -1,0 +1,891 @@
+{
+ "note": "Empires, kingdoms and states for the thin parts of the globe (Oct 2026). Every fact is from Wikidata: the empire's P571/P576 for its years, its P36 for the capital, the capital's own P625 for the pin. Where P36 carries P580/P582 those are the capital role's dates; otherwise the role spans the empire's lifespan (borrowed: true), clamped to the city's own start, the same rule fetch-capitals uses. 'uncertain' means Wikidata records a year only to the decade or century. Applied by scripts/add-empires-batch-2026-10.mjs.",
+ "empires": [
+  {
+   "wikidataId": "Q796583",
+   "name": "Kingdom of Kongo",
+   "wikiTitle": "Kingdom of Kongo",
+   "sitelinks": 54,
+   "region": "Africa",
+   "startYear": 1395,
+   "endYear": 1914,
+   "uncertain": false,
+   "dateNote": "Wikidata gives two end dates (1888, 1914), the later is used",
+   "sourceUrl": "https://www.wikidata.org/wiki/Q796583",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kingdom_of_Kongo",
+   "capitals": [
+    {
+     "wikidataId": "Q500189",
+     "name": "M'banza-Kongo",
+     "wikiTitle": "M'banza-Kongo",
+     "lat": -6.2667,
+     "lon": 14.25,
+     "sitelinks": 60,
+     "from": 1395,
+     "to": 1914,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q500189"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q171203",
+   "name": "Benin Empire",
+   "wikiTitle": "Kingdom of Benin",
+   "sitelinks": 45,
+   "region": "Africa",
+   "startYear": 1170,
+   "endYear": 1897,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q171203",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kingdom_of_Benin",
+   "capitals": [
+    {
+     "wikidataId": "Q320704",
+     "name": "Benin City",
+     "wikiTitle": "Benin City",
+     "lat": 6.3176,
+     "lon": 5.6145,
+     "sitelinks": 70,
+     "cityStart": 1899,
+     "from": 1170,
+     "to": 1897,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q320704"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q849623",
+   "name": "Oyo Empire",
+   "wikiTitle": "Oyo Empire",
+   "sitelinks": 41,
+   "region": "Africa",
+   "startYear": 1400,
+   "endYear": 1905,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q849623",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Oyo_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q18342086",
+     "name": "Oyo-Ile",
+     "lat": 7.8436,
+     "lon": 3.9361,
+     "sitelinks": 0,
+     "from": 1400,
+     "to": 1905,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q18342086"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q468814",
+   "name": "Dahomey",
+   "wikiTitle": "Dahomey",
+   "sitelinks": 61,
+   "region": "Africa",
+   "startYear": 1600,
+   "endYear": 1894,
+   "uncertain": true,
+   "dateNote": "start known only to the decade",
+   "sourceUrl": "https://www.wikidata.org/wiki/Q468814",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Dahomey",
+   "capitals": [
+    {
+     "wikidataId": "Q189685",
+     "name": "Abomey",
+     "wikiTitle": "Abomey",
+     "lat": 7.1853,
+     "lon": 1.9914,
+     "sitelinks": 69,
+     "from": 1600,
+     "to": 1894,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q189685"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q829356",
+   "name": "Kingdom of Makuria",
+   "wikiTitle": "Makuria",
+   "sitelinks": 42,
+   "region": "Africa",
+   "startYear": 500,
+   "endYear": 1518,
+   "uncertain": true,
+   "dateNote": "start known only to the century",
+   "sourceUrl": "https://www.wikidata.org/wiki/Q829356",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Makuria",
+   "capitals": [
+    {
+     "wikidataId": "Q433112",
+     "name": "Old Dongola",
+     "wikiTitle": "Old Dongola",
+     "lat": 18.2231,
+     "lon": 30.7439,
+     "onPin": "pl865674318",
+     "sitelinks": 23,
+     "from": 500,
+     "to": 1518,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q433112"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q3107156",
+   "name": "Kilwa Sultanate",
+   "wikiTitle": "Kilwa Sultanate",
+   "sitelinks": 26,
+   "region": "Africa",
+   "startYear": 957,
+   "endYear": 1513,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q3107156",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kilwa_Sultanate",
+   "capitals": [
+    {
+     "wikidataId": "Q1741475",
+     "name": "Kilwa Kisiwani",
+     "wikiTitle": "Kilwa Kisiwani",
+     "lat": -8.9817,
+     "lon": 39.5172,
+     "sitelinks": 50,
+     "cityStart": 900,
+     "cityEnd": 1843,
+     "from": 957,
+     "to": 1513,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1741475"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q2365048",
+   "name": "Adal Sultanate",
+   "wikiTitle": "Adal Sultanate",
+   "sitelinks": 36,
+   "region": "Africa",
+   "startYear": 1415,
+   "endYear": 1577,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q2365048",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Adal_Sultanate",
+   "capitals": [
+    {
+     "wikidataId": "Q157800",
+     "name": "Zeila",
+     "wikiTitle": "Zeila",
+     "lat": 11.3539,
+     "lon": 43.4739,
+     "sitelinks": 36,
+     "from": 1415,
+     "to": 1577,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q157800"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q862478",
+   "name": "Kaabu",
+   "wikiTitle": "Kaabu",
+   "sitelinks": 22,
+   "region": "Africa",
+   "startYear": 1537,
+   "endYear": 1867,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q862478",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kaabu",
+   "capitals": [
+    {
+     "wikidataId": "Q1435754",
+     "name": "Foni Kansala",
+     "wikiTitle": "Foni Kansala",
+     "lat": 13.2167,
+     "lon": -16.05,
+     "sitelinks": 10,
+     "from": 1537,
+     "to": 1867,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1435754"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q760893",
+   "name": "Jolof Empire",
+   "wikiTitle": "Jolof Empire",
+   "sitelinks": 24,
+   "region": "Africa",
+   "startYear": 1350,
+   "endYear": 1549,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q760893",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Jolof_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q3233968",
+     "name": "Linguère",
+     "wikiTitle": "Linguère",
+     "lat": 15.3958,
+     "lon": -15.1108,
+     "sitelinks": 16,
+     "from": 1350,
+     "to": 1549,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q3233968"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q49326",
+   "name": "Majapahit",
+   "wikiTitle": "Majapahit",
+   "sitelinks": 68,
+   "region": "Southeast Asia",
+   "startYear": 1293,
+   "endYear": 1527,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q49326",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Majapahit",
+   "capitals": [
+    {
+     "wikidataId": "Q962410",
+     "name": "Trowulan",
+     "wikiTitle": "Trowulan",
+     "lat": -7.55,
+     "lon": 112.3667,
+     "sitelinks": 23,
+     "from": 1293,
+     "to": 1527,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q962410"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q201705",
+   "name": "Khmer Empire",
+   "wikiTitle": "Khmer Empire",
+   "sitelinks": 82,
+   "region": "Southeast Asia",
+   "startYear": 802,
+   "endYear": 1431,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q201705",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Khmer_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q163607",
+     "name": "Angkor",
+     "wikiTitle": "Angkor",
+     "lat": 13.4333,
+     "lon": 103.8333,
+     "sitelinks": 91,
+     "from": 802,
+     "to": 1431,
+     "borrowed": true,
+     "via": "P1376 on Angkor (the Khmer Empire's own P36 lists Yasodharapura, Hariharalaya and Koh Ker)",
+     "sourceUrl": "https://www.wikidata.org/wiki/Q163607"
+    },
+    {
+     "wikidataId": "Q1778458",
+     "name": "Koh Ker",
+     "wikiTitle": "Koh Ker",
+     "lat": 13.7499,
+     "lon": 104.5473,
+     "sitelinks": 31,
+     "from": 922,
+     "to": 944,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1778458"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q863279",
+   "name": "Sukhothai Kingdom",
+   "wikiTitle": "Sukhothai Kingdom",
+   "sitelinks": 38,
+   "region": "Southeast Asia",
+   "startYear": 1238,
+   "endYear": 1438,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q863279",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Sukhothai_Kingdom",
+   "capitals": [
+    {
+     "wikidataId": "Q423654",
+     "name": "Sukhothai Historical Park",
+     "wikiTitle": "Sukhothai Historical Park",
+     "lat": 17.0211,
+     "lon": 99.7036,
+     "sitelinks": 37,
+     "from": 1238,
+     "to": 1438,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q423654"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q402145",
+   "name": "Mataram Sultanate",
+   "wikiTitle": "Mataram Sultanate",
+   "sitelinks": 29,
+   "region": "Southeast Asia",
+   "startYear": 1586,
+   "endYear": 1755,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q402145",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Mataram_Sultanate",
+   "capitals": [
+    {
+     "wikidataId": "Q657168",
+     "name": "Kotagede",
+     "wikiTitle": "Kotagede",
+     "lat": -7.8179,
+     "lon": 110.3954,
+     "sitelinks": 12,
+     "from": 1586,
+     "to": 1613,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q657168"
+    },
+    {
+     "wikidataId": "Q3183029",
+     "name": "Kartasura",
+     "wikiTitle": "Kartasura",
+     "lat": -7.5692,
+     "lon": 110.7617,
+     "sitelinks": 10,
+     "from": 1680,
+     "to": 1755,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q3183029"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q887803",
+   "name": "Bruneian Sultanate",
+   "wikiTitle": "Sultanate of Brunei (1368–1888)",
+   "sitelinks": 32,
+   "region": "Southeast Asia",
+   "startYear": 1368,
+   "endYear": 1888,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q887803",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Sultanate_of_Brunei_(1368%E2%80%931888)",
+   "capitals": [
+    {
+     "wikidataId": "Q2365632",
+     "name": "Mukim Kota Batu",
+     "wikiTitle": "Mukim Kota Batu",
+     "lat": 4.8831,
+     "lon": 114.9635,
+     "sitelinks": 11,
+     "from": 1368,
+     "to": 1888,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q2365632"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q1642472",
+   "name": "Tondo",
+   "wikiTitle": "Tondo (historical polity)",
+   "sitelinks": 20,
+   "region": "Southeast Asia",
+   "startYear": 900,
+   "endYear": 1589,
+   "uncertain": true,
+   "dateNote": "start known only to the century",
+   "sourceUrl": "https://www.wikidata.org/wiki/Q1642472",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Tondo_(historical_polity)",
+   "capitals": [
+    {
+     "wikidataId": "Q1287698",
+     "name": "Tondo",
+     "wikiTitle": "Tondo, Manila",
+     "lat": 14.617,
+     "lon": 120.967,
+     "sitelinks": 20,
+     "from": 900,
+     "to": 1589,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1287698"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q1530762",
+   "name": "Kingdom of Kandy",
+   "wikiTitle": "Kingdom of Kandy",
+   "sitelinks": 24,
+   "region": "South Asia",
+   "startYear": 1469,
+   "endYear": 1815,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q1530762",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kingdom_of_Kandy",
+   "capitals": [
+    {
+     "wikidataId": "Q203197",
+     "name": "Kandy",
+     "wikiTitle": "Kandy",
+     "lat": 7.2931,
+     "lon": 80.635,
+     "sitelinks": 88,
+     "from": 1469,
+     "to": 1815,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q203197"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q874357",
+   "name": "Western Turkic Khaganate",
+   "wikiTitle": "Western Turkic Khaganate",
+   "sitelinks": 36,
+   "region": "Central Asia",
+   "startYear": 581,
+   "endYear": 659,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q874357",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Western_Turkic_Khaganate",
+   "capitals": [
+    {
+     "wikidataId": "Q413452",
+     "name": "Suyab",
+     "wikiTitle": "Suyab",
+     "lat": 42.8,
+     "lon": 75.2667,
+     "sitelinks": 29,
+     "from": 581,
+     "to": 659,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q413452"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q831218",
+   "name": "Uyghur Khaganate",
+   "wikiTitle": "Uyghur Khaganate",
+   "sitelinks": 57,
+   "region": "Central Asia",
+   "startYear": 744,
+   "endYear": 840,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q831218",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Uyghur_Khaganate",
+   "capitals": [
+    {
+     "wikidataId": "Q2475401",
+     "name": "Ordu-Baliq",
+     "wikiTitle": "Ordu-Baliq",
+     "lat": 47.4311,
+     "lon": 102.6594,
+     "sitelinks": 23,
+     "from": 744,
+     "to": 840,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q2475401"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q25979",
+   "name": "Kushan Empire",
+   "wikiTitle": "Kushan Empire",
+   "sitelinks": 90,
+   "region": "Central Asia",
+   "startYear": 30,
+   "endYear": 375,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q25979",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kushan_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q814388",
+     "name": "Bagram",
+     "wikiTitle": "Bagram",
+     "lat": 34.9333,
+     "lon": 69.2333,
+     "sitelinks": 45,
+     "from": 30,
+     "to": 375,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q814388"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q494354",
+   "name": "Karakhanid Khanate",
+   "wikiTitle": "Kara-Khanid Khanate",
+   "sitelinks": 52,
+   "region": "Central Asia",
+   "startYear": 840,
+   "endYear": 1212,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q494354",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kara-Khanid_Khanate",
+   "capitals": [
+    {
+     "wikidataId": "Q1764282",
+     "name": "Balasagun",
+     "wikiTitle": "Balasagun",
+     "lat": 42.7476,
+     "lon": 75.2484,
+     "sitelinks": 33,
+     "from": 840,
+     "to": 1212,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1764282"
+    },
+    {
+     "wikidataId": "Q170521",
+     "name": "Kashgar",
+     "wikiTitle": "Kashgar",
+     "lat": 39.45,
+     "lon": 75.9833,
+     "sitelinks": 94,
+     "from": 840,
+     "to": 1212,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q170521"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q487829",
+   "name": "Chagatai Khanate",
+   "wikiTitle": "Chagatai Khanate",
+   "sitelinks": 66,
+   "region": "Central Asia",
+   "startYear": 1225,
+   "endYear": 1687,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q487829",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Chagatai_Khanate",
+   "capitals": [
+    {
+     "wikidataId": "Q2627464",
+     "name": "Almaliq",
+     "wikiTitle": "Almaliq, Xinjiang",
+     "lat": 44.24,
+     "lon": 80.5331,
+     "sitelinks": 21,
+     "from": 1225,
+     "to": 1687,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q2627464"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q2605410",
+   "name": "Tarascan State",
+   "wikiTitle": "Purépecha Empire",
+   "sitelinks": 21,
+   "region": "Americas",
+   "startYear": 1300,
+   "endYear": 1530,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q2605410",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Pur%C3%A9pecha_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q1574289",
+     "name": "Tzintzuntzan",
+     "wikiTitle": "Tzintzuntzan, Michoacán",
+     "lat": 19.6283,
+     "lon": -101.5789,
+     "sitelinks": 27,
+     "from": 1300,
+     "to": 1530,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1574289"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q842390",
+   "name": "Tuʻi Tonga Empire",
+   "wikiTitle": "Tuʻi Tonga Empire",
+   "sitelinks": 29,
+   "region": "Oceania",
+   "startYear": 951,
+   "endYear": 1826,
+   "uncertain": true,
+   "dateNote": "start known only to the decade",
+   "sourceUrl": "https://www.wikidata.org/wiki/Q842390",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Tu%CA%BBi_Tonga_Empire",
+   "capitals": [
+    {
+     "wikidataId": "Q2359181",
+     "name": "Muʻa",
+     "wikiTitle": "Muʻa (Tongatapu)",
+     "lat": -21.1792,
+     "lon": -175.1167,
+     "sitelinks": 19,
+     "from": 951,
+     "to": 1826,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q2359181"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q156418",
+   "name": "Kingdom of Hawaiʻi",
+   "wikiTitle": "Hawaiian Kingdom",
+   "sitelinks": 55,
+   "region": "Oceania",
+   "startYear": 1795,
+   "endYear": 1895,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q156418",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Hawaiian_Kingdom",
+   "capitals": [
+    {
+     "wikidataId": "Q216258",
+     "name": "Hilo",
+     "wikiTitle": "Hilo, Hawaii",
+     "lat": 19.7056,
+     "lon": -155.0858,
+     "sitelinks": 68,
+     "from": 1796,
+     "to": 1802,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q216258"
+    },
+    {
+     "wikidataId": "Q1012971",
+     "name": "Lahaina",
+     "wikiTitle": "Lahaina, Hawaii",
+     "lat": 20.8861,
+     "lon": -156.6747,
+     "sitelinks": 47,
+     "from": 1802,
+     "to": 1812,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1012971"
+    },
+    {
+     "wikidataId": "Q1012971",
+     "name": "Lahaina",
+     "wikiTitle": "Lahaina, Hawaii",
+     "lat": 20.8861,
+     "lon": -156.6747,
+     "sitelinks": 47,
+     "from": 1820,
+     "to": 1845,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q1012971"
+    },
+    {
+     "wikidataId": "Q627970",
+     "name": "Kailua-Kona",
+     "wikiTitle": "Kailua-Kona, Hawaii",
+     "lat": 19.65,
+     "lon": -155.9942,
+     "sitelinks": 35,
+     "from": 1812,
+     "to": 1820,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q627970"
+    },
+    {
+     "wikidataId": "Q18094",
+     "name": "Honolulu",
+     "wikiTitle": "Honolulu",
+     "lat": 21.3047,
+     "lon": -157.8572,
+     "sitelinks": 191,
+     "from": 1845,
+     "to": 1893,
+     "borrowed": false,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q18094"
+    }
+   ]
+  },
+  {
+   "wikidataId": "Q3028514",
+   "name": "Kingdom of Tahiti",
+   "wikiTitle": "Kingdom of Tahiti",
+   "sitelinks": 17,
+   "region": "Oceania",
+   "startYear": 1788,
+   "endYear": 1880,
+   "uncertain": false,
+   "sourceUrl": "https://www.wikidata.org/wiki/Q3028514",
+   "wikipediaUrl": "https://en.wikipedia.org/wiki/Kingdom_of_Tahiti",
+   "capitals": [
+    {
+     "wikidataId": "Q130800",
+     "name": "Papeete",
+     "wikiTitle": "Papeete",
+     "lat": -17.5397,
+     "lon": -149.5689,
+     "sitelinks": 103,
+     "cityStart": 1818,
+     "from": 1788,
+     "to": 1880,
+     "borrowed": true,
+     "sourceUrl": "https://www.wikidata.org/wiki/Q130800"
+    }
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "wikidataId": "Q139377",
+   "name": "Kingdom of Aksum",
+   "reason": "Already on the globe as the hand-made pin 'cur-aksum'."
+  },
+  {
+   "wikidataId": "Q184536",
+   "name": "Mali Empire",
+   "reason": "Already on the globe as the hand-made pin 'cur-mali-empire'."
+  },
+  {
+   "wikidataId": "Q202687",
+   "name": "Songhai Empire",
+   "reason": "Already on the globe as the hand-made pin 'cur-songhai'."
+  },
+  {
+   "wikidataId": "Q206789",
+   "name": "Ghana Empire",
+   "reason": "Already on the globe as the hand-made pin 'cur-ghana-empire'."
+  },
+  {
+   "wikidataId": "Q722071",
+   "name": "Ashanti Empire",
+   "reason": "Already on the globe as the hand-made pin 'cur-ashanti'."
+  },
+  {
+   "wikidataId": "Q2608489",
+   "name": "Aztec Empire",
+   "reason": "Already on the globe as the hand-made pin 'cur-aztec-empire'."
+  },
+  {
+   "wikidataId": "Q216786",
+   "name": "Champa",
+   "reason": "Wikidata's only capital is Vijaya, with no dates. Vijaya was capital for part of Champa's history (roughly 1000-1471), so spreading it over 192-1832 would be a wrong date. Needs a hand-checked date first."
+  },
+  {
+   "wikidataId": "Q894030",
+   "name": "Bornu Empire",
+   "reason": "Wikidata's only capital is Ngazargamu, with no dates. Ngazargamu was founded long after 1387, so the pin would appear before the city existed. Needs a hand-checked date first."
+  },
+  {
+   "wikidataId": "Q1537016",
+   "name": "Kanem Empire",
+   "reason": "Its capital Njimi has no coordinates (P625) on Wikidata - its site is not known."
+  },
+  {
+   "wikidataId": "Q173282",
+   "name": "Khazars",
+   "reason": "Its capital Balanjar has no coordinates (P625) on Wikidata."
+  },
+  {
+   "wikidataId": "Q867782",
+   "name": "Kingdom of Funan",
+   "reason": "Its capital Vyadhapura has no coordinates (P625) on Wikidata."
+  },
+  {
+   "wikidataId": "Q1469742",
+   "name": "Sunda Kingdom",
+   "reason": "Neither capital (Kawali, Pakuan Pajajaran) has coordinates on Wikidata."
+  },
+  {
+   "wikidataId": "Q79965",
+   "name": "Golden Horde",
+   "reason": "Its main capitals (Sarai, Sarai Berke) have no coordinates on Wikidata; the only one with a pin, Bolgar, was capital only briefly and the role is undated."
+  },
+  {
+   "wikidataId": "Q923516",
+   "name": "Wari Empire",
+   "reason": "Wikidata's capital is 'Huari' (Q3322143), the modern town in Ancash, about 400 km from the real Wari site near Ayacucho. Wrong pin, so left out."
+  },
+  {
+   "wikidataId": "Q241790",
+   "name": "Kingdom of Kush",
+   "reason": "Wikidata's start year (2179 BCE) does not match the usual c. 1070 BCE; and Meroe is already on the globe as 'Meroe (Kush)'. Needs a human to pick the date."
+  },
+  {
+   "wikidataId": "Q1132786",
+   "name": "Ouaddai Empire (Wadai)",
+   "reason": "Its Wikidata capital Abeche only became capital in 1850; the role is undated, so it would show from 1635."
+  },
+  {
+   "wikidataId": "Q422065",
+   "name": "Sultanate of Sulu",
+   "reason": "Its Wikidata capital Maimbung was capital only late on; the role is undated, so it would show from 1405."
+  },
+  {
+   "wikidataId": "Q2060657",
+   "name": "Singhasari",
+   "reason": "Wikidata's capital is the modern city of Malang, not the old royal seat. Also already drawn on the 1279 border map."
+  },
+  {
+   "wikidataId": "Q473748",
+   "name": "Buganda",
+   "reason": "Wikidata's capital is modern Kampala (on the globe from 1860); an undated role would show it from 1420."
+  },
+  {
+   "wikidataId": "Q15146034",
+   "name": "First Turkic Khaganate",
+   "reason": "Wikidata's capital is Suyab, which belongs to the Western Turkic Khaganate (added). Its real seat, Otuken, has no pin."
+  },
+  {
+   "wikidataId": "Q209217",
+   "name": "Kingdom of Zimbabwe (Great Zimbabwe)",
+   "reason": "No Wikidata item for the kingdom with a P36 capital could be found (the query service was timing out). Great Zimbabwe itself is already on the globe (cur-great-zimbabwe)."
+  },
+  {
+   "wikidataId": "Q1607505",
+   "name": "Saudeleur dynasty",
+   "reason": "No start or end year (P571/P576) on Wikidata. Nan Madol is already on the globe."
+  },
+  {
+   "wikidataId": "Q61750",
+   "name": "Tiwanaku",
+   "reason": "No capital (P36) and no start/end years on Wikidata."
+  },
+  {
+   "wikidataId": "Q63134381",
+   "name": "Khwarazmian Empire",
+   "reason": "No capital (P36) on Wikidata."
+  },
+  {
+   "wikidataId": "Q854468",
+   "name": "Kingdom of Mutapa",
+   "reason": "No capital (P36) on Wikidata."
+  },
+  {
+   "wikidataId": "Q600524",
+   "name": "Sokoto Caliphate",
+   "reason": "No capital (P36) on Wikidata."
+  },
+  {
+   "wikidataId": "Q828578",
+   "name": "Muisca Confederation",
+   "reason": "No capital (P36) on Wikidata."
+  },
+  {
+   "wikidataId": "Q17523945",
+   "name": "Toltec Empire",
+   "reason": "No capital (P36) on Wikidata."
+  }
+ ]
+}
