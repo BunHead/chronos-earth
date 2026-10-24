@@ -2,7 +2,8 @@
 //
 // The harvester copies names and summaries straight from Wikidata and
 // Wikipedia, and now and then one arrives with a doubled space, a stray
-// "&amp;" or a leftover <i> tag. This makes the SAFE, mechanical repair only
+// "&amp;" or a leftover <i> tag, or a Born / Died line ends in a raw Wikidata
+// blank-node URL (an "unknown value" place). This makes the SAFE, mechanical repair only
 // (scripts/lib/data-quality.mjs `cleanText`): decode entities, drop tags,
 // fold spaces, trim. Anything that needs judgement — a duplicate, a pin in
 // the wrong place, a doubtful year — is left for `npm run lint:data` to
@@ -17,7 +18,7 @@ const FILE = 'public/data/imported/events.json';
 const dry = process.argv.includes('--check');
 
 const doc = JSON.parse(await readFile(FILE, 'utf8'));
-const changed = fixRows(doc.events, ['name', 'summary']);
+const changed = fixRows(doc.events, ['name', 'summary', 'born', 'died']);
 for (const c of changed) console.log(`  ${c.id} ${c.field}: ${JSON.stringify(c.from)} → ${JSON.stringify(c.to)}`);
 if (changed.length && !dry) await writeFile(FILE, JSON.stringify(doc));
 console.log(`${changed.length} text field(s) ${dry ? 'would be' : ''} cleaned in ${FILE}`.replace('  ', ' '));

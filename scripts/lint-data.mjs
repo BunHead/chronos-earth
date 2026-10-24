@@ -3,7 +3,8 @@
 // A dependency-free sanity pass over the public data the globe serves. It
 // catches the mistakes that slip past a harvest: duplicate ids, coordinates off
 // the planet, "null island" (0,0) placeholders, impossible or out-of-range
-// dates, unknown categories, and empty names. Runs in CI and locally:
+// dates (an end before its start, a person born after they died), unknown
+// categories, and empty names. Runs in CI and locally:
 //
 //   node scripts/lint-data.mjs            # lint, exit 1 on any error
 //   node scripts/lint-data.mjs --warn     # never fail the build (warn only)
@@ -26,7 +27,7 @@ import {
   MAX_KM, fetchP625, findFarPins, handPlacedPins, lookupFromHarvest,
 } from './lib/wikidata-coords.mjs';
 import {
-  checkBceSign, checkCoords, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords, checkQids,
+  checkBceSign, checkCoords, checkImpossibleYears, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords, checkQids,
   checkSwapped, checkText, checkWholeDegree, referencedFiles, textProblems,
 } from './lib/data-quality.mjs';
 
@@ -60,7 +61,7 @@ function checkRow(file, row, i, { yearKey, categories }) {
   const { lat, lon } = row;
   if (typeof lat !== 'number' || lat < -90 || lat > 90) err(file, id, `lat out of range: ${lat}`);
   if (typeof lon !== 'number' || lon < -180 || lon > 180) err(file, id, `lon out of range: ${lon}`);
-  if (lat === 0 && lon === 0) warn(file, id, 'coordinates are (0,0) — likely a missing-location placeholder');
+  if (lat === 0 && lon === 0) err(file, id, 'coordinates are (0,0) — a missing-location placeholder');
 
   if (yearKey) {
     const y = row[yearKey];
@@ -69,6 +70,9 @@ function checkRow(file, row, i, { yearKey, categories }) {
     if (typeof row.endYear === 'number' && typeof y === 'number' && row.endYear < y) {
       err(file, id, `endYear (${row.endYear}) precedes ${yearKey} (${y})`);
     }
+    if (typeof row.endYear === 'number' && row.endYear > NEWEST_YEAR) err(file, id, `endYear out of range: ${row.endYear}`);
+    // A person shown born after the death their Died line or date note gives.
+    for (const f of checkImpossibleYears({ ...row, startYear: y })) if (f.kind === 'born-after-death') err(file, id, f.msg);
   }
 
   if (categories) {
