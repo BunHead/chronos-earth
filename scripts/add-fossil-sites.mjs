@@ -395,16 +395,6 @@ export const FOSSIL_SITES = [
       'about 1.6–0.7 million years. A World Heritage Site since 1996.'),
   'About half of all the world\'s known Homo erectus fossils come from this area of Java.',
   'https://en.wikipedia.org/wiki/Sangiran_2'),
-  cited(site('callao', 'Callao Cave: Homo luzonensis', 2007, 17.70326111, 121.82375, 'Q5021779', 'Callao Cave',
-    'In 2007 Armand Mijares\'s team found a human foot bone in this cave on Luzon. More bones followed, and in 2019 they ' +
-      'were named a new species, Homo luzonensis. They are at least 50,000 years old (0.05 million years).'),
-  'A cave in the Philippines that gave the world a new kind of human, Homo luzonensis.',
-  'https://en.wikipedia.org/wiki/Homo_luzonensis'),
-  cited(site('tam-pa-ling', 'Tam Pa Ling: early modern human skull', 2009, 20.20861111, 103.40972222, 'Q27922296', 'Tam Pa Ling Cave',
-    'In 2009 a modern human skull was found in this cave in northern Laos. It is about 63,000–46,000 years old ' +
-      '(under 0.1 million years) — among the oldest of our species in mainland South-East Asia.'),
-  'A cave in Laos with one of the oldest modern human skulls in mainland South-East Asia.',
-  'https://pmc.ncbi.nlm.nih.gov/articles/PMC3529036/'),
   cited(site('phu-wiang', 'Phu Wiang: Thailand\'s first dinosaur', 1976, 16.67833333, 102.35361111, 'Q1968975', 'Phu Wiang National Park',
     'In 1976 a geologist hunting for uranium, Sudham Yaemniyom, found a sauropod thigh bone here. It was Thailand\'s first ' +
       'dinosaur. The Sao Khua Formation is about 130 million years old (Early Cretaceous).'),

@@ -92,7 +92,8 @@ describe('fossil sites', () => {
     }
     // Favours the thin regions: these were the gaps on the globe.
     const ids = batch2.map((s) => s.id.replace('cur-fossil-', ''));
-    for (const id of ['malapa', 'cerro-ballena', 'callao', 'gogo', 'kirkpatrick', 'james-ross-island'])
+    // Callao Cave is pinned once, as cur-find-callao (scripts/add-discoveries-2015-2026.mjs).
+    for (const id of ['malapa', 'cerro-ballena', 'gogo', 'kirkpatrick', 'james-ross-island'])
       expect(ids, id).toContain(id);
   });
 
