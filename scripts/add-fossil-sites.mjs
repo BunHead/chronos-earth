@@ -47,6 +47,10 @@ const site = (id, name, startYear, lat, lon, wikidataId, wikiTitle, dateNote, wh
   dateNote: where ? `${dateNote} ${where}` : dateNote,
 });
 
+// A one-line panel summary and the source it was checked against (batch 2 on).
+// The summary leads the panel; sourceUrl is shown under it as "Source".
+const cited = (row, summary, sourceUrl) => ({ ...row, summary, sourceUrl });
+
 export const FOSSIL_SITES = [
   site('burgess-shale', 'Burgess Shale fossils found', 1909, 51.4333, -116.467, 'Q852085', 'Burgess Shale',
     'Found by Charles Walcott in 1909, high in the Canadian Rockies. The rock is about 508 million years old ' +
@@ -342,6 +346,127 @@ export const FOSSIL_SITES = [
   site('berlin-ichthyosaur', 'Berlin–Ichthyosaur: Shonisaurus found', 1928, 38.87861, -117.595, 'Q680501', 'Berlin–Ichthyosaur State Park',
     'In 1928 the geologist Siemon Muller found the bones of giant ichthyosaurs in West Union Canyon, Nevada. ' +
       'Shonisaurus, up to 15 m long, lay here about 215 million years ago (Late Triassic).'),
+
+  // Added 23 Oct 2026 (nightly job, batch 2), favouring the thin regions:
+  // Africa, South America, Asia, Australia and Antarctica. Each pin is the
+  // site's Wikidata P625, checked against the globe by Q-id and by any pin
+  // within 15 km. Each also carries a one-line `summary` and the `sourceUrl` it
+  // was checked against, shown in the panel as "Source".
+  // Left out: Toumaï (Toros-Menalla has no Wikidata point), Kromdraai (its
+  // Wikidata point is the one Swartkrans also uses, so it would stack on SK 847),
+  // Cal Orck'o (no source gave the year the tracks were found), Kitadani,
+  // Plaza Huincul and El Chocón (their finds — Fukuisaurus, Argentinosaurus,
+  // Giganotosaurus — are already pins), Laetoli (as before) and Qafzeh
+  // (already pinned with Skhul).
+  cited(site('malapa', 'Malapa: Australopithecus sediba found', 2008, -25.895147, 27.801324, 'Q1167179', 'Malapa Fossil Site, Cradle of Humankind',
+    'On 15 August 2008 nine-year-old Matthew Berger, out with his father Lee Berger, spotted a fossil collarbone in this cave. ' +
+      'The skeletons are about 1.98 million years old.'),
+  'Two skeletons of a new human relative, Australopithecus sediba, were found in this South African cave in 2008.',
+  'https://en.wikipedia.org/wiki/Malapa_Fossil_Site%2C_Cradle_of_Humankind'),
+  cited(site('florisbad', 'Florisbad skull found', 1932, -28.766, 26.083, 'Q15217910', 'Florisbad',
+    'In 1932 Thomas Dreyer found a partial skull at this spring in the Free State, South Africa. Electron-spin dating ' +
+      'gives about 259,000 years (0.26 million years).'),
+  'A 259,000-year-old skull from a South African spring, close to the start of our own species.',
+  'https://en.wikipedia.org/wiki/Florisbad'),
+  cited(site('klasies', 'Klasies River Caves dug', 1967, -34.1081, 24.3901, 'Q3815801', 'Klasies River Caves',
+    'Ronald Singer and John Wymer dug these sea caves in 1967–68 and found human bones up to about 110,000 years old ' +
+      '(0.11 million years), some of the oldest Homo sapiens remains in southern Africa.'),
+  'Sea caves in South Africa holding some of the oldest remains of our own species in southern Africa.',
+  'https://en.wikipedia.org/wiki/Klasies_River_Caves'),
+  cited(site('gadoufaoua', 'Gadoufaoua: Taquet\'s dinosaur digs', 1965, 16.833345579, 9.416664607, 'Q1317998', 'Gadoufaoua',
+    'Philippe Taquet led five French digs here in the Sahara of Niger between 1965 and 1972, finding Ouranosaurus and ' +
+      'the giant crocodile Sarcosuchus. The Elrhaz Formation rock is about 120–112 million years old (Early Cretaceous).'),
+  'A Sahara site in Niger where whole dinosaur skeletons lie on the surface of the sand.',
+  'https://en.wikipedia.org/wiki/Gadoufaoua'),
+  cited(site('cerro-ballena', 'Cerro Ballena: the whale graveyard', 2010, -27.042086111, -70.79505, 'Q17153288', 'Cerro Ballena',
+    'In 2010 road crews widening the Pan-American Highway in Chile\'s Atacama Desert uncovered more than 40 fossil whales. ' +
+      'They died in four mass strandings, probably from toxic algae, about 9–6 million years ago (Late Miocene).'),
+  'More than 40 fossil whales found by road-builders in the Atacama Desert, Chile.',
+  'https://en.wikipedia.org/wiki/Cerro_Ballena'),
+  // No English Wikipedia article for the cave; the panel uses Luzia's. Year:
+  // 1975 in the radiocarbon paper (Fontugne 2013), 1974 in Wikipedia.
+  cited(site('lapa-vermelha', 'Lapa Vermelha: "Luzia" found', 1975, -19.5990909, -43.9916611, 'Q10316269', 'Luzia Woman',
+    'In 1974–75 a French–Brazilian team led by Annette Laming-Emperaire found the skeleton of a young woman in this rock ' +
+      'shelter at Lagoa Santa, Brazil. She is about 11,500 years old (0.0115 million years): one of the oldest people found in the Americas.'),
+  'The rock shelter in Brazil where "Luzia", one of the oldest skeletons in the Americas, was found.',
+  'https://www.cambridge.org/core/journals/radiocarbon/article/new-radiocarbon-ages-of-luzia-woman-lapa-vermelha-iv-site-lagoa-santa-minas-gerais-brazil/3FFB4C431D16EAD3B896421F5F0C2557'),
+  cited(site('sangiran', 'Sangiran: Java Man\'s home ground', 1937, -7.45, 110.85, 'Q842328', 'Sangiran',
+    'In 1937 Ralph von Koenigswald found a Homo erectus skull (Sangiran 2) here in central Java. The layers span ' +
+      'about 1.6–0.7 million years. A World Heritage Site since 1996.'),
+  'About half of all the world\'s known Homo erectus fossils come from this area of Java.',
+  'https://en.wikipedia.org/wiki/Sangiran_2'),
+  cited(site('phu-wiang', 'Phu Wiang: Thailand\'s first dinosaur', 1976, 16.67833333, 102.35361111, 'Q1968975', 'Phu Wiang National Park',
+    'In 1976 a geologist hunting for uranium, Sudham Yaemniyom, found a sauropod thigh bone here. It was Thailand\'s first ' +
+      'dinosaur. The Sao Khua Formation is about 130 million years old (Early Cretaceous).'),
+  'Where Thailand\'s first dinosaur bone was found, by a geologist looking for uranium.',
+  'https://www.dinosauria.org/documents/2003/oryctos_v2_99-p39-91.pdf'),
+  cited(site('lufeng', 'Lufeng: Lufengosaurus found', 1938, 25.0, 102.1, 'Q1669501', 'Lufeng Formation',
+    'In 1938 the geologist Bian Meinian found dinosaur bones at Lufeng, Yunnan; C. C. Young named Lufengosaurus from them. ' +
+      'The rock is about 199–190 million years old (Early Jurassic).',
+    'Wikidata pins the formation at a rounded point near Lufeng.'),
+  'Where China\'s first mounted dinosaur, Lufengosaurus, was dug up.',
+  'https://en.wikipedia.org/wiki/Lufengosaurus'),
+  cited(site('dashanpu', 'Dashanpu: the Zigong dinosaur quarry', 1979, 29.39888889, 104.82611111, 'Q827778', 'Zigong Dinosaur Museum',
+    'In December 1979 Dong Zhiming found bulldozers crushing dinosaur bones at a building site here in Sichuan. Over 100 ' +
+      'dinosaurs, such as Shunosaurus, were dug out. The rock is about 170 million years old (Middle Jurassic).',
+    'The Zigong Dinosaur Museum stands on the quarry.'),
+  'A Middle Jurassic dinosaur graveyard in Sichuan; a museum now stands over the bones.',
+  'https://en.wikipedia.org/wiki/Dong_Zhiming'),
+  cited(site('nemegt', 'Nemegt Basin: Gobi dinosaur graveyard', 1946, 43.5, 101.0, 'Q3077414', 'Nemegt Formation',
+    'Soviet expeditions led by Ivan Efremov found this basin in the Gobi in 1946 and dug out about 10 skeletons, among them ' +
+      'Tarbosaurus. The rock is about 70 million years old (Late Cretaceous).',
+    'Wikidata pins the formation at a rounded point in the basin.'),
+  'A great Late Cretaceous dinosaur graveyard in Mongolia\'s Gobi Desert.',
+  'https://www.app.pan.pl/archive/published/app64/app005962019.html'),
+  cited(site('balasinor', 'Raiyoli: India\'s dinosaur hatchery', 1981, 22.955891, 73.336499, 'Q624405', 'Balasinor',
+    'In 1981 Geological Survey of India geologists found dinosaur eggs at Raiyoli, near Balasinor in Gujarat. About 1,000 ' +
+      'eggs are known. They are about 67 million years old (Late Cretaceous, Lameta Formation).',
+    'Pinned on Balasinor; the fossil park at Raiyoli is about 10 km away.'),
+  'One of the world\'s largest dinosaur nesting sites, in Gujarat, India.',
+  'https://www.smithsonianmag.com/travel/balasinor-dinosaur-fossil-park-raiyoli-gujarat-india-princess-aaliya-sultana-babi-180957798/'),
+  cited(site('jabalpur', 'Jabalpur: India\'s first dinosaur bones', 1828, 23.2, 80.0, 'Q3077403', 'Lameta Formation',
+    'In 1828 Captain William Sleeman found big fossil bones on Bara Simla Hill, Jabalpur, while looking for petrified wood. ' +
+      'In 1877 they were named Titanosaurus. The Lameta rock is about 70–66 million years old (Late Cretaceous).',
+    'Wikidata pins the Lameta Formation near Jabalpur.'),
+  'Where the first dinosaur bones in India were found, in 1828.',
+  'https://en.wikipedia.org/wiki/Titanosaurus'),
+  cited(site('teshik-tash', 'Teshik-Tash: Neanderthal child found', 1938, 37.96596389, 67.15651111, 'Q1679526', 'Teshik-Tash 1',
+    'In 1938 Alexey Okladnikov found the skeleton of a Neanderthal child in this cave in Uzbekistan, ringed by goat horns. ' +
+      'It is about 70,000 years old (0.07 million years), the furthest east a Neanderthal was known for decades.'),
+  'A Neanderthal child\'s grave in a cave in the mountains of Uzbekistan.',
+  'https://en.wikipedia.org/wiki/Teshik-Tash_1'),
+  cited(site('wellington', 'Wellington Caves: Diprotodon found', 1830, -32.620833333, 148.938055555, 'Q7981344', 'Wellington Caves',
+    'In 1830 the magistrate George Ranken found giant fossil bones here; Thomas Mitchell collected more the same year. ' +
+      'Richard Owen named Diprotodon from them in 1838. The bones are Ice Age (Pleistocene), under 2 million years old.'),
+  'Where Australia\'s giant extinct animals, the megafauna, were first found.',
+  'https://helictite.caves.org.au/pdf1/42.Dunkley.pdf'),
+  cited(site('gogo', 'Gogo Formation: perfect fossil fish', 1940, -18.3, 126.5, 'Q952545', 'Gogo Formation',
+    'Curt Teichert found the first fossil fish here in 1940; big digs began in 1963. The fish are so well kept that one, ' +
+      'Materpiscis, is a mother with her unborn young. The reef is about 380 million years old (Late Devonian).',
+    'Wikidata pins the formation at a rounded point in the Kimberley.'),
+  'An ancient reef in Western Australia with fossil fish kept in 3D, soft parts and all.',
+  'https://en.wikipedia.org/wiki/Gogo_Formation'),
+  cited(site('kirkpatrick', 'Mount Kirkpatrick: Cryolophosaurus found', 1991, -84.333333333, 166.416666666, 'Q1929197', 'Mount Kirkpatrick',
+    'William Hammer\'s team dug a crested meat-eating dinosaur, Cryolophosaurus, out of this mountain in the 1990–91 ' +
+      'summer, about 4,000 m up. The Hanson Formation is about 194–188 million years old (Early Jurassic).'),
+  'Where the first meat-eating dinosaur from Antarctica was dug up, high in the mountains.',
+  'https://en.wikipedia.org/wiki/Cryolophosaurus'),
+  cited(site('coalsack-bluff', 'Coalsack Bluff: Lystrosaurus in Antarctica', 1969, -84.2333, 162.417, 'Q5138028', 'Coalsack Bluff',
+    'In 1969 Edwin Colbert\'s team found Lystrosaurus here — an animal already known from Africa and India. It helped prove ' +
+      'that the continents were once joined. The Fremouw Formation is about 250 million years old (Early Triassic).'),
+  'A fossil find in Antarctica that helped prove the continents drift.',
+  'https://www.biodiversitylibrary.org/item/171373'),
+  cited(site('seymour-island', 'Seymour Island: Antarctica\'s first fossils', 1892, -64.271888888, -56.727388888, 'Q1103106', 'Seymour Island',
+    'In December 1892 the whaling captain Carl Anton Larsen landed here and collected fossil shells and wood — the first ' +
+      'fossils from Antarctica. The rocks are about 70–34 million years old (Late Cretaceous to Eocene).'),
+  'The island where the first fossils from Antarctica were collected.',
+  'https://nora.nerc.ac.uk/id/eprint/541317/'),
+  cited(site('james-ross-island', 'James Ross Island: Antarctica\'s first dinosaur', 1986, -64.166666666, -57.75, 'Q1022143', 'James Ross Island',
+    'In January 1986 Eduardo Olivero and Roberto Scasso found an armoured dinosaur here, later named Antarctopelta: the ' +
+      'first dinosaur found in Antarctica. The rock is about 74–70 million years old (Late Cretaceous).',
+    'Wikidata pins the island; the bones came from near Santa Marta Cove.'),
+  'Where the first dinosaur bones in Antarctica were found.',
+  'https://en.wikipedia.org/wiki/Antarctopelta'),
 ];
 
 async function main() {
