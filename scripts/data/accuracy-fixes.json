@@ -1861,6 +1861,109 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Died 3 October 1867, not 1866.",
       "source": "https://www.wikidata.org/wiki/Q360359; https://en.wikipedia.org/wiki/Elias_Howe"
     },
+    "q2096": {
+      "startYear": 1795,
+      "dateNote": "Founded in 1795 as Fort Edmonton, a Hudson's Bay Company trading post. It became a town in 1892 and a city in 1904.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (1904). That is when it became a city; Wikidata P571 also gives 1795, the fort",
+      "source": "https://www.wikidata.org/wiki/Q2096 (P571 1795, 1892, 1904); https://en.wikipedia.org/wiki/Edmonton"
+    },
+    "q37133": {
+      "startYear": 1778,
+      "dateNote": "The city was founded in 1778, when Greeks from Crimea settled here. There were older settlements on the site, including the Cossack post of Kalmius. Wikidata gives only \"10th century\", which showed as 901.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (901). Wikidata P571 is just \"10th century\"; the city was founded in 1778",
+      "source": "https://www.wikidata.org/wiki/Q37133 (P571 10th century); https://en.wikipedia.org/wiki/Mariupol"
+    },
+    "q40738": {
+      "startYear": -202,
+      "dateNote": "Founded as Prusa by King Prusias I of Bithynia, about 202 BC (some say a little later). Wikidata gives AD 202, a slip for BC.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (AD 202). Wikidata P571 is +202, but Prusa was founded by Prusias I about 202 BC",
+      "source": "https://www.wikidata.org/wiki/Q40738 (P571 202); https://en.wikipedia.org/wiki/Bursa"
+    },
+    "q542070": {
+      "startYear": 432,
+      "dateNote": "The church was rebuilt from about 432 and consecrated in 439 under Pope Sixtus III, on the site of an older church. Wikidata gives only \"5th century\", which showed as 401.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (401). Wikidata P571 is just \"5th century\"; the basilica was rebuilt 432 to 440",
+      "source": "https://www.wikidata.org/wiki/Q542070 (P571 5th century); https://en.wikipedia.org/wiki/San_Pietro_in_Vincoli"
+    },
+    "q143042": {
+      "startYear": 1186,
+      "dateNote": "Founded by Stefan Nemanja, founder of the Serbian Nemanjić dynasty, in the 1180s (Wikidata: 1186).",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (1101). Wikidata P571 gives 1186; 1101 is \"12th century\" read as a year",
+      "source": "https://www.wikidata.org/wiki/Q143042 (P571 1186); https://en.wikipedia.org/wiki/Studenica_Monastery"
+    },
+    "q56004": {
+      "startYear": 822,
+      "dateNote": "Founded in 822 by Benedictine monks from Corbie, under Emperor Louis the Pious. Wikidata gives only \"9th century\", which showed as 801.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (801). Wikidata P571 is just \"9th century\"; the abbey was founded in 822",
+      "source": "https://www.wikidata.org/wiki/Q56004 (P571 9th century); https://en.wikipedia.org/wiki/Corvey"
+    },
+    "q936285": {
+      "startYear": 996,
+      "dateNote": "Founded in 996 by Prince Géza of Hungary. Wikidata gives only \"10th century\", which showed as 901.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (901). Wikidata P571 is just \"10th century\"; the abbey was founded in 996",
+      "source": "https://www.wikidata.org/wiki/Q936285 (P571 10th century); https://en.wikipedia.org/wiki/Pannonhalma_Archabbey"
+    },
+    "q211252": {
+      "startYear": 936,
+      "dateNote": "Building began in 936 (some say 940) for Caliph Abd al-Rahman III. Wikidata gives only \"10th century\", which showed as 1000.",
+      "why": "Places fact-check batch 6 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\"; the palace city was begun in 936",
+      "source": "https://www.wikidata.org/wiki/Q211252 (P571 10th century); https://en.wikipedia.org/wiki/Madinat_al-Zahra"
+    },
+    "q11739": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"10th century\". Lahore is first clearly recorded in the 10th century (the Hudud al-Alam, 982), but the city is likely older.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"10th century\", shown as 901",
+      "source": "https://www.wikidata.org/wiki/Q11739 (P571 10th century); https://en.wikipedia.org/wiki/History_of_Lahore"
+    },
+    "q268": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"10th century\". A stronghold stood here by the 10th century and Poznań got its bishop in 968.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"10th century\", shown as 901",
+      "source": "https://www.wikidata.org/wiki/Q268 (P571 10th century); https://en.wikipedia.org/wiki/Pozna%C5%84"
+    },
+    "q13666": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"8th century BC\". Greek settlers founded the city, then called Zancle, in the 8th century BC.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"8th century BC\", shown as 800 BC",
+      "source": "https://www.wikidata.org/wiki/Q13666 (P571 8th century BC); https://en.wikipedia.org/wiki/Messina"
+    },
+    "q159610": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"6th century BC\". The Greek city of Aulon is dated to about then.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"6th century BC\", shown as 501 BC",
+      "source": "https://www.wikidata.org/wiki/Q159610 (P571 6th century BC); https://en.wikipedia.org/wiki/Vlor%C3%AB"
+    },
+    "q617": {
+      "dateNote": "1183 BC is the year of legend: the Trojan prince Antenor is said to have founded Padua after the fall of Troy. The real settlement is old, but no exact year is known.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: 1183 BC (Wikidata P571) is the legendary founding by Antenor",
+      "source": "https://www.wikidata.org/wiki/Q617 (P571 1183 BC); https://en.wikipedia.org/wiki/Padua"
+    },
+    "q15174": {
+      "dateNote": "The year shown, 1979, is when Shenzhen was made a city; the special economic zone followed in 1980. There were villages and a market town here long before.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: 1979 is city status; Wikidata P571 also has 1410 for an earlier settlement",
+      "source": "https://www.wikidata.org/wiki/Q15174 (P571 1979, 1410); https://en.wikipedia.org/wiki/Shenzhen"
+    },
+    "q48320": {
+      "dateNote": "The year shown, 1889, is when Kobe became a city. The port here is far older, but there is no single founding year.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: 1889 (Wikidata P571) is city status; no founding year is agreed",
+      "source": "https://www.wikidata.org/wiki/Q48320 (P571 1889); https://en.wikipedia.org/wiki/Kobe"
+    },
+    "q1363": {
+      "dateNote": "Tripura is an Indian state, not a city; the pin is the middle of the state. 1972 is when it became a state. Its capital is Agartala.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: this row is a state (Wikidata P31 state of India), not a city, pinned at the state centre; 1972 is statehood",
+      "source": "https://www.wikidata.org/wiki/Q1363 (P31 Q12443800, P571 1972); https://en.wikipedia.org/wiki/Tripura"
+    },
+    "q859010": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"13th century\". There was an Estonian stronghold here before the Danes took it in 1219; the stone castle was built in the 1220s.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"13th century\", shown as 1201",
+      "source": "https://www.wikidata.org/wiki/Q859010 (P571 13th century); https://en.wikipedia.org/wiki/Toompea_Castle"
+    },
+    "q368628": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"2nd millennium BC\" for the first settlement. Sicyon was a city long before Greek records begin.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just a millennium, shown as 2000 BC",
+      "source": "https://www.wikidata.org/wiki/Q368628 (P571 2nd millennium BC); https://en.wikipedia.org/wiki/Sicyon"
+    },
+    "q684072": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"1st century\". The temple is usually dated to AD 77, under King Tiridates I, but some scholars date it later.",
+      "why": "Places fact-check batch 6 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"1st century\", shown as 50; often dated AD 77",
+      "source": "https://www.wikidata.org/wiki/Q684072 (P571 1st century); https://en.wikipedia.org/wiki/Garni_Temple"
+    },
     "q377623": {
       "placeNote": "Born at the Pueyrredón farm near San Martín (Buenos Aires Province); the pin is at San Andrés de Giles. Sources differ.",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace disputed.",
