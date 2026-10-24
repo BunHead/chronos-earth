@@ -251,6 +251,14 @@ const PLACEMENTS: Placement[] = [
   // own Sphinx — see Monument3D 'giza'.)
   { model: 'sphinx', title: 'Great Sphinx of Giza', lat: 29.9753, lon: 31.1376, builtYear: -2500, baseRingM: SPHINX_RING_M,
     cover: { rgb: [214, 192, 148], at: [[29.97526, 31.13758, 50]], until: 'built' } },
+  // REAL SCANS (24 Oct 2026), true metres with north = -Z baked in, so scale 1:
+  // Göbekli Tepe's main excavation (enclosures A–D; photogrammetry by rmark,
+  // CC BY 4.0) and Pumapunku's Plataforma Lítica (drone scan by NeoTec, CC BY
+  // 4.0). Karahan Tepe and Gunung Padang keep the tpillars / megalith archetypes.
+  // The excavation (under the shelter roof) is ~18 m N, ~4 m W of the site pin, read
+  // off the satellite photo on the globe.
+  { model: 'gobekli-scan', title: 'Göbekli Tepe', lat: 37.22322, lon: 38.92245, builtYear: -9500 },
+  { model: 'pumapunku-scan', title: 'Pumapunku', lat: -16.56139, lon: -68.67944, builtYear: 550 },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
@@ -951,7 +959,7 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   }
 
   if (!entity.model) return;
-  const uri = `./models/${suffix ? p.model + suffix : fileFor(p.model)}.glb`;
+  const uri = `./models/${fileFor(p.model + suffix)}.glb`;
   const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
   if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
   if (entity.show) loadWatch?.watch(entity.id, uri);

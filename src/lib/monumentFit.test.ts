@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 import { fitFor, computeFit } from './monumentFit';
 
@@ -49,5 +50,9 @@ describe('computeFit — true scale on matched imagery', () => {
     expect(small).toBeGreaterThan(large);
     expect(small).toBeLessThanOrEqual(19);
     expect(large).toBeGreaterThanOrEqual(14);
+  });
+  it('the real scans stand at scale 1 (true metres)', () => {
+    const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
+    for (const m of ['gobekli-scan', 'pumapunku-scan']) expect(fitFor('x', m).widthM).toBe(real[m].footprint);
   });
 });

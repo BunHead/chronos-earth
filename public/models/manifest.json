@@ -691,5 +691,21 @@
   "pompeys-pillar": {
     "footprint": 5.4,
     "kb": 3
+  },
+  "gobekli-scan": {
+    "footprint": 46.758,
+    "kb": 712
+  },
+  "gobekli-scan-lite": {
+    "footprint": 46.758,
+    "kb": 127
+  },
+  "pumapunku-scan": {
+    "footprint": 41.46,
+    "kb": 575
+  },
+  "pumapunku-scan-lite": {
+    "footprint": 41.46,
+    "kb": 295
   }
 }

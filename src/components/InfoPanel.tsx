@@ -409,6 +409,22 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 by Chenzoss, CC BY 4.0
               </p>
             )}
+            {/* Real scans standing on the globe (24 Oct 2026) — keyed by site, since
+                the 3D viewer keeps the archetype for these two. */}
+            {content.monument3d && /g[öo]bekli/i.test(content.monument3d.title) && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                Globe 3D scan:{' '}
+                <a href="https://sketchfab.com/3d-models/gobekli-tepe-5a4d25c355ff48d59ab76c36812b9cf3" target="_blank" rel="noreferrer">'Gobekli Tepe'</a>
+                {' '}by rmark, CC BY 4.0 (simplified, re-textured)
+              </p>
+            )}
+            {content.monument3d && /puma\s?punku/i.test(content.monument3d.title) && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                Globe 3D scan:{' '}
+                <a href="https://sketchfab.com/3d-models/pumapunku-bolivia-855ef2eb94f94587aa4177502ae2949f" target="_blank" rel="noreferrer">'pumaPunku Bolivia'</a>
+                {' '}by NeoTec, CC BY 4.0 (simplified)
+              </p>
+            )}
             {content.fly && (
               <button className="btn" onClick={() => onFly(content)}>
                 ✈ Fly here
