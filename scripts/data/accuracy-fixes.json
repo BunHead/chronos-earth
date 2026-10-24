@@ -739,7 +739,7 @@
       "source": "https://www.wikidata.org/wiki/Q5617; https://en.wikipedia.org/wiki/Marie_de_France"
     },
     "q236017": {
-      "lat": 36,
+      "lat": 36.0,
       "lon": 119.4167,
       "why": "People fact-check batch 2, checked by hand (Oct 2026), fixed: Pin was in the middle of China; born in Zhucheng, Shandong.",
       "source": "https://www.wikidata.org/wiki/Q236017; https://en.wikipedia.org/wiki/Jiang_Qing"
@@ -1905,6 +1905,33 @@
       "dateNote": "Wikidata gives only the 4th century for his birth; 301 is only a placeholder. He was killed in 350.",
       "why": "Impossible-row scan (Oct 2026): corrected; shown born 400, after his death in 350 (P569 is \"4th century\", P570 30 June 350).",
       "source": "https://www.wikidata.org/wiki/Q367598; https://en.wikipedia.org/wiki/Nepotianus"
+    },
+    "q14773": {
+      "startYear": 1557,
+      "dateNote": "Portuguese traders settled here in 1557. Macau became a Special Administrative Region of China in 1999.",
+      "why": "Wrong year (1999): that is the handover to China, not when the city began. Wikidata also gives 1557",
+      "source": "https://www.wikidata.org/wiki/Q14773 (P571 1557 and 1999); https://en.wikipedia.org/wiki/History_of_Macau"
+    },
+    "q340": {
+      "startYear": 1642,
+      "dateNote": "Founded as Ville-Marie by French settlers in 1642.",
+      "why": "Wrong year (1792): Montreal was founded in 1642. Wikidata gives both 1642 and 1792",
+      "source": "https://www.wikidata.org/wiki/Q340 (P571 1642 and 1792); https://en.wikipedia.org/wiki/History_of_Montreal"
+    },
+    "q1867": {
+      "dateNote": "The year shown is when Chinese settlers began farming the Taipei basin. Wikidata gives only 1967, when Taipei became a special municipality, so there is no agreed founding year.",
+      "why": "Uncertain date: Wikidata P571 is 1967 (municipal status); the panel shows 1709",
+      "source": "https://www.wikidata.org/wiki/Q1867 (P571 1967); https://en.wikipedia.org/wiki/History_of_Taipei"
+    },
+    "q3787": {
+      "dateNote": "Wikidata dates Abuja from 1828, the year of the old town of Abuja (now Suleja). The modern capital was planned from 1976 and became Nigeria's capital in 1991.",
+      "why": "Uncertain date: Wikidata P571 1828 belongs to the old town (Suleja), not the planned city",
+      "source": "https://www.wikidata.org/wiki/Q3787 (P571 1828); https://en.wikipedia.org/wiki/Abuja"
+    },
+    "q4519": {
+      "dateNote": "Sources differ on when work began: Wikidata gives 1591, while most accounts say the square was laid out from 1598, when Shah Abbas I moved his capital to Isfahan.",
+      "why": "Uncertain date: Wikidata P571 is 1591, the panel shows 1598",
+      "source": "https://www.wikidata.org/wiki/Q4519 (P571 1591); https://en.wikipedia.org/wiki/Naqsh-e_Jahan_Square"
     }
   }
 }
