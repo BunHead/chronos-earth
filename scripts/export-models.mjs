@@ -183,8 +183,12 @@ const SITE_KEYS = await readFile('public/data/model-review.json', 'utf8')
   .then((t) => Object.keys(JSON.parse(t)).filter((k) => k.startsWith('siteplan:')))
   .catch(() => []);
 const SITE_JOBS = ONLY.length && !ONLY.includes('sites') ? [] : SITE_KEYS;
+// Real scans are built from photogrammetry (gltf-transform), not the workshop:
+// never re-export over them (the workshop 'sphinx' would clobber sphinx.glb).
+const SKIP = new Set(['sphinx', 'sphinx-lite', 'gobekli-scan', 'gobekli-scan-lite', 'pumapunku-scan', 'pumapunku-scan-lite']);
 try {
   for (const [model, title, outName, extra] of JOBS) {
+    if (SKIP.has(outName) || SKIP.has(model)) { console.log(`${outName}: skipped (real scan)`); continue; }
     const page = await browser.newPage();
     await page.goto(`${BASE}?model=${encodeURIComponent(model)}&title=${encodeURIComponent(title)}${extra}`, {
       waitUntil: 'networkidle0',

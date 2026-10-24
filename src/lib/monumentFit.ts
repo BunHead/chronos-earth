@@ -124,6 +124,13 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'bimini-beachrock': { widthM: 570.995, facingDeg: 0 },
   'yonaguni-rock': { widthM: 220, facingDeg: 0 },
   megalith: { widthM: 45, facingDeg: 0 },
+  // Real scans, baked in true metres (north = -Z): widthM = manifest footprint,
+  // so they stand at scale 1. Göbekli: scaled so the central pillars stand
+  // ~5.5 m (Taş Tepeler, Enclosure D) — ~36 x 47 m, under the ~39 x 45 m roof.
+  // Pumapunku: the largest slab = 8.12 m (Vranich 2018), platform row N–S on
+  // the east edge as published.
+  'gobekli-scan': { widthM: 46.758, facingDeg: 0 },
+  'pumapunku-scan': { widthM: 41.46, facingDeg: 0 },
   // Plato's Atlantis, imagined (components/atlantisCity.ts): TRUE scale — the
   // exported footprint is 2491.1 units of 10 m. facingDeg −90 turns the
   // canal (local +Z) to bearing 270°: due west, toward the Atlantic.

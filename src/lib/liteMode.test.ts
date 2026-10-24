@@ -125,6 +125,22 @@ describe('heavy scans fall back to the small build', () => {
     const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
     expect(lightModelName('sphinx', real, true)).toBe('sphinx-lite');
   });
+
+  it('the shipped manifest has small builds of the Göbekli and Pumapunku scans', () => {
+    const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
+    for (const m of ['gobekli-scan', 'pumapunku-scan']) {
+      expect(lightModelName(m, real, true)).toBe(`${m}-lite`);
+      expect(lightModelName(m, real, false)).toBe(m);
+      expect(real[`${m}-lite`].kb).toBeLessThan(real[m].kb);
+      expect(real[m].kb).toBeLessThan(1024);
+    }
+  });
+
+  it('the time gate swaps suffixed (ruin) models through fileFor too', () => {
+    const src = readFileSync(new URL('./globeModels.ts', import.meta.url), 'utf8');
+    expect(src).toMatch(/fileFor\(p\.model \+ suffix\)/);
+    expect(src).not.toMatch(/suffix \? p\.model \+ suffix : fileFor/);
+  });
 });
 
 describe('a slow start is remembered for a week only', () => {
