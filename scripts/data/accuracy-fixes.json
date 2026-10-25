@@ -710,6 +710,326 @@
       "why": "People fact-check: pin 450 km from birthplace Chanteloup-en-Brie",
       "source": "https://www.wikidata.org/wiki/Q156567"
     },
+    "q41284": {
+      "lat": 54.64,
+      "lon": -3.403,
+      "born": "6 September 1766, Eaglesfield, near Cockermouth, Cumberland",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Cumberland, 29 km away; born in the village of Eaglesfield, near Cockermouth.",
+      "source": "https://www.wikidata.org/wiki/Q41284; https://www.wikidata.org/wiki/Q5325377; https://co-curate.ncl.ac.uk/eaglesfield-cumbria; https://en.wikipedia.org/wiki/John_Dalton"
+    },
+    "q128902": {
+      "lat": 51.3757,
+      "lon": 0.0049,
+      "born": "28 May 1759, Hayes Place, Hayes, Kent",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kent, 54 km away; born at Hayes Place, his family's house in Hayes, Kent (now in the London Borough of Bromley).",
+      "source": "https://www.wikidata.org/wiki/Q128902; https://www.wikidata.org/wiki/Q2690370; https://hayeskenthistory.org.uk/pitt-william-the-younger/; https://en.wikipedia.org/wiki/William_Pitt_the_Younger"
+    },
+    "q273034": {
+      "lat": 46.4646,
+      "lon": -63.5111,
+      "born": "30 November 1874, Clifton (now New London), Prince Edward Island",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Prince Edward Island, 25 km away; born at Clifton, now New London, Prince Edward Island; the house is now a museum.",
+      "source": "https://www.wikidata.org/wiki/Q273034; https://www.wikidata.org/wiki/Q3338975; https://www.tourismpei.com/what-to-do/anne-of-green-gables/lucy-maud-montgomery; https://en.wikipedia.org/wiki/Lucy_Maud_Montgomery"
+    },
+    "q219918": {
+      "lat": -24.5339,
+      "lon": 32.9864,
+      "born": "29 September 1933, Chilembene, Chókwè district, Gaza Province",
+      "placeNote": "Born at Chilembene (once called Madragoa) in Chókwè district; the pin is the middle of that district.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Gaza Province, 90 km away; born at Chilembene, in Chókwè district; the pin is now that district.",
+      "source": "https://www.wikidata.org/wiki/Q219918; https://www.wikidata.org/wiki/Q2048783; https://www.britannica.com/biography/Samora-Machel; https://en.wikipedia.org/wiki/Samora_Machel"
+    },
+    "q57480": {
+      "lat": 13.75,
+      "lon": 46,
+      "born": "1 September 1945, Thukain, Al Wade'a District, Abyan",
+      "placeNote": "Born in the village of Thukain, in Al Wade'a District; the pin is the middle of that district.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was one of Wikidata's three points for Abyan Governorate, 81 km away; born at Thukain, Al Wade'a District, Abyan; the pin is now that district.",
+      "source": "https://www.wikidata.org/wiki/Q57480; https://www.wikidata.org/wiki/Q4117454; https://en.wikipedia.org/wiki/Abdrabbuh_Mansour_Hadi; https://wtop.com/world/2026/05/former-yemen-president-abdrabbuh-mansour-hadi-dies-at-80/"
+    },
+    "q172168": {
+      "lat": 43.8993,
+      "lon": 22.1862,
+      "born": "258, Dacia Ripensis, probably at Romuliana (Gamzigrad, Serbia)",
+      "placeNote": "Born in Dacia Ripensis, probably where he later built his palace Felix Romuliana (Gamzigrad, the pin); some say near Serdica (Sofia).",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was in Roman Dacia (modern Romania), the wrong province, 395 km away; born in Dacia Ripensis (now Serbia and Bulgaria), most likely at Romuliana, Gamzigrad; some say near Serdica, so the panel says so.",
+      "source": "https://www.wikidata.org/wiki/Q172168; https://www.wikidata.org/wiki/Q904128; https://en.wikipedia.org/wiki/Galerius; https://en.wikipedia.org/wiki/Gamzigrad"
+    },
+    "q318458": {
+      "lat": 21.0847,
+      "lon": 105.8683,
+      "born": "14 April 1944, Đông Hội commune, Đông Anh, Hanoi",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was a wrong Wikidata point for Đông Anh, in Thanh Hóa province, 142 km away; born in Đông Hội commune, Đông Anh district, Hanoi.",
+      "source": "https://www.wikidata.org/wiki/Q318458; https://www.wikidata.org/wiki/Q10840760; https://www.sggp.org.vn/tom-tat-tieu-su-tong-bi-thu-nguyen-phu-trong-post750269.html; https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Ph%C3%BA_Tr%E1%BB%8Dng"
+    },
+    "q130327": {
+      "lat": 17.9,
+      "lon": -76.3167,
+      "born": "5 July 1781, aboard the ship Ann, off Port Morant, Jamaica",
+      "placeNote": "Born at sea, on the ship Ann off Port Morant, Jamaica; the pin is Port Morant.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Jamaica, 119 km away; born on the ship Ann, off Port Morant.",
+      "source": "https://www.wikidata.org/wiki/Q130327; https://www.wikidata.org/wiki/Q7230807; https://en.wikipedia.org/wiki/Stamford_Raffles; https://www.patrickcomerford.com/2026/07/remembering-200th-anniversary-of.html"
+    },
+    "q314267": {
+      "lat": 24.75,
+      "lon": 90.4167,
+      "born": "30 November 1858, Mymensingh, Bengal",
+      "placeNote": "Born in Mymensingh; his family came from Rarikhal in Bikrampur.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Bikrampur, his family's home area, 134 km away; born in Mymensingh, where his father worked.",
+      "source": "https://www.wikidata.org/wiki/Q314267; https://www.wikidata.org/wiki/Q1006303; https://en.banglapedia.org/index.php/Bose,_Sir_Jagadish_Chandra; https://en.wikipedia.org/wiki/Jagadish_Chandra_Bose"
+    },
+    "q16988": {
+      "lat": 28.0445,
+      "lon": 112.631,
+      "born": "24 November 1898, Tanzichong, Huaminglou, Ningxiang, Hunan",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Ningxiang, 31 km away; born at Tanzichong, Huaminglou town, Ningxiang.",
+      "source": "https://www.wikidata.org/wiki/Q16988; https://www.wikidata.org/wiki/Q14184751; https://en.wikipedia.org/wiki/Former_Residence_of_Liu_Shaoqi; https://www.britannica.com/biography/Liu-Shaoqi"
+    },
+    "q44248": {
+      "placeNote": "He was born at Stridon, a town whose site is lost. The exact spot is not known; the pin is the middle of Dalmatia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dalmatia\".",
+      "source": "https://www.wikidata.org/wiki/Q44248; https://en.wikipedia.org/wiki/Jerome"
+    },
+    "q17131": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Abruzzo.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Abruzzo\".",
+      "source": "https://www.wikidata.org/wiki/Q17131; https://en.wikipedia.org/wiki/Pontius_Pilate"
+    },
+    "q47163": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Roman Republic (Rome). Formia is sometimes suggested, but it is not certain.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Roman Republic\".",
+      "source": "https://www.wikidata.org/wiki/Q47163; https://en.wikipedia.org/wiki/Vitruvius"
+    },
+    "q41852": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Cappadocia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Cappadocia\".",
+      "source": "https://www.wikidata.org/wiki/Q41852; https://en.wikipedia.org/wiki/Heraclius"
+    },
+    "q162135": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Roman province of Africa. He is called an African; one of his own letters calls him Roman-born.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Roman province of Africa\".",
+      "source": "https://www.wikidata.org/wiki/Q162135; https://en.wikipedia.org/wiki/Pope_Gelasius_I"
+    },
+    "q170502": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Campania.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Campania\".",
+      "source": "https://www.wikidata.org/wiki/Q170502; https://en.wikipedia.org/wiki/Pope_Honorius_I"
+    },
+    "q188794": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Kingdom of Judah.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Kingdom of Judah\".",
+      "source": "https://www.wikidata.org/wiki/Q188794; https://en.wikipedia.org/wiki/Isaiah"
+    },
+    "q168261": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Macedonia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Macedonia\".",
+      "source": "https://www.wikidata.org/wiki/Q168261; https://en.wikipedia.org/wiki/Ptolemy_I_Soter"
+    },
+    "q106026": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Cyrenaica.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Cyrenaica\".",
+      "source": "https://www.wikidata.org/wiki/Q106026; https://en.wikipedia.org/wiki/Arius"
+    },
+    "q51672": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Edom (Idumea).",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Edom\".",
+      "source": "https://www.wikidata.org/wiki/Q51672; https://en.wikipedia.org/wiki/Herod_the_Great"
+    },
+    "q134128": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Denmark.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Denmark\".",
+      "source": "https://www.wikidata.org/wiki/Q134128; https://en.wikipedia.org/wiki/Cnut"
+    },
+    "q102865": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Persis.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Persis\".",
+      "source": "https://www.wikidata.org/wiki/Q102865; https://en.wikipedia.org/wiki/Darius_III"
+    },
+    "q44170": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Roman Syria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Roman Syria\".",
+      "source": "https://www.wikidata.org/wiki/Q44170; https://en.wikipedia.org/wiki/Ignatius_of_Antioch"
+    },
+    "q165479": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Roman Britain. He wrote that he came from \"Bannavem Taburniae\", a place no one has found.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Roman Britain\".",
+      "source": "https://www.wikidata.org/wiki/Q165479; https://en.wikipedia.org/wiki/Saint_Patrick"
+    },
+    "q159369": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Hispania.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Hispania\".",
+      "source": "https://www.wikidata.org/wiki/Q159369; https://en.wikipedia.org/wiki/Arcadius"
+    },
+    "q170017": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q170017; https://en.wikipedia.org/wiki/%C3%86thelstan"
+    },
+    "q190166": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q190166; https://en.wikipedia.org/wiki/Edmund_I"
+    },
+    "q191767": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q191767; https://en.wikipedia.org/wiki/Eadred"
+    },
+    "q191203": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q191203; https://en.wikipedia.org/wiki/Eadwig"
+    },
+    "q1777": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Thrace.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Thrace\".",
+      "source": "https://www.wikidata.org/wiki/Q1777; https://en.wikipedia.org/wiki/Maximinus_Thrax"
+    },
+    "q171537": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Sicily. He grew up in Sicily; his family came from Thrace.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Sicily\".",
+      "source": "https://www.wikidata.org/wiki/Q171537; https://en.wikipedia.org/wiki/Pope_Conon"
+    },
+    "q172377": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Sardinia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Sardinia\".",
+      "source": "https://www.wikidata.org/wiki/Q172377; https://en.wikipedia.org/wiki/Pope_Hilarius"
+    },
+    "q103314": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Syria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Syria\".",
+      "source": "https://www.wikidata.org/wiki/Q103314; https://en.wikipedia.org/wiki/Pope_Constantine"
+    },
+    "q103860": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Dalmatia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dalmatia\".",
+      "source": "https://www.wikidata.org/wiki/Q103860; https://en.wikipedia.org/wiki/Julius_Nepos"
+    },
+    "q232505": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of the Akkadian Empire.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Akkadian Empire\".",
+      "source": "https://www.wikidata.org/wiki/Q232505; https://en.wikipedia.org/wiki/Enheduanna"
+    },
+    "q1782": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Phrygia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Phrygia\".",
+      "source": "https://www.wikidata.org/wiki/Q1782; https://en.wikipedia.org/wiki/Gordian_I"
+    },
+    "q48174": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Istria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Istria\".",
+      "source": "https://www.wikidata.org/wiki/Q48174; https://en.wikipedia.org/wiki/Marcus_Vipsanius_Agrippa"
+    },
+    "q131548": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Roman Empire (Rome).",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Roman Empire\".",
+      "source": "https://www.wikidata.org/wiki/Q131548; https://en.wikipedia.org/wiki/Jordanes"
+    },
+    "q42606": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q42606; https://en.wikipedia.org/wiki/Amenhotep_III"
+    },
+    "q52166": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Macedonia. He says he came from Pieria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Macedonia\".",
+      "source": "https://www.wikidata.org/wiki/Q52166; https://en.wikipedia.org/wiki/Phaedrus_(fabulist)"
+    },
+    "q169352": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Iga Province.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Iga Province\".",
+      "source": "https://www.wikidata.org/wiki/Q169352; https://en.wikipedia.org/wiki/Zeami_Motokiyo"
+    },
+    "q178004": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Thrace.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Thrace\".",
+      "source": "https://www.wikidata.org/wiki/Q178004; https://en.wikipedia.org/wiki/Marcian"
+    },
+    "q31556": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Thrace.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Thrace\".",
+      "source": "https://www.wikidata.org/wiki/Q31556; https://en.wikipedia.org/wiki/Phocas"
+    },
+    "q183776": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Thrace.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Thrace\".",
+      "source": "https://www.wikidata.org/wiki/Q183776; https://en.wikipedia.org/wiki/Leo_I_the_Thracian"
+    },
+    "q207113": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Anatolia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Anatolia\".",
+      "source": "https://www.wikidata.org/wiki/Q207113; https://en.wikipedia.org/wiki/Hippolytus_of_Rome"
+    },
+    "q184500": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Ireland.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ireland\".",
+      "source": "https://www.wikidata.org/wiki/Q184500; https://en.wikipedia.org/wiki/John_Scotus_Eriugena"
+    },
+    "q44385": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Austria. Many places claim him.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Austria\".",
+      "source": "https://www.wikidata.org/wiki/Q44385; https://en.wikipedia.org/wiki/Walther_von_der_Vogelweide"
+    },
+    "q378902": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Anatolia. Several towns claim him.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Anatolia\".",
+      "source": "https://www.wikidata.org/wiki/Q378902; https://en.wikipedia.org/wiki/Yunus_Emre"
+    },
+    "q44555": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of South Dakota. Accounts differ; most say near Rapid Creek, in the Black Hills.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"South Dakota\".",
+      "source": "https://www.wikidata.org/wiki/Q44555; https://en.wikipedia.org/wiki/Crazy_Horse"
+    },
+    "q46814": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Illyria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Illyria\".",
+      "source": "https://www.wikidata.org/wiki/Q46814; https://en.wikipedia.org/wiki/Valerius_Severus"
+    },
+    "q107317": {
+      "placeNote": "He was born among the Goths north of the Danube. The exact spot is not known; the pin is the middle of Roman Dacia.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Roman Dacia\".",
+      "source": "https://www.wikidata.org/wiki/Q107317; https://en.wikipedia.org/wiki/Ulfilas"
+    },
+    "q206842": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Palestine. One old life says Constantinople, another says Hesfin in the Golan.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Palestine\".",
+      "source": "https://www.wikidata.org/wiki/Q206842; https://en.wikipedia.org/wiki/Maximus_the_Confessor"
+    },
+    "q153023": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Bavaria.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bavaria\".",
+      "source": "https://www.wikidata.org/wiki/Q153023; https://en.wikipedia.org/wiki/Henry_III,_Holy_Roman_Emperor"
+    },
+    "q171195": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of South India.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"South India\".",
+      "source": "https://www.wikidata.org/wiki/Q171195; https://en.wikipedia.org/wiki/Nagarjuna"
+    },
+    "q838": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Grand Principality of Moscow (Moscow).",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Grand Principality of Moscow\".",
+      "source": "https://www.wikidata.org/wiki/Q838; https://en.wikipedia.org/wiki/Andrei_Rublev"
+    },
+    "q199491": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Dalmatia. Some say Zadar, but it is not certain.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dalmatia\".",
+      "source": "https://www.wikidata.org/wiki/Q199491; https://en.wikipedia.org/wiki/Pope_John_IV"
+    },
+    "q76754": {
+      "placeNote": "He was born on the island of Saaremaa; sources name two manors, Lahhentagge and Hoheneichen. The exact spot is not known; the pin is the middle of Saaremaa.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Saaremaa\".",
+      "source": "https://www.wikidata.org/wiki/Q76754; https://en.wikipedia.org/wiki/Fabian_Gottlieb_von_Bellingshausen"
+    },
+    "q272580": {
+      "placeNote": "He was born at Gasiza (some say Rambura), in Gisenyi. The exact spot is not known; the pin is the middle of Gisenyi Province.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Gisenyi Province\".",
+      "source": "https://www.wikidata.org/wiki/Q272580; https://en.wikipedia.org/wiki/Juv%C3%A9nal_Habyarimana"
+    },
+    "q131195": {
+      "placeNote": "Born in Dardania, a Roman province; the town is not recorded. The pin is Wikidata's point for Dardania, at Niš.",
+      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dardania\".",
+      "source": "https://www.wikidata.org/wiki/Q131195; https://en.wikipedia.org/wiki/Constantius_Chlorus"
+    },
     "q358479": {
       "lat": 47.4728,
       "lon": -0.5556,
