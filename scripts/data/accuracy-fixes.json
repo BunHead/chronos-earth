@@ -2385,6 +2385,169 @@
       "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born in Novobelgorod (now Pechenihy), not in Kharkiv where the pin was.",
       "source": "https://www.wikidata.org/wiki/Q192544; https://en.wikipedia.org/wiki/Henryk_Siemiradzki; https://www.wikidata.org/wiki/Q4361999"
     },
+    "q8755": {
+      "lat": 56.0085,
+      "lon": -5.2174,
+      "born": "February 1698, Kilmodan, Argyll",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was in Melbourne, Australia. Wikidata's birthplace \"The Manse\" (Q66768461) is a house in Australia; he was born at the manse of Kilmodan, Argyll, Scotland, where his father was the minister.",
+      "source": "https://www.wikidata.org/wiki/Q8755; https://www.wikidata.org/wiki/Q68815818; https://mathshistory.st-andrews.ac.uk/Biographies/Maclaurin/"
+    },
+    "q244407": {
+      "lat": -31.2944,
+      "lon": 25.79,
+      "born": "10 October 1825, Bulhoek, near Steynsburg",
+      "placeNote": "Born, it is believed, on the farm Bulhoek near Steynsburg (the pin). His memoirs name Vaalbank, near Colesberg, and some say Soutpansdrift; the family had no fixed home.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was a whole-degree spot for the \"Cape Colony\" on the west coast, about 760 km away. Most sources say Bulhoek farm near Steynsburg; others disagree, so the panel says so.",
+      "source": "https://www.wikidata.org/wiki/Q244407; https://www.wikidata.org/wiki/Q2695453; https://www.sahistory.org.za/people/stephanus-johannes-paulus-kruger; https://en.wikipedia.org/wiki/Paul_Kruger"
+    },
+    "q304900": {
+      "lat": 9.5597,
+      "lon": -69.2019,
+      "born": "13 June 1790, Curpa, near Acarigua",
+      "placeNote": "Born at Curpa, a farm area about 12 km south-west of Acarigua (the pin).",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was Caracas (Wikidata gives only the \"Captaincy General of Venezuela\"), about 270 km away. He was born at Curpa, near Acarigua.",
+      "source": "https://www.wikidata.org/wiki/Q304900; https://www.wikidata.org/wiki/Q338059; https://www.britannica.com/biography/Jose-Antonio-Paez"
+    },
+    "q469775": {
+      "lat": -28.8856,
+      "lon": 28.2925,
+      "born": "about 1786, Menkhoaneng",
+      "dateNote": "His birth year is not known for sure. Guesses run from 1780 to 1794; 1786 is the usual one.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Lesotho, 74 km away. He was born at Menkhoaneng, Leribe district.",
+      "source": "https://www.wikidata.org/wiki/Q469775; https://www.wikidata.org/wiki/Q6817129; https://www.sahistory.org.za/people/king-moshoeshoe-i"
+    },
+    "q574450": {
+      "lat": 28.0044,
+      "lon": 84.6289,
+      "born": "7 January 1723, Gorkha Palace",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Gorkha District, 31 km away. He was born in Gorkha Palace (Gorkha Durbar).",
+      "source": "https://www.wikidata.org/wiki/Q574450; https://www.wikidata.org/wiki/Q66133854; https://en.wikipedia.org/wiki/Prithvi_Narayan_Shah"
+    },
+    "q313322": {
+      "lat": 21.0245,
+      "lon": 105.8412,
+      "born": "3 January 1766, Thăng Long (Hanoi)",
+      "placeNote": "Born in the Bích Câu quarter of Thăng Long (now Hanoi). His family came from Tiên Điền in Hà Tĩnh province, which is why some lists give Hà Tĩnh.",
+      "dateNote": "Some sources give 1765.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Hà Tĩnh province, 300 km away. He was born in Thăng Long (Hanoi); Hà Tĩnh was his family's home village. Birth year 1765 or 1766: sources differ, so the panel says so.",
+      "source": "https://www.wikidata.org/wiki/Q313322; https://www.wikidata.org/wiki/Q1858; https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Du"
+    },
+    "q466001": {
+      "lat": 16.7653,
+      "lon": 107.2019,
+      "born": "7 April 1907, Hậu Kiên, Triệu Phong, Quảng Trị",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Quảng Trị province, 22 km away. He was born in Hậu Kiên, Triệu Thành commune, Triệu Phong district.",
+      "source": "https://www.wikidata.org/wiki/Q466001; https://www.wikidata.org/wiki/Q10828182; https://en.wikipedia.org/wiki/L%C3%AA_Du%E1%BA%A9n; https://tuoitre.vn/dang-hoa-dang-huong-tuong-niem-115-nam-ngay-sinh-tong-bi-thu-le-duan-20220407133825902.htm"
+    },
+    "q379775": {
+      "lat": 13.9075,
+      "lon": 108.9226,
+      "born": "1752, Tây Sơn, Bình Định",
+      "dateNote": "Most sources give 1753; Wikidata gives 1752.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Bình Định province, 30 km away. He was born in Tây Sơn village (now Tây Sơn district). Birth year 1752 or 1753: sources differ, so the panel says so.",
+      "source": "https://www.wikidata.org/wiki/Q379775; https://www.wikidata.org/wiki/Q1320837; https://en.wikipedia.org/wiki/Quang_Trung"
+    },
+    "q213749": {
+      "lat": -13.5169,
+      "lon": -71.9786,
+      "born": "about 1490, near Cusco",
+      "placeNote": "Probably born at Huascarpata, near Cusco; the exact spot is not known. The pin is Cusco.",
+      "dateNote": "His birth year is not known for sure; 1490 and 1491 are both given.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Peru, 630 km from Cusco. Sources say he was born near Cusco, probably at Huascarpata; the exact spot and year are not certain, so the panel says so.",
+      "source": "https://www.wikidata.org/wiki/Q213749; https://www.wikidata.org/wiki/Q5582862; https://en.wikipedia.org/wiki/Hu%C3%A1scar; https://www.biografiasyvidas.com/biografia/h/huascar.htm"
+    },
+    "q311885": {
+      "lat": 37.6758,
+      "lon": -77.2908,
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Hanover County, 20 km away. He was born at Studley, Hanover County, Virginia.",
+      "source": "https://www.wikidata.org/wiki/Q311885; https://www.wikidata.org/wiki/Q7628331; https://en.wikipedia.org/wiki/Patrick_Henry"
+    },
+    "q355348": {
+      "lat": 38.0175,
+      "lon": -77.5153,
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the middle of Caroline County, 14.5 km away. He was born near Ladysmith, Caroline County, Virginia.",
+      "source": "https://www.wikidata.org/wiki/Q355348; https://www.wikidata.org/wiki/Q6470791; https://en.wikipedia.org/wiki/William_Clark"
+    },
+    "q60145": {
+      "lat": -34.5625,
+      "lon": -58.4583,
+      "born": "14 July 1895, Belgrano, Buenos Aires",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Pin was the centre of Buenos Aires, 8 km away. He was born in Belgrano, a district of Buenos Aires.",
+      "source": "https://www.wikidata.org/wiki/Q60145; https://www.wikidata.org/wiki/Q815569; https://en.wikipedia.org/wiki/Richard_Walther_Darr%C3%A9"
+    },
+    "q459921": {
+      "endYear": 1009,
+      "died": "1009, Fustat (Cairo)",
+      "dateNote": "Born about 950.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), fixed: Death year was 958 (as on Wikidata); the astronomer died in 1009, after working for the caliph al-Hakim.",
+      "source": "https://www.wikidata.org/wiki/Q459921; https://mathshistory.st-andrews.ac.uk/Biographies/Yunus/; https://en.wikipedia.org/wiki/Ibn_Yunus"
+    },
+    "q456963": {
+      "placeNote": "Tradition says he came from South India; no town is known, so the pin is just the middle of South India.",
+      "dateNote": "His dates are not known; about 600 to 650 is the usual guess.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"South India\"; dates are estimates.",
+      "source": "https://www.wikidata.org/wiki/Q456963; https://en.wikipedia.org/wiki/Chandrakirti"
+    },
+    "q450780": {
+      "placeNote": "Where she was born is not known; the pin is just the middle of Japan.",
+      "dateNote": "She is known mainly from war tales such as The Tale of the Heike, so her dates are not certain.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Japan\"; dates are traditional.",
+      "source": "https://www.wikidata.org/wiki/Q450780; https://en.wikipedia.org/wiki/Tomoe_Gozen"
+    },
+    "q7277": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of China.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"China\".",
+      "source": "https://www.wikidata.org/wiki/Q7277; https://en.wikipedia.org/wiki/Emperor_Zhang_of_Han"
+    },
+    "q28935": {
+      "placeNote": "He ruled land between the Jhelum and Chenab rivers in the Punjab. Where he was born is not known; the pin is the middle of Punjab.",
+      "dateNote": "His birth year is not known.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Punjab\"; birth year known only to the century.",
+      "source": "https://www.wikidata.org/wiki/Q28935; https://en.wikipedia.org/wiki/Porus"
+    },
+    "q200977": {
+      "placeNote": "Old sources call him an \"Ethiopian\" (a Black African, perhaps from Nubia). Where he was born is not known; the pin is just the middle of Africa.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Africa\".",
+      "source": "https://www.wikidata.org/wiki/Q200977; https://en.wikipedia.org/wiki/Moses_the_Black"
+    },
+    "q311151": {
+      "placeNote": "Born in Turkestan, Central Asia; the town is not known. The pin is just the middle of Central Asia.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Central Asia\".",
+      "source": "https://www.wikidata.org/wiki/Q311151; https://en.wikipedia.org/wiki/Qutb_ud-Din_Aibak"
+    },
+    "q257911": {
+      "placeNote": "Born in West Africa, probably in present-day Senegal or the Gambia; the exact place is not known.",
+      "dateNote": "Born about 1753.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Senegambia\"; birth year is an estimate.",
+      "source": "https://www.wikidata.org/wiki/Q257911; https://en.wikipedia.org/wiki/Phillis_Wheatley"
+    },
+    "q560157": {
+      "placeNote": "Where he was born is not known; the pin is the middle of Bactria.",
+      "dateNote": "His dates are not known; they are estimates.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bactria\"; dates are estimates.",
+      "source": "https://www.wikidata.org/wiki/Q560157; https://en.wikipedia.org/wiki/Kujula_Kadphises"
+    },
+    "q1061289": {
+      "placeNote": "Where he was born is not recorded; the pin is the middle of Shaanxi, the Zhou homeland.",
+      "dateNote": "His birth year is not known.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Shaanxi\"; birth year known only to the century.",
+      "source": "https://www.wikidata.org/wiki/Q1061289; https://en.wikipedia.org/wiki/King_Wu_of_Zhou"
+    },
+    "q2420369": {
+      "placeNote": "Born in Najd, in central Arabia; the town is not known.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Najd\".",
+      "source": "https://www.wikidata.org/wiki/Q2420369; https://en.wikipedia.org/wiki/Al-Khansa%27"
+    },
+    "q31749": {
+      "dateNote": "His birth year is not known (about 140 to 145 is usual). The year shown, 200, is only a placeholder; he died in 208.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives only \"2nd century\" for his birth, shown as 200.",
+      "source": "https://www.wikidata.org/wiki/Q31749; https://en.wikipedia.org/wiki/Hua_Tuo"
+    },
+    "q445848": {
+      "dateNote": "He lived in the 2nd century AD; his exact years are not known.",
+      "why": "People fact-check batch 7, checked by hand (Oct 2026), still uncertain, the panel now says so: Born and died are both shown as 200: Wikidata gives only \"2nd century\".",
+      "source": "https://www.wikidata.org/wiki/Q445848; https://en.wikipedia.org/wiki/Artemidorus"
+    },
     "q364975": {
       "lat": 52.3892,
       "lon": -9.8333,
