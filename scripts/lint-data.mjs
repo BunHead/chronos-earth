@@ -27,7 +27,7 @@ import {
   MAX_KM, fetchP625, findFarPins, handPlacedPins, lookupFromHarvest,
 } from './lib/wikidata-coords.mjs';
 import {
-  checkBceSign, checkCoords, checkImpossibleYears, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords, checkQids,
+  checkBceSign, checkCoords, checkCuratedTwins, checkImpossibleYears, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords, checkQids,
   checkSwapped, checkText, checkWholeDegree, referencedFiles, textProblems,
 } from './lib/data-quality.mjs';
 
@@ -167,7 +167,7 @@ console.log(`\nlinted ${total} rows across ${jobs.length} files`);
   // The harvester's output: warn, never fail a night's harvest over one row.
   run('imported/events.json', 'warn', [
     ...ev.events.flatMap((r) => [...checkText(r, ['name', 'summary']), ...checkFuture(r, 'startYear')]),
-    ...checkQids(ev.events), ...checkNameYearDupes(ev.events, 'startYear'),
+    ...checkQids(ev.events), ...checkNameYearDupes(ev.events, 'startYear'), ...checkCuratedTwins(ev.events),
   ]);
 
   // One Q-id, two places: a curated pin and its harvested twin should agree.

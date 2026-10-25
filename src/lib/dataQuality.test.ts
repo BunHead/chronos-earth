@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
-  checkBceSign, checkCoords, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords,
+  checkBceSign, checkCoords, checkCuratedTwins, checkFuture, checkLabelYear, checkLooseDupes, checkNameYearDupes, checkQidCoords,
   checkQids, checkSwapped, checkWholeDegree, cleanText, labelEra, labelYears, textProblems,
 } from '../../scripts/lib/data-quality.mjs';
 
@@ -135,5 +137,36 @@ describe('round 2 rules', () => {
     expect(checkLabelYear({ id: 'x', year: 1067, dateLabel: '14 October 1066' }, 'year', 'dateLabel')).toHaveLength(1);
     expect(checkLabelYear({ id: 'x', year: -258, dateLabel: '259–257 BCE' }, 'year', 'dateLabel')).toEqual([]);
     expect(checkLabelYear({ id: 'x', year: -2500, dateLabel: 'c. 3000–2000 BCE' }, 'year', 'dateLabel')).toEqual([]);
+  });
+});
+
+describe('round 4: curated rows and their harvested twins', () => {
+  it('flags a harvested row on the same article as a curated one, a few years apart', () => {
+    const rows = [
+      { id: 'cur-dunkirk-evac', wikiTitle: 'Dunkirk evacuation', startYear: 1940 },
+      { id: 'q911972', wikiTitle: 'Dunkirk evacuation', startYear: 1940 },
+      // A person and the discovery made under their name, decades apart: fine.
+      { id: 'cur-newton-gravity', wikiTitle: 'Isaac Newton', startYear: 1687 },
+      { id: 'q935', wikiTitle: 'Isaac Newton', startYear: 1643 },
+    ];
+    expect(checkCuratedTwins(rows).map((x: { id: string }) => x.id)).toEqual(['q911972']);
+  });
+
+  it('the shipped data has one pin each for Dunkirk, Leningrad, Tonkin and Atahualpa', () => {
+    const events = JSON.parse(readFileSync(join(process.cwd(), 'public/data/imported/events.json'), 'utf8')).events as
+      { id: string; wikidataId?: string; summary?: string; merged?: { id: string }[]; lat: number }[];
+    const byId = new Map(events.map((e) => [e.id, e]));
+    for (const [gone, kept, qid] of [
+      ['q911972', 'cur-dunkirk-evac', 'Q911972'], ['q151860', 'cur-leningrad-siege', 'Q151860'],
+      ['q482402', 'cur-tonkin', 'Q482402'], ['cur-person-atahualpa', 'q179577', 'Q179577'],
+    ]) {
+      expect(byId.has(gone), gone).toBe(false);
+      const e = byId.get(kept)!;
+      expect(e.wikidataId).toBe(qid);
+      expect(e.merged?.map((m) => m.id)).toContain(gone);
+    }
+    expect(byId.get('cur-leningrad-siege')!.summary).toContain('872 days'); // the checked panel moved with it
+    expect(byId.get('cur-tonkin')!.lat).toBe(19.7833);
+    expect(checkCuratedTwins(events)).toEqual([]);
   });
 });
