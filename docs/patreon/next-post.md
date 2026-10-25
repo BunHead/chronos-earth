@@ -1,12 +1,14 @@
-# Dispatch from the crew — Giza rebuilt, and Plato's Atlantis on the Richat
+# Dispatch from the crew — real scans of Göbekli Tepe and Pumapunku
 
-A busy week at the shipyard, crew. Here's what came off the slipway.
+The busiest week the shipyard has seen, crew. Here's what came off the slipway.
 
-- **Giza across the ages.** The whole plateau has been redone over time, and the Sphinx is now a real 3D scan at its true 20 m height. We've been honest about the capstones too: they may have been gilded, but none survives.
-- **Atlantis, if you dare.** At the Richat Structure there's now a toggle for Plato's Atlantis, plus a 200 m sea rise. The impact crater has also been rebuilt as a real bowl dug into the ground, and three precursor sites now have 3D models of what lies below the surface.
-- **More history, better pinned.** Around 50 new battles came in from Wikidata, outside Europe first. Twenty famous fossil sites joined, along with Diprotodon. The Out of Africa migration layer is live as well. Dozens of pins have been checked against Wikidata, and you'll find the handovers of Hong Kong and Macau.
-- **Smoother sailing.** A new Lite mode keeps weak PCs and phones happy. It switches on by itself, and you can override it in Settings. Playback no longer freezes in deep time. Search now forgives typos. Monuments stay hidden until the year they were built, and Stonehenge ages properly.
+- **The real stones.** Göbekli Tepe and Pumapunku now stand on the globe as genuine 3D scans, and Göbekli Tepe has a high-detail version for desktops. Its human remains are there too: the carved skulls found in 2017 and the first two burials, reported this year. Phones now get a light copy of the real Sphinx scan in place of the old blocky one.
+- **London through the centuries.** The Tower of London rises from its 1067 timber fort to today. Tower Bridge, Westminster Palace and Buckingham Palace are each rebuilt on their real ground plans, and change as the years go by. The Temple of Heaven, Trajan's Column and Pompey's Pillar have joined them.
+- **A deep scrub of the logbook.** Hundreds of people, places and empires have been checked by hand. Pins have been moved, and some folk who were "born after they died" have been put right. Nearly 140 new battles came aboard, along with about 60 fossil sites, six Ice Age human relatives, and 28 major finds from the last decade, the Kekova shipwreck among them.
+- **Smoother sailing.** The globe starts faster, labels are easier to read, text on phones is clearer, and pins behind the horizon no longer show through the Earth.
 
-Set sail at bunhead.github.io/chronos-earth. Fly to the Richat and flip on Atlantis.
+Old St Paul's, with its spire and the Great Fire, is still in the dry dock.
+
+Set sail at bunhead.github.io/chronos-earth and fly to Göbekli Tepe.
 
 Thank you, patrons. You keep this ship sailing. 🧭 **Maker's Circle:** trace a site with the builder and hit 📤 submit. The crew will take it from there.
