@@ -2151,6 +2151,213 @@
       "why": "People fact-check, checked by hand (Oct 2026): Born in Montevideo. The pin was in Cerro Largo, about 340 km away; moved to Montevideo.",
       "source": "https://en.wikipedia.org/wiki/Jos%C3%A9_Mujica; https://www.britannica.com/biography/Jose-Mujica"
     },
+    "q2100": {
+      "startYear": 883,
+      "dateNote": "First written mention in 883, when Viking raiders spent the winter at Duisburg. The site is older still: it was a Frankish royal estate.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1065). Wikidata P1249 (first written mention) has both 883 and 1065; the earlier one is 883, when the Vikings wintered at Duisburg",
+      "source": "https://www.wikidata.org/wiki/Q2100 (P1249 883, 1065); https://en.wikipedia.org/wiki/Duisburg"
+    },
+    "q3012": {
+      "startYear": 854,
+      "dateNote": "First written mention on 22 July 854, as a royal palace (Pfalz) of the Frankish kings. Ulm is first called a town (civitas) in 1181.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1181). 1181 (P571) is when Ulm is first called a town; Wikidata P1249 gives the first written mention, 22 July 854",
+      "source": "https://www.wikidata.org/wiki/Q3012 (P571 1181, P1249 854); https://en.wikipedia.org/wiki/Ulm"
+    },
+    "q2861": {
+      "startYear": 1161,
+      "dateNote": "First written mention in 1161, when the Danes burned the Slav stronghold of Roztoc. The German town got its town rights in 1218.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1201). Wikidata P571 is just \"13th century\", shown as 1201; P1249 gives the first written mention, 1161",
+      "source": "https://www.wikidata.org/wiki/Q2861 (P571 13th century, P1249 1161); https://en.wikipedia.org/wiki/Rostock"
+    },
+    "q42735": {
+      "startYear": 1846,
+      "dateNote": "Settled in 1846 by Edmund Sylvester and Levi Smith; laid out and named Olympia about 1850. It was incorporated on 28 January 1859.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1859). 1859 (P571, 28 January 1859) is when Olympia was incorporated as a town; settlers founded it in 1846",
+      "source": "https://www.wikidata.org/wiki/Q42735 (P571 1859-01-28); https://en.wikipedia.org/wiki/Olympia,_Washington"
+    },
+    "q753721": {
+      "startYear": 1099,
+      "dateNote": "Work began in 1099 under the architect Lanfranco, on the site of older churches. It was consecrated in 1184. Wikidata gives only \"11th century\".",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1050). Wikidata P571 is just \"11th century\"; work on the cathedral began in 1099",
+      "source": "https://www.wikidata.org/wiki/Q753721 (P571 11th century); https://en.wikipedia.org/wiki/Modena_Cathedral"
+    },
+    "q727809": {
+      "startYear": 1209,
+      "dateNote": "First written mention in 1209. The church has been rebuilt many times since; the tower was rebuilt after it burned in 1941.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1201). Wikidata P571 is just \"13th century\", shown as 1201; P1249 gives the first written mention, 1209",
+      "source": "https://www.wikidata.org/wiki/Q727809 (P571 13th century, P1249 1209); https://en.wikipedia.org/wiki/St._Peter%27s_Church,_Riga"
+    },
+    "q5920": {
+      "startYear": 340,
+      "dateNote": "Begun about 340 under Emperor Constantine and his sons, on the site of a Roman palace. It is the oldest cathedral in Germany. Much was rebuilt later, in the 11th and 12th centuries.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1235). Wikidata P571 1235 does not fit: the cathedral goes back to Emperor Constantine in the 4th century, the oldest cathedral in Germany",
+      "source": "https://www.wikidata.org/wiki/Q5920 (P571 1235); https://en.wikipedia.org/wiki/Trier_Cathedral"
+    },
+    "q757067": {
+      "startYear": 775,
+      "dateNote": "Founded about 775 (some say 780), traditionally by Charlemagne. Wikidata gives only \"8th century\", which showed as 701.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (701). Wikidata P571 is just \"8th century\", shown as 701; its own description says founded in 780, and timber dating gives about 775",
+      "source": "https://www.wikidata.org/wiki/Q757067 (P571 8th century; description \"founded in 780\"); https://en.wikipedia.org/wiki/Convent_of_Saint_John"
+    },
+    "q258908": {
+      "startYear": 774,
+      "dateNote": "The first cathedral was consecrated in 774 by Bishop Virgil. Today's baroque building dates from 1614 to 1628.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (701). Wikidata P571 is just \"8th century\", shown as 701; the first cathedral was consecrated by Bishop Virgil in 774",
+      "source": "https://www.wikidata.org/wiki/Q258908 (P571 8th century); https://en.wikipedia.org/wiki/Salzburg_Cathedral"
+    },
+    "q5938": {
+      "startYear": 1210,
+      "dateNote": "The present building was begun about 1210 and the west choir was finished in the 1250s. The bishops moved here in 1028, and an older cathedral stood on the site.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1300). Wikidata P571 is just \"13th century\", shown as 1300; the present building was begun about 1210",
+      "source": "https://www.wikidata.org/wiki/Q5938 (P571 13th century); https://en.wikipedia.org/wiki/Naumburg_Cathedral"
+    },
+    "q157543": {
+      "startYear": 1769,
+      "dateNote": "Prince Leopold III Friedrich Franz of Anhalt-Dessau began the gardens at Wörlitz in 1769, and kept adding to them into the 1800s.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1780). Wikidata P571 is just \"18th century\", shown as 1780; Prince Leopold III began the gardens in 1769",
+      "source": "https://www.wikidata.org/wiki/Q157543 (P571 18th century); https://en.wikipedia.org/wiki/Garden_Kingdom_of_Dessau-W%C3%B6rlitz"
+    },
+    "q19479": {
+      "startYear": 1405,
+      "dateNote": "Built from 1405 to 1410 in the Gothic style; the front was redone in the Weser Renaissance style in 1608 to 1612.",
+      "why": "Places fact-check batch 7 (Oct 2026): wrong year (1400). Wikidata P571 is just \"1400s\" (a decade), shown as 1400; the town hall was built 1405 to 1410",
+      "source": "https://www.wikidata.org/wiki/Q19479 (P571 1400s); https://en.wikipedia.org/wiki/Bremen_City_Hall"
+    },
+    "q284444": {
+      "name": "Pont Saint-Bénézet",
+      "why": "Places fact-check batch 7 (Oct 2026): name fix. The name started with a small letter (\"pont Saint-Bénézet\"), copied from the Wikidata label",
+      "source": "https://www.wikidata.org/wiki/Q284444; https://en.wikipedia.org/wiki/Pont_Saint-B%C3%A9n%C3%A9zet"
+    },
+    "q5764": {
+      "dateNote": "The year shown, AD 500, is the first written mention Wikidata gives. The city is much older: it is usually said to date from about 500 BC.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: AD 500 is Wikidata P1249 (first written mention); the city is usually said to be about 2,500 years old, so this may be a BC slip like Bursa",
+      "source": "https://www.wikidata.org/wiki/Q5764 (P1249 500); https://en.wikipedia.org/wiki/Bukhara"
+    },
+    "q26600": {
+      "dateNote": "The year shown, 1889, is when Fukuoka became a city. The port of Hakata here is far older, but there is no single founding year.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1889 (Wikidata P571) is when Fukuoka became a city; Hakata port is far older",
+      "source": "https://www.wikidata.org/wiki/Q26600 (P571 1889-04-01); https://en.wikipedia.org/wiki/Fukuoka"
+    },
+    "q1538": {
+      "dateNote": "The year shown, 1436, is what Wikidata gives, but Pune is much older: it is named in copper-plate grants from the 8th century (758 and 768).",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 1436 has no clear source; Pune is named in copper plates of the 8th century",
+      "source": "https://www.wikidata.org/wiki/Q1538 (P571 1436); https://en.wikipedia.org/wiki/Pune"
+    },
+    "q157835": {
+      "dateNote": "The year shown, 952, is a Byzantine mention of the island of Khortytsia nearby. The city itself grew from the Russian fort of Alexandrovsk, built in 1770.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 952 (Wikidata P571) is a mention of Khortytsia island nearby; the city grew from the fort of Alexandrovsk, built in 1770",
+      "source": "https://www.wikidata.org/wiki/Q157835 (P571 952); https://en.wikipedia.org/wiki/Zaporizhzhia"
+    },
+    "q41819": {
+      "dateNote": "The year shown, 1853, is when Kansas City got its city charter. People settled here in the 1830s (the Town of Kansas was set up in 1838).",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1853 (Wikidata P571) is a city charter; P1249 has 1831, and the Town of Kansas company was set up in 1838",
+      "source": "https://www.wikidata.org/wiki/Q41819 (P571 1853, P1249 1831); https://en.wikipedia.org/wiki/Kansas_City,_Missouri"
+    },
+    "q28249": {
+      "dateNote": "The year shown, 1733, is when the town was incorporated, as Rumford. Settlers arrived in the 1720s, and it was renamed Concord in 1765.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1733 (Wikidata P571) is when the town was incorporated (as Rumford); it was settled in the 1720s",
+      "source": "https://www.wikidata.org/wiki/Q28249 (P571 1733); https://en.wikipedia.org/wiki/Concord,_New_Hampshire"
+    },
+    "q16565": {
+      "dateNote": "The year shown, 1768, is when Charlotte was chartered as a town. Settlers were here from about 1755.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1768 (Wikidata P571) is when the town was chartered; it was settled about 1755",
+      "source": "https://www.wikidata.org/wiki/Q16565 (P571 1768); https://en.wikipedia.org/wiki/Charlotte,_North_Carolina"
+    },
+    "q40435": {
+      "dateNote": "The year shown, 1832, is when Buffalo became a city. The village was laid out in the early 1800s, and people lived here long before.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1832 (Wikidata P571) is when Buffalo became a city; the village was laid out about 1804",
+      "source": "https://www.wikidata.org/wiki/Q40435 (P571 1832); https://en.wikipedia.org/wiki/Buffalo,_New_York"
+    },
+    "q37333": {
+      "dateNote": "The year shown, 1317, is when Lublin got town rights. It is first mentioned in the late 1100s, and people lived here long before.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1317 (Wikidata P571) is town rights; Lublin is first mentioned in the 1190s and the settlement is older",
+      "source": "https://www.wikidata.org/wiki/Q37333 (P571 1317); https://en.wikipedia.org/wiki/Lublin"
+    },
+    "q100188": {
+      "dateNote": "The year shown, 1213, is the first mention of the medieval town (Clus). The Roman town of Napoca stood here much earlier, from the 2nd century AD.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1213 (Wikidata P571) is the first mention as Clus; the Roman town of Napoca stood here from the 2nd century",
+      "source": "https://www.wikidata.org/wiki/Q100188 (P571 1213); https://en.wikipedia.org/wiki/Cluj-Napoca"
+    },
+    "q2973": {
+      "dateNote": "The year shown, 1330, is when Darmstadt got town rights. The village is first mentioned in the late 1000s.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1330 (Wikidata P571) is town rights; Darmstadt is first mentioned in the late 11th century",
+      "source": "https://www.wikidata.org/wiki/Q2973 (P571 1330); https://en.wikipedia.org/wiki/Darmstadt"
+    },
+    "q20934": {
+      "dateNote": "The year shown, 1883, is when the port was opened to foreign trade. There was a town here (Michuhol) many centuries before.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1883 (Wikidata P571) is when the port was opened to foreign trade; the town (Michuhol) is far older",
+      "source": "https://www.wikidata.org/wiki/Q20934 (P571 1883); https://en.wikipedia.org/wiki/Incheon"
+    },
+    "q43463": {
+      "dateNote": "The year shown, 1726, is when Fortaleza became a town. A Dutch fort was built here in 1649, and there were earlier forts too.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1726 (Wikidata P571, 13 April 1726) is when it became a town; a Dutch fort stood here from 1649",
+      "source": "https://www.wikidata.org/wiki/Q43463 (P571 1726-04-13); https://en.wikipedia.org/wiki/Fortaleza"
+    },
+    "q8471": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"8th century BC\". Greek settlers from Chalcis founded the city (Rhegion), often dated about 743 BC.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"8th century BC\", shown as 800 BC; Greek settlers are often dated to about 743 BC",
+      "source": "https://www.wikidata.org/wiki/Q8471 (P571 8th century BC); https://en.wikipedia.org/wiki/Reggio_Calabria"
+    },
+    "q852032": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"11th century\". The tower is dated anywhere from the 9th to the 11th century.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"11th century\", shown as 1100; sources date the tower from the 9th to 11th century",
+      "source": "https://www.wikidata.org/wiki/Q852032 (P571 11th century); https://en.wikipedia.org/wiki/Burana_Tower"
+    },
+    "q730019": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"7th century\", when it was rebuilt after a fire. The first large church here is from the 5th century.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"7th century\", shown as 601; the first basilica is 5th century and it was rebuilt in the 7th",
+      "source": "https://www.wikidata.org/wiki/Q730019 (P571 7th century); https://en.wikipedia.org/wiki/Hagios_Demetrios"
+    },
+    "q613788": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"13th century\". German merchants founded the church some time in the 1200s.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"13th century\", shown as 1201; the church was founded some time in the 13th century",
+      "source": "https://www.wikidata.org/wiki/Q613788 (P571 13th century); https://en.wikipedia.org/wiki/St._Nicholas%27_Church,_Tallinn"
+    },
+    "q318660": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"13th century\". The present church was built in the later 1200s, on the site of a much older one.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"13th century\", shown as 1300; an older church stood here and the present one was built in the later 13th century",
+      "source": "https://www.wikidata.org/wiki/Q318660 (P571 13th century); https://en.wikipedia.org/wiki/Santa_Maria_in_Aracoeli"
+    },
+    "q903792": {
+      "dateNote": "The year shown, 1847, is what Wikidata gives, probably a later status date. The Spanish town was founded in the 1500s.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1847 (Wikidata P571) is probably a later status date; the Spanish town was founded in the 16th century",
+      "source": "https://www.wikidata.org/wiki/Q903792 (P571 1847); https://en.wikipedia.org/wiki/Tlacotalpan"
+    },
+    "q449639": {
+      "dateNote": "Alodia was a kingdom, not one place, so the pin is only rough; its capital was Soba, near Khartoum. It is first recorded in the 6th century.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: this is a kingdom, not one place (Wikidata P31 historical country), pinned in its territory, not at its capital Soba; \"6th century\" shown as 600",
+      "source": "https://www.wikidata.org/wiki/Q449639 (P31 Q3024240, P571 6th century); https://en.wikipedia.org/wiki/Alodia"
+    },
+    "q689454": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"7th century\". The first wall may be from about AD 500, and a big phase is dated by its timber to 737.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"7th century\", shown as 600; newer digs date the first wall to about AD 500, with major work in 737",
+      "source": "https://www.wikidata.org/wiki/Q689454 (P571 7th century); https://en.wikipedia.org/wiki/Danevirke"
+    },
+    "q281330": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"4th century BC\". The stone wall is often dated to 378 BC; legend gives it to King Servius Tullius, 200 years earlier.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"4th century BC\", shown as 350 BC; the stone wall is often dated to 378 BC, legend says King Servius Tullius",
+      "source": "https://www.wikidata.org/wiki/Q281330 (P571 4th century BC); https://en.wikipedia.org/wiki/Servian_Wall"
+    },
+    "q142819": {
+      "dateNote": "The year shown, 1000 BC, is for the old city, whose site has never been found. The ruins here are from the new city, built about 350 BC.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: 1000 BC (Wikidata P571) is the old city, whose site is lost; the ruins you see are from the new city built about 350 BC",
+      "source": "https://www.wikidata.org/wiki/Q142819 (P571 1000 BC); https://en.wikipedia.org/wiki/Priene"
+    },
+    "q135779": {
+      "dateNote": "The year shown comes from a tradition that Mary lived here. The building itself is much later, probably from about the 7th century, and was found again in 1881.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"1st century\", shown as AD 100; the house is a tradition, and the building is much later",
+      "source": "https://www.wikidata.org/wiki/Q135779 (P571 1st century); https://en.wikipedia.org/wiki/House_of_the_Virgin_Mary"
+    },
+    "q720583": {
+      "dateNote": "No one is sure where Tigranocerta was. The pin is one of the places put forward (others include Silvan). The year (77 BC) is about when it was founded.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: the site of Tigranocerta is disputed; Wikidata pins one candidate",
+      "source": "https://www.wikidata.org/wiki/Q720583 (P625, P571 77 BC); https://en.wikipedia.org/wiki/Tigranocerta"
+    },
+    "q557337": {
+      "dateNote": "The year shown is only rough: Wikidata gives \"12th century\". The castle is first recorded in the 1120s and was rebuilt many times.",
+      "why": "Places fact-check batch 7 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"12th century\", shown as 1200; the castle is first recorded in the 1120s",
+      "source": "https://www.wikidata.org/wiki/Q557337 (P571 12th century); https://en.wikipedia.org/wiki/Alc%C3%A1zar_of_Segovia"
+    },
     "q5950": {
       "lat": 33.2449,
       "lon": -81.3587,
