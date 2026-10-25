@@ -51,7 +51,129 @@ const site = (id, name, startYear, lat, lon, wikidataId, wikiTitle, dateNote, wh
 // The summary leads the panel; sourceUrl is shown under it as "Source".
 const cited = (row, summary, sourceUrl) => ({ ...row, summary, sourceUrl });
 
+// Batch 4 (25 Oct 2026): more thin regions. Each at its Wikidata P625; where the
+// row's Q-id is the fossil itself (no P625), the pin is its find place's P625
+// and the note says which. Spread at the top of FOSSIL_SITES.
+const BATCH_4 = [
+  cited(site('toros-menalla', 'Toros-Menalla: "Toumaï" found', 2001, 12.223536721, 15.414525627, 'Q1315748', 'Toumaï',
+    'On 19 July 2001 Ahounta Djimdoumalbaye, of Michel Brunet\'s French–Chadian team, found a skull in the Djurab desert ' +
+      'of northern Chad. Named Sahelanthropus tchadensis, it is about 7 million years old.'),
+  'A 7-million-year-old skull from Chad, one of the oldest possible human relatives.',
+  'https://en.wikipedia.org/wiki/Sahelanthropus'),
+  cited(site('tugen-hills', 'Tugen Hills: Orrorin found', 2000, 0.7529, 35.8749, 'Q7851625', 'Tugen Hills',
+    'In 2000 Brigitte Senut and Martin Pickford\'s team found jaw bits, teeth and thigh bones in the Tugen Hills of Kenya. ' +
+      'Named Orrorin tugenensis, it is about 6 million years old.',
+    'Wikidata pins the hills; the finds came from the Lukeino Formation.'),
+  'A 6-million-year-old human relative from Kenya whose thigh bones hint it walked upright.',
+  'https://en.wikipedia.org/wiki/Orrorin'),
+  cited(site('nariokotome', 'Nariokotome: "Turkana Boy" found', 1984, 4.13333, 35.93333, 'Q1418632', 'Turkana Boy',
+    'In August 1984 Kamoya Kimeu, of Richard Leakey\'s team, found a bit of skull by the Nariokotome River, west of Lake ' +
+      'Turkana, Kenya. Digging brought out almost a whole skeleton of a Homo erectus boy, about 1.5 million years old.',
+    'Pinned at the Wikidata point for the Nariokotome River (Q55627210).'),
+  'Where the most complete early human skeleton, "Turkana Boy", was found.',
+  'https://en.wikipedia.org/wiki/Turkana_Boy'),
+  cited(site('uraha', 'Uraha: the Malawi jaw', 1991, -10.350166666, 34.156472222, 'Q110532519', 'Homo rudolfensis',
+    'In 1991 Friedemann Schrenk and Timothy Bromage\'s team found a jaw at Uraha in northern Malawi. Known as UR 501, ' +
+      'it is Homo rudolfensis, about 2.4 million years old: one of the oldest fossils of our own genus.'),
+  'A 2.4-million-year-old jaw from Malawi, among the oldest of our own genus, Homo.',
+  'https://en.wikipedia.org/wiki/Homo_rudolfensis'),
+  cited(site('wonderwerk', 'Wonderwerk Cave: the oldest known fire', 2012, -27.845, 23.553888888, 'Q2543042', 'Wonderwerk Cave',
+    'In 2012 Francesco Berna and Michael Chazan\'s team reported burnt bone and plant ash deep in this cave in the Northern ' +
+      'Cape, South Africa. Early humans made the fires about 1 million years ago.'),
+  'A cave in South Africa with the oldest firm sign of fire made by early humans.',
+  'https://doi.org/10.1073/pnas.1117620109'),
+  cited(site('kem-kem', 'Kem Kem beds: the swimming Spinosaurus', 2018, 30.9, -4.0, 'Q3194964', 'Kem Kem Group',
+    'In 2018 Nizar Ibrahim\'s team dug the tail of a Spinosaurus out of the Kem Kem beds of south-east Morocco. Its ' +
+      'paddle-like tail showed this giant hunted in water. The rock is about 100–95 million years old (Late Cretaceous).',
+    'Wikidata pins the beds at a rounded point.'),
+  'Where a Spinosaurus tail showed the giant swam, in the Moroccan desert.',
+  'https://doi.org/10.1038/s41586-020-2190-3'),
+  cited(site('milodon', 'Cueva del Milodón: giant sloth skin found', 1895, -51.5656, -72.6197, 'Q1483271', 'Cueva del Milodón Natural Monument',
+    'In 1895 the settler Hermann Eberhard found a piece of skin, still with hair, in this cave in Chilean Patagonia. It came ' +
+      'from Mylodon, a giant ground sloth. The bones and dung are Ice Age, about 0.013–0.01 million years old.'),
+  'A Patagonian cave where the skin and dung of a giant ground sloth were found.',
+  'https://en.wikipedia.org/wiki/Cueva_del_Milod%C3%B3n_Natural_Monument'),
+  cited(site('lujan', 'Luján: the first Megatherium', 1787, -34.570277777, -59.105, 'Q310387', 'Megatherium',
+    'In 1787 the friar Manuel Torres dug a giant skeleton out of the banks of the Luján River, Argentina, and it was sent ' +
+      'to Madrid. In 1796 Georges Cuvier named it Megatherium, a ground sloth as big as an elephant. It is Ice Age, under 1 million years old.',
+    'Pinned on the city of Luján (Q54107).'),
+  'Where the first giant ground sloth, Megatherium, was dug up in 1787.',
+  'https://en.wikipedia.org/wiki/Megatherium'),
+  cited(site('shanidar', 'Shanidar Cave: Neanderthals found', 1957, 36.8006, 44.2433, 'Q909799', 'Shanidar Cave',
+    'In 1957 Ralph Solecki\'s team found the skeleton of an adult Neanderthal, Shanidar 1, in this cave in the Zagros ' +
+      'Mountains of Iraqi Kurdistan. Digs from 1951 to 1960 found ten Neanderthals, about 0.07–0.045 million years old.'),
+  'A cave in Iraqi Kurdistan where ten Neanderthals were found.',
+  'https://en.wikipedia.org/wiki/Shanidar_Cave'),
+  cited(site('azykh', 'Azykh Cave: the Azykh jaw', 1968, 39.619189, 46.988603, 'Q2002193', 'Azykh Cave',
+    'In June 1968 Mammadali Huseynov\'s team found part of an archaic human jaw in this cave in the Lesser Caucasus, ' +
+      'Azerbaijan. Uncertain age: estimates run from about 0.45 to 0.05 million years.'),
+  'A cave in Azerbaijan with one of the oldest human jaws in the Caucasus.',
+  'https://en.wikipedia.org/wiki/Azykhantrop'),
+  cited(site('ust-ishim', 'Ust\'-Ishim: the oldest modern human genome', 2008, 57.694444444, 71.170833333, 'Q18357554', 'Ust\'-Ishim man',
+    'In 2008 the ivory carver Nikolai Peristov found a human thigh bone on the bank of the Irtysh River in Siberia. Its DNA, ' +
+      'read in 2014, was the oldest modern human genome then known. The bone is about 0.045 million years old.',
+    'Pinned on the village of Ust\'-Ishim (Q4478405).'),
+  'A thigh bone from Siberia with the oldest modern human genome known in 2014.',
+  'https://en.wikipedia.org/wiki/Ust%27-Ishim_man'),
+  cited(site('malta', 'Mal\'ta: the Mal\'ta boy', 1928, 52.9, 103.5, 'Q1887797', 'Mal\'ta–Buret\' culture',
+    'From 1928 Mikhail Gerasimov dug at Mal\'ta, near Lake Baikal in Siberia, and found carved ivory and the grave of a ' +
+      'small boy. In 2013 the boy\'s DNA linked him to Native Americans. He is about 0.024 million years old.',
+    'Wikidata pins the culture at a rounded point near the village.'),
+  'A Siberian boy, 24,000 years old, whose DNA is shared with Native Americans.',
+  'https://en.wikipedia.org/wiki/Mal%27ta%E2%80%93Buret%27_culture'),
+  cited(site('mata-menge', 'Mata Menge: the hobbits\' ancestors', 2014, -8.704, 121.1061, 'Q24457353', 'Mata Menge',
+    'In 2014 a team led by Gerrit van den Bergh found a jaw and teeth of tiny early humans at Mata Menge, central Flores, ' +
+      'Indonesia. They are about 0.7 million years old, likely ancestors of Homo floresiensis, the "hobbit".'),
+  'Where the likely ancestors of the Flores "hobbit" were found.',
+  'https://doi.org/10.1038/nature17999'),
+  cited(site('riversleigh', 'Riversleigh: 25 million years of fossils', 1900, -19.033295, 138.629856, 'Q635473', 'Riversleigh World Heritage Area',
+    'In 1900 the geologist W. E. Cameron noted fossil bones at Riversleigh, north-west Queensland. Big digs began in 1976. ' +
+      'The rocks hold mammals, birds and reptiles from about 25 million years ago onwards.'),
+  'One of the world\'s richest fossil mammal sites, in the Queensland outback.',
+  'https://theconversation.com/unknown-wonders-riversleigh-13517'),
+  cited(site('vega-island', 'Vega Island: Vegavis, a bird beside the dinosaurs', 1992, -63.833333333, -57.416666666, 'Q2319226', 'Vegavis',
+    'In 1992 an Argentine team found a bird skeleton in rock on Vega Island, Antarctica. Named Vegavis in 2005, it is a ' +
+      'relative of ducks and geese about 67 million years old (Late Cretaceous).',
+    'Pinned at the Wikidata point for Vega Island (Q1241818).'),
+  'An Antarctic bird showing that modern birds lived beside the dinosaurs.',
+  'https://en.wikipedia.org/wiki/Vegavis'),
+  cited(site('hateg', 'Hațeg: the dwarf dinosaurs', 1895, 45.6075, 22.95, 'Q3488895', 'Hațeg Island',
+    'In 1895 Ilona Nopcsa found dinosaur bones on her family\'s estate at Sânpetru, Romania, and her brother Franz studied ' +
+      'them. They were small "dwarf" dinosaurs that lived on an island. The rock is about 70 million years old (Late Cretaceous).',
+    'Pinned on the town of Hațeg; the first bones came from Sânpetru.'),
+  'Romania\'s island of dwarf dinosaurs.',
+  'https://en.wikipedia.org/wiki/Ha%C8%9Beg_Island'),
+  cited(site('oase', 'Peștera cu Oase: early Europeans', 2002, 45.016731, 21.833347, 'Q946978', 'Peștera cu Oase',
+    'In February 2002 cavers found a human jawbone in this cave in south-west Romania. It is about 0.04 million years old, ' +
+      'among the oldest modern humans in Europe, and its DNA shows a Neanderthal ancestor a few generations back.'),
+  'A Romanian cave with some of the oldest modern humans in Europe.',
+  'https://en.wikipedia.org/wiki/Pe%C8%99tera_cu_Oase'),
+  cited(site('krapina', 'Krapina: hundreds of Neanderthal bones', 1899, 46.165439, 15.86319, 'Q12632775', 'Krapina Neanderthal site',
+    'In 1899 Dragutin Gorjanović-Kramberger began digging Hušnjakovo hill at Krapina, Croatia. By 1905 he had found about ' +
+      '900 bones of Neanderthals, about 0.13 million years old.'),
+  'One of the richest Neanderthal sites, with hundreds of bones.',
+  'https://en.wikipedia.org/wiki/Krapina_Neanderthal_site'),
+  cited(site('krasiejow', 'Krasiejów: Triassic bones in a clay pit', 1993, 50.668055555, 18.246666666, 'Q385668', 'Krasiejów',
+    'In 1993 a bed full of skulls of big freshwater animals was found in the clay quarry at Krasiejów, Poland. Digs since ' +
+      'have found Silesaurus, a close relative of the dinosaurs. The rock is about 230 million years old (Late Triassic).',
+    'Pinned on the village of Krasiejów; the quarry is beside it.'),
+  'A Polish clay pit full of Late Triassic animals, Silesaurus among them.',
+  'https://old.paleo.pan.pl/krasiejow/wprowadzenie_a.html'),
+  cited(site('mezhyrich', 'Mezhyrich: houses of mammoth bone', 1965, 49.615, 31.434166666, 'Q959420', 'Mezhyrich, Cherkasy Oblast',
+    'In 1965 a farmer making his cellar bigger in Mezhyrich, Ukraine, dug up a mammoth\'s jawbone. Digs found four huts ' +
+      'built from 149 mammoth bones. They are about 0.018–0.015 million years old.',
+    'Pinned on the village of Mezhyrich.'),
+  'Ice Age huts in Ukraine built from mammoth bones.',
+  'https://en.wikipedia.org/wiki/Mezhyrich%2C_Cherkasy_Oblast'),
+  cited(site('sungir', 'Sungir: Ice Age graves', 1955, 56.17583333, 40.50916667, 'Q1779534', 'Sungir',
+    'In 1955 a digger driver found bones in a clay quarry near Vladimir, Russia. Otto Bader\'s digs from 1957 found graves ' +
+      'covered in thousands of ivory beads. They are about 0.034–0.03 million years old.'),
+  'Ice Age graves near Vladimir, Russia, covered in thousands of ivory beads.',
+  'https://en.wikipedia.org/wiki/Sungir'),
+];
+
 export const FOSSIL_SITES = [
+  ...BATCH_4,
   site('burgess-shale', 'Burgess Shale fossils found', 1909, 51.4333, -116.467, 'Q852085', 'Burgess Shale',
     'Found by Charles Walcott in 1909, high in the Canadian Rockies. The rock is about 508 million years old ' +
       '(Cambrian). It keeps soft-bodied sea animals, such as Anomalocaris, Opabinia and Hallucigenia.'),
