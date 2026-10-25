@@ -29542,6 +29542,2472 @@
       ],
       "loser": "b",
       "severity": 1.3
+    },
+    "plains-of-abraham": {
+      "title": "Battle of the Plains of Abraham",
+      "subtitle": "13 September 1759 — Wolfe climbs the Foulon cliffs and Quebec is decided in about an hour",
+      "sides": {
+        "a": {
+          "name": "Great Britain (Wolfe)",
+          "color": "#c8102e"
+        },
+        "b": {
+          "name": "France and New France (Montcalm)",
+          "color": "#2f56a6"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              67
+            ],
+            [
+              50,
+              68
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "label": "St Lawrence"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 59,
+          "w": 100,
+          "h": 5,
+          "label": "The cliffs above the river"
+        },
+        {
+          "type": "town",
+          "x": 23,
+          "y": 63,
+          "r": 1.5,
+          "label": "Anse-au-Foulon"
+        },
+        {
+          "type": "town",
+          "x": 96,
+          "y": 34,
+          "r": 6,
+          "label": "Quebec (the walls)"
+        },
+        {
+          "type": "hill",
+          "x": 76,
+          "y": 34,
+          "r": 5,
+          "label": "Buttes-à-Neveu"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              55,
+              0
+            ],
+            [
+              80,
+              6
+            ],
+            [
+              100,
+              12
+            ]
+          ],
+          "label": "St Charles River"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              24
+            ],
+            [
+              60,
+              27
+            ],
+            [
+              92,
+              31
+            ]
+          ],
+          "label": "Sainte-Foy road"
+        },
+        {
+          "type": "forest",
+          "x": 50,
+          "y": 14,
+          "r": 6
+        },
+        {
+          "type": "forest",
+          "x": 8,
+          "y": 44,
+          "r": 7,
+          "label": "Toward Sillery and Cap-Rouge"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The Foulon climb",
+          "narration": "Before dawn the British boats drift down the St Lawrence; a French-speaking officer talks them past the sentries, who are expecting a supply convoy. Colonel William Howe leads some two dozen volunteers up the slope above Anse-au-Foulon, takes Vergor’s small militia post from behind, and Wolfe follows by the road.",
+          "arrows": [
+            {
+              "from": [
+                22,
+                65
+              ],
+              "to": [
+                24,
+                57
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "A line on the plain",
+          "narration": "By sunrise about 4,400 British troops are on the plateau west of the city. Wolfe forms a shallow horseshoe two ranks deep, facing Quebec; on his left Townshend’s battalions clear militia and native sharpshooters from the scrub, houses and a gristmill, whose burning smoke may have hidden the line’s true width from Montcalm.",
+          "arrows": [
+            {
+              "from": [
+                53,
+                17
+              ],
+              "to": [
+                47,
+                21
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                46,
+                24
+              ],
+              "to": [
+                52,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Montcalm attacks",
+          "narration": "Hurrying from the Beauport lines, Montcalm has about 3,500 men in hand. Around 10 a.m., without waiting for the rest of the Beauport troops or for Bougainville’s force upriver, he orders a general advance; regulars and militia mixed in the ranks lose their order as they come on.",
+          "arrows": [
+            {
+              "from": [
+                72,
+                38
+              ],
+              "to": [
+                57,
+                38
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                73,
+                44
+              ],
+              "to": [
+                59,
+                43
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Two volleys",
+          "narration": "The French fire two ragged volleys. Wolfe’s centre holds its fire until they are about thirty yards off, then delivers a close, heavy volley, steps forward and fires again — and the French line breaks. Wolfe, hit in the stomach and then in the chest, dies knowing it; Montcalm is mortally wounded as he rides back toward the city and dies next morning.",
+          "arrows": [
+            {
+              "from": [
+                54,
+                38
+              ],
+              "to": [
+                61,
+                38
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                55,
+                44
+              ],
+              "to": [
+                62,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "To the St Charles",
+          "narration": "The 78th Fraser Highlanders chase the fugitives with their swords and take the heaviest British losses of the day from militia in the woods and a floating battery covering the St Charles bridge. Townshend, now in command, turns two battalions to face Bougainville, who arrives late from Cap-Rouge and withdraws; Quebec capitulates five days later.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                28
+              ],
+              "to": [
+                75,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "wolfe-centre",
+          "side": "a",
+          "label": "Wolfe’s centre (Louisbourg Grenadiers, 28th, 43rd, 47th, 58th)",
+          "pos": [
+            [
+              24,
+              60
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              52,
+              38
+            ],
+            [
+              54,
+              38
+            ],
+            [
+              62,
+              36
+            ]
+          ],
+          "strength": 1700,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "highlanders",
+          "side": "a",
+          "label": "78th Fraser Highlanders",
+          "pos": [
+            [
+              22,
+              61
+            ],
+            [
+              52,
+              31
+            ],
+            [
+              52,
+              31
+            ],
+            [
+              56,
+              31
+            ],
+            [
+              76,
+              18
+            ]
+          ],
+          "strength": 600,
+          "helmet": "cap"
+        },
+        {
+          "id": "townshend-left",
+          "side": "a",
+          "label": "Townshend’s left (15th, 2nd and 3rd/60th)",
+          "pos": [
+            [
+              20,
+              62
+            ],
+            [
+              46,
+              22
+            ],
+            [
+              46,
+              22
+            ],
+            [
+              48,
+              22
+            ],
+            [
+              30,
+              26
+            ]
+          ],
+          "strength": 1000,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "the-35th",
+          "side": "a",
+          "label": "35th Foot, refused on the right",
+          "pos": [
+            [
+              26,
+              62
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              56,
+              50
+            ],
+            [
+              56,
+              48
+            ]
+          ],
+          "strength": 450,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "reserve",
+          "side": "a",
+          "label": "Reserve (48th) and 80th light infantry",
+          "pos": [
+            [
+              21,
+              62
+            ],
+            [
+              38,
+              40
+            ],
+            [
+              38,
+              40
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              26,
+              32
+            ]
+          ],
+          "strength": 650,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "french-regulars",
+          "side": "b",
+          "label": "French regulars (La Sarre, Languedoc, Béarn, Guyenne, Royal-Roussillon)",
+          "pos": [
+            [
+              98,
+              14
+            ],
+            [
+              76,
+              34
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              92,
+              18
+            ]
+          ],
+          "strength": 1900,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "line-militia",
+          "side": "b",
+          "label": "Canadian militia and colonial troops in the line",
+          "pos": [
+            [
+              99,
+              10
+            ],
+            [
+              78,
+              42
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              64,
+              44
+            ],
+            [
+              94,
+              14
+            ]
+          ],
+          "strength": 700,
+          "helmet": "cap"
+        },
+        {
+          "id": "north-skirmishers",
+          "side": "b",
+          "label": "Militia and native sharpshooters, north scrub",
+          "pos": [
+            [
+              90,
+              8
+            ],
+            [
+              53,
+              16
+            ],
+            [
+              56,
+              18
+            ],
+            [
+              58,
+              18
+            ],
+            [
+              74,
+              10
+            ]
+          ],
+          "strength": 600,
+          "helmet": "cap"
+        },
+        {
+          "id": "south-skirmishers",
+          "side": "b",
+          "label": "Militia sharpshooters along the cliff edge",
+          "pos": [
+            [
+              94,
+              52
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              63,
+              54
+            ],
+            [
+              64,
+              54
+            ],
+            [
+              86,
+              48
+            ]
+          ],
+          "strength": 300,
+          "helmet": "cap"
+        },
+        {
+          "id": "vergor",
+          "side": "b",
+          "label": "Vergor’s post at the Foulon",
+          "pos": [
+            [
+              24,
+              57
+            ],
+            [
+              10,
+              54
+            ],
+            [
+              6,
+              52
+            ],
+            [
+              6,
+              52
+            ],
+            [
+              6,
+              52
+            ]
+          ],
+          "strength": 100,
+          "helmet": "cap"
+        },
+        {
+          "id": "bougainville",
+          "side": "b",
+          "label": "Bougainville’s force from Cap-Rouge",
+          "pos": [
+            [
+              2,
+              30
+            ],
+            [
+              2,
+              28
+            ],
+            [
+              4,
+              28
+            ],
+            [
+              6,
+              28
+            ],
+            [
+              14,
+              26
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "tricorne"
+        }
+      ],
+      "loser": "b",
+      "severity": 1
+    },
+    "rorkes-drift": {
+      "title": "Battle of Rorke’s Drift",
+      "subtitle": "22–23 January 1879 — about 155 men behind mealie bags and biscuit boxes hold off 3,000–4,000 Zulu",
+      "sides": {
+        "a": {
+          "name": "British garrison (Chard, Bromhead)",
+          "color": "#b22222"
+        },
+        "b": {
+          "name": "Zulu Kingdom (Prince Dabulamanzi)",
+          "color": "#5a3a1a"
+        }
+      },
+      "terrain": [
+        {
+          "type": "hill",
+          "x": 52,
+          "y": 61,
+          "r": 10,
+          "label": "Oscarberg (Shiyane)"
+        },
+        {
+          "type": "town",
+          "x": 34,
+          "y": 38,
+          "r": 4,
+          "label": "Hospital"
+        },
+        {
+          "type": "town",
+          "x": 62,
+          "y": 37,
+          "r": 4,
+          "label": "Storehouse"
+        },
+        {
+          "type": "town",
+          "x": 73,
+          "y": 39,
+          "r": 2.5,
+          "label": "Cattle kraal"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              30,
+              33
+            ],
+            [
+              64,
+              31
+            ]
+          ],
+          "label": "Mealie-bag wall (north front)"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              34,
+              44
+            ],
+            [
+              62,
+              43
+            ]
+          ],
+          "label": "South wall"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              52,
+              31
+            ],
+            [
+              52,
+              43
+            ]
+          ],
+          "label": "Biscuit-box wall"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              48,
+              31
+            ],
+            [
+              44,
+              0
+            ]
+          ],
+          "label": "Track to the drift on the Buffalo River"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Word from Isandlwana",
+          "narration": "Through the afternoon survivors ride in from Isandlwana, about ten kilometres to the east, with news of the disaster and of an impi coming on. Lieutenants Chard and Bromhead decide to stay and fight: mealie bags and biscuit boxes are piled into a wall joining the hospital to the storehouse, and the sick are given rifles."
+        },
+        {
+          "name": "The south wall",
+          "narration": "Around 4:20 p.m. the native horse and Stevenson’s Natal Native Contingent company flee, leaving perhaps 155 men. Ten minutes later the Zulu vanguard — the iNdluyengwe, some 600 strong — sweeps round the Oscarberg and charges the south wall; volleys from about 500 metres break it up, while Zulu riflemen settle among the rocks above to snipe into the yard.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                52
+              ],
+              "to": [
+                50,
+                44
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                56,
+                54
+              ],
+              "to": [
+                58,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The north wall and the hospital",
+          "narration": "The main body swings west and north and throws itself at the hospital and the mealie-bag front, fighting hand to hand across the bags under the verandah. Bayonet charges clear the wall again and again, but at about 6 p.m. Chard pulls the line back from the north wall into the yard behind the biscuit boxes.",
+          "arrows": [
+            {
+              "from": [
+                28,
+                30
+              ],
+              "to": [
+                33,
+                36
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                38,
+                24
+              ],
+              "to": [
+                42,
+                31
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                66,
+                26
+              ],
+              "to": [
+                62,
+                31
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Out of the burning hospital",
+          "narration": "The Zulu fire the hospital’s thatch. Inside, Privates Hook, Williams, Jones and others hack holes through the internal walls room by room, dragging patients after them while holding the doors; over about fifty minutes nine of eleven reach the barricade, but some sick men are killed. The blazing roof lights the yard for the defenders’ aim.",
+          "arrows": [
+            {
+              "from": [
+                26,
+                38
+              ],
+              "to": [
+                33,
+                38
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                26
+              ],
+              "to": [
+                46,
+                31
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The last redoubt",
+          "narration": "By 10 p.m. the cattle kraal is given up and the garrison is packed round the storehouse, where a high redoubt of mealie bags lets a second rank fire over the first. Assault after assault comes in until somewhere between midnight and 2 a.m.; harassing fire goes on until about 4 a.m.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                30
+              ],
+              "to": [
+                63,
+                33
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                73,
+                40
+              ],
+              "to": [
+                65,
+                38
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                54,
+                25
+              ],
+              "to": [
+                58,
+                32
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Dawn",
+          "narration": "At first light the Zulu have gone, leaving their dead around the walls; an impi shows itself about 7 a.m. but does not attack, and Chelmsford’s column arrives around 8. Seventeen defenders died, and only some 900 of 20,000 rounds were left; around 350 Zulu dead were counted, and more wounded were killed afterwards. Eleven Victoria Crosses followed."
+        }
+      ],
+      "units": [
+        {
+          "id": "b-company-north",
+          "side": "a",
+          "label": "B Company, 2/24th — north wall (Bromhead)",
+          "pos": [
+            [
+              48,
+              31
+            ],
+            [
+              48,
+              31
+            ],
+            [
+              44,
+              32
+            ],
+            [
+              54,
+              33
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              60,
+              34
+            ]
+          ],
+          "strength": 80,
+          "helmet": "none"
+        },
+        {
+          "id": "south-wall",
+          "side": "a",
+          "label": "South wall and storehouse (Chard, commissariat, others)",
+          "pos": [
+            [
+              56,
+              42
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              56,
+              41
+            ],
+            [
+              58,
+              39
+            ],
+            [
+              62,
+              37
+            ],
+            [
+              62,
+              37
+            ]
+          ],
+          "strength": 45,
+          "helmet": "none"
+        },
+        {
+          "id": "hospital",
+          "side": "a",
+          "label": "Hospital defenders and patients (Hook, Williams, Jones)",
+          "pos": [
+            [
+              34,
+              38
+            ],
+            [
+              34,
+              38
+            ],
+            [
+              34,
+              38
+            ],
+            [
+              44,
+              38
+            ],
+            [
+              60,
+              36
+            ],
+            [
+              60,
+              36
+            ]
+          ],
+          "strength": 30,
+          "helmet": "none"
+        },
+        {
+          "id": "nnc",
+          "side": "a",
+          "label": "Stevenson’s NNC company (fled)",
+          "pos": [
+            [
+              73,
+              40
+            ],
+            [
+              96,
+              68
+            ],
+            [
+              98,
+              69
+            ],
+            [
+              98,
+              69
+            ],
+            [
+              98,
+              69
+            ],
+            [
+              98,
+              69
+            ]
+          ],
+          "strength": 300,
+          "helmet": "none"
+        },
+        {
+          "id": "indluyengwe",
+          "side": "b",
+          "label": "iNdluyengwe (the vanguard)",
+          "pos": [
+            [
+              62,
+              69
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              28,
+              40
+            ],
+            [
+              27,
+              38
+            ],
+            [
+              50,
+              25
+            ],
+            [
+              82,
+              66
+            ]
+          ],
+          "strength": 600,
+          "helmet": "none"
+        },
+        {
+          "id": "uthulwana",
+          "side": "b",
+          "label": "uThulwana",
+          "pos": [
+            [
+              75,
+              69
+            ],
+            [
+              62,
+              54
+            ],
+            [
+              30,
+              28
+            ],
+            [
+              38,
+              26
+            ],
+            [
+              55,
+              25
+            ],
+            [
+              86,
+              68
+            ]
+          ],
+          "strength": 1300,
+          "helmet": "none"
+        },
+        {
+          "id": "udloko",
+          "side": "b",
+          "label": "uDloko",
+          "pos": [
+            [
+              86,
+              67
+            ],
+            [
+              72,
+              52
+            ],
+            [
+              38,
+              23
+            ],
+            [
+              42,
+              25
+            ],
+            [
+              70,
+              31
+            ],
+            [
+              90,
+              66
+            ]
+          ],
+          "strength": 1100,
+          "helmet": "none"
+        },
+        {
+          "id": "indlondlo",
+          "side": "b",
+          "label": "iNdlondlo",
+          "pos": [
+            [
+              93,
+              62
+            ],
+            [
+              74,
+              47
+            ],
+            [
+              67,
+              26
+            ],
+            [
+              72,
+              35
+            ],
+            [
+              74,
+              40
+            ],
+            [
+              94,
+              62
+            ]
+          ],
+          "strength": 600,
+          "helmet": "none"
+        },
+        {
+          "id": "riflemen",
+          "side": "b",
+          "label": "Zulu riflemen on the Oscarberg",
+          "pos": [
+            [
+              70,
+              67
+            ],
+            [
+              50,
+              57
+            ],
+            [
+              50,
+              57
+            ],
+            [
+              50,
+              57
+            ],
+            [
+              50,
+              57
+            ],
+            [
+              76,
+              69
+            ]
+          ],
+          "strength": 300,
+          "helmet": "none"
+        }
+      ],
+      "loser": "b",
+      "severity": 0.9
+    },
+    "tannenberg-1914": {
+      "title": "Battle of Tannenberg",
+      "subtitle": "26–30 August 1914 — the German Eighth Army encircles Samsonov’s Second Army in East Prussia",
+      "sides": {
+        "a": {
+          "name": "German Eighth Army (Hindenburg, Ludendorff)",
+          "color": "#4a4a4a"
+        },
+        "b": {
+          "name": "Russian Second Army (Samsonov)",
+          "color": "#2e7d32"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 5,
+          "y": 30,
+          "r": 2.5,
+          "label": "Deutsch-Eylau"
+        },
+        {
+          "type": "town",
+          "x": 35,
+          "y": 47,
+          "r": 2,
+          "label": "Gilgenburg"
+        },
+        {
+          "type": "town",
+          "x": 42,
+          "y": 40,
+          "r": 2,
+          "label": "Tannenberg"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 32,
+          "r": 2.5,
+          "label": "Hohenstein"
+        },
+        {
+          "type": "town",
+          "x": 65,
+          "y": 12,
+          "r": 3.5,
+          "label": "Allenstein"
+        },
+        {
+          "type": "town",
+          "x": 96,
+          "y": 5,
+          "r": 2.5,
+          "label": "Bischofsburg"
+        },
+        {
+          "type": "town",
+          "x": 36,
+          "y": 62,
+          "r": 2,
+          "label": "Usdau"
+        },
+        {
+          "type": "town",
+          "x": 45,
+          "y": 66,
+          "r": 2.5,
+          "label": "Soldau"
+        },
+        {
+          "type": "town",
+          "x": 61,
+          "y": 54,
+          "r": 3,
+          "label": "Neidenburg"
+        },
+        {
+          "type": "town",
+          "x": 83,
+          "y": 37,
+          "r": 2,
+          "label": "Jedwabno"
+        },
+        {
+          "type": "town",
+          "x": 96,
+          "y": 50,
+          "r": 2,
+          "label": "Willenberg"
+        },
+        {
+          "type": "forest",
+          "x": 70,
+          "y": 44,
+          "r": 9,
+          "label": "The forests and lakes where the pocket formed"
+        },
+        {
+          "type": "forest",
+          "x": 80,
+          "y": 26,
+          "r": 7
+        },
+        {
+          "type": "forest",
+          "x": 56,
+          "y": 22,
+          "r": 5
+        }
+      ],
+      "phases": [
+        {
+          "name": "Samsonov marches north",
+          "narration": "The Russian Second Army — perhaps 120,000–180,000 men by modern estimates, in five corps — pushes north out of Russian Poland into East Prussia, spread wide and short of supplies. Its orders go out by wireless in clear, and the Germans read them. The German I Corps is shifted west by rail from the Gumbinnen front to join XX Corps facing Samsonov, while XVII and I Reserve Corps march south-west from the north."
+        },
+        {
+          "name": "The right wing breaks (26 August)",
+          "narration": "Samsonov’s centre bears north-west toward the Vistula, leaving his VI Corps out on the right near Bischofsburg. There Mackensen’s XVII Corps and Below’s I Reserve Corps strike it and send it fleeing south along the roads. In the west, François’s I Corps takes Seeben, the high ground before Usdau.",
+          "arrows": [
+            {
+              "from": [
+                86,
+                4
+              ],
+              "to": [
+                93,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                80,
+                8
+              ],
+              "to": [
+                91,
+                14
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                56
+              ],
+              "to": [
+                34,
+                60
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Usdau (27 August)",
+          "narration": "François’s assault takes Usdau and throws the Russian I Corps, on Samsonov’s left, back toward Soldau. In the centre XIII and XV Corps press on into the empty country toward Allenstein and the XX Corps line, deeper into the net. That evening Ludendorff issues the order to encircle them.",
+          "arrows": [
+            {
+              "from": [
+                32,
+                58
+              ],
+              "to": [
+                37,
+                62
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                42
+              ],
+              "to": [
+                46,
+                39
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The centre walks in",
+          "narration": "Martos’s XV Corps attacks the German XX Corps around Hohenstein while Klyuev’s XIII Corps enters Allenstein unopposed, heading the wrong way: north, away from the threat to its flanks. Neither corps knows its wings are already gone.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                40
+              ],
+              "to": [
+                48,
+                37
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                66,
+                22
+              ],
+              "to": [
+                65,
+                15
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "François swings east (28 August)",
+          "narration": "François takes Soldau and turns east along the southern road to Neidenburg, behind the Russian centre. Scholtz’s 37th Division reaches Hohenstein, XV Corps is forced back south, and Below’s I Reserve Corps strikes XIII Corps west of Allenstein. A report that Rennenkampf’s First Army was approaching briefly halts the Germans, but Hindenburg orders the operation to go on.",
+          "arrows": [
+            {
+              "from": [
+                46,
+                64
+              ],
+              "to": [
+                58,
+                57
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                48,
+                36
+              ],
+              "to": [
+                53,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                16
+              ],
+              "to": [
+                63,
+                23
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The ring closes (29 August)",
+          "narration": "François’s cavalry reaches Willenberg and his 1st Division holds the Neidenburg–Willenberg road; Mackensen’s XVII Corps comes south through Jedwabno and meets them. XIII, XV and part of XXIII Corps are shut in the forests and lakes between Hohenstein and Neidenburg, pounded by artillery in the Frogenau pocket.",
+          "arrows": [
+            {
+              "from": [
+                62,
+                56
+              ],
+              "to": [
+                80,
+                56
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                82,
+                30
+              ],
+              "to": [
+                82,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                36
+              ],
+              "to": [
+                64,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Samsonov’s end (30 August)",
+          "narration": "Attempts to break the ring from outside fail. That night Samsonov slips away into the woods and shoots himself. Germany claimed 92,000 prisoners; modern totals put Russian losses at roughly 70,000–120,000 killed, wounded or captured, against 12,000–30,000 German. The battle was named for Tannenberg, about 30 km from Allenstein, to answer the Teutonic Knights’ defeat there in 1410.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                48
+              ],
+              "to": [
+                74,
+                54
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                74,
+                54
+              ],
+              "to": [
+                70,
+                48
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "i-corps",
+          "side": "a",
+          "label": "I Corps (François)",
+          "pos": [
+            [
+              24,
+              50
+            ],
+            [
+              30,
+              57
+            ],
+            [
+              38,
+              62
+            ],
+            [
+              42,
+              63
+            ],
+            [
+              58,
+              58
+            ],
+            [
+              80,
+              56
+            ],
+            [
+              76,
+              55
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "xx-corps",
+          "side": "a",
+          "label": "XX Corps (Scholtz)",
+          "pos": [
+            [
+              42,
+              43
+            ],
+            [
+              42,
+              43
+            ],
+            [
+              44,
+              41
+            ],
+            [
+              46,
+              37
+            ],
+            [
+              50,
+              35
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              62,
+              44
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "3rd-reserve",
+          "side": "a",
+          "label": "3rd Reserve Division (Morgen)",
+          "pos": [
+            [
+              54,
+              26
+            ],
+            [
+              54,
+              26
+            ],
+            [
+              54,
+              27
+            ],
+            [
+              55,
+              27
+            ],
+            [
+              56,
+              29
+            ],
+            [
+              60,
+              36
+            ],
+            [
+              64,
+              41
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "xvii-corps",
+          "side": "a",
+          "label": "XVII Corps (Mackensen)",
+          "pos": [
+            [
+              82,
+              1
+            ],
+            [
+              92,
+              9
+            ],
+            [
+              90,
+              14
+            ],
+            [
+              86,
+              20
+            ],
+            [
+              82,
+              28
+            ],
+            [
+              82,
+              39
+            ],
+            [
+              78,
+              46
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "i-reserve",
+          "side": "a",
+          "label": "I Reserve Corps (Below)",
+          "pos": [
+            [
+              72,
+              3
+            ],
+            [
+              86,
+              7
+            ],
+            [
+              78,
+              9
+            ],
+            [
+              72,
+              12
+            ],
+            [
+              62,
+              18
+            ],
+            [
+              62,
+              27
+            ],
+            [
+              64,
+              35
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "ru-i-corps",
+          "side": "b",
+          "label": "I Corps (Artamonov)",
+          "pos": [
+            [
+              46,
+              69
+            ],
+            [
+              38,
+              63
+            ],
+            [
+              44,
+              68
+            ],
+            [
+              46,
+              69
+            ],
+            [
+              50,
+              70
+            ],
+            [
+              48,
+              70
+            ],
+            [
+              48,
+              70
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "cap"
+        },
+        {
+          "id": "ru-xxiii",
+          "side": "b",
+          "label": "XXIII Corps (part)",
+          "pos": [
+            [
+              52,
+              60
+            ],
+            [
+              45,
+              51
+            ],
+            [
+              46,
+              52
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              56,
+              46
+            ],
+            [
+              64,
+              46
+            ],
+            [
+              66,
+              47
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "cap"
+        },
+        {
+          "id": "ru-xv",
+          "side": "b",
+          "label": "XV Corps (Martos)",
+          "pos": [
+            [
+              60,
+              62
+            ],
+            [
+              53,
+              46
+            ],
+            [
+              51,
+              42
+            ],
+            [
+              51,
+              39
+            ],
+            [
+              56,
+              42
+            ],
+            [
+              66,
+              44
+            ],
+            [
+              68,
+              45
+            ]
+          ],
+          "strength": 40000,
+          "helmet": "cap"
+        },
+        {
+          "id": "ru-xiii",
+          "side": "b",
+          "label": "XIII Corps (Klyuev)",
+          "pos": [
+            [
+              72,
+              60
+            ],
+            [
+              68,
+              40
+            ],
+            [
+              66,
+              26
+            ],
+            [
+              65,
+              15
+            ],
+            [
+              61,
+              23
+            ],
+            [
+              68,
+              41
+            ],
+            [
+              70,
+              47
+            ]
+          ],
+          "strength": 40000,
+          "helmet": "cap"
+        },
+        {
+          "id": "ru-vi",
+          "side": "b",
+          "label": "VI Corps (Blagoveshchensky)",
+          "pos": [
+            [
+              92,
+              52
+            ],
+            [
+              94,
+              13
+            ],
+            [
+              96,
+              38
+            ],
+            [
+              98,
+              56
+            ],
+            [
+              98,
+              63
+            ],
+            [
+              99,
+              68
+            ],
+            [
+              99,
+              68
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "yorktown": {
+      "title": "Siege of Yorktown",
+      "subtitle": "28 September – 19 October 1781 — Washington and Rochambeau trap Cornwallis against the York River",
+      "sides": {
+        "a": {
+          "name": "United States and France (Washington, Rochambeau)",
+          "color": "#1f3a93"
+        },
+        "b": {
+          "name": "Great Britain (Cornwallis)",
+          "color": "#c8102e"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              14
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              100,
+              22
+            ]
+          ],
+          "label": "York River"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 7,
+          "r": 2.5,
+          "label": "Gloucester Point"
+        },
+        {
+          "type": "town",
+          "x": 48,
+          "y": 24,
+          "r": 5,
+          "label": "Yorktown"
+        },
+        {
+          "type": "town",
+          "x": 32,
+          "y": 20,
+          "r": 1.5,
+          "label": "Fusiliers’ redoubt"
+        },
+        {
+          "type": "town",
+          "x": 62,
+          "y": 29,
+          "r": 1.5,
+          "label": "Redoubt 9"
+        },
+        {
+          "type": "town",
+          "x": 68,
+          "y": 19,
+          "r": 1.5,
+          "label": "Redoubt 10"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              10,
+              68
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              46,
+              34
+            ]
+          ],
+          "label": "Road from Williamsburg"
+        },
+        {
+          "type": "forest",
+          "x": 20,
+          "y": 44,
+          "r": 7
+        },
+        {
+          "type": "forest",
+          "x": 82,
+          "y": 46,
+          "r": 7
+        }
+      ],
+      "phases": [
+        {
+          "name": "The trap is sprung",
+          "narration": "De Grasse’s French fleet has beaten the British off the Virginia Capes on 5 September and holds the Chesapeake, so no help can come by sea. On 28 September the allied armies march from Williamsburg and surround Yorktown: the French on the left, the Americans on the right — the post of honour. Roughly 8,000–9,000 Americans and 7,800 French face 8,000–9,000 British and German troops."
+        },
+        {
+          "name": "The outer works given up",
+          "narration": "Expecting relief from New York, Cornwallis abandons most of his outer works on 29 September, keeping only the Fusiliers’ redoubt west of the town and Redoubts 9 and 10 to the east. On the 30th the French probe the Fusiliers’ redoubt and are driven off.",
+          "arrows": [
+            {
+              "from": [
+                26,
+                25
+              ],
+              "to": [
+                31,
+                21
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Skirmish at Gloucester (3 October)",
+          "narration": "Across the river, Tarleton’s foraging party runs into Lauzun’s Legion and Virginia militia under the Marquis de Choisy. Lauzun’s hussars charge, and the British fall back into the Gloucester lines with about fifty men lost; Gloucester is sealed off for the rest of the siege.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                4
+              ],
+              "to": [
+                43,
+                5
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                5
+              ],
+              "to": [
+                40,
+                4
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The first parallel (6–10 October)",
+          "narration": "On the night of 6 October the allies dig a first siege trench about 2,000 yards long, running from the head of the town to the river. Guns go in, and on 9 October the French open fire at 3 p.m. and the Americans at 5, Washington firing the first gun; the frigate Guadeloupe is scuttled and HMS Charon set ablaze in the harbour."
+        },
+        {
+          "name": "The second parallel (11–12 October)",
+          "narration": "Under continuous bombardment a second trench is dug in one night, about 400 yards closer. It cannot reach the river while Redoubts 9 and 10 still stand on the British left, by the water east of the town."
+        },
+        {
+          "name": "Redoubts 9 and 10 (14 October)",
+          "narration": "At dusk, after a feint at the Fusiliers’ redoubt, two columns of about 400 go in with the bayonet: French grenadiers and chasseurs under the Comte de Deux-Ponts storm Redoubt 9 and American light infantry under Alexander Hamilton, muskets unloaded, take Redoubt 10 by the river. Both fall quickly, and the second parallel is extended to the York.",
+          "arrows": [
+            {
+              "from": [
+                54,
+                35
+              ],
+              "to": [
+                61,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                72,
+                27
+              ],
+              "to": [
+                68,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                27,
+                25
+              ],
+              "to": [
+                31,
+                21
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Sortie and the storm (15–16 October)",
+          "narration": "Lieutenant-Colonel Abercromby leads 350 men out and spikes six guns before a French party drives them back; the guns are firing again by morning. On the 16th Cornwallis tries to ferry his army across to Gloucester Point, but after the first wave a squall scatters the boats and the escape is abandoned.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                27
+              ],
+              "to": [
+                58,
+                31
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Surrender",
+          "narration": "On 17 October a drummer and an officer with a white flag appear on the parapet, and the guns fall silent. Terms are agreed at the Moore House, and at 2 p.m. on 19 October the garrison marches out to lay down its arms; Gloucester surrenders at the same time. About 8,000 men become prisoners, and the war in America is effectively over."
+        }
+      ],
+      "units": [
+        {
+          "id": "french",
+          "side": "a",
+          "label": "French army (Rochambeau, Saint-Simon)",
+          "pos": [
+            [
+              18,
+              58
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              38,
+              30
+            ]
+          ],
+          "strength": 7400,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "deux-ponts",
+          "side": "a",
+          "label": "Deux-Ponts’s grenadiers and chasseurs",
+          "pos": [
+            [
+              26,
+              58
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              44,
+              40
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              61,
+              30
+            ],
+            [
+              60,
+              32
+            ],
+            [
+              58,
+              32
+            ]
+          ],
+          "strength": 400,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "continentals",
+          "side": "a",
+          "label": "Continental Army (Washington, Lafayette, Lincoln)",
+          "pos": [
+            [
+              62,
+              62
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              68,
+              38
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              64,
+              32
+            ],
+            [
+              60,
+              32
+            ]
+          ],
+          "strength": 5300,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "hamilton",
+          "side": "a",
+          "label": "Hamilton’s light infantry",
+          "pos": [
+            [
+              70,
+              60
+            ],
+            [
+              76,
+              42
+            ],
+            [
+              76,
+              42
+            ],
+            [
+              74,
+              34
+            ],
+            [
+              72,
+              28
+            ],
+            [
+              68,
+              20
+            ],
+            [
+              68,
+              21
+            ],
+            [
+              66,
+              24
+            ]
+          ],
+          "strength": 400,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "militia",
+          "side": "a",
+          "label": "Virginia militia (Nelson)",
+          "pos": [
+            [
+              44,
+              64
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              48,
+              50
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              48,
+              46
+            ],
+            [
+              48,
+              46
+            ],
+            [
+              48,
+              46
+            ],
+            [
+              48,
+              44
+            ]
+          ],
+          "strength": 2000,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "choisy",
+          "side": "a",
+          "label": "Choisy at Gloucester (Lauzun’s Legion, marines, Weedon’s militia)",
+          "pos": [
+            [
+              28,
+              3
+            ],
+            [
+              32,
+              3
+            ],
+            [
+              42,
+              4
+            ],
+            [
+              44,
+              4
+            ],
+            [
+              45,
+              4
+            ],
+            [
+              45,
+              4
+            ],
+            [
+              45,
+              4
+            ],
+            [
+              46,
+              5
+            ]
+          ],
+          "strength": 2500,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "garrison",
+          "side": "b",
+          "label": "Cornwallis’s garrison (British and German regiments)",
+          "pos": [
+            [
+              46,
+              31
+            ],
+            [
+              48,
+              25
+            ],
+            [
+              48,
+              25
+            ],
+            [
+              48,
+              24
+            ],
+            [
+              48,
+              24
+            ],
+            [
+              48,
+              24
+            ],
+            [
+              49,
+              21
+            ],
+            [
+              46,
+              38
+            ]
+          ],
+          "strength": 6150,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "fusiliers",
+          "side": "b",
+          "label": "Fusiliers’ redoubt (23rd Foot)",
+          "pos": [
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              32,
+              20
+            ],
+            [
+              42,
+              36
+            ]
+          ],
+          "strength": 200,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "redoubts",
+          "side": "b",
+          "label": "Redoubts 9 and 10 garrisons",
+          "pos": [
+            [
+              58,
+              38
+            ],
+            [
+              64,
+              25
+            ],
+            [
+              64,
+              25
+            ],
+            [
+              64,
+              25
+            ],
+            [
+              64,
+              25
+            ],
+            [
+              56,
+              25
+            ],
+            [
+              55,
+              25
+            ],
+            [
+              50,
+              38
+            ]
+          ],
+          "strength": 200,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "abercromby",
+          "side": "b",
+          "label": "Abercromby’s sortie party",
+          "pos": [
+            [
+              50,
+              30
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              52,
+              26
+            ],
+            [
+              58,
+              31
+            ],
+            [
+              48,
+              38
+            ]
+          ],
+          "strength": 350,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "gloucester",
+          "side": "b",
+          "label": "Gloucester garrison (Dundas, Tarleton’s Legion)",
+          "pos": [
+            [
+              54,
+              6
+            ],
+            [
+              54,
+              6
+            ],
+            [
+              44,
+              5
+            ],
+            [
+              53,
+              7
+            ],
+            [
+              53,
+              7
+            ],
+            [
+              53,
+              7
+            ],
+            [
+              53,
+              8
+            ],
+            [
+              53,
+              7
+            ]
+          ],
+          "strength": 1000,
+          "helmet": "tricorne"
+        }
+      ],
+      "loser": "b",
+      "severity": 0.9
     }
   }
 }
