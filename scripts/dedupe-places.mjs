@@ -36,6 +36,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { FICTIONAL_PEOPLE } from './lib/people-rules.mjs';
+import { NOT_ON_GLOBE } from './lib/not-on-globe.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -427,6 +428,14 @@ async function main() {
       console.log(`  ${e.name}: removed (${FICTIONAL_PEOPLE.get(e.id)})`);
     }
   }
+  // Rows that are not a place on Earth at all (scripts/lib/not-on-globe.mjs):
+  // a sculpture on the Moon read as an Earth pin, and the like.
+  for (const e of all) {
+    if (NOT_ON_GLOBE.has(e.id)) {
+      ruledOut.add(e.id);
+      console.log(`  ${e.name}: removed (${NOT_ON_GLOBE.get(e.id)})`);
+    }
+  }
   const events = all.filter((e) => !ruledOut.has(e.id));
   // His date rulings next, so the merge below sees the dates he chose.
   let redated = 0;
@@ -476,7 +485,7 @@ async function main() {
       .filter((r) => fixes[r.of] !== null)
       .map((r) => (fixes[r.of] ? { ...r, ...fixes[r.of] } : r));
   }
-  if (ruledOut.size) console.log(`${ruledOut.size} rows ruled out (his one-pin calls, withdrawn entries, fictional people)`);
+  if (ruledOut.size) console.log(`${ruledOut.size} rows ruled out (his one-pin calls, withdrawn entries, fictional people, not on Earth)`);
   const { merges, disagreements } = groupDuplicates(events);
 
   console.log(`${events.length} rows in`);
