@@ -78,6 +78,40 @@ describe('fossil sites', () => {
     expect(year('sirius-passet')).toBe(1984);
   });
 
+  it('batch 4 (25 Oct 2026) fills thin regions with cited, plain-link rows and no stacked pins', () => {
+    const batch4 = [
+      'toros-menalla', 'tugen-hills', 'nariokotome', 'uraha', 'wonderwerk', 'kem-kem', 'milodon', 'lujan',
+      'shanidar', 'azykh', 'ust-ishim', 'malta', 'mata-menge', 'riversleigh', 'vega-island', 'hateg', 'oase',
+      'krapina', 'krasiejow', 'mezhyrich', 'sungir',
+    ].map((id) => `cur-fossil-${id}`);
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch4) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      // One plain https link: no spaces, no markdown, no second URL glued on.
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s()[\]<>]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      // Every new pin is in a gap: no other find within 25 km.
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+    }
+  });
+
+  it('keeps the batch 4 fossil fact-check fixes (25 Oct 2026)', () => {
+    const row = (id: string) => events.find((e) => e.id === id)!;
+    expect(row('q18390905').lat).toBeCloseTo(-7.41, 2); // Mojokerto child: Perning, not the town
+    expect(row('q3068249').lat).toBeCloseTo(19.61, 2); // Tepexpan man: Tepexpan, not mid-lake
+    expect(row('cur-wrangel-mammoths').lon).toBeCloseTo(-179.4, 1); // the lost minus sign
+    for (const id of ['q2424134', 'q1354365']) expect(row(id).dateNote, id).toMatch(/^Uncertain/);
+  });
+
   it('batch 2 rows (23 Oct 2026) carry a one-line summary and a plain source link', () => {
     const batch2 = (FOSSIL_SITES as Row[]).filter((s) => s.summary !== undefined);
     expect(batch2.length).toBeGreaterThanOrEqual(20);

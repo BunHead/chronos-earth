@@ -1,6 +1,34 @@
 {
   "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote, born, died), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
   "fixes": {
+    "q18390905": {
+      "lat": -7.4069,
+      "lon": 112.485,
+      "why": "Fossil fact-check batch 4 (25 Oct 2026), checked by hand against Wikidata: pinned on the town of Mojokerto, about 9 km off; the skull was found in 1936 near Perning, north of the town (Perning, Wikidata Q12505115 P625)",
+      "source": "https://en.wikipedia.org/wiki/Mojokerto_child"
+    },
+    "q3068249": {
+      "lat": 19.6132,
+      "lon": -98.9357,
+      "why": "Fossil fact-check batch 4 (25 Oct 2026), checked by hand against Wikidata: pinned on Wikidata's point for the whole of old Lake Texcoco, about 13 km south of the find; the skeleton was found in 1947 by the lake shore at Tepexpan (Wikidata Q783395 P625)",
+      "source": "https://en.wikipedia.org/wiki/Tepexpan_man"
+    },
+    "cur-wrangel-mammoths": {
+      "lat": 71.2333,
+      "lon": -179.4,
+      "why": "Fossil fact-check batch 4 (25 Oct 2026), checked by hand against Wikidata: the longitude had lost its minus sign (179.4 E, not 179.4 W), putting the pin about 43 km west of the island's centre; moved to Wrangel Island's own point (Wikidata Q106594 P625)",
+      "source": "https://www.wikidata.org/wiki/Q106594"
+    },
+    "q2424134": {
+      "dateNote": "Uncertain place: found in 1988 by Kathy Wankel near Fort Peck Reservoir, Montana. Wikidata gives only the Charles M. Russell National Wildlife Refuge, which is about 200 km long, so the pin is at its middle.",
+      "why": "Fossil fact-check batch 4 (25 Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the wildlife refuge; no checked source gives the find's spot",
+      "source": "https://en.wikipedia.org/wiki/Wankel_rex"
+    },
+    "q1354365": {
+      "dateNote": "Uncertain: this skull is said to have been found around 1930 in a mine tunnel in Chihuahua, Mexico, but that story has never been checked. DNA tests show it is a human child's skull.",
+      "why": "Fossil fact-check batch 4 (25 Oct 2026), checked by hand, still uncertain, the panel now says so: the place and year come only from the owners' story, and Wikidata gives only the country",
+      "source": "https://en.wikipedia.org/wiki/Starchild_skull"
+    },
     "q441138": {
       "lat": 37.5311,
       "lon": 27.2756,
