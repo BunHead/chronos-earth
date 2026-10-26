@@ -31,6 +31,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { parseWdqs, wdqsYear, wdqsYearAt } from './lib/wdqs-json.mjs';
+import { batchRoles, roleFor } from './add-empires-batch-2026-10.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -478,6 +479,29 @@ async function main() {
   } else {
     console.log('\npass 4: could not ask — present-day capitals keep what the cities claim');
   }
+
+  // THE EMPIRES BATCH (add-empires-batch-2026-10.mjs). Kumasi, Benin City and
+  // Papeete were capitals of the Asante, Benin and Tahitian kingdoms, but only
+  // the EMPIRE says so (its P36); the city makes no P1376 claim, so the passes
+  // above would wipe the role on every --full run. Put back whatever the batch
+  // gave a capital this run is about to rewrite.
+  let kept = 0;
+  for (const [qid, list] of await batchRoles()) {
+    if (!found.has(qid) && !answered.has(qid)) continue;
+    const row = byQid.get(qid);
+    if (!row) continue;
+    const roles = found.get(qid) ?? [];
+    // Wikidata's own record of the same polity wins; the batch only fills gaps.
+    const onRecord = new Set(roles.map((r) => r.of));
+    for (const { empire, cap } of list) {
+      const role = roleFor(empire, cap, row.startYear);
+      if (onRecord.has(role.of)) continue;
+      roles.push(role);
+      kept++;
+    }
+    found.set(qid, roles);
+  }
+  if (kept) console.log(`  ${kept} empires-batch roles kept that Wikidata's P1376 does not record`);
 
   let attached = 0, handovers = 0;
   for (const [qid, entries] of found) {
