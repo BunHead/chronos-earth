@@ -725,19 +725,19 @@
     "kb": 15
   },
   "forbidden-city": {
-    "footprint": 484,
-    "kb": 6
+    "footprint": 484.54,
+    "kb": 13
   },
   "forbidden-city-b30": {
     "footprint": 482.2,
-    "kb": 2
+    "kb": 3
   },
   "forbidden-city-b60": {
     "footprint": 482.5,
-    "kb": 4
+    "kb": 6
   },
   "forbidden-city-b90": {
-    "footprint": 484,
-    "kb": 6
+    "footprint": 484.54,
+    "kb": 13
   }
 }

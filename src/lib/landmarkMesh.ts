@@ -179,11 +179,32 @@ class Builder {
    * [half-width E-W, half-depth N-S, y] from the eave up, centred on (x, z):
    * each pair is one band of four faces, alternating tile colours so the glaze
    * reads as courses. Shallow at the eave and steep above it, so it sweeps.
+   * `lift` (m) turns the eave's corners up, rising toward each corner along
+   * the cubic of the distance from the eave's mid-point.
    */
-  roof(x: number, z: number, levels: Array<[number, number, number]>, hex: string, alt: string): void {
+  roof(x: number, z: number, levels: Array<[number, number, number]>, hex: string, alt: string, lift = 0): void {
     const ref: V3 = [x, levels[0][2] - 60, z];
     const corners = ([w, d, y]: [number, number, number]): V3[] => [[x - w, y, z - d], [x + w, y, z - d], [x + w, y, z + d], [x - w, y, z + d]];
+    const N = 8;
     for (let k = 0; k < levels.length - 1; k++) {
+      if (k === 0 && lift > 0) {
+        const lo = corners(levels[0]), hi = corners(levels[1]);
+        for (let e = 0; e < 4; e++) {
+          const a = lo[e], bb = lo[(e + 1) % 4], ha = hi[e], hb = hi[(e + 1) % 4];
+          // outward across this edge, in plan
+          const ox = Math.sign((a[0] + bb[0]) / 2 - x), oz = Math.sign((a[2] + bb[2]) / 2 - z);
+          const at = (u: number): [V3, V3] => {
+            const t = Math.pow(Math.abs(2 * u - 1), 3);
+            const l: V3 = [a[0] + (bb[0] - a[0]) * u + ox * t * lift * 0.6, a[1] + t * lift, a[2] + (bb[2] - a[2]) * u + oz * t * lift * 0.6];
+            return [l, [ha[0] + (hb[0] - ha[0]) * u, ha[1], ha[2] + (hb[2] - ha[2]) * u]];
+          };
+          for (let i = 0; i < N; i++) {
+            const [l0, h0] = at(i / N), [l1, h1] = at((i + 1) / N);
+            this.quad(l0, l1, h1, h0, hex, ref);
+          }
+        }
+        continue;
+      }
       const lo = corners(levels[k]), hi = corners(levels[k + 1]);
       for (let e = 0; e < 4; e++) this.quad(lo[e], lo[(e + 1) % 4], hi[(e + 1) % 4], hi[e], k % 2 ? alt : hex, ref);
     }
@@ -510,9 +531,10 @@ const FC_BOARDS = '#8a6a48'; // roof boarding before the tiles go on
  * Gate (Wumen) — the U-shaped red platform with its double-eaved gate tower
  * and four corner pavilions — and, 330 m north on the axis, the Hall of
  * Supreme Harmony (Taihedian) on its three-tier white marble terrace. Between
- * them the Gate of Supreme Harmony and the Golden Water River are left out,
- * and only short stretches of the palace wall either side of the gate are
- * drawn. The hall is at the origin (the pin); the gate's tower at z = +330.
+ * them, the Gate of Supreme Harmony (z = +178) and the Inner Golden Water
+ * River with its five bridges. The side halls and gates round the courtyards
+ * are left out, and only short stretches of the palace wall either side of
+ * the gate are drawn. The hall is at the origin (the pin); the gate's tower at z = +330.
  *
  * Sizes: hall 64 × 37 m, 26.92 m above its terrace and 35.05 m in all; the
  * terrace 8.13 m in three tiers; the Meridian Gate 37.95 m; the palace wall
@@ -560,16 +582,16 @@ function forbiddenCity(stage: string): LandmarkMesh {
     b.box(0, y0 + (y1 - y0) * 0.38, z + d / 2 + 0.05, w - 2, (y1 - y0) * 0.72, 0.2, FC_LATTICE);
     // painted brackets under the lower eave
     b.box(0, y1 + 0.5, z, w + 2.4, 1.0, d + 2.4, FC_BRACKET);
-    b.roof(0, z, low.map(([a, c, y]) => [a, c, y]), FC_YELLOW, FC_YELLOW_COURSE);
+    b.roof(0, z, low.map(([a, c, y]) => [a, c, y]), FC_YELLOW, FC_YELLOW_COURSE, 1.4);
     // the upper storey (a clerestory under the second eave)
     const [uw, uy, ud] = up2;
     b.box(0, (low[low.length - 1][2] + uy) / 2, z, uw * 2, uy - low[low.length - 1][2], ud * 2, FC_RED);
     b.box(0, uy - 0.5, z, uw * 2 + 1.6, 1.0, ud * 2 + 1.6, FC_BRACKET_BLUE);
     if (!upperTiles) {
-      b.roof(0, z, up, FC_BOARDS, FC_BOARDS);
+      b.roof(0, z, up, FC_BOARDS, FC_BOARDS, 1.4);
       return;
     }
-    b.roof(0, z, up, FC_YELLOW, FC_YELLOW_COURSE);
+    b.roof(0, z, up, FC_YELLOW, FC_YELLOW_COURSE, 1.6);
     // the main ridge and its two dragon-headed ends (chiwen)
     const [rl, ry0, ry1] = ridge;
     b.box(0, (ry0 + ry1) / 2, z, rl, ry1 - ry0, 1.1, FC_YELLOW_COURSE);
@@ -625,6 +647,50 @@ function forbiddenCity(stage: string): LandmarkMesh {
     [[33, 16, 27.2], [31, 14, 28.2], [27.5, 10.5, 30.4], [24, 7, 32.6], [21, 3.6, 34.8], [19, 0.5, 36.0]],
     [36, 36.0, 37.0], 37.95, 9);
   gate(GZ);
+
+  // —— The Gate of Supreme Harmony (Taihemen), 178 m south of the hall ——
+  // A double-eaved gate hall, 9 bays, about 23.8 m tall, on a 3.4 m marble
+  // platform with three flights of steps north and south. Its roof is
+  // drawn hipped (the real one is a hip-and-gable, xieshan).
+  const TM = 178;
+  b.box(0, 1.7, TM, 64, 3.4, 34, FC_MARBLE);
+  if (!s30) for (const side of [-1, 1]) b.box(0, 3.4 + 0.5, TM + side * 16.7, 63, 1.0, 0.35, FC_MARBLE_SHADE);
+  for (const side of [-1, 1]) {
+    for (let k = 0; k < 4; k++) {
+      const h = 3.4 * (1 - k / 4);
+      b.box(0, h / 2, TM + side * (17 + (k + 0.5) * 1.5), 16, h, 1.5, FC_MARBLE_SHADE);
+    }
+  }
+  hall(TM, 3.4, 46, 20, 12.0,
+    [[27, 14, 12.4], [25.5, 12.5, 13.3], [23.5, 10.5, 15.2]],
+    [22, 17.6, 9],
+    [[26, 13, 17.4], [24.5, 11.5, 18.3], [21.5, 8.6, 19.9], [18.6, 5.6, 21.4], [16.2, 2.4, 22.6], [15, 0.4, 23.1]],
+    [29, 23.1, 23.5], 23.8, 9);
+
+  // —— The Inner Golden Water River, between the Meridian Gate and Taihemen ——
+  // A marble-banked channel bowed toward the north, crossed by five bridges
+  // on the axis (the middle one the emperor's). Drawn at ground level.
+  const river = (x: number) => 262 - 26 * (1 - (x / 95) ** 2);
+  const RW = 10;
+  for (let i = 0; i < 16; i++) {
+    const x0 = -95 + (i / 16) * 190, x1 = -95 + ((i + 1) / 16) * 190;
+    const z0 = river(x0), z1 = river(x1);
+    const ref: V3 = [(x0 + x1) / 2, -50, (z0 + z1) / 2];
+    b.quad([x0, 0.05, z0 - RW / 2], [x1, 0.05, z1 - RW / 2], [x1, 0.05, z1 + RW / 2], [x0, 0.05, z0 + RW / 2], '#4f6f6a', ref);
+    if (s30) continue;
+    for (const side of [-1, 1]) {
+      const za = z0 + side * (RW / 2 + 0.3), zb = z1 + side * (RW / 2 + 0.3);
+      b.hex8([[x0, 0, za - 0.3], [x1, 0, zb - 0.3], [x1, 0, zb + 0.3], [x0, 0, za + 0.3],
+        [x0, 1.1, za - 0.3], [x1, 1.1, zb - 0.3], [x1, 1.1, zb + 0.3], [x0, 1.1, za + 0.3]], FC_MARBLE_SHADE, FC_MARBLE);
+    }
+  }
+  if (!s30) {
+    for (const x of [-26, -13, 0, 13, 26]) {
+      const zc = river(x), w = x === 0 ? 7 : 5.5;
+      b.box(x, 0.8, zc, w, 1.6, RW + 5, FC_MARBLE);
+      for (const side of [-1, 1]) b.box(x + side * (w / 2 - 0.2), 2.1, zc, 0.35, 1.0, RW + 5, FC_MARBLE_SHADE);
+    }
+  }
   // Four square pavilions at the wings' corners, joined by covered galleries.
   if (framed) {
     for (const side of [-1, 1]) {
@@ -633,7 +699,7 @@ function forbiddenCity(stage: string): LandmarkMesh {
         b.box(x, Y + 0.4, z, 17, 0.8, 17, FC_MARBLE);
         b.box(x, Y + 0.8 + 3.2, z, 13, 6.4, 13, walled ? FC_RED : FC_TIMBER);
         if (walled) b.box(x, Y + 7.7, z, 14.6, 1.0, 14.6, FC_BRACKET);
-        if (walled) b.roof(x, z, [[10, 10, Y + 7.6], [9, 9, Y + 8.4], [7, 7, Y + 10.0], [4.6, 4.6, Y + 11.6], [1.5, 1.5, Y + 13.0], [0.4, 0.4, Y + 13.4]], upperTiles || s90 ? FC_YELLOW : FC_BOARDS, upperTiles || s90 ? FC_YELLOW_COURSE : FC_BOARDS);
+        if (walled) b.roof(x, z, [[10, 10, Y + 7.6], [9, 9, Y + 8.4], [7, 7, Y + 10.0], [4.6, 4.6, Y + 11.6], [1.5, 1.5, Y + 13.0], [0.4, 0.4, Y + 13.4]], upperTiles || s90 ? FC_YELLOW : FC_BOARDS, upperTiles || s90 ? FC_YELLOW_COURSE : FC_BOARDS, 0.9);
       }
       // the gallery along the wing between them
       const x = side * 50, z0 = GZ + 34.5, z1 = GZ + 93.5, gz = (z0 + z1) / 2, gl = z1 - z0;
@@ -700,8 +766,9 @@ export const LANDMARK_NOTE: Record<LandmarkModel, string> = {
     'more and climbs more steeply; the earlier rammed-earth (Northern Qi, 555) and early Ming walls are shown on the same line.',
   'forbidden-city':
     '3D Forbidden City: a representation based on best known evidence, simplified — the Meridian Gate (37.95 m) and ' +
-    'the Hall of Supreme Harmony (35.05 m) on its marble terrace, 330 m apart on the axis. The Gate of Supreme ' +
-    'Harmony, the other halls and the courtyards between are not modelled; the buildings shown are later rebuilds to the Ming design.',
+    'the Hall of Supreme Harmony (35.05 m) on its marble terrace, 330 m apart on the axis, with the Gate of Supreme ' +
+    'Harmony and the Golden Water River between. The side halls and the other great halls are not modelled; the buildings ' +
+    'shown are later rebuilds to the Ming design.',
 };
 
 export function landmarkNote(monument: { model: string } | null | undefined): string | null {
