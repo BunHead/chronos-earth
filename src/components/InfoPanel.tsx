@@ -429,6 +429,27 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                 {' '}by NeoTec, CC BY 4.0 (simplified)
               </p>
             )}
+            {content.monument3d && /karahan/i.test(content.monument3d.title) && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                Globe 3D scan:{' '}
+                <a href="https://sketchfab.com/3d-models/karahan-tepe-116f3fe9b4834f3c928ab3d258b0ca61" target="_blank" rel="noreferrer">'Karahan Tepe'</a>
+                {' '}by 333DDD-oficial, CC BY 4.0 (simplified)
+              </p>
+            )}
+            {content.monument3d && /hummingbird/i.test(content.monument3d.title) && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                Globe 3D scan:{' '}
+                <a href="https://sketchfab.com/3d-models/nazca-lines-bird-peru-c86e38a7d45a461ab0aca7cac10623dc" target="_blank" rel="noreferrer">'Nazca Lines BIRD | PERU'</a>
+                {' '}by juanbrualla, CC BY 4.0 (cropped, re-textured, simplified)
+              </p>
+            )}
+            {content.monument3d && /menkaure/i.test(content.monument3d.title) && (
+              <p className="model-credit" style={{ fontSize: '0.75em', opacity: 0.8, margin: '4px 0' }}>
+                Globe 3D scan (the pyramid as it stands today, shown from 1356 CE):{' '}
+                <a href="https://sketchfab.com/3d-models/pyramid-of-menkaure-giza-pyramid-complex-egypt-b03835b1723c4395a50d0a8c54861c6b" target="_blank" rel="noreferrer">'Pyramid of Menkaure'</a>
+                {' '}by PolarNick239, CC BY 4.0 (cropped, simplified)
+              </p>
+            )}
             {content.fly && (
               <button className="btn" onClick={() => onFly(content)}>
                 ✈ Fly here

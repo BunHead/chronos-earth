@@ -115,6 +115,10 @@ describe('small landmarks beside curated models (19 Oct 2026)', () => {
     expect(curatedCovers(colosseum, { model: 'colosseum', title: 'Roman amphitheatre', lat: 41.8930, lon: 12.4960 })).toBe(true);
     expect(curatedCovers(colosseum, { model: 'colosseum', title: 'Roman amphitheatre', lat: 41.95, lon: 12.4922 })).toBe(false);
   });
+  it("a real scan clears its own site's archetype on the gazetteer pin ~130 m away (Karahan Tepe)", () => {
+    const scan = { model: 'karahan-scan', title: 'Karahan Tepe', lat: 37.0925, lon: 39.30361 };
+    expect(curatedCovers(scan, { model: 'tpillars', title: 'Karahan Tepe', lat: 37.0916, lon: 39.3027 })).toBe(true);
+  });
 });
 
 describe('Temple of Heaven colours', () => {
