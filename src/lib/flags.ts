@@ -1123,3 +1123,19 @@ export function flagCanvasFor(name: string, year: number): HTMLCanvasElement | n
   flagCache.set(spec.key, canvas);
   return canvas;
 }
+
+/* The flag as an image URL, cached: the info panel re-renders every frame
+   during Play, and PNG-encoding the canvas each time is wasted work. */
+const flagUrlCache = new WeakMap<HTMLCanvasElement, string>();
+
+/** A data: URL of the flag for this polity at this year, or null. */
+export function flagUrlFor(name: string, year: number): string | null {
+  const canvas = flagCanvasFor(name, year);
+  if (!canvas) return null;
+  let url = flagUrlCache.get(canvas);
+  if (!url) {
+    url = canvas.toDataURL();
+    flagUrlCache.set(canvas, url);
+  }
+  return url;
+}

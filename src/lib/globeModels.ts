@@ -907,10 +907,6 @@ function showEstuary(on: boolean): void {
   }
   for (const e of estuary) e.show = on;
 }
-export function isAtlantisVision(): boolean {
-  return atlantisVision;
-}
-
 function gate(entity: Cesium.Entity, p: Placement): void {
   if (p.model === 'rings') {
     // The vision is a toggle, never the default — and never a timeline event.

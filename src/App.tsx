@@ -703,7 +703,15 @@ export default function App() {
     if (!showRunning || showScript.length === 0) return;
     const startedAt = performance.now();
     let raf = 0;
-    const step = () => {
+    // Same weak-machine throttle as the Play loop below.
+    const minStep = playFrameMs();
+    let lastPaint = 0;
+    const step = (now: number) => {
+      if (minStep > 0 && now - lastPaint < minStep) {
+        raf = requestAnimationFrame(step);
+        return;
+      }
+      lastPaint = now;
       const frame = showFrameAt(showScript, (performance.now() - startedAt) / 1000);
       if (!frame) return;
       setYearsBP(frame.yearsBP);

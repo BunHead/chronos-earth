@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import MakerRow from './MakerRow';
 import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
-import { flagCanvasFor } from '../lib/flags';
+import { flagUrlFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
 import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
 import { gizaCapNote } from '../lib/gizaCap';
@@ -10,6 +10,7 @@ import { buckinghamNote } from '../lib/buckinghamNote';
 import { westminsterNote } from '../lib/westminsterNote';
 import { landmarkNote } from '../lib/landmarkMesh';
 import { applyTone, type ToneId } from '../lib/tone';
+import { onEnterOrSpace } from '../lib/keyboard';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
@@ -288,16 +289,19 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
 
           {content.flag &&
             (() => {
-              const fc = flagCanvasFor(content.flag.name, content.flag.year);
-              if (!fc) return null;
+              const flagUrl = flagUrlFor(content.flag.name, content.flag.year);
+              if (!flagUrl) return null;
               return (
                 <>
                   <img
                     className="info-flag"
-                    src={fc.toDataURL()}
+                    src={flagUrl}
                     alt={`Flag of ${content.flag.name}`}
                     title="Click for this flag's story"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => openFlagStory(content.flag!.name)}
+                    onKeyDown={onEnterOrSpace(() => openFlagStory(content.flag!.name))}
                   />
                   <em className="flag-then">
                     flying in {Math.abs(content.flag.year)} {content.flag.year < 0 ? 'BCE' : 'CE'}

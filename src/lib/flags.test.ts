@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { flagSpecFor, FLAGS } from './flags';
+import { describe, expect, it, vi } from 'vitest';
+import { flagSpecFor, flagUrlFor, FLAGS } from './flags';
 
 describe('flagSpecFor — the right flag at the right time', () => {
   it('England wears St George before 1707, the Union Jack after', () => {
@@ -145,6 +145,26 @@ describe('emblems the Captain approved (27 Sept 2026)', () => {
   it('the peoples without a documented emblem stay a plain tint', () => {
     for (const n of ['Cherokee', 'Apache', 'Comanche', 'Shawnee', 'Cree', 'Inca Empire', 'Maya', 'Olmec']) {
       expect(flagSpecFor(n, 1600), n).toBeNull();
+    }
+  });
+});
+
+describe('flagUrlFor — encodes each flag once', () => {
+  it('returns the same URL without re-encoding the canvas', () => {
+    const toDataURL = vi.fn(() => 'data:image/png;base64,AAAA');
+    const ctx = new Proxy({}, { get: () => () => ({ addColorStop() {} }) });
+    vi.stubGlobal('document', {
+      createElement: () => ({ width: 0, height: 0, getContext: () => ctx, toDataURL }),
+    });
+    try {
+      const a = flagUrlFor('England', 1300);
+      const b = flagUrlFor('England', 1300);
+      expect(a).toBe('data:image/png;base64,AAAA');
+      expect(b).toBe(a);
+      expect(toDataURL).toHaveBeenCalledOnce();
+      expect(flagUrlFor('Nowhere-land', 1300)).toBeNull();
+    } finally {
+      vi.unstubAllGlobals();
     }
   });
 });

@@ -99,16 +99,6 @@ export interface Battle {
   kind?: 'battle' | 'siege' | 'campaign' | 'war';
 }
 
-/** A historical map overlay for a battle view (downloaded from Wikimedia). */
-export interface BattleMapInfo {
-  /** URL of the bundled map image. */
-  url: string;
-  /** Short credit line, e.g. "Wikimedia Commons · Public domain". */
-  credit: string;
-  /** Link to the original file page for full attribution. */
-  page: string;
-}
-
 /* ------------------------------------------------------------------ *
  * Phase-by-phase battle views (the animated 2D battle maps)
  * ------------------------------------------------------------------ */
