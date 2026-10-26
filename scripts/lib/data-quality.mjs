@@ -9,7 +9,8 @@
 //   names    missing/empty, untrimmed, doubled spaces, HTML entities, markup
 //   qids     a Wikidata id not in the form Q123; the same Q-id twice in a file
 //   dupes    same name + same year within 5 km · the same battle under two
-//            names ("Battle of X" / "X", a year apart at most)
+//            names ("Battle of X" / "X", a year apart at most) · a curated
+//            row and its harvested twin (same article, a few years apart)
 //   coords   0,0 · lat/lon swapped (the swap sits on Wikidata, the pin doesn't)
 //            · one Q-id pinned in two places · whole-degree guesses
 //   years    BCE sign that disagrees with the date label · a year outside its
@@ -121,6 +122,27 @@ export function checkNameYearDupes(rows, yearKey, km = 5) {
         const d = haversineKm(a.lat, a.lon, b.lat, b.lon);
         if (d <= km) out.push({ id: b.id, rule: 'dupes', msg: `same name + year as ${a.id}, ${d.toFixed(1)} km apart` });
       }
+    }
+  }
+  return out;
+}
+
+/**
+ * A hand-added `cur-` row and a harvested row about the same thing: the same
+ * Wikipedia article, a few years apart at most. The globe hides a harvested
+ * twin only of a curated BATTLE or SITE (Globe.tsx `dupEventIds`), so a
+ * curated event and its harvested twin both show (Dunkirk, Leningrad, Tonkin
+ * and Atahualpa did). Fold one into the other (dedupe-places.mjs CURATED_FOLDS).
+ * A person and the discovery named after them are years apart, so pass.
+ */
+export function checkCuratedTwins(rows, yearKey = 'startYear', years = 3) {
+  const curated = new Map();
+  for (const r of rows) if (String(r.id).startsWith('cur-') && r.wikiTitle) (curated.get(r.wikiTitle) ?? curated.set(r.wikiTitle, []).get(r.wikiTitle)).push(r);
+  const out = [];
+  for (const r of rows) {
+    if (String(r.id).startsWith('cur-') || !r.wikiTitle) continue;
+    for (const c of curated.get(r.wikiTitle) ?? []) {
+      if (Math.abs(c[yearKey] - r[yearKey]) <= years) out.push({ id: r.id, rule: 'dupes', msg: `same Wikipedia article as curated ${c.id} ("${r.wikiTitle}"), ${r[yearKey]} / ${c[yearKey]}` });
     }
   }
   return out;

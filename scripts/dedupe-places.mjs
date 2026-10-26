@@ -140,6 +140,14 @@ export const CURATED_FOLDS = new Map([
   // Cova Dones: the dated discovery row replaces its undated Pleiades copy,
   // which the nightly harvest kept bringing back (Oct 2026).
   ['pl652043992', 'cur-cova-dones'],
+  // A hand-added row and its Wikidata twin, both on the globe (data quality
+  // round 4, Oct 2026). The curated row stays (it rides the headline tier)
+  // and takes the Wikidata id; Leningrad's checked panel moves with it
+  // (battle-panels.json), Tonkin moves to Wikidata's pin (accuracy-fixes.json).
+  ['q911972', 'cur-dunkirk-evac'], ['q151860', 'cur-leningrad-siege'], ['q482402', 'cur-tonkin'],
+  // Atahualpa the other way: the Wikidata row is the one the people
+  // fact-check checked by hand (birthplace disputed, Quito or Cusco).
+  ['cur-person-atahualpa', 'q179577'],
 ]);
 
 /**

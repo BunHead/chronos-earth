@@ -2925,6 +2925,12 @@
       "dateNote": "Uncertain: the finds came in stages. 1929 is when Dorothy Garrod's Mount Carmel digs began; the Skhul skeletons were found in 1931–32 and the Qafzeh ones from 1933 and in 1965–79.",
       "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: one date for two caves dug over 50 years",
       "source": "https://en.wikipedia.org/wiki/Skhul_and_Qafzeh_hominins"
+    },
+    "cur-tonkin": {
+      "lat": 19.7833,
+      "lon": 106.5183,
+      "why": "Data quality round 4 (Oct 2026): its Wikidata twin q482402 was folded into it (one event, two pins); the pin moves to Wikidata's P625 for the incident, 31 km from the old spot.",
+      "source": "https://www.wikidata.org/wiki/Q482402"
     }
   }
 }
