@@ -1495,6 +1495,293 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Likasi or Moba.",
       "source": "https://www.wikidata.org/wiki/Q135547; https://en.wikipedia.org/wiki/Laurent-D%C3%A9sir%C3%A9_Kabila"
     },
+    "q1425428": {
+      "startYear": 122,
+      "dateNote": "The Romans built a fort and bridge here, Pons Aelius, in about AD 122, under Emperor Hadrian. The 'new castle' that gave the city its name was built in 1080.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (200). Wikidata P571 is just \"2nd century\", shown as 200; the Roman fort and bridge Pons Aelius were built about 122, under Hadrian",
+      "source": "https://www.wikidata.org/wiki/Q1425428 (P571 2nd century); https://en.wikipedia.org/wiki/Newcastle_upon_Tyne"
+    },
+    "q1310": {
+      "startYear": 893,
+      "dateNote": "First written mention in 893. Arnhem got its town rights in 1233.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1233). 1233 (P571) is when Arnhem got town rights; Wikidata P1249 gives the first written mention, 893",
+      "source": "https://www.wikidata.org/wiki/Q1310 (P571 1233, P1249 893); https://en.wikipedia.org/wiki/Arnhem"
+    },
+    "q2132": {
+      "startYear": 1843,
+      "dateNote": "Founded in 1843 as Fort Victoria, a Hudson's Bay Company trading post. It became a city in 1862.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1849). Wikidata P571 has 1849 and 1862; the Hudson's Bay Company founded Fort Victoria in 1843",
+      "source": "https://www.wikidata.org/wiki/Q2132 (P571 1849, 1862); https://en.wikipedia.org/wiki/Victoria,_British_Columbia"
+    },
+    "q25331": {
+      "startYear": 988,
+      "dateNote": "First written mention in 988, in a letter from Emperor Otto III. It is one of the oldest towns in Denmark. 1355 is when it got a town charter.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1355). 1355 (P571) is the town charter; Odense is first named in 988, in a letter from Emperor Otto III",
+      "source": "https://www.wikidata.org/wiki/Q25331 (P571 1355); https://en.wikipedia.org/wiki/Odense"
+    },
+    "q3476": {
+      "startYear": 1254,
+      "dateNote": "Founded in 1254 under King Conrad IV. King Manfred destroyed it in 1259, and it was rebuilt in 1266.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1266). Wikidata P571 has 13th century, 20 May 1254 and 1266; the city was founded in 1254 and rebuilt in 1266 after Manfred destroyed it",
+      "source": "https://www.wikidata.org/wiki/Q3476 (P571 13th century, 1254-05-20, 1266); https://en.wikipedia.org/wiki/L%27Aquila"
+    },
+    "q3004": {
+      "startYear": 806,
+      "dateNote": "First written mention in 806, as a royal estate (Ingoldes stat) in Charlemagne's plan to divide his empire. It became a town about 1250.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1200). 1200 (P571) is about when it grew into a town; Wikidata P1249 gives the first written mention, 806",
+      "source": "https://www.wikidata.org/wiki/Q3004 (P571 1200, P1249 806); https://en.wikipedia.org/wiki/Ingolstadt"
+    },
+    "q79808": {
+      "startYear": -600,
+      "dateNote": "Founded about 600 BC as Tomis, a Greek colony. The Roman poet Ovid was exiled here.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (-300). Wikidata P571 is just \"3rd century BC\", shown as 300 BC; the Greek colony of Tomis was founded about 600 BC",
+      "source": "https://www.wikidata.org/wiki/Q79808 (P571 3rd century BC); https://en.wikipedia.org/wiki/Constan%C8%9Ba"
+    },
+    "q102158": {
+      "startYear": 1171,
+      "dateNote": "First written mention in 1171. Narva got its town rights in 1345.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1345). 1345 (P571) is when Narva got town rights; Wikidata P1249 gives the first written mention, 1171",
+      "source": "https://www.wikidata.org/wiki/Q102158 (P571 1345, P1249 1171); https://en.wikipedia.org/wiki/Narva"
+    },
+    "q761": {
+      "startYear": 1437,
+      "dateNote": "First written mention in 1437. Białystok got its town rights in 1691.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1691). 1691 (P571) is when Białystok got town rights; Wikidata P1249 gives the first written mention, 1437",
+      "source": "https://www.wikidata.org/wiki/Q761 (P571 1691, P1249 1437); https://en.wikipedia.org/wiki/Bia%C5%82ystok"
+    },
+    "q43048": {
+      "lat": 36.4341,
+      "lon": 28.2176,
+      "startYear": -408,
+      "dateNote": "The city of Rhodes was founded in 408 BC, when three older towns on the island joined together. People lived on the island much earlier.",
+      "placeNote": "Wikidata's entry is for the whole island, and its pin is in the middle of the island. The pin here is on the city of Rhodes, at the north tip.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong pin and year (-1600). The pin was the middle of the island (Wikidata's entry is the island), about 40 km from the city; moved to Rhodes town. The year was \"16th century BC\" for the island; the city was founded in 408 BC",
+      "source": "https://www.wikidata.org/wiki/Q43048 (P571 16th century BC; description \"island in Aegean sea\"); https://en.wikipedia.org/wiki/Rhodes_(city)"
+    },
+    "q2301527": {
+      "startYear": 1350,
+      "dateNote": "Built in the 14th century; only the century is known, so the year shown is the middle of it.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (14). Wikidata P571 is \"14th century\" (+1400, century precision), which was shown as AD 14",
+      "source": "https://www.wikidata.org/wiki/Q2301527 (P571 14th century); https://en.wikipedia.org/wiki/Songo_Mnara"
+    },
+    "q834511": {
+      "startYear": 1267,
+      "dateNote": "First written mention in 1267. Wikidata gives only \"13th century\" for when it was built.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1201). Wikidata P571 is just \"13th century\", shown as 1201; P1249 gives the first written mention, 1267",
+      "source": "https://www.wikidata.org/wiki/Q834511 (P571 13th century, P1249 1267); https://en.wikipedia.org/wiki/St._Olaf%27s_Church,_Tallinn"
+    },
+    "q685940": {
+      "startYear": 325,
+      "dateNote": "Founded about 325, when Saint Helena, mother of Emperor Constantine, had a hall of her palace made into a church. The front you see now is from 1741 to 1758.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1758). 1758 (preferred P571) is when the baroque rebuild was finished; Wikidata P571 also has 325, when the church was founded",
+      "source": "https://www.wikidata.org/wiki/Q685940 (P571 1758, 325); https://en.wikipedia.org/wiki/Santa_Croce_in_Gerusalemme"
+    },
+    "q666935": {
+      "startYear": 1739,
+      "dateNote": "Built from 1739 to 1755 for the Catholic royal court, to designs by Gaetano Chiaveri.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1800). Wikidata P571 is just \"18th century\", shown as 1800; the church was built from 1739 to 1755",
+      "source": "https://www.wikidata.org/wiki/Q666935 (P571 18th century); https://en.wikipedia.org/wiki/Dresden_Cathedral"
+    },
+    "q201902": {
+      "startYear": 1863,
+      "dateNote": "Work began in 1863, to a design by Alessandro Antonelli. It was finished in 1889.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1889). 1889 (P571) is when it was finished; work began in 1863",
+      "source": "https://www.wikidata.org/wiki/Q201902 (P571 1889); https://en.wikipedia.org/wiki/Mole_Antonelliana"
+    },
+    "q200521": {
+      "startYear": 1690,
+      "dateNote": "The British first put cannon on Brimstone Hill in 1690, and built the fortress over the next hundred years. 1987 is when it became a national park.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1987). 1987 (P571) is when it became a national park; the first cannon were put on the hill in 1690",
+      "source": "https://www.wikidata.org/wiki/Q200521 (P571 1987); https://en.wikipedia.org/wiki/Brimstone_Hill_Fortress_National_Park"
+    },
+    "q738109": {
+      "startYear": 1288,
+      "dateNote": "Built from 1288 to 1292 by Duke Bolko I the Strict. Much rebuilt and enlarged later.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1300). Wikidata P571 is just \"13th century\", shown as 1300; Duke Bolko I built the castle from 1288 to 1292",
+      "source": "https://www.wikidata.org/wiki/Q738109 (P571 13th century); https://en.wikipedia.org/wiki/Ksi%C4%85%C5%BC"
+    },
+    "q90801": {
+      "startYear": 1452,
+      "dateNote": "Built in 1452 for Sultan Mehmed II, in about four months, the year before he took Constantinople.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1451). Wikidata P571 has 1451; the fortress was built from April to August 1452",
+      "source": "https://www.wikidata.org/wiki/Q90801 (P571 1451); https://en.wikipedia.org/wiki/Rumelihisar%C4%B1"
+    },
+    "q1579525": {
+      "startYear": 618,
+      "dateNote": "Built in 618 by Catholicos Komitas, on the site of an older chapel.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (601). Wikidata P571 is just \"7th century\", shown as 601; the church was built in 618",
+      "source": "https://www.wikidata.org/wiki/Q1579525 (P571 7th century); https://en.wikipedia.org/wiki/Saint_Hripsime_Church"
+    },
+    "q1152972": {
+      "startYear": 1010,
+      "dateNote": "The cathedral you see now was built from about 1010 to 1029. A church has stood here since the 4th century.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1001). Wikidata P571 is just \"11th century\", shown as 1001; the present building was begun about 1010",
+      "source": "https://www.wikidata.org/wiki/Q1152972 (P571 11th century); https://en.wikipedia.org/wiki/Svetitskhoveli_Cathedral"
+    },
+    "q48605": {
+      "startYear": 1747,
+      "dateNote": "Building began in 1747 and went on until about 1814. It was consecrated in 1860.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1860). 1860 (P571) is when it was consecrated; building began in 1747",
+      "source": "https://www.wikidata.org/wiki/Q48605 (P571 1860); https://en.wikipedia.org/wiki/Le%C3%B3n_Cathedral,_Nicaragua"
+    },
+    "q2227269": {
+      "startYear": 1916,
+      "dateNote": "The church was built from 1916 to 1949, over a gorge where people had prayed at a shrine since the 1700s.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (1949). 1949 (P571) is when it was finished; building began in 1916",
+      "source": "https://www.wikidata.org/wiki/Q2227269 (P571 1949); https://en.wikipedia.org/wiki/Las_Lajas_Sanctuary"
+    },
+    "q810129": {
+      "startYear": 1994,
+      "dateNote": "Built from 1994 to 2004. It was consecrated on 12 June 2004.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (2004). 2004 (P571, 12 June 2004) is the consecration; building began in 1994",
+      "source": "https://www.wikidata.org/wiki/Q810129 (P571 2004-06-12); https://en.wikipedia.org/wiki/Basilica_of_Our_Lady_of_Liche%C5%84"
+    },
+    "q197019": {
+      "startYear": -470,
+      "dateNote": "Built from about 470 to 456 BC. It held the great gold and ivory statue of Zeus, one of the Seven Wonders.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong year (-400). Wikidata P571 is just \"5th century BC\", shown as 400 BC; the temple was built from about 470 to 456 BC",
+      "source": "https://www.wikidata.org/wiki/Q197019 (P571 5th century BC); https://en.wikipedia.org/wiki/Temple_of_Zeus,_Olympia"
+    },
+    "q1161218": {
+      "placeNote": "This sculpture is on the Moon, at Hadley Rille, where Apollo 15 left it in 1971. Its Moon coordinates (26.13° N, 3.63° E) were copied onto Earth, which puts the pin in the Sahara in Algeria. It is not there.",
+      "why": "Places fact-check batch 8 (Oct 2026): wrong pin: Wikidata P625 is a coordinate on the Moon, read as an Earth one, so the pin is in Algeria. No Earth spot is right, so the pin stays with a note on the panel; it may be best removed",
+      "source": "https://www.wikidata.org/wiki/Q1161218 (P625 on the Moon); https://en.wikipedia.org/wiki/Fallen_Astronaut"
+    },
+    "q83317": {
+      "dateNote": "The year shown, 700, is a first written mention from Wikidata. People have lived here far longer: the town of Mepsila was known in ancient times, across the river from Nineveh.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 700 is Wikidata P1249 (first written mention); the site is far older",
+      "source": "https://www.wikidata.org/wiki/Q83317; https://en.wikipedia.org/wiki/Mosul"
+    },
+    "q2773": {
+      "dateNote": "The year shown, 861, is the traditional founding date. The first written mention is from 1031.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 861 is a legend date; first written mention 1031",
+      "source": "https://www.wikidata.org/wiki/Q2773; https://en.wikipedia.org/wiki/Braunschweig"
+    },
+    "q225641": {
+      "dateNote": "The year shown, 1593, is when the Portuguese built Fort Jesus. Mombasa itself is far older: Arab writers knew it by the 1100s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1593 (P571) is Fort Jesus; the town was known by the 12th century",
+      "source": "https://www.wikidata.org/wiki/Q225641; https://en.wikipedia.org/wiki/Mombasa"
+    },
+    "q9832": {
+      "dateNote": "The year shown, 701, stands for \"8th century\". Only the century of the first mention is known. Eindhoven got its town rights in 1232.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P1249 is just \"8th century\", shown as 701",
+      "source": "https://www.wikidata.org/wiki/Q9832; https://en.wikipedia.org/wiki/Eindhoven"
+    },
+    "q13378": {
+      "dateNote": "The year shown, 900 BC, stands for \"9th century BC\". Only the century is known. It was an Etruscan town, Arretium.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"9th century BC\"",
+      "source": "https://www.wikidata.org/wiki/Q13378; https://en.wikipedia.org/wiki/Arezzo"
+    },
+    "q83404": {
+      "dateNote": "The year shown, 1266, is a first mention of the castle. Some say the town is named in 1175 or 1212; sources do not agree.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 1266, P1249 1175; sources disagree",
+      "source": "https://www.wikidata.org/wiki/Q83404; https://en.wikipedia.org/wiki/Timi%C8%99oara"
+    },
+    "q52535": {
+      "dateNote": "The year shown, 1852, is when Rosario became a city. People settled here from about 1700, but there was no formal founding.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1852 (P571) is when it became a city; no founding date",
+      "source": "https://www.wikidata.org/wiki/Q52535; https://en.wikipedia.org/wiki/Rosario,_Santa_Fe"
+    },
+    "q3150": {
+      "dateNote": "The year shown, 900, stands for \"9th century\". Jena is first named in a list of Hersfeld Abbey in the late 800s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P1249 is just \"9th century\", shown as 900",
+      "source": "https://www.wikidata.org/wiki/Q3150; https://en.wikipedia.org/wiki/Jena"
+    },
+    "q18426": {
+      "dateNote": "The year shown, 1898, is when the Bronx became part of New York City. Jonas Bronck, who gave it its name, settled here in 1639.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1898 (P571) is when it became a borough; settled 1639",
+      "source": "https://www.wikidata.org/wiki/Q18426; https://en.wikipedia.org/wiki/The_Bronx"
+    },
+    "q6231": {
+      "dateNote": "The year shown, 400 BC, is a rough date for a Celtic village. The Romans founded the town of Cremona in 218 BC.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 400 BC (P571) is rough; the Roman colony was founded 218 BC",
+      "source": "https://www.wikidata.org/wiki/Q6231; https://en.wikipedia.org/wiki/Cremona"
+    },
+    "q45779": {
+      "dateNote": "The year shown, 871, is the first written mention. The Roman town of Sopianae was here much earlier, from the 2nd century.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 871 is the first mention; Roman Sopianae is older",
+      "source": "https://www.wikidata.org/wiki/Q45779; https://en.wikipedia.org/wiki/P%C3%A9cs"
+    },
+    "q25410": {
+      "dateNote": "The year shown, 1342, is when Aalborg got its town charter. The town is older: coins were minted here in the 1040s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1342 (P571) is the town charter; the town is older",
+      "source": "https://www.wikidata.org/wiki/Q25410; https://en.wikipedia.org/wiki/Aalborg"
+    },
+    "q81398": {
+      "dateNote": "The year shown, 1520, is Wikidata's date. The Spanish reached the bay in the 1520s, and the port grew from about 1550. Sources do not agree on a founding year.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1520 (P571) can't be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q81398; https://en.wikipedia.org/wiki/Acapulco"
+    },
+    "q2684": {
+      "dateNote": "The year shown, 990, is the traditional date, when Prince Vladimir the Great is said to have founded it. Others say Vladimir Monomakh founded it in 1108.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 990 or 1108, sources disagree",
+      "source": "https://www.wikidata.org/wiki/Q2684; https://en.wikipedia.org/wiki/Vladimir,_Russia"
+    },
+    "q9920": {
+      "dateNote": "The year shown, 1185, can't be confirmed. Haarlem is first named in the 10th century and got its town rights in 1245.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1185 (P571) is unexplained; first mention 10th century (P1249), town rights 1245",
+      "source": "https://www.wikidata.org/wiki/Q9920; https://en.wikipedia.org/wiki/Haarlem"
+    },
+    "q102397": {
+      "dateNote": "The year shown, 1365, is when Miskolc was made a town. The settlement is older.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1365 (P571) is town status",
+      "source": "https://www.wikidata.org/wiki/Q102397; https://en.wikipedia.org/wiki/Miskolc"
+    },
+    "q1774129": {
+      "dateNote": "The year shown, 1001, stands for \"11th century\". Only the century is known. The church was mostly built in the later 1000s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"11th century\", shown as 1001",
+      "source": "https://www.wikidata.org/wiki/Q1774129; https://en.wikipedia.org/wiki/Abbey_Church_of_Saint-Savin-sur-Gartempe"
+    },
+    "q744016": {
+      "dateNote": "The year shown, 1300, stands for \"13th century\". Only the century is known; the castle was built near the end of it.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"13th century\", shown as 1300",
+      "source": "https://www.wikidata.org/wiki/Q744016; https://en.wikipedia.org/wiki/Konopi%C5%A1t%C4%9B"
+    },
+    "q1130266": {
+      "dateNote": "The year shown, 1435, is when the Lollards' Tower was built. The archbishops have lived here since about 1200, and the chapel is from the 1200s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1435 (P571) is one tower; the palace is older",
+      "source": "https://www.wikidata.org/wiki/Q1130266; https://en.wikipedia.org/wiki/Lambeth_Palace"
+    },
+    "q5269090": {
+      "dateNote": "The year shown, 1825, is when the first tower was built. The famous tower is from 1832; it was rebuilt after the 1934 earthquake and fell in the 2015 earthquake.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 has 1825, 1832 and 1936; its own description says built in 1832",
+      "source": "https://www.wikidata.org/wiki/Q5269090; https://en.wikipedia.org/wiki/Dharahara"
+    },
+    "q910505": {
+      "dateNote": "The year shown, 600, stands for \"7th century\". The Greek town of Hermonassa was here much earlier.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"7th century\"",
+      "source": "https://www.wikidata.org/wiki/Q910505; https://en.wikipedia.org/wiki/Tmutarakan"
+    },
+    "q7971367": {
+      "dateNote": "The year shown, 1200, stands for the late 12th or early 13th century, in the reign of King Lalibela. Only the rough time is known.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just a century",
+      "source": "https://www.wikidata.org/wiki/Q7971367; https://en.wikipedia.org/wiki/Church_of_Saint_George,_Lalibela"
+    },
+    "q690575": {
+      "dateNote": "The year shown, 1100 BC, is a traditional date. The city was moved to the site of the ruins in the 4th century BC.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1100 BC (P571) is traditional",
+      "source": "https://www.wikidata.org/wiki/Q690575; https://en.wikipedia.org/wiki/Knidos"
+    },
+    "q18820": {
+      "dateNote": "The year shown, 1001, stands for \"about AD 1000\"; Wikidata gives only the millennium. The first stone buildings on Wawel Hill are from about then; the Gothic castle is from the 1300s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 has only millennium precision",
+      "source": "https://www.wikidata.org/wiki/Q18820; https://en.wikipedia.org/wiki/Wawel_Castle"
+    },
+    "q648226": {
+      "dateNote": "The year shown, 1200, stands for \"12th century\". Only the century of the first tower is known.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 is just \"12th century\"",
+      "source": "https://www.wikidata.org/wiki/Q648226; https://en.wikipedia.org/wiki/Kalmar_Castle"
+    },
+    "q239560": {
+      "dateNote": "The year shown, 1221, is an older church on the site. The cathedral you see now was begun in the 1300s and consecrated in 1452.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 has 1221 and \"15th century\"",
+      "source": "https://www.wikidata.org/wiki/Q239560; https://en.wikipedia.org/wiki/St._Martin%27s_Cathedral,_Bratislava"
+    },
+    "q1642003": {
+      "dateNote": "The year shown, 2012, is when the farmhouses became a World Heritage Site. The houses were built and painted in the 1700s and 1800s.",
+      "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 2012 (P571) is the UNESCO listing; the houses are much older",
+      "source": "https://www.wikidata.org/wiki/Q1642003; https://en.wikipedia.org/wiki/Decorated_Farmhouses_of_H%C3%A4lsingland"
+    },
     "q192371": {
       "placeNote": "He was bishop of Smyrna (Izmir), where the pin is; where he was born is not known.",
       "dateNote": "Born about 69; martyred in 155 or 156.",
@@ -1555,6 +1842,405 @@
       "lon": 18.2331,
       "why": "People fact-check batch 2, checked by hand (Oct 2026), fixed: Pin was in the middle of Hungary; born in Pécs.",
       "source": "https://www.wikidata.org/wiki/Q154448; https://en.wikipedia.org/wiki/Victor_Vasarely"
+    },
+    "q219086": {
+      "lat": 55.5563,
+      "lon": -2.9164,
+      "born": "11 September 1771, Foulshiels, near Selkirk, Scotland",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Scotland, 206 km away; born at Foulshiels farm on the Yarrow Water, near Selkirk.",
+      "source": "https://www.wikidata.org/wiki/Q219086; https://www.wikidata.org/wiki/Q17846666; https://www.britannica.com/biography/Mungo-Park; https://www.nrscotland.gov.uk/research/learning/hall-of-fame/hall-of-fame-a-z/park-mungo"
+    },
+    "q260378": {
+      "lat": 40.2527,
+      "lon": -82.519,
+      "born": "23 September 1838, Homer, Licking County, Ohio",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Ohio, 28 km away; born in Homer, Licking County, Ohio.",
+      "source": "https://www.wikidata.org/wiki/Q260378; https://www.wikidata.org/wiki/Q12833513; https://home.nps.gov/people/victoria-woodhull.htm"
+    },
+    "q237575": {
+      "lat": 51.733,
+      "lon": -1.59,
+      "born": "1 January 1768, Black Bourton, Oxfordshire",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Oxford, the point for Oxfordshire, 21 km away; born at Black Bourton, her mother's family home.",
+      "source": "https://www.wikidata.org/wiki/Q237575; https://www.wikidata.org/wiki/Q3454164; https://orlando.cambridge.org/index.php/profiles/edgema"
+    },
+    "q1275": {
+      "lat": 53.3917,
+      "lon": -1.15,
+      "born": "25 April 1900, Firbeck Hall, Firbeck, Yorkshire",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was York, the point for Yorkshire, 63 km away; born at Firbeck Hall, his family's house in Firbeck, near Rotherham.",
+      "source": "https://www.wikidata.org/wiki/Q1275; https://www.wikidata.org/wiki/Q2742204; https://archivesearch.lib.cam.ac.uk/repositories/9/resources/1584; https://thepeerage.com/p42102.htm"
+    },
+    "q354867": {
+      "lat": 51.415,
+      "lon": 0.0789,
+      "born": "6 January 1915, Chislehurst, Kent",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kent, 52 km away; born in Chislehurst, Kent (now in south-east London).",
+      "source": "https://www.wikidata.org/wiki/Q354867; https://www.wikidata.org/wiki/Q122917; https://www.britannica.com/biography/Alan-Watts"
+    },
+    "q236020": {
+      "lat": -15.807,
+      "lon": 31.752,
+      "born": "11 April 1958, Magoé District, Tete Province",
+      "placeNote": "Born in Magoé District, Tete Province; the pin is the middle of that district.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Tete Province, 87 km away; born in Magoé District; the pin is now that district.",
+      "source": "https://www.wikidata.org/wiki/Q236020; https://www.wikidata.org/wiki/Q10323083; https://aimnews.org/2026/01/19/mozambiques-former-prime-minister-dies/"
+    },
+    "q198313": {
+      "lat": 24.875,
+      "lon": 89.45,
+      "born": "19 January 1936, Bagbari, Gabtali, Bogra District",
+      "placeNote": "Born in the village of Bagbari, Gabtali, Bogra District; the pin is Gabtali.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Bogra town, the point for the district, 15 km away; born in the village of Bagbari, Gabtali, Bogra; the pin is now Gabtali.",
+      "source": "https://www.wikidata.org/wiki/Q198313; https://www.wikidata.org/wiki/Q3345822; https://en.banglapedia.org/index.php/Rahman,_Shahid_Ziaur; https://www.dhakatribune.com/bangladesh/politics/401314/90th-birth-anniversary-of-shaheed-president-ziaur"
+    },
+    "q25260": {
+      "lat": 28.9048,
+      "lon": 88.0178,
+      "born": "1391, Gyurmey Rupa, near Sakya, Tsang",
+      "placeNote": "Born at Gyurmey Rupa, near Sakya in Tsang; the pin is Sakya Monastery.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Ü-Tsang, 460 km away; born at Gyurmey Rupa, near Sakya in Tsang; the pin is now Sakya.",
+      "source": "https://www.wikidata.org/wiki/Q25260; https://www.wikidata.org/wiki/Q1585564; https://www.dalailama.com/the-dalai-lama/previous-dalai-lamas/previous-dalai-lama; https://commons.tsadra.org/index.php/Dalai_Lama,_1st"
+    },
+    "q353238": {
+      "lat": 50.511,
+      "lon": -3.826,
+      "born": "12 June 1819, Holne Vicarage, Holne, Devon",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Devon, 21 km away; born at Holne Vicarage, on Dartmoor, where his father was vicar.",
+      "source": "https://www.wikidata.org/wiki/Q353238; https://www.wikidata.org/wiki/Q2884150; https://www.devonheritage.org/Places/Holne/CharlesKingsleyandHolne.htm; https://en.wikisource.org/wiki/Dictionary_of_National_Biography,_1885-1900/Kingsley,_Charles"
+    },
+    "q99850": {
+      "lat": 28.0819,
+      "lon": 113.8833,
+      "born": "20 November 1915, Cangfang village, Zhonghe, Liuyang, Hunan",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Liuyang, 26 km away; born in Cangfang village, Zhonghe, Liuyang; his former home is now a museum.",
+      "source": "https://www.wikidata.org/wiki/Q99850; https://www.wikidata.org/wiki/Q16924601; https://www.enghunan.gov.cn/hneng/Services/Live/Community/LMEH/202410/t20241023_33483506.html"
+    },
+    "q223419": {
+      "lat": 11.5894,
+      "lon": 122.7511,
+      "born": "1 January 1892, Capiz town (now Roxas City), Capiz",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Capiz province, 26 km away; born in the town of Capiz, now Roxas City, named after him.",
+      "source": "https://www.wikidata.org/wiki/Q223419; https://www.wikidata.org/wiki/Q2209; https://legacy.senate.gov.ph/senators/senpres/roxas.asp; https://roxascity.gov.ph/manuel-acuna-roxas/"
+    },
+    "q296734": {
+      "lat": 39.6928,
+      "lon": 125.2102,
+      "born": "North Pyongan Province, Sangsa-ri, Jeongju, North Pyongan",
+      "placeNote": "Born in the village of Sangsa-ri, Jeongju county; the pin is Jeongju.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of North Pyongan Province, 83 km away; born in Sangsa-ri, Deogun-myon, Jeongju county; the pin is now Jeongju.",
+      "source": "https://www.wikidata.org/wiki/Q296734; https://www.wikidata.org/wiki/Q213169; https://www.newworldencyclopedia.org/entry/Sun_Myung_Moon"
+    },
+    "q139324": {
+      "lat": 14.7131,
+      "lon": 109.0278,
+      "born": "5 May 1937, Phổ Khánh commune, Đức Phổ, Quảng Ngãi",
+      "placeNote": "His home commune is Phổ Khánh, Đức Phổ, Quảng Ngãi; the pin is that commune.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Quảng Ngãi province, 50 km away; his home commune is Phổ Khánh, Đức Phổ, Quảng Ngãi, where he is buried.",
+      "source": "https://www.wikidata.org/wiki/Q139324; https://www.wikidata.org/wiki/Q10807168; https://www.sggp.org.vn/thong-cao-dac-biet-ve-le-tang-nguyen-chu-tich-nuoc-tran-duc-luong-post796425.html"
+    },
+    "q25252": {
+      "lat": 29.0315,
+      "lon": 91.6797,
+      "born": "21 October 1617, Taktsé Castle, Chingwar, Chonggyä (Qonggyai)",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Lhasa, the point for Tibet, 89 km away; born at Taktsé Castle in Chingwar, Chonggyä, his family's seat.",
+      "source": "https://www.wikidata.org/wiki/Q25252; https://www.wikidata.org/wiki/Q2868485; https://www.dalailama.com/the-dalai-lama/previous-dalai-lamas/previous-dalai-lama; https://collection.rubinmuseum.org/objects/1229/fifth-dalai-lama-16171682-with-episodes-from-his-life"
+    },
+    "q177081": {
+      "lat": 34.3297,
+      "lon": 108.7092,
+      "born": "45, Anling, Fufeng (near modern Xianyang)",
+      "placeNote": "Born at Anling, near modern Xianyang; the old town has no exact point, so the pin is Xianyang.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Luoyang, the point for Eastern Han, 340 km away; born at Anling in Fufeng, near modern Xianyang, Shaanxi; the pin is now Xianyang.",
+      "source": "https://www.wikidata.org/wiki/Q177081; https://www.wikidata.org/wiki/Q497341; https://www.britannica.com/biography/Ban-Zhao; https://www.newworldencyclopedia.org/entry/Ban_Zhao"
+    },
+    "q2353846": {
+      "lat": 54.5,
+      "lon": -6.77,
+      "born": "28 October 1867, Dungannon, County Tyrone",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of County Tyrone, 28 km away; born in Dungannon (23 Scotch Street), where a blue plaque marks it.",
+      "source": "https://www.wikidata.org/wiki/Q2353846; https://www.wikidata.org/wiki/Q1025602; https://www.britannica.com/biography/Nivedita; https://www.newulsterbiography.co.uk/index.php/home/viewPerson/1258"
+    },
+    "q467083": {
+      "lat": 25.5417,
+      "lon": 89.2833,
+      "born": "9 December 1880, Pairaband, Mithapukur, Rangpur",
+      "placeNote": "Born in the village of Pairaband, Mithapukur; the pin is Mithapukur.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Rangpur town, the point for the district, 22 km away; born in the village of Pairaband, Mithapukur; the pin is now Mithapukur.",
+      "source": "https://www.wikidata.org/wiki/Q467083; https://www.wikidata.org/wiki/Q6881592; https://www.thedailystar.net/node/7079; https://today.thefinancialexpress.com.bd/print/pairaband-prepares-for-rokeya-day"
+    },
+    "q13021": {
+      "lat": 18.75,
+      "lon": 73.08,
+      "born": "11 September 1895, Gagode, near Pen, Kolaba (now Raigad)",
+      "placeNote": "Born in the village of Gagode, near Pen; the pin is Pen.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the point for Raigad district, on the coast, 24 km away; born in the village of Gagode, near Pen; the pin is now Pen.",
+      "source": "https://www.wikidata.org/wiki/Q13021; https://www.wikidata.org/wiki/Q1382194; https://www.gktoday.in/vinoba-bhave-and-bhoodan-movement/; https://leaf.bucknell.edu/fr/node/2491"
+    },
+    "q312364": {
+      "lat": 11.2667,
+      "lon": 104.8,
+      "born": "22 March 1940, Samrong Yong, Bati District, Takéo, Cambodia",
+      "placeNote": "Born in the village of Samrong Yong, Bati District, Takéo; the pin is that district.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Hanoi, the point for French Indochina, 1092 km away; born in the village of Samrong Yong, Bati District, Takéo, Cambodia; the pin is now Bati District.",
+      "source": "https://www.wikidata.org/wiki/Q312364; https://www.wikidata.org/wiki/Q4869028; https://www.britannica.com/biography/Haing-S-Ngor"
+    },
+    "q378450": {
+      "lat": 33.5564,
+      "lon": 133.5245,
+      "born": "3 January 1836, Kamimachi, Kōchi castle town, Tosa Province",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the point for Tosa Province, 13 km away; born in Kamimachi, in the castle town of Kōchi; the pin is the birthplace museum there.",
+      "source": "https://www.wikidata.org/wiki/Q378450; https://www.wikidata.org/wiki/Q11672372; https://visitkochijapan.com/en/see-and-do/10013; https://ryoma-hometown.com/en"
+    },
+    "q202236": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Persis.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Persis\".",
+      "source": "https://www.wikidata.org/wiki/Q202236; https://en.wikipedia.org/wiki/Darius_II"
+    },
+    "q31491": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Thrace.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Thrace\".",
+      "source": "https://www.wikidata.org/wiki/Q31491; https://en.wikipedia.org/wiki/Tiberius_II_Constantine"
+    },
+    "q154934": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kingdom of Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q154934; https://en.wikipedia.org/wiki/Ecgberht"
+    },
+    "q190091": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of England.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kingdom of England\".",
+      "source": "https://www.wikidata.org/wiki/Q190091; https://en.wikipedia.org/wiki/Harthacanute"
+    },
+    "q325026": {
+      "placeNote": "Where he was born is not recorded; the pin is just a point for Scythia, in Crimea.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Scythia\".",
+      "source": "https://www.wikidata.org/wiki/Q325026; https://en.wikipedia.org/wiki/Anacharsis"
+    },
+    "q202543": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Dalmatia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dalmatia\".",
+      "source": "https://www.wikidata.org/wiki/Q202543; https://en.wikipedia.org/wiki/Glycerius"
+    },
+    "q41625": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Cappadocia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Cappadocia\".",
+      "source": "https://www.wikidata.org/wiki/Q41625; https://en.wikipedia.org/wiki/Nikephoros_II_Phokas"
+    },
+    "q41834": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Cappadocia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Cappadocia\".",
+      "source": "https://www.wikidata.org/wiki/Q41834; https://en.wikipedia.org/wiki/Romanos_IV_Diogenes"
+    },
+    "q200401": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Elimiotis, in upper Macedonia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Elimiotis\".",
+      "source": "https://www.wikidata.org/wiki/Q200401; https://en.wikipedia.org/wiki/Antigonus_I_Monophthalmus"
+    },
+    "q207121": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Lucania.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Lucania\".",
+      "source": "https://www.wikidata.org/wiki/Q207121; https://en.wikipedia.org/wiki/Libius_Severus"
+    },
+    "q465026": {
+      "placeNote": "Born in the village of Gorha Ka Purwa in Jalaun district; no exact point for the village was found, so the pin is the middle of the district.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Jalaun district\" (the village is named but has no point).",
+      "source": "https://www.wikidata.org/wiki/Q465026; https://crimelibrary.org/gangsters_outlaws/cops_others/phoolan_devi/2.html"
+    },
+    "q273253": {
+      "placeNote": "Where he was born is not recorded; the pin is just a point for Pannonia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Pannonia\".",
+      "source": "https://www.wikidata.org/wiki/Q273253; https://en.wikipedia.org/wiki/Herennius_Etruscus"
+    },
+    "q275606": {
+      "placeNote": "Where he was born is not recorded; the pin is just a point for Roman Africa.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Africa\".",
+      "source": "https://www.wikidata.org/wiki/Q275606; https://en.wikipedia.org/wiki/Aurelius_Victor"
+    },
+    "q152370": {
+      "placeNote": "Where he was born is not recorded (some family trees say Esztergom); the pin is just Cluj, the point for Transylvania.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Transylvania\" (only family-tree sites name Esztergom).",
+      "source": "https://www.wikidata.org/wiki/Q152370; https://www.britannica.com/biography/Bela-IV"
+    },
+    "q211396": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Hispania.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Hispania\".",
+      "source": "https://www.wikidata.org/wiki/Q211396; https://en.wikipedia.org/wiki/Magnus_Maximus"
+    },
+    "q68508": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Scotland.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Scotland\".",
+      "source": "https://www.wikidata.org/wiki/Q68508; https://en.wikipedia.org/wiki/Malcolm_III_of_Scotland"
+    },
+    "q54048": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Kuyavia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kuyavia\".",
+      "source": "https://www.wikidata.org/wiki/Q54048; https://en.wikipedia.org/wiki/W%C5%82adys%C5%82aw_I_the_Elbow-high"
+    },
+    "q192104": {
+      "placeNote": "Where he was born is not recorded; the pin is just Pliska, the point for the First Bulgarian Empire.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"First Bulgarian Empire\".",
+      "source": "https://www.wikidata.org/wiki/Q192104; https://en.wikipedia.org/wiki/Krum"
+    },
+    "q162593": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Roman Britain.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Roman Britain\".",
+      "source": "https://www.wikidata.org/wiki/Q162593; https://en.wikipedia.org/wiki/Pelagius"
+    },
+    "q208331": {
+      "placeNote": "Tradition says he was born in Ringerike; the exact place is not recorded, and the pin is the middle of Ringerike.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ringerike\".",
+      "source": "https://www.wikidata.org/wiki/Q208331; https://en.wikipedia.org/wiki/Olaf_II_of_Norway"
+    },
+    "q41838": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Paphlagonia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Paphlagonia\".",
+      "source": "https://www.wikidata.org/wiki/Q41838; https://en.wikipedia.org/wiki/Michael_V_Kalaphates"
+    },
+    "q262884": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Crete.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Crete\".",
+      "source": "https://www.wikidata.org/wiki/Q262884; https://en.wikipedia.org/wiki/Alexander_V"
+    },
+    "q312548": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Asia Minor.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Asia Minor\".",
+      "source": "https://www.wikidata.org/wiki/Q312548; https://en.wikipedia.org/wiki/Megasthenes"
+    },
+    "q26326": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Scotland.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Scotland\".",
+      "source": "https://www.wikidata.org/wiki/Q26326; https://en.wikipedia.org/wiki/Duncan_I_of_Scotland"
+    },
+    "q8666": {
+      "placeNote": "Where he was born is not recorded; the pin is just Dadu (Beijing), the Yuan capital.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Yuan dynasty\".",
+      "source": "https://www.wikidata.org/wiki/Q8666; https://www.britannica.com/biography/Togon-temur"
+    },
+    "q313423": {
+      "placeNote": "Where he was born is not recorded; the pin is just a point for the Kingdom of Judah.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kingdom of Judah\".",
+      "source": "https://www.wikidata.org/wiki/Q313423; https://en.wikipedia.org/wiki/Amon"
+    },
+    "q313327": {
+      "placeNote": "Sources differ: most say he was born at Xiapi, where his father Sun Jian served; a later story puts it by the Fuchun river near Hangzhou. The pin is Hangzhou, the point for Zhejiang.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Zhejiang\" (Xiapi or the Fuchun river near Hangzhou).",
+      "source": "https://www.wikidata.org/wiki/Q313327; https://goeastmandarin.com/sun-quan/"
+    },
+    "q222890": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Phrygia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Phrygia\".",
+      "source": "https://www.wikidata.org/wiki/Q222890; https://en.wikipedia.org/wiki/Novatian"
+    },
+    "q207789": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Kent.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kent\".",
+      "source": "https://www.wikidata.org/wiki/Q207789; https://en.wikipedia.org/wiki/Thomas_Tallis"
+    },
+    "q317072": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Syria.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Syria\".",
+      "source": "https://www.wikidata.org/wiki/Q317072; https://en.wikipedia.org/wiki/John_Climacus"
+    },
+    "q336558": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Sistan.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Sistan\".",
+      "source": "https://www.wikidata.org/wiki/Q336558; https://en.wikipedia.org/wiki/Abu_Dawud_al-Sijistani"
+    },
+    "q213801": {
+      "placeNote": "Where he was born is not recorded; the pin is just Norway's point, near Oslo.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Norway\".",
+      "source": "https://www.wikidata.org/wiki/Q213801; https://en.wikipedia.org/wiki/Olaf_I_of_Norway"
+    },
+    "q296863": {
+      "placeNote": "Where he was born is not recorded; the pin is just Pamplona, the point for Navarre.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Navarre\".",
+      "source": "https://www.wikidata.org/wiki/Q296863; https://en.wikipedia.org/wiki/Ferdinand_I_of_Le%C3%B3n_and_Castile"
+    },
+    "q310999": {
+      "placeNote": "Where he was born is not recorded; the pin is just Norway's point, near Oslo.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Norway\".",
+      "source": "https://www.wikidata.org/wiki/Q310999; https://en.wikipedia.org/wiki/Magnus_the_Good"
+    },
+    "q212284": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Denmark.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Denmark\".",
+      "source": "https://www.wikidata.org/wiki/Q212284; https://en.wikipedia.org/wiki/Canute_IV_of_Denmark"
+    },
+    "q82686": {
+      "placeNote": "Where he was born is not recorded; the pin is just a point in Tolna County.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Tolna County\".",
+      "source": "https://www.wikidata.org/wiki/Q82686; https://en.wikipedia.org/wiki/B%C3%A9la_II_of_Hungary"
+    },
+    "q122479": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Scotland.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kingdom of Scotland\".",
+      "source": "https://www.wikidata.org/wiki/Q122479; https://en.wikipedia.org/wiki/Malcolm_IV_of_Scotland"
+    },
+    "q86978": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Hungary.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kingdom of Hungary\".",
+      "source": "https://www.wikidata.org/wiki/Q86978; https://en.wikipedia.org/wiki/B%C3%A9la_III_of_Hungary"
+    },
+    "q709734": {
+      "placeNote": "Where on São Tomé he was born is not recorded; the pin is just the middle of São Tomé island.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Portuguese São Tomé and Príncipe\".",
+      "source": "https://www.wikidata.org/wiki/Q709734; https://www.blackpast.org/global-african-history/people-global-african-history/evaristo-carvalho-1942/"
+    },
+    "q202113": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Orestis, in upper Macedonia.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Orestis\".",
+      "source": "https://www.wikidata.org/wiki/Q202113; https://en.wikipedia.org/wiki/Perdiccas"
+    },
+    "q298376": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Hispania.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Hispania\".",
+      "source": "https://www.wikidata.org/wiki/Q298376; https://en.wikipedia.org/wiki/Gaius_Julius_Hyginus"
+    },
+    "q297377": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Gallia Narbonensis.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Gallia Narbonensis\".",
+      "source": "https://www.wikidata.org/wiki/Q297377; https://en.wikipedia.org/wiki/Frontinus"
+    },
+    "q316090": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Italy.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Italy\".",
+      "source": "https://www.wikidata.org/wiki/Q316090; https://en.wikipedia.org/wiki/Gaius_Valerius_Flaccus"
+    },
+    "q313795": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Dobruja.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dobruja\".",
+      "source": "https://www.wikidata.org/wiki/Q313795; https://en.wikipedia.org/wiki/John_Cassian"
+    },
+    "q319653": {
+      "placeNote": "Where he was born is not recorded; the pin is just Dublin, the point for Leinster.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Leinster\".",
+      "source": "https://www.wikidata.org/wiki/Q319653; https://en.wikipedia.org/wiki/Columbanus"
+    },
+    "q313504": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q313504; https://en.wikipedia.org/wiki/Theophylact_Simocatta"
+    },
+    "q310152": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Västergötland.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Västergötland\".",
+      "source": "https://www.wikidata.org/wiki/Q310152; https://en.wikipedia.org/wiki/Eric_IX_of_Sweden"
+    },
+    "q313056": {
+      "placeNote": "Where he was born is not recorded; the pin is just Rome, the point for the Roman Empire.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Roman Empire\".",
+      "source": "https://www.wikidata.org/wiki/Q313056; https://en.wikipedia.org/wiki/Herodian"
+    },
+    "q158504": {
+      "placeNote": "Where he was born is not recorded; the pin is just Constantinople, the point for the Byzantine Empire.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Byzantine Empire\".",
+      "source": "https://www.wikidata.org/wiki/Q158504; https://en.wikipedia.org/wiki/Clement_of_Ohrid"
+    },
+    "q313225": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Samaria.",
+      "why": "People fact-check batch 9 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Samaria\".",
+      "source": "https://www.wikidata.org/wiki/Q313225; https://en.wikipedia.org/wiki/Jehu"
     },
     "q192925": {
       "placeNote": "Born in England (Wessex); the town is not known.",
