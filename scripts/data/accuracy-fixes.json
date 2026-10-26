@@ -2295,6 +2295,285 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 1466, not 1456.",
       "source": "https://www.wikidata.org/wiki/Q314275; https://en.wikipedia.org/wiki/Quentin_Matsys"
     },
+    "q164234": {
+      "startYear": 1623,
+      "dateNote": "Kawasaki grew from Kawasaki-juku, a post town on the Tōkaidō road set up in 1623. It became a city in 1924.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1924). 1924 (P571) is when it became a city; Kawasaki-juku, the post town it grew from, was set up in 1623",
+      "source": "https://www.wikidata.org/wiki/Q164234 (P571 1924-07-01); https://en.wikipedia.org/wiki/Kawasaki-juku"
+    },
+    "q47034": {
+      "startYear": 1431,
+      "dateNote": "First written mention in 1431. Espoo became a parish of its own in 1458.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1458). 1458 (P571) is when it became a parish; Wikidata P1249 gives the first written mention, 1431",
+      "source": "https://www.wikidata.org/wiki/Q47034 (P571 1458, P1249 1431); https://en.wikipedia.org/wiki/Espoo"
+    },
+    "q92161": {
+      "startYear": 1800,
+      "dateNote": "Founded in 1800, when the Qing government set up an office here (Changchun Ting). It was raised to a prefecture in 1889.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1889). 1889 (P571) is when it was raised to a prefecture; the Qing set up Changchun Ting in 1800",
+      "source": "https://www.wikidata.org/wiki/Q92161 (P571 1889); https://en.wikipedia.org/wiki/Changchun"
+    },
+    "q2167": {
+      "startYear": 990,
+      "dateNote": "Founded about 990, in the time of King Sweyn Forkbeard. Wikidata gives only \"10th century\", which showed as the year 1000.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\", shown as 1000; Lund was founded about 990",
+      "source": "https://www.wikidata.org/wiki/Q2167 (P571 10th century); https://en.wikipedia.org/wiki/Lund"
+    },
+    "q47164": {
+      "startYear": 1875,
+      "dateNote": "The town was founded in 1875. 1769 is when Spanish explorers of the Portolá expedition passed through.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1769). 1769 (P571) is the Portolá expedition passing through; the town was founded in 1875",
+      "source": "https://www.wikidata.org/wiki/Q47164 (P571 1769-08-03); https://en.wikipedia.org/wiki/Santa_Monica,_California"
+    },
+    "q74881": {
+      "startYear": 1898,
+      "dateNote": "Russia began building the port city of Dalny here in 1898. Japan took it in 1904-05, after the Russo-Japanese War.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1904). 1904 (P571) is the Japanese takeover; Russia began building the port of Dalny in 1898",
+      "source": "https://www.wikidata.org/wiki/Q74881 (P571 1904); https://en.wikipedia.org/wiki/Dalian"
+    },
+    "q159288": {
+      "startYear": 1782,
+      "dateNote": "The Spanish founded the Presidio of Santa Barbara in 1782, and the mission in 1786. The town became American in 1846-47.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1847). 1847 (P571) is after the US takeover; the Spanish presidio was founded in 1782",
+      "source": "https://www.wikidata.org/wiki/Q159288 (P571 1847); https://en.wikipedia.org/wiki/Santa_Barbara,_California"
+    },
+    "q47554": {
+      "startYear": 1231,
+      "dateNote": "The Teutonic Knights founded Toruń in 1231. It got its town charter on 28 December 1233.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1234). the Teutonic Knights founded Toruń in 1231; Wikidata P571 is the town charter, 28 Dec 1233 (it showed as 1234)",
+      "source": "https://www.wikidata.org/wiki/Q47554 (P571 1233-12-28); https://en.wikipedia.org/wiki/Toru%C5%84"
+    },
+    "q170402": {
+      "startYear": 1212,
+      "dateNote": "Founded in 1212 as the church of an Augustinian monastery, the same year as its boys' choir. Today's building dates from 1482-96.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1401). Wikidata P571 is just \"15th century\", shown as 1401; the church and monastery were founded in 1212",
+      "source": "https://www.wikidata.org/wiki/Q170402 (P571 15th century); https://en.wikipedia.org/wiki/St._Thomas_Church,_Leipzig"
+    },
+    "q911953": {
+      "startYear": 1598,
+      "dateNote": "Juan de Oñate opened this royal road north from Mexico City in 1598. It was used until the 1880s. The pin is one point on a road about 2,500 km long.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1500). 1500 (P571) has no source; Juan de Oñate opened the road in 1598",
+      "source": "https://www.wikidata.org/wiki/Q911953 (P571 1500); https://en.wikipedia.org/wiki/El_Camino_Real_de_Tierra_Adentro"
+    },
+    "q199234": {
+      "startYear": 1584,
+      "dateNote": "Building began in 1584 and was finished in 1611.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1615). 1615 (P571) is after it was finished; building began in 1584 and ended in 1611",
+      "source": "https://www.wikidata.org/wiki/Q199234 (P571 1615); https://en.wikipedia.org/wiki/Cordouan_Lighthouse"
+    },
+    "q2000542": {
+      "startYear": 1797,
+      "dateNote": "Built for Emperor Paul I from 1797 to 1801. He was murdered here in 1801, 40 days after moving in.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1801). 1801 (P571) is when it was finished; building began in 1797",
+      "source": "https://www.wikidata.org/wiki/Q2000542 (P571 1801); https://en.wikipedia.org/wiki/Saint_Michael%27s_Castle"
+    },
+    "q206194": {
+      "startYear": 1805,
+      "dateNote": "Built from 1805 to 1820, after Haiti won its independence, to keep out a French return.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1820). 1820 (P571) is when it was finished; building began in 1805",
+      "source": "https://www.wikidata.org/wiki/Q206194 (P571 1820); https://en.wikipedia.org/wiki/Citadelle_Laferri%C3%A8re"
+    },
+    "q281465": {
+      "startYear": 1864,
+      "dateNote": "Building began in 1864. It opened in 1872 and was finished in 1876, when the statue of Prince Albert was put in place.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1872). 1872 (P571) is when it opened; building began in 1864",
+      "source": "https://www.wikidata.org/wiki/Q281465 (P571 1872-07); https://en.wikipedia.org/wiki/Albert_Memorial"
+    },
+    "q540794": {
+      "startYear": 1976,
+      "dateNote": "Building began in October 1976. The hall opened in April 1980.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1980). 1980 (P571) is when it opened; building began in 1976",
+      "source": "https://www.wikidata.org/wiki/Q540794 (P571 1980); https://en.wikipedia.org/wiki/Chiang_Kai-shek_Memorial_Hall"
+    },
+    "q856968": {
+      "startYear": -54,
+      "dateNote": "Julius Caesar began buying the land and building in 54 BC. He dedicated the forum in 46 BC.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (-46). -46 (P571) is the dedication; Caesar began the work in 54 BC",
+      "source": "https://www.wikidata.org/wiki/Q856968 (P571 46 BC); https://en.wikipedia.org/wiki/Forum_of_Caesar"
+    },
+    "q913099": {
+      "startYear": -23,
+      "dateNote": "King Herod built this palace-fortress from about 23 to 15 BC. He was buried here.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (-15). -15 (P571) is when it was finished; Herod began building it about 23 BC",
+      "source": "https://www.wikidata.org/wiki/Q913099 (P571 15 BC); https://en.wikipedia.org/wiki/Herodium"
+    },
+    "q1534288": {
+      "startYear": 781,
+      "dateNote": "King Fruela I of Asturias founded the first church here in 781. Today's Gothic cathedral was begun in 1382.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (701). Wikidata P571 is just \"8th century\", shown as 701; King Fruela I founded the church in 781",
+      "source": "https://www.wikidata.org/wiki/Q1534288 (P571 8th century); https://en.wikipedia.org/wiki/Oviedo_Cathedral"
+    },
+    "q197094": {
+      "startYear": 1118,
+      "dateNote": "Built from 1118 to 1136 as the Byzantine Pantokrator Monastery. It became a mosque after 1453.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1136). 1136 (P571) is when it was finished; building began in 1118",
+      "source": "https://www.wikidata.org/wiki/Q197094 (P571 1136); https://en.wikipedia.org/wiki/Zeyrek_Mosque"
+    },
+    "q136893": {
+      "startYear": 1280,
+      "dateNote": "Founded about 1280. Wikidata gives only \"13th century\", which showed as the year 1300.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1300). Wikidata P571 is just \"13th century\", shown as 1300; the castle was founded about 1280",
+      "source": "https://www.wikidata.org/wiki/Q136893 (P571 13th century); https://en.wikipedia.org/wiki/Turku_Castle"
+    },
+    "q28416": {
+      "startYear": 1805,
+      "dateNote": "Bishop Cabañas founded it in 1791. The building went up from 1805 to 1810.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1810). 1810 (P571) is when it was finished; building began in 1805",
+      "source": "https://www.wikidata.org/wiki/Q28416 (P571 1810); https://en.wikipedia.org/wiki/Hospicio_Caba%C3%B1as"
+    },
+    "q198106": {
+      "startYear": 1789,
+      "dateNote": "Building began in 1789 and was finished in 1833. Germany's first elected parliament met here in 1848.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1833). 1833 (P571) is when it was finished; building began in 1789",
+      "source": "https://www.wikidata.org/wiki/Q198106 (P571 1833); https://en.wikipedia.org/wiki/St._Paul%27s_Church,_Frankfurt"
+    },
+    "q321789": {
+      "startYear": 1919,
+      "dateNote": "Built from 1919 to 1921 to test Einstein's theory of relativity.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (1920). Wikidata P571 has 1919 (and 1920 as preferred, to the month); building began in 1919",
+      "source": "https://www.wikidata.org/wiki/Q321789 (P571 1919 and 1920); https://en.wikipedia.org/wiki/Einstein_Tower"
+    },
+    "q2918723": {
+      "startYear": 1537,
+      "dateNote": "The walls standing today were built from 1537 to 1541 by the Ottoman sultan Suleiman the Magnificent. Walls have stood here since the Bronze Age.",
+      "why": "Places fact-check batch 9 (Oct 2026): wrong year (-19). -19 (P571) has no source; the walls standing today were built by Suleiman from 1537 to 1541",
+      "source": "https://www.wikidata.org/wiki/Q2918723 (P571 19 BC); https://en.wikipedia.org/wiki/Walls_of_Jerusalem"
+    },
+    "q172415": {
+      "dateNote": "Wikidata gives only \"3rd century BC\" (shown as 300 BC). The town is far older: it was a capital of ancient Colchis.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known, and the town is far older",
+      "source": "https://www.wikidata.org/wiki/Q172415 (P571 3rd century BC); https://en.wikipedia.org/wiki/Kutaisi"
+    },
+    "q102217": {
+      "dateNote": "974 is a traditional date (Princess Olga). The first written mention is 1021.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 974 is a traditional date; Wikidata P1249 gives the first written mention, 1021",
+      "source": "https://www.wikidata.org/wiki/Q102217 (P571 974, P1249 1021); https://en.wikipedia.org/wiki/Vitebsk"
+    },
+    "q25390": {
+      "dateNote": "1435 is when Leeuwarden got town rights. People lived here, on mounds, long before.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1435 is the town rights; the settlement is much older, but no founding date is agreed",
+      "source": "https://www.wikidata.org/wiki/Q25390 (P571 1435); https://en.wikipedia.org/wiki/Leeuwarden"
+    },
+    "q156713": {
+      "dateNote": "884 is a traditional date. Wikidata's first written mention is 1321.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 884 is a traditional date; Wikidata P1249 gives 1321",
+      "source": "https://www.wikidata.org/wiki/Q156713 (P571 884, P1249 1321); https://en.wikipedia.org/wiki/Zhytomyr"
+    },
+    "q690": {
+      "dateNote": "1246 is when Delft got town rights. It grew up beside a canal from about 1100.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1246 is the town rights; the settlement is older, but no founding date is agreed",
+      "source": "https://www.wikidata.org/wiki/Q690 (P571 1246); https://en.wikipedia.org/wiki/Delft"
+    },
+    "q165972": {
+      "dateNote": "1911 is when the city was incorporated. The fort it is named after was built in 1838.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1911 is incorporation; the fort was built in 1838, but the town did not grow from it straight away",
+      "source": "https://www.wikidata.org/wiki/Q165972 (P571 1911-03-27); https://en.wikipedia.org/wiki/Fort_Lauderdale,_Florida"
+    },
+    "q49259": {
+      "dateNote": "1906 is when it became a town. The English landed at Cape Henry here in 1607, and it became a city in 1952.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1906 is town status; settled from 1607, city in 1952",
+      "source": "https://www.wikidata.org/wiki/Q49259 (P571 1906); https://en.wikipedia.org/wiki/Virginia_Beach,_Virginia"
+    },
+    "q181557": {
+      "dateNote": "2010 is when the city merged with Kaohsiung County. The city itself is centuries older.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 2010 is a merger; the city is far older",
+      "source": "https://www.wikidata.org/wiki/Q181557 (P571 2010-12-25); https://en.wikipedia.org/wiki/Kaohsiung"
+    },
+    "q181376": {
+      "dateNote": "Wikidata gives only \"10th century\" (shown as 1000). The first written mention is 1128.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata P1249 gives the first written mention, 1128",
+      "source": "https://www.wikidata.org/wiki/Q181376 (P571 10th century, P1249 1128); https://en.wikipedia.org/wiki/Hrodna"
+    },
+    "q875": {
+      "dateNote": "Wikidata gives only a century (shown as 1800). Its first written mention is 1675, and it became a town in 1931.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata P1249 gives 1675",
+      "source": "https://www.wikidata.org/wiki/Q875 (P571 century, P1249 1675); https://en.wikipedia.org/wiki/Abakan"
+    },
+    "q25304": {
+      "dateNote": "I can't confirm 1544. The town itself dates from the late 1800s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1544 can't be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q25304 (P571 1544); https://en.wikipedia.org/wiki/Pichilemu"
+    },
+    "q62823": {
+      "dateNote": "1813 is when it was made a town. People had lived here since the 1600s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1813 is town status; the settlement is older",
+      "source": "https://www.wikidata.org/wiki/Q62823 (P571 1813-04-07); https://en.wikipedia.org/wiki/Barranquilla"
+    },
+    "q131290": {
+      "dateNote": "Sources disagree: 660 here, 836 for the first written mention in Wikidata, and 859 in many histories.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: sources disagree (660, 836 or 859)",
+      "source": "https://www.wikidata.org/wiki/Q131290 (P571 660, P1249 836); https://en.wikipedia.org/wiki/Ganja,_Azerbaijan"
+    },
+    "q49174": {
+      "dateNote": "1821 is when it became a town. English settlers arrived in 1639.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1821 is town status; settled from 1639",
+      "source": "https://www.wikidata.org/wiki/Q49174 (P571 1821); https://en.wikipedia.org/wiki/Bridgeport,_Connecticut"
+    },
+    "q636194": {
+      "dateNote": "Only \"about 1000\" is known. Mining here may be older.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a rough century is known",
+      "source": "https://www.wikidata.org/wiki/Q636194 (P571 10th century); https://en.wikipedia.org/wiki/Falun_Mine"
+    },
+    "q937320": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201). The Danes probably built the first church in the 1220s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q937320 (P571 13th century); https://en.wikipedia.org/wiki/St._Mary%27s_Cathedral,_Tallinn"
+    },
+    "q1187606": {
+      "dateNote": "1300 is when it was consecrated. Building began in the late 1200s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1300 is the consecration; building began earlier, year not agreed",
+      "source": "https://www.wikidata.org/wiki/Q1187606 (P571 1300); https://en.wikipedia.org/wiki/Turku_Cathedral"
+    },
+    "q233121": {
+      "dateNote": "Only \"8th century BC\" is known.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q233121 (P571 8th century BC); https://en.wikipedia.org/wiki/Patara_(Lycia)"
+    },
+    "q2075156": {
+      "dateNote": "Only \"9th century\" is known for the first fort. The castle is first named in 1144.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q2075156 (P571 9th century); https://en.wikipedia.org/wiki/Ljubljana_Castle"
+    },
+    "q866154": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201). It was built after the bishop moved here in the later 1200s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q866154 (P571 13th century); https://en.wikipedia.org/wiki/Haapsalu_Castle"
+    },
+    "q1497616": {
+      "dateNote": "Only \"14th century\" is known for the first castle (shown as 1301). Today's brick tower dates from about 1409.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1497616 (P571 14th century); https://en.wikipedia.org/wiki/Gediminas%27_Tower"
+    },
+    "q1511206": {
+      "dateNote": "Only \"14th century\" is known (shown as 1400).",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1511206 (P571 14th century); https://en.wikipedia.org/wiki/Gergeti_Trinity_Church"
+    },
+    "q1142488": {
+      "dateNote": "Only \"11th century BC\" is known. It is a traditional date for the Greek city.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known, and it is traditional",
+      "source": "https://www.wikidata.org/wiki/Q1142488 (P571 11th century BC); https://en.wikipedia.org/wiki/Colophon"
+    },
+    "q650053": {
+      "dateNote": "Only \"2nd century BC\" is known (shown as 200 BC).",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q650053 (P571 2nd century BC); https://en.wikipedia.org/wiki/Bibracte"
+    },
+    "q206231": {
+      "dateNote": "Wikidata gives \"12th century\" for the castle. The hill was used much earlier, from about 3000 BC.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: only a century is known, and the site is far older",
+      "source": "https://www.wikidata.org/wiki/Q206231 (P571 12th century); https://en.wikipedia.org/wiki/Citadel_of_Aleppo"
+    },
+    "q679101": {
+      "dateNote": "1380 is the rebuild after a fire. The church was first built in the late 1200s.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 1380 is a rebuild; first built in the late 1200s, year not agreed",
+      "source": "https://www.wikidata.org/wiki/Q679101 (P571 1380); https://en.wikipedia.org/wiki/St._Mary%27s_Church,_Berlin"
+    },
+    "q37792": {
+      "dateNote": "693 is about when Saint Trudo, who founded the abbey here, died. The abbey is a little older.",
+      "why": "Places fact-check batch 9 (Oct 2026), still uncertain, the panel now says so: 693 is linked to Saint Trudo's death; the abbey's founding year is not agreed",
+      "source": "https://www.wikidata.org/wiki/Q37792 (P571 693); https://en.wikipedia.org/wiki/Sint-Truiden"
+    },
     "q1227107": {
       "dateNote": "Diotima is known only from Plato's Symposium; she may be a fictional character. Her dates are not known.",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Possibly fictional (Plato's Symposium).",
