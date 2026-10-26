@@ -1884,6 +1884,135 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born in Buenos Aires; the pin was the middle of Argentina.",
       "source": "https://www.wikidata.org/wiki/Q314362; https://en.wikipedia.org/wiki/Bartolom%C3%A9_Mitre; https://www.wikidata.org/wiki/Q1486"
     },
+    "q36322": {
+      "lat": 51.2303,
+      "lon": -1.2189,
+      "born": "16 December 1775, Steventon, Hampshire",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born at Steventon rectory in Hampshire; the pin was the other Steventon, in Oxfordshire (44 km away). Wikidata lists both.",
+      "source": "https://www.wikidata.org/wiki/Q36322; https://en.wikipedia.org/wiki/Jane_Austen; https://www.wikidata.org/wiki/Q1231836"
+    },
+    "q6538": {
+      "lat": 54.3833,
+      "lon": 18.6167,
+      "born": "16 October 1927, Langfuhr, Danzig (now Gdańsk-Wrzeszcz)",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born in Danzig-Langfuhr (now Wrzeszcz, Gdańsk); the pin was the middle of the Free City of Danzig, at the edge of the sea.",
+      "source": "https://www.wikidata.org/wiki/Q6538; https://en.wikipedia.org/wiki/G%C3%BCnter_Grass; https://www.wikidata.org/wiki/Q541765; https://www.nobelprize.org/prizes/literature/1999/grass/biographical/"
+    },
+    "q16977": {
+      "lat": 30.5373,
+      "lon": 106.6369,
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born in Paifang village, Xiexing; the pin was the middle of Guang'an (8 km away).",
+      "source": "https://www.wikidata.org/wiki/Q16977; https://en.wikipedia.org/wiki/Deng_Xiaoping; https://www.wikidata.org/wiki/Q895802"
+    },
+    "q41370": {
+      "lat": 31.7044,
+      "lon": 35.2061,
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Bethlehem is his birthplace in the Bible and on Wikidata; the pin was Jerusalem, his later capital (8.5 km away).",
+      "source": "https://www.wikidata.org/wiki/Q41370; https://en.wikipedia.org/wiki/David; https://www.wikidata.org/wiki/Q5776"
+    },
+    "q11869": {
+      "lat": 37.3217,
+      "lon": -77.1817,
+      "born": "9 February 1773, Berkeley Plantation, Charles City County, Virginia",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born at Berkeley Plantation; the pin was the middle of Charles City County (11 km away).",
+      "source": "https://www.wikidata.org/wiki/Q11869; https://en.wikipedia.org/wiki/William_Henry_Harrison; https://www.wikidata.org/wiki/Q3391534"
+    },
+    "q2001": {
+      "lat": 40.7345,
+      "lon": -73.9826,
+      "born": "26 July 1928, Manhattan, New York City",
+      "placeNote": "Born at the Lying-In Hospital in Manhattan; his family lived in the Bronx, which is why some sources (and Wikidata) say the Bronx.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born at the Lying-In Hospital, Second Avenue, Manhattan; the pin was the Bronx, where the family lived (13 km away).",
+      "source": "https://www.wikidata.org/wiki/Q2001; https://en.wikipedia.org/wiki/Stanley_Kubrick; https://en.wikipedia.org/wiki/Society_for_the_Lying-In_Hospital"
+    },
+    "q1316": {
+      "lat": 34.5276,
+      "lon": 43.7092,
+      "born": "28 April 1937, al-Awja, near Tikrit",
+      "placeNote": "Born in al-Awja, a village about 13 km south of Tikrit. Wikidata gives Tikrit.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), fixed: Born in al-Awja; the pin was Tikrit (13 km away).",
+      "source": "https://www.wikidata.org/wiki/Q1316; https://en.wikipedia.org/wiki/Saddam_Hussein; https://www.wikidata.org/wiki/Q311336; https://www.britannica.com/biography/Saddam-Hussein"
+    },
+    "q9441": {
+      "dateNote": "His years are not known. Tradition gives about 563 to 483 BC; many historians now say about 480 to 400 BC. The year shown is only a placeholder.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives one millennium-level value (500 BC) for both birth and death, plus 623, 563, 543 and 483 BC.",
+      "source": "https://www.wikidata.org/wiki/Q9441; https://en.wikipedia.org/wiki/The_Buddha"
+    },
+    "q10261": {
+      "dateNote": "Born about 570 BC and died about 495 BC; ancient sources differ, so these years are approximate.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata holds eight birth years (582 to 550 BC) and seven death years.",
+      "source": "https://www.wikidata.org/wiki/Q10261; https://en.wikipedia.org/wiki/Pythagoras"
+    },
+    "q9200": {
+      "dateNote": "Born about AD 5; died in Rome in the 60s AD (about 64 to 67). The exact years are not known.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives death years 64, 65 and 66.",
+      "source": "https://www.wikidata.org/wiki/Q9200; https://en.wikipedia.org/wiki/Paul_the_Apostle"
+    },
+    "q1496": {
+      "placeNote": "Where he was born is not certain: Ponte da Barca (the pin), Sabrosa and Porto are all claimed.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives Ponte da Barca and (deprecated) Sabrosa; historians disagree.",
+      "source": "https://www.wikidata.org/wiki/Q1496; https://en.wikipedia.org/wiki/Ferdinand_Magellan"
+    },
+    "q1402": {
+      "placeNote": "Born in Florence (the pin) or in Certaldo, his family's town; sources differ.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives Florence, Certaldo and Paris.",
+      "source": "https://www.wikidata.org/wiki/Q1402; https://en.wikipedia.org/wiki/Giovanni_Boccaccio"
+    },
+    "q17892": {
+      "placeNote": "Born on Lesbos, in Eresos or Mytilene; sources differ, so the pin is the middle of the island.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin (Lesbos); Wikidata gives Lesbos, Eresos and Mytilene.",
+      "source": "https://www.wikidata.org/wiki/Q17892; https://en.wikipedia.org/wiki/Sappho"
+    },
+    "q10665": {
+      "placeNote": "Soviet records say he was born in Vyatskoye, near Khabarovsk (the pin). North Korea's official story says Mount Paektu.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Two birthplaces: Vyatskoye (records) and Mount Paektu (official story).",
+      "source": "https://www.wikidata.org/wiki/Q10665; https://en.wikipedia.org/wiki/Kim_Jong_Il"
+    },
+    "q25328": {
+      "placeNote": "Born in Reus (the pin); some say Riudoms, his family's village nearby.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives Reus and Riudoms.",
+      "source": "https://www.wikidata.org/wiki/Q25328; https://en.wikipedia.org/wiki/Antoni_Gaud%C3%AD"
+    },
+    "q44233": {
+      "placeNote": "His father came from Cyme (the pin) and settled in Ascra in Boeotia, where Hesiod lived; where he was born is not known.",
+      "dateNote": "Lived around 700 BC; his birth and death years are not known, so the years shown are only placeholders.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives Cyme and (deprecated) Ascra; dates known only to the century.",
+      "source": "https://www.wikidata.org/wiki/Q44233; https://en.wikipedia.org/wiki/Hesiod"
+    },
+    "q43347": {
+      "placeNote": "Born in Vakhsh (the pin) or in Balkh; sources differ.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Older sources say Balkh, newer ones Vakhsh.",
+      "source": "https://www.wikidata.org/wiki/Q43347; https://en.wikipedia.org/wiki/Rumi"
+    },
+    "q34211": {
+      "placeNote": "Born in Cairo, as records show; Arafat himself sometimes said Jerusalem.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Wikidata gives Cairo and Jerusalem.",
+      "source": "https://www.wikidata.org/wiki/Q34211; https://en.wikipedia.org/wiki/Yasser_Arafat"
+    },
+    "q2161": {
+      "placeNote": "Where he was born is not known; probably in Roman Gaul, so the pin is only the middle of the province of Gallia Narbonensis.",
+      "dateNote": "Born about AD 56 and died about AD 120; the exact years are not known.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin (whole-degree 44, 4); birthplace unknown.",
+      "source": "https://www.wikidata.org/wiki/Q2161; https://en.wikipedia.org/wiki/Tacitus"
+    },
+    "q34943": {
+      "placeNote": "Where he was born is not known for certain; a late source says Ptolemais Hermiou in Egypt (the pin).",
+      "dateNote": "Lived about AD 100 to 170; the exact years are not known.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace from a late source; dates approximate.",
+      "source": "https://www.wikidata.org/wiki/Q34943; https://en.wikipedia.org/wiki/Ptolemy"
+    },
+    "q36359": {
+      "placeNote": "Where he was born is not recorded; the pin is near Babylon, the city he ruled.",
+      "dateNote": "Ruled about 1792 to 1750 BC (middle chronology); his birth year is only a placeholder.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Region pin (Old Babylonian Empire); dates approximate.",
+      "source": "https://www.wikidata.org/wiki/Q36359; https://en.wikipedia.org/wiki/Hammurabi"
+    },
+    "q47154": {
+      "placeNote": "Where he was born is not known; no ancient source says. Wikidata gives Pompeii (the pin).",
+      "dateNote": "Born about 99 to 94 BC and died about 55 BC; the exact years are not known.",
+      "why": "People fact-check batch 6, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace unknown; dates approximate.",
+      "source": "https://www.wikidata.org/wiki/Q47154; https://en.wikipedia.org/wiki/Lucretius"
+    },
     "q9602": {
       "lat": 44.5784,
       "lon": -73.5268,
