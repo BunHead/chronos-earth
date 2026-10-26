@@ -25,6 +25,7 @@ import { eclipseLightFactor } from './eclipseDim';
 import { yearToYearsBP, yearsBPToYear } from './timeScale';
 import { loadReview, loadLocalTransforms, type ModelTransform } from './review';
 import { STAGE_TABLE, buildStages, stageFor } from './stageTable';
+import { GREAT_WALL_SINK_M } from './landmarkMesh';
 import { isBuilderActive, sitePlanNear, supplantSitePlans } from './sitePlanRender';
 import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
@@ -338,7 +339,10 @@ const PLACEMENTS: Placement[] = [
   // (lib/landmarkMesh.ts). builtYear is the Ming brick wall (1505); its
   // earlier rammed-earth and early Ming walls, its Qing decay and its 1957
   // restoration are dated in STAGE_TABLE.
-  { model: 'great-wall', title: 'Great Wall of China (Badaling)', lat: 40.36, lon: 116.02, builtYear: 1505 },
+  // Once surveyed (scripts/fetch-great-wall-profile.mjs) it no longer carries
+  // its own ridge: it is sunk so its footing meets the real hills.
+  { model: 'great-wall', title: 'Great Wall of China (Badaling)', lat: 40.36, lon: 116.02, builtYear: 1505,
+    ...(GREAT_WALL_SINK_M != null ? { sinkM: GREAT_WALL_SINK_M } : {}) },
   // The Forbidden City, built 1406-1420 for the Yongle Emperor: the Hall of
   // Supreme Harmony at the pin, the Meridian Gate 330 m south on the axis.
   { model: 'forbidden-city', title: 'Forbidden City', lat: 39.916, lon: 116.397, builtYear: 1420, buildYears: 14 },

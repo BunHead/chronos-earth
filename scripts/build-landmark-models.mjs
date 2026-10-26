@@ -7,6 +7,7 @@
 //   trajans-column    Trajan's Column, Rome, 35.07 m with its pedestal
 //   pompeys-pillar    Pompey's Pillar, Alexandria, 26.85 m
 //   great-wall        a Ming section at Badaling on its ridge, +b30/b60/ruin
+//                     (its real line and heights: scripts/fetch-great-wall-profile.mjs)
 //   forbidden-city    the Meridian Gate and the Hall of Supreme Harmony, +b30/b60/b90
 //
 //   node scripts/build-landmark-models.mjs

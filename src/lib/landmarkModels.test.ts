@@ -205,3 +205,40 @@ describe('the Great Wall and the Forbidden City (26 Oct 2026)', () => {
     expect([gw.lat, gw.lon, gw.startYear]).toEqual([40.36, 116.02, 1505]);
   });
 });
+
+describe('the Great Wall on a surveyed profile (scripts/fetch-great-wall-profile.mjs)', () => {
+  // A made-up two-peak ridge, only to exercise the code path — not shipped data.
+  const kx = 111_320 * Math.cos((40.36 * Math.PI) / 180);
+  const path: Array<[number, number, number]> = [];
+  for (let i = 0; i <= 60; i++) {
+    const x = -300 + i * 10;
+    path.push([40.36 + (0.4 * x) / 111_320, 116.02 + x / kx, 600 + 70 * Math.exp(-(((x - 120) / 90) ** 2)) + 40 * Math.exp(-(((x + 180) / 70) ** 2))]);
+  }
+  const profile = { source: 'test', pin: { lat: 40.36, lon: 116.02, elevM: 615 }, path };
+
+  it('stands on y = 0, follows the survey, and draws no ridge of its own', () => {
+    for (const s of ['', '-b30', '-b60', '-ruin']) {
+      const m = landmarkMesh('great-wall', s, profile);
+      const { minY, maxY } = landmarkBounds(m);
+      expect(Math.abs(minY), s).toBeLessThan(1e-6);
+      // 70 m of rise plus the footing, the walk and a tower: well under the representative 68.8 + 55
+      expect(maxY, s).toBeGreaterThan(70);
+      expect(maxY, s).toBeLessThan(70 + 1.5 + 14 + 1);
+      let green = 0;
+      for (let i = 0; i < m.colors.length; i += 3) if (m.colors[i + 1] > m.colors[i] * 1.3 && m.colors[i + 1] > m.colors[i + 2] * 2) green++;
+      if (s !== '-ruin') expect(green, s).toBe(0); // the ruin's scrub on the walk is the only green
+    }
+  });
+
+  it('towers stand on the highest crests, at least 150 m apart', () => {
+    const tall = landmarkMesh('great-wall', '', profile);
+    // tower tops (13.8 m above the walk's ground) near each peak
+    const peaks = [120, -180].map((x) => [x * 0.9284, 600 + (x === 120 ? 70 : 40)]); // plan x shrinks by the line's slope
+    for (const [, elev] of peaks) {
+      const top = elev - (600 - 1.5) + 13.8;
+      let found = false;
+      for (let i = 1; i < tall.positions.length; i += 3) if (Math.abs(tall.positions[i] - top) < 1.5) found = true;
+      expect(found).toBe(true);
+    }
+  });
+});
