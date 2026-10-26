@@ -21,7 +21,7 @@ describe('famous monuments', () => {
       ['cur-colosseum', 'Q10285', 41.89028, 12.49222],
       ['cur-angkor-wat', 'Q43473', 13.4125, 103.86667],
       ['cur-taj-mahal', 'Q9141', 27.175, 78.04194],
-      ['cur-forbidden-city', 'Q80290', 39.91583, 116.39083],
+      ['cur-forbidden-city', 'Q80290', 39.916, 116.397], // on the palace's axis, at the Hall of Supreme Harmony
       ['cur-ahu-tongariki', 'Q3448354', -27.1258, -109.2769],
     ];
     for (const [id, qid, lat, lon] of spot) {
@@ -34,11 +34,11 @@ describe('famous monuments', () => {
   });
 
   it('get a 3D model only where one is accurate', () => {
-    for (const id of ['cur-great-pyramid', 'cur-colosseum', 'cur-parthenon', 'cur-angkor-wat', 'cur-machu-picchu']) {
+    for (const id of ['cur-great-pyramid', 'cur-colosseum', 'cur-parthenon', 'cur-angkor-wat', 'cur-machu-picchu', 'cur-forbidden-city']) {
       expect(monumentModelForName(byId.get(id)!.name), id).not.toBeNull();
     }
     // No model in the fleet looks like these — and never the impact crater.
-    for (const id of ['cur-taj-mahal', 'cur-petra', 'cur-rapa-nui', 'cur-forbidden-city', 'cur-ahu-tongariki']) {
+    for (const id of ['cur-taj-mahal', 'cur-petra', 'cur-rapa-nui', 'cur-ahu-tongariki']) {
       expect(monumentModelForName(byId.get(id)!.name), id).toBeNull();
     }
   });
