@@ -131,6 +131,12 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // the east edge as published.
   'gobekli-scan': { widthM: 46.758, facingDeg: 0 },
   'pumapunku-scan': { widthM: 41.46, facingDeg: 0 },
+  // Karahan Tepe: x1.7 m/unit so Str. AD's final-phase interior is ~18 m (Karul
+  // 2021/2025), matching the AD-AB-AA spacing on the satellite photo.
+  'karahan-scan': { widthM: 98.121, facingDeg: 0 },
+  // Nazca Hummingbird: x22.4 m/unit, registered against the satellite photo
+  // (lines, scarp and hills overlay), giving the published ~66 m wingspan.
+  'nazca-hummingbird-scan': { widthM: 121.812, facingDeg: 0 },
   // Plato's Atlantis, imagined (components/atlantisCity.ts): TRUE scale — the
   // exported footprint is 2491.1 units of 10 m. facingDeg −90 turns the
   // canal (local +Z) to bearing 270°: due west, toward the Atlantic.
@@ -252,6 +258,9 @@ export function curatedCovers(
   t: { model: string; title: string; lat: number; lon: number },
 ): boolean {
   if (Math.abs(c.lat - t.lat) >= 0.01 || Math.abs(c.lon - t.lon) >= 0.01) return false;
+  // The SAME site by name: a real scan sits on the excavation, which can be
+  // ~130 m from the gazetteer pin (Karahan Tepe), so its archetype goes too.
+  if (c.title === t.title) return true;
   const small = fitFor(t.title, t.model).widthM <= SMALL_LANDMARK_M;
   if (!small) return true;
   const dN = (t.lat - c.lat) * 111_320;
