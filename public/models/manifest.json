@@ -707,5 +707,37 @@
   "pumapunku-scan-lite": {
     "footprint": 41.46,
     "kb": 295
+  },
+  "great-wall": {
+    "footprint": 671.926,
+    "kb": 24
+  },
+  "great-wall-b30": {
+    "footprint": 671.926,
+    "kb": 9
+  },
+  "great-wall-b60": {
+    "footprint": 671.926,
+    "kb": 15
+  },
+  "great-wall-ruin": {
+    "footprint": 671.926,
+    "kb": 15
+  },
+  "forbidden-city": {
+    "footprint": 484,
+    "kb": 6
+  },
+  "forbidden-city-b30": {
+    "footprint": 482.2,
+    "kb": 2
+  },
+  "forbidden-city-b60": {
+    "footprint": 482.5,
+    "kb": 4
+  },
+  "forbidden-city-b90": {
+    "footprint": 484,
+    "kb": 6
   }
 }

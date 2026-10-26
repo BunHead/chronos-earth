@@ -334,6 +334,14 @@ const PLACEMENTS: Placement[] = [
   // ruinYear: unlike most of Angkor it was never abandoned to the forest — it
   // stayed in use as a Buddhist temple and is on Cambodia's flag today.
   { model: 'angkor', title: 'Angkor Wat', lat: 13.4125, lon: 103.8667, builtYear: 1150, buildYears: 37 },
+  // The Great Wall at Badaling, in true metres on its own ridge
+  // (lib/landmarkMesh.ts). builtYear is the Ming brick wall (1505); its
+  // earlier rammed-earth and early Ming walls, its Qing decay and its 1957
+  // restoration are dated in STAGE_TABLE.
+  { model: 'great-wall', title: 'Great Wall of China (Badaling)', lat: 40.36, lon: 116.02, builtYear: 1505 },
+  // The Forbidden City, built 1406-1420 for the Yongle Emperor: the Hall of
+  // Supreme Harmony at the pin, the Meridian Gate 330 m south on the axis.
+  { model: 'forbidden-city', title: 'Forbidden City', lat: 39.916, lon: 116.397, builtYear: 1420, buildYears: 14 },
   // PLATO'S ATLANTIS, IMAGINED — a flagged artistic reconstruction. It never
   // stands by default: the real Richat landform is the view. It shows only
   // while the visitor has the vision switched on in the Richat panel

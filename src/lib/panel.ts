@@ -139,6 +139,11 @@ export function monumentModelForName(name: string): string | null {
   if (/temple of heaven|hall of prayer for good harvests|^tiantan$/.test(n)) return 'temple-of-heaven';
   if (/trajan'?s column|column of trajan/.test(n)) return 'trajans-column';
   if (/pompey'?s pillar/.test(n)) return 'pompeys-pillar';
+  // The Great Wall's Badaling section, and the Forbidden City's Meridian Gate
+  // with the Hall of Supreme Harmony (lib/landmarkMesh.ts). Not the other
+  // "great walls" (Gorgan, Hadrian's) — only China's, by name.
+  if (/^(the )?great wall of china\b|\bbadaling\b/.test(n)) return 'great-wall';
+  if (/^(the )?forbidden city$|hall of supreme harmony/.test(n)) return 'forbidden-city';
   if (/statue of liberty/.test(n)) return 'liberty';
   // Paris landmarks — the tower is matched EXACTLY (an "Eiffel Tower
   // restaurant" replica must stay 3D-less), and the Louvre is matched before

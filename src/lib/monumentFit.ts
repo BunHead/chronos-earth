@@ -179,6 +179,8 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'temple-of-heaven': { widthM: 91, facingDeg: 0 }, // the altar's lowest tier, 91 m across
   'trajans-column': { widthM: 6.2, facingDeg: 0 }, // pedestal plinth
   'pompeys-pillar': { widthM: 5.4, facingDeg: 0 }, // pedestal footing
+  'great-wall': { widthM: 671.926, facingDeg: 0 }, // the ridge strip, authored north-up (the wall runs SW-NE)
+  'forbidden-city': { widthM: 484, facingDeg: 0 }, // terrace's north edge to the Meridian Gate's wing tips, north-up
   'opera-house': { widthM: 185, facingDeg: 205 }, // sails open to the harbour NNE; steps/front face the land SSW
   // Whole-site temples (src/data/meso-temples.json): authored in true metres
   // with the stair at +Z, so width = their own footprint and θ = 180 − bearing.

@@ -6,6 +6,8 @@
 //   temple-of-heaven  Hall of Prayer for Good Harvests on its marble altar, 38 m
 //   trajans-column    Trajan's Column, Rome, 35.07 m with its pedestal
 //   pompeys-pillar    Pompey's Pillar, Alexandria, 26.85 m
+//   great-wall        a Ming section at Badaling on its ridge, +b30/b60/ruin
+//   forbidden-city    the Meridian Gate and the Hall of Supreme Harmony, +b30/b60/b90
 //
 //   node scripts/build-landmark-models.mjs
 //
@@ -15,7 +17,7 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import gltfPipeline from 'gltf-pipeline';
-import { landmarkMesh, landmarkBounds, LANDMARK_MODELS, LANDMARK_HEIGHT_M } from '../src/lib/landmarkMesh.ts';
+import { landmarkMesh, landmarkBounds, LANDMARK_MODELS, LANDMARK_HEIGHT_M, LANDMARK_STAGES } from '../src/lib/landmarkMesh.ts';
 const { processGlb } = gltfPipeline;
 
 const OUT = 'public/models';
@@ -75,15 +77,22 @@ function glb(name, m) {
 
 const manifestPath = join(OUT, 'manifest.json');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
-for (const name of LANDMARK_MODELS) {
-  const m = landmarkMesh(name);
+// Each model, then its dated stages (same frame; the globe scales them by the base's footprint).
+const builds = LANDMARK_MODELS.flatMap((model) => ['', ...(LANDMARK_STAGES[model] ?? [])].map((stage) => [model, stage]));
+for (const [model, stage] of builds) {
+  const name = model + stage;
+  const m = landmarkMesh(model, stage);
   const { maxY, minY, span } = landmarkBounds(m);
+  const h = LANDMARK_HEIGHT_M[model];
   if (Math.abs(minY) > 1e-6) throw new Error(`${name}: lowest point ${minY} m is not on the ground`);
-  if (Math.abs(maxY - LANDMARK_HEIGHT_M[name]) > 0.1 * LANDMARK_HEIGHT_M[name]) throw new Error(`${name}: ${maxY} m tall`);
+  if (stage ? maxY > 1.1 * h : Math.abs(maxY - h) > 0.1 * h) throw new Error(`${name}: ${maxY} m tall`);
   // Draco-compressed like the rest of the fleet (Cesium decodes it natively).
-  const { glb: bytes } = await processGlb(Buffer.from(glb(name, m)), { dracoOptions: { compressionLevel: 7 } });
+  // Draco's default 11-bit positions are a 0.33 m step across the 670 m wall;
+  // the site-scale models take 14 bits (the small ones keep the default).
+  const dracoOptions = span > 200 ? { compressionLevel: 7, quantizePositionBits: 14 } : { compressionLevel: 7 };
+  const { glb: bytes } = await processGlb(Buffer.from(glb(name, m)), { dracoOptions });
   writeFileSync(join(OUT, `${name}.glb`), bytes);
   manifest[name] = { footprint: Math.round(span * 1000) / 1000, kb: Math.round(bytes.length / 1024) };
-  console.log(`${name.padEnd(17)} ${String(Math.round(bytes.length / 1024)).padStart(4)} KB  top ${maxY.toFixed(2)} m  span ${span.toFixed(1)} m`);
+  console.log(`${name.padEnd(21)} ${String(Math.round(bytes.length / 1024)).padStart(4)} KB  ${String(m.indices.length / 3).padStart(6)} tris  top ${maxY.toFixed(2)} m  span ${span.toFixed(1)} m`);
 }
 writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');

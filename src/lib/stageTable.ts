@@ -51,6 +51,15 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1859, suffix: '-b90' }, // Elizabeth Tower (Big Ben) complete
     { from: 1860, suffix: '' },     // Victoria Tower complete; today
   ],
+  // The Great Wall at Badaling (lib/landmarkMesh.ts). Earlier walls guarded
+  // this pass long before the Ming brick one; the stages are dated by reign.
+  'great-wall': [
+    { from: 555, suffix: '-b30' },  // Northern Qi rammed-earth wall from the Juyong pass westward
+    { from: 1368, suffix: '-b60' }, // early Ming: Xu Da fortifies Juyong Pass; rubble-faced wall, beacon towers
+    { from: 1505, suffix: '' },     // the Badaling brick wall and watchtowers (Hongzhi 18)
+    { from: 1800, suffix: '-ruin' }, // Qing: the wall no longer manned or kept up (approximate)
+    { from: 1957, suffix: '' },     // restored, and opened to visitors
+  ],
   // Tower Bridge (towerBridgeSite.ts): only the paint changed. Opened 30 June 1894.
   'tower-bridge-site': [
     { from: 1894, suffix: '-b30' }, // chocolate-brown ironwork
