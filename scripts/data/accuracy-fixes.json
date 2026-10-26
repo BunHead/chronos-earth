@@ -3884,6 +3884,98 @@
       "why": "Fossil fact-check (Oct 2026), checked by hand, still uncertain, the panel now says so: one date for two caves dug over 50 years",
       "source": "https://en.wikipedia.org/wiki/Skhul_and_Qafzeh_hominins"
     },
+    "q131205": {
+      "lat": 29.3,
+      "lon": -103.4,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned on the Hell Creek Formation in North Dakota, about 1,960 km off (Wikidata lists two formations). The first bones were found in 1971 by Douglas Lawson in the Javelina Formation, Big Bend, Texas (Wikidata Q2890319 P625)",
+      "source": "https://en.wikipedia.org/wiki/Quetzalcoatlus"
+    },
+    "q3501566": {
+      "lat": 46.2947,
+      "lon": -103.9231,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned on Wikidata's point for the whole Hell Creek Formation, about 200 km off and on top of the Hell Creek pin; found in 1999 by Tyler Lyson near Marmarth, North Dakota (Wikidata Q1893073 P625)",
+      "source": "https://news.prairiepublic.org/show/dakota-datebook-archive/2022-05-21/the-marmarth-mummified-dinosaur"
+    },
+    "q76138037": {
+      "lat": 49.5167,
+      "lon": -108.817,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned at the middle of Saskatchewan, about 640 km off; found in 1991 by Robert Gebhardt near Eastend (Wikidata Q1521430 P625)",
+      "source": "https://en.wikipedia.org/wiki/Scotty_(dinosaur)"
+    },
+    "q1514294": {
+      "lat": 45.0217,
+      "lon": -102.0394,
+      "dateNote": "Found by Sue Hendrickson on 12 August 1990 on Maurice Williams's ranch, on the Cheyenne River reservation near Faith, South Dakota.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned at the middle of the Cheyenne River reservation, about 65 km off; found on a ranch near Faith (Wikidata Q2366775 P625)",
+      "source": "https://www.britannica.com/topic/Sue"
+    },
+    "q131565": {
+      "lat": 50.725,
+      "lon": -2.9353,
+      "placeNote": null,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned at the centre of England, about 290 km off; Joseph and Mary Anning found the first skull in the cliffs at Lyme Regis in 1811 (Wikidata Q82490 P625)",
+      "source": "https://en.wikipedia.org/wiki/Ichthyosaurus"
+    },
+    "q100196": {
+      "lat": 48.9,
+      "lon": 10.9333,
+      "placeNote": null,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned at the centre of Germany, about 240 km off; the 1861 London specimen was found near Langenaltheim, by Solnhofen (Wikidata Q546335 P625)",
+      "source": "https://en.wikipedia.org/wiki/Specimens_of_Archaeopteryx"
+    },
+    "q131475": {
+      "dateNote": "Uncertain place: found by Danish expeditions in East Greenland in 1931–32. Wikidata gives only Greenland, so the pin is at the middle of the ice sheet, far from the find.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the country; no checked source gives a point for the East Greenland find",
+      "source": "https://en.wikipedia.org/wiki/Ichthyostega"
+    },
+    "q5209906": {
+      "lat": 10,
+      "lon": 40,
+      "placeNote": null,
+      "dateNote": "Uncertain place: found in 1997 at Bouri in the Middle Awash, Ethiopia. The pin is on Wikidata's rounded point for the Middle Awash, so it may be some km out.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand, still uncertain, the panel now says so: pinned at the centre of Ethiopia, about 110 km off; moved to the find's Middle Awash (Wikidata Q499030 P625), a rounded point",
+      "source": "https://en.wikipedia.org/wiki/Daka_skull"
+    },
+    "q22927446": {
+      "lat": 36.1,
+      "lon": 136.6,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned at the middle of Fukui Prefecture, about 35 km off; found in 2007 in the Kitadani quarry, Katsuyama (Kitadani Formation, Wikidata Q6417687 P625)",
+      "source": "https://en.wikipedia.org/wiki/Fukuivenator"
+    },
+    "q30590159": {
+      "lat": 32.8723,
+      "lon": 35.5017,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned about 21 km west of the cave, on the second of two Wikidata points for Amud Cave (Q481397); moved to the point in Nahal Amud above the Sea of Galilee",
+      "source": "https://en.wikipedia.org/wiki/Amud_Cave"
+    },
+    "q1952802": {
+      "startYear": 1968,
+      "dateNote": "Jim Bowler found Mungo Lady in July 1968; he found Mungo Man nearby in February 1974.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: dated 1974, the year of Mungo Man; the first remains, Mungo Lady, were found in 1968",
+      "source": "https://www.uow.edu.au/media/2018/fifty-years-ago-at-lake-mungo-the-true-scale-of-aboriginal-australians-epic-story-was-revealed.php"
+    },
+    "q27163629": {
+      "dateNote": "Uncertain place: dug up in 2013 on a ranch in Montana by Naturalis and the Black Hills Institute. Wikidata gives only Montana, so the pin is at the middle of the state.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the state; no checked source names the ranch",
+      "source": "https://www.naturalis.nl/en/node/2789"
+    },
+    "q15807308": {
+      "dateNote": "Uncertain place: dug up in 1910 by the Sternbergs in Wyoming. Wikidata gives only Converse County, so the pin is at the middle of the county.",
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the county",
+      "source": "https://www.wikidata.org/wiki/Q15807308"
+    },
+    "q834098": {
+      "lat": 34.8667,
+      "lon": 109.7333,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned on Dali County, about 20 km off; moved to the skull's own Wikidata point (P625)",
+      "source": "https://www.wikidata.org/wiki/Q834098"
+    },
+    "q186927": {
+      "lat": -31.5667,
+      "lon": 25.9667,
+      "why": "Fossil fact-check batch 3 (24 Oct 2026), checked by hand against Wikidata: pinned on the town of Hofmeyr, about 18 km off; moved to the skull's own Wikidata point (P625)",
+      "source": "https://www.wikidata.org/wiki/Q186927"
+    },
     "cur-tonkin": {
       "lat": 19.7833,
       "lon": 106.5183,
