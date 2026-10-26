@@ -1,6 +1,59 @@
 {
   "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote, born, died), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
   "fixes": {
+    "q7880": {
+      "startYear": -106,
+      "dateNote": "First written record: the Romans under Caepio took Tolosa in 106 BC and carried off its temple treasure (the 'gold of Tolosa'). Wikidata gives AD 106, which drops the BC.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (AD 106). Wikidata P1249 is 106 with no BC sign; the Roman sack of Tolosa was 106 BC",
+      "source": "https://www.wikidata.org/wiki/Q7880 (P1249 106); https://en.wikipedia.org/wiki/Gold_of_Tolosa; https://en.wikipedia.org/wiki/History_of_Toulouse"
+    },
+    "q648": {
+      "startYear": 1066,
+      "dateNote": "First written record: a charter of 1066 from Count Baldwin V of Flanders. Wikidata's 640 comes from the legend of Lydéric, not a record.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (640). Wikidata P1249 640 is the Lydéric legend; Lille is first recorded in 1066",
+      "source": "https://www.wikidata.org/wiki/Q648 (P1249 640); https://en.wikipedia.org/wiki/History_of_Lille"
+    },
+    "q34664": {
+      "startYear": 1589,
+      "dateNote": "Founded in 1589, when Mōri Terumoto began Hiroshima Castle. It became a city in 1889.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1889). That is when it gained city status; Wikidata P571 also gives 1589, the founding",
+      "source": "https://www.wikidata.org/wiki/Q34664 (P571 1589 and 1889); https://en.wikipedia.org/wiki/Hiroshima"
+    },
+    "q11751": {
+      "startYear": 1610,
+      "dateNote": "The castle town was built from 1610, when Tokugawa Ieyasu ordered Nagoya Castle and moved the town of Kiyosu here. Wikidata gives 1616. It became a city in 1889.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1889). That is when it gained city status; Wikidata P571 also gives 1616, the castle-town era",
+      "source": "https://www.wikidata.org/wiki/Q11751 (P571 1616 and 1889); https://en.wikipedia.org/wiki/Nagoya; https://en.nagoya-u.ac.jp/about/history/nagoya/"
+    },
+    "q37951": {
+      "startYear": 1870,
+      "dateNote": "Sapporo was laid out as Hokkaido's capital from about 1868 to 1871; sources differ on the exact year, and Wikidata gives 1870. It became a city in 1922.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1922). That is when it gained city status; Wikidata P571 also gives 1870, the founding",
+      "source": "https://www.wikidata.org/wiki/Q37951 (P571 1870, 1899 and 1922); https://en.wikipedia.org/wiki/Sapporo"
+    },
+    "q38283": {
+      "startYear": 1859,
+      "dateNote": "A small fishing village until its port opened to foreign trade in 1859. It became a city in 1889.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1889). That is when it gained city status; the city grew from the port opened in 1859",
+      "source": "https://www.wikidata.org/wiki/Q38283 (P571 1889, P1249 1442); https://en.wikipedia.org/wiki/Yokohama"
+    },
+    "q22720": {
+      "startYear": 1030,
+      "dateNote": "Building began about 1030 under Emperor Conrad II (Wikidata gives 1025 for the start of building). It was consecrated in 1061 and rebuilt from about 1080.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1080). That is the later rebuilding; Wikidata's own 'start of construction' (P793) is 1025",
+      "source": "https://www.wikidata.org/wiki/Q22720 (P571 1080; P793 start of construction 1025); https://en.wikipedia.org/wiki/Speyer_Cathedral"
+    },
+    "q738015": {
+      "startYear": 1830,
+      "dateNote": "Designed by Carl Ludvig Engel in 1818, built from 1830 and opened in 1852.",
+      "why": "Places fact-check batch 4 (Oct 2026): wrong year (1818). Wikidata marks 1818 as the design date; building started in 1830 (also in P571)",
+      "source": "https://www.wikidata.org/wiki/Q738015 (P571 1818 design, 1830, 1852); https://en.wikipedia.org/wiki/Helsinki_Cathedral"
+    },
+    "q11746": {
+      "dateNote": "Wuhan was formed in 1927 by joining three older cities: Wuchang (walled in 223), Hanyang and Hankou. The year shown is Wikidata's, roughly when Hankou grew up as a port, so there is no single founding year.",
+      "why": "Places fact-check batch 4 (Oct 2026): uncertain date. Wikidata P571 is 1500; the three cities that make up Wuhan are older, and it was formed in 1927",
+      "source": "https://www.wikidata.org/wiki/Q11746 (P571 1500); https://en.wikipedia.org/wiki/Wuhan; https://en.wikipedia.org/wiki/Wuchang,_Wuhan"
+    },
     "q18390905": {
       "lat": -7.4069,
       "lon": 112.485,
