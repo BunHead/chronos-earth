@@ -26,7 +26,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings, wdqsYear } from './lib/wdqs-json.mjs';
+import { wdqsBindings, wdqsPoint, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = join(__dirname, '..', 'public', 'data');
@@ -200,7 +200,8 @@ async function main() {
       }
       if (coreQids.has(qid) || chunkQids.has(qid)) continue;
       if (coreNames.has(norm(label)) || chunkNames.has(norm(label))) continue;
-      const coord = /Point\(([-\d.]+) ([-\d.]+)\)/.exec(b.coord?.value ?? '');
+      // Earth only: a P625 on the Moon or Mars is not a place on this globe.
+      const coord = wdqsPoint(b.coord?.value);
       if (!coord) continue;
       const year = wdqsYear(b.date?.value); // the shared parse; see wdqsYear
       if (year === null) continue;
@@ -210,8 +211,8 @@ async function main() {
         id: 'q-h-' + qid,
         name: label,
         startYear: year,
-        lat: +coord[2],
-        lon: +coord[1],
+        lat: coord.lat,
+        lon: coord.lon,
         category: TYPE_CATEGORY[typeQ] ?? 'event',
         wikidataId: qid,
         wikiTitle: label,
