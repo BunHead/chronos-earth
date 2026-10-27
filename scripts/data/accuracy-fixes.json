@@ -1,6 +1,20 @@
 {
   "_comment": "Corrections to harvested rows where Wikidata itself is wrong. Applied by scripts/dedupe-places.mjs on every run (after the harvest), so the nightly harvest cannot put the mistake back. A value of null removes that field. Each fix: the fields to set (name, lat, lon, startYear, endYear, placeNote, dateNote, born, died), why, and the source checked. A moved pin is also listed in wikidata-coord-exceptions.json so the 25 km lint knows it is deliberate.",
   "fixes": {
+    "q12155967": {
+      "lat": -20.3803,
+      "lon": -69.8492,
+      "why": "Fossil fact-check batch 5 (27 Oct 2026), checked by hand against Wikidata: Wikidata's find place (P189) is the whole Atacama Desert, so the pin sat in its middle, about 470 km south of the find; the skeleton was found in 2003 at La Noria, an abandoned nitrate town in Tarapacá (Wikidata Q13426878 P625)",
+      "source": "https://en.wikipedia.org/wiki/Atacama_skeleton"
+    },
+    "q2985169": {
+      "lat": -43.5311,
+      "lon": 172.6361,
+      "placeNote": null,
+      "dateNote": "Uncertain place: netted at sea by the Japanese trawler Zuiyō Maru on 25 April 1977, east of Christchurch, New Zealand. The pin is on Christchurch, the nearest city. Tests on its tissue point to a rotting basking shark, not a plesiosaur.",
+      "why": "Fossil fact-check batch 5 (27 Oct 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the country, so the pin sat in the middle of New Zealand's North Island; the carcass was caught off Christchurch (Wikidata Q79990 P625)",
+      "source": "https://en.wikipedia.org/wiki/Zuiyo-maru_carcass"
+    },
     "q7880": {
       "startYear": -106,
       "dateNote": "First written record: the Romans under Caepio took Tolosa in 106 BC and carried off its temple treasure (the 'gold of Tolosa'). Wikidata gives AD 106, which drops the BC.",
