@@ -35,7 +35,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { FICTIONAL_PEOPLE } from './lib/people-rules.mjs';
+import { FICTIONAL_PEOPLE, applyBirthplaceApprox } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -459,6 +459,13 @@ async function main() {
       }
     }
   }
+  // People whose Wikidata birthplace is a region, not a town
+  // (scripts/data/region-birthplaces.json, from find-region-birthplaces.mjs):
+  // the panel says "born somewhere in <region>". A row with a hand fix above
+  // keeps its pin and is never flagged, whichever was added first.
+  const regionBirths = JSON.parse(await readFile(join(__dirname, 'data', 'region-birthplaces.json'), 'utf8')).people;
+  const approx = applyBirthplaceApprox(events, regionBirths, accuracy);
+  if (approx) console.log(`  ${approx} people: birthplace-approximate flag set or dropped`);
   // Hand-checked panel text for famous battles (scripts/data/battle-panels.json):
   // summary, sides, result and the source. Re-applied every run so the harvest
   // cannot drop it; the curated sides replace the auto-enriched belligerents.
