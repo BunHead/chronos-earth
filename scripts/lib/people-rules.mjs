@@ -53,6 +53,10 @@ export const AREA_CLASSES = [
  * often a town-sized parish or district, so it is only an area when Wikidata
  * gives an area of SMALL_AREA_KM2 or more. */
 export const MINOR_AREA_CLASSES = ['Q149621', 'Q13220204', 'Q28575', 'Q180673'];
+/** "Region" and "historical region" sit above almost everything (a Swedish
+ * parish, a Greek deme, a Russian city municipality all reach them by P279*),
+ * so they make a place a major area only when it is DIRECTLY one of them. */
+export const DIRECT_ONLY_AREA_CLASSES = ['Q82794', 'Q1620908'];
 
 /** A region birthplace smaller than this (km²) is close enough to be the
  * place: its centre is within a few km of anywhere in it. */

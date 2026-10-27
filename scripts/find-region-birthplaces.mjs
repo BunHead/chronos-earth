@@ -31,7 +31,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createPoliteFetch } from './lib/polite-fetch.mjs';
 import { parseWdqs } from './lib/wdqs-json.mjs';
-import { AREA_CLASSES, MINOR_AREA_CLASSES, isAreaBirthplace } from './lib/people-rules.mjs';
+import { AREA_CLASSES, DIRECT_ONLY_AREA_CLASSES, MINOR_AREA_CLASSES, isAreaBirthplace } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const EVENTS = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -92,13 +92,16 @@ const vals = (qs) => qs.map((q) => `wd:${q}`).join(' ');
 for (let i = 0; i < places.length; i += BATCH) {
   const ids = places.slice(i, i + BATCH);
   for (const q of ids) info[q] = { region: false, major: false, settlement: false, km2: null };
-  const tagged = async (classes, key) => {
+  const tagged = async (classes, key, direct = []) => {
     const rows = await sparql(`SELECT DISTINCT ?bp WHERE {
-  VALUES ?bp { ${vals(ids)} } VALUES ?cls { ${vals(classes)} } ?bp wdt:P31/wdt:P279* ?cls . }`);
+  VALUES ?bp { ${vals(ids)} }
+  { VALUES ?cls { ${vals(classes)} } ?bp wdt:P31/wdt:P279* ?cls . }${direct.length ? `
+  UNION { VALUES ?dir { ${vals(direct)} } ?bp wdt:P31 ?dir . }` : ''} }`);
     for (const b of rows) info[qid(b.bp.value)][key] = true;
   };
   await tagged(AREA_CLASSES, 'region');
-  await tagged(AREA_CLASSES.filter((q) => !MINOR_AREA_CLASSES.includes(q)), 'major');
+  const minorOrDirect = [...MINOR_AREA_CLASSES, ...DIRECT_ONLY_AREA_CLASSES];
+  await tagged(AREA_CLASSES.filter((q) => !minorOrDirect.includes(q)), 'major', DIRECT_ONLY_AREA_CLASSES);
   await tagged(SMALL, 'settlement');
   const rows = await sparql(`SELECT ?bp (MAX(?a) AS ?km2) WHERE {
   VALUES ?bp { ${vals(ids)} } ?bp p:P2046/psn:P2046/wikibase:quantityAmount ?m . BIND(?m / 1000000 AS ?a) } GROUP BY ?bp`);
