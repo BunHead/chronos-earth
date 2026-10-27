@@ -1850,6 +1850,283 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born in Denver; the pin was the middle of Colorado.",
       "source": "https://www.wikidata.org/wiki/Q242034; https://en.wikipedia.org/wiki/Ruth_Handler; https://www.wikidata.org/wiki/Q16554"
     },
+    "q49218": {
+      "startYear": 1803,
+      "dateNote": "Nathaniel Rochester and two partners bought the land here in 1803 and began selling lots in 1811. It became the village of Rochesterville in 1817 and a city in 1834.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1834). 1834 (P571) is when it became a city; the founders bought the land in 1803",
+      "source": "https://www.wikidata.org/wiki/Q49218 (P571 1834-04-28); https://en.wikipedia.org/wiki/Rochester,_New_York"
+    },
+    "q485176": {
+      "startYear": 1874,
+      "dateNote": "Founded in 1874 by settlers from Indiana (the Indiana Colony). It became a city in 1886.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1886). 1886 (P571) is when it became a city; the Indiana Colony settled it in 1874",
+      "source": "https://www.wikidata.org/wiki/Q485176 (P571 1886); https://en.wikipedia.org/wiki/Pasadena,_California"
+    },
+    "q18432": {
+      "startYear": 1661,
+      "dateNote": "The first lasting European settlement, Oude Dorp, was set up by Dutch and Huguenot settlers in 1661. Richmond County was created in 1683.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1683). 1683 (P571) is when the county was created; the first lasting settlement, Oude Dorp, dates from 1661",
+      "source": "https://www.wikidata.org/wiki/Q18432 (P571 1683); https://en.wikipedia.org/wiki/Staten_Island"
+    },
+    "q3085": {
+      "startYear": 1089,
+      "dateNote": "First written mention about 1089-90, in the Bempflingen Treaty. It became a town between about 1220 and 1240.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1240). 1240 (P571) is when it became a town; it is first named about 1089-90",
+      "source": "https://www.wikidata.org/wiki/Q3085 (P571 1240); https://en.wikipedia.org/wiki/Reutlingen"
+    },
+    "q26339": {
+      "startYear": 1630,
+      "dateNote": "The Dutch settlement of Pavonia began here in 1630. 1609 is when Henry Hudson sailed past.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1609). 1609 (P571) is Henry Hudson exploring the area; the Dutch settlement of Pavonia began in 1630",
+      "source": "https://www.wikidata.org/wiki/Q26339 (P571 1609); https://en.wikipedia.org/wiki/Jersey_City,_New_Jersey"
+    },
+    "q128849": {
+      "startYear": 1897,
+      "dateNote": "Nagano became a city in 1897. It grew up much earlier as the town around Zenkō-ji temple, which dates from the 600s. 1966 is when it merged with nearby towns.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1966). 1966 (P571, preferred) is a merger with nearby towns; Wikidata also gives 1897, when it became a city. The temple town is older, but no founding year is agreed, so 1897 is the earliest firm date",
+      "source": "https://www.wikidata.org/wiki/Q128849 (P571 1966-10-16, 1897-04-01, 1889-04-01); https://en.wikipedia.org/wiki/Nagano_(city)"
+    },
+    "q41283": {
+      "startYear": 940,
+      "dateNote": "The name Gwangju was first used in 940, under the Goryeo kings. Before that the area was called Mujinju. 1986 is when it became a metropolitan city.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1986). 1986 (P571) is when it became a metropolitan city; the name Gwangju was first used in 940",
+      "source": "https://www.wikidata.org/wiki/Q41283 (P571 1986-11-01); https://en.wikipedia.org/wiki/Gwangju"
+    },
+    "q169134": {
+      "startYear": 710,
+      "dateNote": "Founded in 710 as Heijō-kyō, the capital of Japan until 784. It became a modern city in 1898.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1898). 1898 (P571) is when it became a modern city; Nara was founded as the capital Heijō-kyō in 710",
+      "source": "https://www.wikidata.org/wiki/Q169134 (P571 1898-02-01, 1889-04-01); https://en.wikipedia.org/wiki/Nara,_Nara"
+    },
+    "q28911": {
+      "startYear": 1445,
+      "dateNote": "First written mention in 1445. It got town rights in 1905.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1905). 1905 (P571) is the town rights; Wikidata P1249 gives the first written mention, 1445",
+      "source": "https://www.wikidata.org/wiki/Q28911 (P571 1905, P1249 1445); https://en.wikipedia.org/wiki/Lahti"
+    },
+    "q280268": {
+      "startYear": 1275,
+      "dateNote": "Building of the Gothic cathedral began in 1275. Work stopped around 1520; the towers were only finished in 1869.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1520). 1520 (P571) is when work stopped; Wikidata P793 says building began in 1275",
+      "source": "https://www.wikidata.org/wiki/Q280268 (P571 1520, P793 1275); https://en.wikipedia.org/wiki/Regensburg_Cathedral"
+    },
+    "q650849": {
+      "startYear": 1921,
+      "dateNote": "Built from 1921 to 1940. It opened on 8 September 1940.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1940). 1940 (P571) is when it opened (P1619); building began in 1921",
+      "source": "https://www.wikidata.org/wiki/Q650849 (P571 1940, P1619 1940-09-08); https://en.wikipedia.org/wiki/Grundtvig%27s_Church"
+    },
+    "q1450786": {
+      "startYear": 630,
+      "dateNote": "Built in 630 by Catholicos Ezra I. Wikidata gives only \"7th century\", which showed as the year 601.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (601). Wikidata P571 is just \"7th century\", shown as 601; the church was built in 630",
+      "source": "https://www.wikidata.org/wiki/Q1450786 (P571 7th century); https://en.wikipedia.org/wiki/Saint_Gayane_Church"
+    },
+    "q125072234": {
+      "startYear": 934,
+      "dateNote": "The abbey was founded in 934, on the site of the hermit Saint Meinrad's cell. Wikidata gives only \"10th century\", which showed as 1000.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\", shown as 1000; the abbey was founded in 934",
+      "source": "https://www.wikidata.org/wiki/Q125072234 (P571 10th century); https://en.wikipedia.org/wiki/Einsiedeln_Abbey"
+    },
+    "q1431547": {
+      "startYear": 1509,
+      "dateNote": "Built from 1509 to 1523 as the bell tower of the church of Saint-Jacques-de-la-Boucherie, pulled down in 1797.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1523). 1523 (P571) is when it was finished; building began in 1509",
+      "source": "https://www.wikidata.org/wiki/Q1431547 (P571 1523); https://en.wikipedia.org/wiki/Saint-Jacques_Tower"
+    },
+    "q1130722": {
+      "startYear": 1620,
+      "dateNote": "Built from 1620 to 1631, to a design by Hendrick de Keyser.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1631). 1631 (P571) is when it was finished; building began in 1620",
+      "source": "https://www.wikidata.org/wiki/Q1130722 (P571 1631); https://en.wikipedia.org/wiki/Westerkerk"
+    },
+    "q1113602": {
+      "startYear": 1402,
+      "dateNote": "The Knights Hospitaller began the castle in 1402 (some sources say 1404). The Ottomans took it in 1522.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1522). 1522 (P571) is the Ottoman takeover; the Knights Hospitaller began building in 1402",
+      "source": "https://www.wikidata.org/wiki/Q1113602 (P571 1522); https://en.wikipedia.org/wiki/Bodrum_Castle"
+    },
+    "q1465674": {
+      "startYear": 1626,
+      "dateNote": "Building began in 1626. The church opened in 1650 and was consecrated in 1722.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1650). 1650 (P571) is when it opened; building began in 1626",
+      "source": "https://www.wikidata.org/wiki/Q1465674 (P571 1650); https://en.wikipedia.org/wiki/Sant%27Ignazio,_Rome"
+    },
+    "q913185": {
+      "startYear": 1388,
+      "dateNote": "Building began in 1388 (Wikidata says 1385) and went on, with long pauses, until 1905.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1400). Wikidata P571 is \"15th century\", shown as 1400, but its own start qualifier is 1385; most sources give 1388",
+      "source": "https://www.wikidata.org/wiki/Q913185 (P571 15th century (P580 1385)); https://en.wikipedia.org/wiki/St._Barbara%27s_Church,_Kutn%C3%A1_Hora"
+    },
+    "q957441": {
+      "startYear": 1505,
+      "dateNote": "Built from 1505 to 1508. It was made taller in 1600, under Boris Godunov.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1508). 1508 (P571) is when it was finished; building began in 1505",
+      "source": "https://www.wikidata.org/wiki/Q957441 (P571 1508, P1619 1508); https://en.wikipedia.org/wiki/Ivan_the_Great_Bell_Tower"
+    },
+    "q2571455": {
+      "startYear": 1960,
+      "dateNote": "Building began in 1960 and it was finished in 1970.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1970). 1970 (P571) is when it was finished; Wikidata P793 says building began in 1960",
+      "source": "https://www.wikidata.org/wiki/Q2571455 (P571 1970-06-02, P793 1960-1970); https://en.wikipedia.org/wiki/Mazar-e-Quaid"
+    },
+    "q2164919": {
+      "startYear": 1253,
+      "dateNote": "First written mention in 1253. Wikidata's founding date is only \"14th century\", which showed as 1300.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1300). Wikidata P571 is just \"14th century\", shown as 1300; P1249 gives the first written mention, 1253",
+      "source": "https://www.wikidata.org/wiki/Q2164919 (P571 14th century, P1249 1253); https://en.wikipedia.org/wiki/%C4%8Cesk%C3%BD_Krumlov_Castle"
+    },
+    "q3584217": {
+      "startYear": 425,
+      "dateNote": "The first church here was built in 425. Today's building dates from the 1150s, under the Crusaders.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1101). Wikidata P571 is \"12th century\" (shown as 1101), the date of today's building; the first church was built in 425",
+      "source": "https://www.wikidata.org/wiki/Q3584217 (P571 12th century); https://en.wikipedia.org/wiki/Church_of_Saint_Porphyrius"
+    },
+    "q171771": {
+      "dateNote": "1948 is when the new capital city was founded. The old temple town here is far older: Sisupalgarh dates from about 300 BC.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1948 is the planned new capital; the temple town is far older",
+      "source": "https://www.wikidata.org/wiki/Q171771 (P571 1948); https://en.wikipedia.org/wiki/Bhubaneswar"
+    },
+    "q199500": {
+      "dateNote": "Wikidata gives only \"5th century BC\" (shown as 401 BC). The idea that Xenophon passed here in 401 BC is not certain.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q199500 (P1249 5th century BC); https://en.wikipedia.org/wiki/Gyumri"
+    },
+    "q129259": {
+      "dateNote": "Wikidata gives only \"5th century BC\" (shown as 401 BC). The Roman town of Naissus is first recorded much later.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q129259 (P1249 5th century BC); https://en.wikipedia.org/wiki/Ni%C5%A1"
+    },
+    "q3852": {
+      "dateNote": "Wikidata gives only \"1st century BC\" (shown as 100 BC). There was a Celtic town here, Borbetomagus, before the Romans.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known, and the site is older",
+      "source": "https://www.wikidata.org/wiki/Q3852 (P571 1st century BC); https://en.wikipedia.org/wiki/Worms,_Germany"
+    },
+    "q798": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201). The town grew around a convent moved here about 1260.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q798 (P571 13th century); https://en.wikipedia.org/wiki/Assen"
+    },
+    "q598": {
+      "dateNote": "1354 is when Rzeszów got its town charter. The settlement is older, but no founding date is agreed.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1354 is the town charter; the settlement is older",
+      "source": "https://www.wikidata.org/wiki/Q598 (P571 1354-01-19); https://en.wikipedia.org/wiki/Rzesz%C3%B3w"
+    },
+    "q29042": {
+      "dateNote": "1786 is when Akureyri got trading rights as a town. There was a trading post here long before.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1786 is the town trading rights; the place is older",
+      "source": "https://www.wikidata.org/wiki/Q29042 (P571 1786); https://en.wikipedia.org/wiki/Akureyri"
+    },
+    "q157055": {
+      "dateNote": "1284 is a traditional date that Wikidata itself marks as doubtful. Other sources give the 1300s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: Wikidata marks its own 1284 as deprecated",
+      "source": "https://www.wikidata.org/wiki/Q157055 (P571 1284 (deprecated), P1249 1284); https://en.wikipedia.org/wiki/Cherkasy"
+    },
+    "q170454": {
+      "dateNote": "1871 is when the town council was set up. The royal capital moved here earlier, in the 1840s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1871 is the town council; the town is older",
+      "source": "https://www.wikidata.org/wiki/Q170454 (P571 1871); https://en.wikipedia.org/wiki/Agartala"
+    },
+    "q35135": {
+      "dateNote": "1859 may be when it became a town. People settled here earlier in the 1800s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1859 looks like town status, not founding",
+      "source": "https://www.wikidata.org/wiki/Q35135 (P571 1859); https://en.wikipedia.org/wiki/Catal%C3%A3o"
+    },
+    "q2082": {
+      "dateNote": "1497 is when John Cabot is said to have arrived, which is not certain. England claimed the harbour in 1583, and it became a city in 1888.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1497 is a disputed Cabot landing, not a founding",
+      "source": "https://www.wikidata.org/wiki/Q2082 (P571 1497, 1583, 1888); https://en.wikipedia.org/wiki/St._John%27s,_Newfoundland_and_Labrador"
+    },
+    "q131233": {
+      "dateNote": "Wikidata has no date for South Tarawa, and no source for 1895 was found.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: no source found for 1895",
+      "source": "https://www.wikidata.org/wiki/Q131233 (no date); https://en.wikipedia.org/wiki/South_Tarawa"
+    },
+    "q2801": {
+      "dateNote": "985 is the traditional founding year. The first written mention is in 1146.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 985 is traditional; the first record is 1146",
+      "source": "https://www.wikidata.org/wiki/Q2801 (P571 985, P1249 1146); https://en.wikipedia.org/wiki/Bryansk"
+    },
+    "q92212": {
+      "dateNote": "1217 is when Opole got town rights. There was a fort here long before, from the 800s or earlier.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1217 is the town rights; the place is older",
+      "source": "https://www.wikidata.org/wiki/Q92212 (P571 1217); https://en.wikipedia.org/wiki/Opole"
+    },
+    "q199797": {
+      "dateNote": "1875 is when Tacoma became a city. Settlers lived here from the 1860s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1875 is city status; settlers came earlier",
+      "source": "https://www.wikidata.org/wiki/Q199797 (P571 1875); https://en.wikipedia.org/wiki/Tacoma,_Washington"
+    },
+    "q1259626": {
+      "dateNote": "Wikidata gives only \"1st century\" (shown as AD 100). It was probably carved in the early 1st century AD.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1259626 (P571 1st century); https://en.wikipedia.org/wiki/Al-Khazneh"
+    },
+    "q1479873": {
+      "dateNote": "Wikidata gives only \"5th century\" (shown as 401). A church stood here from the 200s-400s; today's church was built about 822.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1479873 (P571 5th century); https://en.wikipedia.org/wiki/Santa_Cecilia_in_Trastevere"
+    },
+    "q586568": {
+      "dateNote": "Wikidata gives only \"6th century\" (shown as 501), for Justinian's rebuilding of 536-550. The first church was built in the 300s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known, and the first church was older",
+      "source": "https://www.wikidata.org/wiki/Q586568 (P571 6th century); https://en.wikipedia.org/wiki/Church_of_the_Holy_Apostles"
+    },
+    "q1637186": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201).",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1637186 (P571 13th century); https://en.wikipedia.org/wiki/St._Mark%27s_Church,_Zagreb"
+    },
+    "q817594": {
+      "dateNote": "Wikidata gives only \"13th century\" (shown as 1201). The Inca temple was rebuilt in stone in the 1400s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q817594 (P571 13th century); https://en.wikipedia.org/wiki/Coricancha"
+    },
+    "q530208": {
+      "dateNote": "Building took from about 1230 to 1260, so 1260 may be when it was finished.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1260 may be the finish, not the start",
+      "source": "https://www.wikidata.org/wiki/Q530208 (P571 1260); https://en.wikipedia.org/wiki/Church_of_Our_Lady,_Trier"
+    },
+    "q695065": {
+      "dateNote": "Wikidata gives only \"14th century\" (shown as 1300). The brick church was built from about 1265 to 1351.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q695065 (P571 14th century); https://en.wikipedia.org/wiki/St._Mary%27s_Church,_L%C3%BCbeck"
+    },
+    "q746983": {
+      "dateNote": "The ruins are mostly from the 1400s-1500s, but there was a fort on this rock long before.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: the site is far older",
+      "source": "https://www.wikidata.org/wiki/Q746983 (P571 1400); https://en.wikipedia.org/wiki/Dunnottar_Castle"
+    },
+    "q1143233": {
+      "dateNote": "Wikidata gives only \"7th century BC\" (shown as 700 BC). Greek settlers from Miletus founded it in the 600s or 500s BC.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1143233 (P571 7th century BC); https://en.wikipedia.org/wiki/Olbia_(Ukraine)"
+    },
+    "q841896": {
+      "dateNote": "Wikidata gives only \"7th century\" (shown as 601). The monasteries are from different times, mostly the 900s-1300s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known, for several buildings",
+      "source": "https://www.wikidata.org/wiki/Q841896 (P571 7th century); https://en.wikipedia.org/wiki/Armenian_Monastic_Ensembles_of_Iran"
+    },
+    "q155225": {
+      "dateNote": "Sources disagree. Dominican friars were given the land in 1234; the church was built from about 1333 to 1430.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: Wikidata gives 1217 and \"15th century\"; sources disagree",
+      "source": "https://www.wikidata.org/wiki/Q155225 (P571 1217, 15th century); https://en.wikipedia.org/wiki/Santi_Giovanni_e_Paolo,_Venice"
+    },
+    "q1258576": {
+      "dateNote": "Wikidata gives only \"15th century\" (shown as 1401). Today's church was built in the late 1400s, on the site of a much older one.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q1258576 (P571 15th century); https://en.wikipedia.org/wiki/San_Pietro_in_Montorio"
+    },
+    "q576369": {
+      "dateNote": "1066 is the Norman Conquest. Building of the castle probably began in the 1070s-80s.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1066 is the Conquest, not the building date",
+      "source": "https://www.wikidata.org/wiki/Q576369 (P571 1066); https://en.wikipedia.org/wiki/Ludlow_Castle"
+    },
+    "q830805": {
+      "dateNote": "1936 is when digging began. The town is far older, and the burial caves are from the 100s-300s AD.",
+      "why": "Places fact-check batch 10 (Oct 2026), still uncertain, the panel now says so: 1936 is the excavation; the site is far older",
+      "source": "https://www.wikidata.org/wiki/Q830805 (P571 1936); https://en.wikipedia.org/wiki/Beit_She%27arim_National_Park"
+    },
     "q196527": {
       "dateNote": "Born about 903 to 907; died on 28 September 935 (some say 929).",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Born c. 903-907; death 935 or 929.",
