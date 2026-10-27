@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import MakerRow from './MakerRow';
 import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
 import { flagUrlFor } from '../lib/flags';
@@ -159,7 +159,9 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
   // facts, three voices. Explorer is the identity transform, so the default
   // reader pays nothing for this. See lib/tone.ts for the iron rule: a tone
   // changes how something is said, never what is said.
-  const content = built ? applyTone(built, tone) : built;
+  // Memoised: during Play the app re-renders every frame, and the Curious
+  // Reader rewrite costs ~0.2 ms a time on a desktop (more on a phone).
+  const content = useMemo(() => (built ? applyTone(built, tone) : built), [built, tone]);
 
   const [wiki, setWiki] = useState<{
     status: 'idle' | 'loading' | 'done' | 'error';

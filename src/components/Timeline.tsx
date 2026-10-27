@@ -19,7 +19,7 @@ import type { Battle, Fauna, PanelContent, TimelineEvent } from '../lib/types';
 import { eventToPanel, faunaToPanel } from '../lib/panel';
 import { ELSEWHERE, laneRegionFor, greatCircleKm, viewReachKm } from '../lib/laneRegions';
 import { eventPasses } from '../lib/subLayers';
-import { keyboardClick } from '../lib/keyboard';
+import { clampTimelineHeight, gripKeyHeight, keyboardClick } from '../lib/keyboard';
 
 interface TimelineProps {
   yearsBP: number;
@@ -386,10 +386,7 @@ export default function Timeline({
     const sy = e.clientY;
     const move = (ev: PointerEvent) => {
       // Full range: from a slim strip to covering the globe entirely.
-      const h = Math.min(
-        Math.max(90, startH + (sy - ev.clientY)),
-        Math.max(300, window.innerHeight - 2),
-      );
+      const h = clampTimelineHeight(startH + (sy - ev.clientY), window.innerHeight);
       root.style.setProperty('--timeline-height', `${h}px`);
     };
     const up = () => {
@@ -399,6 +396,22 @@ export default function Timeline({
     };
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
+  };
+  /** Keyboard version of the grip: Enter/Space folds, arrows resize. */
+  const onGripKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleCollapsed();
+      return;
+    }
+    if (collapsed) return;
+    const root = document.documentElement;
+    const cur = parseFloat(getComputedStyle(root).getPropertyValue('--timeline-height')) || 176;
+    const h = gripKeyHeight(e.key, cur, window.innerHeight);
+    if (h === null) return;
+    e.preventDefault();
+    root.style.setProperty('--timeline-height', `${h}px`);
+    setHeightBump((b) => b + 1);
   };
   const detailRef = useRef<HTMLDivElement | null>(null);
   // While a drag is active this holds the function that maps a clientX to time.
@@ -760,6 +773,11 @@ export default function Timeline({
         title="Drag to resize · double-click to hide/show"
         onPointerDown={collapsed ? undefined : startHeightDrag}
         onDoubleClick={toggleCollapsed}
+        role="separator"
+        aria-orientation="horizontal"
+        aria-label="Timeline size: Up and Down arrows resize, Enter hides or shows"
+        tabIndex={0}
+        onKeyDown={onGripKey}
       />
       {collapsed ? null : (
       <>

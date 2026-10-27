@@ -94,9 +94,9 @@ export default function MakerRow({ reviewKey, place }: MakerRowProps) {
         {rec.status ? BADGE[rec.status] : rec.rework ? 'Rework queued' : 'Unreviewed'}
       </span>
       <div className="maker-btns">
-        <button className={rec.status === 'approved' ? 'on' : ''} onClick={() => setStatus('approved')}>✓</button>
-        <button className={rec.status === 'allowed' ? 'on' : ''} onClick={() => setStatus('allowed')}>~</button>
-        <button className={rec.status === 'rejected' ? 'on' : ''} onClick={() => setStatus('rejected')}>✕</button>
+        <button className={rec.status === 'approved' ? 'on' : ''} onClick={() => setStatus('approved')} aria-label="Approve" title="Approve">✓</button>
+        <button className={rec.status === 'allowed' ? 'on' : ''} onClick={() => setStatus('allowed')} aria-label="Allow for now" title="Allow for now">~</button>
+        <button className={rec.status === 'rejected' ? 'on' : ''} onClick={() => setStatus('rejected')} aria-label="Reject" title="Reject">✕</button>
         <button
           title="Queue for rework next session"
           onClick={() => { rec.rework = true; rec.ts = Date.now(); void persist(); }}
