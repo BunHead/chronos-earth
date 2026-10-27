@@ -112,6 +112,46 @@ describe('fossil sites', () => {
     for (const id of ['q2424134', 'q1354365']) expect(row(id).dateNote, id).toMatch(/^Uncertain/);
   });
 
+  it('batch 5 (27 Oct 2026) fills thin regions with cited, plain-link rows and no stacked pins', () => {
+    const batch5 = [
+      'predmosti', 'mezmaiskaya', 'bacho-kiro', 'iharkut', 'obi-rakhmat', 'bisitun', 'dederiyeh', 'kuldana',
+      'fort-ternan', 'ileret', 'cal-orcko', 'villa-de-leyva', 'cerro-fortaleza', 'mount-buckley', 'cape-paterson',
+      'koonwarra', 'lightning-ridge', 'honeycomb-hill', 'makauwahi', 'phu-kum-khao',
+    ].map((id) => `cur-fossil-${id}`);
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch5) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(events.find((e) => e.id === id), id).toBeDefined();
+      expect(s.wikidataId, id).toMatch(/^Q\d+$/);
+      expect(s.summary, id).toBeTruthy();
+      // The rock's age is in the note, in millions of years; the year is when it was found.
+      expect(s.dateNote, id).toMatch(/million years/);
+      expect(s.startYear, id).toBeGreaterThan(1800);
+      // One plain https link: no spaces, no markdown, no second URL glued on.
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s()[\]<>]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      // Every new pin is in a gap: no other find within 25 km.
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+    }
+  });
+
+  it('keeps the batch 5 fossil fact-check fixes (27 Oct 2026)', () => {
+    const row = (id: string) => events.find((e) => e.id === id)!;
+    expect(row('q12155967').lat).toBeCloseTo(-20.38, 2); // Atacama skeleton: La Noria, not mid-desert
+    const zuiyo = row('q2985169'); // Zuiyo-maru carcass: off Christchurch, not mid-North Island
+    expect(zuiyo.lat).toBeCloseTo(-43.53, 2);
+    expect(zuiyo.placeNote).toBeUndefined();
+    expect(zuiyo.dateNote).toMatch(/^Uncertain/);
+  });
+
   it('batch 2 rows (23 Oct 2026) carry a one-line summary and a plain source link', () => {
     const batch2 = (FOSSIL_SITES as Row[]).filter((s) => s.summary !== undefined);
     expect(batch2.length).toBeGreaterThanOrEqual(20);
