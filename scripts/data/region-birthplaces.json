@@ -1,0 +1,4 @@
+{
+ "_comment": "People whose Wikidata birthplace (P19) is a country, region or province, not a town, so their pin is the middle of that area. The panel says 'born somewhere in <region>'. Written by node scripts/find-region-birthplaces.mjs --apply; applied every harvest by scripts/dedupe-places.mjs. A row in accuracy-fixes.json is never flagged.",
+ "people": {}
+}
