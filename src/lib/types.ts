@@ -307,6 +307,13 @@ export interface TimelineEvent {
    */
   born?: string;
   died?: string;
+  /**
+   * Set when Wikidata gives only a region as the birthplace (a country,
+   * province, historic region), so the pin is the middle of that region, not
+   * the town. Holds the region's name; the panel says "born somewhere in …".
+   * From scripts/data/region-birthplaces.json; never set on a hand-fixed pin.
+   */
+  birthplaceApprox?: string;
   /** Spatial grid key stamped by the core index (scripts/build-core-index.mjs).
    * Present = skeleton-loaded; names the detail/<cell>.json file with the rest. */
   cell?: string;

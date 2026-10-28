@@ -298,6 +298,12 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
   // A person's pin is their birthplace — say it in words, so nobody has to
   // guess the town from the map (Malcolm X was read as Atlanta, Oct 2026).
   if (e.born) sections.push({ heading: 'Born', body: e.born });
+  // Wikidata gives only a region, so the pin is a guess: say so (Oct 2026).
+  if (e.birthplaceApprox)
+    sections.push({
+      heading: 'Birthplace not exact',
+      body: `Born somewhere in ${e.birthplaceApprox}. The exact town is not recorded, so the pin is in the middle of ${e.birthplaceApprox}.`,
+    });
   if (e.died) sections.push({ heading: 'Died', body: e.died });
   // A gold marker has to be able to explain itself. The years matter as much as
   // the fact — "capital of Japan, 794 to 1869" is the whole story of Kyoto, and

@@ -43,7 +43,66 @@ export const AREA_CLASSES = [
   'Q180673', // ceremonial county of England
   'Q82794', // region
   'Q1620908', // historical region
+  'Q3024240', // historical country
+  'Q1798622', // governorate
+  'Q149621', // district
+  'Q13220204', // second-level administrative division
+  'Q28575', // county
 ];
+/** The small kinds of AREA_CLASSES. One of these with no area recorded is
+ * often a town-sized parish or district, so it is only an area when Wikidata
+ * gives an area of SMALL_AREA_KM2 or more. */
+export const MINOR_AREA_CLASSES = ['Q149621', 'Q13220204', 'Q28575', 'Q180673'];
+/** "Region" and "historical region" sit above almost everything (a Swedish
+ * parish, a Greek deme, a Russian city municipality all reach them by P279*),
+ * so they make a place a major area only when it is DIRECTLY one of them. */
+export const DIRECT_ONLY_AREA_CLASSES = ['Q82794', 'Q1620908'];
+
+/** A region birthplace smaller than this (km²) is close enough to be the
+ * place: its centre is within a few km of anywhere in it. */
+export const SMALL_AREA_KM2 = 1000;
+/** Anything bigger than this is not a birthplace, whatever its class (an
+ * island, a desert, a sea), unless it is also a settlement. */
+export const LARGE_AREA_KM2 = 20000;
+
+/**
+ * Is this birthplace an area rather than a town? People fact-check batches
+ * 9-12 (Oct 2026) found about 1 in 4 people whose Wikidata birthplace (P19) is
+ * a country, region or province pinned hundreds of km out, so those pins are
+ * shown as approximate rather than fixed one by one.
+ * @param bp { region: is an instance of an AREA_CLASSES class (P279* too),
+ *             major: …of one that is not in MINOR_AREA_CLASSES (a country,
+ *             province, region rather than a district or county),
+ *             settlement: is also a town, city, municipality or building,
+ *             km2: area or null when Wikidata has none }
+ */
+export function isAreaBirthplace({ region = false, major = false, settlement = false, km2 = null }) {
+  if (settlement) return false; // Berlin, Singapore, a comune
+  if (km2 == null) return major; // no area: only a country, province or region counts
+  return km2 >= LARGE_AREA_KM2 || ((region || major) && km2 >= SMALL_AREA_KM2);
+}
+
+/**
+ * Put the "born somewhere in <region>" flag (birthplaceApprox) on people
+ * rows. `flags` is { id: region label } (scripts/data/region-birthplaces.json).
+ * A row in accuracy-fixes.json was checked by hand: its pin is right, so it is
+ * never flagged, and a flag it carries from before the fix is dropped. Run on
+ * every harvest, so it works whichever order fixes and flags arrive in.
+ * Returns the number of rows changed.
+ */
+export function applyBirthplaceApprox(events, flags, fixes) {
+  let changed = 0;
+  for (const e of events) {
+    if (e.category !== 'person') continue;
+    if (e.id in fixes) {
+      if ('birthplaceApprox' in e) { delete e.birthplaceApprox; changed++; }
+    } else if (flags[e.id] && e.birthplaceApprox !== flags[e.id]) {
+      e.birthplaceApprox = flags[e.id];
+      changed++;
+    }
+  }
+  return changed;
+}
 
 const ordinal = (n) => {
   const t = n % 100;

@@ -16,25 +16,32 @@
  * accuracy-fixes.json are marked, not dropped, so the list stays complete.
  *
  * Writes scripts/.cache/region-birthplaces.json, most notable first, with
- * each region's area (km², null when Wikidata has none). It
- * changes no data: each row is checked and fixed by hand.
+ * each region's area (km², null when Wikidata has none). The rule for "is an
+ * area" is isAreaBirthplace in scripts/lib/people-rules.mjs (a tiny region
+ * counts as the place; anything over 20,000 km² is an area whatever it is).
+ *
+ *   node scripts/find-region-birthplaces.mjs --apply
+ *
+ * also writes scripts/data/region-birthplaces.json, the people the panel
+ * shows as "born somewhere in <region>" (fact-check batches 9-12 found about
+ * 1 in 4 of these pins hundreds of km out, too many to fix one by one).
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createPoliteFetch } from './lib/polite-fetch.mjs';
 import { parseWdqs } from './lib/wdqs-json.mjs';
+import { AREA_CLASSES, DIRECT_ONLY_AREA_CLASSES, MINOR_AREA_CLASSES, isAreaBirthplace } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const EVENTS = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
 const FIXES = join(__dirname, 'data', 'accuracy-fixes.json');
 const OUT = join(__dirname, '.cache', 'region-birthplaces.json');
+const FLAGS = join(__dirname, 'data', 'region-birthplaces.json');
+const APPLY = process.argv.includes('--apply');
 const ENDPOINT = 'https://query.wikidata.org/sparql';
 const BATCH = 300;
 
-// Region-like classes: country, sovereign state, historical country, state,
-// province, first- and second-level division, county, region, historical region.
-const REGION = ['Q6256', 'Q3624078', 'Q3024240', 'Q7275', 'Q34876', 'Q10864048', 'Q13220204', 'Q28575', 'Q82794', 'Q1620908'];
 // A birthplace that is also one of these is small enough to be the real
 // place: human settlement, municipality, building, structure.
 const SMALL = ['Q486972', 'Q15284', 'Q41176', 'Q811979'];
@@ -77,29 +84,33 @@ for (let i = 0; i < people.length; i += BATCH) {
 }
 console.log();
 
-// 2. Which birthplaces are region-like and not also a settlement.
+// 2. For every birthplace: is it region-like (P31/P279*), a major region, is it also a
+// settlement, and its area in km² (P2046, normalised; null when none).
 const places = [...new Set(Object.values(births).flat().map((b) => b.bp))];
-const region = new Set();
+const info = {}; // Q → { region, major, settlement, km2 }
+const vals = (qs) => qs.map((q) => `wd:${q}`).join(' ');
 for (let i = 0; i < places.length; i += BATCH) {
-  const ids = places.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ');
-  const rows = await sparql(`SELECT DISTINCT ?bp WHERE {
-  VALUES ?bp { ${ids} } VALUES ?cls { ${REGION.map((q) => `wd:${q}`).join(' ')} }
-  ?bp wdt:P31/wdt:P279* ?cls .
-  FILTER NOT EXISTS { VALUES ?small { ${SMALL.map((q) => `wd:${q}`).join(' ')} } ?bp wdt:P31/wdt:P279* ?small . } }`);
-  for (const b of rows) region.add(qid(b.bp.value));
+  const ids = places.slice(i, i + BATCH);
+  for (const q of ids) info[q] = { region: false, major: false, settlement: false, km2: null };
+  const tagged = async (classes, key, direct = []) => {
+    const rows = await sparql(`SELECT DISTINCT ?bp WHERE {
+  VALUES ?bp { ${vals(ids)} }
+  { VALUES ?cls { ${vals(classes)} } ?bp wdt:P31/wdt:P279* ?cls . }${direct.length ? `
+  UNION { VALUES ?dir { ${vals(direct)} } ?bp wdt:P31 ?dir . }` : ''} }`);
+    for (const b of rows) info[qid(b.bp.value)][key] = true;
+  };
+  await tagged(AREA_CLASSES, 'region');
+  const minorOrDirect = [...MINOR_AREA_CLASSES, ...DIRECT_ONLY_AREA_CLASSES];
+  await tagged(AREA_CLASSES.filter((q) => !minorOrDirect.includes(q)), 'major', DIRECT_ONLY_AREA_CLASSES);
+  await tagged(SMALL, 'settlement');
+  const rows = await sparql(`SELECT ?bp (MAX(?a) AS ?km2) WHERE {
+  VALUES ?bp { ${vals(ids)} } ?bp p:P2046/psn:P2046/wikibase:quantityAmount ?m . BIND(?m / 1000000 AS ?a) } GROUP BY ?bp`);
+  for (const b of rows) info[qid(b.bp.value)].km2 = Math.round(+b.km2.value);
   process.stdout.write(`\rplaces ${Math.min(i + BATCH, places.length)}/${places.length}`);
 }
 console.log();
-
-// Area in km² (P2046, normalised), so the big regions can be checked first.
-const area = {};
-const regionIds = [...region];
-for (let i = 0; i < regionIds.length; i += BATCH) {
-  const ids = regionIds.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ');
-  const rows = await sparql(`SELECT ?bp (MAX(?a) AS ?km2) WHERE {
-  VALUES ?bp { ${ids} } ?bp p:P2046/psn:P2046/wikibase:quantityAmount ?m . BIND(?m / 1000000 AS ?a) } GROUP BY ?bp`);
-  for (const b of rows) area[qid(b.bp.value)] = Math.round(+b.km2.value);
-}
+const region = new Set(places.filter((q) => isAreaBirthplace(info[q])));
+const area = Object.fromEntries(places.map((q) => [q, info[q].km2]));
 
 // 3. People whose pin still sits on (within 5 km of) a region birthplace.
 const list = [];
@@ -112,3 +123,14 @@ list.sort((a, b) => b.notability - a.notability);
 await mkdir(dirname(OUT), { recursive: true });
 await writeFile(OUT, JSON.stringify(list, null, 1));
 console.log(`${list.length} people pinned on a region centre (${list.filter((r) => r.inFixes).length} already in accuracy-fixes.json). Wrote ${OUT}`);
+
+// --apply: write the flag list the harvest applies every run (dedupe-places.mjs
+// → applyBirthplaceApprox). Rows in accuracy-fixes.json are left out: their pin
+// was checked by hand. Flags already on file are kept (additive).
+if (APPLY) {
+  const doc = JSON.parse(await readFile(FLAGS, 'utf8'));
+  for (const r of list) if (!r.inFixes && r.birthplace && !/^Q\d+$/.test(r.birthplace)) doc.people[r.id] = r.birthplace;
+  doc.people = Object.fromEntries(Object.entries(doc.people).filter(([id]) => !(id in fixes)).sort(([a], [b]) => a.localeCompare(b)));
+  await writeFile(FLAGS, JSON.stringify(doc, null, 1) + '\n');
+  console.log(`${Object.keys(doc.people).length} people flagged "born somewhere in <region>" in ${FLAGS}`);
+}

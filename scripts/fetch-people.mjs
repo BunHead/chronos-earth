@@ -66,7 +66,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { wdqsBindings } from './lib/wdqs-json.mjs';
-import { AREA_CLASSES, FICTIONAL_CLASSES, areaPlaceNote, personYears } from './lib/people-rules.mjs';
+import { AREA_CLASSES, FICTIONAL_CLASSES, personYears } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -375,7 +375,9 @@ for (const occ of OCCUPATIONS) {
         ...(humans
           ? years.dateNote ? { dateNote: years.dateNote } : {}
           : { attestation: 'traditional', dateNote: years.dateNote ? `${TRADITIONAL_NOTE} ${years.dateNote}` : TRADITIONAL_NOTE }),
-        ...(area ? { placeNote: areaPlaceNote(r.bpLabel.value) } : {}),
+        // The pin is the area's centre, not a town: the panel says "born
+        // somewhere in <area>" (scripts/lib/people-rules.mjs isAreaBirthplace).
+        ...(area ? { birthplaceApprox: r.bpLabel.value } : {}),
       });
       have.add(id);
       if (wk) haveWiki.add(wk);
