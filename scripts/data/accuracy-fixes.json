@@ -2588,6 +2588,282 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 18 April 1838, not 1836.",
       "source": "https://www.wikidata.org/wiki/Q366827; https://en.wikipedia.org/wiki/Paul-%C3%89mile_Lecoq_de_Boisbaudran"
     },
+    "q15679": {
+      "startYear": 875,
+      "dateNote": "Founded in 875 by the Muslim leader Ibn Marwan. 1834 is a later date in its local government.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1834). 1834 is a modern administrative date; Wikidata also gives P571 875, when Ibn Marwan founded the town",
+      "source": "https://www.wikidata.org/wiki/Q15679 (P571 1834, 875); https://en.wikipedia.org/wiki/Badajoz"
+    },
+    "q2143": {
+      "startYear": 1586,
+      "dateNote": "First written mention in 1586, as the village of Ust-Sysolsk. It became a town in 1780.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1780). 1780 (P571) is when it became a town; Wikidata P1249 gives the first written mention, 1586",
+      "source": "https://www.wikidata.org/wiki/Q2143 (P571 1780, P1249 1586); https://en.wikipedia.org/wiki/Syktyvkar"
+    },
+    "q10002": {
+      "startYear": 1118,
+      "dateNote": "First written mention in 1118. It got full town rights in 1325.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1325). 1325 (P571) is the town rights; the name first appears in a charter of 1118 (some say 1118-19)",
+      "source": "https://www.wikidata.org/wiki/Q10002 (P571 1325); https://en.wikipedia.org/wiki/Enschede"
+    },
+    "q133116": {
+      "startYear": 1815,
+      "dateNote": "George Hamilton laid out the town site in 1815, after the War of 1812. It became a village in 1816 and a city in 1846.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1846). 1846 (P571) is when it became a city; George Hamilton laid out the town in 1815 (Britannica)",
+      "source": "https://www.wikidata.org/wiki/Q133116 (P571 1846-06-09); https://en.wikipedia.org/wiki/Hamilton,_Ontario"
+    },
+    "q2061": {
+      "startYear": 1936,
+      "dateNote": "Gold was found here in 1934 and the town was settled in 1936. It became a city, and the capital of the Northwest Territories, in 1970.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1970). 1970 is city status and capital; Wikidata also gives P571 1936, when the gold-mining town was settled",
+      "source": "https://www.wikidata.org/wiki/Q2061 (P571 1970, 1936); https://en.wikipedia.org/wiki/Yellowknife"
+    },
+    "q167668": {
+      "startYear": 1253,
+      "dateNote": "First written mention in 1253, as a fishing village. It got town rights in 1625.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1625). 1625 (P571) is the town rights; Liepāja is first named in 1253",
+      "source": "https://www.wikidata.org/wiki/Q167668 (P571 1625); https://en.wikipedia.org/wiki/Liep%C4%81ja"
+    },
+    "q132997": {
+      "startYear": 1673,
+      "dateNote": "Founded in 1673 by Francisco Dias Velho, as Nossa Senhora do Desterro. It became a town (vila) in 1726.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1726). 1726 (P571) is town status; Francisco Dias Velho founded the settlement in 1673",
+      "source": "https://www.wikidata.org/wiki/Q132997 (P571 1726); https://en.wikipedia.org/wiki/Florian%C3%B3polis"
+    },
+    "q52028": {
+      "startYear": 1296,
+      "dateNote": "Founded in 1296 by King Mangrai, as the new capital of the Lanna kingdom.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1201). 1201 is \"13th century\" read as a year; King Mangrai founded the city in 1296",
+      "source": "https://www.wikidata.org/wiki/Q52028 (P571 13th century); https://en.wikipedia.org/wiki/Chiang_Mai"
+    },
+    "q1034": {
+      "startYear": 1142,
+      "dateNote": "First written mention in 1142, as Belna. Wikidata lists several later mentions, up to 1299.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1299). 1299 is one of several \"first mention\" dates in Wikidata; the earliest given (P1249) is 1142",
+      "source": "https://www.wikidata.org/wiki/Q1034 (P1249 1142 … 1299); https://en.wikipedia.org/wiki/Biel/Bienne"
+    },
+    "q179691": {
+      "startYear": 1520,
+      "dateNote": "First written mention in 1520, as a port town. It became a modern city in 1889.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1889). 1889 (P571) is when it became a city; Wikidata P1249 gives the first written mention, 1520",
+      "source": "https://www.wikidata.org/wiki/Q179691 (P571 1889, 1879; P1249 1520); https://en.wikipedia.org/wiki/Niigata_(city)"
+    },
+    "q664245": {
+      "startYear": 1838,
+      "dateNote": "Building started in 1838. It was finished and unveiled in 1875.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1875). 1875 is the unveiling; building started in 1838",
+      "source": "https://www.wikidata.org/wiki/Q664245 (P571 1875, P1619 1875); https://en.wikipedia.org/wiki/Hermannsdenkmal"
+    },
+    "q132527193": {
+      "startYear": -654,
+      "dateNote": "Founded about 654 BC by settlers from Clazomenae. Wikidata only gives \"7th century BC\".",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (700 BC). -700 is \"7th century BC\" read as a year; Herodotus dates the Clazomenian colony to about 654 BC",
+      "source": "https://www.wikidata.org/wiki/Q132527193 (P571 7th century BC); https://en.wikipedia.org/wiki/Abdera,_Thrace"
+    },
+    "q1140023": {
+      "startYear": 1334,
+      "dateNote": "Giotto began the bell tower in 1334. It was finished in 1359.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1298). 1298 does not fit: building started in 1334 under Giotto",
+      "source": "https://www.wikidata.org/wiki/Q1140023 (P571 1298); https://en.wikipedia.org/wiki/Giotto%27s_Campanile"
+    },
+    "q118256": {
+      "startYear": 1277,
+      "dateNote": "First written mention in 1277. Only \"13th century\" is known for the building.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1300). 1300 is \"13th century\" read as a year; Wikidata P1249 gives the first mention, 1277",
+      "source": "https://www.wikidata.org/wiki/Q118256 (P571 13th century, P1249 1277); https://en.wikipedia.org/wiki/%C5%A0pilberk_Castle"
+    },
+    "q261707": {
+      "startYear": 1300,
+      "dateNote": "Built from 1300 to 1311 for King James II of Majorca.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1310). 1310 is \"1310s\" (decade); building started in 1300",
+      "source": "https://www.wikidata.org/wiki/Q261707 (P571 1310s); https://en.wikipedia.org/wiki/Bellver_Castle"
+    },
+    "q1192577": {
+      "startYear": 1652,
+      "dateNote": "Building started in 1652 (Rainaldi, then Borromini from 1653).",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1650). 1650 does not fit: building started in 1652",
+      "source": "https://www.wikidata.org/wiki/Q1192577 (P571 1650); https://en.wikipedia.org/wiki/Sant%27Agnese_in_Agone"
+    },
+    "q601223": {
+      "startYear": 1774,
+      "dateNote": "Eise Eisinga started building it in his house in 1774. It was finished in 1781.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1781). 1781 is the finish; building started in 1774",
+      "source": "https://www.wikidata.org/wiki/Q601223 (P571 1781); https://en.wikipedia.org/wiki/Eise_Eisinga_Planetarium"
+    },
+    "q1331689": {
+      "startYear": 1919,
+      "dateNote": "Built from 1919 to 1924 over the rock of the Agony.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1924). 1924 is the consecration; building started in 1919",
+      "source": "https://www.wikidata.org/wiki/Q1331689 (P571 1924); https://en.wikipedia.org/wiki/Church_of_All_Nations"
+    },
+    "q2328849": {
+      "startYear": 1925,
+      "dateNote": "Built from 1925 to 1931.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1931). 1931 is the finish; Wikidata also gives P571 1925, the start of building",
+      "source": "https://www.wikidata.org/wiki/Q2328849 (P571 1931, 1925); https://en.wikipedia.org/wiki/Van_Nelle_Factory"
+    },
+    "q899302": {
+      "startYear": -34000,
+      "dateNote": "The oldest paintings are about 36,000 years old. 1985 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (1985). 1985 is the UNESCO listing; the oldest cave art here is about 36,000 years old",
+      "source": "https://www.wikidata.org/wiki/Q899302 (P571 1985); https://en.wikipedia.org/wiki/Cave_of_Altamira"
+    },
+    "q595329": {
+      "startYear": -690,
+      "dateNote": "Founded about 690 BC by settlers from Rhodes.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (700 BC). -700 is a rounded date; Rhodian colonists founded Phaselis about 690 BC",
+      "source": "https://www.wikidata.org/wiki/Q595329 (P571 -700); https://en.wikipedia.org/wiki/Phaselis"
+    },
+    "q1160691": {
+      "startYear": -335,
+      "dateNote": "Put up in 335-334 BC by Lysicrates, for winning a theatre contest.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (400 BC). -400 is \"4th century BC\" read as a year; the monument is dated 335-334 BC by its inscription",
+      "source": "https://www.wikidata.org/wiki/Q1160691 (P571 4th century BC); https://en.wikipedia.org/wiki/Choragic_Monument_of_Lysicrates"
+    },
+    "q1275701": {
+      "startYear": -168,
+      "dateNote": "Built about 168 BC by the Seleucid king Antiochus IV.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (200 BC). -200 is \"2nd century BC\" read as a year; Antiochus IV built it about 168 BC",
+      "source": "https://www.wikidata.org/wiki/Q1275701 (P571 2nd century BC); https://en.wikipedia.org/wiki/Acra_(fortress)"
+    },
+    "q477898": {
+      "startYear": 266,
+      "dateNote": "Founded in 266 by the Persian king Shapur I, after his wins over Rome. An inscription gives the date.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (226). 226 is a typo for 266 (Shapur I did not reign until 240); an inscription dates the founding to 266",
+      "source": "https://www.wikidata.org/wiki/Q477898 (P571 226); https://en.wikipedia.org/wiki/Bishapur"
+    },
+    "q675513": {
+      "startYear": 527,
+      "dateNote": "Pope Felix IV made two Roman buildings into this church in 527.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (501). 501 is \"6th century\" read as a year; Felix IV founded the church in 527",
+      "source": "https://www.wikidata.org/wiki/Q675513 (P571 6th century); https://en.wikipedia.org/wiki/Santi_Cosma_e_Damiano"
+    },
+    "q2305473": {
+      "startYear": 920,
+      "dateNote": "Built about 920 as the Myrelaion church, by Emperor Romanos I. It became a mosque about 1500.",
+      "why": "Places fact-check batch 11 (Oct 2026): wrong year (901). 901 is \"10th century\" read as a year; the Myrelaion church was built about 920",
+      "source": "https://www.wikidata.org/wiki/Q2305473 (P571 10th century); https://en.wikipedia.org/wiki/Bodrum_Mosque"
+    },
+    "q4024": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201). It got town rights in 1253.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known; 1253 is the town rights",
+      "source": "https://www.wikidata.org/wiki/Q4024 (P571 13th century, P1249 1253); https://en.wikipedia.org/wiki/Frankfurt_(Oder)"
+    },
+    "q128069": {
+      "dateNote": "1848 is about when it became a city (some say 1847). It was a village from 1825, and settlers came earlier.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1848 is city status; no agreed founding year",
+      "source": "https://www.wikidata.org/wiki/Q128069 (P571 1848); https://en.wikipedia.org/wiki/Syracuse,_New_York"
+    },
+    "q18569": {
+      "dateNote": "No founding year is agreed. Douglas grew from an old fishing village; 1670 could not be confirmed.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: no source found for 1670",
+      "source": "https://www.wikidata.org/wiki/Q18569 (P571 1670); https://en.wikipedia.org/wiki/Douglas,_Isle_of_Man"
+    },
+    "q178382": {
+      "dateNote": "Jūrmala is a string of old seaside villages that became one town in 1959. 1785 could not be confirmed.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: no source found for 1785; the town was formed in 1959",
+      "source": "https://www.wikidata.org/wiki/Q178382 (P571 1785); https://en.wikipedia.org/wiki/J%C5%ABrmala"
+    },
+    "q170616": {
+      "dateNote": "1921 is when Chiba became a city. The Chiba clan set up their base here in 1126.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1921 is city status (Wikidata also gives 1889, the town); the place is older",
+      "source": "https://www.wikidata.org/wiki/Q170616 (P571 1921 (preferred), 1889); https://en.wikipedia.org/wiki/Chiba_(city)"
+    },
+    "q140075": {
+      "dateNote": "1958 is when the name Gold Coast was taken. Southport, the oldest town, was laid out in the 1870s.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1958 is the new name for a local council; the towns are older",
+      "source": "https://www.wikidata.org/wiki/Q140075 (P571 1958); https://en.wikipedia.org/wiki/Gold_Coast,_Queensland"
+    },
+    "q7030": {
+      "dateNote": "Only \"13th century\" is known (shown as 1201). It is first named in 1229.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q7030 (P571 13th century); https://en.wikipedia.org/wiki/Wismar"
+    },
+    "q30985": {
+      "dateNote": "1793 is when it became a town. The land was bought for it about 1790.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1793 may be the town charter rather than the founding",
+      "source": "https://www.wikidata.org/wiki/Q30985 (P571 1793); https://en.wikipedia.org/wiki/Hamilton,_Bermuda"
+    },
+    "q486472": {
+      "dateNote": "1868 is the first town of this name. Wyandotte, the town at its centre, began in 1857, and the modern city formed in 1886.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: several dates; the 1868 town is only one part",
+      "source": "https://www.wikidata.org/wiki/Q486472 (P571 1868); https://en.wikipedia.org/wiki/Kansas_City,_Kansas"
+    },
+    "q188806": {
+      "dateNote": "1963 is when five old towns, such as Kokura and Moji, joined to make this city. Those towns are much older.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1963 is the merger; the towns are older",
+      "source": "https://www.wikidata.org/wiki/Q188806 (P571 1963); https://en.wikipedia.org/wiki/Kitaky%C5%ABsh%C5%AB"
+    },
+    "q179351": {
+      "dateNote": "1965 is when this London borough was made. Westminster itself is far older: the abbey dates from the 900s.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1965 is the borough; the place is far older",
+      "source": "https://www.wikidata.org/wiki/Q179351 (P571 1965); https://en.wikipedia.org/wiki/City_of_Westminster"
+    },
+    "q1640": {
+      "dateNote": "331 is a first written mention. The Roman town of Mursa here was made a colony in 131.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: sources give different starts: Roman Mursa (131) vs a first mention of 331",
+      "source": "https://www.wikidata.org/wiki/Q1640 (P1249 331); https://en.wikipedia.org/wiki/Osijek"
+    },
+    "q128147": {
+      "dateNote": "Only \"12th century\" is known (shown as 1101). The monks' town of Wyke grew late in that century; it got its charter in 1299.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q128147 (P571 12th century); https://en.wikipedia.org/wiki/Kingston_upon_Hull"
+    },
+    "q2707216": {
+      "dateNote": "The stairway began in 1722 and the present church was built from 1784 to 1811. 1772 could not be confirmed.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1772 fits none of the known building dates",
+      "source": "https://www.wikidata.org/wiki/Q2707216 (P571 1772); https://en.wikipedia.org/wiki/Bom_Jesus_do_Monte"
+    },
+    "q794876": {
+      "dateNote": "Only \"9th century\" is known (shown as 801). The present church was built in the 1400s.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata also gives 15th century",
+      "source": "https://www.wikidata.org/wiki/Q794876 (P571 9th century, 15th century); https://en.wikipedia.org/wiki/San_Zaccaria"
+    },
+    "q1552366": {
+      "dateNote": "Some say first named in 1114; Wikidata gives a first mention of 1147.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1114 and 1147 both given",
+      "source": "https://www.wikidata.org/wiki/Q1552366 (P571 1114, P1249 1147); https://en.wikipedia.org/wiki/Haut-K%C5%93nigsbourg_Castle"
+    },
+    "q476801": {
+      "dateNote": "Only \"12th century\" is known (shown as 1150). The Crusaders took it in 1139.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q476801 (P571 12th century); https://en.wikipedia.org/wiki/Beaufort_Castle,_Lebanon"
+    },
+    "q1082964": {
+      "dateNote": "Sources differ: the Danes built a fort here about 1659-1661, on a Swedish lodge from the 1650s.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1659 vs 1661",
+      "source": "https://www.wikidata.org/wiki/Q1082964 (P571 1659); https://en.wikipedia.org/wiki/Osu_Castle"
+    },
+    "q2349903": {
+      "dateNote": "Built about 1999-2001; 1990 could not be confirmed. Wikidata gives an opening of 2003.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1990 does not fit the building dates found",
+      "source": "https://www.wikidata.org/wiki/Q2349903 (P571 1990, P1619 2003); https://en.wikipedia.org/wiki/C%C5%93ur_D%C3%A9fense"
+    },
+    "q529923": {
+      "dateNote": "Only \"13th century BC\" is known (shown as 1300 BC).",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q529923 (P571 13th century BC); https://en.wikipedia.org/wiki/Yaz%C4%B1l%C4%B1kaya"
+    },
+    "q2422298": {
+      "dateNote": "Only \"7th century\" is known (shown as 601). Some say the first church is from the 3rd century.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: only a century is known",
+      "source": "https://www.wikidata.org/wiki/Q2422298 (P571 7th century); https://en.wikipedia.org/wiki/Hanging_Church"
+    },
+    "q733890": {
+      "dateNote": "Wikidata gives 780 and \"9th century\". The present church was built about 817-822 by Pope Paschal I.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: sources disagree",
+      "source": "https://www.wikidata.org/wiki/Q733890 (P571 780, 9th century); https://en.wikipedia.org/wiki/Santa_Prassede"
+    },
+    "q1086358": {
+      "dateNote": "Building began in the 1200s; the exact year could not be confirmed.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1200 may be a rounded date",
+      "source": "https://www.wikidata.org/wiki/Q1086358 (P571 1200); https://en.wikipedia.org/wiki/St._Rumbold%27s_Cathedral"
+    },
+    "q1519975": {
+      "dateNote": "1252 is the first church of the friars. The present church was begun by Brunelleschi in 1444.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1252 vs 1444",
+      "source": "https://www.wikidata.org/wiki/Q1519975 (P571 1252); https://en.wikipedia.org/wiki/Santo_Spirito,_Florence"
+    },
     "q2142351": {
       "lat": 46.47747,
       "lon": 30.73262,
