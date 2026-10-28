@@ -219,11 +219,15 @@ export const FOSSIL_SITES = [
   site('yixian', 'Yixian Formation: the first feathered dinosaur', 1996, 41.533, 121.2383, 'Q742949', 'Yixian Formation',
     'In 1996 Sinosauropteryx was announced from these Liaoning beds: the first dinosaur found with feathers. ' +
       'Volcanic ash buried a whole forest world here about 125 million years ago (Early Cretaceous).'),
-  site('hell-creek', 'Hell Creek: the first Tyrannosaurus rex', 1902, 46.9, -101.5, 'Q917642', 'Hell Creek Formation',
+  // Infernogallus: Funston et al., Nature Communications, 27 Oct 2026 (eurekalert.org/news-releases/1149430).
+  { ...site('hell-creek', 'Hell Creek: the first Tyrannosaurus rex', 1902, 46.9, -101.5, 'Q917642', 'Hell Creek Formation',
     'In 1902 Barnum Brown dug the first Tyrannosaurus rex skeleton out of the Hell Creek badlands of Montana. ' +
-      'The rock is about 68–66 million years old, and runs right up to the asteroid strike that ended the dinosaurs.',
+      'The rock is about 68–66 million years old, and runs right up to the asteroid strike that ended the dinosaurs. ' +
+      'In 2026 a turkey-sized, toothless "hell chicken" from these rocks was named Infernogallus jamesi; its ' +
+      'parrot-like jaw suggests it may have been a specialist fruit-eater.',
     'The formation spans Montana and the Dakotas. Wikidata pins it in North Dakota; the first T. rex came from ' +
       'Garfield County, Montana.'),
+    sourceUrl: 'https://www.eurekalert.org/news-releases/1149430' },
   site('messel', 'Messel Pit fossil site', 1995, 49.9175, 8.75667, 'Q639217', 'Messel Pit',
     'A World Heritage Site since 1995. Shale was mined here from 1859, and the pit became famous for whole ' +
       'animals — early horses, bats, birds — kept with their fur, feathers and stomach contents. The shale is about ' +
@@ -366,9 +370,12 @@ export const FOSSIL_SITES = [
       '315,000 years old (0.3 million years) — the oldest Homo sapiens known.'),
   // Finger bone Denisova 3, 2008; genome 2010 (Krause et al., Nature 464:894). Dated
   // about 76–52 ka (Douka et al. 2019, Nature 565:640; en.wikipedia.org/wiki/Denisova_Cave).
-  site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
+  // Xujiayao: Fu et al., Nature, 21 Oct 2026 (doi:10.1038/s41586-026-11132-z); see add-discoveries-oct-2026b.mjs.
+  { ...site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
     'In 2008 a child\'s finger bone was dug from this cave in Siberia\'s Altai Mountains. Its DNA, read in 2010, ' +
-      'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years).'),
+      'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years). ' +
+      'In 2026 ancient proteins showed that fossils from Xujiayao, in northern China, were Denisovan too.'),
+    sourceUrl: 'https://www.nature.com/articles/s41586-026-11132-z' },
   // Eugène Dubois, 1891 (en.wikipedia.org/wiki/Java_Man); shells from the bone layer
   // dated 0.54–0.43 Ma (Joordens et al. 2015, Nature 518:228).
   site('trinil', 'Trinil: "Java Man" found', 1891, -7.3743, 111.3578, 'Q1318724', 'Trinil',

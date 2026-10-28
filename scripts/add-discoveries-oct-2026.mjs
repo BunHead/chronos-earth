@@ -17,12 +17,15 @@
  * Cova de les Dones was already on the globe as a Pleiades row with no date
  * (pl652043992, "2000"); this row replaces it and keeps it in `merged`.
  *
+ * Also runs batch 2, add-discoveries-oct-2026b.mjs.
+ *
  *   node scripts/add-discoveries-oct-2026.mjs
  *   node scripts/add-discoveries-oct-2026.mjs --check
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
+import { applyBatch as applyLateOctober } from './add-discoveries-oct-2026b.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -154,6 +157,8 @@ async function main() {
     noted++;
   }
   console.log(`${added} pins added, ${updated} refreshed, ${noted} notes set`);
+  // Batch 2 (late October 2026) rides along, so the nightly harvest keeps it.
+  applyLateOctober(events);
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
   await writeFile(FILE, JSON.stringify({ ...doc, events }));
 }

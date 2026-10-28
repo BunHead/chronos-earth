@@ -145,8 +145,8 @@ export const PALAEOZOIC = [
 ];
 
 /** Too new for PBDB: named in October 2026, so placed and dated here by hand
- * from the papers below. Its skull piece came from the Wessex Formation of
- * the Isle of Wight, so it stands at the same PBDB locality, dating and
+ * from the papers below. Invictibellatrix's skull piece came from the Wessex
+ * Formation of the Isle of Wight, so it stands at the same PBDB locality, dating and
  * GPlates track as Hypsilophodon from those rocks (Barremian, Early
  * Cretaceous). Wikidata Q141728276. */
 export const HAND_PLACED = [
@@ -160,6 +160,48 @@ export const HAND_PLACED = [
     // nhm.ac.uk press release; Royal Society Open Science 13:260937 (Oct 2026).
     sourceUrl: 'https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html',
     paperUrl: 'https://royalsocietypublishing.org/rsos/article/13/10/260937/483607/A-new-megaraptoran-dinosaur-from-the-Lower',
+  },
+  // Late October 2026 (scripts/add-discoveries-oct-2026b.mjs has the rest of
+  // that batch). Hell Creek, Montana: same dating and GPlates track as
+  // Triceratops from those rocks, nudged off its pin. Wikidata Q141693757.
+  {
+    id: 'infernogallus', name: 'Infernogallus', emoji: T,
+    lat: 46.02, lon: -104.48, fromMa: 68, toMa: 66, region: 'Hell Creek, Montana (USA)',
+    blurb: 'A turkey-sized, toothless "hell chicken" from the last days of the dinosaurs, named in 2026 from a ' +
+      'near-complete skull. Its sliding jaw is like a parrot\'s, so it may have been a specialist fruit-eater.',
+    wiki: 'Infernogallus',
+    track: [{ ma: 66, lon: -79.69, lat: 52.11 }, { ma: 68, lon: -78.3, lat: 52.62 }],
+    // Stony Brook / ROM release; Funston et al., Nature Communications, 27 Oct 2026.
+    sourceUrl: 'https://www.eurekalert.org/news-releases/1149430',
+  },
+  // Smokejack Clay Pit, Surrey (Weald Clay), where Baryonyx was found: the
+  // pit's Wikidata point (Q7545930), with Baryonyx's dating and GPlates track
+  // (its PBDB pin is about 40 km east). Wikidata Q141883494.
+  {
+    id: 'paludohadros', name: 'Paludohadros', emoji: P,
+    lat: 51.1243, lon: -0.4115, fromMa: 125.8, toMa: 121.4, region: 'England, United Kingdom',
+    blurb: 'An early cousin of the duck-billed dinosaurs, about 125 million years old, named in 2026 from bones ' +
+      'found in 2001 at the Surrey brickworks that gave us Baryonyx.',
+    wiki: 'Paludohadros',
+    track: [{ ma: 121.4, lon: 11.77, lat: 40.96 }, { ma: 125.8, lon: 11.58, lat: 41.26 }],
+    // Natural History Museum; Journal of Systematic Palaeontology, 26 Oct 2026
+    // (also sci.news/paleontology/paludohadros-proudlovii-15156.html).
+    sourceUrl: 'https://phys.org/news/2026-10-fossils-brickworks-reveal-dinosaur-species.html',
+  },
+  // Cerro Overo, about 50 km south-west of Rincón de los Sauces, Neuquén
+  // (Bajo de la Carpa Formation, Santonian, 86.3-83.6 Ma); the pin is that
+  // offset from the town, not a published point. The track is an ESTIMATE,
+  // read between Abelisaurus (72 Ma) and Argentinosaurus (93 Ma) nearby,
+  // because the GPlates service could not be reached: run
+  // `node scripts/fetch-fauna-paleo.mjs --all` to replace it. Wikidata Q141895783.
+  {
+    id: 'rinconraptor', name: 'Rinconraptor', emoji: T,
+    lat: -37.71, lon: -69.33, fromMa: 86.3, toMa: 83.6, region: 'Neuquén, Argentina',
+    blurb: 'A long-clawed megaraptorid hunter from Patagonia, about 85 million years old, named in 2026.',
+    wiki: 'Rinconraptor',
+    track: [{ ma: 83.6, lon: -50.22, lat: -42.11 }, { ma: 86.3, lon: -49.17, lat: -42.5 }],
+    // Palaeontologia Electronica, 2026.
+    sourceUrl: 'https://www.palaeo-electronica.org/content/2026/5975-new-megaraptorid-from-patagonia',
   },
 ];
 
