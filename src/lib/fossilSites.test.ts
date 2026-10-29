@@ -191,6 +191,38 @@ describe('fossil sites', () => {
       expect(row(id).dateNote, id).toMatch(/^Uncertain/);
   });
 
+  it('batch 6 (29 Oct 2026) fills thin regions with cited, plain-link rows in gaps', () => {
+    const batch6 = [
+      'gona', 'ain-hanech', 'haua-fteah', 'nazlet-khater', 'qesem', 'ksar-akil', 'vertesszolos', 'ganovce', 'mladec',
+      'afontova-gora', 'shishugou', 'bissekty', 'urumaco', 'la-amarga', 'santa-cruz', 'peiropolis', 'pyramid-valley',
+      'broome',
+    ].map((id) => `cur-fossil-${id}`);
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    const fossilish = /fossil|skull|skeleton|hominin|dinosaur|neanderthal|homo |mammoth|cave/i;
+    for (const id of batch6) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary!.length, id).toBeLessThanOrEqual(140);
+      // One plain https link: no spaces, commas, brackets or markdown, and it parses.
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s;,()<>[\]]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(() => new URL(s.sourceUrl!), id).not.toThrow();
+      for (const e of discoveries) {
+        if (e.id === id) continue;
+        // No other fossil or early-human find within 25 km; unrelated finds
+        // (the Lod Mosaic near Qesem, Ahiram's coffin near Ksar Akil) 15 km.
+        const fossil = e.id.startsWith('cur-fossil-') || fossilish.test(`${e.name} ${e.dateNote ?? ''}`);
+        expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(fossil ? 25 : 15);
+      }
+    }
+  });
+
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
     const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
     expect(wf).toContain('node scripts/add-fossil-sites.mjs');
