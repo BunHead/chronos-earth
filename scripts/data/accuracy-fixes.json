@@ -2047,6 +2047,259 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1243). That is when it got town privileges; Wikidata P1249 gives 1091, the first record",
       "source": "https://www.wikidata.org/wiki/Q14960 (P571 1243, P1249 1091); https://en.wikipedia.org/wiki/History_of_Brno"
     },
+    "q189471": {
+      "startYear": 1955,
+      "dateNote": "Became a city on 10 October 1955. Farms and orchards were here from the 1850s.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1947). Wikidata P571 says 1947; the city was incorporated on 10 October 1955 (city website and Wikipedia)",
+      "source": "https://www.wikidata.org/wiki/Q189471 (P571 1947); https://www.cupertino.gov/our-city/about-cupertino/history"
+    },
+    "q160320": {
+      "startYear": 1923,
+      "dateNote": "Founded in 1923, when the Dawasir tribe settled here with the permission of Ibn Saud.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (330 BC). Wikidata P571 gives 1922; Wikipedia and other sources say the Dawasir settled Dammam in 1923",
+      "source": "https://www.wikidata.org/wiki/Q160320 (P571 1922); https://en.wikipedia.org/wiki/Dammam"
+    },
+    "q200713": {
+      "startYear": 1610,
+      "dateNote": "Founded in 1610 by Malik Ambar as Khadki, on the site of a village. Renamed Aurangabad in the 1650s.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1592). Sources agree Malik Ambar founded the city (as Khadki) in 1610",
+      "source": "https://www.wikidata.org/wiki/Q200713 (P571 1592); https://en.wikipedia.org/wiki/Aurangabad"
+    },
+    "q283368": {
+      "startYear": -244,
+      "dateNote": "A Greek city here was enlarged by Seleucus II and renamed Kallinikos in about 244 to 242 BC. The exact year is not certain.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (AD 244). Wikidata P571 says 244 but drops the BC: the city was (re)founded as Kallinikos by Seleucus II, who reigned 246 to 225 BC",
+      "source": "https://www.wikidata.org/wiki/Q283368 (P571 244); https://en.wikipedia.org/wiki/Raqqa"
+    },
+    "q41970": {
+      "startYear": 1780,
+      "dateNote": "Founded in 1780 as the Konstantinogorsk fortress. A town grew from 1830.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (750 BC). Wikidata P571 is 1780 (the fortress); no source for 750 BC",
+      "source": "https://www.wikidata.org/wiki/Q41970 (P571 1780); https://en.wikipedia.org/wiki/Pyatigorsk"
+    },
+    "q3963": {
+      "startYear": 744,
+      "dateNote": "Grew around Fulda Abbey, founded in 744 by Sturm, a follower of St Boniface.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1101). 1101 is \"12th century\" read as a year; Fulda Abbey, which the town grew around, was founded in 744",
+      "source": "https://www.wikidata.org/wiki/Q3963 (P571 12th century); https://en.wikipedia.org/wiki/Fulda_Abbey"
+    },
+    "q502518": {
+      "startYear": 1201,
+      "dateNote": "Only a century is known: Wikidata says \"13th century\" (shown as 1201). Some sources say the town began in the 11th or 12th century.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (AD 13). \"13th century\" read as the year 13",
+      "source": "https://www.wikidata.org/wiki/Q502518 (P571 13th century); https://en.wikipedia.org/wiki/Gedi_Ruins"
+    },
+    "q427340": {
+      "startYear": 1494,
+      "dateNote": "The present church was begun in 1494 and finished in 1657. A church stood here from the 6th century.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1401). 1401 is \"15th century\" read as a year; the present church was begun in 1494",
+      "source": "https://www.wikidata.org/wiki/Q427340 (P571 15th century); https://en.wikipedia.org/wiki/Saint-Gervais-Saint-Protais"
+    },
+    "q1236608": {
+      "startYear": 595,
+      "dateNote": "Queen Theodelinda founded a chapel here in about 595. The present building was begun in 1300.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (501). 501 is \"6th century\" read as a year; Paul the Deacon says Theodelinda founded the church in about 595",
+      "source": "https://www.wikidata.org/wiki/Q1236608 (P571 6th century); https://en.wikipedia.org/wiki/Duomo_of_Monza"
+    },
+    "q1755418": {
+      "startYear": 998,
+      "dateNote": "Founded in 998 by Emperor Otto III, on the ruins of an ancient temple.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (901). 901 is \"10th century\" read as a year; Otto III founded the church in 998",
+      "source": "https://www.wikidata.org/wiki/Q1755418 (P571 10th century); https://en.wikipedia.org/wiki/San_Bartolomeo_all%27Isola"
+    },
+    "q15043487": {
+      "startYear": 1748,
+      "dateNote": "The Jesuits began it in 1748. It was finished in 1777 and became a cathedral in 1782.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1777). 1777 is when it was finished; work began in 1748",
+      "source": "https://www.wikidata.org/wiki/Q15043487 (P571 1777); https://en.wikipedia.org/wiki/Havana_Cathedral"
+    },
+    "q930795": {
+      "startYear": 1810,
+      "dateNote": "Built for King Henri Christophe from 1810 to 1813. Ruined by an earthquake in 1842.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1813). 1813 is when it was finished; building began in 1810",
+      "source": "https://www.wikidata.org/wiki/Q930795 (P571 1813); https://en.wikipedia.org/wiki/Sans-Souci_Palace"
+    },
+    "q2288815": {
+      "startYear": 1882,
+      "dateNote": "Built from 1882 and unveiled on 1 June 1888 for the Barcelona Universal Exposition.",
+      "why": "Places fact-check batch 13 (Oct 2026): wrong year (1888). 1888 is the unveiling; building began in 1882",
+      "source": "https://www.wikidata.org/wiki/Q2288815 (P571 1888); https://en.wikipedia.org/wiki/Columbus_Monument,_Barcelona"
+    },
+    "q186702": {
+      "dateNote": "1839 is when the town was incorporated. A trading post, Ross's Landing, was here from 1816.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1839 (P571) is incorporation; Ross's Landing dates from 1816",
+      "source": "https://www.wikidata.org/wiki/Q186702 (P571 1839); https://en.wikipedia.org/wiki/Chattanooga,_Tennessee"
+    },
+    "q168929": {
+      "dateNote": "1899 is when it became a town (municipality). Settlers arrived in 1872.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1899 (P571) is the municipality; the settlement was founded in 1872",
+      "source": "https://www.wikidata.org/wiki/Q168929 (P571 1899); https://en.wikipedia.org/wiki/Campo_Grande"
+    },
+    "q11711": {
+      "dateNote": "802 is the start of the Khmer Empire at nearby Angkor, not a founding date for the town.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 802 (P571) is the founding of the Khmer Empire; no clear founding date for the town",
+      "source": "https://www.wikidata.org/wiki/Q11711 (P571 802); https://en.wikipedia.org/wiki/Siem_Reap"
+    },
+    "q188179": {
+      "dateNote": "Dates vary: 1154 (an old map, not confirmed), 1381 (the castle) or 1424 (the market town). Town rights came in 1563.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 1154 has no clear source; P1249 gives 1381 (castle), other sources 1424 (market town)",
+      "source": "https://www.wikidata.org/wiki/Q188179 (P571 1154, P1249 1381); https://en.wikipedia.org/wiki/Kuressaare"
+    },
+    "q44840": {
+      "dateNote": "Dates vary: an Arab map may show it in 1154, the castle was built from 1224, and town rights came in 1283.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 1263 has no clear source; P1249 gives 1154",
+      "source": "https://www.wikidata.org/wiki/Q44840 (P571 1263, P1249 1154); https://en.wikipedia.org/wiki/Viljandi"
+    },
+    "q51681": {
+      "dateNote": "Danes tried to settle in 1666 but failed. The lasting settlement began in 1672.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: sources give 1666 (failed attempt) or 1672 (permanent settlement)",
+      "source": "https://www.wikidata.org/wiki/Q51681 (P571 1666); https://www.hmdb.org/m.asp?m=40333"
+    },
+    "q486439": {
+      "dateNote": "1849 is when it was incorporated. Settlers arrived in 1838.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1849 (P571) is incorporation",
+      "source": "https://www.wikidata.org/wiki/Q486439 (P571 1849); https://en.wikipedia.org/wiki/Cedar_Rapids,_Iowa"
+    },
+    "q161176": {
+      "dateNote": "1907 is when it became a city. The castle town is much older.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1907 (P571) is city status",
+      "source": "https://www.wikidata.org/wiki/Q161176 (P571 1907-04-01); https://en.wikipedia.org/wiki/Fukushima_(city)"
+    },
+    "q12258": {
+      "dateNote": "1800 BC comes from Wikidata with no clear source. The town (Roman Arraona) is first named in Roman times.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 -1800 has no clear source",
+      "source": "https://www.wikidata.org/wiki/Q12258 (P571 -1800); https://en.wikipedia.org/wiki/Sabadell"
+    },
+    "q3549": {
+      "dateNote": "Wikidata gives only \"860s\". The town is first named in a charter of 1066.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is decade-only (860s); first written mention 1066",
+      "source": "https://www.wikidata.org/wiki/Q3549 (P571 860s); https://en.wikipedia.org/wiki/%C5%A0ibenik"
+    },
+    "q61089": {
+      "dateNote": "Founded by Parameswara in about 1396 to 1402. Sources give different years.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: sources give 1396, 1400 or 1402",
+      "source": "https://www.wikidata.org/wiki/Q61089 (P571 1396); https://en.wikipedia.org/wiki/Malacca_City"
+    },
+    "q535534": {
+      "dateNote": "Built by Altan Khan in the 1570s. Sources give 1572 to 1581.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: sources vary between 1572 and 1581",
+      "source": "https://www.wikidata.org/wiki/Q535534 (P571 1580); https://en.wikipedia.org/wiki/Hohhot"
+    },
+    "q214681": {
+      "dateNote": "1843 is when it became the capital of Portuguese India. The town is older.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1843 (P571) is capital/city status",
+      "source": "https://www.wikidata.org/wiki/Q214681 (P571 1843); https://en.wikipedia.org/wiki/Panaji"
+    },
+    "q185458": {
+      "dateNote": "1876 is when the British took control. The town is much older.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1876 (P571) is British control, not a founding",
+      "source": "https://www.wikidata.org/wiki/Q185458 (P571 1876); https://en.wikipedia.org/wiki/Quetta"
+    },
+    "q200078": {
+      "dateNote": "1889 is when it became a city. The castle town is much older.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1889 (P571) is city status",
+      "source": "https://www.wikidata.org/wiki/Q200078 (P571 1889-06-01); https://en.wikipedia.org/wiki/Okayama"
+    },
+    "q373808": {
+      "dateNote": "Only a century is known: Wikidata says \"6th century BC\" (shown as 530 BC).",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only (6th century BC)",
+      "source": "https://www.wikidata.org/wiki/Q373808 (P571 6th century BC); https://en.wikipedia.org/wiki/Khujand"
+    },
+    "q173219": {
+      "dateNote": "Only a century is known: Wikidata says \"3rd century\" (shown as 201). The Roman town is older.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P1249 is century-only (3rd century)",
+      "source": "https://www.wikidata.org/wiki/Q173219 (P1249 3rd century); https://en.wikipedia.org/wiki/Tournai"
+    },
+    "q58780": {
+      "dateNote": "Only a century is known: Wikidata says \"7th century\" (shown as 700). The town is first named in 1165.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only; first written mention 1165",
+      "source": "https://www.wikidata.org/wiki/Q58780 (P571 7th century); https://en.wikipedia.org/wiki/Hasselt"
+    },
+    "q47430": {
+      "dateNote": "1634 is when the French explorer Jean Nicolet visited. A lasting settlement came later, and it became a city in 1854.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1634 (P571) is an explorer's visit; P580 gives 1854",
+      "source": "https://www.wikidata.org/wiki/Q47430 (P571 1634, P580 1854); https://en.wikipedia.org/wiki/Green_Bay,_Wisconsin"
+    },
+    "q486459": {
+      "dateNote": "1817 is when it was incorporated. It was founded in 1812.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1817 (P571) is incorporation; founded 1812",
+      "source": "https://www.wikidata.org/wiki/Q486459 (P571 1817); https://en.wikipedia.org/wiki/Evansville,_Indiana"
+    },
+    "q3120910": {
+      "dateNote": "Its age is disputed. Some claim it is many thousands of years old, but this is not accepted.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: dates are strongly disputed",
+      "source": "https://www.wikidata.org/wiki/Q3120910 (P571 500); https://en.wikipedia.org/wiki/Gunung_Padang"
+    },
+    "q16534749": {
+      "dateNote": "Only a century is known: Wikidata says \"9th century\" (shown as 900). Most of what stands is from later.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only; P1249 gives 16th century",
+      "source": "https://www.wikidata.org/wiki/Q16534749 (P571 9th century); https://en.wikipedia.org/wiki/Rabati_Castle"
+    },
+    "q2986701": {
+      "dateNote": "Only a century is known: \"12th century\" (shown as 1101).",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only (12th century)",
+      "source": "https://www.wikidata.org/wiki/Q2986701 (P571 12th century); https://en.wikipedia.org/wiki/Kalozha_Church"
+    },
+    "q1042821": {
+      "dateNote": "Only a century is known: Wikidata says \"12th century\" (shown as 1200).",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only",
+      "source": "https://www.wikidata.org/wiki/Q1042821 (P571 12th century); https://en.wikipedia.org/wiki/Spi%C5%A1sk%C3%A1_Kapitula"
+    },
+    "q385254": {
+      "dateNote": "Only a century is known: Wikidata says \"12th century\" (shown as 1200).",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only",
+      "source": "https://www.wikidata.org/wiki/Q385254 (P571 12th century); https://en.wikipedia.org/wiki/Vittsk%C3%B6vle_Church"
+    },
+    "q425898": {
+      "dateNote": "1249 is when the old mosque became a church. The present cathedral was begun in 1570 and consecrated in 1660.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1249 (P571) is the conversion of the mosque; present building from 1570, P1619 1660",
+      "source": "https://www.wikidata.org/wiki/Q425898 (P571 1249, P1619 1660); https://en.wikipedia.org/wiki/Ja%C3%A9n_Cathedral"
+    },
+    "q1012561": {
+      "dateNote": "Only a century is known: Wikidata says \"13th century\" (shown as 1300). Building probably began in the late 1200s.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only (13th century)",
+      "source": "https://www.wikidata.org/wiki/Q1012561 (P571 13th century); https://en.wikipedia.org/wiki/H%C3%A4me_Castle"
+    },
+    "q2634748": {
+      "dateNote": "Built by Grand Duke Gediminas. Sources give 1323 to 1330s.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 gives 1330s and 14th century; other sources 1323",
+      "source": "https://www.wikidata.org/wiki/Q2634748 (P571 1330s, 14th century); https://en.wikipedia.org/wiki/Lida_Castle"
+    },
+    "q1268593": {
+      "dateNote": "The old church of San Francesco is from the 13th century. Alberti rebuilt it as the \"Tempio\" from about 1450.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 gives only centuries (15th, 18th); the Alberti rebuild began about 1450",
+      "source": "https://www.wikidata.org/wiki/Q1268593 (P571 15th century, 18th century); https://en.wikipedia.org/wiki/Tempio_Malatestiano"
+    },
+    "q956163": {
+      "dateNote": "Built from 1730 to 1736 as a Catholic church. It became an Orthodox cathedral in 1935.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1736 (P571) is probably when it was finished, not started",
+      "source": "https://www.wikidata.org/wiki/Q956163 (P571 1736); https://en.wikipedia.org/wiki/Saints_Cyril_and_Methodius_Cathedral"
+    },
+    "q615735": {
+      "dateNote": "1911 is when the present castle was finished. An older castle stood here.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1911 (P571) is probably when the present building was finished",
+      "source": "https://www.wikidata.org/wiki/Q615735 (P571 1911); https://en.wikipedia.org/wiki/Berg_Castle"
+    },
+    "q1309687": {
+      "dateNote": "6000 BC is the first settlement here (Vinča culture). Celts founded Singidunum itself in the 3rd century BC.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 -6000 (millennium) is the prehistoric site, not the Celtic/Roman town",
+      "source": "https://www.wikidata.org/wiki/Q1309687 (P571 6th millennium BC); https://en.wikipedia.org/wiki/Singidunum"
+    },
+    "q846559": {
+      "dateNote": "Only a century is known: Wikidata says \"5th century\" (shown as 401).",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only",
+      "source": "https://www.wikidata.org/wiki/Q846559 (P571 5th century); https://en.wikipedia.org/wiki/Santa_Maria_in_Via_Lata"
+    },
+    "q1515300": {
+      "dateNote": "Only a century is known: Wikidata says \"6th century\" (shown as 501). Pope Pelagius I is said to have begun it in about 560.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only",
+      "source": "https://www.wikidata.org/wiki/Q1515300 (P571 6th century); https://en.wikipedia.org/wiki/Santi_Apostoli,_Rome"
+    },
+    "q1091640": {
+      "dateNote": "Only a century is known: Wikidata says \"9th century\" (shown as 801). An older oratory stood here.",
+      "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 is century-only",
+      "source": "https://www.wikidata.org/wiki/Q1091640 (P571 9th century); https://en.wikipedia.org/wiki/Santa_Francesca_Romana,_Rome"
+    },
     "q36312": {
       "startYear": 1875,
       "dateNote": "Founded in 1875 as a North-West Mounted Police fort (named Fort Calgary in 1876). It became a town in 1884.",
