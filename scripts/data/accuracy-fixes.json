@@ -3643,6 +3643,303 @@
       "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Death year 43 BC was missing; birth shown as 200 BC, a century value.",
       "source": "https://www.wikidata.org/wiki/Q368219; https://en.wikipedia.org/wiki/Gaius_Verres"
     },
+    "q439768": {
+      "lat": 35.2002,
+      "lon": 116.7177,
+      "born": "27 November 1528, Luqiao, Jining, Shandong",
+      "placeNote": "Born in Luqiao, Jining, by most accounts; some sources say Penglai (Dengzhou), the family's home garrison.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Shandong, 202 km away; born in Luqiao town, Jining (now Weishan County). Some sources give Penglai (Dengzhou), the family's garrison seat.",
+      "source": "https://www.wikidata.org/wiki/Q439768; https://www.wikidata.org/wiki/Q11173096; https://chiculture.org.hk/en/china-five-thousand-years/3369; https://en.wikipedia.org/wiki/Qi_Jiguang"
+    },
+    "q447200": {
+      "lat": 50.3819,
+      "lon": -3.5878,
+      "born": "c. 1539, Greenway, on the River Dart, Devon",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Devon, 38 km away; born at Greenway, his father's house on the River Dart near Galmpton.",
+      "source": "https://www.wikidata.org/wiki/Q447200; https://www.wikidata.org/wiki/Q1544827; https://www.biographi.ca/en/bio/gilbert_humphrey_1E.html; https://www.nps.gov/fora/forteachers/sir-humphrey-gilbert.htm"
+    },
+    "q332580": {
+      "lat": 51.61,
+      "lon": -1.56,
+      "born": "20 October 1822, Uffington, Berkshire (now Oxfordshire)",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Oxfordshire, 25 km away; born in the village of Uffington (then Berkshire, now Oxfordshire).",
+      "source": "https://www.wikidata.org/wiki/Q332580; https://www.wikidata.org/wiki/Q4027058; https://www.britannica.com/biography/Thomas-Hughes; https://www.uffingtonmuseum.co.uk/thomas-hughes.html"
+    },
+    "q469575": {
+      "lat": 7.8281,
+      "lon": -72.3203,
+      "born": "12 October 1858, Capacho, Táchira",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Táchira, 26 km away; born in Capacho (Capacho Viejo), Táchira.",
+      "source": "https://www.wikidata.org/wiki/Q469575; https://www.wikidata.org/wiki/Q2937166; https://www.britannica.com/print/article/98819; https://en.wikipedia.org/wiki/Cipriano_Castro"
+    },
+    "q532184": {
+      "lat": 52.9,
+      "lon": 1.09,
+      "born": "29 May 1905, Holt, Norfolk",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Norfolk, 27 km away; born in Holt, where his father taught music at Gresham's School.",
+      "source": "https://www.wikidata.org/wiki/Q532184; https://www.wikidata.org/wiki/Q691558; https://family-tree.cobboldfht.com/people/view/11210; https://en.wikipedia.org/wiki/Sebastian_Shaw_(actor)"
+    },
+    "q712734": {
+      "lat": 43.7706,
+      "lon": 142.365,
+      "born": "6 May 1907, Asahikawa, Hokkaido",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Hokkaidō, 49 km away; born in Asahikawa, as he wrote himself; he grew up in Izu, so some lists give Shizuoka.",
+      "source": "https://www.wikidata.org/wiki/Q712734; https://www.wikidata.org/wiki/Q200740; https://www.universalis.fr/encyclopedie/yasushi-inoue/; https://en.wikipedia.org/wiki/Yasushi_Inoue"
+    },
+    "q1637167": {
+      "lat": 57.8682,
+      "lon": 33.0261,
+      "born": "17 October 1917, Krestovaya, Valdaysky District, Novgorod",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Valdaysky District, 14 km away; born in the village of Krestovaya, Valdaysky District.",
+      "source": "https://www.wikidata.org/wiki/Q1637167; https://www.wikidata.org/wiki/Q29404513; https://warriors-hall-of-fame.blogspot.com/2011/05/yakov-pavlov-1917-1981-defender-of.html; https://en.wikipedia.org/wiki/Yakov_Pavlov"
+    },
+    "q1139202": {
+      "lat": 36.0565,
+      "lon": 139.3205,
+      "born": "1154, Ōkura, Musashi (now Ranzan, Saitama)",
+      "placeNote": "Born at his father's Ōkura residence (Ōkura-yakata), now in Ranzan, Saitama, by the usual account.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Musashi Province, 29 km away; born at his father Yoshikata's Ōkura residence in Musashi, now in Ranzan, Saitama.",
+      "source": "https://www.wikidata.org/wiki/Q1139202; https://www.wikidata.org/wiki/Q1358642; https://japanese-wiki-corpus.github.io/person/MINAMOTO%20no%20Yoshinaka.html; https://www.jcastle.com/view/Ohkura_Yakata"
+    },
+    "q707787": {
+      "lat": 51.2158,
+      "lon": 0.6158,
+      "born": "c. 1588, East Sutton, Kent",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kent, 8 km away; born at East Sutton, the family seat, where he also died.",
+      "source": "https://www.wikidata.org/wiki/Q707787; https://www.wikidata.org/wiki/Q930290; https://www.britannica.com/biography/Robert-Filmer; https://www.kentarchaeology.org.uk/journal/91/sir-robert-filmer-east-sutton"
+    },
+    "q252301": {
+      "lat": 65.1082,
+      "lon": -21.7679,
+      "born": "13 November 1663, Kvennabrekka, Dalasýsla",
+      "placeNote": "Born at the farm and church of Kvennabrekka in Dalir; it has no point, so the pin is Búðardalur, the nearby town.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Dalasýsla, 19 km away; born at Kvennabrekka in Dalir, where his father was the minister. Kvennabrekka has no point, so the pin is Búðardalur, the nearby town.",
+      "source": "https://www.wikidata.org/wiki/Q252301; https://www.wikidata.org/wiki/Q1020276; https://www.britannica.com/biography/Arni-Magnusson; https://en.wikipedia.org/wiki/%C3%81rni_Magn%C3%BAsson"
+    },
+    "q192246": {
+      "lat": 35.9333,
+      "lon": 0.0903,
+      "born": "22 December 1787, al-Wasita, near Mostaganem",
+      "placeNote": "Born at al-Wasita, near Mostaganem; it has no point, so the pin is Mostaganem.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was Algiers, the point for the Regency of Algiers, 282 km away; born at al-Wasita, a small place near Mostaganem. It has no point, so the pin is Mostaganem.",
+      "source": "https://www.wikidata.org/wiki/Q192246; https://www.wikidata.org/wiki/Q849524; https://www.britannica.com/biography/al-Sanusi; https://en.wikipedia.org/wiki/Muhammad_ibn_Ali_al-Sanusi"
+    },
+    "q560535": {
+      "placeNote": "Where he was born is not recorded; \"of Pisidia\" is his family's home, and the pin is just the middle of Pisidia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Pisidia\".",
+      "source": "https://www.wikidata.org/wiki/Q560535; https://en.wikipedia.org/wiki/George_of_Pisidia"
+    },
+    "q465515": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Wessex.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Wessex\".",
+      "source": "https://www.wikidata.org/wiki/Q465515; https://en.wikipedia.org/wiki/Cynewulf_of_Wessex"
+    },
+    "q560915": {
+      "placeNote": "Where the poet was born is not known (nothing is known of his life but his name); the pin is just the middle of England.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"England\".",
+      "source": "https://www.wikidata.org/wiki/Q560915; https://en.wikipedia.org/wiki/Cynewulf"
+    },
+    "q2991836": {
+      "placeNote": "Where he was born is not recorded; he was a Byzantine Greek, taken as a slave to Merv. The pin is just the middle of Iran.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Iran\".",
+      "source": "https://www.wikidata.org/wiki/Q2991836; https://en.wikipedia.org/wiki/Al-Khazini"
+    },
+    "q465983": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of Lorraine.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Lorraine\".",
+      "source": "https://www.wikidata.org/wiki/Q465983; https://en.wikipedia.org/wiki/Margaret_I_of_Flanders"
+    },
+    "q255132": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of the County of Hainaut.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"County of Hainaut\".",
+      "source": "https://www.wikidata.org/wiki/Q255132; https://en.wikipedia.org/wiki/Marguerite_Porete"
+    },
+    "q1191258": {
+      "placeNote": "Where he was born is not certain: sources say Encina de San Silvestre, the city of Salamanca, or Fermoselle. The pin is just the middle of the province of Salamanca.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Province of Salamanca\".",
+      "source": "https://www.wikidata.org/wiki/Q1191258; https://www.cervantesvirtual.com/portales/juan_del_encina/autor_biografia/; https://en.wikipedia.org/wiki/Juan_del_Encina"
+    },
+    "q470566": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Poitou.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Poitou\".",
+      "source": "https://www.wikidata.org/wiki/Q470566; https://en.wikipedia.org/wiki/Antoine_Gombaud"
+    },
+    "q197881": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Khorasan.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Khorasan province\".",
+      "source": "https://www.wikidata.org/wiki/Q197881; https://en.wikipedia.org/wiki/Adel_Shah"
+    },
+    "q445158": {
+      "placeNote": "Where in Perthshire he was born is not recorded; the pin is just the middle of Perthshire.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Perthshire\".",
+      "source": "https://www.wikidata.org/wiki/Q445158; https://en.wikipedia.org/wiki/James_Ferguson_(American_astronomer)"
+    },
+    "q456079": {
+      "placeNote": "Where he was born is not recorded beyond the Mani; the pin is just the middle of Laconia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Laconia Prefecture\".",
+      "source": "https://www.wikidata.org/wiki/Q456079; https://en.wikipedia.org/wiki/Periklis_Pierrakos-Mavromichalis"
+    },
+    "q701507": {
+      "placeNote": "Born in Kai County (now Kaizhou District); the village is not confirmed, so the pin is just the middle of the district.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kaizhou District\".",
+      "source": "https://www.wikidata.org/wiki/Q701507; https://covid-19.chinadaily.com.cn/china/pla2010/2010-07/29/content_11068862.htm; https://en.wikipedia.org/wiki/Liu_Bocheng"
+    },
+    "q433057": {
+      "placeNote": "Where he was born is not certain: some sources say Kampala, others Mityana, where his father was a headmaster. The pin is just the middle of Buganda.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Buganda\".",
+      "source": "https://www.wikidata.org/wiki/Q433057; https://www.monitor.co.ug/uganda/news/national/tracing-the-life-of-fallen-former-president-binaisa-1475986; https://en.wikipedia.org/wiki/Godfrey_Binaisa"
+    },
+    "q320005": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Uganda.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Protectorate of Uganda\".",
+      "source": "https://www.wikidata.org/wiki/Q320005; https://www.ntv.co.ug/news/national/4522324-5136198-o0mijtz/index.html; https://en.wikipedia.org/wiki/Apolo_Nsibambi"
+    },
+    "q368732": {
+      "name": "Eliyahu M. Goldratt",
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Mandatory Palestine.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Mandatory Palestine\". The name had a typo (\"Goldrattmmnj\").",
+      "source": "https://www.wikidata.org/wiki/Q368732; https://www.tocinstitute.org/eliyahu-goldratt.html; https://en.wikipedia.org/wiki/Eliyahu_M._Goldratt"
+    },
+    "q371637": {
+      "placeNote": "Where he was born is not certain: Order of Malta obituaries say Tarset or Bellingham, both near Kielder. The pin is just the middle of Northumberland.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Northumberland\".",
+      "source": "https://www.wikidata.org/wiki/Q371637; https://orderofmaltaireland.org/obituary-for-the-former-grand-master-h-e-the-venerable-bailiff-fra-matthew-festing/; https://www.orderofmalta.int/news/grand-magistry-announces-death-of-the-79th-grand-master-fra-matthew-festing/"
+    },
+    "q536732": {
+      "placeNote": "Where he was born is not recorded (he may be legendary); the pin is just the middle of China.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"China\".",
+      "source": "https://www.wikidata.org/wiki/Q536732; https://en.wikipedia.org/wiki/Bu_Bing"
+    },
+    "q242405": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q242405; https://en.wikipedia.org/wiki/Neferure"
+    },
+    "q256446": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q256446; https://en.wikipedia.org/wiki/Isetnofret"
+    },
+    "q334090": {
+      "placeNote": "Where he was born is not certain: the Records of the Grand Historian say only \"between Ah and Juan\" in the state of Qi. The pin is just the middle of Shandong.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Shandong\".",
+      "source": "https://www.wikidata.org/wiki/Q334090; https://en.wikipedia.org/wiki/Sun_Bin"
+    },
+    "q530576": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Mauretania.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Mauretania\".",
+      "source": "https://www.wikidata.org/wiki/Q530576; https://en.wikipedia.org/wiki/Bocchus_I"
+    },
+    "q315456": {
+      "placeNote": "Where he was born is not recorded; the pin is just Rome.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ancient Rome\".",
+      "source": "https://www.wikidata.org/wiki/Q315456; https://en.wikipedia.org/wiki/Aulus_Gabinius"
+    },
+    "q351495": {
+      "placeNote": "Where he was born is not recorded; the pin is just Rome.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ancient Rome\".",
+      "source": "https://www.wikidata.org/wiki/Q351495; https://en.wikipedia.org/wiki/Lucius_Domitius_Ahenobarbus_(consul_16_BC)"
+    },
+    "q445029": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Anatolia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Anatolia\".",
+      "source": "https://www.wikidata.org/wiki/Q445029; https://en.wikipedia.org/wiki/Quadratus_of_Athens"
+    },
+    "q518300": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Lycia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Lycia\".",
+      "source": "https://www.wikidata.org/wiki/Q518300; https://en.wikipedia.org/wiki/Methodius_of_Olympus"
+    },
+    "q366394": {
+      "placeNote": "Where he was born is not recorded (he was said to be a Phrygian); the pin is just the middle of Phrygia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Phrygia\".",
+      "source": "https://www.wikidata.org/wiki/Q366394; https://en.wikipedia.org/wiki/Domitius_Alexander"
+    },
+    "q185732": {
+      "placeNote": "Where he was born is not recorded; the pin is just Rome.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ancient Rome\".",
+      "source": "https://www.wikidata.org/wiki/Q185732; https://en.wikipedia.org/wiki/Avianus"
+    },
+    "q479788": {
+      "placeNote": "Where in Yamato he was born is not recorded; the pin is just the middle of Yamato Province.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Yamato Province\".",
+      "source": "https://www.wikidata.org/wiki/Q479788; https://en.wikipedia.org/wiki/Abe_no_Nakamaro"
+    },
+    "q712214": {
+      "placeNote": "Where he was born is not recorded (he was the son of the Count of Maguelone); the pin is just the middle of Hérault.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Hérault\".",
+      "source": "https://www.wikidata.org/wiki/Q712214; https://en.wikipedia.org/wiki/Benedict_of_Aniane"
+    },
+    "q467708": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Brittany.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Armorica\".",
+      "source": "https://www.wikidata.org/wiki/Q467708; https://en.wikipedia.org/wiki/Nominoe"
+    },
+    "q335103": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q335103; https://en.wikipedia.org/wiki/Ab%C5%AB_K%C4%81mil"
+    },
+    "q454577": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Bohemia.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bohemia\".",
+      "source": "https://www.wikidata.org/wiki/Q454577; https://en.wikipedia.org/wiki/Old%C5%99ich,_Duke_of_Bohemia"
+    },
+    "q708539": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Burgundy.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Burgundy\".",
+      "source": "https://www.wikidata.org/wiki/Q708539; https://en.wikipedia.org/wiki/Rodulfus_Glaber"
+    },
+    "q362163": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Västergötland.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Västergötland\".",
+      "source": "https://www.wikidata.org/wiki/Q362163; https://en.wikipedia.org/wiki/Stenkil"
+    },
+    "q468687": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Campania.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Campania\".",
+      "source": "https://www.wikidata.org/wiki/Q468687; https://en.wikipedia.org/wiki/Roger_Borsa"
+    },
+    "q433841": {
+      "placeNote": "Where he was born is not certain: \"Holywood\" may be Holywood in Nithsdale, Halifax in Yorkshire, or Holywood in Ireland. The pin is just Yorkshire's point.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Yorkshire\".",
+      "source": "https://www.wikidata.org/wiki/Q433841; https://en.wikipedia.org/wiki/Johannes_de_Sacrobosco"
+    },
+    "q710482": {
+      "placeNote": "Where he was born is not recorded (his family came from Gabaston in Béarn); the pin is just the middle of Gascony.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Gascony\".",
+      "source": "https://www.wikidata.org/wiki/Q710482; https://en.wikipedia.org/wiki/Piers_Gaveston,_1st_Earl_of_Cornwall"
+    },
+    "q8655": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of the Gobi.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Gobi Desert\".",
+      "source": "https://www.wikidata.org/wiki/Q8655; https://en.wikipedia.org/wiki/Jayaatu_Khan_Tugh_Tem%C3%BCr"
+    },
+    "q29085": {
+      "placeNote": "Where he was born is not recorded, probably at the court of Majapahit; the pin is just the middle of the kingdom.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Majapahit\".",
+      "source": "https://www.wikidata.org/wiki/Q29085; https://en.wikipedia.org/wiki/Hayam_Wuruk"
+    },
+    "q376360": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Kosovo.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kosovo\".",
+      "source": "https://www.wikidata.org/wiki/Q376360; https://en.wikipedia.org/wiki/Vuk_Brankovi%C4%87"
+    },
+    "q316668": {
+      "placeNote": "Where he was born is not recorded (probably Flanders or Brabant); the pin is just the middle of Flanders.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Flanders\".",
+      "source": "https://www.wikidata.org/wiki/Q316668; https://en.wikipedia.org/wiki/Heinrich_Isaac"
+    },
+    "q559150": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Crimea.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Crimea\".",
+      "source": "https://www.wikidata.org/wiki/Q559150; https://en.wikipedia.org/wiki/Sahib_I_Giray"
+    },
+    "q558590": {
+      "placeNote": "Where he was born is not certain: sources say Nord-Herøy, Dønna or Tjøtta, all in Helgeland. The pin is just the middle of Helgeland.",
+      "why": "People fact-check batch 13 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Helgeland\".",
+      "source": "https://www.wikidata.org/wiki/Q558590; https://snl.no/Petter_Dass; https://lokalhistoriewiki.no/wiki/Peter_Dass"
+    },
     "q856223": {
       "startYear": 790,
       "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Born 790, not 805 (he died at 26, in 816).",
