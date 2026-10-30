@@ -2059,6 +2059,114 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\"; Oxford is first recorded in 912",
       "source": "https://www.wikidata.org/wiki/Q34217 (P571 10th century); https://en.wikipedia.org/wiki/History_of_Oxford"
     },
+    "q45798": {
+      "startYear": 1567,
+      "dateNote": "Oda Nobunaga took the castle town of Inokuchi in 1567 and renamed it Gifu. It became a city in 1889.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1889). 1889 is when it became a city; the town was named Gifu by Oda Nobunaga in 1567",
+      "source": "https://www.wikidata.org/wiki/Q45798 (P571 1889); https://en.wikipedia.org/wiki/Gifu"
+    },
+    "q103892": {
+      "startYear": 1305,
+      "dateNote": "First written record in 1305. Wikidata only gives \"13th century\" for the founding.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1201). 1201 is \"13th century\" read as a year; the first written record is 1305",
+      "source": "https://www.wikidata.org/wiki/Q103892 (P571 13th century); https://en.wikipedia.org/wiki/Zabrze"
+    },
+    "q49229": {
+      "startYear": 1853,
+      "dateNote": "Grew around Durham Station on the North Carolina Railroad, set up in 1853. It became a town in 1869.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1869). 1869 is when it became a town; the railway station it grew around dates from 1853",
+      "source": "https://www.wikidata.org/wiki/Q49229 (P571 1869); https://en.wikipedia.org/wiki/Durham,_North_Carolina"
+    },
+    "q921634": {
+      "startYear": 887,
+      "dateNote": "Set up by Muslim raiders from al-Andalus in about 887 and held until 973.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (800). 800 is a rough Wikidata value (precision only to the decade); the base was set up in about 887",
+      "source": "https://www.wikidata.org/wiki/Q921634 (P571 800s); https://en.wikipedia.org/wiki/Fraxinetum"
+    },
+    "q2300245": {
+      "startYear": 1147,
+      "dateNote": "Built for the abbey founded on Montmartre in 1133 and consecrated in 1147. Wikidata only gives \"12th century\".",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1101). 1101 is \"12th century\" read as a year; the church was consecrated in 1147",
+      "source": "https://www.wikidata.org/wiki/Q2300245 (P571 12th century); https://en.wikipedia.org/wiki/Saint-Pierre_de_Montmartre"
+    },
+    "q1048836": {
+      "startYear": 1385,
+      "dateNote": "Begun in 1385 for Niccolò II d'Este, to a design by Bartolino da Novara. Wikidata only gives \"14th century\".",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1350). 1350 is \"14th century\" read as a year; building began in 1385",
+      "source": "https://www.wikidata.org/wiki/Q1048836 (P571 14th century); https://en.wikipedia.org/wiki/Castello_Estense"
+    },
+    "q623558": {
+      "startYear": 1306,
+      "dateNote": "A wooden chapel stood here from about 1213. The stone church was consecrated in 1306 and was enlarged up to the 1500s.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1408). 1408 is a later building stage; the church was consecrated in 1306",
+      "source": "https://www.wikidata.org/wiki/Q623558 (P571 1408); https://en.wikipedia.org/wiki/Oude_Kerk,_Amsterdam"
+    },
+    "q1586946": {
+      "startYear": 398,
+      "dateNote": "Founded in about 398 by the senator Pammachius, over Roman houses. 1951 is a later restoration.",
+      "why": "Places fact-check batch 15 (Oct 2026): wrong year (1951). 1951 is a restoration; the basilica was founded in about 398",
+      "source": "https://www.wikidata.org/wiki/Q1586946 (P571 1951, P1249 499); https://en.wikipedia.org/wiki/Santi_Giovanni_e_Paolo,_Rome"
+    },
+    "q92689": {
+      "dateNote": "Wikidata only gives \"7th century\", so 601 is not a real year. An early medieval stronghold stood here, but the start date is not known.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Only a century is known (7th century shown as 601).",
+      "source": "https://www.wikidata.org/wiki/Q92689 (P1249 7th century); https://en.wikipedia.org/wiki/Sopot"
+    },
+    "q26418": {
+      "dateNote": "1922 is when it became a city. A settlement stood here from at least the 1400s and it grew as a port after 1859; sources give different start dates.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 1922 is city status; the real founding date is not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q26418 (P571 1879, 1922); https://en.wikipedia.org/wiki/Hakodate"
+    },
+    "q170313": {
+      "dateNote": "Nelspruit (now Mbombela) began as a railway stop in the 1890s and became a town in 1905; sources differ on which date to use.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 1905 may be town status; earlier start dates exist.",
+      "source": "https://www.wikidata.org/wiki/Q170313 (P571 1905); https://en.wikipedia.org/wiki/Mbombela"
+    },
+    "q201832": {
+      "dateNote": "1753 is when the fort here was renamed Aligarh. The older town of Koil on this site is much older; its founding date is not known.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 1753 is a renaming; founding date not known.",
+      "source": "https://www.wikidata.org/wiki/Q201832 (P571 1753); https://en.wikipedia.org/wiki/Aligarh"
+    },
+    "q4301": {
+      "dateNote": "1948 is a later change in status. The Germans set up a fort here in about 1900, and the Arusha people lived here long before; sources differ on the founding date.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 1948 looks like a status change; founding date not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q4301 (P571 1948); https://en.wikipedia.org/wiki/Arusha"
+    },
+    "q245023": {
+      "dateNote": "2010 is when Taichung City and County merged. The town is much older: it grew in the 1700s and a provincial capital was planned here in 1887. The exact founding year is not agreed.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 2010 is a merger; the founding year is not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q245023 (P571 2010); https://en.wikipedia.org/wiki/Taichung"
+    },
+    "q135744": {
+      "dateNote": "1785 is when the island was named Galveston. The city itself was laid out in 1838 and became a city in 1839.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: 1785 is the naming of the island; the city dates from 1838-39.",
+      "source": "https://www.wikidata.org/wiki/Q135744 (P571 1785); https://en.wikipedia.org/wiki/Galveston,_Texas"
+    },
+    "q63524": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1101 is not a real year. A community of monks began nearby in the early 1100s and moved to this lakeside site in about 1139.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1101).",
+      "source": "https://www.wikidata.org/wiki/Q63524 (P571 12th century); https://en.wikipedia.org/wiki/Hautecombe_Abbey"
+    },
+    "q1572506": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1101 is not a real year. It began as a Byzantine church and became a mosque in the late 1500s.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1101).",
+      "source": "https://www.wikidata.org/wiki/Q1572506 (P571 12th century); https://en.wikipedia.org/wiki/Hirami_Ahmet_Pasha_Mosque"
+    },
+    "q608787": {
+      "dateNote": "Wikidata only gives \"13th century\", so 1201 is not a real year. It began as the Byzantine church of St Andrew in Krisei, rebuilt in the late 1200s, and became a mosque in about 1490.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Only a century is known (13th century shown as 1201).",
+      "source": "https://www.wikidata.org/wiki/Q608787 (P571 13th century); https://en.wikipedia.org/wiki/Koca_Mustafa_Pasha_Mosque"
+    },
+    "q2595999": {
+      "dateNote": "Sources differ: this church on the Old Town Square was built in about 1732 to 1737 to a design by Kilian Ignaz Dientzenhofer; Wikidata gives 1727.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Wikidata 1727 vs building dates 1732-37.",
+      "source": "https://www.wikidata.org/wiki/Q2595999 (P571 1727); https://en.wikipedia.org/wiki/St._Nicholas_Church_(Old_Town)"
+    },
+    "q1539949": {
+      "dateNote": "Founded by King Alfonso VIII and Queen Eleanor of England; sources give dates from 1180 to 1187.",
+      "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Founding given as 1180 to 1187.",
+      "source": "https://www.wikidata.org/wiki/Q1539949 (P571 1181); https://en.wikipedia.org/wiki/Abbey_of_Santa_María_la_Real_de_Las_Huelgas"
+    },
     "q1735": {
       "startYear": 1180,
       "dateNote": "First written record: 1180, as a small market town of the Counts of Andechs. Its town charter was confirmed in 1239.",
