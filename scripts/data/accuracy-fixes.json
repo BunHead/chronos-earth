@@ -1304,6 +1304,217 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), fixed: Was shown from 400 BC, a century too early (a \"4th century BC\" value read as a year). Birthplace Syracuse or Kos.",
       "source": "https://www.wikidata.org/wiki/Q219484; https://en.wikipedia.org/wiki/Theocritus"
     },
+    "q2312843": {
+      "lat": 33.9203,
+      "lon": 35.6906,
+      "born": "1889, al-Muhaydithah, near Bikfaya, Mount Lebanon",
+      "dateNote": "Born in 1889 or 1890; sources differ (Wikipedia gives 15 May 1890).",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Lebanon, 12 km away; born in the village of al-Muhaydithah, now part of Bikfaya.",
+      "source": "https://www.wikidata.org/wiki/Q2312843; https://www.wikidata.org/wiki/Q106849514; https://www.jadaliyya.com/Details/41952; https://en.wikipedia.org/wiki/Elia_Abu_Madi"
+    },
+    "q728684": {
+      "lat": 53.8912,
+      "lon": -1.7344,
+      "born": "10 April 1897, Menston, Yorkshire",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Yorkshire, 43 km away; born in Menston, West Riding of Yorkshire.",
+      "source": "https://www.wikidata.org/wiki/Q728684; https://www.wikidata.org/wiki/Q602055; https://www.bookologymagazine.com/resources/authors-emeritus/knight-eric/; https://en.wikipedia.org/wiki/Eric_Knight"
+    },
+    "q1338879": {
+      "lat": 10.6667,
+      "lon": -61.5167,
+      "born": "25 September 1911, Port of Spain, Trinidad",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Trinidad, 37 km away; born in Port of Spain; the old pin was the middle of the island.",
+      "source": "https://www.wikidata.org/wiki/Q1338879; https://www.wikidata.org/wiki/Q39178; https://www.britannica.com/biography/Eric-Williams; https://en.wikipedia.org/wiki/Eric_Williams"
+    },
+    "q558979": {
+      "lat": -2.75,
+      "lon": 107.65,
+      "born": "30 July 1923, Tanjung Pandan, Belitung",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Belitung Island, 32 km away; born in Tanjung Pandan, the main town of Belitung.",
+      "source": "https://www.wikidata.org/wiki/Q558979; https://www.wikidata.org/wiki/Q3056359; https://tirto.id/sejarah-kejayaan-kejatuhan-pki-bersama-dn-aidit-usai-g30s-f5tK; https://en.wikipedia.org/wiki/D._N._Aidit"
+    },
+    "q364988": {
+      "lat": 46.3092,
+      "lon": -79.4614,
+      "born": "9 March 1928, North Bay, Ontario",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Ontario, 580 km away; born in North Bay, Ontario; the old pin was the middle of the whole province.",
+      "source": "https://www.wikidata.org/wiki/Q364988; https://www.wikidata.org/wiki/Q912253; https://thecanadianencyclopedia.ca/en/article/gerald-bull; https://en.wikipedia.org/wiki/Gerald_Bull"
+    },
+    "q471332": {
+      "lat": 12.0356,
+      "lon": 39.0462,
+      "born": "Roha (now Lalibela), Lasta",
+      "placeNote": "Born at Roha, by the account of his life (the Gadla Lalibela); the town was later renamed Lalibela after him. A few sources say Adefa or Bugna, nearby.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Ethiopia, 353 km away; born at Roha, later renamed Lalibela after him (some sources say Adefa or Bugna, nearby).",
+      "source": "https://www.wikidata.org/wiki/Q471332; https://www.wikidata.org/wiki/Q207590; https://orthodoxwiki.org/Lalibela_of_Ethiopia; https://en.wikipedia.org/wiki/Gebre_Meskel_Lalibela"
+    },
+    "q533514": {
+      "lat": 35.3403,
+      "lon": 25.1344,
+      "born": "1395, Candia (now Heraklion), Crete",
+      "dateNote": "Born in 1395 or 1396; sources differ (Britannica gives 1396).",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Crete, 22 km away; born in Candia (Chandax), now Heraklion, the main town of Crete.",
+      "source": "https://www.wikidata.org/wiki/Q533514; https://www.wikidata.org/wiki/Q160544; https://britannica.com/biography/George-of-Trebizond; https://en.wikipedia.org/wiki/George_of_Trebizond"
+    },
+    "q3181537": {
+      "lat": 24.9997,
+      "lon": 80.4852,
+      "born": "5 October 1524, Kalinjar Fort, Banda",
+      "died": "4 July 1564 (24 June, old style), Narai Nala, near Jabalpur",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Banda district, 56 km away; born at Kalinjar Fort, the Chandela stronghold; also the day was wrong (15 October, should be 5 October), and she died at Narai Nala near Jabalpur, not Achalpur.",
+      "source": "https://www.wikidata.org/wiki/Q3181537; https://www.wikidata.org/wiki/Q3630997; https://nvli.in/stories/rani-durgavati; https://en.wikipedia.org/wiki/Rani_Durgavati"
+    },
+    "q334914": {
+      "lat": 51.991,
+      "lon": 0.604,
+      "born": "24 March 1683, Castle Hedingham, Essex",
+      "placeNote": "Probably born at Castle Hedingham, the home of his mother's family; he was baptised there on 30 March 1683.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Essex, 27 km away; probably born at Castle Hedingham, where he was baptised on 30 March 1683.",
+      "source": "https://www.wikidata.org/wiki/Q334914; https://www.wikidata.org/wiki/Q1007856; https://www.ncpedia.org/biography/catesby-mark; https://en.wikipedia.org/wiki/Mark_Catesby"
+    },
+    "q960521": {
+      "lat": 56.65,
+      "lon": 25.4333,
+      "born": "26 July 1865, Vecbirznieki farm, Koknese parish, Livonia",
+      "placeNote": "Born at the Vecbirznieki farm in Koknese parish; the farm has no point, so the pin is Koknese. One source says Pakuli.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Livonia Governorate, 87 km away; born at the Vecbirznieki farm in Koknese parish. The farm has no point, so the pin is Koknese.",
+      "source": "https://www.wikidata.org/wiki/Q960521; https://www.wikidata.org/wiki/Q504681; https://militaryheritagetourism.info/en/military/topics/view/73; https://en.wikipedia.org/wiki/P%C4%93teris_Stu%C4%8Dka"
+    },
+    "q520882": {
+      "lat": 53.8167,
+      "lon": -1.8667,
+      "born": "22 March 1868, Wilsden, Yorkshire",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Yorkshire, 54 km away; born in Wilsden, near Bradford.",
+      "source": "https://www.wikidata.org/wiki/Q520882; https://www.wikidata.org/wiki/Q8022880; https://theramblingastronomer.blogspot.com/2022/03/alfred-fowler-1868-1940-bradford.html; https://en.wikipedia.org/wiki/Alfred_Fowler"
+    },
+    "q878504": {
+      "lat": 7.9173,
+      "lon": -72.0146,
+      "born": "5 May 1883, Queniquea, Táchira",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Táchira, 12 km away; born in Queniquea, Táchira.",
+      "source": "https://www.wikidata.org/wiki/Q878504; https://www.wikidata.org/wiki/Q742445; https://www.biografiasyvidas.com/biografia/l/lopez_contreras.htm; https://en.wikipedia.org/wiki/Eleazar_L%C3%B3pez_Contreras"
+    },
+    "q2045965": {
+      "lat": 32.6958,
+      "lon": 75.0586,
+      "born": "17 April 1940, Purmandal, near Jammu",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Jammu division, 176 km away; born in Purmandal, near Jammu; the old pin was in the Kashmir Valley, not in Jammu at all.",
+      "source": "https://www.wikidata.org/wiki/Q2045965; https://www.wikidata.org/wiki/Q22908013; https://theprint.in/theprint-profile/padma-sachdev-mother-of-modern-dogri-who-fought-vajpayee-for-recognition-of-her-language/1700147; https://en.wikipedia.org/wiki/Padma_Sachdev"
+    },
+    "q493692": {
+      "lat": 37.9717,
+      "lon": 126.5528,
+      "born": "14 November 955, Gaegyeong (now Kaesong)",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Korea, 71 km away; born in Gaegyeong (now Kaesong), the Goryeo capital.",
+      "source": "https://www.wikidata.org/wiki/Q493692; https://www.wikidata.org/wiki/Q109079; https://en.wikipedia.org/wiki/Gyeongjong_of_Goryeo"
+    },
+    "q561542": {
+      "born": "18 April 1947, Toweh Town, Nimba County",
+      "placeNote": "Born in Toweh Town, near the border with Ivory Coast; it has no point, so the pin is the middle of Nimba County.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin stays (the middle of Nimba County); born in Toweh Town, Nimba County. The town has no point, so the pin stays.",
+      "source": "https://www.wikidata.org/wiki/Q561542; https://www.thenewhumanitarian.org/node/213690; https://en.wikipedia.org/wiki/Moses_Blah"
+    },
+    "q380421": {
+      "placeNote": "Born in a village in Mukdahan province (Ban Phalouka; the spelling varies). It has no point, so the pin is just the middle of the province.",
+      "dateNote": "Born on 9 April 1914 by the official account; 1910 is also given.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Village (Ban Phalouka / Paluka) has no point; birth year 1914 or 1910.",
+      "source": "https://www.wikidata.org/wiki/Q380421; https://www.newmandala.org/obituary-nouhak-phoumsavanh/; https://www.globalsecurity.org/military/world/laos/nouhak-phoumsavanh.htm; https://en.wikipedia.org/wiki/Nouhak_Phoumsavanh"
+    },
+    "q19361202": {
+      "placeNote": "Where in Bangladesh he was born is not recorded; one source says he was born in Assam in 1971. The pin is just the middle of Bangladesh.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bangladesh\"; one source says Assam, 1971.",
+      "source": "https://www.wikidata.org/wiki/Q19361202; https://www.dhakatribune.com/bangladesh/bangladesh-others/95675/invincible-avijit-roy; https://en.wikipedia.org/wiki/Avijit_Roy"
+    },
+    "q461067": {
+      "placeNote": "Where he was born is not recorded; he is thought to have come from Sicily. The pin is just the middle of Sicily.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Sicily\".",
+      "source": "https://www.wikidata.org/wiki/Q461067; https://en.wikipedia.org/wiki/Pantaenus"
+    },
+    "q559866": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Syria.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Syria\"; nothing is known of his life.",
+      "source": "https://www.wikidata.org/wiki/Q559866; https://en.wikipedia.org/wiki/Alciphron"
+    },
+    "q142983": {
+      "placeNote": "He was of Syrian family; where he was born is not recorded. The pin is just the middle of Syria.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Syria\".",
+      "source": "https://www.wikidata.org/wiki/Q142983; https://en.wikipedia.org/wiki/Patriarch_Sergius_I_of_Constantinople"
+    },
+    "q1112728": {
+      "placeNote": "His family came from the Hadramawt, in Yemen; where he was born is not recorded. The pin is just the middle of Yemen.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Yemen\".",
+      "source": "https://www.wikidata.org/wiki/Q1112728; https://en.wikipedia.org/wiki/Al-Miqdad_ibn_Amr"
+    },
+    "q237747": {
+      "placeNote": "Born in the Trás-os-Montes region; the town is not recorded. The pin is just the middle of the region.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as the province.",
+      "source": "https://www.wikidata.org/wiki/Q237747; https://en.wikipedia.org/wiki/Leonor_Teles"
+    },
+    "q9304": {
+      "placeNote": "Where in Mongolia he was born is not recorded; the pin is just the middle of Mongolia.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Mongolia\".",
+      "source": "https://www.wikidata.org/wiki/Q9304; https://en.wikipedia.org/wiki/Dayan_Khan"
+    },
+    "q381373": {
+      "placeNote": "Where he was born is not recorded; the pin is just the point for the Tsardom of Russia (Moscow).",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Tsardom of Russia\".",
+      "source": "https://www.wikidata.org/wiki/Q381373; https://en.wikipedia.org/wiki/Andrey_Kurbsky"
+    },
+    "q726385": {
+      "placeNote": "Where he was born is not recorded; he may be the John Machin baptised in London in 1686. The pin is just the middle of England.",
+      "dateNote": "Born about 1680 (Britannica) or 1686 (Oxford Dictionary of National Biography, which gives a London baptism of 1686, with a question mark).",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"England\"; born 1680 or 1686.",
+      "source": "https://www.wikidata.org/wiki/Q726385; https://mathshistory.st-andrews.ac.uk/Biographies/Machin/; https://en.wikipedia.org/wiki/John_Machin"
+    },
+    "q307678": {
+      "placeNote": "Born among the Ta'aisha in southwest Darfur; the place is not recorded (one source says Um Dafuq). The pin is just the middle of Darfur.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Darfur\".",
+      "source": "https://www.wikidata.org/wiki/Q307678; https://www.deutsche-biographie.de/sfz122417.html; https://en.wikipedia.org/wiki/Abdallahi_ibn_Muhammad"
+    },
+    "q168339": {
+      "placeNote": "Sources differ on where he was born: Tokyo, or Yamaguchi Prefecture (his family's home). The pin is just the middle of Yamaguchi Prefecture.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Tokyo or Yamaguchi Prefecture; sources differ.",
+      "source": "https://www.wikidata.org/wiki/Q168339; https://tracesofwar.com/persons/68443; https://en.wikipedia.org/wiki/Hisaichi_Terauchi"
+    },
+    "q558640": {
+      "born": "1892, Övörkhangai",
+      "died": "26 November 1937, Moscow",
+      "placeNote": "Born in what is now Övörkhangai Province; sources differ on the district (Khujirt or Taragt). The pin is just the middle of Mongolia.",
+      "dateNote": "Born in 1892 or 1895; sources differ.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Khujirt or Taragt, Övörkhangai; sources differ. Birth and death were missing; added.",
+      "source": "https://www.wikidata.org/wiki/Q558640; https://www.thecollector.com/peljidiin-genden-who-slapped-joseph-stalin/; https://en.wikipedia.org/wiki/Peljidiin_Genden"
+    },
+    "q7297085": {
+      "placeNote": "Born in Giza Governorate; the town is not recorded. The pin is just the middle of the governorate.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Giza Governorate\".",
+      "source": "https://www.wikidata.org/wiki/Q7297085; https://egyptianstreets.com/2020/10/16/heres-the-story-of-rawya-ateya-first-woman-parliamentarian-in-the-arab-world; https://en.wikipedia.org/wiki/Rawya_Ateya"
+    },
+    "q204323": {
+      "placeNote": "Born in South Africa and raised in Brooklyn, New York; the town is not recorded. The pin is just the middle of South Africa.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"South Africa\".",
+      "source": "https://www.wikidata.org/wiki/Q204323; https://www.imdb.com/name/nm0708500/bio; https://en.wikipedia.org/wiki/Phil_Ramone"
+    },
+    "q739660": {
+      "placeNote": "Born on the Lake Traverse Reservation, South Dakota; the town is not recorded. The pin is just the middle of the reservation.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as the reservation.",
+      "source": "https://www.wikidata.org/wiki/Q739660; https://www.imdb.com/name/nm0922671/bio/; https://en.wikipedia.org/wiki/Floyd_Westerman"
+    },
+    "q3173010": {
+      "placeNote": "Where in England she was born is not clear: sources say Buckinghamshire, or Burnham. The pin is just the middle of England.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"England\"; Buckinghamshire or Burnham in other sources.",
+      "source": "https://www.wikidata.org/wiki/Q3173010; https://memoritree.com/memorial/susan-haack; https://en.wikipedia.org/wiki/Susan_Haack"
+    },
+    "q23793885": {
+      "name": "Theresa Kachindamoto",
+      "placeNote": "Born in Dedza District; the village is not recorded. The pin is just the middle of the district.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dedza District\". Also fixed the name (a stray bracket).",
+      "source": "https://www.wikidata.org/wiki/Q23793885; https://www.aljazeera.com/features/2016/05/16/malawis-fearsome-chief-terminator-of-child-marriages/; https://en.wikipedia.org/wiki/Theresa_Kachindamoto"
+    },
+    "q380159": {
+      "placeNote": "Born in Kandahar Province; the village is not recorded. The pin is just the middle of the province.",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Kandahar Province\".",
+      "source": "https://www.wikidata.org/wiki/Q380159; https://en.wikipedia.org/wiki/Dadullah"
+    },
     "q167610": {
       "startYear": 1080,
       "endYear": 1153,
