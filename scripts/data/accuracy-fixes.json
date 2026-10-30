@@ -1701,6 +1701,192 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Dates differ by 2 years.",
       "source": "https://www.wikidata.org/wiki/Q313605; https://en.wikipedia.org/wiki/Wang_Wei"
     },
+    "q7342": {
+      "startYear": 1117,
+      "dateNote": "First written record in 1117. Wikidata only gives \"12th century\" for the founding.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1101). 1101 is \"12th century\" read as a year; Wikidata P1249 gives the first record, 1117",
+      "source": "https://www.wikidata.org/wiki/Q7342 (P571 12th century, P1249 1117); https://en.wikipedia.org/wiki/O%C5%9Bwi%C4%99cim"
+    },
+    "q14859": {
+      "startYear": 748,
+      "dateNote": "Grew around a monastery founded in about 748 by St Gumbert. First called a town in 1221.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1221). 1221 is when it is first called a town; the monastery the town grew around was founded in about 748",
+      "source": "https://www.wikidata.org/wiki/Q14859 (P1249 1221); https://en.wikipedia.org/wiki/Ansbach"
+    },
+    "q1012": {
+      "startYear": 45,
+      "dateNote": "The Roman town of Celeia got town rights under Emperor Claudius in about AD 45. A Celtic settlement stood here before. It got town rights again in 1451.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1451). 1451 is when the medieval town got town rights; Roman Celeia was made a municipium under Claudius in about AD 45",
+      "source": "https://www.wikidata.org/wiki/Q1012 (P571 1451); https://en.wikipedia.org/wiki/Celje"
+    },
+    "q200022": {
+      "startYear": 1602,
+      "dateNote": "Grew as the castle town of Matsuyama Castle, begun by Kato Yoshiaki in 1602. It became a city in 1889.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town was founded in 1602",
+      "source": "https://www.wikidata.org/wiki/Q200022 (P571 1889); https://en.wikipedia.org/wiki/Matsuyama"
+    },
+    "q146790": {
+      "startYear": 1624,
+      "dateNote": "Founded in 1624 as a port town by the Hirosaki domain. It became a city in 1898; in 2005 it merged with Namioka.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (2005). 2005 is a town merger; the port town was founded in 1624",
+      "source": "https://www.wikidata.org/wiki/Q146790 (P571 2005, 1896, 1889); https://en.wikipedia.org/wiki/Aomori"
+    },
+    "q102350": {
+      "startYear": 1136,
+      "dateNote": "First written record in 1136, in the Bull of Gniezno. Wikidata only gives \"12th century\" for the founding.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1200). 1200 is \"12th century\" read as a year; Wikidata P1249 gives the first record, 1136",
+      "source": "https://www.wikidata.org/wiki/Q102350 (P571 12th century, P1249 1136); https://en.wikipedia.org/wiki/Bytom"
+    },
+    "q486877": {
+      "startYear": 1820,
+      "dateNote": "Began as a fur-trading post in about 1820. It became a town in 1835 and a city in 1865.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1865). 1865 is when it became a city; the trading post it grew from dates from about 1820",
+      "source": "https://www.wikidata.org/wiki/Q486877 (P571 1865); https://en.wikipedia.org/wiki/South_Bend,_Indiana"
+    },
+    "q17139": {
+      "startYear": 1604,
+      "dateNote": "Grew as the castle town of Kubota Castle, built by the Satake clan from 1604. It became a city in 1889. An older fort, Akita Castle, stood nearby from 733.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town was founded in 1604",
+      "source": "https://www.wikidata.org/wiki/Q17139 (P571 1889); https://en.wikipedia.org/wiki/Akita,_Akita"
+    },
+    "q2410105": {
+      "startYear": 1077,
+      "dateNote": "Begun in about 1077, soon after Jaca became a city. Wikidata only gives \"11th century\".",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1100). 1100 is \"11th century\" read as a year; building began in about 1077",
+      "source": "https://www.wikidata.org/wiki/Q2410105 (P571 11th century); https://en.wikipedia.org/wiki/Jaca_Cathedral"
+    },
+    "q2942864": {
+      "startYear": 1151,
+      "dateNote": "Built from 1151 to 1174.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1200). 1200 is \"12th century\" read as a year; the cathedral was built from 1151 to 1174",
+      "source": "https://www.wikidata.org/wiki/Q2942864 (P571 12th century); https://en.wikipedia.org/wiki/Zamora_Cathedral"
+    },
+    "q810103": {
+      "startYear": 1390,
+      "dateNote": "Begun in 1390. The front was never finished.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1350). 1350 is \"14th century\" read as a year; Wikidata also gives 1390, when building began",
+      "source": "https://www.wikidata.org/wiki/Q810103 (P571 14th century and 1390); https://en.wikipedia.org/wiki/San_Petronio_Basilica"
+    },
+    "q12960184": {
+      "startYear": 1502,
+      "dateNote": "Bramante's plan dates from 1502, though building may have started a few years later.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1500). Wikidata gives only the decade (1500s); the usual date is 1502",
+      "source": "https://www.wikidata.org/wiki/Q12960184 (P571 1500s); https://en.wikipedia.org/wiki/San_Pietro_in_Montorio#Tempietto"
+    },
+    "q569546": {
+      "startYear": 1077,
+      "dateNote": "First recorded in 1077. Rebuilt after a fire in 1633, and again after another fire in 1893.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1650). 1650 is a rebuilding; the castle is first recorded in 1077",
+      "source": "https://www.wikidata.org/wiki/Q569546 (P571 1650); https://en.wikipedia.org/wiki/Sigmaringen_Castle"
+    },
+    "q2034331": {
+      "startYear": 1671,
+      "dateNote": "Built from 1671 to 1677.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1677). 1677 is when it was finished; building began in 1671",
+      "source": "https://www.wikidata.org/wiki/Q2034331 (P571 1677); https://en.wikipedia.org/wiki/Palazzo_Rosso_(Genoa)"
+    },
+    "q29157": {
+      "startYear": 1682,
+      "dateNote": "Built from 1682 to 1696; the church opened in 1695. The famous spire was added in 1752.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1695). 1695 is when it opened; building began in 1682",
+      "source": "https://www.wikidata.org/wiki/Q29157 (P571 1695); https://en.wikipedia.org/wiki/Church_of_Our_Saviour,_Copenhagen"
+    },
+    "q2618766": {
+      "startYear": 1763,
+      "dateNote": "Begun in 1762 or 1763 and consecrated in 1783.",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong year (1783). 1783 is when it was consecrated; building began in about 1763",
+      "source": "https://www.wikidata.org/wiki/Q2618766 (P571 1783); https://en.wikipedia.org/wiki/Church_of_St._Catherine_(Saint_Petersburg)"
+    },
+    "q31204": {
+      "name": "St Henry's Cathedral",
+      "why": "Places fact-check batch 14 (Oct 2026): wrong name. The harvest took the Finnish name (Pyhän Henrikin katedraali); the English name is St Henry's Cathedral (Helsinki)",
+      "source": "https://www.wikidata.org/wiki/Q31204; https://en.wikipedia.org/wiki/St._Henry%27s_Cathedral"
+    },
+    "q200054": {
+      "dateNote": "The steel works and the town of Sakchi here were begun in 1907 to 1908. The town was named Jamshedpur in 1919.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: founding vs renaming: kept 1919 (Wikidata P571); the works and town began in 1907-08",
+      "source": "https://www.wikidata.org/wiki/Q200054; https://en.wikipedia.org/wiki/Jamshedpur"
+    },
+    "q486195": {
+      "dateNote": "Only a century is known: Wikidata says \"6th century BC\" (shown as 501 BC). Local tradition says the city is about 2,500 years old.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known (6th century BC shown as 501 BC); exact date unknown",
+      "source": "https://www.wikidata.org/wiki/Q486195; https://en.wikipedia.org/wiki/Khiva"
+    },
+    "q162022": {
+      "dateNote": "1008 is an early written record. A settlement grew up here earlier, around St Rumbold's mission, and the exact founding date is not known.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1008 is a written record (Wikidata P1249), not a founding date",
+      "source": "https://www.wikidata.org/wiki/Q162022; https://en.wikipedia.org/wiki/Mechelen"
+    },
+    "q180139": {
+      "dateNote": "1225 is when it is first recorded as a town. A fort stood here from the 10th century.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: town record vs older fort; kept 1225 (Wikidata P571/P1249)",
+      "source": "https://www.wikidata.org/wiki/Q180139; https://en.wikipedia.org/wiki/Hradec_Kr%C3%A1lov%C3%A9"
+    },
+    "q12996": {
+      "dateNote": "1265 is when it got town rights. A village called Oostende stood here before that.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: town rights vs older village; kept 1265 (Wikidata P571)",
+      "source": "https://www.wikidata.org/wiki/Q12996; https://en.wikipedia.org/wiki/Ostend"
+    },
+    "q216075": {
+      "dateNote": "Sources give different dates. Vietnamese settlement here grew during the 18th century.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1789 (Wikidata P571) could not be confirmed; other sources give earlier 18th-century dates",
+      "source": "https://www.wikidata.org/wiki/Q216075; https://en.wikipedia.org/wiki/C%E1%BA%A7n_Th%C6%A1"
+    },
+    "q4051": {
+      "dateNote": "Formed in 1811 by joining the older towns of Buchhorn (first recorded in 838) and Hofen.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1811 is a merger and renaming; Buchhorn is far older",
+      "source": "https://www.wikidata.org/wiki/Q4051; https://en.wikipedia.org/wiki/Friedrichshafen"
+    },
+    "q203476": {
+      "dateNote": "The British penal colony here began in 1858. An earlier British settlement, founded by Archibald Blair in 1789, was given up in 1796.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1858 (Wikidata P571) vs the 1789 settlement",
+      "source": "https://www.wikidata.org/wiki/Q203476; https://en.wikipedia.org/wiki/Sri_Vijaya_Puram"
+    },
+    "q10392": {
+      "dateNote": "1997 is when Bekasi became a city. People lived here much earlier, in the time of the Tarumanagara kingdom (5th century).",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1997 is city status; no clear founding date",
+      "source": "https://www.wikidata.org/wiki/Q10392; https://en.wikipedia.org/wiki/Bekasi"
+    },
+    "q15758": {
+      "dateNote": "The Ottoman fortress was built in 1781 to 1782. The ancient Greek city of Gorgippia stood on the same site from the 4th century BC.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1781 is the Ottoman fortress; ancient Gorgippia was here first",
+      "source": "https://www.wikidata.org/wiki/Q15758; https://en.wikipedia.org/wiki/Anapa"
+    },
+    "q1236511": {
+      "dateNote": "Only a century is known: built for William the Conqueror in the 11th century (shown as 1100).",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known (11th century shown as 1100)",
+      "source": "https://www.wikidata.org/wiki/Q1236511; https://en.wikipedia.org/wiki/Corfe_Castle"
+    },
+    "q1269931": {
+      "dateNote": "Only a century is known: Wikidata says \"14th century\" (shown as 1400). Dating suggests the walls may be older, from about the 11th century.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known; dating suggests it may be older",
+      "source": "https://www.wikidata.org/wiki/Q1269931; https://en.wikipedia.org/wiki/Ruins_of_Lorop%C3%A9ni"
+    },
+    "q1076285": {
+      "dateNote": "1536 is around when it was a refuge for the last Inca rulers. It was probably built in the late 15th century.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1536 (Wikidata P571) vs probable late-15th-century building",
+      "source": "https://www.wikidata.org/wiki/Q1076285; https://en.wikipedia.org/wiki/Choquequirao"
+    },
+    "q1048627": {
+      "dateNote": "The present star fort was built from 1537. An older castle, Belforte, stood here from 1329.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: 1537 is the present fort; an older castle stood here from 1329",
+      "source": "https://www.wikidata.org/wiki/Q1048627; https://en.wikipedia.org/wiki/Castel_Sant%27Elmo"
+    },
+    "q1631638": {
+      "dateNote": "Only a century is known (shown as 401). A church here is first recorded in 499; the present church was built in the 1120s.",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known (5th century shown as 401)",
+      "source": "https://www.wikidata.org/wiki/Q1631638; https://en.wikipedia.org/wiki/San_Crisogono"
+    },
+    "q1515307": {
+      "dateNote": "Built by Pope Symmachus in about 500 (he was pope from 498 to 514). Wikidata only gives \"6th century\".",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known (6th century shown as 501); about 500 is close",
+      "source": "https://www.wikidata.org/wiki/Q1515307; https://en.wikipedia.org/wiki/San_Pancrazio,_Rome"
+    },
+    "q3529269": {
+      "dateNote": "Only a century is known: it began as a Phoenician trading post in the 6th century BC (shown as 600 BC).",
+      "why": "Places fact-check batch 14 (Oct 2026): still uncertain, the panel now says so: only a century known (6th century BC shown as 600 BC)",
+      "source": "https://www.wikidata.org/wiki/Q3529269; https://en.wikipedia.org/wiki/Tipasa"
+    },
     "q311495": {
       "dateNote": "Born about 936; died about 1013 (some say 1009 or 1036).",
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Death 1010/1013/1036.",
