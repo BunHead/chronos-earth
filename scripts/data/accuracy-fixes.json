@@ -1590,6 +1590,321 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Place and dates unknown.",
       "source": "https://www.wikidata.org/wiki/Q5617; https://en.wikipedia.org/wiki/Marie_de_France"
     },
+    "q980417": {
+      "lat": 54.592,
+      "lon": -6.214,
+      "born": "27 March 1839, Ballypitmave, near Glenavy, County Antrim",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of County Antrim, 31 km away; born at Ballypitmave, a farm near Glenavy, County Antrim.",
+      "source": "https://www.wikidata.org/wiki/Q980417; https://www.wikidata.org/wiki/Q1816005; https://teara.govt.nz/en/biographies/2b5/ballance-john; https://en.wikipedia.org/wiki/John_Ballance"
+    },
+    "q444581": {
+      "lat": 52.774,
+      "lon": -1.557,
+      "born": "26 September 1848, Swadlincote, Derbyshire",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Derbyshire, 45 km away; born in Swadlincote, where her father was the doctor.",
+      "source": "https://www.wikidata.org/wiki/Q444581; https://www.wikidata.org/wiki/Q2569065; https://app.guildford.gov.uk/boroughcollection/artist/15; https://en.wikipedia.org/wiki/Helen_Allingham"
+    },
+    "q766517": {
+      "lat": 55.5,
+      "lon": 36.0333,
+      "born": "12 April 1850, Porechye, near Mozhaysk, Moscow Governorate",
+      "placeNote": "Born at Porechye, a village near Mozhaysk; it has no point, so the pin is Mozhaysk, the district town.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Moscow Governorate, 103 km away; born at Porechye, a village near Mozhaysk. Porechye has no point, so the pin is Mozhaysk, the district town.",
+      "source": "https://www.wikidata.org/wiki/Q766517; https://www.wikidata.org/wiki/Q159139; https://www.calend.ru/persons/40/; https://en.wikipedia.org/wiki/Nikolai_Golitsyn"
+    },
+    "q681619": {
+      "lat": 17.3617,
+      "lon": 78.4747,
+      "born": "17 August 1866, Purani Haveli, Hyderabad",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Hyderabad State, 55 km away; born at the Purani Haveli palace in the city of Hyderabad; the old pin was the middle of the whole state.",
+      "source": "https://www.wikidata.org/wiki/Q681619; https://www.wikidata.org/wiki/Q1361; https://www.chowmahalla.in/?p=443; https://en.wikipedia.org/wiki/Mahboob_Ali_Khan"
+    },
+    "q2635601": {
+      "lat": 59.8667,
+      "lon": 38.3833,
+      "born": "July 1889, Nikolskoye, Kirillov district, Novgorod Governorate",
+      "placeNote": "Born in the village of Nikolskoye, Kirillov district; it has no point, so the pin is Kirillov, the district town.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Novgorod Governorate, 377 km away; born in the village of Nikolskoye in Kirillov district (now Vologda Oblast). Nikolskoye has no point, so the pin is Kirillov, the district town.",
+      "source": "https://www.wikidata.org/wiki/Q2635601; https://www.wikidata.org/wiki/Q153453; https://encyclopedia.com/women/encyclopedias-almanacs-transcripts-and-maps/botchkareva-maria-1889; https://en.wikipedia.org/wiki/Maria_Bochkareva"
+    },
+    "q435569": {
+      "lat": 51.4708,
+      "lon": 77.7783,
+      "born": "24 February 1895, Lebyazhye (now Akkuly), Pavlodar Region, Kazakhstan",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Lebyazhyevsky District, 861 km away; Wikidata has the wrong place: Lebyazhyevsky District in Russia. He was born in the village of Lebyazhye, Semipalatinsk oblast, now Akkuly in Pavlodar Region, Kazakhstan.",
+      "source": "https://www.wikidata.org/wiki/Q435569; https://www.wikidata.org/wiki/Q47961; https://pavlodarlibrary.kz/en/events/novosti/evening-portrait-for-the-125th-anniversary-of-the-writer-vsevolod-ivanov; https://www.britannica.com/biography/Vsevolod-Vyacheslavovich-Ivanov; https://en.wikipedia.org/wiki/Vsevolod_Ivanov"
+    },
+    "q700713": {
+      "lat": 29.477,
+      "lon": 110.1615,
+      "born": "22 March 1896, Hongjiaguan, Sangzhi County, Hunan",
+      "placeNote": "Born in Hongjiaguan, Sangzhi County, by the usual account; his former home is there.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Sangzhi County, 8 km away; born in Hongjiaguan, Sangzhi County, where his former home stands.",
+      "source": "https://www.wikidata.org/wiki/Q700713; https://www.wikidata.org/wiki/Q11146768; https://en.wikipedia.org/wiki/Sangzhi_County; https://en.wikipedia.org/wiki/He_Long"
+    },
+    "q356335": {
+      "lat": 40.8408,
+      "lon": 129.4983,
+      "born": "9 November 1918, Hwadae, North Hamgyong",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Myongchon County, 26 km away; born in Hwadae, then part of Myongchon County and now its own county (Hwadae County).",
+      "source": "https://www.wikidata.org/wiki/Q356335; https://www.wikidata.org/wiki/Q706795; https://itf-tkd.org/api/download-document/502451fe-0d72-44e9-b290-90826f107cc5; https://en.wikipedia.org/wiki/Choi_Hong-hi"
+    },
+    "q707005": {
+      "lat": 55.09,
+      "lon": 80.97,
+      "born": "29 November 1920, Dubinkino, Chulymsky District, Novosibirsk Oblast",
+      "placeNote": "Born in the village of Dubinkino, Chulymsky District; it has no point, so the pin is Chulym, the district town.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Novosibirsk Oblast, 98 km away; born in the village of Dubinkino, now in Chulymsky District. Dubinkino has no point, so the pin is Chulym, the district town.",
+      "source": "https://www.wikidata.org/wiki/Q707005; https://www.wikidata.org/wiki/Q198140; https://tass.com/society/1287507; https://en.wikipedia.org/wiki/Yegor_Ligachev"
+    },
+    "q733919": {
+      "lat": 29.4764,
+      "lon": 30.9611,
+      "born": "27 January 1925, Tamiya, Faiyum",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Egypt, 336 km away; born in Tamiya, Faiyum, the seat he later held in parliament; the old pin was the middle of Egypt, in the desert.",
+      "source": "https://www.wikidata.org/wiki/Q733919; https://www.wikidata.org/wiki/Q5599915; https://nasseryouthmovement.net/Dr.-Sufi-Abu-Taleb; https://en.wikipedia.org/wiki/Sufi_Abu_Taleb"
+    },
+    "q500345": {
+      "lat": -3.7231,
+      "lon": 37.665,
+      "born": "4 January 1931, Chomvu, Usangi, Mwanga District, Kilimanjaro",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kilimanjaro Region, 56 km away; born in the village of Chomvu in Usangi, Mwanga District.",
+      "source": "https://www.wikidata.org/wiki/Q500345; https://www.wikidata.org/wiki/Q20613978; https://www.thecitizen.co.tz/tanzania/news/national/cleopa-msuya-the-architect-of-tanzania-s-economic-transition-passes-away-5032474; https://en.wikipedia.org/wiki/Cleopa_Msuya"
+    },
+    "q561721": {
+      "lat": 36.8931,
+      "lon": 4.4203,
+      "born": "11 January 1954, Oulkhou, near Azeffoun, Kabylia",
+      "placeNote": "Born in the village of Oulkhou near Azeffoun; it has no point, so the pin is Azeffoun.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kabylia, 61 km away; born in the village of Oulkhou near Azeffoun, where he is buried. Oulkhou has no point, so the pin is Azeffoun.",
+      "source": "https://www.wikidata.org/wiki/Q561721; https://www.wikidata.org/wiki/Q209443; https://www.universalis.fr/encyclopedie/tahar-djaout/; https://zoomalgerie.com/tahar-djaout/; https://en.wikipedia.org/wiki/Tahar_Djaout"
+    },
+    "q293771": {
+      "lat": 28.1892,
+      "lon": 30.6981,
+      "born": "853, Taha, Upper Egypt",
+      "placeNote": "Born in the village of Taha in Upper Egypt, which gave him his name al-Tahawi.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Egypt, 213 km away; born in the village of Taha (Taha al-Amida) in Upper Egypt, which gave him his name; the old pin was the middle of Egypt, in the desert.",
+      "source": "https://www.wikidata.org/wiki/Q293771; https://www.wikidata.org/wiki/Q12221613; https://en.wikipedia.org/wiki/Al-Tahawi"
+    },
+    "q1050887": {
+      "lat": 37.9511,
+      "lon": 58.2124,
+      "born": "1086, Shahristan, Khorasan (near Nisa, now Turkmenistan)",
+      "placeNote": "Born in Shahristan, a lost town in Khorasan near Nisa (now Turkmenistan), so the pin is Nisa.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Shahristan District, 881 km away; Wikidata has the wrong place: Shahristan District in Afghanistan. He was born in Shahristan, a town in Khorasan on the edge of the Karakum desert near Nisa (now Turkmenistan). The town is gone, so the pin is Nisa.",
+      "source": "https://www.wikidata.org/wiki/Q1050887; https://www.wikidata.org/wiki/Q854672; https://kureansiklopedi.com/en/detay/sehristani-2; https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/shahrastani-al; https://en.wikipedia.org/wiki/Al-Shahrastani"
+    },
+    "q2667861": {
+      "lat": 34.0564,
+      "lon": 74.8609,
+      "born": "1320, Pandrethan, near Srinagar, Kashmir",
+      "placeNote": "Born at Pandrethan near Srinagar by tradition; some scholars say Sempore near Pampore.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kashmir, 116 km away; born at Pandrethan near Srinagar, by tradition; some scholars say Sempore near Pampore. The old pin was the middle of all Kashmir, in Ladakh.",
+      "source": "https://www.wikidata.org/wiki/Q2667861; https://www.wikidata.org/wiki/Q59657930; https://rd.springer.com/referenceworkentry/10.1007%2F978-94-024-1036-5_329-1; https://en.wikipedia.org/wiki/Lalleshwari"
+    },
+    "q503809": {
+      "lat": 48.8567,
+      "lon": 2.3522,
+      "born": "February 1403, Paris",
+      "dateNote": "Britannica gives February 1403; many other sources give 23 November 1402.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Kingdom of France, 208 km away; born in Paris; the old pin was the middle of France.",
+      "source": "https://www.wikidata.org/wiki/Q503809; https://www.wikidata.org/wiki/Q90; https://www.britannica.com/biography/Jean-dOrleans; https://en.wikipedia.org/wiki/Jean_de_Dunois"
+    },
+    "q381224": {
+      "lat": 43.956,
+      "lon": 15.562,
+      "born": "c. 1430, Vrana, near Zadar, Dalmatia",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Dalmatia, 55 km away; born in Vrana near Zadar, which gave him his name (Laurana).",
+      "source": "https://www.wikidata.org/wiki/Q381224; https://www.wikidata.org/wiki/Q223601; https://www.britannica.com/biography/Francesco-Laurana; https://en.wikipedia.org/wiki/Francesco_Laurana"
+    },
+    "q460791": {
+      "lat": 54.701,
+      "lon": -1.653,
+      "born": "22 September 1711, Byers Green, County Durham",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of County Durham, 12 km away; born at Byers Green, where he also died.",
+      "source": "https://www.wikidata.org/wiki/Q460791; https://www.wikidata.org/wiki/Q5004070; https://dur.ac.uk/things-to-do/venues/historic-libraries-at-palace-green/whats-on/past-exhibitions/thomas-wright-of-durham/; https://en.wikipedia.org/wiki/Thomas_Wright_(astronomer)"
+    },
+    "q4206839": {
+      "lat": 28.0333,
+      "lon": 84.7167,
+      "born": "August 1775, Pipal Thok, Gorkha",
+      "placeNote": "Born at Pipal Thok village in Gorkha; it has no point, so the pin is Bhimsen Thapa Rural Municipality, which is named after him.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Gorkha District, 28 km away; born at Pipal Thok village, Gorkha, now in Bhimsen Thapa Rural Municipality (named after him). Pipal Thok has no point, so the pin is the rural municipality.",
+      "source": "https://www.wikidata.org/wiki/Q4206839; https://www.wikidata.org/wiki/Q30317302; https://en.wikipedia.org/wiki/Bhimsen_Thapa"
+    },
+    "q12446041": {
+      "lat": 32.7357,
+      "lon": 74.8691,
+      "born": "October 1792, Jammu",
+      "placeNote": "Born in or near Jammu: most sources say Jammu; local accounts name the villages of Smailpur or Anderwah, near Samba.",
+      "dateNote": "The day is given as 17, 18 or 21 October 1792.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Jammu division, 169 km away; the old pin was the middle of Jammu division, in the Kashmir Valley. Born in or near Jammu: most sources say Jammu; local accounts name Smailpur or Anderwah near Samba.",
+      "source": "https://www.wikidata.org/wiki/Q12446041; https://www.wikidata.org/wiki/Q255455; https://www.dailyexcelsior.com/?p=805535; https://www.newworldencyclopedia.org/entry/Gulab_Singh; https://en.wikipedia.org/wiki/Gulab_Singh"
+    },
+    "q521170": {
+      "lat": 59.6933,
+      "lon": 39.2158,
+      "born": "8 December 1855, a forest farm near Syama, Vologda Governorate",
+      "placeNote": "Born on a forest farm near the village of Syama; the farm has no point, so the pin is Syama.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Vologda Governorate, 56 km away; born on a forest farm near the village of Syama, Vologda Governorate (by his own memoir, beyond Lake Kubenskoye). The farm has no point, so the pin is Syama.",
+      "source": "https://www.wikidata.org/wiki/Q521170; https://www.wikidata.org/wiki/Q4448621; https://www.booksite.ru/guilyai/vologda/1.htm; https://en.wikipedia.org/wiki/Vladimir_Gilyarovsky"
+    },
+    "q706842": {
+      "lat": 28.1389,
+      "lon": 113.1061,
+      "born": "1874, Gaotang, Changsha (now Huangxing town, Changsha County)",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Shanhua County, 12 km away; born in Gaotang village, now in Huangxing town, Changsha County, which is named after him.",
+      "source": "https://www.wikidata.org/wiki/Q706842; https://www.wikidata.org/wiki/Q5926062; https://en.wikipedia.org/wiki/Former_Residence_of_Huang_Xing; https://enghunan.gov.cn/hneng/AboutHunan/HistoryCulture/Celebrities/201508/t20150807_1816288.html; https://en.wikipedia.org/wiki/Huang_Xing"
+    },
+    "q2721812": {
+      "lat": 21.6948,
+      "lon": 72.9805,
+      "born": "30 December 1887, Bharuch, Gujarat",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Bharuch district, 6 km away; born in the town of Bharuch (Broach); the old pin was the middle of Bharuch district.",
+      "source": "https://www.wikidata.org/wiki/Q2721812; https://www.wikidata.org/wiki/Q760153; https://www.constitutionofindia.net/members/k-m-munshi/; https://en.wikipedia.org/wiki/Kanaiyalal_Maneklal_Munshi"
+    },
+    "q684198": {
+      "born": "7 November 1858, Poil, near Habiganj, Sylhet",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: The pin is already by Habiganj town; the Born line now names his village, Poil.",
+      "source": "https://www.wikidata.org/wiki/Q684198; https://byjus.com/free-ias-prep/this-day-in-history-nov7; https://en.wikipedia.org/wiki/Bipin_Chandra_Pal"
+    },
+    "q2272741": {
+      "born": "6 December 1916, Konoplyanka, Vyazemsky District, Smolensk",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), fixed: The pin is already on Vyazma; the Born line now names her village, Konoplyanka.",
+      "source": "https://www.wikidata.org/wiki/Q2272741; https://migflug.com/jetflights/yekaterina-budanova-the-forgotten-soviet-fighter-ace-who-flew-alongside-a-legend/; https://en.wikipedia.org/wiki/Yekaterina_Budanova"
+    },
+    "q1046502": {
+      "placeNote": "Where he was born is not certain: in the Bukey Horde, now Zhanakala District, West Kazakhstan; some sources name Zhideli, which has no point. Some give the year as 1818. The pin is just the middle of the old Bokey Orda District.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bokey Orda District\".",
+      "source": "https://www.wikidata.org/wiki/Q1046502; https://e-history.kz/en/biography/view/114; https://en.wikipedia.org/wiki/Kurmangazy_Sagyrbaev"
+    },
+    "q261213": {
+      "placeNote": "Where she was born is not recorded; the pin is just the middle of Egypt.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q261213; https://en.wikipedia.org/wiki/Bintanath"
+    },
+    "q1207671": {
+      "placeNote": "Where he was born is not certain: Nanwu in the State of Lu, now placed in Pingyi or Jiaxiang, Shandong. The pin is just the middle of China.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"China\".",
+      "source": "https://www.wikidata.org/wiki/Q1207671; https://en.wikipedia.org/wiki/Zengzi"
+    },
+    "q457994": {
+      "placeNote": "Where he was born is not recorded; he was a noble of Orestis in Upper Macedonia. The pin is just the middle of Orestis.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Orestis\".",
+      "source": "https://www.wikidata.org/wiki/Q457994; https://en.wikipedia.org/wiki/Pausanias_of_Orestis"
+    },
+    "q337108": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Cappadocia.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Cappadocia\".",
+      "source": "https://www.wikidata.org/wiki/Q337108; https://en.wikipedia.org/wiki/Ariarathes_V_of_Cappadocia"
+    },
+    "q7220": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of China.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"China\".",
+      "source": "https://www.wikidata.org/wiki/Q7220; https://en.wikipedia.org/wiki/Emperor_Houshao_of_Han"
+    },
+    "q7247": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of China.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"China\".",
+      "source": "https://www.wikidata.org/wiki/Q7247; https://en.wikipedia.org/wiki/Ruzi_Ying"
+    },
+    "q378624": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Illyricum.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Illyricum\".",
+      "source": "https://www.wikidata.org/wiki/Q378624; https://en.wikipedia.org/wiki/Macrianus_Minor"
+    },
+    "q347010": {
+      "placeNote": "Where he was born is not recorded; he came from Hispania, probably Gallaecia. The pin is just the middle of Hispania.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Hispania\".",
+      "source": "https://www.wikidata.org/wiki/Q347010; https://en.wikipedia.org/wiki/Priscillian"
+    },
+    "q256555": {
+      "born": "628, Tang China (place not recorded)",
+      "placeNote": "Where she was born is not recorded. She was a Tang princess from China who married into Tibet, so Wikidata's \"Tibet\" is where she lived, not where she was born. The pin is just the middle of Tibet.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Tibet\".",
+      "source": "https://www.wikidata.org/wiki/Q256555; https://en.wikipedia.org/wiki/Princess_Wencheng"
+    },
+    "q561251": {
+      "placeNote": "Where he was born in Ireland is not recorded; the pin is just the middle of Ireland.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ireland\".",
+      "source": "https://www.wikidata.org/wiki/Q561251; https://en.wikipedia.org/wiki/Virgil_of_Salzburg"
+    },
+    "q534814": {
+      "placeNote": "Where he was born is not recorded; he was a Visigoth from Spain, perhaps near Zaragoza. The pin is just the middle of Aragon.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Aragon\".",
+      "source": "https://www.wikidata.org/wiki/Q534814; https://en.wikipedia.org/wiki/Theodulf_of_Orl%C3%A9ans"
+    },
+    "q456569": {
+      "placeNote": "Where he was born in Swabia is not recorded; the pin is just the middle of Swabia.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Swabia\".",
+      "source": "https://www.wikidata.org/wiki/Q456569; https://en.wikipedia.org/wiki/Walafrid_Strabo"
+    },
+    "q335313": {
+      "placeNote": "Where he was born is not recorded beyond Tabaristan (Kuh, a mountain district); the pin is just the middle of Tabaristan.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Tabaristan\".",
+      "source": "https://www.wikidata.org/wiki/Q335313; https://en.wikipedia.org/wiki/Abu_Sahl_al-Quhi"
+    },
+    "q347852": {
+      "placeNote": "Where he was born is not recorded; he was a Saxon noble, son of Count Frederick of Goseck. The pin is just the middle of Saxony-Anhalt.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Saxony-Anhalt\".",
+      "source": "https://www.wikidata.org/wiki/Q347852; https://en.wikipedia.org/wiki/Adalbert_of_Hamburg-Bremen"
+    },
+    "q709460": {
+      "placeNote": "Where he was born is not certain: Fenning in Hongzhou, now Xiushui County, but the village is not certain. The pin is just the county seat.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Xiushui County\".",
+      "source": "https://www.wikidata.org/wiki/Q709460; https://en.wikipedia.org/wiki/Huang_Tingjian"
+    },
+    "q887083": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of Georgia.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Georgia\".",
+      "source": "https://www.wikidata.org/wiki/Q887083; https://en.wikipedia.org/wiki/George_II_of_Georgia"
+    },
+    "q657968": {
+      "placeNote": "Where he was born is not recorded for certain; his family was at the Ghurid court of Ghor. The pin is just the middle of Ghor Province.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Ghor Province\".",
+      "source": "https://www.wikidata.org/wiki/Q657968; https://en.wikipedia.org/wiki/Minhaj-i_Siraj_Juzjani"
+    },
+    "q565225": {
+      "placeNote": "Where he was born is not certain: in Puzhou (now Anyue County, Sichuan) by most accounts; his family came from Shandong. The pin is just the county seat.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Anyue County\".",
+      "source": "https://www.wikidata.org/wiki/Q565225; https://en.wikipedia.org/wiki/Qin_Jiushao"
+    },
+    "q286337": {
+      "placeNote": "Where he was born is not recorded; he was a Circassian mamluk, born in the Caucasus, not in Egypt. The pin is just Cairo, for the Mamluk Sultanate.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Mamluk Sultanate of Egypt\".",
+      "source": "https://www.wikidata.org/wiki/Q286337; https://en.wikipedia.org/wiki/Al-Ashraf_Qansuh_al-Ghuri"
+    },
+    "q473217": {
+      "placeNote": "Where he was born is not certain (probably in the Lucanas area of what is now Ayacucho); the pin is just Lima, for the Viceroyalty of Peru.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Viceroyalty of Peru\".",
+      "source": "https://www.wikidata.org/wiki/Q473217; https://en.wikipedia.org/wiki/Felipe_Guaman_Poma_de_Ayala"
+    },
+    "q441405": {
+      "placeNote": "Where he was born is not certain: said to be Luxembourg, probably the city, where his father had a palace; one German biography marks the place with a question mark. The pin is just the middle of Luxembourg.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Luxembourg\".",
+      "source": "https://www.wikidata.org/wiki/Q441405; https://www.britannica.com/print/article/362774; https://saebi.isgv.de/files/saebi/pdf/23573_Ernst_II._Graf_von_Mansfeld-Friedeburg_(1580-1626).pdf; https://en.wikipedia.org/wiki/Ernst_von_Mansfeld"
+    },
+    "q642265": {
+      "placeNote": "Where he was born is not recorded for certain; the pin is just the middle of Shewa.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Shewa\".",
+      "source": "https://www.wikidata.org/wiki/Q642265; https://en.wikipedia.org/wiki/Fasilides"
+    },
+    "q450734": {
+      "placeNote": "Where he was born is not certain: most say Newfoundland, where his father was governor, but this is disputed. The pin is just the middle of Newfoundland.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Newfoundland\".",
+      "source": "https://www.wikidata.org/wiki/Q450734; https://www.nottingham.ac.uk/manuscriptsandspecialcollections/collectionsindepth/family/newcastle/biographies/biographyofsirhenryclinton(1730-1795;armygeneral).aspx; https://en.wikipedia.org/wiki/Henry_Clinton_(British_Army_officer,_born_1730)"
+    },
+    "q470145": {
+      "placeNote": "Where he was born is not recorded; the pin is just the middle of KwaZulu-Natal.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"KwaZulu-Natal\".",
+      "source": "https://www.wikidata.org/wiki/Q470145; https://en.wikipedia.org/wiki/Dingane"
+    },
+    "q548928": {
+      "placeNote": "Where he was born in Bengal is not recorded; the pin is just the middle of Bengal.",
+      "why": "People fact-check batch 14 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Bengal\".",
+      "source": "https://www.wikidata.org/wiki/Q548928; https://adb.anu.edu.au/biography/sturt-charles-2712; https://en.wikipedia.org/wiki/Charles_Sturt"
+    },
     "q236017": {
       "lat": 36.0,
       "lon": 119.4167,
