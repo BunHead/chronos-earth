@@ -3,8 +3,8 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import type { TimelineEvent } from './types';
 
-// Places fact-check, batches 22 to 24 (31 Oct 2026): the next 160 harvested
-// cities by notability (Metro Manila to Bendigo, after Erdenet; 10 Japanese
+// Places fact-check, batches 22 to 24 (31 Oct 2026): the next 161 harvested
+// cities by notability (Metro Manila to Bendigo, after Erdenet; 9 Japanese
 // cities left to the Japanese-city sweep) and the next 100 harvested castles,
 // temples and old sites (Tower of Iglesia de San Salvador to Museum of the
 // Bamoun Kings, after Sam Kai Vui Kun; 10 natural places skipped), checked
