@@ -2053,6 +2053,69 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1884). That is when it became a town; Wikidata P571 and P1249 also give 1875, the fort",
       "source": "https://www.wikidata.org/wiki/Q36312 (P571 1875 and 1884); https://en.wikipedia.org/wiki/History_of_Calgary"
     },
+    "q920169": {
+      "startYear": 1494,
+      "dateNote": "25 December 1494 (Julian calendar, the one in use then). Wikidata stores this date; turning it into the modern calendar gave 3 January 1495, which pushed the battle into the wrong year.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong year (1495). Julian 25 Dec 1494 was converted to Gregorian 3 Jan 1495",
+      "source": "https://www.wikidata.org/wiki/Q920169 (P585 1494-12-25, Julian); https://en.wikipedia.org/wiki/Second_Battle_of_Acentejo"
+    },
+    "q1992706": {
+      "startYear": 999,
+      "dateNote": "30 December 999 (Julian calendar, the one in use then). Wikidata stores this date; turning it into the modern calendar gave January 1000, which pushed the battle into the wrong year.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong year (1000). Julian 30 Dec 999 was converted to Gregorian Jan 1000",
+      "source": "https://www.wikidata.org/wiki/Q1992706 (P585 0999-12-30, Julian); https://en.wikipedia.org/wiki/Battle_of_Glenmama"
+    },
+    "q2388708": {
+      "dateNote": "10 September 1260 (Julian calendar, the one in use then; Wikidata P585).",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong day in the date note (17 September). The Julian date had been converted to the modern calendar",
+      "source": "https://www.wikidata.org/wiki/Q2388708 (P585 1260-09-10, Julian); https://en.wikipedia.org/wiki/Battle_of_Sal%C3%A9"
+    },
+    "q1616739": {
+      "dateNote": "15 July 1536 (Julian calendar, the one in use then; Wikidata P585).",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong day in the date note (25 July). The Julian date had been converted to the modern calendar",
+      "source": "https://www.wikidata.org/wiki/Q1616739 (P585 1536-07-15, Julian)"
+    },
+    "q7510337": {
+      "dateNote": "8 February 1568 (Julian calendar, the one in use then; Wikidata P585).",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong day in the date note (18 February). The Julian date had been converted to the modern calendar",
+      "source": "https://www.wikidata.org/wiki/Q7510337 (P585 1568-02-08, Julian)"
+    },
+    "q116148546": {
+      "lat": 32.83,
+      "lon": 35.655,
+      "placeNote": "On the east shore of the Sea of Galilee (Lake Tiberias), near where the Jordan flows in, below the Fiq pass on the Damascus road. The exact spot is not known. Wikidata's point was on the coast near Yavne, about 100 km away.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong pin. Wikidata P625 is near Yavne on the Mediterranean coast; the battle was at Lake Tiberias (Wikidata P276 Sea of Galilee)",
+      "source": "https://www.wikidata.org/wiki/Q116148546 (P625 31.866, 34.746; P276 Q126982 Sea of Galilee); https://en.wikipedia.org/wiki/Battle_of_al-Uqhuwana"
+    },
+    "q4871364": {
+      "lat": -3.4833,
+      "lon": 37.4333,
+      "placeNote": "Kahe, south of Moshi below Kilimanjaro, Tanzania (then German East Africa). Wikidata's point was about 140 km north-east, in Kenya.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong pin. Wikidata P625 (-2.27, 37.87) is in Kenya; P276 Kahe is at -3.5, 37.43",
+      "source": "https://www.wikidata.org/wiki/Q4871364 (P625 -2.2667, 37.8667; P276 Q6346882 Kahe); https://en.wikipedia.org/wiki/Battle_of_Kahe (3°29′S 37°26′E)"
+    },
+    "q3818303": {
+      "lat": 30.8371,
+      "lon": 106.9653,
+      "placeNote": "Zhang Fei and Zhang He fought around Dangqu (today's Qu County, Sichuan) in Baxi commandery. Wikidata's point was near Hanzhong, about 260 km north.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): wrong pin. Wikidata P625 (33.17, 106.67) is in Hanzhong; the fighting was at Dangqu, now Qu County (Q1199861)",
+      "source": "https://www.wikidata.org/wiki/Q3818303; https://www.wikidata.org/wiki/Q1199861 (Qu County); https://en.wikipedia.org/wiki/Battle_of_Ba"
+    },
+    "q107629208": {
+      "dateNote": "Uncertain: historians date this clash either to 1209 or to 1218/1219. The year shown is Wikidata's, 1209.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): checked, still uncertain, the panel now says so: sources give 1209 or 1218/1219",
+      "source": "https://www.wikidata.org/wiki/Q107629208 (P585 1209); https://en.wikipedia.org/wiki/Irghiz_River_skirmish"
+    },
+    "q120496147": {
+      "placeNote": "Uncertain: where Debal stood is disputed. The pin is Wikidata's point at Karachi. Banbhore, about 60 km to the east, is the main candidate; Thatta and other sites have also been suggested.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): checked, still uncertain, the panel now says so: the site of Debal is not agreed",
+      "source": "https://www.wikidata.org/wiki/Q120496147; https://en.wikipedia.org/wiki/Debal; https://en.wikipedia.org/wiki/Siege_of_Debal"
+    },
+    "q2781949": {
+      "placeNote": "Uncertain: the site of the battle is not known. Mynydd Carningli near Newport, Pembrokeshire, is one suggestion; the pin is Wikidata's point, about 27 km south of it.",
+      "why": "Battles fact-check batch 1 (31 Oct 2026): checked, still uncertain, the panel now says so: the battlefield has not been found",
+      "source": "https://www.wikidata.org/wiki/Q2781949 (P276 Q8521592 Mynydd Carningli); https://en.wikipedia.org/wiki/Battle_of_Mynydd_Carn"
+    },
     "q34217": {
       "startYear": 912,
       "dateNote": "First written record: the Anglo-Saxon Chronicle, under 912 (some say 911). Wikidata gives only \"10th century\", which showed as the year 1000.",

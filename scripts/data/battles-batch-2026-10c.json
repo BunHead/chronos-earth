@@ -95,7 +95,8 @@
     "Brahmin dynasty of Sindh"
    ],
    "sourceUrl": "https://www.wikidata.org/wiki/Q120496147",
-   "dateNote": "712 (Wikidata P585, recorded to the year)."
+   "dateNote": "712 (Wikidata P585, recorded to the year).",
+   "placeNote": "Uncertain: where Debal stood is disputed. The pin is Wikidata's point at Karachi. Banbhore, about 60 km to the east, is the main candidate; Thatta and other sites have also been suggested."
   },
   {
    "id": "q1992687",
@@ -158,7 +159,7 @@
     "Marinid dynasty"
    ],
    "sourceUrl": "https://www.wikidata.org/wiki/Q2388708",
-   "dateNote": "17 September 1260 (Wikidata P585, recorded to the day)."
+   "dateNote": "10 September 1260 (Julian calendar, the one in use then; Wikidata P585)."
   },
   {
    "id": "q19562964",
@@ -260,7 +261,7 @@
   {
    "id": "q920169",
    "name": "Second Battle of Acentejo",
-   "startYear": 1495,
+   "startYear": 1494,
    "lat": 28.4347,
    "lon": -16.4681,
    "category": "battle",
@@ -269,7 +270,7 @@
    "notability": 5,
    "partOf": "Conquest of Tenerife",
    "sourceUrl": "https://www.wikidata.org/wiki/Q920169",
-   "dateNote": "3 January 1495 (Wikidata P585, recorded to the day)."
+   "dateNote": "25 December 1494 (Julian calendar, the one in use then). Wikidata stores this date; turning it into the modern calendar gave 3 January 1495, which pushed the battle into the wrong year."
   },
   {
    "id": "q7443119",
@@ -300,7 +301,7 @@
     "Hispanic Monarchy"
    ],
    "sourceUrl": "https://www.wikidata.org/wiki/Q1616739",
-   "dateNote": "25 July 1536 (Wikidata P585, recorded to the day)."
+   "dateNote": "15 July 1536 (Julian calendar, the one in use then; Wikidata P585)."
   },
   {
    "id": "q7510337",
@@ -314,7 +315,7 @@
    "notability": 4,
    "partOf": "Mughal-Rajput Wars",
    "sourceUrl": "https://www.wikidata.org/wiki/Q7510337",
-   "dateNote": "18 February 1568 (Wikidata P585, recorded to the day)."
+   "dateNote": "8 February 1568 (Julian calendar, the one in use then; Wikidata P585)."
   },
   {
    "id": "q15145481",
@@ -898,15 +899,16 @@
    "id": "q4871364",
    "name": "Battle of Kahe",
    "startYear": 1916,
-   "lat": -2.2667,
-   "lon": 37.8667,
+   "lat": -3.4833,
+   "lon": 37.4333,
    "category": "battle",
    "wikidataId": "Q4871364",
    "wikiTitle": "Battle of Kahe",
    "notability": 5,
    "partOf": "East African Campaign",
    "sourceUrl": "https://www.wikidata.org/wiki/Q4871364",
-   "dateNote": "18 March 1916 (Wikidata P585, recorded to the day)."
+   "dateNote": "18 March 1916 (Wikidata P585, recorded to the day).",
+   "placeNote": "Kahe, south of Moshi below Kilimanjaro, Tanzania (then German East Africa). Wikidata's point was about 140 km north-east, in Kenya."
   },
   {
    "id": "q368596",
