@@ -1402,6 +1402,297 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Died 241 or 242.",
       "source": "https://www.wikidata.org/wiki/Q371319; https://en.wikipedia.org/wiki/Ardashir_I"
     },
+    "q180379": {
+      "startYear": 1285,
+      "dateNote": "First recorded in 1285, when the Livonian Order had a castle here. It got town rights from Russia in 1773.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1773). 1773 is when it got town rights; it is first recorded in 1285",
+      "source": "https://www.wikidata.org/wiki/Q180379 (P571 1773); https://en.wikipedia.org/wiki/R%C4%93zekne; https://www.britannica.com/place/Rezekne"
+    },
+    "q7033": {
+      "startYear": 927,
+      "dateNote": "First recorded on 18 May 927, in a charter of King Henry I. It became a free imperial city in 1220.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1220). 1220 is when it became a free imperial city; Wikidata gives the first record as 927",
+      "source": "https://www.wikidata.org/wiki/Q7033 (P571 1220, P1249 927-05-18); https://en.wikipedia.org/wiki/Nordhausen,_Thuringia"
+    },
+    "q4126": {
+      "startYear": 791,
+      "dateNote": "First recorded in 791. It became a free imperial city in 1254.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1254). 1254 is when it became a free imperial city; it is first recorded in 791",
+      "source": "https://www.wikidata.org/wiki/Q4126 (P571 1254); https://en.wikipedia.org/wiki/Schweinfurt; https://www.britannica.com/place/Schweinfurt"
+    },
+    "q156080": {
+      "startYear": 1195,
+      "dateNote": "First recorded in 1195. It got town rights in about 1224.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1224). 1224 is when it got town rights; Wikidata gives the first record as 1195",
+      "source": "https://www.wikidata.org/wiki/Q156080 (P571 1224, P1249 1195); https://en.wikipedia.org/wiki/Opava"
+    },
+    "q106274": {
+      "startYear": 1004,
+      "dateNote": "First recorded in 1004, in the chronicle of Thietmar of Merseburg. It got town rights in 1264.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1264). 1264 is when it got town rights; it is first recorded in 1004",
+      "source": "https://www.wikidata.org/wiki/Q106274 (P571 1264); https://en.wikipedia.org/wiki/Legnica; https://www.britannica.com/place/Legnica"
+    },
+    "q675576": {
+      "startYear": 1842,
+      "dateNote": "Grew up on the site of El Pueblo, a trading post built in 1842. The town was laid out in 1860, and 1885 is when the towns around it were joined into one city.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1885). 1885 is a merger of towns; it grew from the El Pueblo trading post of 1842",
+      "source": "https://www.wikidata.org/wiki/Q675576 (P571 1885); https://en.wikipedia.org/wiki/Pueblo,_Colorado; https://en.wikipedia.org/wiki/El_Pueblo_(Colorado)"
+    },
+    "q2942592": {
+      "startYear": 1255,
+      "dateNote": "Building began in 1255, after the Christians took the city in 1230.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1230). 1230 is when the city was taken from the Moors; Wikidata gives the start of building as 1255",
+      "source": "https://www.wikidata.org/wiki/Q2942592 (P571 1255); https://en.wikipedia.org/wiki/Badajoz_Cathedral"
+    },
+    "q6092391": {
+      "startYear": 1450,
+      "dateNote": "Building began in 1450 under Sultan Murad II, and Mehmed II added to it. The year 1500 only stood for the 15th century.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1500). 1500 is \"15th century\" read as a year; building began in 1450",
+      "source": "https://www.wikidata.org/wiki/Q6092391 (P571 15th century); https://en.wikipedia.org/wiki/Edirne_Palace"
+    },
+    "q720134": {
+      "startYear": -100,
+      "dateNote": "Built in the 1st century BC, probably by Tigranes the Great (ruled 95 to 55 BC) or his father. The exact year is not known, so -100 only stands for the 1st century BC.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1751). 1751 has nothing to do with this ancient city; digs show it was founded in the 1st century BC",
+      "source": "https://www.wikidata.org/wiki/Q720134 (P571 1751); https://en.wikipedia.org/wiki/Tigranakert_of_Artsakh; https://monumentwatch.org/monument/tigranakert/"
+    },
+    "q153816": {
+      "startYear": 1833,
+      "dateNote": "Building began in 1833 and went on until about 1860. The old church was taken down around the new one.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1860). 1860 is when building ended; it began in 1833",
+      "source": "https://www.wikidata.org/wiki/Q153816 (P571 1860); https://en.wikipedia.org/wiki/Rotunda_of_Mosta"
+    },
+    "q16854086": {
+      "startYear": 1985,
+      "dateNote": "Le Corbusier designed it in the 1950s, but it was only built in 1985, twenty years after his death.",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong year (1964). 1964 is not when it was built; it was put up in 1985",
+      "source": "https://www.wikidata.org/wiki/Q16854086 (P571 1964); https://en.wikipedia.org/wiki/Open_Hand_Monument; https://storytrails.in/every-place-has-a-story/open-hand-monument/"
+    },
+    "q632057": {
+      "name": "Basilica of St. Ludmila",
+      "why": "Places fact-check batch 18-19 (Oct 2026): wrong name. \"Basilika\" is a misspelling; Wikidata's English name is Basilica of St. Ludmila",
+      "source": "https://www.wikidata.org/wiki/Q632057; https://en.wikipedia.org/wiki/Basilica_of_St._Ludmila"
+    },
+    "q230818": {
+      "dateNote": "Wikidata only gives \"8th century\", so 800 is not a real year. Leh grew as a trading town on the Silk Road; its founding date is not known.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (8th century shown as 800).",
+      "source": "https://www.wikidata.org/wiki/Q230818; https://en.wikipedia.org/wiki/Leh"
+    },
+    "q18986": {
+      "dateNote": "Wikidata only gives \"8th century BC\", so -800 is not a real year. Pergamon was a small hill town before it became a great city in the 200s BC.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (8th century BC shown as -800).",
+      "source": "https://www.wikidata.org/wiki/Q18986; https://en.wikipedia.org/wiki/Pergamon"
+    },
+    "q46001": {
+      "dateNote": "Wikidata only gives \"6th century\", so 501 is not a real year. A Byzantine fort was built here under Justinian; the town may be older.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (6th century shown as 501).",
+      "source": "https://www.wikidata.org/wiki/Q46001; https://en.wikipedia.org/wiki/Alushta"
+    },
+    "q5760": {
+      "dateNote": "Wikidata only gives \"2nd millennium BC\", so 2000 BC is not a real year. People lived at Thebes long before that, and it was a great Mycenaean town by about 1400 BC.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a millennium is known (shown as -2000).",
+      "source": "https://www.wikidata.org/wiki/Q5760; https://en.wikipedia.org/wiki/Thebes,_Greece"
+    },
+    "q1777686": {
+      "dateNote": "Wikidata only gives \"10th century\", so 901 is not a real year. Kvetera Church was built in the early 900s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (10th century shown as 901).",
+      "source": "https://www.wikidata.org/wiki/Q1777686; https://en.wikipedia.org/wiki/Kvetera_Church"
+    },
+    "q1340405": {
+      "dateNote": "Wikidata only gives \"10th century\", so 901 is not a real year. A monastery stood here by the 900s; Saint Dominic rebuilt it from 1041.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (10th century shown as 901).",
+      "source": "https://www.wikidata.org/wiki/Q1340405; https://en.wikipedia.org/wiki/Abbey_of_Santo_Domingo_de_Silos"
+    },
+    "q3669510": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1101 is not a real year. The exact year it was built is not known.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1101).",
+      "source": "https://www.wikidata.org/wiki/Q3669510; https://en.wikipedia.org/wiki/San_Bartolomeo,_Marne"
+    },
+    "q922677": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1200 is not a real year. Legend says it was founded in 421, but the church that stands is from the 1000s or 1100s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1200).",
+      "source": "https://www.wikidata.org/wiki/Q922677; https://en.wikipedia.org/wiki/San_Giacomo_di_Rialto"
+    },
+    "q1779071": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1200 is not a real year. A tower stood here by the late 1100s; the castle was built up later.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1200).",
+      "source": "https://www.wikidata.org/wiki/Q1779071; https://en.wikipedia.org/wiki/Nyk%C3%B6ping_Castle"
+    },
+    "q3047420": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1200 is not a real year. Building went on through the 1100s and 1200s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1200).",
+      "source": "https://www.wikidata.org/wiki/Q3047420; https://en.wikipedia.org/wiki/Old_Cathedral_of_Salamanca"
+    },
+    "q1365162": {
+      "dateNote": "Wikidata only gives \"14th century\", so 1301 is not a real year. It was built as the Gothic church of St Catherine and later became a mosque.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (14th century shown as 1301).",
+      "source": "https://www.wikidata.org/wiki/Q1365162; https://en.wikipedia.org/wiki/Haydar_Pasha_Mosque"
+    },
+    "q1124051": {
+      "dateNote": "Wikidata only gives \"14th century\", so 1400 is not a real year. The church is first recorded in 1307; building may have started in the 1290s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (14th century shown as 1400); first record 1307.",
+      "source": "https://www.wikidata.org/wiki/Q1124051; https://en.wikipedia.org/wiki/Cathedral_of_St._Bartholomew,_Plze%C5%88"
+    },
+    "q861436": {
+      "dateNote": "Wikidata only gives \"14th century\", so 1400 is not a real year. The church was founded in the mid-1300s and rebuilt in the 1400s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (14th century shown as 1400).",
+      "source": "https://www.wikidata.org/wiki/Q861436; https://en.wikipedia.org/wiki/Madonna_dell'Orto"
+    },
+    "q508519": {
+      "dateNote": "Wikidata only gives \"14th century\", so 1400 is not a real year. The castle was built from about 1380 and is first recorded in 1396.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (14th century shown as 1400); first record 1396.",
+      "source": "https://www.wikidata.org/wiki/Q508519; https://en.wikipedia.org/wiki/Trosky_Castle"
+    },
+    "q862032": {
+      "dateNote": "Wikidata only gives \"17th century\", so 1600 is not a real year. Some say it is Roman or Byzantine, others that the Ottomans built it in the 1500s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known, and sources disagree on who built it.",
+      "source": "https://www.wikidata.org/wiki/Q862032; https://en.wikipedia.org/wiki/Skopje_Aqueduct"
+    },
+    "q1275686": {
+      "dateNote": "Wikidata only gives \"18th century\", so 1799 is not a real year. The house was built for the Hill family in the late 1700s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a century is known (18th century shown as 1799).",
+      "source": "https://www.wikidata.org/wiki/Q1275686; https://en.wikipedia.org/wiki/Hillsborough_Castle"
+    },
+    "q1025398": {
+      "dateNote": "Wikidata only gives \"1300s\". The castle was built in the 1270s or earlier and was besieged by Edward I in 1300.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Only a decade is known; the castle is older.",
+      "source": "https://www.wikidata.org/wiki/Q1025398; https://en.wikipedia.org/wiki/Caerlaverock_Castle"
+    },
+    "q186349": {
+      "dateNote": "Wikidata gives 1230, but the town is usually said to be first recorded in 1332. Sources do not agree.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1230 could not be confirmed; the first record is usually given as 1332.",
+      "source": "https://www.wikidata.org/wiki/Q186349; https://en.wikipedia.org/wiki/T%C3%A2rgu_Mure%C8%99"
+    },
+    "q104725": {
+      "dateNote": "1237 is when it got town rights. Płock was a stronghold from the 900s and a seat of Polish kings from 1079 to 1138.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1237 is the town-rights date; the place is much older, but no single founding year is agreed.",
+      "source": "https://www.wikidata.org/wiki/Q104725; https://en.wikipedia.org/wiki/P%C5%82ock"
+    },
+    "q487684": {
+      "dateNote": "Türkmenabat stands near ancient Amul, a town on the Silk Road that is far older than 1511.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1511 could not be confirmed; ancient Amul was here long before.",
+      "source": "https://www.wikidata.org/wiki/Q487684; https://en.wikipedia.org/wiki/T%C3%BCrkmenabat"
+    },
+    "q193289": {
+      "dateNote": "Founded as a Jesuit mission in the 1750s. Sources give 1750 or 1757.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree (1750 or 1757).",
+      "source": "https://www.wikidata.org/wiki/Q193289; https://en.wikipedia.org/wiki/Iquitos"
+    },
+    "q138578": {
+      "dateNote": "1849 is when it became a township. The land was settled by the Dutch in the 1600s, and the town was laid out in the 1830s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1849 is the township date; settlement is older.",
+      "source": "https://www.wikidata.org/wiki/Q138578; https://en.wikipedia.org/wiki/Hoboken,_New_Jersey"
+    },
+    "q79809": {
+      "dateNote": "1959 is when it became a city. Iñupiat people have lived here for at least 1,500 years.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1959 is incorporation; people lived here long before.",
+      "source": "https://www.wikidata.org/wiki/Q79809; https://en.wikipedia.org/wiki/Utqiagvik,_Alaska"
+    },
+    "q49222": {
+      "dateNote": "Chesapeake was made in 1963 by joining Norfolk County and the city of South Norfolk. The area was settled in the 1600s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1963 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q49222; https://en.wikipedia.org/wiki/Chesapeake,_Virginia"
+    },
+    "q49270": {
+      "dateNote": "1911 is when it became a city. The town was laid out in the late 1880s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1911 is incorporation; the town was planned in the 1880s.",
+      "source": "https://www.wikidata.org/wiki/Q49270; https://en.wikipedia.org/wiki/Chula_Vista,_California"
+    },
+    "q11585": {
+      "dateNote": "Tulcea stands on the site of ancient Aegyssus, first recorded in the 200s BC. Sources do not agree on what 1506 refers to.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1506 could not be confirmed; the site is ancient.",
+      "source": "https://www.wikidata.org/wiki/Q11585; https://en.wikipedia.org/wiki/Tulcea"
+    },
+    "q221051": {
+      "dateNote": "1791 is when it got the rank of a town (villa). Xalapa was an older native town that the Spanish reached in 1519.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1791 is a status change; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q221051; https://en.wikipedia.org/wiki/Xalapa"
+    },
+    "q6157": {
+      "dateNote": "1868 is when Seinäjoki became its own parish. An ironworks stood here from 1798, and it became a town in 1960.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1868 is a parish date; sources differ on which date to use.",
+      "source": "https://www.wikidata.org/wiki/Q6157; https://en.wikipedia.org/wiki/Sein%C3%A4joki"
+    },
+    "q202195": {
+      "dateNote": "1935 is when the town was renamed Tunceli and the province was set up. The town of Kalan was here before that.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1935 is a renaming and status change.",
+      "source": "https://www.wikidata.org/wiki/Q202195; https://en.wikipedia.org/wiki/Tunceli"
+    },
+    "q108037": {
+      "dateNote": "Sources do not agree when Valmiera was first recorded: 1283, 1293 or 1323 (Wikidata gives 1293 and 1323).",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree (1283, 1293 or 1323).",
+      "source": "https://www.wikidata.org/wiki/Q108037; https://en.wikipedia.org/wiki/Valmiera"
+    },
+    "q104232": {
+      "dateNote": "A fort called Achinsk was first built in 1641 and moved to the present site in 1683.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1683 is when the fort moved; the first fort was 1641.",
+      "source": "https://www.wikidata.org/wiki/Q104232; https://en.wikipedia.org/wiki/Achinsk"
+    },
+    "q196489": {
+      "dateNote": "Wikidata gives both 1735 and 1766. The town grew from a salt wharf set up in 1766.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree (1735 or 1766).",
+      "source": "https://www.wikidata.org/wiki/Q196489; https://en.wikipedia.org/wiki/Sterlitamak"
+    },
+    "q189602": {
+      "dateNote": "Settled as Hellgate Village in 1860, moved and renamed Missoula Mills in 1864–66, and became a city in 1883. Sources differ on which date to use.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree on the founding date.",
+      "source": "https://www.wikidata.org/wiki/Q189602; https://en.wikipedia.org/wiki/Missoula,_Montana"
+    },
+    "q51685": {
+      "dateNote": "Settled as Hayden's Ferry in about 1871; renamed Tempe in 1879.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1879 is a renaming; it was settled earlier.",
+      "source": "https://www.wikidata.org/wiki/Q51685; https://en.wikipedia.org/wiki/Tempe,_Arizona"
+    },
+    "q204266": {
+      "dateNote": "1889 is when Toyama became a city. It grew as a castle town; Wikidata gives the first record as 1398.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1889 is a city-status date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q204266; https://en.wikipedia.org/wiki/Toyama_(city)"
+    },
+    "q209779": {
+      "dateNote": "1941 is when several villages were joined into the town of Sagamihara. It became a city in 1954.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1941 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q209779; https://en.wikipedia.org/wiki/Sagamihara"
+    },
+    "q1048809": {
+      "dateNote": "1442 is when King Alfonso V of Aragon rebuilt the castle. The first fort on the rock was built in 474 BC.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1442 is a rebuild; the first fort is far older.",
+      "source": "https://www.wikidata.org/wiki/Q1048809; https://en.wikipedia.org/wiki/Aragonese_Castle"
+    },
+    "q605721": {
+      "dateNote": "Built by Richard Conti, brother of Pope Innocent III, in about 1203. Wikidata gives 1238.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree (about 1203 or 1238).",
+      "source": "https://www.wikidata.org/wiki/Q605721; https://en.wikipedia.org/wiki/Torre_dei_Conti"
+    },
+    "q946542": {
+      "dateNote": "1534 is when Sansovino began the present church. An older church stood here from 1253.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1534 is a rebuild.",
+      "source": "https://www.wikidata.org/wiki/Q946542; https://en.wikipedia.org/wiki/San_Francesco_della_Vigna"
+    },
+    "q1385934": {
+      "dateNote": "Sources give the start of building as 1497, 1500 or 1570.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree on when building began.",
+      "source": "https://www.wikidata.org/wiki/Q1385934; https://en.wikipedia.org/wiki/Las_Palmas_Cathedral"
+    },
+    "q2722123": {
+      "dateNote": "Wikidata gives 1595. Most sources say Juan de Herrera began the building in 1589.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: Sources disagree (1589 or 1595).",
+      "source": "https://www.wikidata.org/wiki/Q2722123; https://en.wikipedia.org/wiki/Valladolid_Cathedral"
+    },
+    "q2030809": {
+      "dateNote": "1603 is when the new front was built. A church has stood here since the 200s or 300s.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1603 is a rebuild.",
+      "source": "https://www.wikidata.org/wiki/Q2030809; https://en.wikipedia.org/wiki/Santa_Susanna,_Rome"
+    },
+    "q693884": {
+      "dateNote": "1701 is when the present church was begun. A church here is first recorded in 1137, and legend says it is older still.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1701 is a rebuild; first record 1137.",
+      "source": "https://www.wikidata.org/wiki/Q693884; https://en.wikipedia.org/wiki/Peterskirche,_Vienna"
+    },
+    "q1076439": {
+      "dateNote": "The church is far older than 1860: it goes back to the 300s and was rebuilt in 1217 and again in the 1700s. 1860 could not be confirmed.",
+      "why": "Places fact-check batch 18-19 (Oct 2026), still uncertain, the panel now says so: 1860 could not be confirmed; the church is much older.",
+      "source": "https://www.wikidata.org/wiki/Q1076439; https://en.wikipedia.org/wiki/Santi_Bonifacio_ed_Alessio"
+    },
     "q185914": {
       "placeNote": "Most sources say Villanueva de Sijena (Aragon); he once said Tudela, where the pin is.",
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Villanueva de Sijena or Tudela.",
