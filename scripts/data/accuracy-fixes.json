@@ -2401,6 +2401,288 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born in Soudouré; the pin was the middle of Boboye Department, 112 km away.",
       "source": "https://www.wikidata.org/wiki/Q314355; https://en.wikipedia.org/wiki/Hamani_Diori; https://www.wikidata.org/wiki/Q1794458"
     },
+    "q62868": {
+      "startYear": 1214,
+      "dateNote": "First written record in 1214, when Duke Bogusław II gave the village to the abbey at Białobok. It got town rights in 1266.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1266). 1266 is when it got town rights; it is first recorded in 1214",
+      "source": "https://www.wikidata.org/wiki/Q62868 (P571 1266); https://en.wikipedia.org/wiki/Koszalin; https://www.britannica.com/place/Koszalin"
+    },
+    "q190583": {
+      "startYear": 1323,
+      "dateNote": "First recorded in 1323, in the Treaty of Nöteborg. It became a town in 1838.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1838). 1838 is when it became a town; Wikidata gives the first record as 1323",
+      "source": "https://www.wikidata.org/wiki/Q190583 (P571 1838, P1249 1323); https://en.wikipedia.org/wiki/Mikkeli"
+    },
+    "q217346": {
+      "startYear": 1790,
+      "dateNote": "Settled from about 1790 (sources give 1789 to 1794). It became a village in 1821 and a city in 1888.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1888). 1888 is when it became a city; it was settled in about 1790",
+      "source": "https://www.wikidata.org/wiki/Q217346 (P571 1888); https://en.wikipedia.org/wiki/Ithaca,_New_York; https://www.britannica.com/place/Ithaca-New-York"
+    },
+    "q27860": {
+      "startYear": 1910,
+      "dateNote": "Founded on 7 March 1910 as Hollandia. 1993 is a later change in status.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1993). 1993 is a status change; Wikidata also gives the founding as Hollandia on 7 March 1910",
+      "source": "https://www.wikidata.org/wiki/Q27860 (P571 1910-03-07, 1993); https://en.wikipedia.org/wiki/Jayapura"
+    },
+    "q146820": {
+      "startYear": 1274,
+      "dateNote": "Grew up around the castle of the Teutonic Knights, begun in 1274. It got town rights in 1286.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1201). 1201 is \"13th century\" read as a year; the castle the town grew around was begun in 1274",
+      "source": "https://www.wikidata.org/wiki/Q146820 (P571 13th century); https://en.wikipedia.org/wiki/Malbork; https://en.wikipedia.org/wiki/Malbork_Castle"
+    },
+    "q191015": {
+      "startYear": 1337,
+      "dateNote": "First recorded in 1337. It got town rights in 1409.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1409). 1409 is when it got town rights; Wikidata gives the first record as 1337",
+      "source": "https://www.wikidata.org/wiki/Q191015 (P571 1409, P1249 1337); https://en.wikipedia.org/wiki/Trakai"
+    },
+    "q3125809": {
+      "startYear": 801,
+      "dateNote": "Usually dated to the 800s (9th century); one study argues for 794. The year 801 only stands for the 9th century.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (9). Wikidata gives \"9th century\", which had become the year 9",
+      "source": "https://www.wikidata.org/wiki/Q3125809 (P571 9th century); https://en.wikipedia.org/wiki/Haji_Piyada_Mosque; https://archnet.org/sites/3921"
+    },
+    "q550064": {
+      "startYear": 676,
+      "dateNote": "Founded as a monastery by Aldhelm in about 676, on the site of an earlier hermitage. The church that stands today is from the 1100s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (601). 601 is \"7th century\" read as a year; Aldhelm founded the abbey in about 676",
+      "source": "https://www.wikidata.org/wiki/Q550064 (P571 7th century, 1160); https://en.wikipedia.org/wiki/Malmesbury_Abbey"
+    },
+    "q612065": {
+      "startYear": 1246,
+      "dateNote": "Founded in 1246, the year Delft got its town charter. An earlier church stood here from about 1200.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1301). 1301 is \"14th century\" read as a year; the church was founded in 1246",
+      "source": "https://www.wikidata.org/wiki/Q612065 (P571 14th century); https://en.wikipedia.org/wiki/Oude_Kerk_(Delft); https://structurae.net/en/structures/oude-kerk-delft"
+    },
+    "q694286": {
+      "startYear": 1165,
+      "dateNote": "Begun in about 1165, in Romanesque style. It was rebuilt in Gothic style in the 1500s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1513). 1513 is a later rebuild; the church was begun in about 1165",
+      "source": "https://www.wikidata.org/wiki/Q694286 (P571 1513); https://en.wikipedia.org/wiki/St._Nicholas_Church,_Leipzig; https://english.leipzig.de/leisure-culture-and-tourism/tourism/leipzigs-tourist-attractions/st-nicholas-church"
+    },
+    "q2671791": {
+      "startYear": 106,
+      "dateNote": "Founded by the emperor Trajan after he conquered Dacia in 106; some sources say 108 to 110.",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1). 1 is \"1st century\" read as a year; Trajan founded the city in about 106",
+      "source": "https://www.wikidata.org/wiki/Q2671791 (P571 1st century); https://en.wikipedia.org/wiki/Ulpia_Traiana_Sarmizegetusa"
+    },
+    "q1195738": {
+      "startYear": 1079,
+      "dateNote": "Built between about 1079 and 1098, in Romanesque style. Wikidata only gives \"11th century\".",
+      "why": "Places fact-check batch 16-17 (Oct 2026): wrong year (1001). 1001 is \"11th century\" read as a year; the church was built from about 1079",
+      "source": "https://www.wikidata.org/wiki/Q1195738 (P571 11th century); https://en.wikipedia.org/wiki/St._Andrew's_Church,_Kraków"
+    },
+    "q335017": {
+      "dateNote": "The name Newport News goes back to the 1600s. The modern city grew up around a railway port in the 1880s and became a city in 1896; sources differ on which date to use.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1881 is the railway era; the name and settlement are older.",
+      "source": "https://www.wikidata.org/wiki/Q335017; https://en.wikipedia.org/wiki/Newport_News,_Virginia"
+    },
+    "q4197": {
+      "dateNote": "1907 is when it got town rights. The older settlement around Ritzebüttel Castle goes back to the Middle Ages.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1907 is town rights; the founding date is not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q4197; https://en.wikipedia.org/wiki/Cuxhaven"
+    },
+    "q182640": {
+      "dateNote": "Wikidata only gives \"6th century\", so 501 is not a real year. Ta'if was already a town before Islam; its founding date is not known.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (6th century shown as 501).",
+      "source": "https://www.wikidata.org/wiki/Q182640; https://en.wikipedia.org/wiki/Taif"
+    },
+    "q185345": {
+      "dateNote": "Wikidata only gives \"7th century\", so 601 is not a real year. The ancient Greek town of Phasis was near here, so the place may be much older.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (7th century shown as 601).",
+      "source": "https://www.wikidata.org/wiki/Q185345; https://en.wikipedia.org/wiki/Poti"
+    },
+    "q487656": {
+      "dateNote": "Wikidata only gives \"9th century\", so 801 is not a real year. This is the century of its first record.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (9th century shown as 801).",
+      "source": "https://www.wikidata.org/wiki/Q487656; https://en.wikipedia.org/wiki/Andijan"
+    },
+    "q170693": {
+      "dateNote": "Wikidata only gives \"16th century\", so 1501 is not a real year. This is the century of its first record.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (16th century shown as 1501).",
+      "source": "https://www.wikidata.org/wiki/Q170693; https://en.wikipedia.org/wiki/Keflavík"
+    },
+    "q207754": {
+      "dateNote": "1866 is when it became a municipality. The town is very old (it was a Chola capital), but its founding date is not known.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1866 is municipal status; founding date not known.",
+      "source": "https://www.wikidata.org/wiki/Q207754; https://en.wikipedia.org/wiki/Tiruchirappalli"
+    },
+    "q200077": {
+      "dateNote": "1889 is when it became a city. Morioka Castle, which the town grew around, was begun in 1592 or 1597; sources differ.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1889 is city status; the castle start is given as 1592 or 1597.",
+      "source": "https://www.wikidata.org/wiki/Q200077; https://en.wikipedia.org/wiki/Morioka; https://en.wikipedia.org/wiki/Morioka_Castle"
+    },
+    "q6640": {
+      "dateNote": "1962 is when it became a municipality. The town is much older; its founding date is not agreed.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1962 is municipal status; founding date not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q6640; https://en.wikipedia.org/wiki/Pokhara"
+    },
+    "q63912": {
+      "dateNote": "2011 is when Glarus merged with nearby villages. The town itself is first recorded in the Middle Ages.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 2011 is a merger; the town is much older.",
+      "source": "https://www.wikidata.org/wiki/Q63912; https://en.wikipedia.org/wiki/Glarus"
+    },
+    "q489890": {
+      "dateNote": "Wikidata only gives \"10th century\", so 901 is not a real year. This is the century of its first record.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (10th century shown as 901).",
+      "source": "https://www.wikidata.org/wiki/Q489890; https://en.wikipedia.org/wiki/Kokand"
+    },
+    "q190235": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1200 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1200).",
+      "source": "https://www.wikidata.org/wiki/Q190235; https://en.wikipedia.org/wiki/Horsens"
+    },
+    "q10737004": {
+      "dateNote": "Sources differ: Wikidata gives 1399 for the founding and 1408 for the first written record.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Wikidata 1399 vs first record 1408.",
+      "source": "https://www.wikidata.org/wiki/Q10737004; https://en.wikipedia.org/wiki/Bacău"
+    },
+    "q486545": {
+      "dateNote": "1720 cannot be confirmed. Taraz is an ancient Silk Road town, and Kazakhstan marked its 2,000th anniversary in 2002; sources differ on its founding date.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1720 looks wrong for an ancient town; no agreed founding year.",
+      "source": "https://www.wikidata.org/wiki/Q486545; https://en.wikipedia.org/wiki/Taraz"
+    },
+    "q14155": {
+      "dateNote": "1886 and 1996 are status changes. Kupang was a port long before the Dutch built a fort there in the 1600s; sources differ on which date to use.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1886 is a status change; the founding date is not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q14155; https://en.wikipedia.org/wiki/Kupang"
+    },
+    "q244898": {
+      "dateNote": "2010 is when Taipei County became New Taipei City. The towns in it are much older; there is no single founding year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 2010 is a status change; no single founding year.",
+      "source": "https://www.wikidata.org/wiki/Q244898; https://en.wikipedia.org/wiki/New_Taipei_City"
+    },
+    "q200733": {
+      "dateNote": "Wikidata only gives \"4th century\", so 400 is not a real year. A Roman fort called Anderva stood here.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (4th century shown as 400).",
+      "source": "https://www.wikidata.org/wiki/Q200733; https://en.wikipedia.org/wiki/Nikšić"
+    },
+    "q185332": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1200 is not a real year. This is the century of its first record.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1200).",
+      "source": "https://www.wikidata.org/wiki/Q185332; https://en.wikipedia.org/wiki/Satu_Mare"
+    },
+    "q185156": {
+      "dateNote": "1510 cannot be confirmed. Spanish people came to the area early, but the town itself was set up much later; sources differ on the founding date.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1510 could not be confirmed as the founding of the town.",
+      "source": "https://www.wikidata.org/wiki/Q185156; https://en.wikipedia.org/wiki/Guantánamo"
+    },
+    "q487439": {
+      "dateNote": "Sources differ on when Oral (Uralsk) was founded: Wikidata gives 1584, but other sources give 1613.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Wikidata 1584 vs 1613.",
+      "source": "https://www.wikidata.org/wiki/Q487439; https://en.wikipedia.org/wiki/Oral,_Kazakhstan"
+    },
+    "q106281": {
+      "dateNote": "1330 is when it got town rights. Sources differ on when the settlement was first recorded.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1330 is town rights; the first record date is not agreed.",
+      "source": "https://www.wikidata.org/wiki/Q106281; https://en.wikipedia.org/wiki/Tarnów"
+    },
+    "q3952": {
+      "dateNote": "Sources differ: Wikidata gives 1112, but Plauen is often said to be first recorded in 1122.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Wikidata 1112 vs first record 1122.",
+      "source": "https://www.wikidata.org/wiki/Q3952; https://en.wikipedia.org/wiki/Plauen"
+    },
+    "q1283696": {
+      "dateNote": "2002 is when the church was rebuilt. Saint Clement founded a monastery here in the late 800s; sources differ on the exact year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 2002 is a rebuild; the monastery is from the late 800s.",
+      "source": "https://www.wikidata.org/wiki/Q1283696; https://en.wikipedia.org/wiki/Church_of_Saints_Clement_and_Panteleimon"
+    },
+    "q2671839": {
+      "dateNote": "Wikidata only gives \"2nd century\", so 200 is not a real year. The tombs were used from the 2nd to the 4th century.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (2nd century shown as 200).",
+      "source": "https://www.wikidata.org/wiki/Q2671839; https://en.wikipedia.org/wiki/Catacombs_of_Kom_El_Shoqafa"
+    },
+    "q2598073": {
+      "dateNote": "Wikidata only gives \"4th century\", so 330 is not a real year. It was built by the Romans.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (4th century shown as 330).",
+      "source": "https://www.wikidata.org/wiki/Q2598073; https://en.wikipedia.org/wiki/Church_of_Saint_George,_Sofia"
+    },
+    "q592799": {
+      "dateNote": "Wikidata only gives \"5th century\", so 401 is not a real year. It was probably built in the late 400s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (5th century shown as 401).",
+      "source": "https://www.wikidata.org/wiki/Q592799; https://en.wikipedia.org/wiki/San_Giovanni_a_Porta_Latina"
+    },
+    "q1584774": {
+      "dateNote": "Wikidata only gives \"5th century\", so 401 is not a real year. It was probably built in the mid to late 400s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (5th century shown as 401).",
+      "source": "https://www.wikidata.org/wiki/Q1584774; https://en.wikipedia.org/wiki/Church_of_the_Acheiropoietos"
+    },
+    "q1049008": {
+      "dateNote": "Built in the 8th or 9th century; Wikidata gives \"9th century\", so the exact year is not known.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known; 8th or 9th century.",
+      "source": "https://www.wikidata.org/wiki/Q1049008; https://en.wikipedia.org/wiki/Castle_of_the_Moors"
+    },
+    "q1625428": {
+      "dateNote": "Wikidata only gives \"8th century\", so 701 is not a real year. It was founded by a pope in the 700s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (8th century shown as 701).",
+      "source": "https://www.wikidata.org/wiki/Q1625428; https://en.wikipedia.org/wiki/San_Silvestro_in_Capite"
+    },
+    "q688261": {
+      "dateNote": "Wikidata gives \"11th century\" for the start and 1049 as the first record. 1000 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (11th century shown as 1000).",
+      "source": "https://www.wikidata.org/wiki/Q688261; https://en.wikipedia.org/wiki/Valère_Basilica"
+    },
+    "q1014402": {
+      "dateNote": "Wikidata only gives \"11th century\", so 1100 is not a real year. It was built in stages from the 1000s to the 1300s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (11th century shown as 1100).",
+      "source": "https://www.wikidata.org/wiki/Q1014402; https://en.wikipedia.org/wiki/Vianden_Castle"
+    },
+    "q1011806": {
+      "dateNote": "Wikidata only gives \"12th century\", so 1101 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (12th century shown as 1101).",
+      "source": "https://www.wikidata.org/wiki/Q1011806; https://en.wikipedia.org/wiki/Château_de_Foix"
+    },
+    "q777726": {
+      "dateNote": "Wikidata only gives \"13th century\", so 1201 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (13th century shown as 1201).",
+      "source": "https://www.wikidata.org/wiki/Q777726; https://en.wikipedia.org/wiki/Church_of_the_Holy_Spirit,_Tallinn"
+    },
+    "q2468464": {
+      "dateNote": "Wikidata only gives \"13th century\", so 1201 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (13th century shown as 1201).",
+      "source": "https://www.wikidata.org/wiki/Q2468464; https://en.wikipedia.org/wiki/Navahrudak_Castle"
+    },
+    "q147009": {
+      "dateNote": "Wikidata only gives \"13th century\", so 1300 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (13th century shown as 1300).",
+      "source": "https://www.wikidata.org/wiki/Q147009; https://en.wikipedia.org/wiki/Tre_Kronor_(castle)"
+    },
+    "q1886229": {
+      "dateNote": "Wikidata gives \"15th century\" for the church that stands today, rebuilt in the late 1400s. The first church here was founded in the 300s.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 15th century is a rebuild; the first church is from the 300s.",
+      "source": "https://www.wikidata.org/wiki/Q1886229; https://en.wikipedia.org/wiki/San_Lorenzo_in_Damaso"
+    },
+    "q606233": {
+      "dateNote": "Wikidata only gives \"15th century\", so 1500 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (15th century shown as 1500).",
+      "source": "https://www.wikidata.org/wiki/Q606233; https://en.wikipedia.org/wiki/Veliki_Tabor_Castle"
+    },
+    "q946702": {
+      "dateNote": "1845 is the big rebuild in the style of a French château. The castle itself goes back to the Middle Ages.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: 1845 is a rebuild; the castle is much older.",
+      "source": "https://www.wikidata.org/wiki/Q946702; https://en.wikipedia.org/wiki/Dunrobin_Castle"
+    },
+    "q2145580": {
+      "dateNote": "Wikidata only gives \"6th century\", so 501 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (6th century shown as 501).",
+      "source": "https://www.wikidata.org/wiki/Q2145580; https://en.wikipedia.org/wiki/San_Nicola_in_Carcere"
+    },
+    "q4430013": {
+      "dateNote": "Wikidata only gives \"6th century\", so 600 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (6th century shown as 600).",
+      "source": "https://www.wikidata.org/wiki/Q4430013; https://en.wikipedia.org/wiki/Hagia_Sophia,_İznik"
+    },
+    "q1107945": {
+      "dateNote": "Wikidata only gives \"8th century\", so 701 is not a real year.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known (8th century shown as 701).",
+      "source": "https://www.wikidata.org/wiki/Q1107945; https://en.wikipedia.org/wiki/Sant'Eustachio"
+    },
+    "q517374": {
+      "dateNote": "Wikidata gives \"9th century\", the time of a rebuild. A church stood here from the 600s, so 801 is not the start date.",
+      "why": "Places fact-check batch 16-17 (Oct 2026), still uncertain, the panel now says so: Only a century is known; the church is older.",
+      "source": "https://www.wikidata.org/wiki/Q517374; https://en.wikipedia.org/wiki/San_Giorgio_in_Velabro"
+    },
     "q311798": {
       "startYear": 1930,
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 1930 (1 January or 26 April), not 1931.",
