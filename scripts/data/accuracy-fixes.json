@@ -1296,6 +1296,252 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1920, 1921 or 1923.",
       "source": "https://www.wikidata.org/wiki/Q183187; https://en.wikipedia.org/wiki/Fahd_of_Saudi_Arabia"
     },
+    "q6938": {
+      "startYear": 1080,
+      "dateNote": "Grew up around a castle from about 1080, when it was called Regnitzhof. The first document that names it is from 1214.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (400). Wikidata P1249 gives 400, which no source backs; the town dates from about 1080",
+      "source": "https://www.wikidata.org/wiki/Q6938 (P571 400); https://hof.de/en/live-experience/city-history; https://en.wikipedia.org/wiki/Hof,_Bavaria"
+    },
+    "q155281": {
+      "startYear": 1242,
+      "dateNote": "First recorded in 1242, when the Livonian Order was allowed to build a castle here. It got town rights in 1378.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1378). 1378 is when it got town rights; it is first recorded in 1242",
+      "source": "https://www.wikidata.org/wiki/Q155281 (P571 1378); https://en.wikipedia.org/wiki/Kuld%C4%ABga; https://medievalheritage.eu/en/main-page/heritage/latvia/kuldiga-order-castle/"
+    },
+    "q79931": {
+      "startYear": 1864,
+      "dateNote": "Founded on 30 May 1864 as the first capital of Arizona Territory. It became a city in 1881.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1881). 1881 is when it became a city; it was founded in 1864",
+      "source": "https://www.wikidata.org/wiki/Q79931 (P571 1881); https://www.britannica.com/place/Prescott-Arizona; https://prescott.org/history"
+    },
+    "q3865": {
+      "startYear": 817,
+      "dateNote": "Villingen is first recorded in 817, in a charter of Emperor Louis the Pious. It joined with Schwenningen in 1972.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1972). 1972 is the merger of Villingen and Schwenningen; Villingen is first recorded in 817",
+      "source": "https://www.wikidata.org/wiki/Q3865 (P571 1972); https://en.wikipedia.org/wiki/Villingen-Schwenningen"
+    },
+    "q495373": {
+      "startYear": 1852,
+      "dateNote": "Founded in 1852 by Nathaniel Vise. It became a city in 1874.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1874). 1874 is when it became a city; it was founded in 1852",
+      "source": "https://www.wikidata.org/wiki/Q495373 (P571 1874); https://en.wikipedia.org/wiki/Visalia,_California"
+    },
+    "q40340": {
+      "startYear": 1834,
+      "dateNote": "Founded in 1834 by Captain Gilbert Knapp, as Port Gilbert. It took the name Racine in 1841.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1699). No town stood here in 1699; Gilbert Knapp founded it in 1834",
+      "source": "https://www.wikidata.org/wiki/Q40340 (P571 1699); https://www.britannica.com/place/Racine; https://en.wikipedia.org/wiki/Racine,_Wisconsin"
+    },
+    "q52193": {
+      "startYear": 1240,
+      "dateNote": "First recorded in 1240-1241, in the Galician-Volhynian Chronicle. The year 1300 only stood for the 14th century.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1300). 1300 is \"14th century\" read as a year; Wikidata P1249 gives the first record as 1240",
+      "source": "https://www.wikidata.org/wiki/Q52193 (P571 1300); https://en.wikipedia.org/wiki/Kolomyia"
+    },
+    "q193719": {
+      "startYear": 1061,
+      "dateNote": "First recorded in 1061. It became a town in the 12th century.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1179). Wikidata P1249 gives the first record as 1061",
+      "source": "https://www.wikidata.org/wiki/Q193719 (P571 1179); https://en.wikipedia.org/wiki/Cheb"
+    },
+    "q735138": {
+      "startYear": 1372,
+      "dateNote": "First recorded in 1372, in the Livonian Chronicle of Hermann de Wartberge. It got town rights in 1590.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1590). 1590 is when it got town rights; Wikidata P1249 gives the first record as 1372",
+      "source": "https://www.wikidata.org/wiki/Q735138 (P571 1590); https://en.wikipedia.org/wiki/K%C4%97dainiai"
+    },
+    "q3896939": {
+      "startYear": 1315,
+      "dateNote": "Built in the early 14th century, about 1315 (the exact year is not known). 1911 is not when it was built.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1911). The mudéjar tower was built in the early 14th century, about the same time as the San Martín tower (1315)",
+      "source": "https://www.wikidata.org/wiki/Q3896939 (P571 1911); https://en.wikipedia.org/wiki/Tower_of_the_church_of_San_Salvador; https://www.turismodearagon.com/ficha/torre-de-el-salvador-teruel/"
+    },
+    "q3890034": {
+      "startYear": 1942,
+      "dateNote": "Built in 1942 as a casino, designed by Oscar Niemeyer. Gambling was banned in 1946 and it became an art museum in 1957.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1957). 1957 is when it became a museum; the building was put up in 1942 as a casino",
+      "source": "https://www.wikidata.org/wiki/Q3890034 (P571 1957); https://en.wikipedia.org/wiki/Pampulha_Art_Museum; https://whc.unesco.org/en/list/1493/"
+    },
+    "q107675480": {
+      "startYear": 1630,
+      "dateNote": "The oldest part is the Buen Retiro gardens, laid out from about 1630 for King Philip IV. The Paseo del Prado followed in the 1760s. 2021 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (2021). 2021 is the UNESCO listing year; the Buen Retiro gardens date from about 1630",
+      "source": "https://www.wikidata.org/wiki/Q107675480 (P571 2021); https://whc.unesco.org/en/list/1618/; https://en.wikipedia.org/wiki/Buen_Retiro_Park"
+    },
+    "q107719670": {
+      "startYear": 1780,
+      "dateNote": "Slate was quarried and mined here on a large scale from about 1780 to 1940. 2021 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (2021). 2021 is the UNESCO listing year; the slate industry landscape dates from about 1780",
+      "source": "https://www.wikidata.org/wiki/Q107719670 (P571 2021); https://whc.unesco.org/en/list/1633/"
+    },
+    "q3848197": {
+      "startYear": 800,
+      "dateNote": "The oldest part, the Castle of the Moors, was built in the 8th or 9th century. The exact year is not known, so 800 only stands for about then. 1995 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1995). 1995 is the UNESCO listing year; the Castle of the Moors dates from the 8th-9th century",
+      "source": "https://www.wikidata.org/wiki/Q3848197 (P571 1995); https://whc.unesco.org/en/list/723/; https://en.wikipedia.org/wiki/Castle_of_the_Moors"
+    },
+    "q52989504": {
+      "startYear": 1919,
+      "dateNote": "Made in 1919, when Soultzmatt gave the land for Romanian prisoners of war who died in the First World War. It was opened in 1924. The year 2000 only stood for the 20th century.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (2000). 2000 is \"20th century\" read as a year; the land was given in 1919",
+      "source": "https://www.wikidata.org/wiki/Q52989504 (P571 2000); https://www.cheminsdememoire.gouv.fr/en/romanian-military-cemetery-soultzmatt; https://www.westernfrontassociation.com/world-war-i-articles/le-cimetiere-militaire-de-soultzmatt-alsace"
+    },
+    "q665878": {
+      "startYear": 1897,
+      "dateNote": "Made in 1897 by the sculptor Teixeira Lopes, to remember the people who drowned when the Ponte das Barcas collapsed in 1809.",
+      "why": "Places fact-check batch 22-24 (Oct 2026): wrong year (1900). 1900 is \"19th century\" read as a year; Wikidata P571 also gives 1897",
+      "source": "https://www.wikidata.org/wiki/Q665878 (P571 1900); https://en.wikipedia.org/wiki/Alminhas_da_Ponte"
+    },
+    "q491132": {
+      "dateNote": "1987 is when the city was formed, joining older towns such as Newhall (1876) and Saugus. The area was settled long before.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: city formed in 1987 from older towns; no single founding year.",
+      "source": "https://www.wikidata.org/wiki/Q491132; https://en.wikipedia.org/wiki/Santa_Clarita,_California"
+    },
+    "q491540": {
+      "dateNote": "The first lasting settlers came in the 1840s and it became a town in 1902. The year 1763 can not be confirmed as a founding date.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1763 can not be confirmed; settled in the 1840s.",
+      "source": "https://www.wikidata.org/wiki/Q491540; https://en.wikipedia.org/wiki/Sarasota,_Florida"
+    },
+    "q200166": {
+      "dateNote": "Settled from about 1800 by Mennonites from Pennsylvania. It was named Berlin in 1833, and renamed Kitchener in 1916.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1833 is when it was named Berlin; settled from about 1800.",
+      "source": "https://www.wikidata.org/wiki/Q200166; https://en.wikipedia.org/wiki/Kitchener,_Ontario"
+    },
+    "q260911": {
+      "dateNote": "1835 is when it was made a city. A town stood here from the 16th century; the exact founding year is not agreed.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1835 is city status; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q260911; https://en.wikipedia.org/wiki/Chiclayo"
+    },
+    "q68103": {
+      "dateNote": "The town grew around Interlaken Monastery, founded in the 1130s. The year 1838 can not be confirmed.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1838 can not be confirmed; the monastery is from the 1130s.",
+      "source": "https://www.wikidata.org/wiki/Q68103; https://en.wikipedia.org/wiki/Interlaken"
+    },
+    "q466221": {
+      "dateNote": "1867 is when the town council was set up. Sylhet is much older: it was conquered by Shah Jalal in 1303 and is known from before then.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1867 is the municipality; the town is centuries older.",
+      "source": "https://www.wikidata.org/wiki/Q466221; https://en.wikipedia.org/wiki/Sylhet"
+    },
+    "q4120": {
+      "dateNote": "1869 is when it got town rights. It grew up from about 1810, when the Danube became the border between Bavaria and Württemberg.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1869 is town rights; it grew from about 1810.",
+      "source": "https://www.wikidata.org/wiki/Q4120; https://en.wikipedia.org/wiki/Neu-Ulm"
+    },
+    "q491114": {
+      "dateNote": "1876 is when it became a city. William Hayward set up here in the early 1850s.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1876 is city status; founded in the 1850s.",
+      "source": "https://www.wikidata.org/wiki/Q491114; https://en.wikipedia.org/wiki/Hayward,_California"
+    },
+    "q459360": {
+      "dateNote": "The port is much older. The year 1883 can not be confirmed; the Treaty of Simulambuco with Portugal was signed in 1885.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1883 can not be confirmed.",
+      "source": "https://www.wikidata.org/wiki/Q459360; https://en.wikipedia.org/wiki/Cabinda_(city)"
+    },
+    "q244146": {
+      "dateNote": "1891 is when it became a town. Fort Harrison was built here in 1841, and settlers followed.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1891 is town status; Fort Harrison 1841.",
+      "source": "https://www.wikidata.org/wiki/Q244146; https://en.wikipedia.org/wiki/Clearwater,_Florida"
+    },
+    "q214495": {
+      "dateNote": "The date 2800 BC can not be confirmed. Bamyan is best known as a Buddhist centre from the first centuries AD.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: -2800 can not be confirmed.",
+      "source": "https://www.wikidata.org/wiki/Q214495; https://en.wikipedia.org/wiki/Bamyan"
+    },
+    "q107398": {
+      "dateNote": "People lived here from the time Iceland was settled (9th century). The year 1604 can not be confirmed as a founding date.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1604 can not be confirmed.",
+      "source": "https://www.wikidata.org/wiki/Q107398; https://en.wikipedia.org/wiki/Akranes"
+    },
+    "q207756": {
+      "dateNote": "1882 is when it became a borough. Māori lived here long before (Wikidata gives about 1250), and a mission was set up in 1838.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1882 is borough status; Wikidata P1249 1250.",
+      "source": "https://www.wikidata.org/wiki/Q207756; https://en.wikipedia.org/wiki/Tauranga"
+    },
+    "q486868": {
+      "dateNote": "1888 is when it became a city. The town was laid out in the 1870s.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1888 is city status; laid out in the 1870s.",
+      "source": "https://www.wikidata.org/wiki/Q486868; https://en.wikipedia.org/wiki/Pomona,_California"
+    },
+    "q244232": {
+      "dateNote": "Tabuk is an old oasis town; it is named in the story of the Expedition of Tabuk in 630. The year 1915 can not be confirmed as a founding date.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1915 can not be confirmed; the oasis is ancient.",
+      "source": "https://www.wikidata.org/wiki/Q244232; https://en.wikipedia.org/wiki/Tabuk,_Saudi_Arabia"
+    },
+    "q141810": {
+      "dateNote": "1965 is when 14 towns on Île Jésus joined to make Laval. The island was settled from the 1600s.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1965 is a merger; settled from the 1600s.",
+      "source": "https://www.wikidata.org/wiki/Q141810; https://en.wikipedia.org/wiki/Laval,_Quebec"
+    },
+    "q146456": {
+      "dateNote": "The year shown only stands for the 8th century. The first written record is from 896 (Wikidata).",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata P1249 896.",
+      "source": "https://www.wikidata.org/wiki/Q146456; https://en.wikipedia.org/wiki/Mukachevo"
+    },
+    "q22636": {
+      "dateNote": "The year shown only stands for the 7th century, when the abbey here was founded.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q22636; https://en.wikipedia.org/wiki/Wissembourg"
+    },
+    "q466216": {
+      "dateNote": "The year shown only stands for the 12th century. The exact founding year is not known.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q466216; https://en.wikipedia.org/wiki/Taiz"
+    },
+    "q204709": {
+      "dateNote": "The year shown only stands for the 13th century. It got town rights in 1275.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q204709; https://en.wikipedia.org/wiki/Schiedam"
+    },
+    "q638445": {
+      "dateNote": "The year shown only stands for about the 5th century BC. Many sources give 422-421 BC, when Greeks from Heraclea Pontica founded it.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known; sources give 422-421 BC.",
+      "source": "https://www.wikidata.org/wiki/Q638445; https://en.wikipedia.org/wiki/Chersonesus"
+    },
+    "q106681": {
+      "dateNote": "The year shown only stands for the 10th century. The first written record is from the 12th century (Wikidata gives 1148).",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata P1249 1148.",
+      "source": "https://www.wikidata.org/wiki/Q106681; https://en.wikipedia.org/wiki/W%C5%82oc%C5%82awek"
+    },
+    "q103377": {
+      "dateNote": "The year shown only stands for the 14th century. Wikidata gives the first written record as 1434.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known; Wikidata P1249 1434.",
+      "source": "https://www.wikidata.org/wiki/Q103377; https://en.wikipedia.org/wiki/Alexandrov,_Russia"
+    },
+    "q158821": {
+      "dateNote": "Sources disagree. Wikidata also gives an earlier first record, 1238.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: Wikidata P571 1387 and P1249 1238 disagree.",
+      "source": "https://www.wikidata.org/wiki/Q158821; https://en.wikipedia.org/wiki/Drohobych"
+    },
+    "q234184": {
+      "dateNote": "Sources disagree. Wikidata also gives an earlier first record, 1072.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: Wikidata P571 1237 and P1249 1072 disagree.",
+      "source": "https://www.wikidata.org/wiki/Q234184; https://en.wikipedia.org/wiki/Che%C5%82m"
+    },
+    "q213026": {
+      "dateNote": "Some sources say the town was founded in 1537; the newer town was laid out in 1657.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1537 or 1657.",
+      "source": "https://www.wikidata.org/wiki/Q213026; https://en.wikipedia.org/wiki/Bareilly"
+    },
+    "q209537": {
+      "dateNote": "A fort was built here in 1847. The year 1872 can not be confirmed as a founding date.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1872 can not be confirmed; fort 1847.",
+      "source": "https://www.wikidata.org/wiki/Q209537; https://en.wikipedia.org/wiki/East_London,_Eastern_Cape"
+    },
+    "q172601": {
+      "dateNote": "1963 is when it became a town. The oil workers' settlement began in the 1950s (Wikidata gives 1955).",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: 1963 is town status; Wikidata P1249 1955.",
+      "source": "https://www.wikidata.org/wiki/Q172601; https://en.wikipedia.org/wiki/Neftekamsk"
+    },
+    "q138719954": {
+      "dateNote": "The year shown only stands for the 14th century.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q138719954; https://en.wikipedia.org/wiki/Qalhat"
+    },
+    "q97352832": {
+      "dateNote": "The year shown only stands for the 18th century.",
+      "why": "Places fact-check batch 22-24 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q97352832"
+    },
     "q219484": {
       "startYear": -300,
       "endYear": -260,
