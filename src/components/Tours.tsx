@@ -3,10 +3,8 @@ import type { Tour } from '../lib/types';
 import { speak, stopSpeech, speechAvailable } from '../lib/speech';
 
 interface ToursProps {
-  tours: Tour[];
   active: Tour | null;
   step: number;
-  onStart: (tour: Tour) => void;
   onStep: (step: number) => void;
   onExit: () => void;
 }
@@ -14,8 +12,8 @@ interface ToursProps {
 /**
  * Tours
  * -----
- * The 🎬 launcher (top-left) and, while a tour is running, the story card with
- * Prev/Next, a progress dot per stop, and an optional read-aloud toggle.
+ * While a tour is running, the story card with Prev/Next, a progress dot per
+ * stop, and an optional read-aloud toggle. Tours start from the ⋯ menu.
  * Moving the timeline/camera per step is App's job; this is just the UI.
  */
 export default function Tours({ active, step, onStep, onExit }: ToursProps) {
@@ -71,6 +69,8 @@ export default function Tours({ active, step, onStep, onExit }: ToursProps) {
             key={s.title}
             className={`bv-dot ${i === step ? 'active' : ''}`}
             title={s.title}
+            aria-label={`Stop ${i + 1}: ${s.title}`}
+            aria-current={i === step ? 'step' : undefined}
             onClick={() => onStep(i)}
           />
         ))}
