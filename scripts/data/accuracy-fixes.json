@@ -2053,6 +2053,311 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1884). That is when it became a town; Wikidata P571 and P1249 also give 1875, the fort",
       "source": "https://www.wikidata.org/wiki/Q36312 (P571 1875 and 1884); https://en.wikipedia.org/wiki/History_of_Calgary"
     },
+    "q200707": {
+      "startYear": 1588,
+      "dateNote": "Grew up around Takamatsu Castle, begun in 1588 by Ikoma Chikamasa (Wikidata gives 1590 for the castle). It became a city in 1890.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1890). 1890 is when it became a city; the castle town dates from 1588",
+      "source": "https://www.wikidata.org/wiki/Q200707 (P571 1890); https://www.wikidata.org/wiki/Q670725 (Takamatsu Castle, P571 1590); https://en.wikipedia.org/wiki/Takamatsu,_Kagawa"
+    },
+    "q200747": {
+      "startYear": 1585,
+      "dateNote": "Grew up around Wakayama Castle, built in 1585 for Toyotomi Hidenaga. It became a city in 1889.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1585",
+      "source": "https://www.wikidata.org/wiki/Q200747 (P571 1889); https://www.wikidata.org/wiki/Q1151269 (Wakayama Castle, P571 1585); https://en.wikipedia.org/wiki/Wakayama_(city)"
+    },
+    "q207309": {
+      "startYear": 1585,
+      "dateNote": "Grew up around Tokushima Castle, built in 1585 by Hachisuka Iemasa. It became a city in 1889.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1585",
+      "source": "https://www.wikidata.org/wiki/Q207309 (P571 1889); https://www.wikidata.org/wiki/Q8011246 (Tokushima Castle, P571 1585); https://en.wikipedia.org/wiki/Tokushima_(city)"
+    },
+    "q200251": {
+      "startYear": 1601,
+      "dateNote": "Grew up around Kōchi Castle, begun in 1601 by Yamauchi Kazutoyo. It became a city in 1889.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1601",
+      "source": "https://www.wikidata.org/wiki/Q200251 (P571 1889); https://www.wikidata.org/wiki/Q1012815 (Kōchi Castle, P571 1601); https://en.wikipedia.org/wiki/K%C5%8Dchi"
+    },
+    "q205526": {
+      "startYear": 1357,
+      "dateNote": "Grew up around Yamagata Castle, built in 1357 by Shiba Kaneyori. It became a city in 1889.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1357",
+      "source": "https://www.wikidata.org/wiki/Q205526 (P571 1889); https://www.wikidata.org/wiki/Q15604669 (Yamagata Castle, P571 1357); https://en.wikipedia.org/wiki/Yamagata,_Yamagata"
+    },
+    "q209801": {
+      "startYear": 1346,
+      "dateNote": "Grew up around Himeji Castle, first built in 1346; Toyotomi Hideyoshi rebuilt it from 1580. It became a city in 1889, and 1946 is a merger with nearby towns.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1946). 1946 is a merger; the castle town dates from 1346 (Wikidata P571 also gives 1580)",
+      "source": "https://www.wikidata.org/wiki/Q209801 (P571 1946); https://www.wikidata.org/wiki/Q188754 (Himeji Castle, P571 1346); https://en.wikipedia.org/wiki/Himeji"
+    },
+    "q202907": {
+      "startYear": 667,
+      "dateNote": "Emperor Tenji moved the capital of Japan here in 667 (Ōtsu Palace). It became a city in 1898; 1933 is a merger.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1933). 1933 is a merger (Wikidata P571 also gives 1889, city status); the capital was moved here in 667",
+      "source": "https://www.wikidata.org/wiki/Q202907 (P571 1933); https://en.wikipedia.org/wiki/%C5%8Ctsu; https://en.wikipedia.org/wiki/%C5%8Ctsu_Palace"
+    },
+    "q200578": {
+      "startYear": 1865,
+      "dateNote": "Grew from the Yokosuka shipyard, begun in 1865. It became a city in 1907.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1907). 1907 is when it became a city; it grew from the shipyard begun in 1865",
+      "source": "https://www.wikidata.org/wiki/Q200578 (P571 1907); https://en.wikipedia.org/wiki/Yokosuka; https://en.wikipedia.org/wiki/Yokosuka_Naval_Arsenal"
+    },
+    "q639421": {
+      "startYear": 1674,
+      "dateNote": "Founded as a French trading post in 1674 by François Martin. 1954 is when France handed it to India.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1954). 1954 is when France handed it over to India; the French town was founded in 1674",
+      "source": "https://www.wikidata.org/wiki/Q639421 (P571 1954); https://en.wikipedia.org/wiki/Pondicherry; https://www.britannica.com/place/Puducherry-city"
+    },
+    "q6832": {
+      "startYear": 1088,
+      "dateNote": "First recorded in 1088. It became a free imperial city in 1276.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1276). 1276 is when it became a free imperial city; Wikidata gives the first record as 1088",
+      "source": "https://www.wikidata.org/wiki/Q6832 (P571 1276); https://en.wikipedia.org/wiki/Ravensburg (Wikidata P1249 1088)"
+    },
+    "q500481": {
+      "startYear": 1905,
+      "dateNote": "Founded in 1905 by William B. Strang Jr. It became a city in 1960.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1960). 1960 is when it became a city; it was founded in 1905",
+      "source": "https://www.wikidata.org/wiki/Q500481 (P571 1960); https://en.wikipedia.org/wiki/Overland_Park,_Kansas"
+    },
+    "q1158530": {
+      "startYear": 634,
+      "dateNote": "Building began in 634, under Emperor Taizong of the Tang dynasty. 2010 is when the ruins opened as a park.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (2010). 2010 is when the ruins park opened; the Tang palace was begun in 634",
+      "source": "https://www.wikidata.org/wiki/Q1158530 (P571 2010); https://en.wikipedia.org/wiki/Daming_Palace; https://www.britannica.com/place/Daming-Palace"
+    },
+    "q2004104": {
+      "startYear": 1723,
+      "dateNote": "The church you see now was begun in 1723 by Carlo Francesco Dotti. The first church here was built in 1194.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1750). 1750 only stands for the 18th century; the present church was begun in 1723 (first church 1194)",
+      "source": "https://www.wikidata.org/wiki/Q2004104 (P571 1750); https://en.wikipedia.org/wiki/Sanctuary_of_the_Madonna_di_San_Luca (Wikidata P571 1194 and 18th century)"
+    },
+    "q3320354": {
+      "startYear": 1541,
+      "dateNote": "Built from 1541 by two monks, the brothers Nektarios and Theophanes Apsaras. The year 1600 only stood for the 16th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1600). 1600 is \"16th century\" read as a year; the monastery was built from 1541",
+      "source": "https://www.wikidata.org/wiki/Q3320354 (P571 1600); https://en.wikipedia.org/wiki/Varlaam_Monastery (Wikidata P571 16th century)"
+    },
+    "q15727412": {
+      "startYear": -1400,
+      "dateNote": "Bosra is first mentioned in the 14th century BC, in Egyptian records. The exact year is not known, so -1400 only stands for the 14th century BC. 1980 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1980). 1980 is the UNESCO listing year; Bosra is first mentioned in the 14th century BC",
+      "source": "https://www.wikidata.org/wiki/Q15727412 (P571 1980); https://www.wikidata.org/wiki/Q272680 (Bosra); https://en.wikipedia.org/wiki/Bosra; https://whc.unesco.org/en/list/22/"
+    },
+    "q1661800": {
+      "startYear": 1161,
+      "dateNote": "Built for Saint Euphrosyne of Polotsk and finished in 1161. The year 1101 only stood for the 12th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1101). 1101 is \"12th century\" read as a year; the church was finished in 1161 (Wikidata also gives 1128)",
+      "source": "https://www.wikidata.org/wiki/Q1661800 (P571 1101); https://en.wikipedia.org/wiki/Church_of_the_Transfiguration,_Polotsk"
+    },
+    "q454078": {
+      "startYear": 1847,
+      "dateNote": "Building began in 1847 for King Frederick William IV and ended in 1863. The year 1900 only stood for the 19th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1900). 1900 is \"19th century\" read as a year; building began in 1847",
+      "source": "https://www.wikidata.org/wiki/Q454078 (P571 1900); https://en.wikipedia.org/wiki/Belvedere_on_the_Pfingstberg"
+    },
+    "q1808872": {
+      "startYear": 1530,
+      "dateNote": "Built from about 1530 and finished in 1540. 1884 is when it was given to the city of Genoa, which made it a museum.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1884). 1884 is when it was given to the city; the palace was built 1530-1540 (Wikidata P1619 1540)",
+      "source": "https://www.wikidata.org/wiki/Q1808872 (P571 1884); https://en.wikipedia.org/wiki/Palazzo_Bianco"
+    },
+    "q122745617": {
+      "startYear": 1094,
+      "dateNote": "The Old Synagogue, the oldest part of this site, dates from about 1094. 2023 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (2023). 2023 is the UNESCO listing year; the Old Synagogue dates from about 1094",
+      "source": "https://www.wikidata.org/wiki/Q122745617 (P571 2023); https://en.wikipedia.org/wiki/Old_Synagogue_(Erfurt); https://whc.unesco.org/en/list/1656/"
+    },
+    "q65041035": {
+      "startYear": 1547,
+      "dateNote": "Built in 1547 and 1548, in the time of Islam Shah Suri. The year 1540 only stood for the 1540s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1540). 1540 is \"1540s\" read as a year; the tomb was built in 1547-1548",
+      "source": "https://www.wikidata.org/wiki/Q65041035 (P571 1540); https://en.wikipedia.org/wiki/Isa_Khan_Niazi%27s_Tomb (Wikidata P571 1540s)"
+    },
+    "q105048": {
+      "dateNote": "The year shown only stands for the 10th century, when a fort stood here. Słupsk got town rights in the 13th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q105048; https://en.wikipedia.org/wiki/S%C5%82upsk"
+    },
+    "q178855": {
+      "dateNote": "1350 is a guess. Botoșani is first written down in 1439.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: sources disagree (first record 1439).",
+      "source": "https://www.wikidata.org/wiki/Q178855; https://en.wikipedia.org/wiki/Boto%C8%99ani"
+    },
+    "q490720": {
+      "dateNote": "The French first settled across the bay in 1699 and moved to this site around 1720.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: first settlement 1699, this site about 1720.",
+      "source": "https://www.wikidata.org/wiki/Q490720; https://en.wikipedia.org/wiki/Biloxi,_Mississippi"
+    },
+    "q212991": {
+      "dateNote": "1868 is when it became a city. People settled here from the 1830s and the town was laid out in the 1850s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: incorporation date; settled earlier.",
+      "source": "https://www.wikidata.org/wiki/Q212991; https://en.wikipedia.org/wiki/Santa_Rosa,_California"
+    },
+    "q488924": {
+      "dateNote": "1888 is when it became a city. The town was started a few years before (Wikidata says 1882).",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: incorporation date; first record 1882.",
+      "source": "https://www.wikidata.org/wiki/Q488924; https://en.wikipedia.org/wiki/Oceanside,_California"
+    },
+    "q193428": {
+      "dateNote": "1889 is when Sakai became a city. The port here is far older, but there is no single founding year.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the place is far older.",
+      "source": "https://www.wikidata.org/wiki/Q193428; https://en.wikipedia.org/wiki/Sakai"
+    },
+    "q201117": {
+      "dateNote": "1951 is when it became a city (then called Koromo). The castle town is older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q201117; https://en.wikipedia.org/wiki/Toyota,_Aichi"
+    },
+    "q199609": {
+      "dateNote": "1963 is a merger (Wikidata also gives 1889, city status). Funai, the old town here, is far older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: merger date; the place is far older.",
+      "source": "https://www.wikidata.org/wiki/Q199609; https://en.wikipedia.org/wiki/%C5%8Cita_(city)"
+    },
+    "q201613": {
+      "dateNote": "1892 is when it became a city. It grew as a castle town, much older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q201613; https://en.wikipedia.org/wiki/Maebashi"
+    },
+    "q10127": {
+      "dateNote": "1993 is when it became a city. The town here is far older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q10127; https://en.wikipedia.org/wiki/Tangerang"
+    },
+    "q10396": {
+      "dateNote": "1999 is when it became a city. A Dutch landowner, Cornelis Chastelein, started a community here in about 1696.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q10396; https://en.wikipedia.org/wiki/Depok"
+    },
+    "q146363": {
+      "dateNote": "Sources give 1207 or 1247 for the first written record.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: sources disagree (1207 or 1247).",
+      "source": "https://www.wikidata.org/wiki/Q146363; https://en.wikipedia.org/wiki/Most_(city)"
+    },
+    "q107094": {
+      "dateNote": "1327 is not its first record; Rybnik is mentioned earlier, in the 13th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: sources disagree.",
+      "source": "https://www.wikidata.org/wiki/Q107094; https://en.wikipedia.org/wiki/Rybnik"
+    },
+    "q330531": {
+      "dateNote": "1631 is when Kota became its own state. There was a town here before that.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: state-founding date; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q330531; https://en.wikipedia.org/wiki/Kota,_Rajasthan"
+    },
+    "q48274": {
+      "dateNote": "1746 is when it was set up as its own town. The area was first chartered as part of Dunstable in 1673.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: status date; first charter 1673.",
+      "source": "https://www.wikidata.org/wiki/Q48274; https://en.wikipedia.org/wiki/Nashua,_New_Hampshire"
+    },
+    "q44198": {
+      "dateNote": "1853 is when it became a village. People had settled here from the 1820s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: status date; settled earlier.",
+      "source": "https://www.wikidata.org/wiki/Q44198; https://en.wikipedia.org/wiki/Brampton"
+    },
+    "q43981": {
+      "dateNote": "1900 is when it became a city. A salmon cannery started the town in the 1880s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: incorporation date; settled earlier.",
+      "source": "https://www.wikidata.org/wiki/Q43981; https://en.wikipedia.org/wiki/Ketchikan,_Alaska"
+    },
+    "q58422": {
+      "dateNote": "1938 is when it became a city. The town grew from the Kaiping coal mines, opened in the 1870s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: city-status date; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q58422; https://en.wikipedia.org/wiki/Tangshan"
+    },
+    "q106896": {
+      "dateNote": "The year shown only stands for the 9th century, when Iceland was first settled. There is no exact year.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q106896; https://en.wikipedia.org/wiki/%C3%8Dsafj%C3%B6r%C3%B0ur"
+    },
+    "q27168": {
+      "dateNote": "The year shown only stands for the 11th century, when Randers is first recorded.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q27168; https://en.wikipedia.org/wiki/Randers"
+    },
+    "q201391": {
+      "dateNote": "1946 is when it became a town, built for oil-shale mining. Villages here are much older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: town-status date; villages older.",
+      "source": "https://www.wikidata.org/wiki/Q201391; https://en.wikipedia.org/wiki/Kohtla-J%C3%A4rve"
+    },
+    "q108679": {
+      "dateNote": "1959 is when two towns were joined into Ruda Śląska. Ruda village is first recorded in 1295.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: merger date; first record 1295.",
+      "source": "https://www.wikidata.org/wiki/Q108679; https://en.wikipedia.org/wiki/Ruda_%C5%9Al%C4%85ska"
+    },
+    "q108672": {
+      "dateNote": "1916 is when it got town rights. The village here is older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: town-rights date; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q108672; https://en.wikipedia.org/wiki/D%C4%85browa_G%C3%B3rnicza"
+    },
+    "q27969085": {
+      "dateNote": "The year shown only stands for the 13th century. The abbey is far older; the church dates from the 11th century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q27969085; https://en.wikipedia.org/wiki/Basilica_of_Saint-Remi"
+    },
+    "q220951": {
+      "dateNote": "Building began around 1528 to 1530, and the church was finished in 1532.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: sources disagree (finished 1532).",
+      "source": "https://www.wikidata.org/wiki/Q220951; https://en.wikipedia.org/wiki/Church_of_the_Ascension,_Kolomenskoye"
+    },
+    "q6405906": {
+      "dateNote": "Work on the memorial began in 1999. It opened in 2004.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: opened in 2004.",
+      "source": "https://www.wikidata.org/wiki/Q6405906; https://en.wikipedia.org/wiki/Kigali_Genocide_Memorial"
+    },
+    "q2524402": {
+      "dateNote": "The year shown only stands for the 12th century. The church was built in the early 1100s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q2524402; https://en.wikipedia.org/wiki/Church_of_the_Saviour_at_Berestove"
+    },
+    "q3162464": {
+      "dateNote": "1624 is when Louis XIII had a hunting lodge and garden here. The great gardens were laid out from 1661.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: start not agreed (gardens laid out from 1661).",
+      "source": "https://www.wikidata.org/wiki/Q3162464; https://en.wikipedia.org/wiki/Gardens_of_Versailles"
+    },
+    "q2263092": {
+      "dateNote": "The year shown only stands for the 6th century. The fort is older.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q2263092; https://en.wikipedia.org/wiki/Naryn-Kala"
+    },
+    "q1106554": {
+      "dateNote": "The first church here was built in the 1620s. It was rebuilt in 1844 and again in 1937.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: rebuild date.",
+      "source": "https://www.wikidata.org/wiki/Q1106554; https://en.wikipedia.org/wiki/S%C3%A9_Cathedral_(Macau)"
+    },
+    "q3847588": {
+      "dateNote": "Built around 1305, then rebuilt from the 1480s by people who fled from Granada. Sources differ.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: sources disagree.",
+      "source": "https://www.wikidata.org/wiki/Q3847588; https://en.wikipedia.org/wiki/Medina_of_T%C3%A9touan"
+    },
+    "q56695607": {
+      "dateNote": "Burle Marx bought this farm in 1949 and gave it to Brazil in 1985. 1995 is not its start.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: start not agreed (1949 or 1985).",
+      "source": "https://www.wikidata.org/wiki/Q56695607; https://en.wikipedia.org/wiki/S%C3%ADtio_Roberto_Burle_Marx"
+    },
+    "q878986": {
+      "dateNote": "The year shown only stands for the 10th century. It was built around 900.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q878986; https://en.wikipedia.org/wiki/St._George%27s_Church,_Reichenau-Oberzell"
+    },
+    "q2904503": {
+      "dateNote": "The year shown only stands for the 8th century. Birka was founded around the middle of that century.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: only a century is known.",
+      "source": "https://www.wikidata.org/wiki/Q2904503; https://en.wikipedia.org/wiki/Birka"
+    },
+    "q2784858": {
+      "dateNote": "1988 is when the museum opened. The royal palace is from the 1600s.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: museum date; the palace is older.",
+      "source": "https://www.wikidata.org/wiki/Q2784858; https://en.wikipedia.org/wiki/Porto-Novo"
+    },
+    "q1472544": {
+      "dateNote": "The first church here dates from about 1537. The chapels were built from 1635.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: start not agreed (chapels from 1635).",
+      "source": "https://www.wikidata.org/wiki/Q1472544; https://en.wikipedia.org/wiki/Sacro_Monte_di_Ossuccio"
+    },
+    "q5694278": {
+      "dateNote": "A church stood here from 1593. The cathedral you see now was begun in 1670.",
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: rebuild date (begun 1670).",
+      "source": "https://www.wikidata.org/wiki/Q5694278; https://en.wikipedia.org/wiki/San_Luis_Potos%C3%AD_Cathedral"
+    },
     "q34217": {
       "startYear": 912,
       "dateNote": "First written record: the Anglo-Saxon Chronicle, under 912 (some say 911). Wikidata gives only \"10th century\", which showed as the year 1000.",
