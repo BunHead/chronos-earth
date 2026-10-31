@@ -2059,6 +2059,11 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1000). Wikidata P571 is just \"10th century\"; Oxford is first recorded in 912",
       "source": "https://www.wikidata.org/wiki/Q34217 (P571 10th century); https://en.wikipedia.org/wiki/History_of_Oxford"
     },
+    "q493692": {
+      "born": "9 November 955, Korea",
+      "why": "Ancient sites batch (Oct 2026), fixed: Gyeongjong of Goryeo showed 'born 14 November 955'. Wikidata P569 is 9 November 955 (stored as a Julian-calendar date; the harvest shifted it 5 days) and Wikipedia also says 9 November 955. The Kaesong pin is right.",
+      "source": "https://www.wikidata.org/wiki/Q493692 (P569 9 November 955); https://en.wikipedia.org/wiki/Gyeongjong_of_Goryeo"
+    },
     "q1735": {
       "startYear": 1180,
       "dateNote": "First written record: 1180, as a small market town of the Counts of Andechs. Its town charter was confirmed in 1239.",
