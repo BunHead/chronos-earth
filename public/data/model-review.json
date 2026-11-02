@@ -544,9 +544,10 @@
   },
   "place:forbidden-city@39.916,116.397": {
     "transform": {
-      "eastM": -510,
-      "northM": -50
+      "eastM": -530,
+      "northM": -50,
+      "headingDeg": -2.5
     },
-    "ts": 1793649170207
+    "ts": 1793649211863
   }
 }
