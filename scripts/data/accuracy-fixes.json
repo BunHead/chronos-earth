@@ -11018,6 +11018,13 @@
       "dateNote": "Uncertain place: this tiny mummy was found in 2003 at La Noria, an old nitrate-mining town in the Atacama Desert of Chile. Wikidata gives only the desert, so the pin is at its middle, not on the find spot.",
       "why": "Fossil fact-check batch 8 (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the Atacama Desert (P189) at its centre point (-24.5, -69.25); no Wikidata point for La Noria, Chile, was found",
       "source": "https://en.wikipedia.org/wiki/Atacama_skeleton"
+    },
+    "q714483": {
+      "lat": 37.8716,
+      "lon": -122.2727,
+      "born": "2 November 1931, Berkeley, California",
+      "why": "Discoveries batch 2 (Oct 2026), from the PR #106 review: pin was the middle of Uruguay (-33, -56), shown as 'born somewhere in Uruguay'. Wikidata P19 says Uruguay (Q77), which is wrong; he was born in Berkeley, California.",
+      "source": "https://www.wikidata.org/wiki/Q714483 (P19 Q77); https://en.wikipedia.org/wiki/Don_Walsh"
     }
   }
 }
