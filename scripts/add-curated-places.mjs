@@ -90,6 +90,38 @@ export const PLACES = [
       'from the Juyong pass in 555, and Xu Da fortified it for the first Ming emperor from 1368. Restored and ' +
       'opened to visitors in 1957. The Great Wall is a UNESCO World Heritage Site (1987).',
   },
+  {
+    // Asked for on 2 Nov 2026, as the earliest phase of the Great Wall pin above.
+    // Named so panel.ts does NOT give it the Badaling Ming model (that matches
+    // "great wall of china" / "badaling" only): the earliest walls were rammed
+    // earth and stone, and no model here shows them.
+    id: 'cur-great-wall-earliest',
+    name: 'Chu Square Wall, Fangcheng (earliest Great Wall)',
+    category: 'monument',
+    // Wikidata gives the Great Wall of China (Q12501) an inception of 700 BC
+    // (7th century BC), and Wikipedia: "The first walls date to the 7th century BC".
+    startYear: -700,
+    // Fangcheng County, Nanyang, Henan (Wikipedia coordinates): the county is
+    // named for the Fangcheng ("Square Wall") of Chu. A county centre, not a
+    // surveyed point on the wall: the Chu wall ran along the hills to its north.
+    lat: 33.25,
+    lon: 112.98,
+    // No Wikidata item of its own with a date and a place, so none is set here
+    // (Q12501 is the Badaling row's: setting it twice would drop this pin).
+    wikiTitle: 'Great Wall of China',
+    // Hand-set weight: enough to hold its own when you are looking at Henan.
+    notability: 150,
+    dateNote:
+      'The earliest walls of what became the Great Wall date to the 7th century BC (Wikipedia, Great Wall ' +
+      'of China; Wikidata Q12501 gives 700 BC). Wikipedia names no single first wall: its Nanyang article calls ' +
+      'the Chu Great Wall site in this region the "father of the Great Wall of China", and its Chu article ' +
+      'says Chu fortified the Fangcheng mountain on its northern border. The date is the 7th century in ' +
+      'general, not a surveyed year, and the pin is the county centre. The states of Zheng, Chu, Qin, Wei, ' +
+      'Zhao, Qi, Lu, Han, Yan, Zhongshan and Zhou all built border walls in the Spring and Autumn and ' +
+      'Warring States periods, of stone or stamped earth. After the First Emperor unified China in 221 BC ' +
+      'the Qin joined the remaining northern walls together, and the Ming brick wall at Badaling came ' +
+      'in 1505. Nothing of the Chu wall is modelled in 3D.',
+  },
   // THE MAYA LOWLANDS, asked for on 10 Oct 2026 with a video on Minanbé (the
   // new city itself is a curated SITE in ancient-sites.json, with its facts).
   // Neither Wikidata nor the harvest dates these, so each date is the period

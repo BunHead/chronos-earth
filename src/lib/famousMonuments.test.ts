@@ -42,4 +42,18 @@ describe('famous monuments', () => {
       expect(monumentModelForName(byId.get(id)!.name), id).toBeNull();
     }
   });
+  it('the Great Wall has its earliest phase (7th century BC) as well as the Ming Badaling pin', () => {
+    const early = events.find((e) => e.id === 'cur-great-wall-earliest') as (Row & { startYear: number }) | undefined;
+    const ming = events.find((e) => e.id === 'cur-great-wall-badaling') as (Row & { startYear: number }) | undefined;
+    expect(early, 'earliest-wall pin').toBeTruthy();
+    expect(early!.startYear).toBe(-700); // Wikidata Q12501 inception; Wikipedia: "first walls date to the 7th century BC"
+    expect([early!.lat, early!.lon]).toEqual([33.25, 112.98]); // Fangcheng County, Henan (Chu)
+    // The Ming pin is untouched, and keeps its 3D model.
+    expect(ming!.startYear).toBe(1505);
+    expect([ming!.lat, ming!.lon]).toEqual([40.36, 116.02]);
+    expect(ming!.wikidataId).toBe('Q12501');
+    expect(monumentModelForName(ming!.name)).toBe('great-wall');
+    // The Ming brick model must not stand on the Chu wall.
+    expect(monumentModelForName(early!.name)).toBeNull();
+  });
 });
