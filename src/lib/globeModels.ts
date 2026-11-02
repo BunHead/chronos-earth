@@ -128,6 +128,11 @@ export const GIZA_SAND: [number, number, number] = [200, 177, 134];
 const GIZA_PYRAMIDS: Array<{ model: string; title: string; lat: number; lon: number; built: number; buildYears?: number; ring?: number; clip: number; cover: number; always?: boolean }> = [
   { model: 'giza-khufu', title: 'Pyramid of Khufu', lat: 29.97917, lon: 31.13421, built: -2566, buildYears: 23, ring: 175, clip: 262, cover: 170 , always: true },
   { model: 'giza-khafre', title: 'Pyramid of Khafre', lat: 29.97599, lon: 31.13074, built: -2532, buildYears: 26, ring: 165, clip: 246, cover: 160 , always: true },
+  // Menkaure's present-day stage (giza-menkaure-ruin, from 1356) is a REAL SCAN
+  // (26 Oct 2026): 'Pyramid of Menkaure' by PolarNick239, CC BY 4.0, cropped to
+  // 104 m round the apex, scaled to the 61 m it stands today (faces 51.9 deg), north
+  // set from the 1196 breach on the north face. Built in true metres, so seat()'s
+  // scale stays 1 against the in-house base. Earlier stages stay in-house.
   { model: 'giza-menkaure', title: 'Pyramid of Menkaure', lat: 29.97251, lon: 31.12826, built: -2503, buildYears: 29, ring: 95, clip: 132, cover: 90 , always: true },
   // The queens' pyramids east of Khufu (Khufu's reign) and south of Menkaure.
   { model: 'giza-queen', title: 'Pyramid G1-a (Hetepheres I)', lat: 29.97887, lon: 31.13621, built: -2570, clip: 68, cover: 38 },
@@ -259,6 +264,16 @@ const PLACEMENTS: Placement[] = [
   // off the satellite photo on the globe.
   { model: 'gobekli-scan', title: 'Göbekli Tepe', lat: 37.22322, lon: 38.92245, builtYear: -9500 },
   { model: 'pumapunku-scan', title: 'Pumapunku', lat: -16.56139, lon: -68.67944, builtYear: 550 },
+  // REAL SCAN (26 Oct 2026): Karahan Tepe's main excavation (drone photogrammetry
+  // by 333DDD-oficial, CC BY 4.0), centred on round building Str. AD, read off the
+  // satellite photo ~100 m N / 80 m E of the site pin. Its own model, so Göbekli's
+  // scan is untouched; the tpillars archetype is suppressed here (curated, < 1 km).
+  { model: 'karahan-scan', title: 'Karahan Tepe', lat: 37.0925, lon: 39.30361, builtYear: -9400 },
+  // REAL SCAN (26 Oct 2026): the Nazca Lines Hummingbird geoglyph (photogrammetry by
+  // juanbrualla, CC BY 4.0), cropped to the bird and its plateau, set north-up and
+  // centred on the figure by matching the scan to the satellite photo. Nazca period
+  // geoglyph (c. 500 BCE-500 CE); 1.5 km from the 'Nazca Lines' site pin.
+  { model: 'nazca-hummingbird-scan', title: 'Nazca Hummingbird', lat: -14.69208, lon: -75.14883, builtYear: -100 },
   { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
