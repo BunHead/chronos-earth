@@ -1,0 +1,938 @@
+{
+  "_comment": "Battle batch 2026-10g, applied by scripts/add-battles-batch-2026-10g.mjs. Read from Wikidata (WDQS) on 26 Oct 2026: the pin is the item's single P625 on Earth (Q2), the year is its P585 (or the earliest P580 if it has no P585) recorded to at least the year (BC years converted from WDQS's astronomical numbering, so -0326 means 327 BC), endYear is the latest P582 when it falls in a later year, partOf is P361, sides are P710 where Wikidata names two or three, notability is the sitelink count, name and wikiTitle are the English Wikipedia article title. Wikidata records no winner (P1346) for any of these, so no result is given; English Wikipedia could not be read from the machine that made this batch. Pins that are whole degrees or sit on the country's own P625 point were left out, and every pin was checked by eye against the place named in the title. These come from the four-to-five sitelink band (nearly every battle with more is already on file), picked from well-known wars and the thin parts of the globe: Africa, the Middle East and Caucasus, Central Asia, South and Southeast Asia, Japan and Korea, the Americas before 1800, Oceania (New Zealand, Hawaii, Samoa), and ancient and early medieval Europe. Every battle was checked against events.json and battles.json by Q-id and by name within a year, and against the skipped lists of the earlier batches.",
+  "battles": [
+    {
+      "id": "q111207497",
+      "name": "Battle of Melilla (1860)",
+      "startYear": 1860,
+      "lat": 35.2825,
+      "lon": -2.9475,
+      "category": "battle",
+      "wikidataId": "Q111207497",
+      "wikiTitle": "Battle of Melilla (1860)",
+      "notability": 5,
+      "partOf": "Hispano-Moroccan War",
+      "sides": [
+        "Riffian people",
+        "Kingdom of Spain"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q111207497",
+      "dateNote": "9 February 1860 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q3403827",
+      "name": "Battle of Mascara",
+      "startYear": 1835,
+      "lat": 35.3833,
+      "lon": 0.15,
+      "category": "battle",
+      "wikidataId": "Q3403827",
+      "wikiTitle": "Battle of Mascara",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3403827",
+      "dateNote": "21 November 1835 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q28497111",
+      "name": "Siege of Oran (1790–1792)",
+      "startYear": 1790,
+      "lat": 35.6969,
+      "lon": -0.6331,
+      "category": "battle",
+      "wikidataId": "Q28497111",
+      "wikiTitle": "Siege of Oran (1790–1792)",
+      "notability": 4,
+      "partOf": "Spanish–Algerian conflicts",
+      "sides": [
+        "Regency of Algiers",
+        "Kingdom of Spain"
+      ],
+      "endYear": 1792,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q28497111",
+      "dateNote": "October 1790 (Wikidata P580, recorded to the month), ending 1792 (P582)."
+    },
+    {
+      "id": "q48795853",
+      "name": "Siege of Babylon Fortress",
+      "startYear": 640,
+      "lat": 30.0061,
+      "lon": 31.2297,
+      "category": "battle",
+      "wikidataId": "Q48795853",
+      "wikiTitle": "Siege of Babylon Fortress",
+      "notability": 4,
+      "partOf": "Arab conquest of Egypt",
+      "sides": [
+        "Byzantine Empire",
+        "Rashidun Caliphate"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q48795853",
+      "dateNote": "May 640 (Wikidata P580, recorded to the month)."
+    },
+    {
+      "id": "q96387538",
+      "name": "Siege of Mazagan (1562)",
+      "startYear": 1562,
+      "lat": 33.2333,
+      "lon": -8.5,
+      "category": "battle",
+      "wikidataId": "Q96387538",
+      "wikiTitle": "Siege of Mazagan (1562)",
+      "notability": 4,
+      "partOf": "Moroccan–Portuguese conflicts",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q96387538",
+      "dateNote": "28 February 1562 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q15693966",
+      "name": "Siege of Rustenburg",
+      "startYear": 1880,
+      "lat": -25.6667,
+      "lon": 27.2336,
+      "category": "battle",
+      "wikidataId": "Q15693966",
+      "wikiTitle": "Siege of Rustenburg",
+      "notability": 4,
+      "partOf": "First Boer War",
+      "endYear": 1881,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q15693966",
+      "dateNote": "27 December 1880 (Wikidata P580, recorded to the day), ending 1881 (P582)."
+    },
+    {
+      "id": "q16211729",
+      "name": "Siege of Marabastad",
+      "startYear": 1881,
+      "lat": -25.7411,
+      "lon": 28.1758,
+      "category": "battle",
+      "wikidataId": "Q16211729",
+      "wikiTitle": "Siege of Marabastad",
+      "notability": 4,
+      "partOf": "First Boer War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q16211729",
+      "dateNote": "11 January 1881 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q2888487",
+      "name": "Battle of Fatshan Creek",
+      "startYear": 1857,
+      "lat": 23.029,
+      "lon": 113.119,
+      "category": "battle",
+      "wikidataId": "Q2888487",
+      "wikiTitle": "Battle of Fatshan Creek",
+      "notability": 4,
+      "partOf": "Second Opium War",
+      "sides": [
+        "United Kingdom of Great Britain and Ireland",
+        "Qing dynasty"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2888487",
+      "dateNote": "1 June 1857 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872845",
+      "name": "Battle of the Barrier",
+      "startYear": 1840,
+      "lat": 22.2147,
+      "lon": 113.5489,
+      "category": "battle",
+      "wikidataId": "Q4872845",
+      "wikiTitle": "Battle of the Barrier",
+      "notability": 4,
+      "partOf": "First Opium War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872845",
+      "dateNote": "19 August 1840 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q2888235",
+      "name": "Battle of Caloocan",
+      "startYear": 1899,
+      "lat": 14.65,
+      "lon": 120.9667,
+      "category": "battle",
+      "wikidataId": "Q2888235",
+      "wikiTitle": "Battle of Caloocan",
+      "notability": 4,
+      "partOf": "Philippine–American War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2888235",
+      "dateNote": "10 February 1899 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q7510463",
+      "name": "Siege of Trichinopoly (1741)",
+      "startYear": 1741,
+      "lat": 10.8269,
+      "lon": 78.6928,
+      "category": "battle",
+      "wikidataId": "Q7510463",
+      "wikiTitle": "Siege of Trichinopoly (1741)",
+      "notability": 4,
+      "partOf": "battles involving the Maratha Empire",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7510463",
+      "dateNote": "16 January 1741 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q4677390",
+      "name": "Action of 9 September 1796",
+      "startYear": 1796,
+      "lat": 5.55,
+      "lon": 95.85,
+      "category": "battle",
+      "wikidataId": "Q4677390",
+      "wikiTitle": "Action of 9 September 1796",
+      "notability": 4,
+      "partOf": "French Revolutionary Wars",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4677390",
+      "dateNote": "9 September 1796 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872652",
+      "name": "Battle of Vasai",
+      "startYear": 1739,
+      "lat": 19.4667,
+      "lon": 72.8,
+      "category": "battle",
+      "wikidataId": "Q4872652",
+      "wikiTitle": "Battle of Vasai",
+      "notability": 4,
+      "sides": [
+        "Maratha Empire",
+        "Portuguese Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872652",
+      "dateNote": "17 February 1739 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q22907839",
+      "name": "Siege of Pondicherry (1793)",
+      "startYear": 1793,
+      "lat": 11.93,
+      "lon": 79.83,
+      "category": "battle",
+      "wikidataId": "Q22907839",
+      "wikiTitle": "Siege of Pondicherry (1793)",
+      "notability": 4,
+      "partOf": "French Revolutionary Wars",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q22907839",
+      "dateNote": "1793 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q24945556",
+      "name": "Fall of Angkor",
+      "startYear": 1431,
+      "lat": 13.4333,
+      "lon": 103.8333,
+      "category": "battle",
+      "wikidataId": "Q24945556",
+      "wikiTitle": "Fall of Angkor",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q24945556",
+      "dateNote": "1431 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q26910860",
+      "name": "Siege of Arrah",
+      "startYear": 1857,
+      "lat": 25.5573,
+      "lon": 84.6658,
+      "category": "battle",
+      "wikidataId": "Q26910860",
+      "wikiTitle": "Siege of Arrah",
+      "notability": 4,
+      "partOf": "Indian Mutiny of 1857",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q26910860",
+      "dateNote": "27 July 1857 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q39088281",
+      "name": "Alauddin Khalji's conquest of Ranthambore",
+      "startYear": 1301,
+      "lat": 26.0206,
+      "lon": 76.4542,
+      "category": "battle",
+      "wikidataId": "Q39088281",
+      "wikiTitle": "Alauddin Khalji's conquest of Ranthambore",
+      "notability": 4,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q39088281",
+      "dateNote": "18 July 1301 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q5961259",
+      "name": "Siege of Nishapur (1221)",
+      "startYear": 1220,
+      "lat": 36.2133,
+      "lon": 58.7958,
+      "category": "battle",
+      "wikidataId": "Q5961259",
+      "wikiTitle": "Siege of Nishapur (1221)",
+      "notability": 5,
+      "partOf": "Mongol invasion of Khwarazmian Empire and Eastern Iran",
+      "sides": [
+        "Mongol Empire",
+        "Khwarazmian Empire"
+      ],
+      "endYear": 1221,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q5961259",
+      "dateNote": "November 1220 (Wikidata P580, recorded to the month), ending 1221 (P582)."
+    },
+    {
+      "id": "q97006770",
+      "name": "Siege of Ak-Mechet",
+      "startYear": 1853,
+      "lat": 44.85,
+      "lon": 65.5167,
+      "category": "battle",
+      "wikidataId": "Q97006770",
+      "wikiTitle": "Siege of Ak-Mechet",
+      "notability": 5,
+      "partOf": "Russian-Kokand War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q97006770",
+      "dateNote": "2 July 1853 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q16931419",
+      "name": "Siege of Delhi (1804)",
+      "startYear": 1804,
+      "lat": 28.6667,
+      "lon": 77.2167,
+      "category": "battle",
+      "wikidataId": "Q16931419",
+      "wikiTitle": "Siege of Delhi (1804)",
+      "notability": 5,
+      "partOf": "Second Anglo-Maratha War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q16931419",
+      "dateNote": "8 October 1804 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q7509851",
+      "name": "Siege of Balkh (1447)",
+      "startYear": 1447,
+      "lat": 36.7581,
+      "lon": 66.8989,
+      "category": "battle",
+      "wikidataId": "Q7509851",
+      "wikiTitle": "Siege of Balkh (1447)",
+      "notability": 4,
+      "partOf": "Timurid Wars of Succession",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7509851",
+      "dateNote": "1447 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q136332981",
+      "name": "Siege of Khujand (1220)",
+      "startYear": 1220,
+      "lat": 40.2794,
+      "lon": 69.6319,
+      "category": "battle",
+      "wikidataId": "Q136332981",
+      "wikiTitle": "Siege of Khujand (1220)",
+      "notability": 4,
+      "partOf": "Mongol invasion of Khwarazmian Empire and Eastern Iran",
+      "sides": [
+        "Mongol Empire",
+        "Khwarazmian Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q136332981",
+      "dateNote": "1220 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q12868103",
+      "name": "Siege of Petra (549)",
+      "startYear": 548,
+      "lat": 41.7683,
+      "lon": 41.7533,
+      "category": "battle",
+      "wikidataId": "Q12868103",
+      "wikiTitle": "Siege of Petra (549)",
+      "notability": 5,
+      "partOf": "Lazic War",
+      "sides": [
+        "Sasanian Empire",
+        "Lazica",
+        "Byzantine Empire"
+      ],
+      "endYear": 549,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q12868103",
+      "dateNote": "September 548 (Wikidata P580, recorded to the month), ending 549 (P582)."
+    },
+    {
+      "id": "q15277674",
+      "name": "Siege of Ctesiphon (629)",
+      "startYear": 629,
+      "lat": 33.0936,
+      "lon": 44.5806,
+      "category": "battle",
+      "wikidataId": "Q15277674",
+      "wikiTitle": "Siege of Ctesiphon (629)",
+      "notability": 4,
+      "partOf": "Sasanian civil war of 628–632",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q15277674",
+      "dateNote": "30 April 629 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q97402659",
+      "name": "Siege of Edessa (1146)",
+      "startYear": 1146,
+      "lat": 37.15,
+      "lon": 38.8,
+      "category": "battle",
+      "wikidataId": "Q97402659",
+      "wikiTitle": "Siege of Edessa (1146)",
+      "notability": 5,
+      "partOf": "Crusader battles between 1149 and 1189",
+      "sides": [
+        "Zengid dynasty",
+        "County of Edessa"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q97402659",
+      "dateNote": "October 1146 (Wikidata P580, recorded to the month)."
+    },
+    {
+      "id": "q138037968",
+      "name": "Siege of Mosul (1261)",
+      "startYear": 1261,
+      "lat": 36.3333,
+      "lon": 43.1333,
+      "category": "battle",
+      "wikidataId": "Q138037968",
+      "wikiTitle": "Siege of Mosul (1261)",
+      "notability": 5,
+      "partOf": "Mongol invasions of the Levant",
+      "sides": [
+        "Ilkhanate",
+        "Mamluk Sultanate of Egypt",
+        "Al-Malik al-Salih Ismail"
+      ],
+      "endYear": 1262,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q138037968",
+      "dateNote": "1261 (Wikidata P580, recorded to the year), ending 1262 (P582)."
+    },
+    {
+      "id": "q5959281",
+      "name": "Siege of Baghdad (1625–1626)",
+      "startYear": 1625,
+      "lat": 33.325,
+      "lon": 44.422,
+      "category": "battle",
+      "wikidataId": "Q5959281",
+      "wikiTitle": "Siege of Baghdad (1625–1626)",
+      "notability": 5,
+      "partOf": "Safavid capture of Mesopotamia",
+      "sides": [
+        "Safavid Iran",
+        "Ottoman Empire"
+      ],
+      "endYear": 1626,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q5959281",
+      "dateNote": "13 November 1625 (Wikidata P580, recorded to the day), ending 1626 (P582)."
+    },
+    {
+      "id": "q110425949",
+      "name": "Siege of Baghdad (1401)",
+      "startYear": 1401,
+      "lat": 33.3475,
+      "lon": 44.335,
+      "category": "battle",
+      "wikidataId": "Q110425949",
+      "wikiTitle": "Siege of Baghdad (1401)",
+      "notability": 4,
+      "partOf": "Seven Years' Campaign",
+      "sides": [
+        "Timurid Empire",
+        "Jalayirid Sultanate"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q110425949",
+      "dateNote": "1401 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q60791295",
+      "name": "Siege of Aleppo (994–995)",
+      "startYear": 994,
+      "lat": 36.2,
+      "lon": 37.15,
+      "category": "battle",
+      "wikidataId": "Q60791295",
+      "wikiTitle": "Siege of Aleppo (994–995)",
+      "notability": 5,
+      "partOf": "Arab–Byzantine wars",
+      "sides": [
+        "Fatimid Caliphate",
+        "Byzantine Empire",
+        "Hamdanid dynasty"
+      ],
+      "endYear": 995,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q60791295",
+      "dateNote": "994 (Wikidata P580, recorded to the year), ending 995 (P582)."
+    },
+    {
+      "id": "q25540862",
+      "name": "Siege of Tbilisi (1122)",
+      "startYear": 1121,
+      "lat": 41.6942,
+      "lon": 44.8336,
+      "category": "battle",
+      "wikidataId": "Q25540862",
+      "wikiTitle": "Siege of Tbilisi (1122)",
+      "notability": 4,
+      "partOf": "Georgian–Seljuk wars",
+      "sides": [
+        "Kingdom of Georgia",
+        "Seljuk Empire",
+        "Emirate of Tbilisi"
+      ],
+      "endYear": 1122,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q25540862",
+      "dateNote": "1121 (Wikidata P580, recorded to the year), ending 1122 (P582)."
+    },
+    {
+      "id": "q25111000",
+      "name": "Siege of Azekah",
+      "startYear": -701,
+      "lat": 31.7,
+      "lon": 34.93,
+      "category": "battle",
+      "wikidataId": "Q25111000",
+      "wikiTitle": "Siege of Azekah",
+      "notability": 4,
+      "partOf": "Sennacherib",
+      "sides": [
+        "Kingdom of Judah",
+        "Neo-Assyrian Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q25111000",
+      "dateNote": "701 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q3625440",
+      "name": "Siege of Antioch (260)",
+      "startYear": 260,
+      "lat": 36.2,
+      "lon": 36.15,
+      "category": "battle",
+      "wikidataId": "Q3625440",
+      "wikiTitle": "Siege of Antioch (260)",
+      "notability": 4,
+      "partOf": "Shapur I's Syrio-Mesopotamian campaign",
+      "sides": [
+        "Sasanian Empire",
+        "Roman Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3625440",
+      "dateNote": "260 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q815100",
+      "name": "Siege of Sanjō Palace",
+      "startYear": 1160,
+      "lat": 35.0117,
+      "lon": 135.7681,
+      "category": "battle",
+      "wikidataId": "Q815100",
+      "wikiTitle": "Siege of Sanjō Palace",
+      "notability": 5,
+      "partOf": "Heiji rebellion",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q815100",
+      "dateNote": "26 January 1160 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q7510148",
+      "name": "Siege of Kanegasaki (1337)",
+      "startYear": 1337,
+      "lat": 35.6664,
+      "lon": 136.0736,
+      "category": "battle",
+      "wikidataId": "Q7510148",
+      "wikiTitle": "Siege of Kanegasaki (1337)",
+      "notability": 5,
+      "sides": [
+        "Shiba Takatsune",
+        "Nitta Yoshisada"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7510148",
+      "dateNote": "15 April 1337 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q4872487",
+      "name": "Battle of Takajō",
+      "startYear": 1587,
+      "lat": 32.1677,
+      "lon": 131.4726,
+      "category": "battle",
+      "wikidataId": "Q4872487",
+      "wikiTitle": "Battle of Takajō",
+      "notability": 4,
+      "partOf": "Toyotomi Hideyoshi",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872487",
+      "dateNote": "1587 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q7510523",
+      "name": "Siege of Yeongwon",
+      "startYear": 1592,
+      "lat": 37.3092,
+      "lon": 128.0386,
+      "category": "battle",
+      "wikidataId": "Q7510523",
+      "wikiTitle": "Siege of Yeongwon",
+      "notability": 4,
+      "partOf": "First Japanese Invasion of Korea",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7510523",
+      "dateNote": "1592 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4022481",
+      "name": "Siege of Hachigata (1568)",
+      "startYear": 1568,
+      "lat": 36.1092,
+      "lon": 139.196,
+      "category": "battle",
+      "wikidataId": "Q4022481",
+      "wikiTitle": "Siege of Hachigata (1568)",
+      "notability": 5,
+      "sides": [
+        "Takeda Shingen",
+        "Hōjō Ujikuni"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4022481",
+      "dateNote": "1568 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4188867",
+      "name": "Capture of Sint Eustatius",
+      "startYear": 1781,
+      "lat": 17.4833,
+      "lon": -62.9833,
+      "category": "battle",
+      "wikidataId": "Q4188867",
+      "wikiTitle": "Capture of Sint Eustatius",
+      "notability": 4,
+      "partOf": "Fourth Anglo-Dutch War; American Revolutionary War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4188867",
+      "dateNote": "February 1781 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q2890484",
+      "name": "Battle of Ocracoke",
+      "startYear": 1718,
+      "lat": 35.1502,
+      "lon": -75.873,
+      "category": "battle",
+      "wikidataId": "Q2890484",
+      "wikiTitle": "Battle of Ocracoke",
+      "notability": 4,
+      "partOf": "Golden Age of Piracy",
+      "sides": [
+        "Kingdom of Great Britain",
+        "pirate"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2890484",
+      "dateNote": "22 November 1718 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q2937687",
+      "name": "Capture of York Factory",
+      "startYear": 1694,
+      "lat": 57.0027,
+      "lon": -92.3048,
+      "category": "battle",
+      "wikidataId": "Q2937687",
+      "wikiTitle": "Capture of York Factory",
+      "notability": 4,
+      "partOf": "King William's War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2937687",
+      "dateNote": "14 September 1694 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q7510017",
+      "name": "Siege of Fort Mifflin",
+      "startYear": 1777,
+      "lat": 39.8749,
+      "lon": -75.2132,
+      "category": "battle",
+      "wikidataId": "Q7510017",
+      "wikiTitle": "Siege of Fort Mifflin",
+      "notability": 5,
+      "partOf": "American Revolutionary War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7510017",
+      "dateNote": "26 September 1777 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q4872851",
+      "name": "Battle of the Black River",
+      "startYear": 1782,
+      "lat": 15.9462,
+      "lon": -84.9299,
+      "category": "battle",
+      "wikidataId": "Q4872851",
+      "wikiTitle": "Battle of the Black River",
+      "notability": 4,
+      "partOf": "Anglo-Spanish War",
+      "sides": [
+        "Spanish Empire",
+        "Kingdom of Great Britain",
+        "Mosquitia"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4872851",
+      "dateNote": "13 April 1782 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q2889885",
+      "name": "Battle of Saint-Raphaël",
+      "startYear": 1794,
+      "lat": 19.483,
+      "lon": -72.2,
+      "category": "battle",
+      "wikidataId": "Q2889885",
+      "wikiTitle": "Battle of Saint-Raphaël",
+      "notability": 4,
+      "partOf": "War of the Pyrenees; Haitian Revolution",
+      "sides": [
+        "French First Republic",
+        "Kingdom of Spain"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2889885",
+      "dateNote": "20 October 1794 (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q5037078",
+      "name": "Capture of the galleon San Joaquin",
+      "startYear": 1711,
+      "lat": 10.4114,
+      "lon": -75.535,
+      "category": "battle",
+      "wikidataId": "Q5037078",
+      "wikiTitle": "Capture of the galleon San Joaquin",
+      "notability": 4,
+      "partOf": "War of the Spanish Succession",
+      "sides": [
+        "Kingdom of Great Britain",
+        "Kingdom of Spain"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q5037078",
+      "dateNote": "11 August 1711 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q18001862",
+      "name": "Siege of Corfinium",
+      "startYear": -49,
+      "lat": 42.1174,
+      "lon": 13.8352,
+      "category": "battle",
+      "wikidataId": "Q18001862",
+      "wikiTitle": "Siege of Corfinium",
+      "notability": 5,
+      "partOf": "Caesar's Civil War",
+      "sides": [
+        "populares",
+        "optimates"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q18001862",
+      "dateNote": "13 February 49 BC (Wikidata P580, recorded to the day)."
+    },
+    {
+      "id": "q3625055",
+      "name": "Capture of Neapolis",
+      "startYear": -327,
+      "lat": 40.8333,
+      "lon": 14.25,
+      "category": "battle",
+      "wikidataId": "Q3625055",
+      "wikiTitle": "Capture of Neapolis",
+      "notability": 5,
+      "partOf": "Second Samnite War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3625055",
+      "dateNote": "327 BC (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q56327895",
+      "name": "Siege of Ariminum (538)",
+      "startYear": 538,
+      "lat": 44.0594,
+      "lon": 12.5683,
+      "category": "battle",
+      "wikidataId": "Q56327895",
+      "wikiTitle": "Siege of Ariminum (538)",
+      "notability": 5,
+      "partOf": "Gothic War of 535–554",
+      "sides": [
+        "Ostrogothic Kingdom",
+        "Byzantine Empire"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q56327895",
+      "dateNote": "March 538 (Wikidata P580, recorded to the month)."
+    },
+    {
+      "id": "q3486069",
+      "name": "Battle of Arles (411)",
+      "startYear": 411,
+      "lat": 43.6769,
+      "lon": 4.6286,
+      "category": "battle",
+      "wikidataId": "Q3486069",
+      "wikiTitle": "Battle of Arles (411)",
+      "notability": 5,
+      "partOf": "Roman Civil War of 406–411",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q3486069",
+      "dateNote": "411 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q7509820",
+      "name": "Siege of Apia",
+      "startYear": 1899,
+      "lat": -13.8333,
+      "lon": -171.8333,
+      "category": "battle",
+      "wikidataId": "Q7509820",
+      "wikiTitle": "Siege of Apia",
+      "notability": 4,
+      "partOf": "Second Samoan Civil War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q7509820",
+      "dateNote": "1899 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4871235",
+      "name": "Battle of Hingakaka",
+      "startYear": 1791,
+      "lat": -37.9807,
+      "lon": 175.3085,
+      "category": "battle",
+      "wikidataId": "Q4871235",
+      "wikiTitle": "Battle of Hingakaka",
+      "notability": 3,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871235",
+      "dateNote": "1791 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q4871763",
+      "name": "Battle of Mokuʻōhai",
+      "startYear": 1782,
+      "lat": 19.4553,
+      "lon": -155.9228,
+      "category": "battle",
+      "wikidataId": "Q4871763",
+      "wikiTitle": "Battle of Mokuʻōhai",
+      "notability": 3,
+      "partOf": "Unification of Hawaii",
+      "sides": [
+        "House of Keoua",
+        "House of Keawe"
+      ],
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871763",
+      "dateNote": "July 1782 (Wikidata P585, recorded to the month)."
+    },
+    {
+      "id": "q4871482",
+      "name": "Battle of Kororāreka",
+      "startYear": 1845,
+      "lat": -35.2549,
+      "lon": 174.12,
+      "category": "battle",
+      "wikidataId": "Q4871482",
+      "wikiTitle": "Battle of Kororāreka",
+      "notability": 3,
+      "partOf": "Flagstaff War",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4871482",
+      "dateNote": "11 March 1845 (Wikidata P585, recorded to the day)."
+    },
+    {
+      "id": "q6911363",
+      "name": "Battle of Moremonui",
+      "startYear": 1807,
+      "lat": -35.8969,
+      "lon": 173.6936,
+      "category": "battle",
+      "wikidataId": "Q6911363",
+      "wikiTitle": "Battle of Moremonui",
+      "notability": 2,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q6911363",
+      "dateNote": "1807 (Wikidata P585, recorded to the year)."
+    },
+    {
+      "id": "q108860691",
+      "name": "Siege of Ngatapa",
+      "startYear": 1868,
+      "lat": -38.5136,
+      "lon": 177.5636,
+      "category": "battle",
+      "wikidataId": "Q108860691",
+      "wikiTitle": "Siege of Ngatapa",
+      "notability": 2,
+      "partOf": "Te Kooti's War",
+      "endYear": 1869,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q108860691",
+      "dateNote": "31 December 1868 (Wikidata P580, recorded to the day), ending 1869 (P582)."
+    },
+    {
+      "id": "q4870427",
+      "name": "Battle of Battle Hill",
+      "startYear": 1846,
+      "lat": -41.052,
+      "lon": 174.9375,
+      "category": "battle",
+      "wikidataId": "Q4870427",
+      "wikiTitle": "Battle of Battle Hill",
+      "notability": 2,
+      "partOf": "New Zealand Wars",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q4870427",
+      "dateNote": "13 August 1846 (Wikidata P585, recorded to the day)."
+    }
+  ],
+  "skipped": [
+    {
+      "wikidataId": "Q3237997",
+      "name": "Relief of Ladysmith",
+      "reason": "Wikidata dates it 28 October 1899, the start of the siege, not the relief (February 1900)"
+    },
+    {
+      "wikidataId": "Q3486062",
+      "name": "Siege of Shirakawa-den",
+      "reason": "P625 (37.05, 140.23) is Shirakawa in Fukushima, but Shirakawa-den was a palace in Kyoto"
+    },
+    {
+      "wikidataId": "Q949495",
+      "name": "Battle of Ōhaeawai",
+      "reason": "already on file (by Q-id and by name and year)"
+    },
+    {
+      "wikidataId": "Q4087428",
+      "name": "Battle of Kaba",
+      "reason": "already on file (by Q-id and by name and year)"
+    },
+    {
+      "wikidataId": "Q2088170",
+      "name": "Expedition of Tabuk",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q764673",
+      "name": "Battle of Alalia",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q549459",
+      "name": "Fall of Jericho",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q3153831",
+      "name": "Patrol of Buwat",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q4873038",
+      "name": "Battle of the Waters of Merom",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q3820832",
+      "name": "Battle of Camulodunum",
+      "reason": "no date in P585 or P580 recorded to the year"
+    },
+    {
+      "wikidataId": "Q2712138",
+      "name": "Battle of Degsastan",
+      "reason": "no usable P625 coordinate"
+    }
+  ]
+}
