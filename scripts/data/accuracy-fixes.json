@@ -4112,6 +4112,280 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Death 1955 or 1956.",
       "source": "https://www.wikidata.org/wiki/Q334297; https://en.wikipedia.org/wiki/Pak_Hon-yong"
     },
+    "q123511": {
+      "startYear": 1065,
+      "dateNote": "First recorded in 1065, in a church document (the copy we have was probably written about 1155). It got town rights in 1291.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1291). 1291 is town rights (Kulm law); it is first recorded in 1065 (Wikidata P571 also gives 1065)",
+      "source": "https://www.wikidata.org/wiki/Q123511 (P571 1291, 1232, 1065); https://en.wikipedia.org/wiki/Grudzi%C4%85dz"
+    },
+    "q932886": {
+      "startYear": -685,
+      "dateNote": "Founded about 685 BC by Greek settlers from Megara, as Chalcedon. It is now a district of Istanbul.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1930). 1930 is a modern district date; the town is ancient Chalcedon, founded about 685 BC",
+      "source": "https://www.wikidata.org/wiki/Q932886 (P571 1930); https://en.wikipedia.org/wiki/Kad%C4%B1k%C3%B6y; https://en.wikipedia.org/wiki/Chalcedon"
+    },
+    "q159548": {
+      "startYear": 742,
+      "dateNote": "First recorded in 742 or 743, when its church was given to the new Diocese of Würzburg. Charlemagne built a palace here from about 774. It became a town in 1939.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1939). 1939 is when villages merged into a town; Ingelheim is first recorded in 742-743",
+      "source": "https://www.wikidata.org/wiki/Q159548 (P571 1939); https://en.wikipedia.org/wiki/Ingelheim_am_Rhein; https://en.wikipedia.org/wiki/Ingelheim_Imperial_Palace"
+    },
+    "q79733": {
+      "startYear": 1882,
+      "dateNote": "Founded in 1882 as a railway town, named after the railway engineer Lewis Kingman. It became a city in 1952.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1952). 1952 is when it became a city; it was founded in 1882",
+      "source": "https://www.wikidata.org/wiki/Q79733 (P571 1952); https://en.wikipedia.org/wiki/Kingman,_Arizona; https://explorekingman.com/History"
+    },
+    "q1022488": {
+      "startYear": 1086,
+      "dateNote": "Brighton is first recorded in 1086, in the Domesday Book, as Bristelmestune. Brighton and Hove were joined into one council in 1997 and made a city in 2000.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1997). 1997 is when Brighton and Hove were joined; Brighton is in the Domesday Book of 1086",
+      "source": "https://www.wikidata.org/wiki/Q1022488 (P571 1997); https://en.wikipedia.org/wiki/History_of_Brighton; https://epns.nottingham.ac.uk/browse/Sussex/Brighton/5328724eb47fc40c36000cbb-Brighton"
+    },
+    "q4037": {
+      "startYear": 1162,
+      "dateNote": "First recorded in 1162. It is one of the oldest towns of the Staufer family.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1200). 1200 is the '13th century' read as a year; the first record is from 1162",
+      "source": "https://www.wikidata.org/wiki/Q4037 (P571 1200, century precision); https://en.wikipedia.org/wiki/Schw%C3%A4bisch_Gm%C3%BCnd; https://www.stuttgart-tourist.de/en/a-schwaebisch-gmuend"
+    },
+    "q14910": {
+      "startYear": 1156,
+      "dateNote": "First recorded in 1156, when its church was consecrated. People made salt here long before. It became a free imperial city in 1280.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1280). 1280 is imperial city status; it is first recorded in 1156",
+      "source": "https://www.wikidata.org/wiki/Q14910 (P571 1280); https://en.wikipedia.org/wiki/Schw%C3%A4bisch_Hall; https://www.burgenstrasse.de/uk/Castles-and-Palaces/Tour-3/Schwaebisch-Hall.html"
+    },
+    "q155984": {
+      "startYear": 899,
+      "dateNote": "First recorded in 899, in a charter of Emperor Arnulf. A fort may have stood here earlier, in the 7th or 8th century.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (700). 700 is the '8th century' read as a year; the first record is from 899",
+      "source": "https://www.wikidata.org/wiki/Q155984 (P571 700, century precision); https://en.wikipedia.org/wiki/Saalfeld"
+    },
+    "q231593": {
+      "startYear": 1233,
+      "dateNote": "First recorded in 1233. It got town rights in 1346.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1201). 1201 is the '13th century' read as a year; the first record is from 1233",
+      "source": "https://www.wikidata.org/wiki/Q231593 (P571 1201, century precision); https://en.wikipedia.org/wiki/Nowy_Targ; https://www.nowytarg.pl/en/strona-turysty-en/the-town/history"
+    },
+    "q332952": {
+      "startYear": 770,
+      "dateNote": "First recorded in 770 (some say 773), as Iburinga, a royal estate. It became a free imperial city in the 13th century.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1268). 1268 is later town history; it is first recorded in 770 as Iburinga",
+      "source": "https://www.wikidata.org/wiki/Q332952 (P571 1268); https://en.wikipedia.org/wiki/%C3%9Cberlingen; https://hls-dhs-dss.ch/articles/007132"
+    },
+    "q79743": {
+      "startYear": 1818,
+      "dateNote": "Founded in 1818 by the Cypress Land Company. It became a city in 1826.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1826). 1826 is when it became a city; it was founded on 12 March 1818",
+      "source": "https://www.wikidata.org/wiki/Q79743 (P571 1826); https://en.wikipedia.org/wiki/Florence,_Alabama; https://www.hmdb.org/m.asp?m=115156"
+    },
+    "q495361": {
+      "startYear": 1872,
+      "dateNote": "Founded in 1872, when the railway reached here. It became a city in 1887.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1887). 1887 is when it became a city; the railway town was set up in 1872",
+      "source": "https://www.wikidata.org/wiki/Q495361 (P571 1887); https://en.wikipedia.org/wiki/Redding,_California"
+    },
+    "q384516": {
+      "startYear": 1684,
+      "dateNote": "Founded in 1684 by King Louis XIV, and named after Saint Louis.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1953). 1953 can not be backed; the town was founded by royal decree in November 1684",
+      "source": "https://www.wikidata.org/wiki/Q384516 (P571 1953); https://en.wikipedia.org/wiki/Saint-Louis,_Haut-Rhin; https://flagspot.net/FLAGS/fr-68-sl.html"
+    },
+    "q843138": {
+      "startYear": 1146,
+      "dateNote": "Made one city in the 12th century by King Ananda Deva, who ruled from 1146 to 1167. The exact year is not known. People lived here much earlier.",
+      "why": "Places fact-check batch 28-30 (Nov 2026): wrong year (1953). 1953 can not be backed; the city was founded in the 12th century (King Ananda Deva, 1146-1167)",
+      "source": "https://www.wikidata.org/wiki/Q843138 (P571 1953); https://en.wikipedia.org/wiki/Bhaktapur; https://www.encyclopedia.com/reference/encyclopedias-almanacs-transcripts-and-maps/bhaktapur"
+    },
+    "q494711": {
+      "dateNote": "The year is when it became a city, not when people first settled here. The railway town grew up from the 1870s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1977 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q494711; https://en.wikipedia.org/wiki/Lancaster%2C_California"
+    },
+    "q629088": {
+      "dateNote": "The year is when it became a city, not when people first settled here.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1991 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q629088; https://en.wikipedia.org/wiki/Calabasas,_California"
+    },
+    "q721455": {
+      "dateNote": "The year is when it became a city, not when people first settled here. Homes were built here from the 1950s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 2003 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q721455; https://en.wikipedia.org/wiki/Miami_Gardens,_Florida"
+    },
+    "q320007": {
+      "dateNote": "Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1501 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q320007; https://en.wikipedia.org/wiki/Pu%C5%82awy"
+    },
+    "q138338": {
+      "dateNote": "1730 is its royal charter. People settled here earlier, from the 1680s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1730 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q138338; https://en.wikipedia.org/wiki/New_Brunswick,_New_Jersey"
+    },
+    "q206484": {
+      "dateNote": "Sources do not agree on this year. Many say about 1830.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1825 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q206484; https://en.wikipedia.org/wiki/Abeokuta"
+    },
+    "q31805": {
+      "dateNote": "Sources do not agree on this year. The town was laid out in 1856.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1853 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q31805; https://en.wikipedia.org/wiki/Invercargill"
+    },
+    "q105002": {
+      "dateNote": "1932 is when it became a city, by joining older villages. Salt was made here from the 1600s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1932 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q105002; https://en.wikipedia.org/wiki/Berezniki"
+    },
+    "q494690": {
+      "dateNote": "The year is when it became a city, not when people first settled here.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1968 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q494690; https://en.wikipedia.org/wiki/Carson%2C_California"
+    },
+    "q10126": {
+      "dateNote": "The year is when it became a city, not when people first settled here. Banten, the old town here, is centuries older.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 2007 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q10126; https://en.wikipedia.org/wiki/Serang"
+    },
+    "q61434": {
+      "dateNote": "Sources do not agree on this year. Nellore is an ancient town, but its start date is not known.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: -30 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q61434; https://en.wikipedia.org/wiki/Nellore"
+    },
+    "q388224": {
+      "dateNote": "First named by Ptolemy in the 2nd century. Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 101 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q388224; https://en.wikipedia.org/wiki/Shamakhi"
+    },
+    "q864827": {
+      "dateNote": "992 is from tradition. The first written record is from 1152.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 992 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q864827; https://en.wikipedia.org/wiki/Hlukhiv"
+    },
+    "q6931": {
+      "dateNote": "Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1201 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q6931; https://en.wikipedia.org/wiki/B%C3%B6blingen"
+    },
+    "q204475": {
+      "dateNote": "Only the century is known, so the year is not exact. The first written record is from 1360.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1200 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q204475; https://en.wikipedia.org/wiki/Sombor"
+    },
+    "q540844": {
+      "dateNote": "Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1701 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q540844; https://en.wikipedia.org/wiki/Aghdam"
+    },
+    "q499196": {
+      "dateNote": "Sources do not agree on this year. It became a city in 1953.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1776 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q499196; https://en.wikipedia.org/wiki/Costa_Mesa,_California"
+    },
+    "q272795": {
+      "dateNote": "An older town stood on this spot long before this year. Spanish Tacna dates from the 1500s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1875 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q272795; https://en.wikipedia.org/wiki/Tacna"
+    },
+    "q844430": {
+      "dateNote": "An older town stood on this spot long before this year.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1912 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q844430; https://en.wikipedia.org/wiki/Phuket_(city)"
+    },
+    "q192387": {
+      "dateNote": "The year is when it became a city, not when people first settled here. Settlers first came in 1929-1930.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1934 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q192387; https://en.wikipedia.org/wiki/Londrina"
+    },
+    "q217426": {
+      "dateNote": "1963 is when the name Soweto was chosen. The first townships here are from 1904.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1963 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q217426; https://en.wikipedia.org/wiki/Soweto"
+    },
+    "q493518": {
+      "dateNote": "The year is when it became a city, not when people first settled here. The town was laid out about 1909.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1967 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q493518; https://en.wikipedia.org/wiki/Yorba_Linda,_California"
+    },
+    "q52465": {
+      "dateNote": "The year is when it became a city, not when people first settled here. It was made by joining older villages.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1980 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q52465; https://en.wikipedia.org/wiki/West_Valley_City,_Utah"
+    },
+    "q59173": {
+      "dateNote": "1988 is when it became a city of its present type. An older town stood on this spot long before this year.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1988 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q59173; https://en.wikipedia.org/wiki/Huizhou"
+    },
+    "q838785": {
+      "dateNote": "The year is when it became a city, not when people first settled here. People settled here from the 1850s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1989 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q838785; https://en.wikipedia.org/wiki/Temecula,_California"
+    },
+    "q7578": {
+      "dateNote": "Sources do not agree on this year.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1401 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q7578; https://en.wikipedia.org/wiki/Jambi_(city)"
+    },
+    "q21180": {
+      "dateNote": "1470 is the old castle. The town grew up around a paper mill from 1844.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1470 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q21180; https://en.wikipedia.org/wiki/Silkeborg"
+    },
+    "q506451": {
+      "dateNote": "The year is when it became a city, not when people first settled here. The fort was built in 1850.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1886 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q506451; https://en.wikipedia.org/wiki/Fort_Myers,_Florida"
+    },
+    "q399976": {
+      "dateNote": "The year is when it became a city, not when people first settled here.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1973 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q399976; https://en.wikipedia.org/wiki/Palm_Desert,_California"
+    },
+    "q42117": {
+      "dateNote": "The year is when it became a city, not when people first settled here.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1986 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q42117; https://en.wikipedia.org/wiki/Ansan"
+    },
+    "q193478": {
+      "dateNote": "Sources do not agree on this year. The Roman town Aquincum stood nearby; the castle town of Buda dates from 1247.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: -30 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q193478; https://en.wikipedia.org/wiki/Buda"
+    },
+    "q952457": {
+      "dateNote": "993 is from tradition. The first written record is from 1147.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 993 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q952457; https://en.wikipedia.org/wiki/Nizhyn"
+    },
+    "q61480": {
+      "dateNote": "Sources do not agree on this year. Most sources say the town was founded in 1425.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1237 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q61480; https://en.wikipedia.org/wiki/E%C5%82k"
+    },
+    "q31493": {
+      "dateNote": "Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1300 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q31493; https://en.wikipedia.org/wiki/Abovyan"
+    },
+    "q322155": {
+      "dateNote": "Sources do not agree on this year.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1700 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q322155; https://en.wikipedia.org/wiki/Rajshahi"
+    },
+    "q8042": {
+      "dateNote": "Sources do not agree on this year. The English built their first fort here in 1685.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1719 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q8042; https://en.wikipedia.org/wiki/Bengkulu_(city)"
+    },
+    "q499203": {
+      "dateNote": "1847 is a mission here. The town was founded in the 1880s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1847 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q499203; https://en.wikipedia.org/wiki/Yakima,_Washington"
+    },
+    "q812589": {
+      "dateNote": "The year is when it became a city, not when people first settled here. People settled here from the 1600s.",
+      "why": "Places fact-check batch 28-30 (Nov 2026), still uncertain, the panel now says so: 1861 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q812589; https://en.wikipedia.org/wiki/Bayonne,_New_Jersey"
+    },
     "q489193": {
       "startYear": 1925,
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 12 March 1925, not 1924.",
