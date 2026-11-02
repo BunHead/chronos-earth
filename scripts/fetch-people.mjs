@@ -65,7 +65,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { wdqsBindings } from './lib/wdqs-json.mjs';
+import { wdqsBindings, wdqsPoint } from './lib/wdqs-json.mjs';
 import { AREA_CLASSES, FICTIONAL_CLASSES, areaPlaceNote, personYears } from './lib/people-rules.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -300,7 +300,8 @@ async function fetchComplete(qids, humans) {
   return [...byUri.values()];
 }
 
-const parseCoord = (w) => { const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(w); return m ? { lon: +m[1], lat: +m[2] } : null; };
+/** Earth only — see wdqsPoint (a P625 on the Moon is skipped). */
+const parseCoord = wdqsPoint;
 
 const json = JSON.parse(await readFile(FILE, 'utf-8'));
 const have = new Set(json.events.map((e) => e.id));
