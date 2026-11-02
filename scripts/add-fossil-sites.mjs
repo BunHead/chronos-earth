@@ -51,6 +51,123 @@ const site = (id, name, startYear, lat, lon, wikidataId, wikiTitle, dateNote, wh
 // The summary leads the panel; sourceUrl is shown under it as "Source".
 const cited = (row, summary, sourceUrl) => ({ ...row, summary, sourceUrl });
 
+// Batch 5 (27 Oct 2026): more thin regions — Eastern Europe, the Caucasus, Central
+// Asia, the Middle East, Pakistan, East Africa, South America, Antarctica,
+// Australia, New Zealand, Hawaii and Thailand. Each at its Wikidata P625.
+const BATCH_5 = [
+  cited(site('predmosti', 'Předmostí: an Ice Age mass grave', 1894, 49.4833, 17.4286, 'Q1243528', 'Předmostí u Přerova',
+    'In 1894 Karel Jaroslav Maška found a grave of about 18 people, laid among mammoth bones, at Předmostí near Přerov ' +
+      'in Moravia. They are about 26,000 years old (0.026 million years). Most of the bones were lost in a fire in 1945.'),
+  'A Moravian hill where Ice Age mammoth hunters buried their dead.',
+  'https://en.wikipedia.org/wiki/P%C5%99edmost%C3%AD_u_P%C5%99erova'),
+  cited(site('mezmaiskaya', 'Mezmaiskaya Cave: a Neanderthal baby', 1993, 44.166666666, 40.0, 'Q34003', 'Mezmaiskaya Cave',
+    'In 1993 Liubov Golovanova\'s team found the skeleton of a Neanderthal baby in this cave in the north Caucasus, ' +
+      'Russia. In 2000 it gave one of the first Neanderthal DNA samples. It is over 40,000 years old (0.04 million years).',
+    'Wikidata pins the cave at a rounded point.'),
+  'A cave in the Caucasus where a Neanderthal baby gave some of the first Neanderthal DNA.',
+  'https://en.wikipedia.org/wiki/Mezmaiskaya_Cave'),
+  cited(site('bacho-kiro', 'Bacho Kiro Cave: early Homo sapiens in Europe', 2015, 42.946666666, 25.430277777, 'Q4838907', 'Bacho Kiro Cave',
+    'New digs in this cave in Bulgaria, begun in 2015, found human bones and tools. Reported in 2020, they are about ' +
+      '45,000 years old (0.045 million years): among the oldest bones of our own species in Europe.'),
+  'A Bulgarian cave with some of the oldest bones of our own species in Europe.',
+  'https://en.wikipedia.org/wiki/Bacho_Kiro_Cave'),
+  cited(site('iharkut', 'Iharkút: Hungary\'s dinosaurs', 2000, 47.24, 17.64, 'Q5191563', 'Csehbánya Formation',
+    'In 2000 Attila Ősi found dinosaur bones in an old bauxite mine at Iharkút in the Bakony Hills, Hungary. Finds since ' +
+      'include the armoured dinosaur Hungarosaurus. The rock is about 85 million years old (Late Cretaceous).',
+    'Wikidata pins the formation at a rounded point by Iharkút.'),
+  'An old mine in Hungary where many Late Cretaceous dinosaurs have been dug up.',
+  'https://en.wikipedia.org/wiki/Hungarosaurus'),
+  cited(site('obi-rakhmat', 'Obi-Rakhmat: a Neanderthal-like child', 2003, 41.56911111, 70.13341667, 'Q23662570', 'Obi-Rakhmat Grotto',
+    'In 2003 a Russian–Uzbek team found a child\'s teeth and bits of skull in this rock shelter near Tashkent, ' +
+      'Uzbekistan. They look partly Neanderthal and are about 70,000 years old (0.07 million years).'),
+  'A rock shelter in Uzbekistan where the teeth of a Neanderthal-like child were found.',
+  'https://en.wikipedia.org/wiki/Obi-Rakhmat_Grotto'),
+  cited(site('bisitun', 'Bisitun Cave: a Neanderthal in Iran', 1949, 34.390555555, 47.437111111, 'Q4918179', 'Bisitun Cave',
+    'In 1949 Carleton Coon dug this cave below Mount Bisotun in western Iran and found a human arm bone among stone ' +
+      'tools. It is a Neanderthal\'s, over 40,000 years old (0.04 million years).'),
+  'A cave in western Iran where a Neanderthal arm bone was found.',
+  'https://en.wikipedia.org/wiki/Bisitun_Cave'),
+  cited(site('dederiyeh', 'Dederiyeh Cave: Neanderthal children', 1993, 36.4, 36.866667, 'Q16128072', 'Dederiyeh Cave',
+    'In 1993 a Japanese–Syrian team led by Takeru Akazawa found the skeleton of a Neanderthal child, about two years ' +
+      'old, in this cave in north-west Syria. A second child was found in 1997. They are about 50,000 years old (0.05 million years).'),
+  'A Syrian cave where the skeletons of two Neanderthal children were found.',
+  'https://en.wikipedia.org/wiki/Dederiyeh_Cave'),
+  cited(site('kuldana', 'Kuldana Formation: Pakicetus, an early whale', 1981, 33.716666666, 72.166666666, 'Q125934861', 'Kuldana Formation',
+    'In 1981 Philip Gingerich and Donald Russell named Pakicetus from a skull found in these rocks in northern Pakistan. ' +
+      'One of the oldest whales, it still lived on land on four legs. The rock is about 50 million years old (Eocene).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Rocks in Pakistan that gave Pakicetus, one of the first whales, which still walked on land.',
+  'https://en.wikipedia.org/wiki/Pakicetus'),
+  cited(site('fort-ternan', 'Fort Ternan: Kenyapithecus found', 1961, -0.2, 35.35, 'Q1438748', 'Fort Ternan',
+    'In 1961 Louis Leakey found bits of jaw and teeth of an ape, Kenyapithecus wickeri, on Fred Wicker\'s farm at Fort ' +
+      'Ternan in western Kenya. The rock is about 14 million years old (Middle Miocene).',
+    'Wikidata pins the place at a rounded point.'),
+  'A Kenyan farm where Louis Leakey found a 14-million-year-old ape.',
+  'https://en.wikipedia.org/wiki/Kenyapithecus'),
+  cited(site('ileret', 'Ileret: 1.5-million-year-old footprints', 2009, 4.316666666, 36.216666666, 'Q5997621', 'Ileret',
+    'In 2009 Matthew Bennett\'s team reported human footprints in old mud near Ileret, east of Lake Turkana in Kenya. ' +
+      'About 1.5 million years old and probably made by Homo erectus, they show feet and walking much like ours.',
+    'Pinned on the village of Ileret; the prints are nearby.'),
+  'Footprints in Kenya showing that 1.5 million years ago people already walked like us.',
+  'https://doi.org/10.1126/science.1168132'),
+  cited(site('cal-orcko', 'Cal Orck\'o: a wall of dinosaur tracks', 1994, -19.002805555, -65.237194444, 'Q1026124', 'Cal Orck\'o',
+    'In 1994 workers at a cement quarry by Sucre, Bolivia, found dinosaur footprints on a tall, steep wall of limestone. ' +
+      'Thousands of tracks are known. The rock is about 68 million years old (Late Cretaceous).'),
+  'A quarry wall in Bolivia covered with thousands of dinosaur footprints.',
+  'https://en.wikipedia.org/wiki/Cal_Orck%27o'),
+  cited(site('villa-de-leyva', 'Villa de Leyva: "El Fósil" sea reptile', 1977, 5.633055555, -73.525555555, 'Q1409503', 'Villa de Leyva',
+    'In 1977 farmers near Villa de Leyva, Colombia, found the skeleton of a giant sea reptile, a pliosaur first called ' +
+      'Kronosaurus boyacensis and now Monquirasaurus. It is shown where it lay. The rock is about 120 million years old (Early Cretaceous).',
+    'Pinned on the town; the skeleton lies a few kilometres west of it.'),
+  'A town in Colombia where a giant sea reptile is still shown where it was found.',
+  'https://en.wikipedia.org/wiki/Monquirasaurus'),
+  cited(site('cerro-fortaleza', 'Cerro Fortaleza: Dreadnoughtus dug up', 2005, -49.9, -72.1, 'Q7136980', 'Cerro Fortaleza Formation',
+    'In 2005 Kenneth Lacovara\'s team found the bones of a giant long-necked dinosaur in Santa Cruz Province, Argentina. ' +
+      'Named Dreadnoughtus in 2014, it is one of the most complete giant sauropods. The rock is about 75 million years old (Late Cretaceous).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Where one of the most complete giant dinosaurs, Dreadnoughtus, was dug up in Patagonia.',
+  'https://en.wikipedia.org/wiki/Dreadnoughtus'),
+  cited(site('mount-buckley', 'Mount Buckley: Scott\'s fossil plants', 1912, -84.96500333, 163.92916333, 'Q15256714', 'Mount Buckley',
+    'In February 1912, on the way back from the South Pole, Robert Falcon Scott\'s party collected fossil plants here, ' +
+      'among them Glossopteris. Found with their bodies, they showed Antarctica once had forests. The rock is about 260 ' +
+      'million years old (Permian).'),
+  'Where Scott\'s polar party gathered fossil plants on their way back from the South Pole.',
+  'https://en.wikipedia.org/wiki/Mount_Buckley'),
+  cited(site('cape-paterson', 'Cape Paterson: Australia\'s first dinosaur bone', 1903, -38.6667, 145.617, 'Q2937253', 'Cape Paterson',
+    'In 1903 the geologist William Hamilton Ferguson found a small theropod claw in the rocks of the shore near Cape ' +
+      'Paterson, Victoria: the first dinosaur bone found in Australia. The rock is about 125 million years old (Early Cretaceous).'),
+  'Where the first dinosaur bone in Australia, a small claw, was found in 1903.',
+  'https://en.wikipedia.org/wiki/Cape_Paterson'),
+  cited(site('koonwarra', 'Koonwarra: an Early Cretaceous lake bed', 1961, -38.5472, 145.947, 'Q6430695', 'Koonwarra',
+    'In 1961 road builders near Koonwarra, Victoria, cut into the bed of an old lake. It holds fish, insects, plants and ' +
+      'some of the oldest feathers found in Australia. The rock is about 118 million years old (Early Cretaceous).',
+    'Pinned on the town; the road cutting is nearby.'),
+  'A road cutting in Victoria with fish, insects and early feathers from an old lake.',
+  'https://en.wikipedia.org/wiki/Koonwarra'),
+  cited(site('lightning-ridge', 'Lightning Ridge: fossils made of opal', 1985, -29.433333333, 147.966666666, 'Q1001654', 'Lightning Ridge, New South Wales',
+    'In 1985 Michael Archer\'s team named Steropodon, an early egg-laying mammal, from a jaw turned to opal that was mined ' +
+      'at Lightning Ridge, New South Wales. The rock is about 100 million years old (Early Cretaceous).',
+    'Pinned on the town; the opal fields are around it.'),
+  'An opal-mining town in New South Wales where old bones have turned to opal.',
+  'https://en.wikipedia.org/wiki/Steropodon'),
+  cited(site('honeycomb-hill', 'Honeycomb Hill Cave: moa bones', 1976, -41.125772222, 172.186752777, 'Q5893773', 'Honeycomb Hill Cave',
+    'In 1976 cavers found this cave system near Karamea, on the West Coast of New Zealand. It holds the bones of moa and ' +
+      'other lost birds from the last 20,000 years (0.02 million years) and more.'),
+  'A New Zealand cave full of the bones of moa and other lost birds.',
+  'https://en.wikipedia.org/wiki/Honeycomb_Hill_Cave'),
+  cited(site('makauwahi', 'Makauwahi Cave: Hawaii\'s lost birds', 1992, 21.8883, -159.419, 'Q6738854', 'Makauwahi Cave',
+    'In 1992 David Burney began digging this limestone sinkhole on Kauaʻi, Hawaii. Its layers keep bones of lost birds, ' +
+      'seeds and pollen from the last 10,000 years (0.01 million years).'),
+  'A sinkhole on Kauaʻi that keeps the bones of Hawaii\'s lost birds.',
+  'https://en.wikipedia.org/wiki/Makauwahi_Cave'),
+  cited(site('phu-kum-khao', 'Phu Kum Khao: Thailand\'s dinosaur hill', 1994, 16.692222222, 103.523888888, 'Q13021500', 'Sirindhorn Museum',
+    'In 1994 a monk found a dinosaur bone on Phu Kum Khao hill in Kalasin, Thailand. Digs found hundreds of bones of ' +
+      'the long-necked dinosaur Phuwiangosaurus. The rock is about 130 million years old (Early Cretaceous).',
+    'Pinned at the Sirindhorn Museum, built by the dig.'),
+  'A hill in Thailand where hundreds of long-necked dinosaur bones were dug up.',
+  'https://en.wikipedia.org/wiki/Sirindhorn_Museum'),
+];
+
 // Batch 4 (25 Oct 2026): more thin regions. Each at its Wikidata P625; where the
 // row's Q-id is the fossil itself (no P625), the pin is its find place's P625
 // and the note says which. Spread at the top of FOSSIL_SITES.
@@ -314,6 +431,7 @@ const BATCH_8 = [
 ];
 
 export const FOSSIL_SITES = [
+  ...BATCH_5,
   ...BATCH_4,
   ...BATCH_8,
   site('burgess-shale', 'Burgess Shale fossils found', 1909, 51.4333, -116.467, 'Q852085', 'Burgess Shale',
@@ -862,7 +980,120 @@ export const FOSSIL_SITES = [
       'of a stone spear point. It is about 13,000 years old (0.013 million years), older than the Clovis people.'),
   'A Venezuelan spring where a young mastodon was killed with a stone spear about 13,000 years ago.',
   'https://doi.org/10.1186/s13358-022-00253-3'),
+  ...batch6(),
 ];
+
+// Batch 6 (29 Oct 2026): North Africa, the Horn, the Levant, Central Europe,
+// Siberia, Central Asia, South America, Australia and New Zealand. Each at its
+// Wikidata P625. A function, so it can sit below the list and still be read
+// when the list is built.
+function batch6() {
+  return [
+    cited(site('gona', 'Gona: stone tools 2.6 million years old', 1992, 12.233333333, 39.233333333, 'Q12314119', 'Gona, Ethiopia',
+      'In 1992–94 Sileshi Semaw\'s team dug sharp stone flakes and cores out of old river beds at Gona, in the Afar ' +
+        'region of Ethiopia. Reported in 1997, they are about 2.6 million years old: for years the oldest stone tools known.',
+      'Wikidata pins the site at a rounded point.'),
+    'Where 2.6-million-year-old stone tools, long the oldest known, were found in Ethiopia.',
+    'https://doi.org/10.1038/385333a0'),
+    cited(site('ain-hanech', 'Aïn Hanech: early tools in North Africa', 1947, 36.203888888, 5.652777777, 'Q2876290', 'Aïn Hanech',
+      'In 1947 Camille Arambourg found stone tools among the bones of extinct animals at Aïn Hanech, near Sétif in ' +
+        'Algeria. They are about 1.8 million years old; tools reported in 2018 from Ain Boucherit, close by, are about 2.4 million years old.'),
+    'An Algerian site showing people made stone tools in North Africa almost 2 million years ago.',
+    'https://en.wikipedia.org/wiki/A%C3%AFn_Hanech'),
+    cited(site('haua-fteah', 'Haua Fteah: a giant cave in Libya', 1951, 32.902777777, 22.051388888, 'Q25226810', 'Haua Fteah',
+      'From 1951 to 1955 Charles McBurney dug this huge cave in Cyrenaica, Libya, down through 14 metres of layers, and ' +
+        'two human jawbones turned up. People used the cave for over 100,000 years (more than 0.1 million years).'),
+    'A huge Libyan cave whose layers hold over 100,000 years of human life.',
+    'https://en.wikipedia.org/wiki/Haua_Fteah'),
+    cited(site('nazlet-khater', 'Nazlet Khater: a burial by the Nile', 1980, 26.782778, 31.373056, 'Q6983513', 'Nazlet Khater',
+      'In 1980 Pierre Vermeersch\'s Belgian team found the buried skeleton of a young man at Nazlet Khater in Upper Egypt, ' +
+        'next to an ancient flint mine. He is about 38,000 years old (0.038 million years), one of the oldest modern humans from Egypt.'),
+    'A 38,000-year-old burial by the Nile, beside one of the oldest flint mines known.',
+    'https://en.wikipedia.org/wiki/Nazlet_Khater'),
+    cited(site('qesem', 'Qesem Cave: fire and shared meat', 2000, 32.11, 34.98, 'Q24252', 'Qesem Cave',
+      'Found in 2000 during road building near Rosh HaAyin, Israel; digs led by Avi Gopher and Ran Barkai began in 2001. ' +
+        'It holds human teeth, hearths and tools from about 400,000–200,000 years ago (0.4–0.2 million years).',
+      'Wikidata pins the cave at a rounded point.'),
+    'An Israeli cave where people used fire and shared out meat 400,000 years ago.',
+    'https://en.wikipedia.org/wiki/Qesem_Cave'),
+    cited(site('ksar-akil', 'Ksar Akil: "Egbert" found', 1938, 33.916666666, 35.6, 'Q3817236', 'Ksar Akil',
+      'In 1937–38 J. Franklin Ewing and Joseph Doherty dug this rock shelter near Antelias, north of Beirut, Lebanon, and ' +
+        'found the skeleton of a child, nicknamed "Egbert". About 40,000 years old (0.04 million years), it is one of the ' +
+        'oldest modern humans from the Levant.',
+      'Wikidata pins the shelter at a rounded point.'),
+    'A Lebanese rock shelter where "Egbert", a 40,000-year-old child, was found.',
+    'https://en.wikipedia.org/wiki/Ksar_Akil'),
+    cited(site('vertesszolos', 'Vértesszőlős: "Samu" found', 1965, 47.62694444, 18.38388889, 'Q1255478', 'Samu (fossil)',
+      'In 1965 László Vértes\'s team found the back of a human skull, nicknamed "Samu", among stone tools and burnt bones ' +
+        'in a travertine quarry at Vértesszőlős, Hungary. It is about 0.3–0.5 million years old.'),
+    'A skull bone from Hungary of a human who lived several hundred thousand years ago.',
+    'https://en.wikipedia.org/wiki/Samu_%28fossil%29'),
+    cited(site('ganovce', 'Gánovce: a stone cast of a Neanderthal brain', 1926, 49.031944444, 20.323611111, 'Q943716', 'Gánovce',
+      'In 1926 quarry workers at Gánovce, near Poprad in Slovakia, found a natural stone cast of the inside of a ' +
+        'Neanderthal\'s skull, formed in travertine. It is about 105,000 years old (0.1 million years).',
+      'Pinned on the village; the travertine mound is beside it.'),
+    'A rare natural stone cast of a Neanderthal brain case, found in a Slovak quarry.',
+    'https://en.wikipedia.org/wiki/G%C3%A1novce'),
+    cited(site('mladec', 'Mladeč Caves: early modern humans', 1881, 49.7064, 17.0167, 'Q11087651', 'Mladeč Caves',
+      'In 1881 Josef Szombathy began digging these caves in Moravia, Czech Republic, and found skulls and bones of early ' +
+        'modern humans. Dated directly, they are about 31,000 years old (0.031 million years).'),
+    'Moravian caves with some of the oldest bones of modern humans in Europe.',
+    'https://en.wikipedia.org/wiki/Mlade%C4%8D_Caves'),
+    cited(site('afontova-gora', 'Afontova Gora: Ice Age Siberians', 1884, 56.026404, 92.736156, 'Q4072819', 'Afontova Gora',
+      'In 1884 Ivan Savenkov found stone tools and the bones of Ice Age animals on Afontova Gora, a hill in Krasnoyarsk, ' +
+        'Siberia. DNA from a bone found here, read in 2014, links its people to the first Americans. About 17,000 years old (0.017 million years).'),
+    'A Siberian hill whose Ice Age people were related to the first Americans.',
+    'https://en.wikipedia.org/wiki/Afontova_Gora'),
+    cited(site('shishugou', 'Shishugou Formation: Sinraptor and Guanlong', 1987, 44.5, 90.2, 'Q7499105', 'Shishugou Formation',
+      'In 1987 the Sino-Canadian Dinosaur Project found a big meat-eater in these rocks of the Junggar Basin, Xinjiang, ' +
+        'named Sinraptor in 1994. Later digs found Guanlong, an early tyrannosaur. The rock is about 160 million years old (Late Jurassic).',
+      'Wikidata pins the formation at a rounded point.'),
+    'Late Jurassic rocks in Xinjiang that gave Sinraptor and the early tyrannosaur Guanlong.',
+    'https://en.wikipedia.org/wiki/Shishugou_Formation'),
+    cited(site('bissekty', 'Bissekty Formation: Timurlengia named', 2016, 42.1, 62.7, 'Q4918433', 'Bissekty Formation',
+      'From the late 1970s Lev Nessov collected thousands of small bones in the Kyzylkum Desert of Uzbekistan. In 2016 a ' +
+        'braincase from here was named Timurlengia: a horse-sized tyrannosaur with a big brain and keen ears. The rock is ' +
+        'about 90 million years old (Late Cretaceous).',
+      'Wikidata pins the formation at a rounded point.'),
+    'Desert rocks in Uzbekistan that show how tyrannosaurs got clever before they got big.',
+    'https://en.wikipedia.org/wiki/Timurlengia'),
+    cited(site('urumaco', 'Urumaco: the giant turtle Stupendemys', 1976, 11.2, -70.25, 'Q28812423', 'Urumaco Formation',
+      'In 1976 Roger Wood named Stupendemys, a river turtle with a shell over 2 metres long, from these rocks near Urumaco, ' +
+        'Venezuela. They also gave Phoberomys, a rodent the size of a buffalo. The rock is about 10–6 million years old (Late Miocene).',
+      'Wikidata pins the formation at a rounded point.'),
+    'Venezuelan rocks with a giant river turtle and a buffalo-sized rodent.',
+    'https://en.wikipedia.org/wiki/Urumaco_Formation'),
+    cited(site('la-amarga', 'La Amarga: Amargasaurus found', 1984, -39.6, -70.2, 'Q1667953', 'La Amarga Formation',
+      'In 1984 Guillermo Rougier, on José Bonaparte\'s dig in Neuquén Province, Argentina, found a long-necked dinosaur ' +
+        'with two rows of tall spines along its neck, named Amargasaurus in 1991. The rock is about 129–122 million years old (Early Cretaceous).',
+      'Wikidata pins the formation at a rounded point.'),
+    'Where Amargasaurus, a dinosaur with tall spines along its neck, was dug up in Patagonia.',
+    'https://en.wikipedia.org/wiki/Amargasaurus'),
+    cited(site('santa-cruz', 'Santa Cruz Formation: Patagonia\'s Miocene mammals', 1887, -51.166666666, -69.166666666, 'Q15059704', 'Santa Cruz Formation',
+      'In 1887 Carlos Ameghino began collecting along the Santa Cruz River in Patagonia, Argentina, for his brother ' +
+        'Florentino. The rocks are packed with ground sloths, glyptodonts and "terror birds", about 18–16 million years old (Early Miocene).',
+      'Wikidata pins the formation at a rounded point.'),
+    'Patagonian cliffs full of strange South American mammals and giant "terror birds".',
+    'https://en.wikipedia.org/wiki/Santa_Cruz_Formation'),
+    cited(site('peiropolis', 'Peirópolis: Brazil\'s titanosaurs', 1947, -19.744, -47.743, 'Q10347937', 'Peirópolis',
+      'From 1947 Llewellyn Ivor Price dug dinosaur bones and eggs at Peirópolis, near Uberaba in Minas Gerais, Brazil. ' +
+        'Finds include the long-necked titanosaurs Baurutitan and Uberabatitan. The rock is about 70 million years old (Late Cretaceous).'),
+    'A Brazilian village where titanosaur dinosaurs have been dug up since 1947.',
+    'https://en.wikipedia.org/wiki/Peir%C3%B3polis'),
+    cited(site('pyramid-valley', 'Pyramid Valley: a swamp full of moa', 1937, -42.96666667, 172.62666667, 'Q1346512', 'Pyramid Valley',
+      'In 1937 a farmer, Joseph Hodgen, dug a hole to bury a horse in a swamp at Pyramid Valley, North Canterbury, New ' +
+        'Zealand, and hit moa bones. Digs found hundreds of moa, some with their last meals in their gizzards. They are a ' +
+        'few thousand years old (well under 0.01 million years).'),
+    'A New Zealand swamp full of moa skeletons, some with their last meals inside.',
+    'https://en.wikipedia.org/wiki/Pyramid_Valley'),
+    cited(site('broome', 'Broome: the most kinds of dinosaur tracks', 2016, -17.5, 122.1, 'Q4975279', 'Broome Sandstone',
+      'In 2016 Steve Salisbury\'s team, working with the Goolarabooloo people, reported 21 kinds of dinosaur tracks on the ' +
+        'coast of the Dampier Peninsula, Western Australia: the most varied set known. The rock is about 130 million years old (Early Cretaceous).',
+      'Wikidata pins the sandstone at a rounded point.'),
+    'A Western Australian coast with more kinds of dinosaur tracks than anywhere else.',
+    'https://en.wikipedia.org/wiki/Broome_Sandstone'),
+  ];
+}
 
 // Batch 7 (1 Nov 2026): more thin regions (Middle East, Caucasus, Siberia,
 // Balkans, North and South Africa, China and Mongolia). Checked against
