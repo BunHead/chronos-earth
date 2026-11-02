@@ -172,8 +172,150 @@ const BATCH_4 = [
   'https://en.wikipedia.org/wiki/Sungir'),
 ];
 
+// Batch 8 (2 Nov 2026): more thin regions — Africa, Central Asia, Eastern Europe, the Middle East,
+// Australia and South America. Each at its Wikidata P625 (copied with its Q-id); where that is a
+// town or a formation rather than the find spot, the note says so.
+const BATCH_8 = [
+  cited(site('kotelnich', 'Kotelnich: Permian reptiles by the Vyatka', 1933, 58.308888888, 48.348055555, 'Q155437', 'Kotelnich',
+    'Fossil bones were first found in 1933 in the red river cliffs at Kotelnich, Kirov Oblast, Russia. The site has given ' +
+      'many whole skeletons of pareiasaurs, big plant-eating reptiles. The rock is about 260 million years old (Permian).',
+    'Pinned at the town; the fossil cliffs run along the Vyatka River beside it.'),
+  'River cliffs in Russia full of whole skeletons of Permian reptiles.',
+  'https://en.wikipedia.org/wiki/Kotelnich'),
+  cited(site('dikika', 'Dikika: "Selam", a child of Lucy\'s kind', 2000, 11.0833, 40.5833, 'Q1225305', 'Dikika',
+    'On 10 December 2000 Zeresenay Alemseged\'s team found the skull of a child at Dikika in the Afar of Ethiopia, across ' +
+      'the Awash River from Hadar, where Lucy was found. Named Selam, she was about 3 years old. She is about 3.3 million ' +
+      'years old (Australopithecus afarensis).'),
+  'The skeleton of a 3-year-old girl of Lucy\'s kind, 3.3 million years old.',
+  'https://en.wikipedia.org/wiki/Dikika'),
+  cited(site('kocabas', 'Kocabaş: Turkey\'s oldest human fossil', 2002, 37.8118725, 29.3306176, 'Q1501616', 'Kocabaş',
+    'In 2002 workers at a travertine quarry at Kocabaş, near Denizli, Turkey, found pieces of a skull. John Kappelman\'s ' +
+      'team showed it was Homo erectus. Later dating puts it at about 1.1–1.3 million years old.'),
+  'A Homo erectus skull from a quarry in Turkey, the oldest human fossil there.',
+  'https://en.wikipedia.org/wiki/Kocaba%C5%9F'),
+  cited(site('madygen', 'Madygen: Triassic gliders of Kyrgyzstan', 1970, 40.1, 70.2, 'Q1883542', 'Madygen Formation',
+    'In the 1960s Aleksandr Sharov dug in old lake beds at Madygen, Kyrgyzstan. He named the small reptile Longisquama ' +
+      'in 1970 and the glider Sharovipteryx in 1971; there are thousands of fossil insects too. The rock is about 230 ' +
+      'million years old (Triassic).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Triassic lake beds in Kyrgyzstan with gliding reptiles and thousands of insects.',
+  'https://en.wikipedia.org/wiki/Madygen_Formation'),
+  cited(site('ubeidiya', '\'Ubeidiya: early humans leave Africa', 1959, 32.689722222, 35.556388888, 'Q2660882', 'Ubeidiya prehistoric site',
+    'In 1959 a farmer ploughing south of the Sea of Galilee, Israel, turned up bones and stone tools. Digs led by Moshe ' +
+      'Stekelis found hand axes and animal bones about 1.5 million years old: one of the oldest signs of early humans ' +
+      'outside Africa.'),
+  'Stone tools 1.5 million years old by the Jordan: early humans outside Africa.',
+  'https://en.wikipedia.org/wiki/Ubeidiya_prehistoric_site'),
+  cited(site('bouri', 'Bouri: Australopithecus garhi found', 1997, 10.28705, 40.529880555, 'Q3643194', 'Bouri Formation',
+    'In 1997 Yohannes Haile-Selassie found skull pieces on the Bouri peninsula of the Middle Awash, Ethiopia. Named ' +
+      'Australopithecus garhi in 1999, it is about 2.5 million years old. Animal bones with cut marks were found nearby.'),
+  'A 2.5-million-year-old human relative from Ethiopia, found near butchered bones.',
+  'https://en.wikipedia.org/wiki/Australopithecus_garhi'),
+  cited(site('kiik-koba', 'Kiik-Koba: a Neanderthal burial in Crimea', 1924, 44.96666667, 34.35, 'Q4220378', 'Kiik-Koba',
+    'In 1924 Gleb Bonch-Osmolovsky dug this rock shelter in the Crimean Mountains. He found the burial of an adult ' +
+      'Neanderthal and the bones of a small child: among the first Neanderthals found in eastern Europe. They are more ' +
+      'than 40,000 years old (over 0.04 million years; Middle Palaeolithic).'),
+  'A rock shelter in Crimea where a Neanderthal was found buried, in 1924.',
+  'https://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D0%B8%D0%BA-%D0%9A%D0%BE%D0%B1%D0%B0'),
+  cited(site('alcoota', 'Alcoota: giant birds of the Miocene', 1962, -22.861, 134.4183, 'Q4713357', 'Alcoota',
+    'In 1962 fossil bones were found on Alcoota Station, north-east of Alice Springs. Digs since have found thousands of ' +
+      'bones, among them the giant flightless bird Dromornis stirtoni, one of the biggest birds ever. They are about ' +
+      '8 million years old (Late Miocene).'),
+  'A bonebed in central Australia with one of the biggest birds that ever lived.',
+  'https://en.wikipedia.org/wiki/Alcoota'),
+  cited(site('misliya', 'Misliya Cave: Homo sapiens outside Africa', 2002, 32.741335, 34.972444, 'Q12409386', 'Misliya Cave',
+    'In 2002 an upper jaw with teeth was found in Misliya Cave on Mount Carmel, Israel. Israel Hershkovitz\'s team ' +
+      'published it in 2018: Homo sapiens, about 177,000–194,000 years old (0.18 million years), then the oldest found ' +
+      'outside Africa.'),
+  'A jaw from Mount Carmel, among the oldest Homo sapiens fossils outside Africa.',
+  'https://en.wikipedia.org/wiki/Misliya_Cave'),
+  cited(site('mukawa', 'Mukawa: Kamuysaurus, the "Japanese dragon"', 2003, 42.57475, 141.92675, 'Q1187152', 'Kamuysaurus',
+    'In 2003 Yoshiaki Hori, an amateur fossil hunter, found tail bones in sea rocks near Mukawa, Hokkaido. Digs from 2013 ' +
+      'brought out almost a whole duck-billed dinosaur, named Kamuysaurus japonicus in 2019. It is about 72 million years ' +
+      'old (Late Cretaceous).',
+    'Pinned at the town of Mukawa.'),
+  'Where Japan\'s most complete dinosaur skeleton was dug from sea rocks.',
+  'https://en.wikipedia.org/wiki/Kamuysaurus'),
+  cited(site('al-wusta', 'Al Wusta: a finger bone in Arabia', 2016, 27.418311111, 39.395880555, 'Q136439221', 'Al Wusta',
+    'In 2016 Huw Groucutt and Michael Petraglia\'s team found a human finger bone in an old lake bed at Al Wusta, in the ' +
+      'Nefud desert of Saudi Arabia. It is about 88,000 years old (0.09 million years): the oldest dated Homo sapiens ' +
+      'fossil in Arabia.'),
+  'An 88,000-year-old finger bone: the oldest dated Homo sapiens in Arabia.',
+  'https://doi.org/10.1038/s41559-018-0518-2'),
+  cited(site('zachelmie', 'Zachełmie: the oldest four-legged footprints', 2002, 50.973888888, 20.697777777, 'Q8064026', 'Zachełmie, Świętokrzyskie Voivodeship',
+    'In 2002 Grzegorz Niedźwiedzki found footprints in an old quarry at Zachełmie, in the Holy Cross Mountains of Poland. ' +
+      'Published in 2010, they were made by four-legged animals about 395 million years ago (Middle Devonian), earlier ' +
+      'than any known four-legged bones.',
+    'Pinned at the village; the quarry is beside it.'),
+  'Footprints 395 million years old: the first animals with four legs.',
+  'https://doi.org/10.1038/nature08623'),
+  cited(site('devils-lair', 'Devil\'s Lair: early people in south-west Australia', 1955, -34.06758333, 115.10652778, 'Q5267180', 'Devil\'s Lair',
+    'Ernest Lundelius first dug this limestone cave near Margaret River, Western Australia, for fossils in 1955. Later ' +
+      'digs found stone tools, hearths and bone beads: people used the cave from about 47,000 years ago (0.047 million ' +
+      'years), among the oldest signs of people in Australia.'),
+  'A cave in Western Australia used by people from about 47,000 years ago.',
+  'https://en.wikipedia.org/wiki/Devil%27s_Lair'),
+  cited(site('ampasambazimba', 'Ampasambazimba: Madagascar\'s giant lemurs', 1909, -16.3179, 47.833, 'Q2844117', 'Ampasambazimba',
+    'In the early 1900s an old lake bed at Ampasambazimba, in central Madagascar, gave up bones of giant lemurs and ' +
+      'elephant birds. In 1909 Herbert Standing named Archaeoindris from bones found here, a lemur as big as a gorilla. ' +
+      'The bones are only a few thousand years old (well under 0.01 million years).'),
+  'Where bones of a lemur as big as a gorilla were found, in Madagascar.',
+  'https://en.wikipedia.org/wiki/Archaeoindris'),
+  cited(site('binagadi', 'Binagadi: Ice Age animals in tar', 1938, 40.470647, 49.800483, 'Q4086825', 'Binagadi asphalt lake',
+    'In 1938 workers digging asphalt at Binagadi, near Baku, Azerbaijan, found bones. Digs since have recovered tens of ' +
+      'thousands of bones of Ice Age animals, birds, insects and plants, trapped in the tar. They are about 0.1 million ' +
+      'years old (Late Pleistocene).'),
+  'A tar lake near Baku that trapped Ice Age animals, like La Brea in California.',
+  'https://en.wikipedia.org/wiki/Binagadi_asphalt_lake'),
+  cited(site('tighennif', 'Tighennif: early humans in Algeria', 1954, 35.415277777, 0.321388888, 'Q7801608', 'Atlanthropus',
+    'In 1954 Camille Arambourg, digging a sand pit at Ternifine (now Tighennif), Algeria, found the first of three human ' +
+      'jaws with hand axes. He named them Atlanthropus mauritanicus; today they count as Homo erectus or a close relative, ' +
+      'about 0.7 million years old.'),
+  'Three 700,000-year-old human jaws from a sand pit in Algeria.',
+  'https://en.wikipedia.org/wiki/Tighennif'),
+  cited(site('starunia', 'Starunia: a woolly rhino kept in earth wax', 1929, 48.6875, 24.48806, 'Q12157481', 'Starunia',
+    'In 1929 a nearly whole woolly rhinoceros, with its skin, was found in an ozokerite (earth wax) mine at Starunia, then ' +
+      'in Poland and now in western Ukraine. Salt and oil had kept its soft parts. It is from the last Ice Age (under 0.1 million years).'),
+  'A woolly rhino found with its skin on, in a wax mine in Ukraine.',
+  'https://en.wikipedia.org/wiki/Woolly_rhinoceros'),
+  cited(site('cueva-fell', 'Cueva Fell: early hunters in Patagonia', 1936, -52.03333333, -70.05, 'Q1404113', 'Cueva Fell',
+    'In 1936–37 Junius Bird dug this cave near the Strait of Magellan, Chile. In its lowest layers he found "fishtail" ' +
+      'spear points with the bones of extinct horses and ground sloths, left by people about 11,000 years ago (0.011 million years).'),
+  'A cave near the tip of South America where early hunters killed horses and sloths.',
+  'https://en.wikipedia.org/wiki/Cueva_Fell'),
+  cited(site('fuyan', 'Fuyan Cave: early Homo sapiens teeth in China', 2011, 25.65075, 111.48033333, 'Q24083360', 'Fuyan Cave',
+    'Digs from 2011 at Fuyan Cave, Daoxian, Hunan, China, found 47 human teeth. Published in 2015 by Wu Liu\'s team, they ' +
+      'are fully modern and about 80,000–120,000 years old (0.08–0.12 million years): early for Homo sapiens in East Asia.'),
+  'Forty-seven teeth showing Homo sapiens in China at least 80,000 years ago.',
+  'https://en.wikipedia.org/wiki/Fuyan_Cave'),
+  cited(site('peninj', 'Peninj: the Natron jaw', 1964, -2.333330555, 35.966666666, 'Q113554912', 'Peninj',
+    'In January 1964 Kamoya Kimeu, of Richard Leakey and Glynn Isaac\'s team, found a near-whole lower jaw west of Lake ' +
+      'Natron, Tanzania. It is Paranthropus boisei, the "Nutcracker Man" kind, about 1.4 million years old.'),
+  'A whole jaw of "Nutcracker Man\'s" kind, found by Lake Natron in Tanzania.',
+  'https://en.wikipedia.org/wiki/Peninj'),
+  cited(site('lothagam', 'Lothagam: a 5-million-year-old jaw', 1967, 2.9242, 36.0651, 'Q27195566', 'Lothagam',
+    'In 1967 Bryan Patterson\'s Harvard team found a piece of lower jaw at Lothagam hill, south-west of Lake Turkana, ' +
+      'Kenya. About 5 million years old, it was then the oldest known fossil of a human relative.'),
+  'A jaw piece from Kenya, about 5 million years old, once the oldest human relative.',
+  'https://doi.org/10.1038/226918a0'),
+  cited(site('muttaburra', 'Muttaburra: Muttaburrasaurus found', 1963, -22.6, 144.55, 'Q6944072', 'Muttaburrasaurus',
+    'In 1963 Doug Langdon, a grazier, found bones by the Thomson River near Muttaburra, Queensland. Named ' +
+      'Muttaburrasaurus langdoni in 1981, it was a big plant-eating dinosaur about 100 million years old (Early Cretaceous).',
+    'Pinned at the town of Muttaburra.'),
+  'Where a grazier found one of Australia\'s best-known dinosaurs, in 1963.',
+  'https://en.wikipedia.org/wiki/Muttaburrasaurus'),
+  cited(site('eromanga', 'Eromanga: "Cooper", Australia\'s biggest dinosaur', 2007, -26.668611111, 143.269722222, 'Q604421', 'Australotitan',
+    'In 2007 Sandy and Robyn Mackenzie found bones of a giant sauropod on their station near Eromanga, Queensland. Named ' +
+      'Australotitan cooperensis in 2021, it is the biggest dinosaur known from Australia, about 95 million years old ' +
+      '(Late Cretaceous).',
+    'Pinned at the town; the dig is on a station nearby.'),
+  'Where "Cooper", the biggest dinosaur found in Australia, was dug up.',
+  'https://en.wikipedia.org/wiki/Australotitan'),
+];
+
 export const FOSSIL_SITES = [
   ...BATCH_4,
+  ...BATCH_8,
   site('burgess-shale', 'Burgess Shale fossils found', 1909, 51.4333, -116.467, 'Q852085', 'Burgess Shale',
     'Found by Charles Walcott in 1909, high in the Canadian Rockies. The rock is about 508 million years old ' +
       '(Cambrian). It keeps soft-bodied sea animals, such as Anomalocaris, Opabinia and Hallucigenia.'),
@@ -219,11 +361,15 @@ export const FOSSIL_SITES = [
   site('yixian', 'Yixian Formation: the first feathered dinosaur', 1996, 41.533, 121.2383, 'Q742949', 'Yixian Formation',
     'In 1996 Sinosauropteryx was announced from these Liaoning beds: the first dinosaur found with feathers. ' +
       'Volcanic ash buried a whole forest world here about 125 million years ago (Early Cretaceous).'),
-  site('hell-creek', 'Hell Creek: the first Tyrannosaurus rex', 1902, 46.9, -101.5, 'Q917642', 'Hell Creek Formation',
+  // Infernogallus: Funston et al., Nature Communications, 27 Oct 2026 (eurekalert.org/news-releases/1149430).
+  { ...site('hell-creek', 'Hell Creek: the first Tyrannosaurus rex', 1902, 46.9, -101.5, 'Q917642', 'Hell Creek Formation',
     'In 1902 Barnum Brown dug the first Tyrannosaurus rex skeleton out of the Hell Creek badlands of Montana. ' +
-      'The rock is about 68–66 million years old, and runs right up to the asteroid strike that ended the dinosaurs.',
+      'The rock is about 68–66 million years old, and runs right up to the asteroid strike that ended the dinosaurs. ' +
+      'In 2026 a turkey-sized, toothless "hell chicken" from these rocks was named Infernogallus jamesi; its ' +
+      'parrot-like jaw suggests it may have been a specialist fruit-eater.',
     'The formation spans Montana and the Dakotas. Wikidata pins it in North Dakota; the first T. rex came from ' +
       'Garfield County, Montana.'),
+    sourceUrl: 'https://www.eurekalert.org/news-releases/1149430' },
   site('messel', 'Messel Pit fossil site', 1995, 49.9175, 8.75667, 'Q639217', 'Messel Pit',
     'A World Heritage Site since 1995. Shale was mined here from 1859, and the pit became famous for whole ' +
       'animals — early horses, bats, birds — kept with their fur, feathers and stomach contents. The shale is about ' +
@@ -366,9 +512,12 @@ export const FOSSIL_SITES = [
       '315,000 years old (0.3 million years) — the oldest Homo sapiens known.'),
   // Finger bone Denisova 3, 2008; genome 2010 (Krause et al., Nature 464:894). Dated
   // about 76–52 ka (Douka et al. 2019, Nature 565:640; en.wikipedia.org/wiki/Denisova_Cave).
-  site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
+  // Xujiayao: Fu et al., Nature, 21 Oct 2026 (doi:10.1038/s41586-026-11132-z); see add-discoveries-oct-2026b.mjs.
+  { ...site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
     'In 2008 a child\'s finger bone was dug from this cave in Siberia\'s Altai Mountains. Its DNA, read in 2010, ' +
-      'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years).'),
+      'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years). ' +
+      'In 2026 ancient proteins showed that fossils from Xujiayao, in northern China, were Denisovan too.'),
+    sourceUrl: 'https://www.nature.com/articles/s41586-026-11132-z' },
   // Eugène Dubois, 1891 (en.wikipedia.org/wiki/Java_Man); shells from the bone layer
   // dated 0.54–0.43 Ma (Joordens et al. 2015, Nature 518:228).
   site('trinil', 'Trinil: "Java Man" found', 1891, -7.3743, 111.3578, 'Q1318724', 'Trinil',
