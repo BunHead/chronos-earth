@@ -22,6 +22,7 @@ import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
 import { isLite } from '../lib/liteMode';
+import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
  * the day is auto-advancing, and the moon's phase (0 new · 0.5 full). */
@@ -6650,12 +6651,25 @@ export function loadSatelliteGround(
     const ctx = canvas.getContext('2d')!;
     let loaded = 0;
     let settled = false;
+    // Esri's placeholder tile at this zoom, sampled once it loads (null when
+    // it can't be read — then only the variance check below applies).
+    let missingRef: number[] | null = null;
 
     const finish = () => {
       if (settled) return;
       settled = true;
       let flat = false;
       try {
+        // A patch only PARTLY off the imagery (the Nazca Hummingbird sits on
+        // such an edge) still varies plenty overall, so the variance test
+        // alone kept grey placeholder tiles around the monument. Check each
+        // of the nine tiles against the placeholder too.
+        for (let ty = 0; ty < 3 && !flat; ty++) {
+          for (let tx = 0; tx < 3 && !flat; tx++) {
+            const tile = ctx.getImageData(tx * 256, ty * 256, 256, 256).data;
+            if (isMissingTile(sampleTile(tile), missingRef)) flat = true;
+          }
+        }
         // Luminance spread over a sparse sample — placeholder tiles are
         // near-uniform; any real imagery (even open desert) varies far more.
         const d = ctx.getImageData(0, 0, 768, 768).data;
@@ -6693,7 +6707,7 @@ export function loadSatelliteGround(
         img.onload = () => {
           ctx.drawImage(img, (dx + 1) * 256, (dy + 1) * 256, 256, 256);
           loaded++;
-          if (loaded === 9) finish();
+          if (loaded === 10) finish();
         };
         img.onerror = () => {
           // A missing tile at this zoom — retry the whole patch a level out
@@ -6703,9 +6717,30 @@ export function loadSatelliteGround(
             attempt(z - 1);
           }
         };
-        img.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${yt + dy}/${xt + dx}`;
+        img.src = esriTileUrl(z, yt + dy, xt + dx);
       }
     }
+
+    const ref = new Image();
+    ref.crossOrigin = 'anonymous';
+    ref.onload = () => {
+      try {
+        const c = document.createElement('canvas');
+        c.width = c.height = 256;
+        const rc = c.getContext('2d')!;
+        rc.drawImage(ref, 0, 0, 256, 256);
+        missingRef = sampleTile(rc.getImageData(0, 0, 256, 256).data);
+      } catch {
+        /* tainted — fall back to the variance check */
+      }
+      loaded++;
+      if (loaded === 10) finish();
+    };
+    ref.onerror = () => {
+      loaded++;
+      if (loaded === 10) finish();
+    };
+    ref.src = esriMissingTileUrl(z);
   };
   attempt(zoom);
 }

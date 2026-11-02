@@ -45,6 +45,7 @@ import { watchGpuLoss, type GpuLossReason } from '../lib/gpuRecovery';
 import { isSiteTwin } from '../lib/siteTwin';
 import { warmGlobeShaders } from '../lib/shaderWarmup';
 import { installHorizonCull } from '../lib/horizonCull';
+import { ESRI_IMAGERY_URL, MISSING_TILE_PIXELS, esriMissingTileUrl } from '../lib/esriImagery';
 
 /** A battle marker is visible from its date until this many years after it —
  * battles are moments, so they show while news of them would still be fresh.
@@ -1035,8 +1036,16 @@ const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe(
     const satellite = Cesium.ImageryLayer.fromProviderAsync(
       Promise.resolve(
         new Cesium.UrlTemplateImageryProvider({
-          url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          url: ESRI_IMAGERY_URL,
           maximumLevel: 18,
+          // Esri answers "no imagery here" (rural Nazca, jungle) with a grey
+          // 200-OK placeholder tile. Discard those so Cesium overzooms the
+          // last real parent level instead of greying out landmark close-ups.
+          tileDiscardPolicy: new Cesium.DiscardMissingTileImagePolicy({
+            missingImageUrl: esriMissingTileUrl(18),
+            pixelsToCheck: MISSING_TILE_PIXELS.map(([x, y]) => new Cesium.Cartesian2(x, y)),
+            disableCheckIfAllPixelsAreTransparent: true,
+          }),
           credit: 'Imagery © Esri, Maxar, Earthstar Geographics',
         }),
       ),
