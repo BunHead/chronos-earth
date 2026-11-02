@@ -1334,6 +1334,7 @@ export default function App() {
           longitude={viewCentre.lon}
           timelineYear={Math.round(yearsBPToYear(yearsBP))}
           title="the globe"
+          onClose={() => setSkyOpen(false)}
           eclipsePlaying={eclipseSweep?.playing ?? false}
           eclipseObscuration={eclipseSweep?.obscuration ?? 0}
           canPlayEclipse={!!eclipseSweep}
