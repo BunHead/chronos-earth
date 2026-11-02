@@ -7252,6 +7252,349 @@
       "why": "Pin rounded to 0.1 degree, about 5 km south-east of Tenochtitlan; moved to Wikidata's point for the empire, at its capital (central Mexico City)",
       "source": "https://www.wikidata.org/wiki/Q2608489 (P625 19.4333, -99.1333); https://en.wikipedia.org/wiki/Tenochtitlan"
     },
+    "q1490": {
+      "startYear": 1457,
+      "dateNote": "Grew up as Edo around Edo Castle, built in 1457 by Ōta Dōkan. Tokugawa Ieyasu made it his base in 1590, and it was renamed Tokyo in 1868.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1868). 1868 is when Edo was renamed Tokyo; the town dates from 1457 (Edo Castle, Wikidata P571 1457)",
+      "source": "https://www.wikidata.org/wiki/Q1490; https://www.wikidata.org/wiki/Q865913 (Edo Castle, P571 1457); https://en.wikipedia.org/wiki/Edo_Castle"
+    },
+    "q201932": {
+      "startYear": 1519,
+      "dateNote": "Founded in 1519, when Takeda Nobutora built his residence, Tsutsujigasaki, here and moved the capital of Kai province to it. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1519 (Tsutsujigasaki Castle, Wikidata P571 1519)",
+      "source": "https://www.wikidata.org/wiki/Q201932; https://www.wikidata.org/wiki/Q11637200 (Tsutsujigasaki Castle, P571 1519); https://en.wikipedia.org/wiki/Tsutsujigasaki_Castle"
+    },
+    "q204249": {
+      "startYear": 1190,
+      "dateNote": "A fortified house stood here from about the 1190s (Baba Sukemoto). Mito became the castle town of the Tokugawa's Mito domain in 1609. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1190 (Mito Castle, Wikidata P571 1190)",
+      "source": "https://www.wikidata.org/wiki/Q204249; https://www.wikidata.org/wiki/Q848997 (Mito Castle, P571 1190); https://en.wikipedia.org/wiki/Mito_Castle"
+    },
+    "q201618": {
+      "startYear": 1606,
+      "dateNote": "Grew up around Fukui Castle, built from 1606. Shibata Katsuie's Kitanoshō Castle had stood on nearly the same spot from 1575. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1606 (Fukui Castle, Wikidata P571 1606)",
+      "source": "https://www.wikidata.org/wiki/Q201618; https://www.wikidata.org/wiki/Q1073692 (Fukui Castle, P571 1606); https://en.wikipedia.org/wiki/Fukui_Castle"
+    },
+    "q213318": {
+      "startYear": 1617,
+      "dateNote": "Grew up as the castle town of Amagasaki Castle, built in 1617. The port here is older still. 1916 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1916). 1916 is a city-status or merger date; the town dates from 1617 (Amagasaki Castle, Wikidata P571 1617)",
+      "source": "https://www.wikidata.org/wiki/Q213318; https://www.wikidata.org/wiki/Q11464946 (Amagasaki Castle, P571 1617); https://en.wikipedia.org/wiki/Amagasaki_Castle"
+    },
+    "q213324": {
+      "startYear": 1504,
+      "dateNote": "Grew up around Matsumoto Castle, first built in 1504 as Fukashi Castle; the present keep dates from the 1590s. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1504 (Matsumoto Castle, Wikidata P571 1504)",
+      "source": "https://www.wikidata.org/wiki/Q213324; https://www.wikidata.org/wiki/Q739612 (Matsumoto Castle, P571 1504); https://en.wikipedia.org/wiki/Matsumoto_Castle"
+    },
+    "q336438": {
+      "startYear": 1597,
+      "dateNote": "Founded as a castle town in 1597–98, when Ii Naomasa built Takasaki Castle and gave the place its name. 1900 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1900). 1900 is a city-status or merger date; the town dates from 1597 (Takasaki Castle, Wikidata P571 1597)",
+      "source": "https://www.wikidata.org/wiki/Q336438; https://www.wikidata.org/wiki/Q11669745 (Takasaki Castle, P571 1597); https://en.wikipedia.org/wiki/Takasaki_Castle"
+    },
+    "q207321": {
+      "startYear": 1607,
+      "dateNote": "Founded in 1607, when Horio Yoshiharu began Matsue Castle and laid out the town around it. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1607 (Matsue Castle, Wikidata P571 1607)",
+      "source": "https://www.wikidata.org/wiki/Q207321; https://www.wikidata.org/wiki/Q151776 (Matsue Castle, P571 1607); https://en.wikipedia.org/wiki/Matsue_Castle"
+    },
+    "q209766": {
+      "startYear": 1602,
+      "dateNote": "Grew up around Saga Castle, built from 1602 by the Nabeshima clan, on the site of the Ryūzōji clan's older castle. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1602 (Saga Castle, Wikidata P571 1602)",
+      "source": "https://www.wikidata.org/wiki/Q209766; https://www.wikidata.org/wiki/Q1071095 (Saga Castle, P571 1602); https://en.wikipedia.org/wiki/Saga_Castle"
+    },
+    "q203027": {
+      "startYear": 1558,
+      "dateNote": "Grew up around Tsu Castle, first built in 1558. The port of Anotsu here is much older. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1558 (Tsu Castle, Wikidata P571 1558)",
+      "source": "https://www.wikidata.org/wiki/Q203027; https://www.wikidata.org/wiki/Q2381333 (Tsu Castle, P571 1558); https://en.wikipedia.org/wiki/Tsu_Castle"
+    },
+    "q661038": {
+      "startYear": 1619,
+      "dateNote": "Founded in 1619, when Mizuno Katsunari built Fukuyama Castle and laid out the town. 1966 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1966). 1966 is a city-status or merger date; the town dates from 1619 (Fukuyama Castle, Wikidata P571 1619)",
+      "source": "https://www.wikidata.org/wiki/Q661038; https://www.wikidata.org/wiki/Q1071869 (Fukuyama Castle, P571 1619); https://en.wikipedia.org/wiki/Fukuyama_Castle"
+    },
+    "q242783": {
+      "startYear": 1455,
+      "dateNote": "Grew up around Okazaki Castle, first built in 1455. Tokugawa Ieyasu was born there in 1543. 1916 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1916). 1916 is a city-status or merger date; the town dates from 1455 (Okazaki Castle, Wikidata P571 1455)",
+      "source": "https://www.wikidata.org/wiki/Q242783; https://www.wikidata.org/wiki/Q1013445 (Okazaki Castle, P571 1455); https://en.wikipedia.org/wiki/Okazaki_Castle"
+    },
+    "q319740": {
+      "startYear": 1457,
+      "dateNote": "Grew up around Kawagoe Castle, built in 1457 by Ōta Dōkan. 1922 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1922). 1922 is a city-status or merger date; the town dates from 1457 (Kawagoe Castle, Wikidata P571 1457)",
+      "source": "https://www.wikidata.org/wiki/Q319740; https://www.wikidata.org/wiki/Q1073688 (Kawagoe Castle, P571 1457); https://en.wikipedia.org/wiki/Kawagoe_Castle"
+    },
+    "q267258": {
+      "startYear": 1418,
+      "dateNote": "Grew up around Odawara Castle, first built by the Ōmori clan in about 1418. It was the Hōjō clan's capital from about 1500 to 1590. 1940 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1940). 1940 is a city-status or merger date; the town dates from 1418 (Odawara Castle, Wikidata P571 1418)",
+      "source": "https://www.wikidata.org/wiki/Q267258; https://www.wikidata.org/wiki/Q1013437 (Odawara Castle, P571 1418); https://en.wikipedia.org/wiki/Odawara_Castle"
+    },
+    "q194087": {
+      "startYear": 1611,
+      "dateNote": "Founded in 1611, when the Tsugaru clan finished Hirosaki Castle and laid out the town. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1611 (Hirosaki Castle, Wikidata P571 1611)",
+      "source": "https://www.wikidata.org/wiki/Q194087; https://www.wikidata.org/wiki/Q328582 (Hirosaki Castle, P571 1611); https://en.wikipedia.org/wiki/Hirosaki_Castle"
+    },
+    "q237699": {
+      "startYear": 1384,
+      "dateNote": "Grew up around Kurokawa Castle (now Aizuwakamatsu Castle), first built in 1384. It was renamed Wakamatsu in 1592. 1955 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1955). 1955 is a city-status or merger date; the town dates from 1384 (Aizuwakamatsu Castle, Wikidata P571 1384)",
+      "source": "https://www.wikidata.org/wiki/Q237699; https://www.wikidata.org/wiki/Q1365061 (Aizuwakamatsu Castle, P571 1384); https://en.wikipedia.org/wiki/Aizuwakamatsu_Castle"
+    },
+    "q26406": {
+      "startYear": 1617,
+      "dateNote": "Grew up around Akashi Castle, built from 1617. 1919 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1919). 1919 is a city-status or merger date; the town dates from 1617 (Akashi Castle, Wikidata P571 1617)",
+      "source": "https://www.wikidata.org/wiki/Q26406; https://www.wikidata.org/wiki/Q1151831 (Akashi Castle, P571 1617); https://en.wikipedia.org/wiki/Akashi_Castle"
+    },
+    "q329797": {
+      "startYear": 1608,
+      "dateNote": "Grew up as the castle town of Iwakuni Castle, built in 1608 by Kikkawa Hiroie. 2006 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2006). 2006 is a city-status or merger date; the town dates from 1608 (Iwakuni Castle, Wikidata P571 1608)",
+      "source": "https://www.wikidata.org/wiki/Q329797; https://www.wikidata.org/wiki/Q1156906 (Iwakuni Castle, P571 1608); https://en.wikipedia.org/wiki/Iwakuni_Castle"
+    },
+    "q461020": {
+      "startYear": 1602,
+      "dateNote": "Grew up around Imabari Castle, built from 1602 by Tōdō Takatora. 1920 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1920). 1920 is a city-status or merger date; the town dates from 1602 (Imabari Castle, Wikidata P571 1602)",
+      "source": "https://www.wikidata.org/wiki/Q461020; https://www.wikidata.org/wiki/Q1071856 (Imabari Castle, P571 1602); https://en.wikipedia.org/wiki/Imabari_Castle"
+    },
+    "q460835": {
+      "startYear": 1597,
+      "dateNote": "Grew up around Marugame Castle, built from 1597 by Ikoma Chikamasa. 1899 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1899). 1899 is a city-status or merger date; the town dates from 1597 (Marugame Castle, Wikidata P571 1597)",
+      "source": "https://www.wikidata.org/wiki/Q460835; https://www.wikidata.org/wiki/Q250658 (Marugame Castle, P571 1597); https://en.wikipedia.org/wiki/Marugame_Castle"
+    },
+    "q386635": {
+      "startYear": 1603,
+      "dateNote": "Founded as the castle town of Hikone Castle, begun in 1603 for the Ii clan. 1937 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1937). 1937 is a city-status or merger date; the town dates from 1603 (Hikone Castle, Wikidata P571 1603)",
+      "source": "https://www.wikidata.org/wiki/Q386635; https://www.wikidata.org/wiki/Q1012374 (Hikone Castle, P571 1603); https://en.wikipedia.org/wiki/Hikone_Castle"
+    },
+    "q502988": {
+      "startYear": 1609,
+      "dateNote": "Founded in 1609, when Maeda Toshinaga built Takaoka Castle and laid out the town. 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1609 (Takaoka Castle, Wikidata P571 1609)",
+      "source": "https://www.wikidata.org/wiki/Q502988; https://www.wikidata.org/wiki/Q8011764 (Takaoka Castle, P571 1609); https://en.wikipedia.org/wiki/Takaoka_Castle"
+    },
+    "q389537": {
+      "startYear": 1563,
+      "dateNote": "Oda Nobunaga built Komakiyama Castle in 1563 and laid out a town below it. 1955 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1955). 1955 is a city-status or merger date; the town dates from 1563 (Komakiyama Castle, Wikidata P571 1563)",
+      "source": "https://www.wikidata.org/wiki/Q389537; https://www.wikidata.org/wiki/Q16627739 (Komakiyama Castle, P571 1563); https://en.wikipedia.org/wiki/Komakiyama_Castle"
+    },
+    "q496472": {
+      "startYear": 1601,
+      "dateNote": "Grew up as the castle town of Kuwana Castle, built from 1601 by Honda Tadakatsu. The port here is older. 2004 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2004). 2004 is a city-status or merger date; the town dates from 1601 (Kuwana Castle, Wikidata P571 1601)",
+      "source": "https://www.wikidata.org/wiki/Q496472; https://www.wikidata.org/wiki/Q10855542 (Kuwana Castle, P571 1601); https://en.wikipedia.org/wiki/Kuwana_Castle"
+    },
+    "q460829": {
+      "startYear": 1588,
+      "dateNote": "Founded in 1588, when Gamō Ujisato built Matsusaka Castle and laid out the town. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1588 (Matsusaka Castle, Wikidata P571 1588)",
+      "source": "https://www.wikidata.org/wiki/Q460829; https://www.wikidata.org/wiki/Q1010226 (Matsusaka Castle, P571 1588); https://en.wikipedia.org/wiki/Matsusaka_Castle"
+    },
+    "q738275": {
+      "startYear": 1602,
+      "dateNote": "Grew up around Karatsu Castle, built from 1602 by Terazawa Hirotaka. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1602 (Karatsu Castle, Wikidata P571 1602)",
+      "source": "https://www.wikidata.org/wiki/Q738275; https://www.wikidata.org/wiki/Q1073585 (Karatsu Castle, P571 1602); https://en.wikipedia.org/wiki/Karatsu_Castle"
+    },
+    "q384926": {
+      "startYear": 1535,
+      "dateNote": "Grew up around Ōgaki Castle, first built in 1535. 1918 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1918). 1918 is a city-status or merger date; the town dates from 1535 (Ōgaki Castle, Wikidata P571 1535)",
+      "source": "https://www.wikidata.org/wiki/Q384926; https://www.wikidata.org/wiki/Q1067359 (Ōgaki Castle, P571 1535); https://en.wikipedia.org/wiki/%C5%8Cgaki_Castle"
+    },
+    "q646755": {
+      "startYear": 1580,
+      "dateNote": "Grew up around Tateyama Castle, built in about 1580 by the Satomi clan. 1939 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1939). 1939 is a city-status or merger date; the town dates from 1580 (Tateyama Castle, Wikidata P571 1580)",
+      "source": "https://www.wikidata.org/wiki/Q646755; https://www.wikidata.org/wiki/Q2970766 (Tateyama Castle, P571 1580); https://en.wikipedia.org/wiki/Tateyama_Castle"
+    },
+    "q498011": {
+      "startYear": 1610,
+      "dateNote": "Grew up around Sakura Castle, built from 1610 by Doi Toshikatsu. 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 1610 (Sakura Castle, Wikidata P571 1610)",
+      "source": "https://www.wikidata.org/wiki/Q498011; https://www.wikidata.org/wiki/Q8014937 (Sakura Castle, P571 1610); https://en.wikipedia.org/wiki/Sakura_Castle"
+    },
+    "q823988": {
+      "startYear": 1469,
+      "dateNote": "Grew up around Kakegawa Castle, first built in the late 1400s (Wikidata gives 1469). 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1469 (Kakegawa Castle, Wikidata P571 1469)",
+      "source": "https://www.wikidata.org/wiki/Q823988; https://www.wikidata.org/wiki/Q2969457 (Kakegawa Castle, P571 1469); https://en.wikipedia.org/wiki/Kakegawa_Castle"
+    },
+    "q844130": {
+      "startYear": 1575,
+      "dateNote": "Founded in about 1575, when Toyotomi Hideyoshi built Nagahama Castle and renamed the village of Imahama Nagahama. 2006 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2006). 2006 is a city-status or merger date; the town dates from 1575 (Nagahama Castle, Wikidata P571 1575)",
+      "source": "https://www.wikidata.org/wiki/Q844130; https://www.wikidata.org/wiki/Q1013195 (Nagahama Castle, P571 1575); https://en.wikipedia.org/wiki/Nagahama_Castle"
+    },
+    "q646898": {
+      "startYear": 1576,
+      "dateNote": "Grew up around Komatsu Castle, first built in 1576. 1940 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1940). 1940 is a city-status or merger date; the town dates from 1576 (Komatsu Castle, Wikidata P571 1576)",
+      "source": "https://www.wikidata.org/wiki/Q646898; https://www.wikidata.org/wiki/Q11461063 (Komatsu Castle, P571 1576); https://en.wikipedia.org/wiki/Komatsu_Castle"
+    },
+    "q844852": {
+      "startYear": 1583,
+      "dateNote": "Founded as the castle town of Ueda Castle, built in 1583 by Sanada Masayuki. 2006 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2006). 2006 is a city-status or merger date; the town dates from 1583 (Ueda Castle, Wikidata P571 1583)",
+      "source": "https://www.wikidata.org/wiki/Q844852; https://www.wikidata.org/wiki/Q2968344 (Ueda Castle, P571 1583); https://en.wikipedia.org/wiki/Ueda_Castle"
+    },
+    "q819629": {
+      "startYear": 1594,
+      "dateNote": "Grew up around Toba Castle, built in 1594 by Kuki Yoshitaka. 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 1594 (Toba Castle, Wikidata P571 1594)",
+      "source": "https://www.wikidata.org/wiki/Q819629; https://www.wikidata.org/wiki/Q657667 (Toba Castle, P571 1594); https://en.wikipedia.org/wiki/Toba_Castle"
+    },
+    "q836836": {
+      "startYear": 1455,
+      "dateNote": "Became the seat of the Koga kubō (the shogun's deputies in eastern Japan) in 1455, and grew up as a castle town. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1455 (Koga Kubō Residence, Wikidata P571 1455)",
+      "source": "https://www.wikidata.org/wiki/Q836836; https://www.wikidata.org/wiki/Q11411365 (Koga Kubō Residence, P571 1455); https://en.wikipedia.org/wiki/Koga_Kub%C5%8D_Residence"
+    },
+    "q734532": {
+      "startYear": 1456,
+      "dateNote": "Grew up around Fukaya Castle, built in 1456 by the Uesugi clan. 2006 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2006). 2006 is a city-status or merger date; the town dates from 1456 (Fukaya Castle, Wikidata P571 1456)",
+      "source": "https://www.wikidata.org/wiki/Q734532; https://www.wikidata.org/wiki/Q11560296 (Fukaya Castle, P571 1456); https://en.wikipedia.org/wiki/Fukaya_Castle"
+    },
+    "q638301": {
+      "startYear": 1375,
+      "dateNote": "Grew up around Miyako Castle, built in 1375 by the Hongō clan; the town took its name from it. 2006 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (2006). 2006 is a city-status or merger date; the town dates from 1375 (Miyako Castle, Wikidata P571 1375)",
+      "source": "https://www.wikidata.org/wiki/Q638301; https://www.wikidata.org/wiki/Q11643471 (Miyako Castle, P571 1375); https://en.wikipedia.org/wiki/Miyako_Castle"
+    },
+    "q336431": {
+      "startYear": 1505,
+      "dateNote": "Grew up as Yoshida, the castle town of Yoshida Castle, built in 1505. It was renamed Toyohashi in 1869. 1906 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1906). 1906 is a city-status or merger date; the town dates from 1505 (Yoshida Castle, Wikidata P571 1505)",
+      "source": "https://www.wikidata.org/wiki/Q336431; https://www.wikidata.org/wiki/Q849190 (Yoshida Castle, P571 1505); https://en.wikipedia.org/wiki/Yoshida_Castle"
+    },
+    "q496319": {
+      "startYear": 694,
+      "dateNote": "Fujiwara-kyō, the capital of Japan from 694 to 710, was built here. 1956 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep (31 Oct 2026): wrong year (1956). 1956 is a city-status or merger date; the town dates from 694 (Fujiwara-kyō, Wikidata P571 694)",
+      "source": "https://www.wikidata.org/wiki/Q496319; https://www.wikidata.org/wiki/Q1196381 (Fujiwara-kyō, P571 694); https://en.wikipedia.org/wiki/Fujiwara-ky%C5%8D"
+    },
+    "q200589": {
+      "dateNote": "Uncertain: 1896 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Utsunomiya Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1896 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q200589; https://en.wikipedia.org/wiki/Utsunomiya_Castle"
+    },
+    "q540312": {
+      "dateNote": "Uncertain: 1906 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Nagaoka Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1906 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q540312; https://en.wikipedia.org/wiki/Nagaoka_Castle"
+    },
+    "q241037": {
+      "dateNote": "Uncertain: 1923 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Numazu Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1923 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q241037; https://en.wikipedia.org/wiki/Numazu_Castle"
+    },
+    "q317844": {
+      "dateNote": "Uncertain: 1953 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Nishio Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1953 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q317844; https://en.wikipedia.org/wiki/Nishio_Castle"
+    },
+    "q208863": {
+      "dateNote": "Uncertain: 1917 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Hachiōji Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1917 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q208863; https://en.wikipedia.org/wiki/Hachi%C5%8Dji_Castle"
+    },
+    "q320934": {
+      "dateNote": "Uncertain: 1889 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Kurume Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q320934; https://en.wikipedia.org/wiki/Kurume_Castle"
+    },
+    "q191914": {
+      "dateNote": "Uncertain: 1929 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Hachinohe Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1929 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q191914; https://en.wikipedia.org/wiki/Hachinohe_Castle"
+    },
+    "q734479": {
+      "dateNote": "Uncertain: 2005 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Yatsushiro Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 2005 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q734479; https://en.wikipedia.org/wiki/Yatsushiro_Castle"
+    },
+    "q646912": {
+      "dateNote": "Uncertain: 1943 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Sano Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1943 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q646912; https://en.wikipedia.org/wiki/Sano_Castle"
+    },
+    "q200731": {
+      "dateNote": "Uncertain: 1889 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Tottori Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q200731; https://en.wikipedia.org/wiki/Tottori_Castle"
+    },
+    "q320964": {
+      "dateNote": "Uncertain: 1927 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Yonago Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1927 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q320964; https://en.wikipedia.org/wiki/Yonago_Castle"
+    },
+    "q740456": {
+      "dateNote": "Uncertain: 1942 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Kishiwada Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1942 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q740456; https://en.wikipedia.org/wiki/Kishiwada_Castle"
+    },
+    "q734416": {
+      "dateNote": "Uncertain: 1889 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Tsurugaoka Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q734416; https://en.wikipedia.org/wiki/Tsurugaoka_Castle"
+    },
+    "q335423": {
+      "dateNote": "Uncertain: 1943 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Takatsuki Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1943 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q335423; https://en.wikipedia.org/wiki/Takatsuki_Castle"
+    },
+    "q335444": {
+      "dateNote": "Uncertain: 1940 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Itami Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1940 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q335444; https://en.wikipedia.org/wiki/Itami_Castle"
+    },
+    "q389515": {
+      "dateNote": "Uncertain: 1950 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Kariya Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1950 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q389515; https://en.wikipedia.org/wiki/Kariya_Castle"
+    },
+    "q653446": {
+      "dateNote": "Uncertain: 1940 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Tsuchiura Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1940 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q653446; https://en.wikipedia.org/wiki/Tsuchiura_Castle"
+    },
+    "q653389": {
+      "dateNote": "Uncertain: 1933 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Nobeoka Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1933 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q653389; https://en.wikipedia.org/wiki/Nobeoka_Castle"
+    },
+    "q653402": {
+      "dateNote": "Uncertain: 1971 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Shimoda Castle), but sources do not agree on when it began, so the year is left as it is.",
+      "why": "Japanese cities date sweep (31 Oct 2026): checked, still uncertain, the panel now says so: 1971 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q653402; https://en.wikipedia.org/wiki/Shimoda_Castle"
+    },
+    "q4087428": {
+      "lat": -18.003,
+      "lon": 178.691,
+      "dateNote": "7 April 1855.",
+      "placeNote": "Kaba, a peninsula on the east coast of Viti Levu, Fiji, close to Bau. The exact spot is approximate. Wikidata's point was in the sea near Vava'u, Tonga, about 770 km east.",
+      "why": "Battles fact-check batch 2 (31 Oct 2026): wrong pin, wrong country. Wikidata P625 (-18.71, -174.03) is in the sea near Tonga; the battle was at Kaba, Fiji (Cakobau of Bau, helped by Tongan troops, against Rewa)",
+      "source": "https://www.wikidata.org/wiki/Q4087428 (P625 -18.709775, -174.02996); https://en.wikipedia.org/wiki/Battle_of_Kaba"
+    },
+    "q4871304": {
+      "startYear": 1814,
+      "dateNote": "27 December 1814, when British troops under Gabriel Martindell attacked the hill fort of Jaithak above Nahan and were beaten back. Wikidata gives 25 September 1815, which does not match the accounts of the battle.",
+      "why": "Battles fact-check batch 2 (31 Oct 2026): wrong year (1815). Wikidata P585 is 1815-09-25; the attack on Jaithak was on 27 December 1814",
+      "source": "https://www.wikidata.org/wiki/Q4871304 (P585 1815-09-25); https://en.wikipedia.org/wiki/Battle_of_Jaithak; https://wiki.fibis.org/w/Battle_of_Jaitak"
+    },
     "cur-trip-jerusalem": {
       "dateNote": "The inn claims to date from 1189, but no record survives to prove it. Most of the present building dates from about 1650 (the date Wikidata gives); the caves behind it are older.",
       "why": "Uncertain date: the 1189 claim is the inn's own tradition; Wikidata gives 1650",
