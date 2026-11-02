@@ -552,5 +552,13 @@
       "headingDeg": -2.5
     },
     "ts": 1793649211863
+  },
+  "place:great-wall@40.360,116.020": {
+    "transform": {
+      "eastM": -820,
+      "northM": -500,
+      "headingDeg": -5
+    },
+    "ts": 1793649749668
   }
 }
