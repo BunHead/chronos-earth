@@ -21,3 +21,24 @@ export function onEnterOrSpace(fn: () => void): (e: { key: string; preventDefaul
     fn();
   };
 }
+
+/** Timeline height limits: a slim strip up to covering the globe. */
+export function clampTimelineHeight(h: number, viewportH: number): number {
+  return Math.min(Math.max(90, h), Math.max(300, viewportH - 2));
+}
+
+/** Arrow Up/Down on the timeline's resize grip: 24px taller or shorter.
+ * Returns null for any other key. */
+export function gripKeyHeight(key: string, h: number, viewportH: number): number | null {
+  if (key === 'ArrowUp') return clampTimelineHeight(h + 24, viewportH);
+  if (key === 'ArrowDown') return clampTimelineHeight(h - 24, viewportH);
+  return null;
+}
+
+/** Arrow keys on the Sky dial's sun ring: Left/Right move 15 minutes,
+ * Up/Down a whole hour. Wraps round midnight. Null for any other key. */
+export function stepSolarHours(key: string, hours: number): number | null {
+  const step = { ArrowRight: 0.25, ArrowLeft: -0.25, ArrowUp: 1, ArrowDown: -1 }[key];
+  if (step === undefined) return null;
+  return (((hours + step) % 24) + 24) % 24;
+}

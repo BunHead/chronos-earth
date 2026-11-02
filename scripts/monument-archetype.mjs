@@ -90,7 +90,7 @@ export const VALID_MODELS = [
   // Precursor claims, below the surface (lib/precursorMesh.ts).
   'ravne-tunnels', 'bimini-beachrock', 'yonaguni-rock',
   // 3D monuments batch 2, true metres (lib/landmarkMesh.ts).
-  'temple-of-heaven', 'trajans-column', 'pompeys-pillar',
+  'temple-of-heaven', 'trajans-column', 'pompeys-pillar', 'great-wall', 'forbidden-city',
 ];
 
 /** Ancient-stone archetypes — believable only for genuinely ancient things.
@@ -160,6 +160,8 @@ const KEYWORD_RULES = [
   { rule: 'Temple of Heaven keyword (its Hall of Prayer for Good Harvests)', model: 'temple-of-heaven', re: /temple of heaven|hall of prayer for good harvests|^tiantan$/ },
   { rule: "Trajan's Column keyword", model: 'trajans-column', re: /trajan'?s column|column of trajan/ },
   { rule: "Pompey's Pillar keyword", model: 'pompeys-pillar', re: /pompey'?s pillar/ },
+  { rule: 'Great Wall of China / Badaling keyword (not Gorgan or Hadrian\'s)', model: 'great-wall', re: /^(the )?great wall of china\b|\bbadaling\b/ },
+  { rule: 'Forbidden City keyword (its Meridian Gate and Hall of Supreme Harmony)', model: 'forbidden-city', re: /^(the )?forbidden city$|hall of supreme harmony/ },
   { rule: 'Sydney Opera House keyword (Sydney-specific — not a generic opera house)', model: 'opera-house', re: /sydney opera/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },

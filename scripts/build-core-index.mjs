@@ -113,7 +113,10 @@ export const tileFileName = (cell, bucket) => `${cell.replace('|', '_')}__b${buc
  * name/id/year/coords. Split them, and let the search index load LAZILY after
  * first paint — off the critical path entirely, where its size stops mattering
  * and everything becomes findable. */
-const HEADLINE_COUNT = 4500;
+// 4,500 → 4,400 on 2 Nov 2026: fossil batches 6–9 added ~60 curated rows (~33 gzipped bytes each)
+// and tipped the headline tier over its 120 KB wire budget (headlineTier.test.ts). The cap is
+// bounded by that budget, so the ~100 lowest-ranked harvested rows give way; they stay in the full index.
+const HEADLINE_COUNT = 4400;
 
 /** The app derives wikidataId from the id ("q243", "q-af-Q182059") so the
  * skeleton needn't ship the column. Where that fails — curated rows such as

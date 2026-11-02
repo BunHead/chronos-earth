@@ -453,8 +453,8 @@ export default function SiteBuilder({ siteKey, origin, onPublish, onStatus }: Si
             >
               📍 move here
             </button>
-            <button onClick={duplicateSelected} title="duplicate this part">⧉</button>
-            <button onClick={removeSelected} title="delete this part">🗑</button>
+            <button onClick={duplicateSelected} title="duplicate this part" aria-label="Duplicate this part">⧉</button>
+            <button onClick={removeSelected} title="delete this part" aria-label="Delete this part">🗑</button>
           </div>
         </div>
       )}
