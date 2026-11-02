@@ -232,6 +232,41 @@ describe('fossil sites', () => {
     expect(row('q12155967').dateNote).toMatch(/^Uncertain/); // Atacama skeleton: only the desert is known
   });
 
+  it('batch 9 (2 Nov 2026) adds cited, plain-link rows in gaps, each with its own Q-id', () => {
+    const batch9 = [
+      'sibudu', 'diepkloof', 'shum-laka', 'wadi-kubbaniya', 'crato', 'auca-mahuevo', 'la-colonia',
+      'canadon-asfalto', 'riwat', 'pedra-furada', 'mezine', 'kostenki', 'hukawng', 'kathu-pan', 'hayonim', 'zhiren',
+    ].map((id) => `cur-fossil-${id}`);
+    // Different sites close to others: Hayonim is 13 km from Manot Cave, Wadi Kubbaniya 13 km from a pin at Philae.
+    const gaps: Record<string, number> = { 'cur-fossil-hayonim': 10, 'cur-fossil-wadi-kubbaniya': 10 };
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch9) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      expect(s.summary!.length, id).toBeLessThan(120); // one line
+      // A plain link: https, no spaces or brackets, nothing but ASCII (accents are %-encoded), one URL only.
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[!-~]+$/);
+      expect(s.sourceUrl, id).not.toMatch(/[\s()[\]<>]/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
+      expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
+      expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
+      expect(s.startYear, id).toBeLessThanOrEqual(2026);
+      expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
+      expect(events.find((e) => e.id === id), id).toMatchObject({ lat: s.lat, lon: s.lon, startYear: s.startYear });
+      const gap = gaps[id] ?? 25;
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+    }
+  });
+
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
     const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
     expect(wf).toContain('node scripts/add-fossil-sites.mjs');
