@@ -31,6 +31,7 @@ export default function CompassFrame({ getHeading, onResetNorth, onClose }: Comp
       <button
         className="cf-rose"
         title="Click to face north"
+        aria-label="Face north"
         onClick={onResetNorth}
         style={{ transform: `rotate(${-heading}deg)` }}
       >

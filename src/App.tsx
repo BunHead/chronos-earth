@@ -1467,13 +1467,8 @@ export default function App() {
       )}
 
       <Tours
-        tours={tours}
         active={activeTour}
         step={tourStep}
-        onStart={(tour) => {
-          setActiveTour(tour);
-          setTourStep(0);
-        }}
         onStep={setTourStep}
         onExit={() => setActiveTour(null)}
       />

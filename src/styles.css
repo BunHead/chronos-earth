@@ -963,7 +963,6 @@ textarea:focus-visible,
   color: var(--text);
   font-size: 14px;
   backdrop-filter: blur(6px);
-  outline: none;
 }
 
 .search-box input:focus {
