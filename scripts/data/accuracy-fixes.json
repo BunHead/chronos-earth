@@ -1006,6 +1006,99 @@
       "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"the Roman Empire\".",
       "source": "https://www.wikidata.org/wiki/Q131548; https://en.wikipedia.org/wiki/Jordanes"
     },
+    "q734541": {
+      "name": "Kōnosu",
+      "startYear": 1602,
+      "dateNote": "Post town (Kōnosu-shuku) on the Nakasendō from 1602, when the station was moved here from Honjuku (now Kitamoto). 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 1602 (Post town (Kōnosu-shuku) on the Nakasendō from 1602, when the station was moved here from Honjuku (now Kitamoto))",
+      "source": "https://www.wikidata.org/wiki/Q734541; https://kotobank.jp/word/%E9%B4%BB%E5%B7%A3-497056; https://www.wikidata.org/wiki/Q3201303 (Kōnosu-shuku)"
+    },
+    "q163888": {
+      "startYear": 1602,
+      "dateNote": "Post town (Ageo-shuku) on the Nakasendō, the road opened in 1602; the city says it grew from this post town. 1958 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (1958). 1958 is a city-status or merger date; the town dates from 1602 (Post town (Ageo-shuku) on the Nakasendō, the road opened in 1602; the city says it grew from this post town)",
+      "source": "https://www.wikidata.org/wiki/Q163888; https://www.city.ageo.lg.jp/uploaded/attachment/109215.pdf; https://www.pref.saitama.lg.jp/documents/5546/460687.pdf (Saitama Prefectural Museum: the Nakasendō opened in 1602 with 9 stations in Saitama); https://www.wikidata.org/wiki/Q2826787 (Ageo-shuku)"
+    },
+    "q41106": {
+      "startYear": 1602,
+      "dateNote": "Post town (Kumagai-juku) on the Nakasendō, the road opened in 1602. The name goes back further, to the 12th-century warrior Kumagai Naozane. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1602 (Post town (Kumagai-juku) on the Nakasendō, the road opened in 1602. The name goes back further, to the 12th-century warrior Kumagai Naozane)",
+      "source": "https://www.wikidata.org/wiki/Q41106; https://www.pref.saitama.lg.jp/documents/5546/460687.pdf (Saitama Prefectural Museum: the Nakasendō opened in 1602 with 9 stations in Saitama); https://kotobank.jp/word/熊谷; https://www.wikidata.org/wiki/Q3200350 (Kumagai-juku)"
+    },
+    "q734442": {
+      "name": "Sōka",
+      "startYear": 1630,
+      "dateNote": "Post town (Sōka-shuku) on the Nikkō Kaidō, made an official station in 1630. Work on it began in 1606. 1958 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (1958). 1958 is a city-status or merger date; the town dates from 1630 (Post town (Sōka-shuku) on the Nikkō Kaidō, made an official station in 1630. Work on it began in 1606)",
+      "source": "https://www.wikidata.org/wiki/Q734442; https://www.pref.saitama.lg.jp/documents/5546/460667.pdf; https://tabi-mag.jp/sa0036/; https://www.wikidata.org/wiki/Q11618087 (Sōka-shuku)"
+    },
+    "q376023": {
+      "startYear": 1616,
+      "dateNote": "Post town (Kasukabe-shuku) on the Nikkō and Ōshū Kaidō roads from 1616. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1616 (Post town (Kasukabe-shuku) on the Nikkō and Ōshū Kaidō roads from 1616)",
+      "source": "https://www.wikidata.org/wiki/Q376023; Japanese Wikipedia 粕壁宿 (read via https://ja.wikid.org/%E7%B2%95%E5%A3%81%E5%AE%BF); https://www.pref.saitama.lg.jp/documents/5546/460669.pdf; https://www.wikidata.org/wiki/Q24898728 (Kasukabe-shuku)"
+    },
+    "q386651": {
+      "startYear": 1601,
+      "dateNote": "Post town (Mitsuke-juku) on the Tōkaidō; the Tōkaidō post stations were set up in 1601. 2005 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026): wrong year (2005). 2005 is a city-status or merger date; the town dates from 1601 (Post town (Mitsuke-juku) on the Tōkaidō; the Tōkaidō post stations were set up in 1601)",
+      "source": "https://www.wikidata.org/wiki/Q386651; https://www.wikidata.org/wiki/Q782144 (Mitsuke-juku); https://www.city.shinagawa.tokyo.jp/jigyo/06/historyhp/en/pdf/kaisetsu_multi/tagengo_jpn/PDF_jpn/1_05jpn.pdf (Tōkaidō stations 1601)"
+    },
+    "q497952": {
+      "dateNote": "Uncertain: the town is older: it was Koshigaya-shuku, the third post town on the Nikkō Kaidō in the Edo period, but no source checked gives the year it began. 1958 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Koshigaya-shuku (Wikidata Q11636368) is 0.9 km from the pin; no founding year found",
+      "source": "https://www.wikidata.org/wiki/Q497952; https://koshigayahistory.org/250929_koshigayajyuku_k_katoh.pdf"
+    },
+    "q236197": {
+      "dateNote": "Uncertain: the town is older: it was Hino-juku, a post town on the Kōshū Kaidō in the Edo period, but no source checked gives the year it began. 1963 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Hino-juku (Wikidata Q11510578) is 0.9 km from the pin; no founding year found",
+      "source": "https://www.wikidata.org/wiki/Q236197; https://www.city.hino.lg.jp/_res/projects/default_project/_page_/001/001/201/20131225-150623.pdf"
+    },
+    "q374511": {
+      "dateNote": "Uncertain: the town is much older: a castle town of the Oyama clan in the Middle Ages, then a post town on the Nikkō Kaidō after its castle closed in 1619. No single start year is agreed. 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: castle town (Oyama/Gion Castle) and post town (Oyamashuku, Q11459843); no clear start year",
+      "source": "https://www.wikidata.org/wiki/Q374511; https://kotobank.jp/word/%E5%B0%8F%E5%B1%B1"
+    },
+    "q320943": {
+      "dateNote": "Uncertain: the town is older: it was Matsudo-shuku, a post town on the Mito Kaidō in the Edo period, but no source checked gives the year it began. 1943 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Matsudo-shuku (Wikidata Q11530683) is 1.0 km from the pin; no founding year found",
+      "source": "https://www.wikidata.org/wiki/Q320943; https://smtrc.jp/town-archives/city/matsudo/"
+    },
+    "q694154": {
+      "dateNote": "Uncertain: the town is older: it was Moriguchi-juku on the Kyō Kaidō. The city thinks it became a post town in about 1616, but says the date is not clear. 1946 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: the city itself says the 1616 date is only probable",
+      "source": "https://www.wikidata.org/wiki/Q694154; https://www.city.moriguchi.osaka.jp/material/files/group/79/28126-7.pdf; https://www.wikidata.org/wiki/Q672756 (Moriguchi-juku)"
+    },
+    "q274384": {
+      "dateNote": "Uncertain: Iwaki was made in 1966 by merging towns, but its centre, Taira, is the old castle town of Iwakitaira Castle, begun in about 1602–1603. 1966 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: new merged city with a new name; the old castle town (Taira) began about 1602-1603 (castle P571 1603 and 1615 on Wikidata)",
+      "source": "https://www.wikidata.org/wiki/Q274384; https://www.wikidata.org/wiki/Q11587869 (Iwakitaira Castle); https://www.city.iwaki.lg.jp/www/contents/1646901654494/files/7.pdf"
+    },
+    "q328613": {
+      "dateNote": "Uncertain: Fuji was made in 1966 by merging towns, but the pin is near Yoshiwara-juku, an Edo-period post town on the Tōkaidō. 1966 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: merged city with a new name; Yoshiwara-juku (Q3069833) is 1.1 km from the pin",
+      "source": "https://www.wikidata.org/wiki/Q328613; https://www.wikidata.org/wiki/Q3069833"
+    },
+    "q389711": {
+      "dateNote": "Uncertain: the town is older: it was Atsugi-juku, an Edo-period post town, but no source checked gives the year it began. 1955 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Atsugi-juku (Wikidata Q28684938) is 0.6 km from the pin; no founding year found",
+      "source": "https://www.wikidata.org/wiki/Q389711; https://www.wikidata.org/wiki/Q28684938"
+    },
+    "q270912": {
+      "dateNote": "Uncertain: the town is older: it was Hirakata-juku, a post town on the Kyō Kaidō in the Edo period. Wikidata gives a first record of 530, which could not be checked. 1947 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata P1249 530 not confirmed; post town date not found",
+      "source": "https://www.wikidata.org/wiki/Q270912; https://www.wikidata.org/wiki/Q3136195 (Hirakata-juku)"
+    },
+    "q264206": {
+      "dateNote": "Uncertain: the town is older: it was Kōriyama-shuku, a post town on the Ōshū Kaidō in the Edo period, but no source checked gives the year it began. 1924 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Kōriyama-shuku (Wikidata Q56816709) is 2.2 km from the pin; no founding year found",
+      "source": "https://www.wikidata.org/wiki/Q264206; https://www.wikidata.org/wiki/Q56816709"
+    },
+    "q237683": {
+      "dateNote": "Uncertain: the town is older: it was Ōme-juku, a post town on the Ōme Kaidō (built from about 1606), but no source checked gives the year the post town began. 1951 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese post towns date pass (2 Nov 2026), checked by hand, still uncertain, the panel now says so: post town on the Ōme Kaidō; no founding year found for the town itself",
+      "source": "https://www.wikidata.org/wiki/Q237683; https://en.wikipedia.org/wiki/%C5%8Cme,_Tokyo (post town on the Ōme Kaidō; road date about 1606 from search results, not confirmed)"
+    },
     "q42606": {
       "placeNote": "Where he was born is not recorded; the pin is just the middle of Egypt.",
       "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Egypt\".",
