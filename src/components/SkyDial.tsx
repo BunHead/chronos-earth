@@ -7,6 +7,7 @@ import {
   type EclipseHit,
 } from '../lib/celestial';
 import { startDrag } from '../lib/windowDrag';
+import { stepSolarHours } from '../lib/keyboard';
 
 const DEG = Math.PI / 180;
 const REF_YEAR = 2026; // the sun's path depends only on day-of-year, not the year
@@ -270,6 +271,19 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
         ref={svgRef}
         viewBox="0 0 160 160"
         className={`sky-ring${daytime ? ' day' : ' night'}`}
+        role="slider"
+        tabIndex={0}
+        aria-label="Time of day: arrow keys move the sun"
+        aria-valuemin={0}
+        aria-valuemax={24}
+        aria-valuenow={Math.round(solarHours * 100) / 100}
+        aria-valuetext={fmtTime(solarHours)}
+        onKeyDown={(e) => {
+          const hours = stepSolarHours(e.key, solarHours);
+          if (hours === null) return;
+          e.preventDefault();
+          onChange({ solarHours: hours, auto: false });
+        }}
         onPointerDown={(e) => {
           // Grabs near the weather bars own the drag; the ring owns the sun.
           const { px, py } = pointerXY(e);

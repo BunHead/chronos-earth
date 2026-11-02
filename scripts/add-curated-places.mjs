@@ -70,6 +70,58 @@ export const PLACES = [
       'blue-tiled roofs on a three-tier white marble terrace) burned after a lightning strike in 1889 ' +
       'and was rebuilt to the same design by 1896. UNESCO World Heritage Site, 1998.',
   },
+  {
+    // Asked for on 26 Oct 2026 with the 3D model (lib/landmarkMesh.ts).
+    id: 'cur-great-wall-badaling',
+    name: 'Great Wall of China (Badaling)',
+    category: 'monument',
+    // The Ming brick wall here, the section the model shows.
+    startYear: 1505,
+    lat: 40.36,
+    lon: 116.02,
+    wikidataId: 'Q12501',
+    wikiTitle: 'Badaling',
+    // Hand-set weight: enough to hold its own when you are looking at Beijing.
+    notability: 300,
+    dateNote:
+      'The Badaling section, 70 km north-west of Beijing, guarding the approach to the Juyong Pass, was built ' +
+      'in brick and stone in 1505 under the Ming Hongzhi Emperor: about 7.8 m tall, 5.8 m wide on top, with ' +
+      'watchtowers along the ridges. Earlier walls held this pass: the Northern Qi built a rammed-earth wall ' +
+      'from the Juyong pass in 555, and Xu Da fortified it for the first Ming emperor from 1368. Restored and ' +
+      'opened to visitors in 1957. The Great Wall is a UNESCO World Heritage Site (1987).',
+  },
+  {
+    // Asked for on 2 Nov 2026, as the earliest phase of the Great Wall pin above.
+    // Named so panel.ts does NOT give it the Badaling Ming model (that matches
+    // "great wall of china" / "badaling" only): the earliest walls were rammed
+    // earth and stone, and no model here shows them.
+    id: 'cur-great-wall-earliest',
+    name: 'Chu Square Wall, Fangcheng (earliest Great Wall)',
+    category: 'monument',
+    // Wikidata gives the Great Wall of China (Q12501) an inception of 700 BC
+    // (7th century BC), and Wikipedia: "The first walls date to the 7th century BC".
+    startYear: -700,
+    // Fangcheng County, Nanyang, Henan (Wikipedia coordinates): the county is
+    // named for the Fangcheng ("Square Wall") of Chu. A county centre, not a
+    // surveyed point on the wall: the Chu wall ran along the hills to its north.
+    lat: 33.25,
+    lon: 112.98,
+    // No Wikidata item of its own with a date and a place, so none is set here
+    // (Q12501 is the Badaling row's: setting it twice would drop this pin).
+    wikiTitle: 'Great Wall of China',
+    // Hand-set weight: enough to hold its own when you are looking at Henan.
+    notability: 150,
+    dateNote:
+      'The earliest walls of what became the Great Wall date to the 7th century BC (Wikipedia, Great Wall ' +
+      'of China; Wikidata Q12501 gives 700 BC). Wikipedia names no single first wall: its Nanyang article calls ' +
+      'the Chu Great Wall site in this region the "father of the Great Wall of China", and its Chu article ' +
+      'says Chu fortified the Fangcheng mountain on its northern border. The date is the 7th century in ' +
+      'general, not a surveyed year, and the pin is the county centre. The states of Zheng, Chu, Qin, Wei, ' +
+      'Zhao, Qi, Lu, Han, Yan, Zhongshan and Zhou all built border walls in the Spring and Autumn and ' +
+      'Warring States periods, of stone or stamped earth. After the First Emperor unified China in 221 BC ' +
+      'the Qin joined the remaining northern walls together, and the Ming brick wall at Badaling came ' +
+      'in 1505. Nothing of the Chu wall is modelled in 3D.',
+  },
   // THE MAYA LOWLANDS, asked for on 10 Oct 2026 with a video on Minanbé (the
   // new city itself is a curated SITE in ancient-sites.json, with its facts).
   // Neither Wikidata nor the harvest dates these, so each date is the period
@@ -224,8 +276,8 @@ export const PLACES = [
  *
  * 3D models are untouched here — panel.ts picks them by name, and only where
  * one is honest: the Great Pyramid, Colosseum, Parthenon, Angkor Wat and
- * Machu Picchu have one; the Taj Mahal, Petra, the moai and the Forbidden City
- * do not, and must not (panel.test.ts pins both lists).
+ * Machu Picchu have one (and the Forbidden City since 26 Oct 2026); the Taj
+ * Mahal, Petra and the moai do not, and must not (famousMonuments.test.ts pins both lists).
  */
 export const MONUMENT_FIXES = [
   { id: 'cur-great-pyramid', wikidataId: 'Q37200', lat: 29.97915, lon: 31.13422 },
@@ -236,7 +288,9 @@ export const MONUMENT_FIXES = [
   { id: 'cur-machu-picchu', wikidataId: 'Q676203', lat: -13.16333, lon: -72.54556 },
   { id: 'cur-taj-mahal', wikidataId: 'Q9141', lat: 27.175, lon: 78.04194 },
   { id: 'cur-rapa-nui', wikidataId: 'Q20350', lat: -27.11423, lon: -109.36399 },
-  { id: 'cur-forbidden-city', wikidataId: 'Q80290', lat: 39.91583, lon: 116.39083 },
+  // The Forbidden City's P625 (116.39083) is ~550 m west of the palace's own
+  // axis; the pin is the Hall of Supreme Harmony on it, where its 3D model stands.
+  { id: 'cur-forbidden-city', wikidataId: 'Q80290', lat: 39.916, lon: 116.397, startYear: 1420 },
   // Pompey's Pillar (19 Oct 2026): the Pleiades row carried the Roman period's
   // start (30 BC) as its year. The column was raised in AD 297-298 for
   // Diocletian, in the precinct of the Serapeum; the name is a medieval error.

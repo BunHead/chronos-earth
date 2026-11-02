@@ -33,3 +33,30 @@ describe('screen-reader labels', () => {
     expect(html).toContain('aria-label="Close Time Rift"');
   });
 });
+
+describe('screen-reader labels: tours and compass', () => {
+  it('each tour stop dot names its stop and marks the current one', async () => {
+    const { default: Tours } = await import('./Tours');
+    const tour = {
+      id: 't', emoji: '🎬', title: 'Test', description: '',
+      steps: [
+        { title: 'First', text: 'a' },
+        { title: 'Second', text: 'b' },
+      ],
+    };
+    const html = renderToStaticMarkup(
+      createElement(Tours, { active: tour as never, step: 1, onStep: noop, onExit: noop }),
+    );
+    expect(html).toContain('aria-label="Stop 1: First"');
+    expect(html).toMatch(/aria-label="Stop 2: Second" aria-current="step"/);
+    expect(html).not.toMatch(/aria-label="Stop 1: First" aria-current/);
+  });
+
+  it('the compass rose says what it does', async () => {
+    const { default: CompassFrame } = await import('./CompassFrame');
+    const html = renderToStaticMarkup(
+      createElement(CompassFrame, { getHeading: () => 0, onResetNorth: noop, onClose: noop }),
+    );
+    expect(html).toContain('aria-label="Face north"');
+  });
+});
