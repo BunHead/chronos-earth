@@ -465,8 +465,12 @@
     "kb": 10
   },
   "giza-menkaure-ruin": {
-    "footprint": 104.6,
-    "kb": 9
+    "footprint": 104.498,
+    "kb": 803
+  },
+  "giza-menkaure-ruin-lite": {
+    "footprint": 104.329,
+    "kb": 161
   },
   "giza-khufu-b30": {
     "footprint": 230.33,
@@ -707,5 +711,21 @@
   "pumapunku-scan-lite": {
     "footprint": 41.46,
     "kb": 295
+  },
+  "karahan-scan": {
+    "footprint": 98.121,
+    "kb": 939
+  },
+  "karahan-scan-lite": {
+    "footprint": 98.121,
+    "kb": 229
+  },
+  "nazca-hummingbird-scan": {
+    "footprint": 121.812,
+    "kb": 239
+  },
+  "nazca-hummingbird-scan-lite": {
+    "footprint": 121.812,
+    "kb": 52
   }
 }
