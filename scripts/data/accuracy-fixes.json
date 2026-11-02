@@ -4110,6 +4110,17 @@
       "lon": 106.5183,
       "why": "Data quality round 4 (Oct 2026): its Wikidata twin q482402 was folded into it (one event, two pins); the pin moves to Wikidata's P625 for the incident, 31 km from the old spot.",
       "source": "https://www.wikidata.org/wiki/Q482402"
+    },
+    "q927721": {
+      "lat": 52.8467,
+      "lon": 6.9567,
+      "why": "Fossil fact-check batch 8 (2 Nov 2026), checked by hand against Wikidata: pinned on the P189 point for the whole Bourtange Moor, which is in Germany, about 25 km off; the two bog bodies were found in 1904 near Weerdinge, Drenthe, Netherlands, where the find's own Wikidata P625 is",
+      "source": "https://en.wikipedia.org/wiki/Weerdinge_Men"
+    },
+    "q12155967": {
+      "dateNote": "Uncertain place: this tiny mummy was found in 2003 at La Noria, an old nitrate-mining town in the Atacama Desert of Chile. Wikidata gives only the desert, so the pin is at its middle, not on the find spot.",
+      "why": "Fossil fact-check batch 8 (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the Atacama Desert (P189) at its centre point (-24.5, -69.25); no Wikidata point for La Noria, Chile, was found",
+      "source": "https://en.wikipedia.org/wiki/Atacama_skeleton"
     }
   }
 }
