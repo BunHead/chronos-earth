@@ -37,7 +37,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createPoliteFetch, USER_AGENT } from './lib/polite-fetch.mjs';
-import { parseWdqs, wdqsYearAt } from './lib/wdqs-json.mjs';
+import { parseWdqs, wdqsPoint, wdqsYearAt } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = join(__dirname, '..', 'public', 'data');
@@ -119,10 +119,10 @@ export function haversineKm(lat1, lon1, lat2, lon2) {
   return 2 * 6371 * Math.asin(Math.sqrt(a));
 }
 
-/** "Point(lon lat)" → [lat, lon]. */
+/** "Point(lon lat)" → [lat, lon]; Earth only (see wdqsPoint). */
 const point = (wkt) => {
-  const m = /Point\(([-\d.eE]+) ([-\d.eE]+)\)/.exec(wkt ?? '');
-  return m ? [Number(m[2]), Number(m[1])] : null;
+  const p = wdqsPoint(wkt);
+  return p ? [p.lat, p.lon] : null;
 };
 
 /**

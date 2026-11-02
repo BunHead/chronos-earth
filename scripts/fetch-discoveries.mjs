@@ -39,7 +39,7 @@
 import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
-import { parseWdqs, wdqsYear } from './lib/wdqs-json.mjs';
+import { parseWdqs, wdqsPoint, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, '..', 'public', 'data', 'imported');
@@ -121,11 +121,8 @@ async function runQuery(sparql) {
 /** The shared WDQS year parse (BCE years are corrected afterwards — see wdqsYear). */
 const parseYear = (iso) => wdqsYear(iso);
 
-/** "Point(lon lat)" -> { lon, lat }. */
-function parseCoord(wkt) {
-  const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(wkt);
-  return m ? { lon: parseFloat(m[1]), lat: parseFloat(m[2]) } : null;
-}
+/** Earth only — see wdqsPoint (a P625 on the Moon is skipped). */
+const parseCoord = wdqsPoint;
 
 /** Fold for duplicate detection: case, accents and punctuation.
  * The curated rows predate the harvest and mostly carry NO wikidataId — so

@@ -56,3 +56,24 @@ export function wdqsYearAt(iso, precision) {
   if (y === null) return null;
   return Number(precision) >= 9 && y <= 0 ? y - 1 : y;
 }
+
+/**
+ * "Point(lon lat)" → { lat, lon }, or null when it is not a point on Earth.
+ *
+ * WHY. A P625 coordinate can be on another globe: Fallen Astronaut, the
+ * sculpture Apollo 15 left on the Moon, has Moon coordinates. WDQS writes
+ * those with the globe first — "<http://www.wikidata.org/entity/Q405>
+ * Point(3.63 26.13)" — and a plain Point() match read them as Earth ones,
+ * which put the Moon sculpture in the Sahara (Oct 2026). Earth points (Q2)
+ * come with no globe prefix, or with Q2's own.
+ */
+export function wdqsPoint(wkt) {
+  const s = String(wkt ?? '').trim();
+  const globe = /^<([^>]*)>/.exec(s);
+  if (globe && !/\/Q2$/.test(globe[1])) return null; // the Moon, Mars, …
+  const m = /Point\(([-\d.eE]+)\s+([-\d.eE]+)\)/.exec(s);
+  if (!m) return null;
+  const lon = Number(m[1]);
+  const lat = Number(m[2]);
+  return Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null;
+}

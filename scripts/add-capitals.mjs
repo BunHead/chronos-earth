@@ -36,7 +36,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { parseWdqs, wdqsYear } from './lib/wdqs-json.mjs';
+import { parseWdqs, wdqsPoint, wdqsYear } from './lib/wdqs-json.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
@@ -75,10 +75,8 @@ export function yearOf(iso) {
   return wdqsYear(iso);
 }
 
-const parseCoord = (wkt) => {
-  const m = /Point\(([-\d.]+)\s+([-\d.]+)\)/.exec(wkt ?? '');
-  return m ? { lon: parseFloat(m[1]), lat: parseFloat(m[2]) } : null;
-};
+/** Earth only — see wdqsPoint (a P625 on the Moon is skipped). */
+const parseCoord = wdqsPoint;
 
 async function runQuery(sparql) {
   for (let attempt = 0; attempt < 4; attempt++) {
