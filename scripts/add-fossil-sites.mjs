@@ -168,6 +168,100 @@ const BATCH_5 = [
   'https://en.wikipedia.org/wiki/Sirindhorn_Museum'),
 ];
 
+// Batch 9 (2 Nov 2026): more thin regions, each at its own Wikidata P625 (Q-id
+// and enwiki title from the same Wikidata item). Checked against main and the
+// open fossil PRs (batches 5–8 and the late-October discoveries), by Q-id and
+// by distance. Spread at the top of FOSSIL_SITES.
+const BATCH_9 = [
+  cited(site('sibudu', 'Sibudu Cave: the oldest known bedding', 1998, -29.522627777778, 31.085894444444, 'Q1322486', 'Sibudu Cave',
+    'In 1998 Lyn Wadley began digging this rock shelter above the uThongathi River, north of Durban, South Africa. ' +
+      'Finds include mats of sedge bedding about 77,000 years old (0.077 million years) and some of the oldest bone arrow points.'),
+  'A South African rock shelter with the oldest known plant bedding, about 77,000 years old.',
+  'https://en.wikipedia.org/wiki/Sibudu_Cave'),
+  cited(site('diepkloof', 'Diepkloof: engraved ostrich eggshells', 2010, -32.386666666667, 18.452777777778, 'Q2666120', 'Diepkloof Rock Shelter',
+    'Digs in this rock shelter in the Western Cape, South Africa, found hundreds of bits of ostrich eggshell water flasks ' +
+      'engraved with lines. In 2010 Pierre-Jean Texier\'s team showed they are about 60,000 years old (0.06 million years).'),
+  'A rock shelter in South Africa where people engraved ostrich eggshells about 60,000 years ago.',
+  'https://en.wikipedia.org/wiki/Diepkloof_Rock_Shelter'),
+  cited(site('shum-laka', 'Shum Laka: ancient DNA from West Africa', 2020, 5.85861, 10.0778, 'Q10667178', 'Shum Laka',
+    'Belgian and Cameroonian teams dug this rock shelter in north-west Cameroon in the 1980s and 1990s and found 18 burials. ' +
+      'In 2020 the DNA of four children buried here about 8,000 and 3,000 years ago (0.008 and 0.003 million years) was read: the first ancient DNA from West-Central Africa.'),
+  'A Cameroon rock shelter whose burials gave the first ancient DNA from West-Central Africa.',
+  'https://en.wikipedia.org/wiki/Shum_Laka'),
+  cited(site('wadi-kubbaniya', 'Wadi Kubbaniya: an Ice Age burial by the Nile', 1982, 24.0925, 32.785, 'Q109535880', 'Wadi Kubbaniya',
+    'In 1982 Fred Wendorf\'s team found the skeleton of a man buried in the sand at Wadi Kubbaniya, near Aswan, Egypt. ' +
+      'It is about 20,000 years old (0.02 million years), one of the oldest skeletons from the Nile valley.'),
+  'One of the oldest human skeletons from the Nile valley, about 20,000 years old.',
+  'https://en.wikipedia.org/wiki/Wadi_Kubbaniya'),
+  cited(site('crato', 'Crato Formation: crested pterosaurs', 1997, -7.1, -39.7, 'Q5182676', 'Crato Formation',
+    'In 1997 Diogenes Campos and Alexander Kellner named the pterosaur Tupandactylus imperator, with a huge sail-like crest, ' +
+      'from a slab of Crato limestone in Ceará, Brazil. The rock is about 115 million years old (Early Cretaceous) and also keeps insects, fish and plants.',
+    'Wikidata pins the formation at a rounded point.'),
+  'Fine limestone in Brazil with crested pterosaurs, insects and fish, 115 million years old.',
+  'https://en.wikipedia.org/wiki/Crato_Formation'),
+  cited(site('auca-mahuevo', 'Auca Mahuevo: a titanosaur nesting ground', 1997, -37.9, -68.5, 'Q4750684', 'Anacleto Formation',
+    'In November 1997 Luis Chiappe, Lowell Dingus and Rodolfo Coria found a field of thousands of titanosaur eggs at ' +
+      'Auca Mahuevo, Neuquén, Argentina. Some held embryos, even bits of skin. The rock is about 80 million years old (Late Cretaceous).',
+    'Pinned at the Wikidata point for the Anacleto Formation, a rounded point; Auca Mahuevo (Q4819361) has none of its own.'),
+  'A titanosaur nesting ground in Argentina, with thousands of eggs and embryos with skin.',
+  'https://en.wikipedia.org/wiki/Auca_Mahuevo'),
+  cited(site('la-colonia', 'La Colonia Formation: Carnotaurus found', 1984, -43, -67.5, 'Q6461899', 'La Colonia Formation',
+    'In 1984 José Bonaparte\'s team found an almost whole skeleton, with skin prints, in Chubut, Argentina. Named ' +
+      'Carnotaurus in 1985, it is a horned meat-eater with tiny arms, about 70 million years old (Late Cretaceous).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Where Carnotaurus, a horned meat-eater with tiny arms, was found with skin prints.',
+  'https://en.wikipedia.org/wiki/Carnotaurus'),
+  cited(site('canadon-asfalto', 'Cañadón Asfalto: Jurassic dinosaurs of Patagonia', 1979, -43.4, -69.2, 'Q1052122', 'Cañadón Asfalto Formation',
+    'In the 1970s José Bonaparte dug Jurassic dinosaurs near Cerro Cóndor, Chubut, Argentina. In 1979 he named the ' +
+      'long-necked Patagosaurus and the meat-eater Piatnitzkysaurus. The rock is about 180–168 million years old (Early–Middle Jurassic).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Jurassic rocks in Patagonia where Patagosaurus and Piatnitzkysaurus were found.',
+  'https://en.wikipedia.org/wiki/Ca%C3%B1ad%C3%B3n_Asfalto_Formation'),
+  cited(site('riwat', 'Riwat: very old stone tools in Pakistan', 1983, 33.5, 73.2, 'Q3938071', 'Riwat',
+    'In 1983 Robin Dennell\'s British–Pakistani team found stone flakes and cores in old gravels at Riwat, near Rawalpindi. ' +
+      'They may be about 1.9 million years old, among the oldest tools outside Africa, but whether people made them is argued.',
+    'Wikidata pins the site at a rounded point.'),
+  'Stone tools near Rawalpindi that may be 1.9 million years old: among the oldest outside Africa.',
+  'https://en.wikipedia.org/wiki/Riwat'),
+  cited(site('pedra-furada', 'Pedra Furada: early people in Brazil?', 1978, -8.83333333, -42.55333333, 'Q2473573', 'Pedra Furada',
+    'In 1978 Niède Guidon\'s French–Brazilian team began digging this painted rock shelter in Serra da Capivara, Piauí. ' +
+      'Charcoal here is up to about 50,000 years old (0.05 million years). Whether people made the oldest layers is still argued.'),
+  'A painted Brazilian rock shelter whose disputed oldest layers may show very early people.',
+  'https://en.wikipedia.org/wiki/Pedra_Furada'),
+  cited(site('mezine', 'Mezin: huts of mammoth bone', 1908, 51.815833, 33.07, 'Q4288991', 'Mezine',
+    'In 1908 Fedir Vovk began digging an Ice Age camp by the Desna River at Mezin, northern Ukraine. It had huts of ' +
+      'mammoth bone, carved ivory and painted mammoth bones. It is about 15,000 years old (0.015 million years).'),
+  'An Ice Age camp in Ukraine with huts of mammoth bone and carved ivory.',
+  'https://en.wikipedia.org/wiki/Mezine'),
+  cited(site('kostenki', 'Kostyonki: early modern humans on the Don', 1879, 51.38583333333333, 39.05166666666667, 'Q4235785', 'Kostyonki–Borshchyovo',
+    'In 1879 Ivan Polyakov first dug at Kostyonki, by the Don River south of Voronezh, Russia. Over 20 Ice Age sites here ' +
+      'hold some of the oldest modern humans in Europe; the Kostenki 14 man, found in 1954, is about 37,000 years old (0.037 million years).'),
+  'Over 20 Ice Age camps by the Don, with some of Europe\'s oldest modern humans.',
+  'https://en.wikipedia.org/wiki/Kostyonki%E2%80%93Borshchyovo'),
+  cited(site('hukawng', 'Hukawng Valley: a dinosaur tail in amber', 2016, 26.438333333333, 96.558888888889, 'Q1082709', 'Hukawng Valley',
+    'In December 2016 Xing Lida\'s team described a feathered dinosaur tail kept in amber from mines in this valley in ' +
+      'northern Myanmar. The amber is about 99 million years old (Late Cretaceous). The mines are tied to war, so many scientists no longer use it.',
+    'Wikidata pins the valley; the amber mines are in it.'),
+  'Burmese amber from this valley holds feathers, insects and a dinosaur\'s tail, 99 million years old.',
+  'https://en.wikipedia.org/wiki/Burmese_amber'),
+  cited(site('kathu-pan', 'Kathu Pan: the oldest spear tips', 2012, -27.7, 23.05, 'Q6377154', 'Kathu Archaeological Complex',
+    'Stone points dug at Kathu Pan 1, in the Northern Cape of South Africa, were shown in 2012 by Jayne Wilkins\'s team ' +
+      'to be spear tips about 0.5 million years old: the oldest known.',
+    'Wikidata pins the site complex at a rounded point.'),
+  'Where the oldest known stone spear tips, about half a million years old, were found.',
+  'https://en.wikipedia.org/wiki/Kathu_Archaeological_Complex'),
+  cited(site('hayonim', 'Hayonim Cave: from Neanderthal times to Natufian graves', 1965, 32.920088888889, 35.218263888889, 'Q3128874', 'HaYonim Cave',
+    'From 1965 Ofer Bar-Yosef and Eitan Tchernov\'s team dug this cave in western Galilee, Israel. Its layers run from ' +
+      'stone tools over 0.2 million years old to Natufian graves about 12,000 years old.'),
+  'A cave in Galilee with layers from 200,000 years ago up to Natufian graves.',
+  'https://en.wikipedia.org/wiki/HaYonim_Cave'),
+  cited(site('zhiren', 'Zhiren Cave: early modern humans in China?', 2007, 22.28711111, 107.51252778, 'Q197793', 'Zhiren Cave',
+    'In 2007 Jin Changzhu\'s team found part of a human jaw in Zhiren Cave, Chongzuo, Guangxi, China. At about 0.1 million ' +
+      'years old it is among the oldest signs of modern humans in East Asia, though that is argued. The cave also held Gigantopithecus teeth.'),
+  'A cave in southern China with a 100,000-year-old jaw that may be an early modern human.',
+  'https://en.wikipedia.org/wiki/Zhiren_Cave'),
+];
+
 // Batch 4 (25 Oct 2026): more thin regions. Each at its Wikidata P625; where the
 // row's Q-id is the fossil itself (no P625), the pin is its find place's P625
 // and the note says which. Spread at the top of FOSSIL_SITES.
@@ -431,6 +525,7 @@ const BATCH_8 = [
 ];
 
 export const FOSSIL_SITES = [
+  ...BATCH_9,
   ...BATCH_5,
   ...BATCH_4,
   ...BATCH_8,
