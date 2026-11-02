@@ -538,7 +538,10 @@
     "ts": 1792086781043
   },
   "great-wall": {},
-  "forbidden-city": {},
+  "forbidden-city": {
+    "status": "allowed",
+    "ts": 1793649164942
+  },
   "place:forbidden-city@39.916,116.397": {
     "transform": {
       "eastM": -510,
