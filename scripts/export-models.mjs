@@ -185,7 +185,7 @@ const SITE_KEYS = await readFile('public/data/model-review.json', 'utf8')
 const SITE_JOBS = ONLY.length && !ONLY.includes('sites') ? [] : SITE_KEYS;
 // Real scans are built from photogrammetry (gltf-transform), not the workshop:
 // never re-export over them (the workshop 'sphinx' would clobber sphinx.glb).
-const SKIP = new Set(['sphinx', 'sphinx-lite', 'gobekli-scan', 'gobekli-scan-lite', 'pumapunku-scan', 'pumapunku-scan-lite']);
+const SKIP = new Set(['sphinx', 'sphinx-lite', 'gobekli-scan', 'gobekli-scan-lite', 'pumapunku-scan', 'pumapunku-scan-lite', 'karahan-scan', 'karahan-scan-lite', 'nazca-hummingbird-scan', 'nazca-hummingbird-scan-lite', 'giza-menkaure-ruin', 'giza-menkaure-ruin-lite']);
 try {
   for (const [model, title, outName, extra] of JOBS) {
     if (SKIP.has(outName) || SKIP.has(model)) { console.log(`${outName}: skipped (real scan)`); continue; }

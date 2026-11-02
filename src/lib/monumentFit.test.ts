@@ -53,6 +53,6 @@ describe('computeFit — true scale on matched imagery', () => {
   });
   it('the real scans stand at scale 1 (true metres)', () => {
     const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
-    for (const m of ['gobekli-scan', 'pumapunku-scan']) expect(fitFor('x', m).widthM).toBe(real[m].footprint);
+    for (const m of ['gobekli-scan', 'pumapunku-scan', 'karahan-scan', 'nazca-hummingbird-scan']) expect(fitFor('x', m).widthM).toBe(real[m].footprint);
   });
 });

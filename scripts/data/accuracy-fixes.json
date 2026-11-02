@@ -3097,6 +3097,234 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Century values only.",
       "source": "https://www.wikidata.org/wiki/Q313011; https://en.wikipedia.org/wiki/Heliodorus_of_Emesa"
     },
+    "q506323": {
+      "startYear": 882,
+      "dateNote": "First recorded in 882. It became a town in 1297.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1297). 1297 is when it became a town; it is first recorded in 882 (Wikidata P1249)",
+      "source": "https://www.wikidata.org/wiki/Q506323; https://en.wikipedia.org/wiki/Tettnang; https://www.tettnang.de/"
+    },
+    "q492346": {
+      "startYear": 1632,
+      "dateNote": "Founded in 1632 as Middle Plantation, a fortified settlement inland from Jamestown. It was renamed Williamsburg in 1699.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1638). 1638 has no clear source; the colony's assembly ordered Middle Plantation settled in 1632",
+      "source": "https://www.wikidata.org/wiki/Q492346; https://en.wikipedia.org/wiki/Williamsburg%2C_Virginia; https://virginiaplaces.org/vacities/24will.html"
+    },
+    "q506745": {
+      "startYear": 1267,
+      "dateNote": "First recorded in 1267, in a charter that names its parish. It became a separate council (municipality) in 1812.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1812). 1812 is when it became a municipality; it is first recorded in 1267",
+      "source": "https://www.wikidata.org/wiki/Q506745; https://en.wikipedia.org/wiki/Rijswijk; https://nl.wikipedia.org/wiki/Rijswijk_(Zuid-Holland)"
+    },
+    "q180775": {
+      "startYear": 1174,
+      "dateNote": "First recorded in 1174, in a letter from the Pope. Its church is older still.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1785). 1785 has no clear source; the village is first recorded in a papal document of 1174",
+      "source": "https://www.wikidata.org/wiki/Q180775; https://en.wikipedia.org/wiki/Molenbeek-Saint-Jean; https://erfgoed.brussels/links/digitale-publicaties/pdf-versies/bskg/BVAH61_Molenbeek.pdf"
+    },
+    "q638187": {
+      "startYear": 1825,
+      "dateNote": "Founded in 1825 by William Digby, who named it after the Marquis de Lafayette. It became a city in 1853.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1853). 1853 is when it became a city; it was founded in 1825",
+      "source": "https://www.wikidata.org/wiki/Q638187; https://en.wikipedia.org/wiki/Lafayette%2C_Indiana; https://lafayette.in.gov/3728/City-History"
+    },
+    "q11592": {
+      "startYear": 1835,
+      "dateNote": "Founded in 1835 by Mariano Vallejo as the Pueblo de Sonoma, next to the 1823 mission. It became a city in 1883.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1883). 1883 is when it became a city; the pueblo was founded in 1835",
+      "source": "https://www.wikidata.org/wiki/Q11592; https://en.wikipedia.org/wiki/Sonoma%2C_California; https://sonomacity.org/history-of-sonoma"
+    },
+    "q497341": {
+      "startYear": -350,
+      "dateNote": "Built in 350 BC as the new capital of the state of Qin. It was the capital of China's first empire until 207 BC.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1950). 1950 is the modern city; Xianyang was founded as the Qin capital in 350 BC",
+      "source": "https://www.wikidata.org/wiki/Q497341; https://en.wikipedia.org/wiki/Xianyang; https://en.shaanxi.gov.cn/as/cities/201705/t20170505_1595240.html"
+    },
+    "q505147": {
+      "startYear": 1075,
+      "dateNote": "First recorded in 1075, as Wile, owned by Hirsau Abbey.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1201). 1201 is the \"13th century\" read as a year; it is first recorded in 1075",
+      "source": "https://www.wikidata.org/wiki/Q505147; https://en.wikipedia.org/wiki/Weil_der_Stadt; https://www.stuttgarter-zeitung.de/lokales/boeblingen/950-jahre-weil-der-stadt-grosses-fest-fuer-eine-alte-dame-78892662.html"
+    },
+    "q132278": {
+      "startYear": 741,
+      "dateNote": "First recorded in 741, as Uuinidesheim. It became a free imperial city in 1248.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1248). 1248 is imperial city status; it is first recorded in 741",
+      "source": "https://www.wikidata.org/wiki/Q132278; https://en.wikipedia.org/wiki/Bad_Windsheim; https://www.european-traveler.com/?p=2244"
+    },
+    "q323774": {
+      "startYear": 1286,
+      "dateNote": "First recorded in 1286, as Walk (the town is now split between Latvia and Estonia). It got town rights in 1584.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1584). 1584 is town rights; Walk (Valka and Valga) is first recorded in 1286",
+      "source": "https://www.wikidata.org/wiki/Q323774; https://en.wikipedia.org/wiki/Valka; https://visitvalgavalka.com/history/"
+    },
+    "q576110": {
+      "startYear": 1839,
+      "dateNote": "Settlers lived here from the 1820s (the place was called Venus, then Commerce). The Latter-day Saints bought it in 1839 and renamed it Nauvoo.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1630). 1630 has no source (no European town existed here); Nauvoo dates from 1839",
+      "source": "https://www.wikidata.org/wiki/Q576110; https://en.wikipedia.org/wiki/Nauvoo%2C_Illinois; https://www.josephsmithpapers.org/place/nauvoo-illinois"
+    },
+    "q916603": {
+      "startYear": 1896,
+      "dateNote": "Founded in 1896 by Buffalo Bill Cody and partners. It became a town in 1901.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1886). 1886 is wrong; the town was founded in 1896",
+      "source": "https://www.wikidata.org/wiki/Q916603; https://en.wikipedia.org/wiki/Cody%2C_Wyoming; https://www.codyyellowstone.org/press/cody-wyoming-marks-its-130th-anniversary-in-2026-heres-what-else-is-new-notable-and-not-to-miss-in-cody-yellowstone-next-year/"
+    },
+    "q492543": {
+      "startYear": 1123,
+      "dateNote": "First recorded in 1123, as a trading and toll post with a Slav fort.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1201). 1201 is the \"13th century\" read as a year; it is first recorded in 1123",
+      "source": "https://www.wikidata.org/wiki/Q492543; https://en.wikipedia.org/wiki/Wolgast; https://adw-goe.de/fileadmin/forschungsprojekte/resikom/dokumente/pdfs/HBI/C_7_Wolgast.pdf"
+    },
+    "q2734": {
+      "startYear": 1359,
+      "dateNote": "First recorded in 1359, as a village of the Archbishop of Gniezno. It got town rights in 1457.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1457). 1457 is town rights; it is first recorded in 1359",
+      "source": "https://www.wikidata.org/wiki/Q2734; https://en.wikipedia.org/wiki/Skierniewice; https://www.britannica.com/place/Skierniewice"
+    },
+    "q658861": {
+      "startYear": 1229,
+      "dateNote": "First recorded in 1229. It got town rights in 1457.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1457). 1457 is town rights; it is first recorded in 1229 (Wikidata P1249)",
+      "source": "https://www.wikidata.org/wiki/Q658861; https://en.wikipedia.org/wiki/Mielec; https://pl.wikipedia.org/wiki/Mielec"
+    },
+    "q755393": {
+      "startYear": 1651,
+      "dateNote": "Founded in 1651 by Peter Stuyvesant as the Dutch Fort Casimir.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1640). 1640 is wrong; the town began as Fort Casimir in 1651",
+      "source": "https://www.wikidata.org/wiki/Q755393; https://en.wikipedia.org/wiki/New_Castle%2C_Delaware; https://newcastlecity.delaware.gov/history"
+    },
+    "q773527": {
+      "startYear": 1851,
+      "dateNote": "Founded in 1851 by steamboat captain Orrin Smith, at first called Montezuma. Renamed Winona in 1853.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1805). 1805 has no source; the town was founded in 1851",
+      "source": "https://www.wikidata.org/wiki/Q773527; https://en.wikipedia.org/wiki/Winona%2C_Minnesota; https://www.mnopedia.org/index?page=72"
+    },
+    "q79509": {
+      "startYear": 1839,
+      "dateNote": "Founded in 1839 by Daniel Pratt, as a town for workers at his cotton-gin factory.",
+      "why": "Places fact-check batch 34-36 (Nov 2026): wrong year (1818). 1818 is wrong; the town was founded in 1839",
+      "source": "https://www.wikidata.org/wiki/Q79509; https://en.wikipedia.org/wiki/Prattville%2C_Alabama; https://www.hmdb.org/m.asp?m=27958"
+    },
+    "q936741": {
+      "dateNote": "Sources disagree: some say people first settled here in 1818, but most date the town from a trading post in 1836. It became a city in 1853.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1818 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q936741; https://en.wikipedia.org/wiki/Oshkosh%2C_Wisconsin"
+    },
+    "q636935": {
+      "dateNote": "Sources disagree: 1795 is when it got town rights. It is much older, but sources give different years for its first record (1253, 1395 or 1445).",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1795 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q636935; https://en.wikipedia.org/wiki/Tukums"
+    },
+    "q7036": {
+      "dateNote": "1285 is when it got town rights. A farm estate of the archbishops was here before that, but no clear first record is known.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1285 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q7036; https://en.wikipedia.org/wiki/Br%C3%BChl_(Rhineland)"
+    },
+    "q7039": {
+      "dateNote": "Only the century is known, so the year is not exact. The town grew up around a castle built about 1220.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1201 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q7039; https://en.wikipedia.org/wiki/Lahr"
+    },
+    "q82917": {
+      "dateNote": "Only the century is known, so the year is not exact. A village was here much earlier, and it became a town in 1220.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1200 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q82917; https://en.wikipedia.org/wiki/Pfullendorf"
+    },
+    "q647982": {
+      "dateNote": "Only the century is known, so the year is not exact.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1401 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q647982; https://en.wikipedia.org/wiki/Quba"
+    },
+    "q156243": {
+      "dateNote": "Sources disagree: 2002 is when it became a special zone. The town grew up in the early 1900s with the railway.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 2002 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q156243; https://en.wikipedia.org/wiki/Sinuiju"
+    },
+    "q275109": {
+      "dateNote": "Sources disagree: 1655 is when it became a town. Settlers were here from about 1615.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1655 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q275109; https://en.wikipedia.org/wiki/Jundia%C3%AD"
+    },
+    "q79950": {
+      "dateNote": "Sources disagree: the city was set up in 1967; the 1850 date for the first settlement can't be confirmed.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1850 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q79950; https://en.wikipedia.org/wiki/Hoover%2C_Alabama"
+    },
+    "q506325": {
+      "dateNote": "Sources disagree: the town is usually dated from 1829, when it was laid out.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1823 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q506325; https://en.wikipedia.org/wiki/Decatur%2C_Illinois"
+    },
+    "q3871": {
+      "dateNote": "Sources disagree: 1867 is when it became a city. The port was in use long before.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1867 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q3871; https://en.wikipedia.org/wiki/Coquimbo"
+    },
+    "q868631": {
+      "dateNote": "Sources disagree: 1862 is a modern date. People have lived here for a very long time.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1862 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q868631; https://en.wikipedia.org/wiki/Sukkur"
+    },
+    "q1453196": {
+      "dateNote": "Sources disagree: 1875 is when the district was made. The town is older.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1875 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q1453196; https://en.wikipedia.org/wiki/Muzaffarpur"
+    },
+    "q835831": {
+      "dateNote": "Sources disagree: 1892 is when it became a city. The village was laid out in the 1850s.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1892 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q835831; https://en.wikipedia.org/wiki/Mount_Vernon%2C_New_York"
+    },
+    "q1016159": {
+      "dateNote": "Sources disagree: the town is usually dated from 1795, when it was laid out.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1769 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q1016159; https://en.wikipedia.org/wiki/Williamsport%2C_Pennsylvania"
+    },
+    "q79422": {
+      "dateNote": "Sources disagree: 1960 is when it became a city. A Russian fort was built here in 1791.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1960 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q79422; https://en.wikipedia.org/wiki/Kenai%2C_Alaska"
+    },
+    "q79849": {
+      "dateNote": "Sources disagree: 1951 is when it became a city. Farmers were settled here in 1935.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1951 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q79849; https://en.wikipedia.org/wiki/Palmer%2C_Alaska"
+    },
+    "q846406": {
+      "dateNote": "Sources disagree: 1911 is when it became a city. The town was laid out in 1874.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1911 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q846406; https://en.wikipedia.org/wiki/San_Fernando%2C_California"
+    },
+    "q837420": {
+      "dateNote": "Sources disagree: 1921 is when it became a city. The town was founded as Nordhoff in 1874.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1921 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q837420; https://en.wikipedia.org/wiki/Ojai%2C_California"
+    },
+    "q79716": {
+      "dateNote": "Sources disagree: 1969 is when it became a city. The army built the port in the 1940s.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1969 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q79716; https://en.wikipedia.org/wiki/Whittier%2C_Alaska"
+    },
+    "q31572": {
+      "dateNote": "Sources disagree: 1140 is when the crusader castle was built. The town is far older (it is in the Bible as Kir).",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1140 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q31572; https://en.wikipedia.org/wiki/Al-Karak"
+    },
+    "q576368": {
+      "dateNote": "Sources disagree: the year 1000 can't be confirmed.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1000 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q576368; https://en.wikipedia.org/wiki/Quneitra"
+    },
+    "q271374": {
+      "dateNote": "Sources disagree: 1934 is when it became a town council. People settled here much earlier.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1934 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q271374; https://en.wikipedia.org/wiki/Guaruj%C3%A1"
+    },
+    "q864124": {
+      "dateNote": "Sources disagree: 1952 is when it became a city. The town was laid out in 1907.",
+      "why": "Places fact-check batch 34-36 (Nov 2026), still uncertain, the panel now says so: 1952 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q864124; https://en.wikipedia.org/wiki/Los_Altos%2C_California"
+    },
     "q312607": {
       "placeNote": "Where he was born is not known; the pin is at Constantinople, where he died.",
       "dateNote": "Born about 475 to 500; died 542.",
@@ -4184,6 +4412,148 @@
       "why": "People fact-check batch 4, checked by hand (Oct 2026), fixed: Terpander of Antissa (Lesbos); the pin was Arne in Boeotia, one of the minor ancient claims.",
       "source": "https://www.wikidata.org/wiki/Q113417; https://en.wikipedia.org/wiki/Terpander; https://www.wikidata.org/wiki/Q583490"
     },
+    "q489147": {
+      "startYear": 874,
+      "dateNote": "First recorded in 874, as Smalcalta, when land here was given to Fulda Abbey. It became a town about 1180.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1247). 1247 is a later record of the town; it is first recorded in 874",
+      "source": "https://www.wikidata.org/wiki/Q489147; https://en.wikipedia.org/wiki/Schmalkalden; https://studylight.org/encyclopedias/eng/bri/s/schmalkalden.html?print=yes"
+    },
+    "q165015": {
+      "startYear": 815,
+      "dateNote": "First recorded in 815, as Wangun, in a charter of St. Gallen Abbey. It became a free imperial city in 1286.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1286). 1286 is imperial city status; it is first recorded in 815",
+      "source": "https://www.wikidata.org/wiki/Q165015; https://en.wikipedia.org/wiki/Wangen_im_Allg%C3%A4u; https://hls-dhs-dss.ch/de/articles/007143"
+    },
+    "q492538": {
+      "startYear": 1232,
+      "dateNote": "First recorded in 1232, as Gora (Slavic for \"mountain\"), around the new abbey. It got town rights in 1613.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1613). 1613 is town rights; it is first recorded in 1232",
+      "source": "https://www.wikidata.org/wiki/Q492538; https://en.wikipedia.org/wiki/Bergen_auf_R%C3%BCgen; https://crwflags.com/FOTW/flags/de-vr-09.html"
+    },
+    "q193016": {
+      "startYear": 1697,
+      "dateNote": "Founded on 1 December 1697, when Captain Teodósio de Oliveira Ledo settled a group of Ariús people here. It became a city in 1864.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1864). 1864 is city status; the settlement was founded in 1697",
+      "source": "https://www.wikidata.org/wiki/Q193016; https://en.wikipedia.org/wiki/Campina_Grande; https://camaracg.pb.gov.br/historia/?print=pdf"
+    },
+    "q913209": {
+      "startYear": 1844,
+      "dateNote": "Laid out in 1844 by the trader David Foster, and named after a Miami leader, Ma-Ko-Ko-Mo. It became a city later.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1855). 1855 is incorporation; the village was laid out in 1844",
+      "source": "https://www.wikidata.org/wiki/Q913209; https://en.wikipedia.org/wiki/Kokomo%2C_Indiana; https://www.britannica.com/place/Kokomo"
+    },
+    "q79912": {
+      "startYear": 1881,
+      "dateNote": "Founded in 1881, when the railway reached it, and named after the railway engineer Henry Holbrook. It became a city in 1917.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1917). 1917 is incorporation; the town was founded in 1881",
+      "source": "https://www.wikidata.org/wiki/Q79912; https://en.wikipedia.org/wiki/Holbrook%2C_Arizona; https://holbrookazmuseum.org/highlights.htm"
+    },
+    "q40268": {
+      "startYear": 1848,
+      "dateNote": "Settled in 1848 by Elias and Mary Briggs (some sources say 1849), named after a spring on their land. It became a city in 1885.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1885). 1885 is incorporation; the Briggs family settled here in 1848",
+      "source": "https://www.wikidata.org/wiki/Q40268; https://en.wikipedia.org/wiki/Springfield%2C_Oregon; https://springfield-or.gov/?p=5479"
+    },
+    "q853552": {
+      "startYear": 1835,
+      "dateNote": "Livonia Township was set up in 1835, a farming area settled from New England and New York. It became a city in 1950.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1950). 1950 is city status; the township dates from 1835",
+      "source": "https://www.wikidata.org/wiki/Q853552; https://en.wikipedia.org/wiki/Livonia%2C_Michigan; https://livonia.gov/1418/History"
+    },
+    "q54219": {
+      "startYear": 1648,
+      "dateNote": "First settled in 1648 as West Farms, part of the New Haven Colony. It became a separate town in 1921 and a city in 1961.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1921). 1921 is when it split from Orange as a town; it was settled in 1648",
+      "source": "https://www.wikidata.org/wiki/Q54219; https://en.wikipedia.org/wiki/West_Haven%2C_Connecticut; https://connecticuthistory.org/connecticuts-youngest-city-who-knew"
+    },
+    "q249996": {
+      "startYear": 1626,
+      "dateNote": "In 1626 the Spanish built Fort San Salvador here, the first colonial town at Keelung. Ketagalan villages were older. 1945 is when it became a modern city.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1945). 1945 is modern city status; the Spanish settlement dates from 1626",
+      "source": "https://www.wikidata.org/wiki/Q249996; https://en.wikipedia.org/wiki/Keelung; https://www.ancient-history-sites.com/?p=176023"
+    },
+    "q156837": {
+      "startYear": 1232,
+      "dateNote": "First recorded in 1232, as Cozsterine, in a letter from the Bishop of Lebus. It got town rights in 1300.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (1201). 1201 is the \"13th century\" read as a year; it is first recorded in 1232 (Wikidata P1249)",
+      "source": "https://www.wikidata.org/wiki/Q156837; https://en.wikipedia.org/wiki/Kostrzyn_nad_Odr%C4%85; https://www.uni-muenster.de/Staedtegeschichte/assets/content/19_kuestrin.pdf"
+    },
+    "q139208": {
+      "startYear": 1861,
+      "dateNote": "The town of Lévis was set up in 1861 and named after the French general François-Gaston de Lévis. Farms here go back to the 1600s. 2002 is when it merged with its neighbours.",
+      "why": "Places fact-check batch 37-39 (Nov 2026): wrong year (2002). 2002 is a merger date; the town was founded in 1861 (Wikidata P571 also gives 1861)",
+      "source": "https://www.wikidata.org/wiki/Q139208; https://en.wikipedia.org/wiki/L%C3%A9vis; https://www.thecanadianencyclopedia.ca/en/article/levis"
+    },
+    "q34180": {
+      "dateNote": "1877 is when it became a city. Joseph Brant led the Six Nations here in 1784, but the town itself grew up later, around a ford named after him. Sources do not agree on one start date.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1877 is a city-status date.",
+      "source": "https://www.wikidata.org/wiki/Q34180; https://en.wikipedia.org/wiki/Brantford"
+    },
+    "q696605": {
+      "dateNote": "1901 is when the town took the name Larkana. It is much older, but no source gives a clear founding date.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1901 is a renaming date.",
+      "source": "https://www.wikidata.org/wiki/Q696605; https://en.wikipedia.org/wiki/Larkana"
+    },
+    "q373346": {
+      "dateNote": "1994 is when it became a prefecture-level city. Linyi is an ancient town, but no source here gives a clear founding date.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1994 is a city-status date.",
+      "source": "https://www.wikidata.org/wiki/Q373346; https://en.wikipedia.org/wiki/Linyi"
+    },
+    "q4105": {
+      "dateNote": "1970 is when several old villages merged to make Meerbusch. The villages are much older.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1970 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q4105; https://en.wikipedia.org/wiki/Meerbusch"
+    },
+    "q605483": {
+      "dateNote": "1975 is when Kędzierzyn, Koźle and other places merged. Koźle is a medieval town, much older than this.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1975 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q605483; https://en.wikipedia.org/wiki/K%C4%99dzierzyn-Ko%C5%BAle"
+    },
+    "q4090": {
+      "dateNote": "Sankt Augustin is a group of old villages that became one town in 1969 to 1977. 1913 is not a clear founding date.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1913 is doubtful.",
+      "source": "https://www.wikidata.org/wiki/Q4090; https://en.wikipedia.org/wiki/Sankt_Augustin"
+    },
+    "q156828": {
+      "dateNote": "Only roughly known: a castle district here is named in 1201, and the town got its rights by 1251. 1201 may also be the \"13th century\" read as a year.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: sources disagree (1194, 1201, 1251).",
+      "source": "https://www.wikidata.org/wiki/Q156828; https://en.wikipedia.org/wiki/Boles%C5%82awiec"
+    },
+    "q493924": {
+      "dateNote": "Only the century is known: it was a town by the 12th or 13th century. The year 1201 stands for \"13th century\".",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: Century values only.",
+      "source": "https://www.wikidata.org/wiki/Q493924; https://en.wikipedia.org/wiki/Pasewalk"
+    },
+    "q609649": {
+      "dateNote": "Only the century is known: the 19th century. The year 1801 stands for that.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: Century values only.",
+      "source": "https://www.wikidata.org/wiki/Q609649; https://en.wikipedia.org/wiki/Guliston"
+    },
+    "q456842": {
+      "dateNote": "Only the century is known: first recorded in the 18th century. The year 1700 stands for that.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: Century values only.",
+      "source": "https://www.wikidata.org/wiki/Q456842; https://en.wikipedia.org/wiki/Ambrolauri"
+    },
+    "q158053": {
+      "dateNote": "Sources disagree: Wikidata gives the 19th century, with records from 1844 and 1859, but most sources say the mining town began in 1914.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: sources disagree (1844, 1859, 1914).",
+      "source": "https://www.wikidata.org/wiki/Q158053; https://en.wikipedia.org/wiki/Sorokyne"
+    },
+    "q463165": {
+      "dateNote": "1888 is when it became a town. A fur-trade post stood here from the 1700s, and Wikidata also gives 1688 and 1912.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: sources disagree (1688, 1888, 1912).",
+      "source": "https://www.wikidata.org/wiki/Q463165; https://en.wikipedia.org/wiki/Sault_Ste._Marie%2C_Ontario"
+    },
+    "q837109": {
+      "dateNote": "1982 is when it became a city. People settled here in the 1830s to 1850s.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1982 is a city-status date.",
+      "source": "https://www.wikidata.org/wiki/Q837109; https://en.wikipedia.org/wiki/Dublin%2C_California"
+    },
+    "q950912": {
+      "dateNote": "1999 is when it became a city. The town was settled in the 1890s.",
+      "why": "Places fact-check batch 37-39 (Nov 2026), still uncertain, the panel now says so: 1999 is a city-status date.",
+      "source": "https://www.wikidata.org/wiki/Q950912; https://en.wikipedia.org/wiki/Oakley%2C_California"
+    },
     "q232793": {
       "lat": 46.9925,
       "lon": 3.1567,
@@ -4796,6 +5166,17 @@
       "lon": 106.5183,
       "why": "Data quality round 4 (Oct 2026): its Wikidata twin q482402 was folded into it (one event, two pins); the pin moves to Wikidata's P625 for the incident, 31 km from the old spot.",
       "source": "https://www.wikidata.org/wiki/Q482402"
+    },
+    "q927721": {
+      "lat": 52.8467,
+      "lon": 6.9567,
+      "why": "Fossil fact-check batch 8 (2 Nov 2026), checked by hand against Wikidata: pinned on the P189 point for the whole Bourtange Moor, which is in Germany, about 25 km off; the two bog bodies were found in 1904 near Weerdinge, Drenthe, Netherlands, where the find's own Wikidata P625 is",
+      "source": "https://en.wikipedia.org/wiki/Weerdinge_Men"
+    },
+    "q12155967": {
+      "dateNote": "Uncertain place: this tiny mummy was found in 2003 at La Noria, an old nitrate-mining town in the Atacama Desert of Chile. Wikidata gives only the desert, so the pin is at its middle, not on the find spot.",
+      "why": "Fossil fact-check batch 8 (2 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the Atacama Desert (P189) at its centre point (-24.5, -69.25); no Wikidata point for La Noria, Chile, was found",
+      "source": "https://en.wikipedia.org/wiki/Atacama_skeleton"
     }
   }
 }
