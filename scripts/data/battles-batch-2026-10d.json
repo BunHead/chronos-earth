@@ -295,15 +295,16 @@
       "id": "q3818303",
       "name": "Battle of Ba",
       "startYear": 215,
-      "lat": 33.1728,
-      "lon": 106.6706,
+      "lat": 30.8371,
+      "lon": 106.9653,
       "category": "battle",
       "wikidataId": "Q3818303",
       "wikiTitle": "Battle of Ba",
       "notability": 5,
       "partOf": "Hanzhong Campaign",
       "sourceUrl": "https://www.wikidata.org/wiki/Q3818303",
-      "dateNote": "215 (Wikidata P585, recorded to the year)."
+      "dateNote": "215 (Wikidata P585, recorded to the year).",
+      "placeNote": "Zhang Fei and Zhang He fought around Dangqu (today's Qu County, Sichuan) in Baxi commandery. Wikidata's point was near Hanzhong, about 260 km north."
     },
     {
       "id": "q2949747",
@@ -460,8 +461,8 @@
       "id": "q116148546",
       "name": "Battle of al-Uqhuwana",
       "startYear": 1029,
-      "lat": 31.866,
-      "lon": 34.7463,
+      "lat": 32.83,
+      "lon": 35.655,
       "category": "battle",
       "wikidataId": "Q116148546",
       "wikiTitle": "Battle of al-Uqhuwana",
@@ -474,7 +475,8 @@
         "Tayy"
       ],
       "sourceUrl": "https://www.wikidata.org/wiki/Q116148546",
-      "dateNote": "1029 (Wikidata P585, recorded to the month)."
+      "dateNote": "1029 (Wikidata P585, recorded to the month).",
+      "placeNote": "On the east shore of the Sea of Galilee (Lake Tiberias), near where the Jordan flows in, below the Fiq pass on the Damascus road. The exact spot is not known. Wikidata's point was on the coast near Yavne, about 100 km away."
     },
     {
       "id": "q51933216",
@@ -525,7 +527,7 @@
         "Mongol Empire"
       ],
       "sourceUrl": "https://www.wikidata.org/wiki/Q107629208",
-      "dateNote": "1209 (Wikidata P585, recorded to the year)."
+      "dateNote": "Uncertain: historians date this clash either to 1209 or to 1218/1219. The year shown is Wikidata's, 1209."
     },
     {
       "id": "q48880934",
