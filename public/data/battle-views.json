@@ -32008,6 +32008,3106 @@
       ],
       "loser": "b",
       "severity": 0.9
+    },
+    "plassey": {
+      "title": "Battle of Plassey",
+      "subtitle": "23 June 1757 — Clive’s 3,000 and a secret pact against the Nawab of Bengal",
+      "sides": {
+        "a": {
+          "name": "East India Company (Clive)",
+          "color": "#b22222"
+        },
+        "b": {
+          "name": "Nawab of Bengal (Siraj ud-Daulah) & French gunners",
+          "color": "#2e8b57"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              10,
+              0
+            ],
+            [
+              8,
+              20
+            ],
+            [
+              12,
+              40
+            ],
+            [
+              8,
+              55
+            ],
+            [
+              10,
+              70
+            ]
+          ],
+          "label": "Bhagirathi (Hooghly)"
+        },
+        {
+          "type": "forest",
+          "x": 24,
+          "y": 44,
+          "r": 7,
+          "label": "Laksha Bagh mango grove"
+        },
+        {
+          "type": "town",
+          "x": 14,
+          "y": 36,
+          "r": 1.5,
+          "label": "Hunting lodge"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              9,
+              12
+            ],
+            [
+              31,
+              12
+            ],
+            [
+              58,
+              0
+            ]
+          ],
+          "label": "Nawab’s entrenchments"
+        },
+        {
+          "type": "town",
+          "x": 31,
+          "y": 12,
+          "r": 1.5,
+          "label": "Redoubt"
+        },
+        {
+          "type": "hill",
+          "x": 37,
+          "y": 13,
+          "r": 3,
+          "label": "Wooded hill"
+        },
+        {
+          "type": "hill",
+          "x": 27,
+          "y": 27,
+          "r": 2,
+          "label": "Larger tank & mound"
+        },
+        {
+          "type": "hill",
+          "x": 31,
+          "y": 33,
+          "r": 1.5,
+          "label": "Smaller tank"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Dawn at the grove",
+          "narration": "Clive’s 3,000 — about 1,000 Europeans and 2,100 sepoys with eight 6-pounders and two howitzers — have spent the night in the walled Laksha Bagh mango grove beside the Bhagirathi. At daybreak Siraj ud-Daulah’s army, roughly 50,000 strong (the sources disagree on the figure), files out of its entrenchments and curves round them from the north and east. Mir Jafar, commanding the wing nearest the British, has secretly agreed with Clive not to fight."
+        },
+        {
+          "name": "The cannonade",
+          "narration": "At 8 a.m. the French guns at the larger tank fire the first shot and the Nawab’s heavy artillery joins in. After losing about thirty men in half an hour, Clive pulls his guns back to the brick kilns and his infantry behind the grove’s mud bank, where most of the shot passes overhead."
+        },
+        {
+          "name": "Rain and Mir Madan’s charge",
+          "narration": "Around midday a downpour soaks the Nawab’s uncovered powder; the British keep theirs dry under tarpaulins. Thinking the British guns silenced, Mir Madan leads the cavalry at the grove — grapeshot breaks the charge and mortally wounds him.",
+          "arrows": [
+            {
+              "from": [
+                32,
+                24
+              ],
+              "to": [
+                25,
+                38
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Nawab loses his nerve",
+          "narration": "Shaken by Mir Madan’s death and urged by Rai Durlabh to fall back, Siraj ud-Daulah rides for Murshidabad with about 2,000 horsemen. At 2 p.m. his army stops firing and draws back to its entrenchments, leaving the French alone at the tank. Major Kilpatrick goes at them without orders, Clive brings the whole line forward, and by 3 p.m. the tank is taken.",
+          "arrows": [
+            {
+              "from": [
+                26,
+                38
+              ],
+              "to": [
+                27,
+                29
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Into the entrenchments",
+          "narration": "From the tank’s mound the British guns shell the camp while cavalry charges are beaten off — most British losses fall now. At 4.30 Coote’s grenadiers take the wooded hill without a shot, the French leave the redoubt, and by 5 p.m. the camp is Clive’s. Mir Jafar’s division never fought; for about 22 British dead and 50 wounded against some 500 of the Nawab’s men, the plot won Bengal as surely as the guns.",
+          "arrows": [
+            {
+              "from": [
+                34,
+                26
+              ],
+              "to": [
+                37,
+                15
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                28,
+                24
+              ],
+              "to": [
+                31,
+                14
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "europeans",
+          "side": "a",
+          "label": "Clive’s Europeans (39th Foot & Company)",
+          "pos": [
+            [
+              26,
+              38
+            ],
+            [
+              25,
+              44
+            ],
+            [
+              25,
+              44
+            ],
+            [
+              26,
+              36
+            ],
+            [
+              30,
+              18
+            ]
+          ],
+          "strength": 850,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "company-guns",
+          "side": "a",
+          "label": "Company guns & sailors",
+          "size": 0.6,
+          "pos": [
+            [
+              22,
+              35
+            ],
+            [
+              20,
+              40
+            ],
+            [
+              22,
+              40
+            ],
+            [
+              27,
+              30
+            ],
+            [
+              28,
+              26
+            ]
+          ],
+          "strength": 150,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "sepoys-left",
+          "side": "a",
+          "label": "Sepoys (left)",
+          "pos": [
+            [
+              18,
+              38
+            ],
+            [
+              19,
+              45
+            ],
+            [
+              19,
+              45
+            ],
+            [
+              23,
+              32
+            ],
+            [
+              24,
+              17
+            ]
+          ],
+          "strength": 1050,
+          "helmet": "cap"
+        },
+        {
+          "id": "sepoys-right",
+          "side": "a",
+          "label": "Sepoys (right)",
+          "pos": [
+            [
+              33,
+              40
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              34,
+              34
+            ],
+            [
+              36,
+              17
+            ]
+          ],
+          "strength": 1050,
+          "helmet": "cap"
+        },
+        {
+          "id": "french",
+          "side": "b",
+          "label": "French gunners (St. Frais)",
+          "size": 0.5,
+          "pos": [
+            [
+              27,
+              27
+            ],
+            [
+              27,
+              27
+            ],
+            [
+              27,
+              27
+            ],
+            [
+              30,
+              14
+            ],
+            [
+              24,
+              6
+            ]
+          ],
+          "strength": 50,
+          "helmet": "tricorne"
+        },
+        {
+          "id": "mir-madan",
+          "side": "b",
+          "label": "Mir Madan’s cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              32,
+              24
+            ],
+            [
+              32,
+              24
+            ],
+            [
+              27,
+              36
+            ],
+            [
+              34,
+              18
+            ],
+            [
+              40,
+              6
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "cap"
+        },
+        {
+          "id": "mohan-lal",
+          "side": "b",
+          "label": "Mohan Lal’s infantry",
+          "pos": [
+            [
+              36,
+              22
+            ],
+            [
+              36,
+              22
+            ],
+            [
+              35,
+              24
+            ],
+            [
+              40,
+              14
+            ],
+            [
+              44,
+              4
+            ]
+          ],
+          "strength": 7000,
+          "helmet": "cap"
+        },
+        {
+          "id": "rai-durlabh",
+          "side": "b",
+          "label": "Rai Durlabh (right)",
+          "pos": [
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              18
+            ],
+            [
+              22,
+              16
+            ],
+            [
+              22,
+              10
+            ],
+            [
+              18,
+              3
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "cap"
+        },
+        {
+          "id": "yar-lutuf",
+          "side": "b",
+          "label": "Yar Lutuf Khan (centre)",
+          "pos": [
+            [
+              46,
+              24
+            ],
+            [
+              46,
+              24
+            ],
+            [
+              46,
+              22
+            ],
+            [
+              46,
+              14
+            ],
+            [
+              52,
+              4
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "cap"
+        },
+        {
+          "id": "mir-jafar",
+          "side": "b",
+          "label": "Mir Jafar (left — stood aside)",
+          "pos": [
+            [
+              60,
+              38
+            ],
+            [
+              60,
+              38
+            ],
+            [
+              60,
+              38
+            ],
+            [
+              56,
+              34
+            ],
+            [
+              64,
+              30
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "b",
+      "severity": 0.9
+    },
+    "spanish-armada": {
+      "title": "Defeat of the Spanish Armada",
+      "subtitle": "7–12 August 1588 — fireships off Calais, the fight off Gravelines, and the flight north",
+      "sides": {
+        "a": {
+          "name": "England (Howard, Drake)",
+          "color": "#b22234"
+        },
+        "b": {
+          "name": "Spain (Medina Sidonia)",
+          "color": "#d4a017"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 35,
+          "w": 100,
+          "h": 70,
+          "label": "Strait of Dover & southern North Sea"
+        },
+        {
+          "type": "town",
+          "x": 11,
+          "y": 52,
+          "r": 2,
+          "label": "Dover"
+        },
+        {
+          "type": "town",
+          "x": 30,
+          "y": 63,
+          "r": 2.5,
+          "label": "Calais"
+        },
+        {
+          "type": "town",
+          "x": 39,
+          "y": 60,
+          "r": 2,
+          "label": "Gravelines"
+        },
+        {
+          "type": "town",
+          "x": 48,
+          "y": 58,
+          "r": 2.5,
+          "label": "Dunkirk"
+        },
+        {
+          "type": "town",
+          "x": 66,
+          "y": 45,
+          "r": 2,
+          "label": "Ostend"
+        },
+        {
+          "type": "town",
+          "x": 72,
+          "y": 39,
+          "r": 1.5,
+          "label": "Blankenberge"
+        },
+        {
+          "type": "town",
+          "x": 88,
+          "y": 27,
+          "r": 3,
+          "label": "Walcheren (Flushing)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The crescent off Calais",
+          "narration": "On 7 August the Armada — about 130 ships — anchors off Calais in a tight crescent, waiting for Parma’s army to come out from Flanders in barges. Parma only learns that afternoon that it has arrived. Reinforced by Seymour and Wynter, Lord Howard’s roughly 140 English ships lie upwind to the west."
+        },
+        {
+          "name": "The hellburners",
+          "narration": "Around midnight the English send eight of their own ships, packed with pitch, brimstone and tar and with their guns still loaded, burning downwind into the anchored fleet. The Spanish fear they are the exploding ‘hellburners’ of Antwerp; boats tow two aside, the rest come on.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                50
+              ],
+              "to": [
+                31,
+                55
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Cables cut",
+          "narration": "Not one Spanish ship burns, but most cut their anchor cables and scatter north-east along the coast, and the crescent is gone; almost all their anchors are lost on the seabed. At dawn the crippled galleass San Lorenzo runs aground under Calais, where English boats board her and her commander, Hugo de Moncada, is shot dead.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                52
+              ],
+              "to": [
+                30,
+                61
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Off Gravelines",
+          "narration": "At first light on 8 August Medina Sidonia’s flagship San Martín and four other ships turn to face the whole English fleet off Gravelines while the rest try to re-form. He dares not run further east: the Dutch have taken up the sea marks over the Flanders shoals.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                48
+              ],
+              "to": [
+                39,
+                51
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                32,
+                44
+              ],
+              "to": [
+                40,
+                50
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Eight hours of broadsides",
+          "narration": "Keeping the weather gage, the English fire from range and refuse to be boarded; the Spanish heavy guns are slow to reload and soldiers end up working them. The María Juan sinks off Blankenberge with some 275 men, and the San Felipe and San Mateo drift onto the Zeeland coast to be taken by the Dutch. About 4 p.m. the English, firing chains and scrap at the end, run out of shot.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                42
+              ],
+              "to": [
+                49,
+                45
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                46,
+                40
+              ],
+              "to": [
+                54,
+                40
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                48,
+                44
+              ],
+              "to": [
+                56,
+                42
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "On the edge of the banks",
+          "narration": "On 9 August the battered, disordered fleet is being blown towards the Zeeland sands, with no anchors left to hold it off. Then the wind shifts to the south."
+        },
+        {
+          "name": "Flight north",
+          "narration": "Unable to reach Parma or turn back down the Channel, the Armada runs north into the North Sea. The English, almost out of shot, follow to stop any landing and break off on 12 August at about the latitude of the Firth of Forth. The long way home round Scotland and Ireland costs far more than the fighting: of some 28 ships lost to storms, most are wrecked on western Ireland, and perhaps 5,000 men die there."
+        }
+      ],
+      "units": [
+        {
+          "id": "san-martin",
+          "side": "b",
+          "label": "San Martín & the fighting galleons",
+          "shape": "ship",
+          "size": 1.1,
+          "pos": [
+            [
+              34,
+              54
+            ],
+            [
+              34,
+              54
+            ],
+            [
+              36,
+              52
+            ],
+            [
+              40,
+              52
+            ],
+            [
+              50,
+              46
+            ],
+            [
+              66,
+              32
+            ],
+            [
+              64,
+              4
+            ]
+          ],
+          "strength": 20
+        },
+        {
+          "id": "armada-main",
+          "side": "b",
+          "label": "Armada main body",
+          "shape": "ship",
+          "pos": [
+            [
+              30,
+              52
+            ],
+            [
+              30,
+              52
+            ],
+            [
+              44,
+              48
+            ],
+            [
+              48,
+              44
+            ],
+            [
+              56,
+              40
+            ],
+            [
+              70,
+              28
+            ],
+            [
+              66,
+              6
+            ]
+          ],
+          "strength": 90
+        },
+        {
+          "id": "hulks",
+          "side": "b",
+          "label": "Hulks & supply ships",
+          "shape": "ship",
+          "pos": [
+            [
+              32,
+              50
+            ],
+            [
+              32,
+              50
+            ],
+            [
+              46,
+              52
+            ],
+            [
+              52,
+              48
+            ],
+            [
+              58,
+              44
+            ],
+            [
+              72,
+              30
+            ],
+            [
+              68,
+              8
+            ]
+          ],
+          "strength": 22
+        },
+        {
+          "id": "san-lorenzo",
+          "side": "b",
+          "label": "San Lorenzo (galleass)",
+          "shape": "ship",
+          "size": 0.6,
+          "pos": [
+            [
+              28,
+              56
+            ],
+            [
+              28,
+              56
+            ],
+            [
+              30,
+              61
+            ],
+            [
+              30,
+              61
+            ],
+            [
+              30,
+              61
+            ],
+            [
+              30,
+              61
+            ],
+            [
+              30,
+              61
+            ]
+          ],
+          "strength": 1
+        },
+        {
+          "id": "lost-gravelines",
+          "side": "b",
+          "label": "San Felipe, San Mateo, María Juan",
+          "shape": "ship",
+          "size": 0.6,
+          "pos": [
+            [
+              34,
+              56
+            ],
+            [
+              34,
+              56
+            ],
+            [
+              40,
+              52
+            ],
+            [
+              42,
+              54
+            ],
+            [
+              78,
+              34
+            ],
+            [
+              86,
+              28
+            ],
+            [
+              86,
+              28
+            ]
+          ],
+          "strength": 3
+        },
+        {
+          "id": "howard",
+          "side": "a",
+          "label": "Howard (Ark Royal)",
+          "shape": "ship",
+          "size": 1.1,
+          "pos": [
+            [
+              14,
+              48
+            ],
+            [
+              14,
+              48
+            ],
+            [
+              22,
+              48
+            ],
+            [
+              30,
+              48
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              56,
+              30
+            ],
+            [
+              56,
+              8
+            ]
+          ],
+          "strength": 35
+        },
+        {
+          "id": "drake",
+          "side": "a",
+          "label": "Drake (Revenge)",
+          "shape": "ship",
+          "pos": [
+            [
+              12,
+              44
+            ],
+            [
+              12,
+              44
+            ],
+            [
+              20,
+              44
+            ],
+            [
+              32,
+              44
+            ],
+            [
+              46,
+              40
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              12
+            ]
+          ],
+          "strength": 35
+        },
+        {
+          "id": "hawkins-frobisher",
+          "side": "a",
+          "label": "Hawkins & Frobisher",
+          "shape": "ship",
+          "pos": [
+            [
+              16,
+              52
+            ],
+            [
+              16,
+              52
+            ],
+            [
+              24,
+              52
+            ],
+            [
+              34,
+              48
+            ],
+            [
+              48,
+              44
+            ],
+            [
+              60,
+              34
+            ],
+            [
+              58,
+              14
+            ]
+          ],
+          "strength": 35
+        },
+        {
+          "id": "seymour",
+          "side": "a",
+          "label": "Seymour & Wynter",
+          "shape": "ship",
+          "pos": [
+            [
+              18,
+              40
+            ],
+            [
+              18,
+              40
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              36,
+              42
+            ],
+            [
+              50,
+              38
+            ],
+            [
+              62,
+              24
+            ],
+            [
+              62,
+              10
+            ]
+          ],
+          "strength": 27
+        },
+        {
+          "id": "fireships",
+          "side": "a",
+          "label": "Fireships (burnt out)",
+          "shape": "ship",
+          "size": 0.5,
+          "pos": [
+            [
+              18,
+              50
+            ],
+            [
+              31,
+              55
+            ],
+            [
+              32,
+              55
+            ],
+            [
+              32,
+              55
+            ],
+            [
+              32,
+              55
+            ],
+            [
+              32,
+              55
+            ],
+            [
+              32,
+              55
+            ]
+          ],
+          "strength": 8
+        }
+      ],
+      "loser": "b",
+      "severity": 1.1
+    },
+    "el-alamein": {
+      "title": "Second Battle of El Alamein",
+      "subtitle": "23 October – 11 November 1942 — the Eighth Army breaks the Panzer Army Africa",
+      "sides": {
+        "a": {
+          "name": "British Commonwealth — Eighth Army (Montgomery)",
+          "color": "#b8862b"
+        },
+        "b": {
+          "name": "German-Italian Panzer Army (Rommel)",
+          "color": "#5d5d5d"
+        }
+      },
+      "terrain": [
+        {
+          "type": "sea",
+          "x": 50,
+          "y": 3,
+          "w": 100,
+          "h": 6,
+          "label": "Mediterranean"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              0,
+              8
+            ],
+            [
+              100,
+              8
+            ]
+          ],
+          "label": "Coast road & railway"
+        },
+        {
+          "type": "town",
+          "x": 88,
+          "y": 10,
+          "r": 2,
+          "label": "El Alamein"
+        },
+        {
+          "type": "town",
+          "x": 4,
+          "y": 9,
+          "r": 1.5,
+          "label": "El Daba"
+        },
+        {
+          "type": "hill",
+          "x": 44,
+          "y": 14,
+          "r": 1.5,
+          "label": "Point 29"
+        },
+        {
+          "type": "hill",
+          "x": 43,
+          "y": 20,
+          "r": 2,
+          "label": "Kidney feature"
+        },
+        {
+          "type": "hill",
+          "x": 36,
+          "y": 17,
+          "r": 2,
+          "label": "Tel el Aqqaqir"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              38,
+              8
+            ],
+            [
+              38,
+              40
+            ]
+          ],
+          "label": "Rahman track"
+        },
+        {
+          "type": "ridge",
+          "x": 48,
+          "y": 26,
+          "w": 10,
+          "h": 3,
+          "label": "Miteiriya Ridge"
+        },
+        {
+          "type": "ridge",
+          "x": 56,
+          "y": 40,
+          "w": 14,
+          "h": 3,
+          "label": "Ruweisat Ridge"
+        },
+        {
+          "type": "hill",
+          "x": 52,
+          "y": 60,
+          "r": 3,
+          "label": "Himeimat"
+        },
+        {
+          "type": "ridge",
+          "x": 50,
+          "y": 67,
+          "w": 100,
+          "h": 6,
+          "label": "Qattara Depression (impassable)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The line between sea and sand",
+          "narration": "Forty miles of front run from the coast south to the impassable Qattara Depression, so there is no flank to turn. Rommel’s army (about 116,000 men and 547 tanks) waits behind two belts of mines some half a million strong — the ‘Devil’s Gardens’ — with German and Italian units interleaved and its armour split into a northern and a southern group. Montgomery has about 195,000 men and over 1,000 tanks; the figures for each formation here are approximate."
+        },
+        {
+          "name": "Operation Lightfoot",
+          "narration": "At 21:40 on 23 October about 1,000 guns open fire along the front. Twenty minutes later XXX Corps’ four infantry divisions walk into the northern minefields to clear two corridors for the armour, while XIII Corps attacks in the south to pin the enemy there.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                12
+              ],
+              "to": [
+                50,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                20
+              ],
+              "to": [
+                49,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                26
+              ],
+              "to": [
+                49,
+                26
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                32
+              ],
+              "to": [
+                50,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                60,
+                52
+              ],
+              "to": [
+                52,
+                52
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Jammed corridors",
+          "narration": "By morning on 24 October the South Africans hold the southern end of Miteiriya Ridge, but the tanks are stuck in dust and traffic in the gaps and none get through. The Axis commander, Stumme, dies of a heart attack; more than 100 tanks fight over the Kidney feature at dusk, and Rommel flies back to take command on the 25th.",
+          "arrows": [
+            {
+              "from": [
+                52,
+                22
+              ],
+              "to": [
+                45,
+                21
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Snipe and the counter-attacks",
+          "narration": "Rommel brings his armour north and hits the salient again and again. At Outpost Snipe on 27 October a battalion of the Rifle Brigade with anti-tank guns knocks out 22 German and 10 Italian tanks; by the 28th the counter-attacks have failed, and torpedo bombers are sinking the tankers that carry his fuel.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                20
+              ],
+              "to": [
+                43,
+                20
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                16
+              ],
+              "to": [
+                46,
+                13
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Australians reach the sea",
+          "narration": "From 28 October the 9th Australian Division drives north towards the coast, drawing the German armour onto itself. Its third attempt, on 30–31 October, reaches the coast road and the railway.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                14
+              ],
+              "to": [
+                44,
+                9
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Operation Supercharge",
+          "narration": "At 01:05 on 2 November the New Zealand Division, with two British infantry brigades under command, attacks behind a barrage of about 360 guns. At dawn the 9th Armoured Brigade charges the anti-tank screen on the Rahman track: 94 tanks go in and 24 are still running half an hour later. The gap is not opened, but the 1st Armoured Division comes through behind it, and around Tel el Aqqaqir the German counter-attack costs Rommel some 100 tanks.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                22
+              ],
+              "to": [
+                40,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                20
+              ],
+              "to": [
+                38,
+                18
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                34,
+                18
+              ],
+              "to": [
+                39,
+                19
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "‘Not a yard of ground’",
+          "narration": "Rommel reports that his army cannot stand another breakthrough. At 13:30 on 3 November Hitler’s reply arrives: yield not a yard. The Afrika Korps edges back about six miles in the night, but the unmotorised Italian divisions are ordered to stay where they are."
+        },
+        {
+          "name": "Breakthrough",
+          "narration": "On 4 November the British armour breaks out to the north-west. The Ariete Armoured Division, caught in the open, fights until it is destroyed; the Trento and Bologna divisions go with it, and the Afrika Korps commander, von Thoma, is captured. At 17:30 Rommel orders the retreat without waiting for Hitler’s permission.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                20
+              ],
+              "to": [
+                34,
+                20
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                40,
+                24
+              ],
+              "to": [
+                35,
+                29
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The long road west",
+          "narration": "What can move runs west along the coast road. Rain and fuel shortages stall the pursuit; Mersa Matruh is abandoned on the night of 7/8 November, and on 11 November the New Zealanders take the Halfaya Pass and Egypt is clear. Axis casualties run to somewhere between 42,000 and 73,000, many of them Italians captured for want of transport; the Allies lose 13,560 men."
+        }
+      ],
+      "units": [
+        {
+          "id": "aus9",
+          "side": "a",
+          "label": "9th Australian Division",
+          "pos": [
+            [
+              60,
+              12
+            ],
+            [
+              52,
+              12
+            ],
+            [
+              50,
+              13
+            ],
+            [
+              48,
+              13
+            ],
+            [
+              44,
+              10
+            ],
+            [
+              46,
+              11
+            ],
+            [
+              46,
+              11
+            ],
+            [
+              42,
+              10
+            ],
+            [
+              20,
+              8
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "dish"
+        },
+        {
+          "id": "hld51",
+          "side": "a",
+          "label": "51st Highland Division",
+          "pos": [
+            [
+              60,
+              20
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              48,
+              20
+            ],
+            [
+              47,
+              20
+            ],
+            [
+              46,
+              19
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              42,
+              20
+            ],
+            [
+              36,
+              18
+            ],
+            [
+              24,
+              14
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "dish"
+        },
+        {
+          "id": "nz2",
+          "side": "a",
+          "label": "2nd New Zealand Division & 9th Armoured Bde",
+          "pos": [
+            [
+              60,
+              26
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              49,
+              26
+            ],
+            [
+              50,
+              26
+            ],
+            [
+              48,
+              22
+            ],
+            [
+              40,
+              20
+            ],
+            [
+              39,
+              20
+            ],
+            [
+              32,
+              18
+            ],
+            [
+              10,
+              12
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "dish"
+        },
+        {
+          "id": "sa1",
+          "side": "a",
+          "label": "1st South African Division",
+          "pos": [
+            [
+              60,
+              32
+            ],
+            [
+              51,
+              30
+            ],
+            [
+              49,
+              28
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              50,
+              28
+            ],
+            [
+              48,
+              28
+            ],
+            [
+              46,
+              28
+            ],
+            [
+              44,
+              30
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "dish"
+        },
+        {
+          "id": "x-corps",
+          "side": "a",
+          "label": "X Corps armour (1st & 10th Armoured)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              70,
+              22
+            ],
+            [
+              62,
+              22
+            ],
+            [
+              47,
+              22
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              47,
+              22
+            ],
+            [
+              42,
+              20
+            ],
+            [
+              38,
+              18
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              6,
+              10
+            ]
+          ],
+          "strength": 35000,
+          "helmet": "dish"
+        },
+        {
+          "id": "xiii",
+          "side": "a",
+          "label": "XIII Corps (7th Armoured, south)",
+          "pos": [
+            [
+              60,
+              52
+            ],
+            [
+              55,
+              52
+            ],
+            [
+              55,
+              52
+            ],
+            [
+              56,
+              50
+            ],
+            [
+              58,
+              48
+            ],
+            [
+              56,
+              50
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              16,
+              16
+            ]
+          ],
+          "strength": 50000,
+          "helmet": "dish"
+        },
+        {
+          "id": "pz15",
+          "side": "b",
+          "label": "15th Panzer & Littorio",
+          "shape": "vehicle",
+          "pos": [
+            [
+              34,
+              18
+            ],
+            [
+              34,
+              18
+            ],
+            [
+              38,
+              20
+            ],
+            [
+              42,
+              18
+            ],
+            [
+              40,
+              14
+            ],
+            [
+              37,
+              18
+            ],
+            [
+              32,
+              18
+            ],
+            [
+              24,
+              14
+            ],
+            [
+              0,
+              8
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "coal"
+        },
+        {
+          "id": "pz21",
+          "side": "b",
+          "label": "21st Panzer",
+          "shape": "vehicle",
+          "pos": [
+            [
+              34,
+              50
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              40,
+              22
+            ],
+            [
+              40,
+              20
+            ],
+            [
+              37,
+              20
+            ],
+            [
+              32,
+              22
+            ],
+            [
+              26,
+              16
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "strength": 11000,
+          "helmet": "coal"
+        },
+        {
+          "id": "ariete",
+          "side": "b",
+          "label": "Ariete Armoured Division",
+          "shape": "vehicle",
+          "pos": [
+            [
+              36,
+              54
+            ],
+            [
+              36,
+              54
+            ],
+            [
+              36,
+              54
+            ],
+            [
+              36,
+              54
+            ],
+            [
+              36,
+              50
+            ],
+            [
+              36,
+              32
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              34,
+              30
+            ],
+            [
+              34,
+              30
+            ]
+          ],
+          "strength": 9000,
+          "helmet": "coal"
+        },
+        {
+          "id": "axis-north-inf",
+          "side": "b",
+          "label": "Northern infantry (Trento, Bologna, 164th)",
+          "pos": [
+            [
+              42,
+              14
+            ],
+            [
+              44,
+              14
+            ],
+            [
+              43,
+              16
+            ],
+            [
+              42,
+              15
+            ],
+            [
+              40,
+              12
+            ],
+            [
+              40,
+              16
+            ],
+            [
+              40,
+              18
+            ],
+            [
+              38,
+              24
+            ],
+            [
+              36,
+              26
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "coal"
+        },
+        {
+          "id": "axis-south-inf",
+          "side": "b",
+          "label": "Southern infantry (Brescia, Folgore, Pavia)",
+          "pos": [
+            [
+              44,
+              52
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              44,
+              52
+            ],
+            [
+              44,
+              50
+            ],
+            [
+              44,
+              50
+            ],
+            [
+              40,
+              50
+            ],
+            [
+              38,
+              52
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "coal"
+        },
+        {
+          "id": "axis-reserve",
+          "side": "b",
+          "label": "90th Light & Trieste (reserve)",
+          "pos": [
+            [
+              22,
+              10
+            ],
+            [
+              22,
+              10
+            ],
+            [
+              24,
+              12
+            ],
+            [
+              30,
+              12
+            ],
+            [
+              38,
+              10
+            ],
+            [
+              34,
+              14
+            ],
+            [
+              30,
+              14
+            ],
+            [
+              22,
+              10
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "coal"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "bulge": {
+      "title": "Battle of the Bulge",
+      "subtitle": "16 December 1944 – late January 1945 — Germany’s last offensive in the west, through the Ardennes",
+      "sides": {
+        "a": {
+          "name": "Allies (mainly U.S.; Eisenhower, Bradley, Montgomery, Patton)",
+          "color": "#2e6fb0"
+        },
+        "b": {
+          "name": "Germany — Army Group B (Model)",
+          "color": "#5d5d5d"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              48,
+              0
+            ],
+            [
+              45,
+              5
+            ],
+            [
+              25,
+              12
+            ],
+            [
+              4,
+              17
+            ],
+            [
+              6,
+              32
+            ],
+            [
+              4,
+              70
+            ]
+          ],
+          "label": "Meuse"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              97,
+              10
+            ],
+            [
+              93,
+              30
+            ],
+            [
+              95,
+              50
+            ],
+            [
+              97,
+              70
+            ]
+          ],
+          "label": "Our (the start line)"
+        },
+        {
+          "type": "forest",
+          "x": 70,
+          "y": 40,
+          "r": 10,
+          "label": "Ardennes"
+        },
+        {
+          "type": "forest",
+          "x": 46,
+          "y": 30,
+          "r": 9
+        },
+        {
+          "type": "forest",
+          "x": 30,
+          "y": 50,
+          "r": 8
+        },
+        {
+          "type": "ridge",
+          "x": 84,
+          "y": 16,
+          "w": 8,
+          "h": 3,
+          "label": "Elsenborn Ridge"
+        },
+        {
+          "type": "town",
+          "x": 45,
+          "y": 5,
+          "r": 3,
+          "label": "Liège"
+        },
+        {
+          "type": "town",
+          "x": 6,
+          "y": 32,
+          "r": 2,
+          "label": "Dinant"
+        },
+        {
+          "type": "town",
+          "x": 12,
+          "y": 35,
+          "r": 1.5,
+          "label": "Celles"
+        },
+        {
+          "type": "town",
+          "x": 58,
+          "y": 21,
+          "r": 1.5,
+          "label": "La Gleize"
+        },
+        {
+          "type": "town",
+          "x": 66,
+          "y": 23,
+          "r": 1.5,
+          "label": "Stavelot"
+        },
+        {
+          "type": "town",
+          "x": 72,
+          "y": 20,
+          "r": 1.5,
+          "label": "Malmedy"
+        },
+        {
+          "type": "town",
+          "x": 78,
+          "y": 31,
+          "r": 2,
+          "label": "St. Vith"
+        },
+        {
+          "type": "town",
+          "x": 58,
+          "y": 42,
+          "r": 1.5,
+          "label": "Houffalize"
+        },
+        {
+          "type": "town",
+          "x": 54,
+          "y": 52,
+          "r": 2.5,
+          "label": "Bastogne"
+        },
+        {
+          "type": "town",
+          "x": 72,
+          "y": 48,
+          "r": 1.5,
+          "label": "Clervaux"
+        }
+      ],
+      "phases": [
+        {
+          "name": "A quiet front",
+          "narration": "The Ardennes, between Monschau and Echternach, is the thinnest stretch of the American line, used to rest worn units and break in new ones: about 229,000 Allied troops and 483 tanks. Behind the Our, Model’s Army Group B has gathered some 406,000 men and 557 tanks for Wacht am Rhein, Hitler’s plan to cross the Meuse and take Antwerp in four days. The size given to each German army here is approximate."
+        },
+        {
+          "name": "Wacht am Rhein",
+          "narration": "At 05:30 on 16 December about 1,600 guns open a 90-minute barrage on a 130 km front. Sixth Panzer Army attacks in the north towards Elsenborn Ridge, Fifth Panzer Army in the centre towards St. Vith and Bastogne, and Seventh Army in the south to cover the flank. Low cloud keeps Allied aircraft on the ground.",
+          "arrows": [
+            {
+              "from": [
+                96,
+                14
+              ],
+              "to": [
+                88,
+                16
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                96,
+                32
+              ],
+              "to": [
+                89,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                96,
+                44
+              ],
+              "to": [
+                80,
+                46
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                98,
+                60
+              ],
+              "to": [
+                88,
+                60
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Elsenborn holds; Peiper runs",
+          "narration": "The U.S. 2nd and 99th Divisions stop the main northern attack on Elsenborn Ridge. Further south, Kampfgruppe Peiper slips through: at the Baugnez crossroads on 17 December SS troops murder at least 84 American prisoners — the Malmedy massacre — and by the 19th Peiper has reached Stoumont, where the bridges ahead are blown and the 82nd Airborne arrives to block him.",
+          "arrows": [
+            {
+              "from": [
+                92,
+                20
+              ],
+              "to": [
+                66,
+                23
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                66,
+                23
+              ],
+              "to": [
+                60,
+                21
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                90,
+                15
+              ],
+              "to": [
+                86,
+                17
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Schnee Eifel and St. Vith",
+          "narration": "Two regiments of the green 106th Division are surrounded on the Schnee Eifel and surrender — at least 7,000 men lost. The 7th Armored Division and the troops gathered round St. Vith hold the road junction until Montgomery orders them out on 21 December; by the 23rd they are back across the Salm, and the German timetable is in ruins.",
+          "arrows": [
+            {
+              "from": [
+                88,
+                30
+              ],
+              "to": [
+                79,
+                31
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                93,
+                34
+              ],
+              "to": [
+                89,
+                33
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Bastogne surrounded",
+          "narration": "The 101st Airborne and part of the 10th Armored hold Bastogne, where seven roads meet, and by 20–21 December the town is encircled. On 22 December, asked to surrender, Brigadier General McAuliffe replies with one word: ‘Nuts!’ The panzers flow on past it towards the Meuse.",
+          "arrows": [
+            {
+              "from": [
+                70,
+                48
+              ],
+              "to": [
+                56,
+                52
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                64,
+                42
+              ],
+              "to": [
+                42,
+                40
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The skies clear",
+          "narration": "On 23 December the cloud lifts: supplies parachute into Bastogne and Allied aircraft fall on the German columns and supply lines. Peiper’s men abandon their vehicles at La Gleize and walk out — about 800 of 4,800 get back. On the 24th the 2nd Panzer Division’s spearhead reaches Celles and Foy-Notre-Dame, a few miles short of the Meuse at Dinant, where British armour holds the bridges.",
+          "arrows": [
+            {
+              "from": [
+                40,
+                40
+              ],
+              "to": [
+                14,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                10,
+                28
+              ],
+              "to": [
+                12,
+                33
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Christmas: the spearhead cut off, Bastogne relieved",
+          "narration": "From Christmas Eve the U.S. 2nd Armored Division cuts off the 2nd Panzer spearhead near Celles; its breakout attempts on 26–27 December only partly succeed, and the drive for the Meuse is over. Coming up from the south, Patton’s 4th Armored Division breaks the ring and reaches Bastogne at 16:50 on 26 December.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                28
+              ],
+              "to": [
+                13,
+                34
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                62
+              ],
+              "to": [
+                54,
+                54
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Bodenplatte",
+          "narration": "On 1 January the Luftwaffe attacks Allied airfields in Operation Bodenplatte and loses aircraft and pilots it cannot replace, while Operation Nordwind opens in Alsace, off this map. Round Bastogne the Germans keep counter-attacking until about 7 January.",
+          "arrows": [
+            {
+              "from": [
+                60,
+                48
+              ],
+              "to": [
+                55,
+                51
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                62,
+                56
+              ],
+              "to": [
+                55,
+                53
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Squeezing the bulge",
+          "narration": "From 3 January Montgomery attacks the northern face and Patton’s Third Army the southern one, through snow and forest. On 7–8 January Hitler approves a gradual withdrawal from the tip, and on 16 January the U.S. First and Third Armies meet at Houffalize.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                34
+              ],
+              "to": [
+                56,
+                41
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                57,
+                50
+              ],
+              "to": [
+                58,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Back to the start line",
+          "narration": "Sixth Panzer Army pulls out of the Ardennes on 22 January and St. Vith is retaken on the 23rd; by early February the line is roughly where it stood in December. About 81,000 Americans were killed, wounded or missing, the costliest U.S. battle of the war, and Germany lost 63,000–104,000 men and the last reserves it had in the west.",
+          "arrows": [
+            {
+              "from": [
+                72,
+                34
+              ],
+              "to": [
+                78,
+                31
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "us-north",
+          "side": "a",
+          "label": "U.S. 2nd & 99th Divisions",
+          "pos": [
+            [
+              86,
+              16
+            ],
+            [
+              86,
+              16
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              84,
+              17
+            ],
+            [
+              82,
+              22
+            ],
+            [
+              86,
+              24
+            ]
+          ],
+          "strength": 30000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-106",
+          "side": "a",
+          "label": "106th Division (422nd & 423rd Regiments)",
+          "size": 0.7,
+          "pos": [
+            [
+              90,
+              33
+            ],
+            [
+              90,
+              33
+            ],
+            [
+              89,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ],
+            [
+              88,
+              33
+            ]
+          ],
+          "strength": 8000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-stvith",
+          "side": "a",
+          "label": "7th Armored & the St. Vith defenders",
+          "shape": "vehicle",
+          "pos": [
+            [
+              62,
+              10
+            ],
+            [
+              70,
+              22
+            ],
+            [
+              76,
+              30
+            ],
+            [
+              77,
+              31
+            ],
+            [
+              68,
+              30
+            ],
+            [
+              64,
+              28
+            ],
+            [
+              64,
+              28
+            ],
+            [
+              64,
+              28
+            ],
+            [
+              70,
+              32
+            ],
+            [
+              76,
+              31
+            ]
+          ],
+          "strength": 22000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-south",
+          "side": "a",
+          "label": "U.S. 28th & 4th Divisions",
+          "pos": [
+            [
+              80,
+              46
+            ],
+            [
+              80,
+              46
+            ],
+            [
+              74,
+              48
+            ],
+            [
+              74,
+              50
+            ],
+            [
+              72,
+              54
+            ],
+            [
+              72,
+              56
+            ],
+            [
+              72,
+              56
+            ],
+            [
+              72,
+              56
+            ],
+            [
+              74,
+              52
+            ],
+            [
+              82,
+              48
+            ]
+          ],
+          "strength": 28000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-101",
+          "side": "a",
+          "label": "101st Airborne & 10th Armored (Bastogne)",
+          "pos": [
+            [
+              20,
+              66
+            ],
+            [
+              20,
+              66
+            ],
+            [
+              46,
+              48
+            ],
+            [
+              52,
+              51
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              54,
+              52
+            ],
+            [
+              56,
+              46
+            ],
+            [
+              58,
+              44
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-82",
+          "side": "a",
+          "label": "82nd Airborne",
+          "pos": [
+            [
+              22,
+              64
+            ],
+            [
+              22,
+              64
+            ],
+            [
+              57,
+              23
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              26
+            ],
+            [
+              60,
+              28
+            ],
+            [
+              62,
+              30
+            ],
+            [
+              66,
+              30
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "dish"
+        },
+        {
+          "id": "us-2arm",
+          "side": "a",
+          "label": "U.S. 2nd Armored Division",
+          "shape": "vehicle",
+          "pos": [
+            [
+              50,
+              2
+            ],
+            [
+              50,
+              2
+            ],
+            [
+              44,
+              8
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              22,
+              24
+            ],
+            [
+              18,
+              28
+            ],
+            [
+              13,
+              33
+            ],
+            [
+              16,
+              34
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              52,
+              36
+            ]
+          ],
+          "strength": 14000,
+          "helmet": "dish"
+        },
+        {
+          "id": "patton",
+          "side": "a",
+          "label": "Patton’s Third Army (III Corps, 4th Armored)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              60,
+              69
+            ],
+            [
+              60,
+              69
+            ],
+            [
+              60,
+              69
+            ],
+            [
+              60,
+              69
+            ],
+            [
+              58,
+              66
+            ],
+            [
+              56,
+              62
+            ],
+            [
+              54,
+              55
+            ],
+            [
+              55,
+              57
+            ],
+            [
+              57,
+              48
+            ],
+            [
+              68,
+              46
+            ]
+          ],
+          "strength": 60000,
+          "helmet": "dish"
+        },
+        {
+          "id": "british",
+          "side": "a",
+          "label": "British XXX Corps (29th Armoured Bde)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              20,
+              10
+            ],
+            [
+              20,
+              10
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              10,
+              26
+            ],
+            [
+              9,
+              28
+            ],
+            [
+              10,
+              28
+            ],
+            [
+              12,
+              31
+            ],
+            [
+              14,
+              31
+            ],
+            [
+              24,
+              36
+            ],
+            [
+              30,
+              34
+            ]
+          ],
+          "strength": 10000,
+          "helmet": "dish"
+        },
+        {
+          "id": "peiper",
+          "side": "b",
+          "label": "Kampfgruppe Peiper",
+          "shape": "vehicle",
+          "size": 0.7,
+          "pos": [
+            [
+              96,
+              18
+            ],
+            [
+              92,
+              20
+            ],
+            [
+              60,
+              21
+            ],
+            [
+              59,
+              21
+            ],
+            [
+              58,
+              21
+            ],
+            [
+              72,
+              22
+            ],
+            [
+              86,
+              20
+            ],
+            [
+              86,
+              20
+            ],
+            [
+              88,
+              20
+            ],
+            [
+              97,
+              18
+            ]
+          ],
+          "strength": 4800,
+          "helmet": "coal"
+        },
+        {
+          "id": "pz6",
+          "side": "b",
+          "label": "Sixth Panzer Army",
+          "pos": [
+            [
+              96,
+              14
+            ],
+            [
+              90,
+              15
+            ],
+            [
+              88,
+              17
+            ],
+            [
+              88,
+              18
+            ],
+            [
+              86,
+              20
+            ],
+            [
+              84,
+              22
+            ],
+            [
+              82,
+              22
+            ],
+            [
+              82,
+              22
+            ],
+            [
+              84,
+              24
+            ],
+            [
+              97,
+              14
+            ]
+          ],
+          "strength": 140000,
+          "helmet": "coal"
+        },
+        {
+          "id": "pz5-north",
+          "side": "b",
+          "label": "Fifth Panzer Army (north wing)",
+          "pos": [
+            [
+              96,
+              32
+            ],
+            [
+              92,
+              32
+            ],
+            [
+              88,
+              30
+            ],
+            [
+              80,
+              31
+            ],
+            [
+              74,
+              32
+            ],
+            [
+              70,
+              32
+            ],
+            [
+              68,
+              32
+            ],
+            [
+              66,
+              34
+            ],
+            [
+              72,
+              34
+            ],
+            [
+              90,
+              32
+            ]
+          ],
+          "strength": 60000,
+          "helmet": "coal"
+        },
+        {
+          "id": "pz5-south",
+          "side": "b",
+          "label": "Fifth Panzer Army (Bastogne wing)",
+          "pos": [
+            [
+              96,
+              44
+            ],
+            [
+              90,
+              46
+            ],
+            [
+              80,
+              46
+            ],
+            [
+              70,
+              48
+            ],
+            [
+              58,
+              52
+            ],
+            [
+              57,
+              50
+            ],
+            [
+              57,
+              53
+            ],
+            [
+              58,
+              50
+            ],
+            [
+              62,
+              48
+            ],
+            [
+              88,
+              44
+            ]
+          ],
+          "strength": 80000,
+          "helmet": "coal"
+        },
+        {
+          "id": "pz2",
+          "side": "b",
+          "label": "2nd Panzer Division (spearhead)",
+          "shape": "vehicle",
+          "pos": [
+            [
+              96,
+              40
+            ],
+            [
+              90,
+              42
+            ],
+            [
+              78,
+              42
+            ],
+            [
+              64,
+              42
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              14,
+              34
+            ],
+            [
+              14,
+              35
+            ],
+            [
+              16,
+              36
+            ],
+            [
+              30,
+              38
+            ],
+            [
+              70,
+              40
+            ]
+          ],
+          "strength": 16000,
+          "helmet": "coal"
+        },
+        {
+          "id": "army7",
+          "side": "b",
+          "label": "Seventh Army (southern flank)",
+          "pos": [
+            [
+              98,
+              60
+            ],
+            [
+              94,
+              62
+            ],
+            [
+              86,
+              60
+            ],
+            [
+              80,
+              60
+            ],
+            [
+              76,
+              60
+            ],
+            [
+              74,
+              60
+            ],
+            [
+              72,
+              62
+            ],
+            [
+              72,
+              62
+            ],
+            [
+              76,
+              58
+            ],
+            [
+              92,
+              60
+            ]
+          ],
+          "strength": 95000,
+          "helmet": "coal"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
     }
   }
 }
