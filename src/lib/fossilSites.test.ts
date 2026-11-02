@@ -191,6 +191,47 @@ describe('fossil sites', () => {
       expect(row(id).dateNote, id).toMatch(/^Uncertain/);
   });
 
+  it('batch 8 (2 Nov 2026) adds cited, plain-link rows in gaps, each with its own Q-id', () => {
+    const batch8 = [
+      'kotelnich', 'dikika', 'kocabas', 'madygen', 'ubeidiya', 'bouri', 'kiik-koba', 'alcoota', 'misliya', 'mukawa',
+      'al-wusta', 'zachelmie', 'devils-lair', 'ampasambazimba', 'binagadi', 'tighennif', 'starunia', 'cueva-fell',
+      'fuyan', 'peninj', 'lothagam', 'muttaburra', 'eromanga',
+    ].map((id) => `cur-fossil-${id}`);
+    // Crowded valleys, different sites: Dikika is 12 km from the Hadar (Lucy) pins, Misliya 13 km from
+    // Qafzeh, 'Ubeidiya 10 km from another Galilee find, Bouri 24 km from Ardi.
+    const gaps: Record<string, number> = {
+      'cur-fossil-dikika': 10, 'cur-fossil-misliya': 10, 'cur-fossil-ubeidiya': 8, 'cur-fossil-bouri': 20,
+    };
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch8) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      expect(s.summary!.length, id).toBeLessThan(120); // one line
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s()[\]<>]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
+      expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
+      expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
+      expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
+      const gap = gaps[id] ?? 25;
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+    }
+  });
+
+  it('keeps the batch 8 fossil fact-check fixes (2 Nov 2026)', () => {
+    const row = (id: string) => events.find((e) => e.id === id)!;
+    expect(row('q927721').lat).toBeCloseTo(52.85, 2); // Weerdinge Men: by Weerdinge, not the German side of the moor
+    expect(row('q12155967').dateNote).toMatch(/^Uncertain/); // Atacama skeleton: only the desert is known
+  });
+
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
     const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
     expect(wf).toContain('node scripts/add-fossil-sites.mjs');

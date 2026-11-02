@@ -4193,6 +4193,81 @@
       ],
       "sourceUrl": "https://www.nhm.ac.uk/press-office/press-releases/uk-dinosaur-fossil-identified-as-new-long-clawed-predator.html",
       "paperUrl": "https://royalsocietypublishing.org/rsos/article/13/10/260937/483607/A-new-megaraptoran-dinosaur-from-the-Lower"
+    },
+    {
+      "id": "infernogallus",
+      "name": "Infernogallus",
+      "emoji": "🦖",
+      "lat": 46.02,
+      "lon": -104.48,
+      "fromMa": 68,
+      "toMa": 66,
+      "region": "Hell Creek, Montana (USA)",
+      "blurb": "A turkey-sized, toothless \"hell chicken\" from the last days of the dinosaurs, named in 2026 from a near-complete skull. Its sliding jaw is like a parrot's, so it may have been a specialist fruit-eater.",
+      "wiki": "Infernogallus",
+      "track": [
+        {
+          "ma": 66,
+          "lon": -79.69,
+          "lat": 52.11
+        },
+        {
+          "ma": 68,
+          "lon": -78.3,
+          "lat": 52.62
+        }
+      ],
+      "sourceUrl": "https://www.eurekalert.org/news-releases/1149430"
+    },
+    {
+      "id": "paludohadros",
+      "name": "Paludohadros",
+      "emoji": "🦕",
+      "lat": 51.1243,
+      "lon": -0.4115,
+      "fromMa": 125.8,
+      "toMa": 121.4,
+      "region": "England, United Kingdom",
+      "blurb": "An early cousin of the duck-billed dinosaurs, about 125 million years old, named in 2026 from bones found in 2001 at the Surrey brickworks that gave us Baryonyx.",
+      "wiki": "Paludohadros",
+      "track": [
+        {
+          "ma": 121.4,
+          "lon": 11.77,
+          "lat": 40.96
+        },
+        {
+          "ma": 125.8,
+          "lon": 11.58,
+          "lat": 41.26
+        }
+      ],
+      "sourceUrl": "https://phys.org/news/2026-10-fossils-brickworks-reveal-dinosaur-species.html"
+    },
+    {
+      "id": "rinconraptor",
+      "name": "Rinconraptor",
+      "emoji": "🦖",
+      "lat": -37.71,
+      "lon": -69.33,
+      "fromMa": 86.3,
+      "toMa": 83.6,
+      "region": "Neuquén, Argentina",
+      "blurb": "A long-clawed megaraptorid hunter from Patagonia, about 85 million years old, named in 2026.",
+      "wiki": "Rinconraptor",
+      "track": [
+        {
+          "ma": 83.6,
+          "lon": -50.22,
+          "lat": -42.11
+        },
+        {
+          "ma": 86.3,
+          "lon": -49.17,
+          "lat": -42.5
+        }
+      ],
+      "sourceUrl": "https://www.palaeo-electronica.org/content/2026/5975-new-megaraptorid-from-patagonia"
     }
   ]
 }
