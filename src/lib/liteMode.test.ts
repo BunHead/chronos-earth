@@ -126,15 +126,18 @@ describe('heavy scans fall back to the small build', () => {
     expect(lightModelName('sphinx', real, true)).toBe('sphinx-lite');
   });
 
-  it('the shipped manifest has small builds of the Göbekli and Pumapunku scans', () => {
+  it('the shipped manifest has small builds of the real scans', () => {
     const real = JSON.parse(readFileSync(new URL('../../public/models/manifest.json', import.meta.url), 'utf8'));
-    for (const m of ['gobekli-scan', 'pumapunku-scan']) {
+    for (const m of ['gobekli-scan', 'pumapunku-scan', 'karahan-scan', 'giza-menkaure-ruin']) {
       expect(lightModelName(m, real, true)).toBe(`${m}-lite`);
       expect(lightModelName(m, real, false)).toBe(m);
       expect(real[`${m}-lite`].kb).toBeLessThan(real[m].kb);
       expect(real[m].kb).toBeLessThan(4096); // desktop detail build (Göbekli ~3.8 MB)
       expect(real[`${m}-lite`].kb).toBeLessThan(300); // phones
     }
+    // The Nazca Hummingbird is already phone-sized, so phones keep the full build.
+    expect(real['nazca-hummingbird-scan'].kb).toBeLessThan(300);
+    expect(lightModelName('nazca-hummingbird-scan', real, true)).toBe('nazca-hummingbird-scan');
   });
 
   it('the time gate swaps suffixed (ruin) models through fileFor too', () => {

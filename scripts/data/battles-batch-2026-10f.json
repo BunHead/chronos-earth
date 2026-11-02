@@ -89,7 +89,7 @@
     {
       "id": "q1992706",
       "name": "Battle of Glenmama",
-      "startYear": 1000,
+      "startYear": 999,
       "lat": 53.28,
       "lon": -6.525,
       "category": "battle",
@@ -97,7 +97,7 @@
       "wikiTitle": "Battle of Glenmama",
       "notability": 5,
       "sourceUrl": "https://www.wikidata.org/wiki/Q1992706",
-      "dateNote": "1000 (Wikidata P585, recorded to the day)."
+      "dateNote": "30 December 999 (Julian calendar, the one in use then). Wikidata stores this date; turning it into the modern calendar gave January 1000, which pushed the battle into the wrong year."
     },
     {
       "id": "q130693551",
@@ -143,7 +143,8 @@
       "wikiTitle": "Battle of Mynydd Carn",
       "notability": 5,
       "sourceUrl": "https://www.wikidata.org/wiki/Q2781949",
-      "dateNote": "1081 (Wikidata P585, recorded to the year)."
+      "dateNote": "1081 (Wikidata P585, recorded to the year).",
+      "placeNote": "Uncertain: the site of the battle is not known. Mynydd Carningli near Newport, Pembrokeshire, is one suggestion; the pin is Wikidata's point, about 27 km south of it."
     },
     {
       "id": "q30693443",
