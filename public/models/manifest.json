@@ -727,5 +727,37 @@
   "nazca-hummingbird-scan-lite": {
     "footprint": 121.812,
     "kb": 52
+  },
+  "great-wall": {
+    "footprint": 671.926,
+    "kb": 36
+  },
+  "great-wall-b30": {
+    "footprint": 671.926,
+    "kb": 9
+  },
+  "great-wall-b60": {
+    "footprint": 671.926,
+    "kb": 16
+  },
+  "great-wall-ruin": {
+    "footprint": 671.926,
+    "kb": 27
+  },
+  "forbidden-city": {
+    "footprint": 606.55,
+    "kb": 17
+  },
+  "forbidden-city-b30": {
+    "footprint": 604.21,
+    "kb": 3
+  },
+  "forbidden-city-b60": {
+    "footprint": 604.51,
+    "kb": 8
+  },
+  "forbidden-city-b90": {
+    "footprint": 606.55,
+    "kb": 16
   }
 }
