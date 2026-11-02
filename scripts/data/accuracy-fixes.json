@@ -5503,6 +5503,285 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 1642, not 1630.",
       "source": "https://www.wikidata.org/wiki/Q469439; https://en.wikipedia.org/wiki/Shitao"
     },
+    "q128306": {
+      "startYear": 1857,
+      "dateNote": "Founded in 1857, when it was chosen as the county seat. It became a city in 1866.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1866). 1866 is when it became a city; the town was set up as county seat in 1857",
+      "source": "https://www.wikidata.org/wiki/Q128306 (P571 1866); https://en.wikipedia.org/wiki/Denton,_Texas"
+    },
+    "q49147": {
+      "startYear": 1652,
+      "dateNote": "Settled in 1652 as part of Dartmouth, by colonists from Plymouth. It became a town of its own in 1787.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1640). No settlement here in 1640; the land was bought and settled in 1652",
+      "source": "https://www.wikidata.org/wiki/Q49147 (P571 1640); https://www.britannica.com/place/New-Bedford"
+    },
+    "q15928": {
+      "startYear": 1264,
+      "dateNote": "First recorded in 1264, as Weln. The town grew fast after the coal mine opened in 1875.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1889). 1889 can not be backed; the place is first recorded in 1264 (Wikidata P1249 gives 1270 for the castle)",
+      "source": "https://www.wikidata.org/wiki/Q15928 (P571 1889); https://www.velenje.si/en/velenje/history-of-town; https://en.wikipedia.org/wiki/Velenje"
+    },
+    "q79985": {
+      "startYear": 1792,
+      "dateNote": "Founded in 1792 by Alexander Baranov as Pavlovsk Harbour, the first capital of Russian Alaska. It became a city in 1940.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1940). 1940 is when it became a city; Baranov founded it in 1792",
+      "source": "https://www.wikidata.org/wiki/Q79985 (P571 1940); https://www.britannica.com/place/Kodiak; https://en.wikipedia.org/wiki/Kodiak,_Alaska"
+    },
+    "q323986": {
+      "startYear": 1693,
+      "dateNote": "First recorded between 1693 and 1696, as the fort Palanka Praedor. 2012 is when it was made a city.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (2012). 2012 is when it got city status; it is first recorded in 1693-1696",
+      "source": "https://www.wikidata.org/wiki/Q323986 (P571 2012); https://en.wikipedia.org/wiki/Prijedor; https://www.tourismbih.com/?p=519"
+    },
+    "q7830": {
+      "startYear": 212,
+      "dateNote": "Said to be founded in AD 212 by the Alans, as the fort Sougdaia. The date comes from old tradition.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (-212). -212 has the wrong sign; tradition says it was founded in AD 212",
+      "source": "https://www.wikidata.org/wiki/Q7830 (P571 -212); https://www.encyclopediaofukraine.com/pages%5CS%5CU%5CSudak.htm; https://en.wikipedia.org/wiki/Sudak"
+    },
+    "q104407": {
+      "startYear": 1231,
+      "dateNote": "First recorded in 1231, when two Polish dukes met here. It got town rights before 1288.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1161). No source backs 1161; the oldest record is from 1231",
+      "source": "https://www.wikidata.org/wiki/Q104407 (P571 1161); https://en.wikipedia.org/wiki/Zgierz"
+    },
+    "q206988": {
+      "startYear": 803,
+      "dateNote": "First recorded in 803, as Celtan hom. It got its market charter in 1226.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1226). 1226 is the market charter; it is first recorded in 803",
+      "source": "https://www.wikidata.org/wiki/Q206988 (P571 1226); https://www.britannica.com/place/Cheltenham-England; https://en.wikipedia.org/wiki/Cheltenham"
+    },
+    "q6149": {
+      "startYear": 836,
+      "dateNote": "First recorded in 836, as Sosat. People lived here long before, from Roman times.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1449). 1449 is the end of the Soest Feud, not the start; it is first recorded in 836",
+      "source": "https://www.wikidata.org/wiki/Q6149 (P571 1449); https://www.britannica.com/place/Soest-Germany; https://en.wikipedia.org/wiki/Soest,_Germany"
+    },
+    "q488513": {
+      "startYear": 1243,
+      "dateNote": "First recorded in 1243. It got town rights in 1264. The year 1201 only stood for the 13th century.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1201). 1201 is \"13th century\" read as a year; Wikidata P1249 gives the first record as 1243",
+      "source": "https://www.wikidata.org/wiki/Q488513 (P571 1201); https://en.wikipedia.org/wiki/Anklam"
+    },
+    "q7047": {
+      "startYear": 819,
+      "dateNote": "First recorded in 819, as the royal palace of Cruciniacum. A Roman village stood here long before.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1227). 1227 is not the start; the Frankish annals record it in 819",
+      "source": "https://www.wikidata.org/wiki/Q7047 (P571 1227); https://www.britannica.com/place/Bad-Kreuznach; https://en.wikipedia.org/wiki/Bad_Kreuznach"
+    },
+    "q331380": {
+      "startYear": 1661,
+      "dateNote": "Founded in 1661 by Dutch settlers. It got a borough charter in 1765.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1765). 1765 is the borough charter; Dutch settlers founded it in 1661",
+      "source": "https://www.wikidata.org/wiki/Q331380 (P571 1765); https://www.britannica.com/place/Schenectady; https://en.wikipedia.org/wiki/Schenectady,_New_York"
+    },
+    "q44012": {
+      "startYear": 1634,
+      "dateNote": "Founded in 1634 by Laviolette, sent by Samuel de Champlain. It became a city in 1845-1846.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1846). 1846 is city status; Wikidata P571 also gives the founding, 1634",
+      "source": "https://www.wikidata.org/wiki/Q44012 (P571 1846); https://en.wikipedia.org/wiki/Trois-Rivi%C3%A8res"
+    },
+    "q79718": {
+      "startYear": 1833,
+      "dateNote": "Laid out in 1833 by Thomas Woodward as the seat of Macon County. 1881 is when Tuskegee Institute opened.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1881). 1881 is the founding of Tuskegee Institute; the town was laid out in 1833",
+      "source": "https://www.wikidata.org/wiki/Q79718 (P571 1881); https://encyclopediaofalabama.org/article/tuskegee/; https://en.wikipedia.org/wiki/Tuskegee,_Alabama"
+    },
+    "q499189": {
+      "startYear": 1872,
+      "dateNote": "Founded in 1872 when the railroad came. It became a city in 1889.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1889). 1889 is when it became a city; it was founded in 1872",
+      "source": "https://www.wikidata.org/wiki/Q499189 (P571 1889); https://www.britannica.com/place/Merced; https://www.cityofmerced.gov/government/about-merced/history"
+    },
+    "q110017": {
+      "startYear": 1875,
+      "dateNote": "Italian settlers arrived in 1875. It became a town of its own in 1890.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1890). 1890 is when it became a municipality; Italian settlers founded it in 1875",
+      "source": "https://www.wikidata.org/wiki/Q110017 (P571 1890); https://en.wikipedia.org/wiki/History_of_Caxias_do_Sul"
+    },
+    "q141298543": {
+      "startYear": -2000,
+      "dateNote": "The temples of Karnak were begun about 2000 BC, when Thebes became the capital of Egypt. People lived here even earlier. The exact year is not known. 1979 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1979). 1979 is the UNESCO listing year; Thebes was capital and Karnak was begun about 2000 BC",
+      "source": "https://www.wikidata.org/wiki/Q141298543 (P571 1979); https://whc.unesco.org/en/list/87/; https://en.wikipedia.org/wiki/Thebes,_Egypt"
+    },
+    "q15819677": {
+      "startYear": 1514,
+      "dateNote": "Trinidad was founded in 1514 by Diego Velázquez. The sugar mills in the valley came in the 18th and 19th centuries. The year 16 only stood for the 16th century.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (16). 16 is \"16th century\" read as a year; Trinidad was founded in 1514",
+      "source": "https://www.wikidata.org/wiki/Q15819677 (P571 16); https://whc.unesco.org/en/list/460/; https://en.wikipedia.org/wiki/Trinidad,_Cuba"
+    },
+    "q136100444": {
+      "startYear": 963,
+      "dateNote": "The first big monastery, Great Lavra, was founded in 963. 1988 is when it became a World Heritage Site.",
+      "why": "Places fact-check batch 25-27 (Nov 2026): wrong year (1988). 1988 is the UNESCO listing year; Great Lavra, the first big monastery, was founded in 963",
+      "source": "https://www.wikidata.org/wiki/Q136100444 (P571 1988); https://whc.unesco.org/en/list/454/; https://en.wikipedia.org/wiki/Mount_Athos"
+    },
+    "q29422": {
+      "dateNote": "Settled from the 1890s. 1925 is when it became a town.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1925 is when it became a town; settled from the 1890s.",
+      "source": "https://www.wikidata.org/wiki/Q29422; https://en.wikipedia.org/wiki/Boca_Raton,_Florida"
+    },
+    "q15826": {
+      "dateNote": "1978 is when it became a city. The town is much older, but its start year is not known.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1978 is city status; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q15826; https://en.wikipedia.org/wiki/Palu"
+    },
+    "q82960": {
+      "dateNote": "The Roman town Arae Flaviae stood here from AD 73. The medieval town was founded about 1140.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: Roman town from AD 73; medieval town about 1140.",
+      "source": "https://www.wikidata.org/wiki/Q82960; https://en.wikipedia.org/wiki/Rottweil"
+    },
+    "q212546": {
+      "dateNote": "First recorded in the 12th century. The exact year is not known, so 1200 only stands for about then.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: only the century is known.",
+      "source": "https://www.wikidata.org/wiki/Q212546; https://en.wikipedia.org/wiki/Akhaltsikhe"
+    },
+    "q327022": {
+      "dateNote": "Settled in the 18th century. The exact year is not known, so 1700 only stands for about then.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: only the century is known.",
+      "source": "https://www.wikidata.org/wiki/Q327022; https://en.wikipedia.org/wiki/Rockville,_Maryland"
+    },
+    "q204091": {
+      "dateNote": "1783 is when it got town rights. A naval port was begun here in 1718, and the place was known before that.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1783 is town rights; naval port begun 1718.",
+      "source": "https://www.wikidata.org/wiki/Q204091; https://en.wikipedia.org/wiki/Paldiski"
+    },
+    "q211867": {
+      "dateNote": "Settled from the 1790s. 1850 is when it became a village.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1850 is village status; settled from the 1790s.",
+      "source": "https://www.wikidata.org/wiki/Q211867; https://en.wikipedia.org/wiki/Oshawa"
+    },
+    "q44238": {
+      "dateNote": "A mission stood nearby from 1615. The town grew from a camp of the 1860s and took the name Posadas in 1879.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: start not agreed: mission 1615, camp 1860s, name 1879.",
+      "source": "https://www.wikidata.org/wiki/Q44238; https://en.wikipedia.org/wiki/Posadas,_Misiones"
+    },
+    "q243325": {
+      "dateNote": "1884 is when it became a town council. The place is older, but its start year is not known.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1884 is municipality; the place is older.",
+      "source": "https://www.wikidata.org/wiki/Q243325; https://en.wikipedia.org/wiki/Khulna"
+    },
+    "q74957": {
+      "dateNote": "1937 is when it became a city. A post town stood here from the Ming dynasty, in 1387.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1937 is city status; older post town.",
+      "source": "https://www.wikidata.org/wiki/Q74957; https://en.wikipedia.org/wiki/Anshan"
+    },
+    "q191652": {
+      "dateNote": "The first town here, Santo André da Borda do Campo, was founded in 1553. The modern city took its name in 1938.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1553 old town or 1938 modern city.",
+      "source": "https://www.wikidata.org/wiki/Q191652; https://en.wikipedia.org/wiki/Santo_Andr%C3%A9,_S%C3%A3o_Paulo"
+    },
+    "q192213": {
+      "dateNote": "The first neighbourhoods were built in the 1930s. 1940 is when it got a local council.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1940 is local council; built from the 1930s.",
+      "source": "https://www.wikidata.org/wiki/Q192213; https://en.wikipedia.org/wiki/Holon"
+    },
+    "q208447": {
+      "dateNote": "1964 is when it became a city. Ranches and homes stood here long before.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1964 is city status; settled before.",
+      "source": "https://www.wikidata.org/wiki/Q208447; https://en.wikipedia.org/wiki/Thousand_Oaks,_California"
+    },
+    "q1140136": {
+      "dateNote": "A new planned capital. Building began in the 2000s. 2021 is not confirmed as its start.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: planned city, building began in the 2000s.",
+      "source": "https://www.wikidata.org/wiki/Q1140136; https://en.wikipedia.org/wiki/Ciudad_de_la_Paz"
+    },
+    "q53742": {
+      "dateNote": "First recorded in the 11th century. The exact year is not known, so 1100 only stands for about then.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: only the century is known.",
+      "source": "https://www.wikidata.org/wiki/Q53742; https://en.wikipedia.org/wiki/Donauw%C3%B6rth"
+    },
+    "q203403": {
+      "dateNote": "Samuel de Champlain landed here in 1604. The first lasting fort came in 1631, and it became a city in 1785.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1604 visit, 1631 fort, 1785 city.",
+      "source": "https://www.wikidata.org/wiki/Q203403; https://en.wikipedia.org/wiki/Saint_John,_New_Brunswick"
+    },
+    "q683512": {
+      "dateNote": "1639 is when it got town rights. Olavinlinna castle was built here from 1475.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1639 is town rights; castle from 1475.",
+      "source": "https://www.wikidata.org/wiki/Q683512; https://en.wikipedia.org/wiki/Savonlinna"
+    },
+    "q2495519": {
+      "dateNote": "The land grant is from 1734. People settled here from 1773, and it became a village in 1798.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1734 grant, settled 1773, village 1798.",
+      "source": "https://www.wikidata.org/wiki/Q2495519; https://en.wikipedia.org/wiki/Utica,_New_York"
+    },
+    "q109374": {
+      "dateNote": "An old port town. It opened to foreign trade in 1880. The year 1800 can not be confirmed.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1800 can not be confirmed.",
+      "source": "https://www.wikidata.org/wiki/Q109374; https://en.wikipedia.org/wiki/Wonsan"
+    },
+    "q193890": {
+      "dateNote": "The Roman town Drobeta stood here from AD 103. The modern town was laid out in 1833.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: Roman town from 103; modern town 1833.",
+      "source": "https://www.wikidata.org/wiki/Q193890; https://en.wikipedia.org/wiki/Drobeta-Turnu_Severin"
+    },
+    "q213814": {
+      "dateNote": "Settled from about 1802. 1834 is when it became a village.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1834 is village status; settled about 1802.",
+      "source": "https://www.wikidata.org/wiki/Q213814; https://en.wikipedia.org/wiki/Binghamton,_New_York"
+    },
+    "q748336": {
+      "dateNote": "An old town, from the 11th century or earlier. 1907 is when it was given back to Cambodia.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1907 is the return to Cambodia; town is older.",
+      "source": "https://www.wikidata.org/wiki/Q748336; https://en.wikipedia.org/wiki/Battambang"
+    },
+    "q323414": {
+      "dateNote": "1969 is when it became a city. People lived in the valley long before.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1969 is city status.",
+      "source": "https://www.wikidata.org/wiki/Q323414; https://en.wikipedia.org/wiki/Simi_Valley,_California"
+    },
+    "q494720": {
+      "dateNote": "1984 is when it became a city, joining older towns such as Moreno (1880s).",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1984 is city status.",
+      "source": "https://www.wikidata.org/wiki/Q494720; https://en.wikipedia.org/wiki/Moreno_Valley,_California"
+    },
+    "q237512": {
+      "dateNote": "The castle is first recorded in 1155, and the town in 1178 or 1267. 1280 can not be confirmed.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: sources give 1155, 1178, 1267 or 1295.",
+      "source": "https://www.wikidata.org/wiki/Q237512; https://en.wikipedia.org/wiki/Lubin"
+    },
+    "q16069": {
+      "dateNote": "A market was set up about 1170 and it is called a town in 1226. 1281 is when it became a free imperial city.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1281 is imperial city status; market about 1170.",
+      "source": "https://www.wikidata.org/wiki/Q16069; https://en.wikipedia.org/wiki/Biberach_an_der_Ri%C3%9F"
+    },
+    "q244154": {
+      "dateNote": "Most sources say it was founded in 1545 by García Holguín. Some give 1523. It became a city in 1752.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1523 or 1545.",
+      "source": "https://www.wikidata.org/wiki/Q244154; https://en.wikipedia.org/wiki/Holgu%C3%ADn"
+    },
+    "q21168": {
+      "dateNote": "The town by Varberg fortress dates from the 1300s. It moved to where it is now in 1666.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: old town from the 1300s; moved 1666.",
+      "source": "https://www.wikidata.org/wiki/Q21168; https://en.wikipedia.org/wiki/Varberg"
+    },
+    "q49198": {
+      "dateNote": "Settled in 1685. It became a town in 1702.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1702 is town status; settled 1685.",
+      "source": "https://www.wikidata.org/wiki/Q49198; https://en.wikipedia.org/wiki/Danbury,_Connecticut"
+    },
+    "q208162": {
+      "dateNote": "Most sources say Ala Singh founded it in 1763, when he built the Qila Mubarak fort. Some give 1754.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1754 or 1763.",
+      "source": "https://www.wikidata.org/wiki/Q208162; https://en.wikipedia.org/wiki/Patiala"
+    },
+    "q574192": {
+      "dateNote": "Laid out as Pleasantburg in 1797. 1831 is when it became Greenville village.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: 1831 is village status; laid out 1797.",
+      "source": "https://www.wikidata.org/wiki/Q574192; https://en.wikipedia.org/wiki/Greenville,_South_Carolina"
+    },
+    "q644008": {
+      "dateNote": "An old city, once called Nasaf, said to be about 2,700 years old. 1926 is not its start.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: ancient city (Nasaf); 1926 is not the start.",
+      "source": "https://www.wikidata.org/wiki/Q644008; https://en.wikipedia.org/wiki/Qarshi"
+    },
+    "q62069250": {
+      "dateNote": "A small Roman fort on the Raetian Limes, built in the 2nd century AD. 1973 is not when it was built.",
+      "why": "Places fact-check batch 25-27 (Nov 2026), still uncertain, the panel now says so: Roman fort of the 2nd century AD; 1973 is not the build year.",
+      "source": "https://www.wikidata.org/wiki/Q62069250; https://en.wikipedia.org/wiki/R%C3%B6merkastell_Halheim"
+    },
     "q559490": {
       "startYear": 1685,
       "why": "People fact-check batch 3, checked by hand (Oct 2026), fixed: Born 20 August 1685, not 1683.",
