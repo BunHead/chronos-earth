@@ -5694,6 +5694,201 @@
       "why": "Places fact-check batch 15 (Oct 2026), still uncertain, the panel now says so: Founding given as 1180 to 1187.",
       "source": "https://www.wikidata.org/wiki/Q1539949 (P571 1181); https://en.wikipedia.org/wiki/Abbey_of_Santa_María_la_Real_de_Las_Huelgas"
     },
+    "q773325": {
+      "startYear": 1787,
+      "dateNote": "Founded in 1787 as a courthouse village for the new Spartanburg County (set up in 1785). It became a town in 1831.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1831). 1831 is incorporation; the courthouse village was founded in 1787",
+      "source": "https://www.wikidata.org/wiki/Q773325; https://en.wikipedia.org/wiki/Spartanburg%2C_South_Carolina; https://scmemory.org/?p=8381; https://www.britannica.com/place/Spartanburg-South-Carolina"
+    },
+    "q22062839": {
+      "startYear": 1783,
+      "dateNote": "Founded in 1783 by the Portuguese explorer João Gonçalves da Costa, as the Arraial da Conquista. It became a vila in 1840 and a city in 1891.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1840). 1840 is vila (town) status; the settlement was founded in 1783",
+      "source": "https://www.wikidata.org/wiki/Q22062839; https://en.wikipedia.org/wiki/Vit%C3%B3ria_da_Conquista; https://biblioteca.ibge.gov.br/visualizacao/periodicos/113/col_mono_n436_vitoriadaconquista_2ed.pdf"
+    },
+    "q953567": {
+      "startYear": 1848,
+      "dateNote": "Founded in 1848, in the Gold Rush, by miners from Sonora in Mexico, and first called the Sonoran Camp. It became a city in 1851.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1850). 1850 is not the founding date (it became a city in 1851); the mining camp was founded in 1848",
+      "source": "https://www.wikidata.org/wiki/Q953567; https://en.wikipedia.org/wiki/Sonora%2C_California; https://sonoraca.com/downtown-sonora/sonora-california-history/short-history/"
+    },
+    "q585176": {
+      "startYear": 1839,
+      "dateNote": "Founded in 1839 by Roswell King, who built a cotton mill here and named the town after himself. It became a town in 1854.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1854). 1854 is incorporation; Roswell King founded the mill town in 1839",
+      "source": "https://www.wikidata.org/wiki/Q585176; https://en.wikipedia.org/wiki/Roswell%2C_Georgia; https://www.georgiaencyclopedia.org/articles/counties-cities-neighborhoods/roswell/; https://www.visitroswellga.com/media/quick-facts/"
+    },
+    "q54220": {
+      "startYear": 1661,
+      "dateNote": "Settled in 1661, when Jonathan Gilbert was given land here and named his farm Meriden. It became a town in 1806 and a city in 1867.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1867). 1867 is city status; it was settled in 1661",
+      "source": "https://www.wikidata.org/wiki/Q54220; https://en.wikipedia.org/wiki/Meriden%2C_Connecticut; https://www.meridenct.gov/about/history-of-meriden/; https://www.britannica.com/place/Meriden"
+    },
+    "q913543": {
+      "startYear": 1852,
+      "dateNote": "Laid out in 1852 by Judge John H. Watson and D. S. Gregory, and named after Watson. It became a town in 1868.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1868). 1868 is incorporation; the town was laid out in 1852",
+      "source": "https://www.wikidata.org/wiki/Q913543; https://en.wikipedia.org/wiki/Watsonville%2C_California; https://www.hmdb.org/m.asp?m=54880"
+    },
+    "q6586": {
+      "startYear": 1758,
+      "dateNote": "The town grew up around Fort Stanwix, built by the British in 1758 to guard the route between the Mohawk River and Lake Ontario. It became the town of Rome in 1796 and a city in 1870.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1870). 1870 is city status; the settlement began at Fort Stanwix in 1758",
+      "source": "https://www.wikidata.org/wiki/Q6586; https://en.wikipedia.org/wiki/Rome%2C_New_York; https://www.britannica.com/place/Rome-New-York; https://www.nps.gov/articles/000/-what-s-in-a-name-or-that-which-we-call-a-rose.htm"
+    },
+    "q537853": {
+      "startYear": 1837,
+      "dateNote": "Laid out on 13 April 1837 as Bethlehem by four settlers. It took the name Carmel when it became a town in 1874.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1874). 1874 is incorporation and renaming; the town was laid out in 1837",
+      "source": "https://www.wikidata.org/wiki/Q537853; https://en.wikipedia.org/wiki/Carmel%2C_Indiana; https://carmelin.prod.govaccess.org/our-city/history"
+    },
+    "q1152219": {
+      "startYear": 1865,
+      "dateNote": "Laid out in 1865 (some sources say 1864) in a gold-mining area, and named after Senator Edward D. Baker. It became a city in 1874.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1874). 1874 is incorporation; the town was laid out in 1865",
+      "source": "https://www.wikidata.org/wiki/Q1152219; https://en.wikipedia.org/wiki/Baker_City%2C_Oregon; https://www.oregonencyclopedia.org/articles/baker_city/"
+    },
+    "q704371": {
+      "startYear": 1862,
+      "dateNote": "Founded in 1862 and named after John Mackay, whose expedition reached the Pioneer River in 1860. It became a municipality in 1869.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1875). 1875 is not the founding date; the town was founded in 1862 (Wikidata P1249 gives 1860, the expedition)",
+      "source": "https://www.wikidata.org/wiki/Q704371; https://en.wikipedia.org/wiki/Mackay%2C_Queensland; https://www.mackay.qld.gov.au/about_council/your_council/history/history_of_the_mackay_region"
+    },
+    "q852704": {
+      "startYear": 1874,
+      "dateNote": "Founded in 1874 by the Lompoc Land Company as a temperance colony (a town with no alcohol). It became a city in 1888.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1888). 1888 is incorporation; the town was founded in 1874",
+      "source": "https://www.wikidata.org/wiki/Q852704; https://en.wikipedia.org/wiki/Lompoc%2C_California; https://www.cityoflompoc.com/community/history-of-lompoc"
+    },
+    "q79653": {
+      "startYear": 1838,
+      "dateNote": "Fort Payne began in 1838 as an army stockade used in the forced removal of the Cherokee (the Trail of Tears). A town grew up around it and became a city in 1889.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1889). 1889 is incorporation; the fort and settlement date from 1838",
+      "source": "https://www.wikidata.org/wiki/Q79653; https://en.wikipedia.org/wiki/Fort_Payne%2C_Alabama; https://encyclopediaofalabama.org/?p=16228; https://fortwiki.com/Fort_Payne_(1)"
+    },
+    "q984544": {
+      "startYear": 1847,
+      "dateNote": "Settled in 1847, when Horace Boardman set up a sawmill at the mouth of the Boardman River. It became a village in 1881 and a city in 1895.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1891). 1891 is not the founding date; it was settled in 1847 (village 1881, city 1895)",
+      "source": "https://www.wikidata.org/wiki/Q984544; https://en.wikipedia.org/wiki/Traverse_City%2C_Michigan; https://traverseticker.com/news/traverse-city-celebrates-125th-birthday"
+    },
+    "q461773": {
+      "startYear": 1560,
+      "dateNote": "Began on 11 November 1560 as a Jesuit mission village set up by Father José de Anchieta by the Tietê River. It became a separate municipality in 1949.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1949). 1949 is municipality status; the Jesuit village was founded in 1560",
+      "source": "https://www.wikidata.org/wiki/Q461773; https://en.wikipedia.org/wiki/Barueri; https://biblioteca.ibge.gov.br/visualizacao/dtb/saopaulo/barueri.pdf"
+    },
+    "q80022": {
+      "startYear": 1885,
+      "dateNote": "Moravian missionaries set up the Bethel mission here in 1885, next to a Yup'ik village. It became a city in 1957.",
+      "why": "Places fact-check batch 40-41 (Nov 2026): wrong year (1957). 1957 is incorporation; the mission was founded in 1885",
+      "source": "https://www.wikidata.org/wiki/Q80022; https://en.wikipedia.org/wiki/Bethel%2C_Alaska; https://npgallery.nps.gov/GetAsset/1ac8ba36-815b-4b5f-9a95-e4374e888f1a; https://www.moravian.org/mission/?p=494"
+    },
+    "q753044": {
+      "dateNote": "1833 is when it became a vila (town). Franciscan missionaries were here from 1706, but sources do not agree on when the town itself began.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1833 is vila status; sources disagree (1706, 1766, 1833).",
+      "source": "https://www.wikidata.org/wiki/Q753044; https://en.wikipedia.org/wiki/Juazeiro"
+    },
+    "q325124": {
+      "dateNote": "Sources disagree: Wikidata gives 1834, but most sources say the town grew up around the railway station from 1862. It got town rights in 1879.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: sources disagree (1834, 1862).",
+      "source": "https://www.wikidata.org/wiki/Q325124; https://en.wikipedia.org/wiki/Aleksandr%C3%B3w_Kujawski"
+    },
+    "q1960647": {
+      "dateNote": "1888 is when it became a city. The town, first called Forbestown, is older: its post office opened in 1861. No source gives a clear founding year.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1888 is incorporation, founding year not found.",
+      "source": "https://www.wikidata.org/wiki/Q1960647; https://en.wikipedia.org/wiki/Lakeport%2C_California"
+    },
+    "q166481": {
+      "dateNote": "1888 is when the town (then called Chauncey) became a town. Settlement here is older, but no clear founding year was found.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1888 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q166481; https://en.wikipedia.org/wiki/West_Lafayette%2C_Indiana"
+    },
+    "q852581": {
+      "dateNote": "1888 is when it became a city. Settlers farmed here from the 1870s.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1888 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q852581; https://en.wikipedia.org/wiki/South_Pasadena%2C_California"
+    },
+    "q609084": {
+      "dateNote": "1906 is when it became a city. The town grew up in the 1890s on the ranch of Hiram Morgan Hill.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1906 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q609084; https://en.wikipedia.org/wiki/Morgan_Hill%2C_California"
+    },
+    "q927122": {
+      "dateNote": "1908 is when it became a city. The town was laid out in the 1890s.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1908 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q927122; https://en.wikipedia.org/wiki/South_San_Francisco%2C_California"
+    },
+    "q1683958": {
+      "dateNote": "1921 is a modern date. Madaba is an ancient town, named in the Bible and on the Mesha Stele (about 840 BC). The modern town began when Christian families from Al-Karak resettled the ruins in 1880.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1921 is a modern date; ancient town, modern resettlement 1880.",
+      "source": "https://www.wikidata.org/wiki/Q1683958; https://en.wikipedia.org/wiki/Madaba"
+    },
+    "q1065526": {
+      "dateNote": "1938 is when it became a city. Settlers came here from about 1910.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1938 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q1065526; https://en.wikipedia.org/wiki/Moses_Lake%2C_Washington"
+    },
+    "q207406": {
+      "dateNote": "1939 is when the towns of Moson and Magyaróvár merged. Both are much older (Moson is a medieval town).",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1939 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q207406; https://en.wikipedia.org/wiki/Mosonmagyar%C3%B3v%C3%A1r"
+    },
+    "q42147": {
+      "dateNote": "1946 is a modern city-status date. Cheongju is an old town that goes back to the Three Kingdoms period of Korea.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1946 is a modern city-status date.",
+      "source": "https://www.wikidata.org/wiki/Q42147; https://en.wikipedia.org/wiki/Cheongju"
+    },
+    "q214057": {
+      "dateNote": "1947 is when it became a separate municipality. People farmed here for centuries before that.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1947 is a municipality date.",
+      "source": "https://www.wikidata.org/wiki/Q214057; https://en.wikipedia.org/wiki/Seltjarnarnes"
+    },
+    "q205681": {
+      "dateNote": "1952 is when it became a municipality. Settlers came here from the 1930s.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1952 is municipality status.",
+      "source": "https://www.wikidata.org/wiki/Q205681; https://en.wikipedia.org/wiki/Cascavel"
+    },
+    "q850979": {
+      "dateNote": "1959 is when it became a city. The farming area was settled long before.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1959 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q850979; https://en.wikipedia.org/wiki/Walnut%2C_California"
+    },
+    "q516581": {
+      "dateNote": "1964 is when several old villages merged to make Baunatal. The villages are much older.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1964 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q516581; https://en.wikipedia.org/wiki/Baunatal"
+    },
+    "q847538": {
+      "dateNote": "1972 is when it became a city. People lived and worked here long before, for example at the Navy Yard from 1901.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1972 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q847538; https://en.wikipedia.org/wiki/North_Charleston%2C_South_Carolina"
+    },
+    "q16018": {
+      "dateNote": "1975 is when the towns of Burgsteinfurt and Borghorst merged. Both are medieval towns, much older than this.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1975 is a merger date.",
+      "source": "https://www.wikidata.org/wiki/Q16018; https://en.wikipedia.org/wiki/Steinfurt"
+    },
+    "q1011181": {
+      "dateNote": "1976 is when it became a city. Rancho La Cañada dates from the 1840s.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1976 is incorporation.",
+      "source": "https://www.wikidata.org/wiki/Q1011181; https://en.wikipedia.org/wiki/La_Ca%C3%B1ada_Flintridge%2C_California"
+    },
+    "q134528": {
+      "dateNote": "Sources disagree: 1168 comes from a story that Prince Andrey Bogolyubsky founded it, but the first written record is from 1239 (Wikidata P1249).",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: sources disagree (1168 legend, 1239 first record).",
+      "source": "https://www.wikidata.org/wiki/Q134528; https://en.wikipedia.org/wiki/Gorokhovets%2C_Vladimir_Oblast"
+    },
+    "q158775": {
+      "dateNote": "Only the century is known: it is first recorded in the 16th century. The year 1600 stands for that.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: Century values only.",
+      "source": "https://www.wikidata.org/wiki/Q158775; https://en.wikipedia.org/wiki/Mezen%2C_Mezensky_District%2C_Arkhangelsk_Oblast"
+    },
+    "q515388": {
+      "dateNote": "1089 is when the name Yan'an Prefecture was first used, under the Song dynasty. The town itself is older.",
+      "why": "Places fact-check batch 40-41 (Nov 2026), still uncertain, the panel now says so: 1089 is a naming date.",
+      "source": "https://www.wikidata.org/wiki/Q515388; https://en.wikipedia.org/wiki/Yan'an"
+    },
     "q1735": {
       "startYear": 1180,
       "dateNote": "First written record: 1180, as a small market town of the Counts of Andechs. Its town charter was confirmed in 1239.",
