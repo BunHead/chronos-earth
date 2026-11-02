@@ -242,6 +242,9 @@ export class FaunaController {
       title: `${entry.emoji} ${entry.name}`,
       date: `${maLabel(entry.fromMa)} – ${maLabel(entry.toMa)}`,
       summary: entry.blurb,
+      // The picture comes from Wikipedia; the hand-written blurb stays.
+      wikiTitle: entry.wiki,
+      summaryChecked: true,
       sections: [
         {
           heading: 'Where the fossils were found',

@@ -11,6 +11,7 @@ import { westminsterNote } from '../lib/westminsterNote';
 import { landmarkNote } from '../lib/landmarkMesh';
 import { applyTone, type ToneId } from '../lib/tone';
 import { onEnterOrSpace } from '../lib/keyboard';
+import { fetchWikiSummary, wikiImageTitleFor, wikiPageUrl } from '../lib/wikiImage';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
@@ -228,19 +229,21 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
       .catch(() => setFlagStory({ status: 'none' }));
   };
 
-  // For imported events, fetch the real Wikipedia summary + photo on open.
+  // Fetch the real Wikipedia summary + lead picture on open. Panels that only
+  // carry a Wikipedia LINK (no wikiTitle) get the picture alone — their own
+  // text is never replaced. Fetches are cached per article (lib/wikiImage.ts).
+  const imageTitle = content ? wikiImageTitleFor(content) : null;
+  const imageOnly = !!imageTitle && !content?.wikiTitle;
   useEffect(() => {
-    const title = content?.wikiTitle;
-    if (!title) {
+    if (!imageTitle) {
       setWiki({ status: 'idle' });
       return;
     }
     let cancelled = false;
     setWiki({ status: 'loading' });
-    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, '_'))}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => {
-        if (!cancelled) setWiki({ status: 'done', extract: j.extract, thumb: j.thumbnail?.source });
+    fetchWikiSummary(imageTitle)
+      .then((s) => {
+        if (!cancelled) setWiki({ status: 'done', extract: imageOnly ? undefined : s.extract, thumb: s.thumb });
       })
       .catch(() => {
         if (!cancelled) setWiki({ status: 'error' });
@@ -248,7 +251,7 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
     return () => {
       cancelled = true;
     };
-  }, [content?.wikiTitle]);
+  }, [imageTitle, imageOnly]);
 
   return (
     <aside
@@ -480,8 +483,19 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
             </div>
           )}
 
-          {wiki.thumb && (
-            <img className="info-thumb" src={wiki.thumb} alt={content.title} loading="lazy" />
+          {wiki.thumb && imageTitle && (
+            <figure className="info-wiki-figure">
+              <img
+                className={`info-thumb${imageOnly || content.kicker === 'Prehistoric life' ? ' info-thumb--contain' : ''}`}
+                src={wiki.thumb}
+                alt={content.title}
+                loading="lazy"
+                onError={(e) => { (e.currentTarget.closest('figure') as HTMLElement | null)?.setAttribute('hidden', ''); }}
+              />
+              <figcaption className="info-credit">
+                Image: <a href={wikiPageUrl(imageTitle)} target="_blank" rel="noopener noreferrer">Wikipedia</a>
+              </figcaption>
+            </figure>
           )}
           {content.realImage && <RealImagePanel image={content.realImage} />}
 
