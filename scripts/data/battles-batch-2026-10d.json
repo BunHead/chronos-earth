@@ -864,14 +864,15 @@
       "id": "q4087428",
       "name": "Battle of Kaba",
       "startYear": 1855,
-      "lat": -18.7098,
-      "lon": -174.03,
+      "lat": -18.003,
+      "lon": 178.691,
       "category": "battle",
       "wikidataId": "Q4087428",
       "wikiTitle": "Battle of Kaba",
       "notability": 4,
       "sourceUrl": "https://www.wikidata.org/wiki/Q4087428",
-      "dateNote": "1855 (Wikidata P585, recorded to the year)."
+      "dateNote": "7 April 1855.",
+      "placeNote": "Kaba, a peninsula on the east coast of Viti Levu, Fiji, close to Bau. The exact spot is approximate. Wikidata's point was in the sea near Vava'u, Tonga, about 770 km east."
     },
     {
       "id": "q106880868",
