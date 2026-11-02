@@ -304,6 +304,44 @@ describe('fossil sites', () => {
     }
   });
 
+  it('batch 7 (1 Nov 2026) adds cited, plain-link rows in gaps, each with its own Q-id', () => {
+    const batch7 = [
+      'jebel-faya', 'okladnikov', 'apidima', 'ouled-abdoun', 'pinnacle-point', 'iren-dabasu', 'batagaika',
+      'sataplia', 'balanica', 'mamontovaya-kurya', 'gongwangling', 'ukhaa-tolgod', 'gesher-benot-yaaqov',
+    ].map((id) => `cur-fossil-${id}`);
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch7) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      expect(s.summary!.length, id).toBeLessThan(120); // one line
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s()[\]<>]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
+      expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
+      expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
+      expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
+      // Galilee is crowded: Gesher Benot Ya'aqov is 19 km from Amud 1 and 22 km from the Magdala stone,
+      // different sites, so it gets a 15 km gap instead of 25.
+      const gap = id === 'cur-fossil-gesher-benot-yaaqov' ? 15 : 25;
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+    }
+  });
+
+  it('keeps the batch 7 fossil fact-check fixes (1 Nov 2026)', () => {
+    const row = (id: string) => events.find((e) => e.id === id)!;
+    expect(row('q1102309').lat).toBeCloseTo(53.53, 2); // Clonycavan Man: Ballivor, not mid-County Meath
+    expect(row('q1214533').lat).toBeCloseTo(45.14, 2); // Lovers of Valdaro: Valdaro, not mid-province
+    expect(row('q7863768').dateNote).toMatch(/^Uncertain/); // UA 8699: formation at a rounded point
+  });
+
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {
     const wf = readFileSync(join(__dirname, '..', '..', '.github', 'workflows', 'harvest.yml'), 'utf8');
     expect(wf).toContain('node scripts/add-fossil-sites.mjs');

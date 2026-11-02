@@ -1095,6 +1095,83 @@ function batch6() {
   ];
 }
 
+// Batch 7 (1 Nov 2026): more thin regions (Middle East, Caucasus, Siberia,
+// Balkans, North and South Africa, China and Mongolia). Checked against
+// main and open PRs #103, #107 and #109 by Q-id and by a 25 km radius. Each
+// pin is the Q-id's own Wikidata P625 unless the note says otherwise.
+const BATCH_7 = [
+  cited(site('jebel-faya', 'Jebel Faya: early tools in Arabia', 2011, 25.111404, 55.838957, 'Q6172505', 'Jebel Faya',
+    'In 2011 Simon Armitage and Hans-Peter Uerpmann\'s team reported stone tools from a rock shelter at Jebel Faya, ' +
+      'Sharjah, in the United Arab Emirates. They are about 125,000 years old (0.125 million years).'),
+  'Stone tools in Arabia, 125,000 years old, a sign that modern humans left Africa early.',
+  'https://doi.org/10.1126/science.1199113'),
+  cited(site('okladnikov', 'Okladnikov Cave: Neanderthals in Siberia', 2007, 51.732126, 84.037126, 'Q2017307', 'Okladnikov Cave',
+    'In 2007 Johannes Krause and Svante Pääbo\'s team read DNA from bones found in this cave in the Altai Mountains, ' +
+      'Siberia. They were Neanderthal, so Neanderthals had lived about 2,000 km further east than was thought. The bones are Late Ice Age, under 0.05 million years old.'),
+  'A Siberian cave whose bones showed Neanderthals lived far into Asia.',
+  'https://en.wikipedia.org/wiki/Okladnikov_Cave'),
+  cited(site('apidima', 'Apidima Cave: the oldest Homo sapiens in Europe?', 1978, 36.66258, 22.36244, 'Q15067212', 'Apidima Cave',
+    'In 1978 a University of Athens team led by Theodoros Pitsios found two skulls in a cave at Apidima, in the Mani ' +
+      'peninsula of southern Greece. In 2019 Katerina Harvati\'s team said one, Apidima 1, is a modern human about 0.21 ' +
+      'million years old; the other looks Neanderthal, about 0.17 million years. The first date is still argued over.'),
+  'A Greek cave with a skull that may be the oldest modern human found outside Africa.',
+  'https://en.wikipedia.org/wiki/Apidima_Cave'),
+  cited(site('ouled-abdoun', 'Ouled Abdoun Basin: the oldest elephant relative', 2009, 32.9053419, -6.9245615, 'Q15079394', 'Ouled Abdoun Basin',
+    'The phosphate mines of this basin near Khouribga, Morocco, are full of sharks, sea reptiles and early mammals. In 2009 ' +
+      'Emmanuel Gheerbrant named Eritherium from here, one of the oldest relatives of elephants. About 60 million years old (Paleocene).'),
+  'Moroccan phosphate mines that gave up Eritherium, one of the first elephant relatives.',
+  'https://en.wikipedia.org/wiki/Eritherium'),
+  cited(site('pinnacle-point', 'Pinnacle Point: shellfish and red ochre', 2007, -34.207863, 22.089515, 'Q1814354', 'Pinnacle Point',
+    'In 2007 Curtis Marean\'s team reported shellfish meals, red ochre and small stone blades in a sea cave at Pinnacle ' +
+      'Point, near Mossel Bay, South Africa. They are about 164,000 years old (0.164 million years).'),
+  'A South African sea cave with some of the oldest signs of modern human ways of life.',
+  'https://en.wikipedia.org/wiki/Pinnacle_Point'),
+  cited(site('iren-dabasu', 'Iren Dabasu: Gigantoraptor found', 2005, 43.8, 112.4, 'Q17082076', 'Iren Dabasu Formation',
+    'In April 2005 Xu Xing\'s team found the bones of a giant bird-like dinosaur in the Iren Dabasu Formation near Erenhot, ' +
+      'Inner Mongolia, China. Named Gigantoraptor in 2007, it was about 8 m long. The rock is Late Cretaceous, very roughly 90 million years old; its exact age is argued over.',
+    'Wikidata pins the formation at a rounded point.'),
+  'Where Gigantoraptor, a feathered dinosaur as big as a bus, was found.',
+  'https://en.wikipedia.org/wiki/Gigantoraptor'),
+  cited(site('batagaika', 'Batagaika crater: the frozen foal', 2018, 67.58, 134.77138889, 'Q24457233', 'Batagaika crater',
+    'In 2018 a foal of an extinct wild horse, still with skin and hair, was found frozen in the Batagaika crater, a huge ' +
+      'thaw slump in Yakutia, Siberia. It is about 42,000 years old (0.042 million years).'),
+  'A thawing Siberian crater that gave up an Ice Age foal with its hair still on.',
+  'https://en.wikipedia.org/wiki/Batagaika_crater'),
+  cited(site('sataplia', 'Sataplia: dinosaur footprints in Georgia', 1933, 42.37638889, 42.60083333, 'Q625616', 'Sataplia Strict Nature Reserve',
+    'In 1933 Petre Chabukiani found dinosaur footprints in the limestone at Sataplia, near Kutaisi, Georgia. The tracks ' +
+      'are Cretaceous, more than 66 million years old. The site is now a nature reserve, with the footprints under a roof.'),
+  'Dinosaur footprints on a hill near Kutaisi, Georgia.',
+  'https://en.wikipedia.org/wiki/Sataplia_Strict_Nature_Reserve'),
+  cited(site('balanica', 'Mala Balanica: an early human jaw in Serbia', 2011, 43.33685, 22.08525, 'Q15057637', 'Balanica',
+    'In 2011 Mirjana Roksandic\'s team reported a human lower jaw from Mala Balanica cave near Niš, Serbia. At about ' +
+      '0.4–0.5 million years old it is one of the oldest human fossils in south-east Europe.'),
+  'A cave near Niš with one of the oldest human jaws in the Balkans.',
+  'https://en.wikipedia.org/wiki/Balanica'),
+  cited(site('mamontovaya-kurya', 'Mamontovaya Kurya: people at the Arctic Circle', 2001, 66.56666667, 62.41666667, 'Q3285047', 'Mamontovaya Kurya',
+    'In 2001 Pavel Pavlov\'s team reported stone tools and a mammoth tusk with cut marks at Mamontovaya Kurya, on the Usa ' +
+      'River in the far north of European Russia. They are about 40,000 years old (0.04 million years).'),
+  'One of the oldest signs of people near the Arctic Circle, 40,000 years ago.',
+  'https://en.wikipedia.org/wiki/Mamontovaya_Kurya'),
+  cited(site('gongwangling', 'Gongwangling: Lantian Man found', 1964, 34.185, 109.489444, 'Q1067903', 'Lantian Man',
+    'In 1964 a team from the Institute of Vertebrate Paleontology found a Homo erectus skull at Gongwangling, Lantian ' +
+      'County, Shaanxi, China. In 2015 it was dated to about 1.6 million years old.',
+    'Pinned at the Wikidata point for Gongwangling (Q55477933).'),
+  'Where Lantian Man, one of the oldest Homo erectus skulls in China, was found.',
+  'https://en.wikipedia.org/wiki/Lantian_Man'),
+  cited(site('ukhaa-tolgod', 'Ukhaa Tolgod: dinosaurs on their nests', 1993, 43.53333333, 101.5666667, 'Q131735', 'Citipati',
+    'In 1993 a Mongolian–American team from the Mongolian Academy of Sciences and the American Museum of Natural History ' +
+      'found Ukhaa Tolgod in the Gobi Desert. It holds Citipati sitting on their eggs and many early mammals. Late Cretaceous, about 75 million years old.',
+    'Ukhaa Tolgod has no English Wikipedia article, so the row is Citipati; pinned at the Wikidata point for Ukhaa Tolgod (Q15851973).'),
+  'A Gobi site where feathered dinosaurs were found sitting on their nests.',
+  'https://doi.org/10.1038/374446a0'),
+  cited(site('gesher-benot-yaaqov', 'Gesher Benot Ya\'aqov: early fire', 2004, 33.00776, 35.62909, 'Q25495706', 'Gesher Benot Ya\'aqov',
+    'In 2004 Naama Goren-Inbar\'s team reported burnt seeds, wood and flint at this old lake shore by the River Jordan in ' +
+      'northern Israel. They are about 790,000 years old (0.79 million years).'),
+  'A site by the River Jordan with one of the oldest signs of people using fire.',
+  'https://doi.org/10.1126/science.1095443'),
+];
+FOSSIL_SITES.push(...BATCH_7);
+
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const events = doc.events ?? [];

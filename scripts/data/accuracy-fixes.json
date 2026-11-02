@@ -11372,6 +11372,23 @@
       "placeNote": "Uncertain: the site of the battle is not known. Mynydd Carningli near Newport, Pembrokeshire, is one suggestion; the pin is Wikidata's point, about 27 km south of it.",
       "why": "Battles fact-check batch 1 (31 Oct 2026): checked, still uncertain, the panel now says so: the battlefield has not been found",
       "source": "https://www.wikidata.org/wiki/Q2781949 (P276 Q8521592 Mynydd Carningli); https://en.wikipedia.org/wiki/Battle_of_Mynydd_Carn"
+    },
+    "q1102309": {
+      "lat": 53.5328,
+      "lon": -6.9648,
+      "why": "Fossil fact-check batch 7 (1 Nov 2026), checked by hand against Wikidata: pinned on the centre of County Meath, about 25 km off; the bog body was found in 2003 at Clonycavan, by Ballivor (Ballivor, Wikidata Q580644 P625, also in the body's own P189)",
+      "source": "https://en.wikipedia.org/wiki/Clonycavan_Man"
+    },
+    "q1214533": {
+      "lat": 45.1358,
+      "lon": 10.8599,
+      "why": "Fossil fact-check batch 7 (1 Nov 2026), checked by hand against Wikidata: pinned on the centre of the Province of Mantua, about 6 km off; the pair of skeletons was found in 2007 at Valdaro, by Mantua (Valdaro, Wikidata Q4007560 P625)",
+      "source": "https://en.wikipedia.org/wiki/Lovers_of_Valdaro"
+    },
+    "q7863768": {
+      "dateNote": "Uncertain place: this Majungasaurus skull comes from the Maevarano Formation of north-west Madagascar. Wikidata gives only the formation, at a rounded point, so the pin is near the find, not on it.",
+      "why": "Fossil fact-check batch 7 (1 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the formation at a rounded point (-15.9, 46.6); no checked source gives the find's exact spot",
+      "source": "https://en.wikipedia.org/wiki/Majungasaurus"
     }
   }
 }
