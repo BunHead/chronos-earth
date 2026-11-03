@@ -5706,6 +5706,165 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (AD 13). Wikidata P571 is the year 13 (meant as the 13th century); the monastery was founded in the 1220s",
       "source": "https://www.wikidata.org/wiki/Q503387 (P571 13); https://en.wikipedia.org/wiki/Rock-hewn_Churches_of_Ivanovo"
     },
+    "q1000029": {
+      "startYear": 1272,
+      "dateNote": "First written mention: 1272. Wikidata also gives 1356, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1272, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1356, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q1000029"
+    },
+    "q1000101": {
+      "startYear": 1318,
+      "dateNote": "First written mention: 1318. Wikidata also gives 1320, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1318, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1320, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q1000101"
+    },
+    "q158239": {
+      "startYear": 1107,
+      "dateNote": "First written mention: 1107. Wikidata also gives 1110, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1107, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1110, from the book \"Jak stará jsou česká města? Legendy a fakta\"); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q158239"
+    },
+    "q1645575": {
+      "startYear": 1303,
+      "dateNote": "First written mention: 1303. Wikidata also gives 1316, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1303, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1316, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q1645575"
+    },
+    "q383850": {
+      "startYear": 1249,
+      "dateNote": "First written mention: 1249. Wikidata also gives 1287, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1249, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1287, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q383850"
+    },
+    "q430864": {
+      "startYear": 1219,
+      "dateNote": "First written mention: 1219. Wikidata also gives 1275, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1219, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1275, from the book \"Jak stará jsou česká města? Legendy a fakta\"); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q430864"
+    },
+    "q850676": {
+      "startYear": 1131,
+      "dateNote": "First written mention: 1131. Wikidata also gives 1136, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1131, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1136, from the book \"Jak stará jsou česká města? Legendy a fakta\"); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q850676"
+    },
+    "q894440": {
+      "startYear": 1201,
+      "dateNote": "First written mention: 1201. Wikidata also gives 1413, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1201, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1413, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q894440"
+    },
+    "q682361": {
+      "startYear": 1213,
+      "dateNote": "First written mention: 1213. Wikidata also gives 1223, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1213, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1223, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q682361"
+    },
+    "q987487": {
+      "startYear": 1269,
+      "dateNote": "First written mention: 1269. Wikidata also gives 1331, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1269, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1331, from the book \"Jak stará jsou česká města? Legendy a fakta\"); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q987487"
+    },
+    "q1015011": {
+      "startYear": 1183,
+      "dateNote": "First written mention: 1183. Wikidata also gives 1184, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1183, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1184, from no source); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q1015011"
+    },
+    "q214956": {
+      "startYear": 1048,
+      "dateNote": "First written mention: 1048. Wikidata also gives 1226, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1048, from the book \"Jak stará jsou česká města? Legendy a fakta\"; 1226, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q214956"
+    },
+    "q581478": {
+      "startYear": 1046,
+      "dateNote": "First written mention: 1046. Wikidata also gives 1056, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1046, from the book \"Jak stará jsou česká města? Legendy a fakta\"; 1056, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q581478"
+    },
+    "q470445": {
+      "startYear": 1141,
+      "dateNote": "First written mention: 1141. Wikidata also gives 1201, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1141, from the book \"Jak stará jsou česká města? Legendy a fakta\"; 1201, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q470445"
+    },
+    "q513417": {
+      "startYear": 1297,
+      "dateNote": "First written mention: 1297. Wikidata also gives 1308, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1297, from the book \"Jak stará jsou česká města? Legendy a fakta\"; 1308, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q513417"
+    },
+    "q158257": {
+      "startYear": 1256,
+      "dateNote": "First written mention: 1256. Wikidata also gives 1303, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1256, from the book \"Jak stará jsou česká města? Legendy a fakta\"; 1303, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q158257"
+    },
+    "q104587": {
+      "startYear": 1126,
+      "dateNote": "First written mention: 1126. Wikidata also gives 1130, a later record.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1126, from the town website (mestokyjov.cz); 1130, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office)); we showed the later one. Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q104587"
+    },
+    "q583910": {
+      "startYear": 1232,
+      "dateNote": "First written mention: 1232. Wikidata also gives 1270, and 1281 as the founding.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1232, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1270, no source); we showed 1281 (P571). Using the earliest well-sourced date.",
+      "source": "https://www.wikidata.org/wiki/Q583910"
+    },
+    "q664895": {
+      "startYear": 1140,
+      "dateNote": "First written mention: 1140. An earlier date, 1048, comes from a charter that is a later forgery. It became a royal town in 1272.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1048, from Historický lexikon obcí České republiky 1869–2005 (Czech Statistical Office); 1140, from the book \"Jak stará jsou česká města? Legendy a fakta\"); we showed 1945, the date of the present municipality. 1048 rests on a forged Rajhrad charter, so 1140 is the earliest safe date.",
+      "source": "https://www.wikidata.org/wiki/Q664895; https://en.wikipedia.org/wiki/Uhersk%C3%BD_Brod"
+    },
+    "q193721": {
+      "dateNote": "Uncertain date: Tábor was founded by the Hussites in 1420. Wikidata also gives 1268, for an older settlement on the same hill (Hradiště).",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1420 and 1268); still uncertain, the panel now says so: 1420 is when the Hussites founded Tábor; the 1268 date (from the Czech historical lexicon) is for an older castle-settlement, Hradiště, on the same hill, and could not be checked",
+      "source": "https://www.wikidata.org/wiki/Q193721"
+    },
+    "q1000060": {
+      "dateNote": "Uncertain date: 1219 is the first written mention in the Czech historical lexicon. Wikidata also gives 1178, with no source.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1219 and 1178); still uncertain, the panel now says so: the earlier date, 1178, has no source on Wikidata; 1219 is cited to the Czech historical lexicon",
+      "source": "https://www.wikidata.org/wiki/Q1000060"
+    },
+    "q1000086": {
+      "dateNote": "Uncertain date: 1720 is the first written mention in the Czech historical lexicon. Wikidata also gives 1692, with no source.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1720 and 1692); still uncertain, the panel now says so: the earlier date, 1692, has no source on Wikidata; 1720 is cited to the Czech historical lexicon",
+      "source": "https://www.wikidata.org/wiki/Q1000086"
+    },
+    "q1015409": {
+      "dateNote": "Uncertain date: 1329 is the first written mention in the Czech historical lexicon. Wikidata also gives 1324, with no source.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1329 and 1324); still uncertain, the panel now says so: the earlier date, 1324, has no source on Wikidata; 1329 is cited to the Czech historical lexicon",
+      "source": "https://www.wikidata.org/wiki/Q1015409"
+    },
+    "q149105": {
+      "dateNote": "Uncertain date: 1618 is the first written mention in the Czech historical lexicon. Wikidata also gives 1611, with no source.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1618 and 1611); still uncertain, the panel now says so: the earlier date, 1611, has no source on Wikidata; 1618 is cited to the Czech historical lexicon",
+      "source": "https://www.wikidata.org/wiki/Q149105"
+    },
+    "q1001639": {
+      "dateNote": "Uncertain date: 1207 has no source. The Czech historical lexicon gives 1318 for the first written mention.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1207 and 1318); still uncertain, the panel now says so: we show 1207, which has no source on Wikidata; the Czech historical lexicon gives 1318",
+      "source": "https://www.wikidata.org/wiki/Q1001639"
+    },
+    "q1018329": {
+      "dateNote": "Uncertain date: 1234 has no source. The Czech historical lexicon gives 1346 for the first written mention.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1234 and 1346); still uncertain, the panel now says so: we show 1234, which has no source on Wikidata; the Czech historical lexicon gives 1346",
+      "source": "https://www.wikidata.org/wiki/Q1018329"
+    },
+    "q776426": {
+      "dateNote": "Uncertain date: 1322 has no source. The Czech historical lexicon gives 1343 for the first written mention.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1322 and 1343); still uncertain, the panel now says so: we show 1322, which has no source on Wikidata; the Czech historical lexicon gives 1343",
+      "source": "https://www.wikidata.org/wiki/Q776426"
+    },
+    "q704033": {
+      "dateNote": "Uncertain date: 1287 has no source. The Czech historical lexicon gives 1288 for the first written mention.",
+      "why": "Czech first-mention round (Nov 2026): Wikidata P1249 has two first-mention dates (1287 and 1288); still uncertain, the panel now says so: we show 1287, which has no source on Wikidata; the Czech historical lexicon gives 1288",
+      "source": "https://www.wikidata.org/wiki/Q704033"
+    },
     "q543419": {
       "startYear": 400,
       "dateNote": "Made about AD 400: its inscription names a king Chandra, taken to be Chandragupta II (ruled about 375 to 415). Wikidata gives only \"5th century\", which showed as 500. It was moved to Delhi much later.",
