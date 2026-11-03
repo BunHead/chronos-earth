@@ -168,6 +168,83 @@ const BATCH_5 = [
   'https://en.wikipedia.org/wiki/Sirindhorn_Museum'),
 ];
 
+// Batch 10 (3 Nov 2026): more thin regions — the Levant, Turkey, the Caucasus,
+// the Balkans, Central Europe, India, East and West Africa, Peru and Western
+// Australia. Each at its own Wikidata P625 (Q-id and enwiki title from the same
+// item). Checked against main and every open PR (none of #92–#137 adds fossil
+// pins) by Q-id and by distance. Spread at the top of FOSSIL_SITES.
+const BATCH_10 = [
+  cited(site('kebara', 'Kebara Cave: "Moshe" the Neanderthal', 1983, 32.557719444, 34.936672222, 'Q1737670', 'Kebara Cave',
+    'In 1983 Ofer Bar-Yosef and Bernard Vandermeersch\'s team found most of a Neanderthal man\'s skeleton, nicknamed ' +
+      '"Moshe", in this cave on Mount Carmel, Israel. It held the first Neanderthal hyoid (throat) bone ever found. About 60,000 years old (0.06 million years).'),
+  'An Israeli cave where a Neanderthal skeleton kept its throat bone, a clue to how Neanderthals spoke.',
+  'https://en.wikipedia.org/wiki/Kebara_Cave'),
+  cited(site('vindija', 'Vindija Cave: the Neanderthal genome', 1974, 46.299444444, 16.070555555, 'Q1571803', 'Vindija Cave',
+    'From 1974 Mirko Malez dug Neanderthal bones out of this cave in northern Croatia. In 2010 DNA from three of them ' +
+      'gave the first draft of the whole Neanderthal genome. The bones are more than 40,000 years old (0.04 million years).'),
+  'A Croatian cave whose bones gave the first Neanderthal genome.',
+  'https://en.wikipedia.org/wiki/Vindija_Cave'),
+  cited(site('karain', 'Karain Cave: Neanderthals in Anatolia', 1946, 37.077777777, 30.570833333, 'Q1062421', 'Karain Cave',
+    'In 1946 İsmail Kılıç Kökten began digging this cave near Antalya, Turkey. Its deep layers of stone tools include ' +
+      'Neanderthal teeth more than 40,000 years old (0.04 million years); people used the cave for a very long time before that.'),
+  'A big cave near Antalya with Neanderthal teeth and deep layers of Old Stone Age tools.',
+  'https://en.wikipedia.org/wiki/Karain_Cave'),
+  cited(site('pestera-muierilor', 'Peștera Muierilor: early modern humans in Romania', 1952, 45.191944444, 23.756944444, 'Q4410491', 'Peștera Muierilor',
+    'In 1952 Constantin Nicolăescu-Plopșor\'s team found a human skull and other bones in the "Women\'s Cave" at Baia ' +
+      'de Fier, Romania. Dated in 2006, they are about 35,000 years old (0.035 million years), among the oldest modern humans in Europe.'),
+  'A Romanian cave with some of the oldest modern human bones in Europe.',
+  'https://en.wikipedia.org/wiki/Pe%C8%99tera_Muierilor'),
+  cited(site('kulna', 'Kůlna Cave: Neanderthals in Moravia', 1961, 49.4077, 16.7387, 'Q12032376', 'Kůlna Cave',
+    'From 1961 to 1976 Karel Valoch dug this cave in the Moravian Karst, Czech Republic, and found Neanderthal bones, ' +
+      'including part of an upper jaw. They are about 50,000 years old (0.05 million years).'),
+  'A cave in the Moravian Karst where Neanderthal bones and tools were dug up.',
+  'https://en.wikipedia.org/wiki/K%C5%AFlna_Cave'),
+  cited(site('nor-geghi', 'Nor Geghi 1: early Levallois tools', 2008, 40.32111111, 44.57972222, 'Q934995', 'Nor Geghi',
+    'Digs from 2008 by Daniel Adler\'s team in the Hrazdan gorge near Nor Geghi, Armenia, found stone tools made by the ' +
+      'careful "Levallois" method. Reported in 2014, they are about 335,000–325,000 years old (0.33 million years), so the method was invented in more than one place.',
+    'Pinned on the village; the site is in the gorge beside it.'),
+  'An Armenian site showing a clever way of making stone tools was invented more than once.',
+  'https://en.wikipedia.org/wiki/Nor_Geghi'),
+  cited(site('jwalapuram', 'Jwalapuram: tools and the Toba eruption', 2007, 15.81, 78.03, 'Q6319278', 'Jwalapuram',
+    'In 2007 Michael Petraglia\'s team reported stone tools from just below and just above the ash of the huge Toba ' +
+      'eruption at Jwalapuram, Andhra Pradesh, India. The ash is about 74,000 years old (0.074 million years), and people lived here through it.',
+    'Wikidata pins the site at a rounded point.'),
+  'An Indian site where people kept making tools through the giant Toba eruption.',
+  'https://en.wikipedia.org/wiki/Jwalapuram'),
+  cited(site('kapthurin', 'Kapthurin Formation: the first fossil chimpanzee', 2005, 0.552958333, 35.972469444, 'Q6367291', 'Kapthurin Formation',
+    'In 2005 Sally McBrearty and Nina Jablonski reported three chimpanzee teeth from these rocks by Lake Baringo, Kenya: ' +
+      'the first chimpanzee fossils ever found. They are about 545,000 years old (0.5 million years), from beside early human fossils.'),
+  'Kenyan rocks with the first chimpanzee fossils ever found, about half a million years old.',
+  'https://en.wikipedia.org/wiki/Kapthurin_Formation'),
+  cited(site('porc-epic', 'Porc-Epic Cave: Stone Age Ethiopia', 1929, 9.5715, 41.8874, 'Q85846956', 'Porc-Epic Cave',
+    'In 1929 Pierre Teilhard de Chardin and Henry de Monfreid found this cave near Dire Dawa, Ethiopia. Digs from 1933 ' +
+      'found Middle Stone Age tools, red ochre and part of a human jaw, more than 40,000 years old (0.04 million years).'),
+  'An Ethiopian cave with Middle Stone Age tools, ochre and a human jaw.',
+  'https://en.wikipedia.org/wiki/Porc-Epic_Cave'),
+  cited(site('tiouraren', 'Tiourarén: Jobaria and Afrovenator', 1993, 16.5, 7.8, 'Q5863960', 'Tiourarén Formation',
+    'In 1993 Paul Sereno\'s team found the meat-eating dinosaur Afrovenator in these rocks in the Sahara of Niger; in 1997 ' +
+      'they dug up Jobaria, a long-necked plant-eater. The rock\'s age is argued over: Middle Jurassic or Early Cretaceous, very roughly 165–130 million years old.',
+    'Wikidata pins the formation at a rounded point.'),
+  'Saharan rocks in Niger where Afrovenator and the long-necked Jobaria were dug up.',
+  'https://en.wikipedia.org/wiki/Tiourar%C3%A9n_Formation'),
+  cited(site('echkar', 'Echkar Formation: Rugops found', 2000, 17.9, 5.6, 'Q5332629', 'Echkar Formation',
+    'In 2000 Paul Sereno\'s team found the skull of Rugops, a meat-eater with a wrinkled face, in these rocks in Niger. ' +
+      'Carcharodontosaurus iguidensis was named from here in 2007. The rock is about 95 million years old (Late Cretaceous).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Rocks in Niger that gave Rugops, a meat-eating dinosaur with a wrinkled face.',
+  'https://en.wikipedia.org/wiki/Echkar_Formation'),
+  cited(site('pikimachay', 'Pikimachay: an early cave in the Andes', 1969, -13.038333333, -74.228888888, 'Q2989612', 'Pikimachay',
+    'In 1969–70 Richard MacNeish dug this cave near Ayacucho, Peru, and found bones of extinct ground sloths with stone ' +
+      'tools. He said the oldest layers were about 20,000 years old (0.02 million years) or more; most experts now doubt those oldest dates.'),
+  'A Peruvian cave once claimed as one of the oldest homes of people in the Americas.',
+  'https://en.wikipedia.org/wiki/Pikimachay'),
+  cited(site('mammoth-cave-wa', 'Mammoth Cave: Australian megafauna', 1909, -34.0581, 115.031, 'Q10954073', 'Mammoth Cave (Western Australia)',
+    'From 1909 to 1915 Ludwig Glauert of the Western Australian Museum dug thousands of bones from this cave near Margaret ' +
+      'River: giant kangaroos, the marsupial lion Thylacoleo and Zygomaturus. They are from the Ice Age, tens of thousands of years old (well under 0.1 million years).'),
+  'A cave near Margaret River full of the bones of Australia\'s Ice Age giants.',
+  'https://en.wikipedia.org/wiki/Mammoth_Cave_%28Western_Australia%29'),
+];
+
 // Batch 9 (2 Nov 2026): more thin regions, each at its own Wikidata P625 (Q-id
 // and enwiki title from the same Wikidata item). Checked against main and the
 // open fossil PRs (batches 5–8 and the late-October discoveries), by Q-id and
@@ -525,6 +602,7 @@ const BATCH_8 = [
 ];
 
 export const FOSSIL_SITES = [
+  ...BATCH_10,
   ...BATCH_9,
   ...BATCH_5,
   ...BATCH_4,
