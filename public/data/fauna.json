@@ -154,8 +154,8 @@
       "id": "allosaurus",
       "name": "Allosaurus",
       "emoji": "🦖",
-      "lon": -109.3,
-      "lat": 38.6,
+      "lon": -110.69,
+      "lat": 39.32,
       "fromMa": 155,
       "toMa": 145,
       "region": "Cleveland-Lloyd quarry, Utah (USA)",
@@ -164,18 +164,18 @@
       "track": [
         {
           "ma": 145,
-          "lon": -62.48,
-          "lat": 35.84
+          "lon": -63.73,
+          "lat": 35.06
         },
         {
           "ma": 150,
-          "lon": -62.08,
-          "lat": 35.33
+          "lon": -63.25,
+          "lat": 36.22
         },
         {
           "ma": 155,
-          "lon": -60.42,
-          "lat": 34.47
+          "lon": -61.58,
+          "lat": 35.36
         }
       ]
     },
@@ -931,8 +931,8 @@
       "id": "iguanodon",
       "name": "Iguanodon",
       "emoji": "🦕",
-      "lon": 4.5,
-      "lat": 50.4,
+      "lon": 3.65,
+      "lat": 50.48,
       "fromMa": 126,
       "toMa": 122,
       "region": "Bernissart, Belgium",
@@ -941,13 +941,13 @@
       "track": [
         {
           "ma": 122,
-          "lon": 15.58,
-          "lat": 40.33
+          "lon": 14.81,
+          "lat": 40.4
         },
         {
           "ma": 126,
-          "lon": 15.15,
-          "lat": 40.65
+          "lon": 14.59,
+          "lat": 40.68
         }
       ]
     },
@@ -1003,23 +1003,23 @@
       "id": "giganotosaurus",
       "name": "Giganotosaurus",
       "emoji": "🦖",
-      "lon": -70,
-      "lat": -38,
+      "lon": -68.79,
+      "lat": -39.4,
       "fromMa": 99,
       "toMa": 96,
-      "region": "Patagonia, Argentina",
+      "region": "Candeleros Formation, near Villa El Chocón, Neuquén, Argentina",
       "blurb": "A predator even longer than T. rex, prowling Cretaceous South America.",
       "wiki": "Giganotosaurus",
       "track": [
         {
           "ma": 96,
-          "lon": -46.8,
-          "lat": -44.94
+          "lon": -45.52,
+          "lat": -46.37
         },
         {
           "ma": 99,
-          "lon": -45.71,
-          "lat": -45.39
+          "lon": -44.37,
+          "lat": -46.81
         }
       ]
     },
@@ -1056,23 +1056,23 @@
       "id": "argentinosaurus",
       "name": "Argentinosaurus",
       "emoji": "🦕",
-      "lon": -69,
-      "lat": -37,
+      "lon": -69.1,
+      "lat": -38.93,
       "fromMa": 97,
       "toMa": 93,
-      "region": "Neuquén, Argentina",
+      "region": "Huincul Formation, near Plaza Huincul, Neuquén, Argentina",
       "blurb": "Possibly the heaviest land animal ever — a 70-tonne titanosaur.",
       "wiki": "Argentinosaurus",
       "track": [
         {
           "ma": 93,
-          "lon": -46.56,
-          "lat": -43.46
+          "lon": -46.93,
+          "lat": -45.42
         },
         {
           "ma": 97,
-          "lon": -45.28,
-          "lat": -44.11
+          "lon": -45.47,
+          "lat": -46.04
         }
       ]
     },
@@ -2397,28 +2397,28 @@
       "id": "eoraptor",
       "name": "Eoraptor",
       "emoji": "🦖",
-      "lat": -31.1,
-      "lon": -68.9,
+      "lat": -30.12,
+      "lon": -67.91,
       "fromMa": 233.6,
       "toMa": 227.3,
-      "region": "San Juan, Argentina",
+      "region": "Ischigualasto, San Juan, Argentina",
       "blurb": "One of the earliest dinosaurs of all, a small two-legged animal from Argentina's Triassic.",
       "wiki": "Eoraptor",
       "track": [
         {
           "ma": 227.3,
-          "lon": -34.6,
-          "lat": -44.12
+          "lon": -33.57,
+          "lat": -43.06
         },
         {
           "ma": 230,
-          "lon": -35.38,
-          "lat": -45.65
+          "lon": -34.29,
+          "lat": -44.48
         },
         {
           "ma": 233.6,
-          "lon": -36.63,
-          "lat": -47.64
+          "lon": -35.36,
+          "lat": -46.67
         }
       ]
     },
