@@ -203,6 +203,24 @@ export const HAND_PLACED = [
     // Palaeontologia Electronica, 2026.
     sourceUrl: 'https://www.palaeo-electronica.org/content/2026/5975-new-megaraptorid-from-patagonia',
   },
+  // Early November 2026 (scripts/add-discoveries-nov-2026.mjs has the rest of
+  // that batch). Messel Pit, Hesse: the pit's Wikidata point (Q639217),
+  // nudged off its pin; the shale is about 48-47 Ma (Middle Eocene). The
+  // track is an ESTIMATE, scaled from Mosasaurus's PALEOMAP track at
+  // Maastricht (about 7 degrees south at 66 Ma, so about 5 at 47 Ma), because
+  // the GPlates service could not be reached: run
+  // `node scripts/fetch-fauna-paleo.mjs --all` to replace it. Wikidata Q141984174.
+  {
+    id: 'masillastrix', name: 'Masillastrix', emoji: '🦉',
+    lat: 49.91, lon: 8.75, fromMa: 48, toMa: 47, region: 'Messel Pit, Hesse, Germany',
+    blurb: 'An early owl about 47 million years old, named in 2026 from a nearly complete skeleton with a ' +
+      'cockroach in its stomach. Its finders think it still hunted by day.',
+    wiki: 'Masillastrix',
+    wikidata: 'Q141984174',
+    track: [{ ma: 47, lon: 7.9, lat: 44.9 }, { ma: 48, lon: 7.85, lat: 44.75 }],
+    // Mayr et al., Current Biology, 3 Nov 2026.
+    sourceUrl: 'https://www.senckenberg.de/en/press-releases/not-a-night-owl-yet-an-extraordinary-bird-fossil-from-the-messel-pit/',
+  },
 ];
 
 const countryName = (() => {
