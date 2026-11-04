@@ -985,9 +985,12 @@
       "source": "https://www.wikidata.org/wiki/Q172377; https://en.wikipedia.org/wiki/Pope_Hilarius"
     },
     "q103314": {
-      "placeNote": "Where he was born is not recorded; the pin is just the middle of Syria.",
-      "why": "People fact-check batch 8 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Syria\".",
-      "source": "https://www.wikidata.org/wiki/Q103314; https://en.wikipedia.org/wiki/Pope_Constantine"
+      "lat": 33.2667,
+      "lon": 35.2,
+      "placeNote": null,
+      "born": "Tyre, Syria",
+      "why": "People fact-check batch 16 (second look at uncertain birthplaces, Nov 2026), fixed: pin was the middle of Syria; the Wikipedia article (with its cited source) names Tyre, now in Lebanon; Britannica says only \"Syria\", which fits. Pin on Tyre (Wikidata Q82070 P625).",
+      "source": "https://www.wikidata.org/wiki/Q103314; https://www.wikidata.org/wiki/Q82070; https://en.wikipedia.org/wiki/Pope_Constantine; https://www.britannica.com/biography/Constantine-pope"
     },
     "q103860": {
       "placeNote": "Where he was born is not recorded; the pin is just the middle of Dalmatia.",
@@ -1460,9 +1463,12 @@
       "source": "https://www.wikidata.org/wiki/Q348441; https://en.wikipedia.org/wiki/John_of_Lancaster,_Duke_of_Bedford; https://unofficialroyalty.com/june-20-daily-featured-royal-date"
     },
     "q235665": {
-      "placeNote": "Where she was born is not recorded; the pin is just the middle of Dorset.",
-      "why": "People fact-check batch 11 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Dorset\".",
-      "source": "https://www.wikidata.org/wiki/Q235665; https://orlando.cambridge.org/index.php/profiles/lambla; https://en.wikipedia.org/wiki/Lady_Caroline_Lamb"
+      "lat": 51.5072,
+      "lon": -0.1275,
+      "placeNote": null,
+      "born": "13 November 1785, London",
+      "why": "People fact-check batch 16 (second look at uncertain birthplaces, Nov 2026), fixed: Wikidata says Dorset, but the Orlando profile (based on her ODNB life), the Jackson Bibliography and the Women's Print History Project all say London. Pin on London (Wikidata Q84 P625).",
+      "source": "https://www.wikidata.org/wiki/Q235665; https://orlando.cambridge.org/index.php/profiles/lambla; https://jacksonbibliography.library.utoronto.ca/author/details/lamb-caroline/8392; https://womensprinthistoryproject.com/person/467"
     },
     "q2072231": {
       "placeNote": "The exact place is not recorded. By family story he was born at the foot of Mount Jambyl, near the source of the Shu (Chu) river, and named after it; the pin is just the middle of the Almaty Region.",
@@ -7558,9 +7564,12 @@
       "source": "https://www.wikidata.org/wiki/Q345524; https://en.wikipedia.org/wiki/William_of_Malmesbury"
     },
     "q5361": {
-      "placeNote": "Where he was born is not recorded; the pin is just the middle of Aube. Probably at the castle of Villehardouin; sources place it near Troyes or near Bar-sur-Aube.",
-      "why": "People fact-check batch 10 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Aube\".",
-      "source": "https://www.wikidata.org/wiki/Q5361; https://en.wikipedia.org/wiki/Geoffrey_of_Villehardouin"
+      "lat": 48.3795,
+      "lon": 4.3806,
+      "placeNote": "Probably born at his family's castle of Villehardouin, between Troyes and Bar-sur-Aube, where the pin is; no record of the birth survives.",
+      "born": "about 1148, Villehardouin, Champagne",
+      "why": "People fact-check batch 16 (second look at uncertain birthplaces, Nov 2026), fixed: pin was the middle of Aube; old encyclopedias name the castle of Villehardouin near Troyes, and the other source's \"near Bar-sur-Aube\" is the same spot (Gibbon: between Bar and Arcis). Pin on Villehardouin (Wikidata Q60878632 P625), still marked probable.",
+      "source": "https://www.wikidata.org/wiki/Q5361; https://www.wikidata.org/wiki/Q60878632; https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/geffroi-de-villehardouin; https://www.studylight.org/encyclopedias/eng/bri/g/geoffroy-de-villehardouin.html; https://ccel.org/g/gibbon/decline/volume2/nt600/030.htm"
     },
     "q75852": {
       "placeNote": "Where he was born is not recorded; the pin is just the middle of Swabia.",
@@ -7603,9 +7612,12 @@
       "source": "https://www.wikidata.org/wiki/Q313015; https://en.wikipedia.org/wiki/Haakon_VI"
     },
     "q275025": {
-      "placeNote": "Where he was born is not recorded; the pin is just the middle of Uvs Province. Sources differ: Davst, or Bayan Chandmani Uul banner.",
-      "why": "People fact-check batch 10 (region-centre pins), checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace given only as \"Uvs Province\".",
-      "source": "https://www.wikidata.org/wiki/Q275025; https://en.wikipedia.org/wiki/Yumjaagiin_Tsedenbal"
+      "lat": 50.6128,
+      "lon": 92.4022,
+      "placeNote": null,
+      "born": "17 September 1916, Davst, Uvs Province",
+      "why": "People fact-check batch 16 (second look at uncertain birthplaces, Nov 2026), fixed: pin was the middle of Uvs Province; born in Bayan Chandmani Uul banner, which is today's Davst sum (the two names the last pass saw are the same place). Pin on Davst (Wikidata Q3403962 P625).",
+      "source": "https://www.wikidata.org/wiki/Q275025; https://www.wikidata.org/wiki/Q3403962; https://en.wikipedia.org/wiki/Yumjaagiin_Tsedenbal; https://en.wikipedia.org/wiki/Davst,_Uvs"
     },
     "q336704": {
       "placeNote": "Where he was born is not recorded; the pin is just the middle of Aquitaine.",
