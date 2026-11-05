@@ -79,6 +79,9 @@ export interface SkyDialProps {
   /** How much of the sun is covered where we're looking, 0..1 — at totality the
    * dial's sun becomes a corona. */
   eclipseObscuration?: number;
+  /** Close the dial. Given, an × sits at the right of the grip bar (the app's
+   * Sky and Weather window); left out (monument viewer, workshop), no ×. */
+  onClose?: () => void;
 }
 
 // Temperature slider range (°C): +40 at the top of the bar, −20 at the bottom,
@@ -124,7 +127,7 @@ const ECLIPSE_EMOJI: Record<EclipseHit['kind'], string> = {
   partial: '🌘',
 };
 
-export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, longitude, timelineYear, title, onChange, onGoToEclipse, onPlayEclipse, eclipsePlaying = false, canPlayEclipse = false, eclipseObscuration = 0 }: SkyDialProps) {
+export default function SkyDial({ date, solarHours, auto, moonPhase, temperature, cloud, latitude, longitude, timelineYear, title, onChange, onGoToEclipse, onPlayEclipse, eclipsePlaying = false, canPlayEclipse = false, eclipseObscuration = 0, onClose }: SkyDialProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragging = useRef(false);
   // The moon is the MONTH hand: drag it round the ring and the calendar turns
@@ -266,6 +269,18 @@ export default function SkyDial({ date, solarHours, auto, moonPhase, temperature
     <div className="sky-dial" role="group" aria-label="Sun, time of day and calendar">
       <div className="sky-grip" onPointerDown={(e) => startDrag(e, '.sky-dial')} title="Drag to move">
         <span>⠿</span> weather &amp; sky
+        {onClose && (
+          <button
+            type="button"
+            className="sky-close"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={onClose}
+            aria-label="Close sky and weather"
+            title="Close"
+          >
+            ×
+          </button>
+        )}
       </div>
       <svg
         ref={svgRef}
