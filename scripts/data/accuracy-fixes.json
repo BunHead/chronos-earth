@@ -3501,6 +3501,132 @@
       "why": "People fact-check batch 2, checked by hand (Oct 2026), still uncertain, the panel now says so: Birthplace unknown.",
       "source": "https://www.wikidata.org/wiki/Q185538; https://en.wikipedia.org/wiki/Constans"
     },
+    "q257536": {
+      "startYear": 1835,
+      "dateNote": "Settled in 1835 and named after the pioneer Henry Janes. It became a city in 1853.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1853). 1853 is incorporation; the town was settled in 1835",
+      "source": "https://www.wikidata.org/wiki/Q257536; https://janesvillewi.gov/about-janesville/history-of-janesville; https://www.britannica.com/place/Janesville"
+    },
+    "q79468": {
+      "startYear": 1809,
+      "dateNote": "Settled about 1809 as Blakelytown, beside a salt works on the Ouachita River. It was renamed Arkadelphia in 1839 and became a city in 1857.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1857). 1857 is incorporation; Blakelytown was settled about 1809",
+      "source": "https://www.wikidata.org/wiki/Q79468; https://encyclopediaofarkansas.net/entries/clark-county-754/; https://arklasdahistory.org/a-brief-history-of-arkadelphia-arkansas/"
+    },
+    "q330678": {
+      "startYear": 1868,
+      "dateNote": "Founded in 1868, when Barney Prine set up a store and blacksmith shop on the Crooked River. It became a city in 1880.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1880). 1880 is incorporation; Barney Prine started the town in 1868",
+      "source": "https://www.wikidata.org/wiki/Q330678; https://www.oregonhistoryproject.org/articles/pre-industrial-communities/; https://oregonencyclopedia.org/articles/prineville/"
+    },
+    "q570044": {
+      "startYear": 1844,
+      "dateNote": "Founded in 1844 by the merchant Anson Phelps, who built copper and brass mills here. It became a city in 1889.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1889). 1889 is city status; Anson Phelps founded the town in 1844",
+      "source": "https://www.wikidata.org/wiki/Q570044; https://www.britannica.com/place/Ansonia; https://ctcollections.org/index.php/Detail/entities/8404"
+    },
+    "q524233": {
+      "startYear": 1872,
+      "dateNote": "Grew up from 1872 around Muscogee Station on the Missouri-Kansas-Texas Railway. It became a city in 1898.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1898). 1898 is incorporation; the railway town began in 1872",
+      "source": "https://www.wikidata.org/wiki/Q524233; https://www.okhistory.org/publications/enc/entry?entry=MU018"
+    },
+    "q125733": {
+      "startYear": 1855,
+      "dateNote": "Founded in 1855, when Henry Still bought land from the Bale family and opened a store (some sources say 1854). It became a city in 1876.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1876). 1876 is incorporation; the town was started in 1854-55",
+      "source": "https://www.wikidata.org/wiki/Q125733; https://napavalleyregister.com/star/news/st-helena-150th-birthday-incorporation/article_e31405a0-ee69-460f-a702-7fad4f0dd1c6.html; https://shstory.org/wp-content/uploads/2019/04/Electrolier-May-2014.pdf"
+    },
+    "q989967": {
+      "startYear": 1834,
+      "dateNote": "Laid out in April 1834 as Wabashtown by Hugh Hanna and David Burr, beside the planned Wabash and Erie Canal. It was incorporated in 1849.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1849). 1849 is incorporation; the town was laid out in 1834",
+      "source": "https://www.wikidata.org/wiki/Q989967; https://www.britannica.com/place/Wabash-Indiana; https://www.hmdb.org/m.asp?m=76574"
+    },
+    "q79362": {
+      "startYear": 1819,
+      "dateNote": "Settled in 1819 by people from Greenville, South Carolina, and first called Buttsville. It was renamed Greenville in 1822.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1871). 1871 matches nothing for the founding; it was settled in 1819",
+      "source": "https://www.wikidata.org/wiki/Q79362; https://www.britannica.com/place/Greenville-Alabama; https://www.hmdb.org/m.asp?m=70755"
+    },
+    "q661595": {
+      "startYear": 1886,
+      "dateNote": "Laid out in February 1886 as the town of Slaughter. It became a town in 1891 and was renamed Auburn in 1893.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1891). 1891 is incorporation; the town was laid out in 1886",
+      "source": "https://www.wikidata.org/wiki/Q661595; https://historylink.org/File/675"
+    },
+    "q79727": {
+      "startYear": 1882,
+      "dateNote": "Founded in 1882 as a railway town on the Atlantic and Pacific line (the first settler came about 1880). It became a town in 1900.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1900). 1900 is incorporation; the railway town began in 1882",
+      "source": "https://www.wikidata.org/wiki/Q79727; https://britannica.com/EBchecked/topic/645512/Winslow; https://www.azfamily.com/2022/07/21/winslow-began-an-important-railroad-hub/"
+    },
+    "q529165": {
+      "startYear": 1819,
+      "dateNote": "First settled in 1819, the year Governor Lewis Cass is said to have named the \"Royal Oak\" tree here. It became a village in 1891 and a city in 1921.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1891). 1891 is village status; the area was settled in 1819",
+      "source": "https://www.wikidata.org/wiki/Q529165; https://www.britannica.com/place/Royal-Oak-Michigan; https://ropl.org/501/History"
+    },
+    "q79607": {
+      "startYear": 1906,
+      "dateNote": "Founded in 1906 as the end of the Copper River and Northwestern Railway, at the old cannery village of Eyak (canneries from 1888-89). It became a city in 1909.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1884). 1884 matches nothing; the town was founded in 1906",
+      "source": "https://www.wikidata.org/wiki/Q79607; https://www.cityofcordova.net/about-cordova/; https://www.nps.gov/articles/000/cordova-alaska-visit.htm"
+    },
+    "q575355": {
+      "startYear": 1857,
+      "dateNote": "Laid out in 1857 as a planned town around a new college. It got its city charter in 1861.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1861). 1861 is the city charter; the town was laid out in 1857",
+      "source": "https://www.wikidata.org/wiki/Q575355; https://cityoflakeforest.com/community/explore_lake_forest/history___demographics/; https://www.ilga.gov/legislation/97/HR/09700HR0050.htm"
+    },
+    "q584340": {
+      "startYear": 1838,
+      "dateNote": "Named after Fort Pierce, an army post built in 1838 during the Second Seminole War. People settled here from the 1860s, and it became a city in 1901.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1901). 1901 is incorporation; the fort the town is named after dates from 1838",
+      "source": "https://www.wikidata.org/wiki/Q584340; https://www.britannica.com/place/Fort-Pierce; https://fortwiki.com/Fort_Pierce"
+    },
+    "q948140": {
+      "startYear": 1881,
+      "dateNote": "Grew up from 1881 as a company town around a dynamite works of the Hercules Powder Company. It became a town in 1900.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1900). 1900 is incorporation; the company town began in 1881",
+      "source": "https://www.wikidata.org/wiki/Q948140; https://herculesca.gov/our-city/our-history; https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/80000799.pdf"
+    },
+    "q923474": {
+      "startYear": 1866,
+      "dateNote": "The town dates officially from 1866, when Hood County was made and the county seat named after General Hiram Granbury. Settlers had a trading post here from about 1854.",
+      "why": "Places fact-check batch 46 (Nov 2026): wrong year (1860). 1860 matches nothing; the town dates from 1866 (roots from 1854)",
+      "source": "https://www.wikidata.org/wiki/Q923474; https://www.visitgranbury.com/blog/post/history-and-legends-of-granbury/; https://blog.tmlirp.org/granbury-where-history-culture-and-outdoor-activities-flourish"
+    },
+    "q992289": {
+      "dateNote": "1812 is when the village of Kendal was founded; it later became part of Massillon. Massillon itself was laid out in 1826.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: 1812 is Kendal (merged in later); Massillon was laid out in 1826",
+      "source": "https://www.wikidata.org/wiki/Q992289; https://massillonohio.gov/about-massillon/city-history/"
+    },
+    "q79648": {
+      "dateNote": "Sources disagree: first settled in 1816 or 1823, chartered as Irwinton in 1832, and renamed Eufaula in 1843. No source was found for 1834.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: settled 1816 or 1823, chartered 1832; 1834 could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q79648; https://encyclopediaofalabama.org/article/eufaula/"
+    },
+    "q518431": {
+      "dateNote": "Sources disagree: a fishing village from about 1822, a town in 1895, and a district in 1906. No firm source was found for 1835.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: village 1822, town 1895, district 1906; 1835 could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q518431; https://www.britannica.com/place/Chimbote"
+    },
+    "q871265": {
+      "dateNote": "The area was settled from about 1847. The farm college here was set up in 1855, and the city was made in 1907.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: 1847 settlement is vague; the college (1855) or city (1907) could be used",
+      "source": "https://www.wikidata.org/wiki/Q871265; https://statenews.com/article/2016/06/east-lansing-grows-up-with-its-university"
+    },
+    "q775868": {
+      "dateNote": "Sources disagree: some say the railway town began in 1869, others that it was laid out on 14 July 1873.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: 1869 or 1873; sources disagree",
+      "source": "https://www.wikidata.org/wiki/Q775868; https://www.kvpr.org/podcast/central-valley-roots/2025-07-03/how-a-global-financial-crisis-made-delano-the-end-of-the-line"
+    },
+    "q866311": {
+      "dateNote": "The first settlers came to this spot in 1870. The town was named and started in 1877, and became a city in 1889.",
+      "why": "Places fact-check batch 46 (Nov 2026), uncertain: 1870 is first settlers; the town was named in 1877",
+      "source": "https://www.wikidata.org/wiki/Q866311; https://historylink.org/File/9542"
+    },
     "q5617": {
       "placeNote": "She says only that she was \"from France\"; the pin in Brittany is a guess.",
       "dateNote": "She was active about 1160 to 1215; her birth and death years are not known.",
