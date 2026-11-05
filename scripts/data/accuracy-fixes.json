@@ -3999,6 +3999,198 @@
       "why": "Places fact-check batch 14 (Oct 2026): wrong year (1350). 1350 is \"14th century\" read as a year; Wikidata also gives 1390, when building began",
       "source": "https://www.wikidata.org/wiki/Q810103 (P571 14th century and 1390); https://en.wikipedia.org/wiki/San_Petronio_Basilica"
     },
+    "q1772825": {
+      "startYear": 1354,
+      "dateNote": "Founded in 1354 by Sultan Firuz Shah Tughlaq of Delhi, who named it Hisar-e-Firoza (\"Firuz's fort\"). The fort was finished by about 1356.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1833). 1833 matches nothing in the sources; Firuz Shah Tughlaq founded the city in 1354",
+      "source": "https://www.wikidata.org/wiki/Q1772825; https://en.wikipedia.org/wiki/Hisar_(city); https://hisar.gov.in/?p=2733"
+    },
+    "q689868": {
+      "startYear": 1677,
+      "dateNote": "Founded on 29 May 1677 as the vila (town) of São Salvador dos Campos dos Goytacazes. It became a city, with its present name, on 28 March 1835.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1835). 1835 is city status; the vila was founded in 1677",
+      "source": "https://www.wikidata.org/wiki/Q689868; https://en.wikipedia.org/wiki/Campos_dos_Goytacazes; https://biblioteca.ibge.gov.br/visualizacao/dtb/riodejaneiro/camposdosgoytacazes.pdf"
+    },
+    "q544890": {
+      "startYear": 1684,
+      "dateNote": "Settled in 1684 by Quakers and Scottish settlers, on a flat area they called The Plains. It became a township in 1847 and a city in 1869.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1847). 1847 is township status; the area was settled in 1684",
+      "source": "https://www.wikidata.org/wiki/Q544890; https://en.wikipedia.org/wiki/Plainfield%2C_New_Jersey; https://plainfieldnj.gov/residents/about_plainfield/; https://www.britannica.com/place/Plainfield-New-Jersey"
+    },
+    "q579736": {
+      "startYear": 1843,
+      "dateNote": "Laid out in 1843 by David B. Sears and others, around a mill dam on the Mississippi (the name comes from the French for \"mill\"). It became a town in 1848 and a city in 1872.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1848). 1848 is incorporation; the town was platted in 1843",
+      "source": "https://www.wikidata.org/wiki/Q579736; https://en.wikipedia.org/wiki/Moline%2C_Illinois; https://www.britannica.com/place/Moline"
+    },
+    "q817301": {
+      "startYear": 1847,
+      "dateNote": "Founded on 19 May 1847 by Robert Semple, Thomas Larkin and General Mariano Vallejo, and named after Vallejo's wife. It became a city in 1850 and was the state capital in 1853 to 1854.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1850). 1850 is incorporation; the town was founded in 1847",
+      "source": "https://www.wikidata.org/wiki/Q817301; https://en.wikipedia.org/wiki/Benicia%2C_California; https://www.hmdb.org/m.asp?m=16360"
+    },
+    "q1657507": {
+      "startYear": 1846,
+      "dateNote": "Founded in 1846 as Newton City, the seat of the new Jasper County. It became a city in 1857.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1850). 1850 matches nothing in the sources; the town was surveyed as county seat in 1846",
+      "source": "https://www.wikidata.org/wiki/Q1657507; https://en.wikipedia.org/wiki/Newton%2C_Iowa; https://iagenweb.org/jasper/history/1912/history/chapter18.htm; https://www.britannica.com/place/Newton-Iowa"
+    },
+    "q556989": {
+      "startYear": 1875,
+      "dateNote": "Founded on 22 April 1875 by John Fletcher Ankeny and his wife Sarah, on farmland they had bought in 1874. It became a town in 1903.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1854). 1854 matches nothing in the sources; the town was founded in 1875",
+      "source": "https://www.wikidata.org/wiki/Q556989; https://en.wikipedia.org/wiki/Ankeny%2C_Iowa; https://ankenyiowa.gov/432/History"
+    },
+    "q852584": {
+      "startYear": 1862,
+      "dateNote": "Founded in 1862, when President Lincoln set the land aside as a federal townsite, pushed for by Victor Smith. It grew slowly until the late 1880s and became a city in 1890.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1890). 1890 is incorporation; the townsite was founded in 1862",
+      "source": "https://www.wikidata.org/wiki/Q852584; https://en.wikipedia.org/wiki/Port_Angeles%2C_Washington; https://www.historylink.org/file/8210"
+    },
+    "q895459": {
+      "startYear": 1833,
+      "dateNote": "Settled in 1833 in the Great Black Swamp (some sources say 1832). It became a village in 1855 and a city in 1901.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1901). 1901 is city status; it was settled in 1833",
+      "source": "https://www.wikidata.org/wiki/Q895459; https://en.wikipedia.org/wiki/Bowling_Green%2C_Ohio; https://www.britannica.com/place/Bowling-Green-Ohio"
+    },
+    "q260282": {
+      "startYear": 1881,
+      "dateNote": "Founded in 1881 around the sawmill of Isaac Conroe, a former Union cavalry officer; the railway stop was called Conroe's Switch. It became a town in 1904.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1904). 1904 is incorporation; the sawmill town was founded in 1881",
+      "source": "https://www.wikidata.org/wiki/Q260282; https://en.wikipedia.org/wiki/Conroe%2C_Texas; https://visitconroe.com/plan/history/founding-of-conroe; https://atlas.thc.state.tx.us/Details/5339007867"
+    },
+    "q377736": {
+      "startYear": 1875,
+      "dateNote": "Settled in 1875 by James George Bell, on land that was once part of Rancho San Antonio. It was named after him in 1898 and became a city in 1927.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1913). 1913 matches nothing in the sources; Bell settled here in 1875",
+      "source": "https://www.wikidata.org/wiki/Q377736; https://en.wikipedia.org/wiki/Bell%2C_California; https://www.laalmanac.com/cities/ci08.php"
+    },
+    "q985356": {
+      "startYear": 1905,
+      "dateNote": "Founded in 1905 by the land developer Charles B. Hopper, who named it after a suburb of Chicago. It became a city in 1959.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1959). 1959 is incorporation; the town was founded in 1905",
+      "source": "https://www.wikidata.org/wiki/Q985356; https://en.wikipedia.org/wiki/Lawndale%2C_California; https://www.lawndale.ca.gov/community/history"
+    },
+    "q988937": {
+      "startYear": 1810,
+      "dateNote": "Laid out in 1810 by John Sells, and named Dublin by his Irish surveyor, John Shields. It became a village in 1881 and a city in 1987.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1987). 1987 is city status; the village was platted in 1810",
+      "source": "https://www.wikidata.org/wiki/Q988937; https://en.wikipedia.org/wiki/Dublin%2C_Ohio; https://dublinohiousa.gov/history/; https://dublinohiohistory.org/history/timeline/"
+    },
+    "q572512": {
+      "startYear": 1265,
+      "dateNote": "First recorded as a town in a charter of Margrave Otto III of Brandenburg in 1265. It is listed again in the Landbuch of Emperor Charles IV in 1375.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1375). 1375 is a later record (the Landbuch of Charles IV); Wikidata P1249 also gives 1265, the first record",
+      "source": "https://www.wikidata.org/wiki/Q572512; https://en.wikipedia.org/wiki/Teltow; https://www.dewiki.de/Lexikon/Teltow"
+    },
+    "q137203": {
+      "startYear": 1879,
+      "dateNote": "Founded on 21 June 1879 by William Pryer of the British North Borneo company, who first named it Elopura. 1658 is when the Sultan of Brunei is said to have given this coast to the Sultan of Sulu.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1658). 1658 is not a founding date; William Pryer founded the town in 1879",
+      "source": "https://www.wikidata.org/wiki/Q137203; https://en.wikipedia.org/wiki/Sandakan; https://en.wikipedia.org/wiki/William_Burgess_Pryer; https://www.thestar.com.my/business/business-news/2026/03/11/sandakan-bahyou-know-the-story-or-not"
+    },
+    "q492342": {
+      "startYear": 1728,
+      "dateNote": "Set up as a town by the Virginia General Assembly in 1728, and named after Frederick, Prince of Wales. It became a city in 1879.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1691). 1691 matches nothing in the sources (Wikidata also gives 1728); the town was founded by law in 1728",
+      "source": "https://www.wikidata.org/wiki/Q492342; https://en.wikipedia.org/wiki/Fredericksburg%2C_Virginia; https://va-fredericksburg.civicplus.com/1372/About-Fredericksburg"
+    },
+    "q685857": {
+      "startYear": 1856,
+      "dateNote": "The town was built by the Ottomans from 1856 on the site of the old village of Karasu, for refugees from the Crimean War, and named Mecidiye after Sultan Abdulmejid I.",
+      "why": "Places fact-check batch 42-43 (Nov 2026): wrong year (1840). 1840 matches nothing in the sources; the Ottoman town was founded in 1856 (the village of Karasu was older)",
+      "source": "https://www.wikidata.org/wiki/Q685857; https://en.wikipedia.org/wiki/Medgidia; https://www.historicalyearbook.ro/wp-content/volumes/hy_2010/13-karasu.pdf"
+    },
+    "q1006303": {
+      "dateNote": "1787 is when the British set up Mymensingh district. The town, once called Nasirabad, is older, and became a municipality in 1869. When the town itself began is not clear.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1787 is the district; the town is older (municipality 1869).",
+      "source": "https://www.wikidata.org/wiki/Q1006303; https://en.wikipedia.org/wiki/Mymensingh; https://www.britannica.com/place/Mymensingh; https://en.banglapedia.org/index.php/Mymensingh_District"
+    },
+    "q30651": {
+      "dateNote": "1808 is when the British made Kadapa (Cuddapah) a district. The town itself is much older, but sources do not give a clear founding date.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1808 is the district; the town is older, date unknown.",
+      "source": "https://www.wikidata.org/wiki/Q30651; https://en.wikipedia.org/wiki/Kadapa; https://kadapapolice.ap.gov.in/History.html"
+    },
+    "q462218": {
+      "dateNote": "1818 is the date some sources give for the river port of Dom Manuel; others say 1808. It became the town of Figueira and took its present name in 1938.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: sources disagree (1808, 1818); municipality 1937/1938.",
+      "source": "https://www.wikidata.org/wiki/Q462218; https://en.wikipedia.org/wiki/Governador_Valadares; https://www2.ufjf.br/odontologiagv/?p=564"
+    },
+    "q309475": {
+      "dateNote": "1821 is when the Egyptian army took El-Obeid. The town was already the main town of Kordofan before that, but when it began is not known.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1821 is the Egyptian conquest; the town is older.",
+      "source": "https://www.wikidata.org/wiki/Q309475; https://en.wikipedia.org/wiki/El-Obeid"
+    },
+    "q622830": {
+      "dateNote": "The land was granted to the Rodrigues de Sá family in 1681, and a village grew up around a chapel in the 1700s. It became a town in the 1840s and a city in 1857. Sources do not agree on one founding year.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: sources give 1681 (land grant), 1840s (vila) and 1857 (city).",
+      "source": "https://www.wikidata.org/wiki/Q622830; https://en.wikipedia.org/wiki/Caruaru; https://biblioteca.ibge.gov.br/visualizacao/dtb/pernambuco/caruaru.pdf"
+    },
+    "q985271": {
+      "dateNote": "1857 is when it became a city. A Methodist mission was set up here in 1838 and an army post (Fort Dalles) in 1850, and the town grew up around the fort from about 1852.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1857 is incorporation; mission 1838, fort 1850, town about 1852.",
+      "source": "https://www.wikidata.org/wiki/Q985271; https://en.wikipedia.org/wiki/The_Dalles; https://www.oregonencyclopedia.org/articles/the_dalles"
+    },
+    "q852714": {
+      "dateNote": "1884 is when Boomer settlers built a camp here, but soldiers made them leave. The lasting town began in the Land Run of April 1889.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1884 Boomer camp was not permanent; permanent town 1889.",
+      "source": "https://www.wikidata.org/wiki/Q852714; https://en.wikipedia.org/wiki/Stillwater%2C_Oklahoma; https://britannica.com/place/Stillwater-Oklahoma; https://www.hmdb.org/m.asp?m=284531"
+    },
+    "q932637": {
+      "dateNote": "1889 is when it became a town. Settlers lived here from 1848 (it was first called Chehalem and Rogers Landing), and the town was laid out in 1883.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1889 is incorporation; settled 1848, platted 1883.",
+      "source": "https://www.wikidata.org/wiki/Q932637; https://en.wikipedia.org/wiki/Newberg%2C_Oregon; https://www.oregonencyclopedia.org/articles/newberg/"
+    },
+    "q483595": {
+      "dateNote": "1891 is when it became a city. Settlers came in 1860 (as Ship Harbor), and Amos Bowman, who named it after his wife Anne Curtis, came in 1877.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1891 is incorporation; settled 1860 or 1877.",
+      "source": "https://www.wikidata.org/wiki/Q483595; https://en.wikipedia.org/wiki/Anacortes%2C_Washington; https://www.historylink.org/file/9870"
+    },
+    "q40251": {
+      "dateNote": "1892 is when it became a town (then called Gilman). Homesteaders settled in the valley in the 1860s.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1892 is incorporation; settled in the 1860s.",
+      "source": "https://www.wikidata.org/wiki/Q40251; https://en.wikipedia.org/wiki/Issaquah%2C_Washington; https://historylink.org/File/4220"
+    },
+    "q852591": {
+      "dateNote": "1909 is when it became a city. It grew from earlier settlements here, such as Park Resort (1880s), which was renamed Harrison in 1889.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1909 is incorporation; settled in the 1880s.",
+      "source": "https://www.wikidata.org/wiki/Q852591; https://en.wikipedia.org/wiki/Panama_City%2C_Florida; https://www.wjhg.com/2020/08/07/panama-city-named-after-early-1900s-big-dig"
+    },
+    "q57756": {
+      "dateNote": "1935 is a modern date for the port and the name. The old town of Haizhou, now part of the city, is many centuries older.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1935 is a modern date; Haizhou is far older.",
+      "source": "https://www.wikidata.org/wiki/Q57756; https://en.wikipedia.org/wiki/Lianyungang"
+    },
+    "q828706": {
+      "dateNote": "1958 is when the towns of Pico and Rivera joined to make one city. Both towns are older.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1958 is a merger.",
+      "source": "https://www.wikidata.org/wiki/Q828706; https://en.wikipedia.org/wiki/Pico_Rivera"
+    },
+    "q82684": {
+      "dateNote": "1975 is when three older villages (Aich, Grötzingen and Neuenhaus) were joined to make the town of Aichtal.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 1975 is a merger.",
+      "source": "https://www.wikidata.org/wiki/Q82684; https://en.wikipedia.org/wiki/Aichtal"
+    },
+    "q42160": {
+      "dateNote": "2001 is when Hwaseong became a city. It was a county before that, and the area is much older.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: 2001 is city status.",
+      "source": "https://www.wikidata.org/wiki/Q42160; https://en.wikipedia.org/wiki/Hwaseong"
+    },
+    "q391626": {
+      "dateNote": "Wikidata gives only \"13th century\", which is a nearby village. The town first appears in 1511, as an inn (Heydekrug) in the heath. It got city rights in 1941.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: century-only date (13th c.), first record of the town 1511.",
+      "source": "https://www.wikidata.org/wiki/Q391626; https://en.wikipedia.org/wiki/%C5%A0ilut%C4%97; https://www.vle.lt/straipsnis/silute/"
+    },
+    "q572366": {
+      "dateNote": "Wikidata gives only \"18th century\". The first village here began in the late 1700s, and several mining villages were joined to make the city in 1938.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: century-only date (18th c.); city 1938.",
+      "source": "https://www.wikidata.org/wiki/Q572366; https://en.wikipedia.org/wiki/Dovzhansk; https://en.wikipedia.org/wiki/Sverdlovsk,_Ukraine"
+    },
+    "q423831": {
+      "dateNote": "1150 is a traditional date for the founding of the Yoruba kingdom of Akure. It cannot be checked in written records.",
+      "why": "Places fact-check batch 42-43 (Nov 2026), still uncertain, the panel now says so: traditional date only.",
+      "source": "https://www.wikidata.org/wiki/Q423831; https://en.wikipedia.org/wiki/Akure"
+    },
     "q12960184": {
       "startYear": 1502,
       "dateNote": "Bramante's plan dates from 1502, though building may have started a few years later.",
