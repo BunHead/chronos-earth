@@ -43,6 +43,12 @@ export function parseWikiSummary(j: unknown): WikiSummary {
   };
 }
 
+/** Alt text for the picture: the panel title without its leading emoji
+ * ("🦖 Tyrannosaurus" -> "Tyrannosaurus"), so a screen reader doesn't read the emoji's name first. */
+export function pictureAlt(title: string): string {
+  return title.replace(/^(?:\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+/u, '') || title;
+}
+
 export function wikiSummaryUrl(title: string): string {
   return `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, '_'))}`;
 }
