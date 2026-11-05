@@ -1181,7 +1181,6 @@ textarea:focus-visible,
 
 /* Wikipedia lead picture with a credit line (creatures, fossils, any panel with a Wikipedia link). */
 .info-wiki-figure { margin: 0; }
-.info-wiki-figure[hidden] { display: none; }
 .info-thumb--contain {
   object-fit: contain;
   object-position: center;
