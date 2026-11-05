@@ -1267,6 +1267,71 @@ const BATCH_7 = [
 ];
 FOSSIL_SITES.push(...BATCH_7);
 
+// Batch 11 (4 Nov 2026): more gaps — Brazil, China, Morocco, Greenland, Ethiopia,
+// Israel and New Caledonia. Checked against main and open PRs #138 and #142 by
+// Q-id and by distance. Each pin is the Q-id's own Wikidata P625 unless the
+// note says otherwise.
+const BATCH_11 = [
+  cited(site('romualdo', 'Romualdo Formation: Irritator and fossil fish', 1996, -7.2, -39.3, 'Q1710549', 'Romualdo Formation',
+    'In 1996 David Martill\'s team named the spinosaur Irritator from a skull dug out of these rocks in the Araripe Basin, ' +
+      'Ceará, Brazil. Dealers had built it up with plaster, which irritated them: hence the name. The rock is about 110 ' +
+      'million years old (Early Cretaceous) and keeps fish and pterosaurs whole inside stone nodules.',
+    'Wikidata pins the formation at a rounded point.'),
+  'Brazilian rocks with fish and pterosaurs kept in stone nodules, and the spinosaur Irritator.',
+  'https://en.wikipedia.org/wiki/Romualdo_Formation'),
+  cited(site('doushantuo', 'Doushantuo Formation: the oldest animal embryos?', 1998, 27.0029, 107.4779, 'Q2445119', 'Doushantuo Formation',
+    'In 1998 Xiao Shuhai, Zhang Yun and Andrew Knoll reported tiny balls of cells kept in phosphate rock at Weng\'an, ' +
+      'Guizhou, China. They look like early animal embryos, though some scientists think they are other living things. ' +
+      'The rock is about 600 million years old (Ediacaran).',
+    'Wikidata pins the formation near Weng\'an.'),
+  'Chinese rocks with tiny fossils that may be the oldest animal embryos, about 600 million years old.',
+  'https://en.wikipedia.org/wiki/Doushantuo_Formation'),
+  cited(site('jiufotang', 'Jiufotang Formation: Microraptor, a four-winged dinosaur', 2000, 41.2, 119.4, 'Q1689694', 'Jiufotang Formation',
+    'In 2000 Xu Xing, Zhou Zhonghe and Wang Xiaolin named Microraptor from these rocks in western Liaoning, China. In 2003 ' +
+      'more finds showed long feathers on its arms and its legs: four wings. The rock is about 120 million years old (Early Cretaceous).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Chinese rocks where Microraptor, a small dinosaur with four feathered wings, was found.',
+  'https://en.wikipedia.org/wiki/Microraptor'),
+  cited(site('fezouata', 'Fezouata Formation: soft-bodied sea life in Morocco', 2010, 30.6, -5.7, 'Q5446184', 'Fezouata Formation',
+    'Mohamed Ben Moula, a local fossil collector, found soft-bodied fossils in these shales north of Zagora, Morocco. In ' +
+      '2010 Peter Van Roy\'s team reported them: animals like those of the Burgess Shale, but younger. The rock is about ' +
+      '480 million years old (Early Ordovician).',
+    'Wikidata pins the formation at a rounded point.'),
+  'Moroccan shales that keep soft-bodied sea animals from about 480 million years ago.',
+  'https://en.wikipedia.org/wiki/Fezouata_Formation'),
+  cited(site('kap-kobenhavn', 'Kap København: 2-million-year-old DNA', 2022, 82.53, -22.3, 'Q17514833', 'Kap Kobenhavn Formation',
+    'In 2022 Kurt Kjær and Eske Willerslev\'s team read DNA from mud in this formation in Peary Land, in the far north ' +
+      'of Greenland. At about 2 million years old (Early Pleistocene) it was the oldest DNA known. It shows a forest with ' +
+      'mastodons, reindeer, hares and geese.'),
+  'Greenland mud with 2-million-year-old DNA from a lost Arctic forest with mastodons.',
+  'https://en.wikipedia.org/wiki/Kap_Kobenhavn_Formation'),
+  cited(site('shungura', 'Shungura Formation: Paranthropus aethiopicus found', 1967, 5.1, 36.0, 'Q16909696', 'Shungura Formation',
+    'In 1967 Camille Arambourg and Yves Coppens\'s French team found a toothless jaw, Omo 18, in these layered rocks by the ' +
+      'Omo River, southern Ethiopia. It became the type of Paranthropus aethiopicus. The rocks span about 3.6 to 1 million years.',
+    'Wikidata pins the formation at a rounded point.'),
+  'Layered rocks by the Omo River in Ethiopia that hold over two million years of fossils.',
+  'https://en.wikipedia.org/wiki/Paranthropus_aethiopicus'),
+  cited(site('nesher-ramla', 'Nesher Ramla: a new kind of early human?', 2021, 31.9079, 34.9285, 'Q107340462', 'Nesher Ramla Homo',
+    'In 2021 Israel Hershkovitz and Yossi Zaidner\'s teams described a skull piece and a jaw from Nesher Ramla, a dig in a ' +
+      'quarry near Ramla, Israel. About 140,000–120,000 years old (0.14–0.12 million years), they mix Neanderthal and older features.',
+    'Pinned at the Wikidata point for the site, Nesher Ramla (Q107314382).'),
+  'A quarry near Ramla with bones of an unusual early human group, about 130,000 years old.',
+  'https://en.wikipedia.org/wiki/Nesher_Ramla_Homo'),
+  cited(site('pindai', 'Pindai Caves: New Caledonia\'s lost animals', 1987, -21.33333333, 164.95, 'Q1550703', 'Pindai Caves',
+    'In 1987 Jean-Christophe Balouet and Eric Buffetaut named Mekosuchus, a small land crocodile, from bones in the Pindai ' +
+      'Caves on the west coast of New Caledonia. The caves also hold Sylviornis, a giant flightless bird. The bones are ' +
+      'from the last few tens of thousands of years (under 0.05 million years).',
+    'Wikidata pins the caves at a rounded point.'),
+  'Caves in New Caledonia with bones of a land crocodile and a giant flightless bird.',
+  'https://en.wikipedia.org/wiki/Pindai_Caves'),
+  cited(site('hualong', 'Hualong Cave: a 300,000-year-old skull', 2015, 30.109485, 116.948296, 'Q85767600', 'Hualong Cave',
+    'In 2015 a team digging Hualong Cave in Dongzhi County, Anhui, China, found a fairly complete human skull, HLD 6. In ' +
+      '2019 Wu Xiujie\'s team said it is about 300,000 years old (0.3 million years) and mixes old and modern features.'),
+  'A Chinese cave with a 300,000-year-old human skull that mixes old and modern features.',
+  'https://en.wikipedia.org/wiki/Hualong_Cave'),
+];
+FOSSIL_SITES.push(...BATCH_11);
+
 async function main() {
   const doc = JSON.parse(await readFile(FILE, 'utf8'));
   const events = doc.events ?? [];
