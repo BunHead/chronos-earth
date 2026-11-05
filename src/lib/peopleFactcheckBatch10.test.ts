@@ -57,11 +57,11 @@ const PINS: Array<[string, string, number, number]> = [
 ];
 
 describe('people fact-check, batch 10: region-centre pins (Oct 2026)', () => {
-  it('covers the batch: 28 moved pins, 2 date fixes and 48 uncertain notes from the 120 people checked', () => {
+  it('covers the batch (later rechecks in batch 16 moved some out): 28 moved pins, 2 date fixes and 48 uncertain notes from the 120 people checked', () => {
     expect(PINS.length).toBe(28);
-    expect(batch.length).toBe(77);
+    expect(batch.length).toBe(75);
     expect(batch.filter((id) => String(fixes[id].why).includes(', fixed:')).length).toBe(29);
-    expect(batch.filter((id) => String(fixes[id].why).includes('still uncertain')).length).toBe(48);
+    expect(batch.filter((id) => String(fixes[id].why).includes('still uncertain')).length).toBe(46);
   });
 
   for (const [id, name, lat, lon] of PINS) {

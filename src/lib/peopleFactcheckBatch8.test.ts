@@ -38,8 +38,8 @@ const PINS: Array<[string, string, number, number]> = [
 ];
 
 describe('people fact-check, batch 8: region-centre pins (Oct 2026)', () => {
-  it('covers the batch: 10 fixes and 49 uncertain notes from the 90 people checked', () => {
-    expect(batch.length).toBe(59);
+  it('covers the batch (later rechecks in batch 16 moved some out): 10 fixes and 49 uncertain notes from the 90 people checked', () => {
+    expect(batch.length).toBe(58);
     expect(batch.filter((id) => String(fixes[id].why).includes(', fixed:')).length).toBe(10);
   });
 
