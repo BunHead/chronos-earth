@@ -311,6 +311,8 @@ export default function App() {
   // The floating frames over the globe (⋯ menu toggles): Weather & Sky for
   // everyone — it lights the REAL globe by the real sun — and the compass.
   const [skyOpen, setSkyOpen] = useState(false);
+  // Escape closes Sky and Weather too (keyboard users have no other quick way out).
+  useEscape(() => setSkyOpen(false), skyOpen);
   const [compassOpen, setCompassOpen] = useState(false);
   const [seaOpen, setSeaOpen] = useState(false);
   const [sky, setSky] = useState({
@@ -1334,6 +1336,7 @@ export default function App() {
           longitude={viewCentre.lon}
           timelineYear={Math.round(yearsBPToYear(yearsBP))}
           title="the globe"
+          onClose={() => setSkyOpen(false)}
           eclipsePlaying={eclipseSweep?.playing ?? false}
           eclipseObscuration={eclipseSweep?.obscuration ?? 0}
           canPlayEclipse={!!eclipseSweep}

@@ -28,8 +28,27 @@
   cursor: move;
   touch-action: none;
   border-bottom: 1px solid rgba(201, 162, 75, 0.22);
+  position: relative;
 }
 .sky-grip span { font-size: 12px; color: #c9a24b; }
+/* The × that closes the app's Sky and Weather window (only when onClose is given). */
+.sky-close {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid rgba(201, 162, 75, 0.45);
+  background: rgba(14, 18, 26, 0.8);
+  color: #f0e6d2;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+.sky-close:hover, .sky-close:focus-visible { border-color: #c9a24b; color: #fff; }
 .sky-ring {
   width: 190px;
   height: 190px;

@@ -299,7 +299,9 @@ describe('fossil sites', () => {
         // No other fossil or early-human find within 25 km; unrelated finds
         // (the Lod Mosaic near Qesem, Ahiram's coffin near Ksar Akil) 15 km.
         const fossil = e.id.startsWith('cur-fossil-') || fossilish.test(`${e.name} ${e.dateNote ?? ''}`);
-        expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(fossil ? 25 : 15);
+        // Batch 11's Nesher Ramla is a different site, 23 km from Qesem.
+        const gap = e.id === 'cur-fossil-nesher-ramla' ? 20 : fossil ? 25 : 15;
+        expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
       }
     }
   });
@@ -369,6 +371,39 @@ describe('fossil sites', () => {
       expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
       expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
       expect(s.startYear, id).toBeLessThanOrEqual(2026);
+      expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
+      expect(events.find((e) => e.id === id), id).toMatchObject({ lat: s.lat, lon: s.lon, startYear: s.startYear });
+      const gap = gaps[id] ?? 25;
+      for (const e of discoveries)
+        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+    }
+  });
+
+  it('batch 11 (4 Nov 2026) adds cited, plain-link rows in gaps, each with its own Q-id', () => {
+    const batch11 = [
+      'romualdo', 'doushantuo', 'jiufotang', 'fezouata', 'kap-kobenhavn', 'shungura', 'nesher-ramla', 'pindai', 'hualong',
+    ].map((id) => `cur-fossil-${id}`);
+    // Nesher Ramla is a different site 5 km from where the Gezer calendar was found.
+    const gaps: Record<string, number> = { 'cur-fossil-nesher-ramla': 4 };
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch11) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.summary, id).toBeTruthy();
+      expect(s.summary!.length, id).toBeLessThan(120); // one line
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[^\s()[\]<>]+$/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(s.wikidataId, id).toMatch(/^Q\d+$/);
+      expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
+      expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
+      expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
+      expect(s.dateNote, id).toMatch(/million years/); // the age of the rocks goes in the note
       expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
       expect(events.find((e) => e.id === id), id).toMatchObject({ lat: s.lat, lon: s.lon, startYear: s.startYear });
       const gap = gaps[id] ?? 25;

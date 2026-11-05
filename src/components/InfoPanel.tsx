@@ -11,7 +11,7 @@ import { westminsterNote } from '../lib/westminsterNote';
 import { landmarkNote } from '../lib/landmarkMesh';
 import { applyTone, type ToneId } from '../lib/tone';
 import { onEnterOrSpace } from '../lib/keyboard';
-import { fetchWikiSummary, wikiImageTitleFor, wikiPageUrl } from '../lib/wikiImage';
+import { fetchWikiSummary, pictureAlt, wikiImageTitleFor, wikiPageUrl } from '../lib/wikiImage';
 import CommanderFaces from './CommanderFaces';
 
 interface InfoPanelProps {
@@ -169,6 +169,9 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
     extract?: string;
     thumb?: string;
   }>({ status: 'idle' });
+  // A Wikipedia picture that failed to load. Kept as state (not a DOM
+  // attribute) so the next panel's picture is not left hidden too.
+  const [brokenThumb, setBrokenThumb] = useState<string | null>(null);
   // User-chosen panel width (px), via the left-edge grab bar. Null = CSS default.
   const [panelWidth, setPanelWidth] = useState<number | null>(null);
   const panelRef = useRef<HTMLElement | null>(null);
@@ -483,17 +486,26 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
             </div>
           )}
 
-          {wiki.thumb && imageTitle && (
+          {wiki.thumb && imageTitle && wiki.thumb !== brokenThumb && (
             <figure className="info-wiki-figure">
               <img
                 className={`info-thumb${imageOnly || content.kicker === 'Prehistoric life' ? ' info-thumb--contain' : ''}`}
                 src={wiki.thumb}
-                alt={content.title}
+                alt={pictureAlt(content.title)}
                 loading="lazy"
-                onError={(e) => { (e.currentTarget.closest('figure') as HTMLElement | null)?.setAttribute('hidden', ''); }}
+                decoding="async"
+                onError={() => setBrokenThumb(wiki.thumb ?? null)}
               />
               <figcaption className="info-credit">
-                Image: <a href={wikiPageUrl(imageTitle)} target="_blank" rel="noopener noreferrer">Wikipedia</a>
+                Image:{' '}
+                <a
+                  href={wikiPageUrl(imageTitle)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Image source: Wikipedia article ${imageTitle} (opens in a new tab)`}
+                >
+                  Wikipedia
+                </a>
               </figcaption>
             </figure>
           )}
