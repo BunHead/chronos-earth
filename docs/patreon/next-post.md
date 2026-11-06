@@ -1,14 +1,24 @@
-# Dispatch from the crew — real scans of Göbekli Tepe and Pumapunku
+# Dispatch from the crew — a hundred new fossil sites, and pictures in every panel
 
-The busiest week the shipyard has seen, crew. Here's what came off the slipway.
+A week of digging and checking at the shipyard, crew.
 
-- **The real stones.** Göbekli Tepe and Pumapunku now stand on the globe as genuine 3D scans, and Göbekli Tepe has a high-detail version for desktops. Its human remains are there too: the carved skulls found in 2017 and the first two burials, reported this year. Phones now get a light copy of the real Sphinx scan in place of the old blocky one.
-- **London through the centuries.** The Tower of London rises from its 1067 timber fort to today. Tower Bridge, Westminster Palace and Buckingham Palace are each rebuilt on their real ground plans, and change as the years go by. The Temple of Heaven, Trajan's Column and Pompey's Pillar have joined them.
-- **A deep scrub of the logbook.** Hundreds of people, places and empires have been checked by hand. Pins have been moved, and some folk who were "born after they died" have been put right. Nearly 140 new battles came aboard, along with about 60 fossil sites, six Ice Age human relatives, and 28 major finds from the last decade, the Kekova shipwreck among them.
-- **Smoother sailing.** The globe starts faster, labels are easier to read, text on phones is clearer, and pins behind the horizon no longer show through the Earth.
+- **Pictures aboard.** Open a creature, a fossil, or anything with a Wikipedia link, and the side panel now shows its lead picture, with credit to the photographer.
+- **Fossil hunting.** About a hundred new fossil sites have joined the globe, many in parts of the world that were thin before. A few old fossil pins were moved to the right spot too.
+- **The Great Wall's first stones.** The Wall's earliest phase now has its own pin: the Chu "Square Wall" at Fangcheng, from the 7th century BC.
+- **Battles that move.** Plassey, the Spanish Armada, El Alamein and the Battle of the Bulge now play out phase by phase.
+- **A scrub of the logbook.** Thousands of cities and a few hundred battles were checked against Wikidata, and the mistakes were put right. The Sky and Weather window also closes properly now, with an × or the Escape key.
 
-Old St Paul's, with its spire and the Great Fire, is still in the dry dock.
-
-Set sail at bunhead.github.io/chronos-earth and fly to Göbekli Tepe.
+Set sail at bunhead.github.io/chronos-earth, fly to the Spanish Armada and watch it go.
 
 Thank you, patrons. You keep this ship sailing. 🧭 **Maker's Circle:** trace a site with the builder and hit 📤 submit. The crew will take it from there.
+
+---
+
+## This month's vote (Navigators' poll)
+
+What should the crew build next?
+
+1. Old St Paul's: the medieval cathedral with its spire, and the Great Fire
+2. Another whole Maya city: Copán, Caracol or Yaxchilán
+3. Smoother playback: no more freezes while history plays
+4. Atlantis: the raised lake, the dam bursting and the great wave
