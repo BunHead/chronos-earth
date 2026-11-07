@@ -5287,34 +5287,99 @@ export function buildModel(
     ground = '#3f5138';
     const steelMat = new THREE.MeshStandardMaterial({ color: '#dfe4ea', metalness: 0.6, roughness: 0.35 });
     const podMat = new THREE.MeshStandardMaterial({ color: '#bfe0ff', metalness: 0.2, roughness: 0.25, transparent: true, opacity: 0.85 });
+    // Real proportions: 120 m wheel (R = 11 → ~5.45 m a unit), hub ~70 m up,
+    // so the rim's lowest point clears the boarding pier by about a capsule.
     const R = 11;
-    const cy = R + 1.6;
+    const cy = R + 2.3;
+    const cableMat = new THREE.MeshStandardMaterial({ color: '#c9ced4', metalness: 0.5, roughness: 0.45 });
+    const floorMat = new THREE.MeshStandardMaterial({ color: '#4a5560', metalness: 0.4, roughness: 0.5 });
     // (No stylised river here — on real satellite terrain the actual Thames is
     // already in the imagery; a painted strip only juts out misaligned.)
     const wheel = new THREE.Group();
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(R, 0.32, 10, 72), steelMat);
-    wheel.add(rim); // upright, in the XY plane
-    const rim2 = new THREE.Mesh(new THREE.TorusGeometry(R - 0.5, 0.16, 8, 72), steelMat);
-    wheel.add(rim2);
-    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 1.4, 16), steelMat);
-    hub.rotation.x = Math.PI / 2;
-    wheel.add(hub);
-    for (let i = 0; i < 32; i++) {
-      const a = (i / 32) * Math.PI * 2;
-      const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, R, 6), steelMat);
-      spoke.position.set((Math.cos(a) * R) / 2, (Math.sin(a) * R) / 2, 0);
-      spoke.rotation.z = a - Math.PI / 2;
-      wheel.add(spoke);
+    // A strut between two points in the wheel's own frame.
+    const strut = (a: THREE.Vector3, b: THREE.Vector3, r: number, mat: THREE.Material) => {
+      const d = new THREE.Vector3().subVectors(b, a);
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, d.length(), 5), mat);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize());
+      wheel.add(m);
+    };
+    // --- The rim: a TRIANGULAR TRUSS — two outer chords either side of the
+    //     wheel plane and one inner chord, laced with diagonals (the real
+    //     Eye's rim is this lattice, not a solid hoop). ---
+    const RW = 0.45; // half-width of the truss across the wheel plane
+    const Ri = R - 0.85; // inner chord radius
+    for (const z of [-RW, RW]) {
+      const chord = new THREE.Mesh(new THREE.TorusGeometry(R, 0.12, 6, 96), steelMat);
+      chord.position.z = z;
+      wheel.add(chord); // upright, in the XY plane
     }
-    for (let i = 0; i < 24; i++) {
-      const a = (i / 24) * Math.PI * 2;
-      const pod = new THREE.Mesh(new THREE.CapsuleGeometry(0.5, 0.5, 6, 12), podMat);
-      pod.rotation.z = Math.PI / 2;
-      pod.position.set(Math.cos(a) * (R + 0.55), Math.sin(a) * (R + 0.55), 0);
+    wheel.add(new THREE.Mesh(new THREE.TorusGeometry(Ri, 0.14, 6, 96), steelMat));
+    const NL = 64; // truss panels around the rim
+    for (let i = 0; i < NL; i++) {
+      const a = (i / NL) * Math.PI * 2;
+      const a2 = ((i + 0.5) / NL) * Math.PI * 2;
+      const outer = (z: number, t: number) => new THREE.Vector3(Math.cos(t) * R, Math.sin(t) * R, z);
+      const inner = new THREE.Vector3(Math.cos(a2) * Ri, Math.sin(a2) * Ri, 0);
+      strut(outer(-RW, a), inner, 0.05, steelMat); // zig-zag lacing, both faces
+      strut(outer(RW, a), inner, 0.05, steelMat);
+      if (i % 2 === 0) strut(outer(-RW, a), outer(RW, a), 0.05, steelMat); // cross ties
+    }
+    // --- The spindle: a long horizontal axle through the hub, perpendicular to
+    //     the wheel, with a flanged hub ring at each end. ---
+    const SP = 2.3; // half-length (~25 m spindle)
+    const spindleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, SP * 2 + 0.6, 16), steelMat);
+    spindleMesh.rotation.x = Math.PI / 2;
+    wheel.add(spindleMesh);
+    for (const z of [-SP, SP]) {
+      const flange = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 0.35, 20), steelMat);
+      flange.rotation.x = Math.PI / 2;
+      flange.position.z = z;
+      wheel.add(flange);
+    }
+    // --- Spoke cables: 32 from each hub ring to the rim's inner chord, so the
+    //     wheel is DISHED like a bicycle wheel; the two fans interleave. ---
+    for (let i = 0; i < 64; i++) {
+      const a = (i / 64) * Math.PI * 2;
+      const z = i % 2 === 0 ? -SP : SP;
+      strut(new THREE.Vector3(Math.cos(a) * 0.85, Math.sin(a) * 0.85, z), new THREE.Vector3(Math.cos(a) * Ri, Math.sin(a) * Ri, 0), 0.025, cableMat);
+    }
+    // --- 32 ovoid glass capsules on the OUTSIDE of the rim, each slung between
+    //     two mounting rings so it stays level as the wheel turns; the long
+    //     axis runs across the wheel plane (they jut out on both faces). ---
+    const capGeo = new THREE.SphereGeometry(0.5, 16, 12);
+    const floorGeo = new THREE.CylinderGeometry(0.47, 0.47, 1.35, 14, 1, false, -Math.PI * 0.25, Math.PI * 0.5);
+    const collarGeo = new THREE.TorusGeometry(0.5, 0.06, 6, 20);
+    for (let i = 0; i < 32; i++) {
+      const a = (i / 32) * Math.PI * 2 + Math.PI / 64;
+      const cx = Math.cos(a) * (R + 0.72);
+      const cyy = Math.sin(a) * (R + 0.72);
+      const pod = new THREE.Mesh(capGeo, podMat);
+      pod.scale.set(0.95, 0.9, 1.55); // egg-shaped: ~8 m long, ~4 m tall
+      pod.position.set(cx, cyy, 0);
       wheel.add(pod);
+      const floor = new THREE.Mesh(floorGeo, floorMat); // the dark floor pan, always down
+      floor.rotation.x = Math.PI / 2;
+      floor.position.set(cx, cyy, 0);
+      wheel.add(floor);
+      for (const z of [-0.62, 0.62]) {
+        const collar = new THREE.Mesh(collarGeo, steelMat);
+        collar.scale.set(0.82, 0.82, 1);
+        collar.position.set(cx, cyy, z);
+        wheel.add(collar);
+      }
+      // the mounting bracket back to the rim's outer chords
+      strut(new THREE.Vector3(Math.cos(a) * R, Math.sin(a) * R, 0), new THREE.Vector3(cx, cyy, 0), 0.07, steelMat);
     }
     wheel.position.set(0, cy, 0);
     group.add(wheel);
+    // --- The boarding pier: a long deck under the wheel's lowest point, out
+    //     over the river (+Z), with a canopy and rails. ---
+    group.add(block(15, 0.45, 2.2, 0, 0.55, 1.1, '#7d848b'));               // deck
+    for (const x of [-6.5, -3.2, 0, 3.2, 6.5]) group.add(block(0.4, 0.55, 0.4, x, 0.15, 1.1, '#6b7177')); // piles
+    group.add(block(9, 0.12, 1.5, 0, 2.05, 2.0, '#e8ecef'));                // canopy over the queue
+    for (const x of [-4.2, 4.2]) group.add(block(0.14, 1.3, 0.14, x, 1.4, 2.6, '#bfc5cb'));
+    group.add(block(15, 0.08, 0.06, 0, 1.15, 2.18, '#bfc5cb'));             // river-side rail
     // --- Two legs rake up from the land-side foundation and MEET at the wheel's
     //     central spindle (the A-frame), with backstays tying the hub down
     //     behind — the real Eye's cantilever, held from one bank. ---
@@ -5326,18 +5391,24 @@ export function buildModel(
       group.add(m);
       return m;
     };
-    const spindle = new THREE.Vector3(0, cy, -0.2); // the hub — centre of the ring
-    const footL = new THREE.Vector3(-4.6, 0.5, -4.8);
-    const footR = new THREE.Vector3(4.6, 0.5, -4.8);
-    tube(footL, spindle, 0.36); // the two arms, converging on the hub
-    tube(footR, spindle, 0.36);
+    // The legs grip the BACK (land-side) end of the spindle, behind the wheel.
+    const spindle = new THREE.Vector3(0, cy, -2.3);
+    const footL = new THREE.Vector3(-4.6, 0.5, -5.2);
+    const footR = new THREE.Vector3(4.6, 0.5, -5.2);
+    tube(footL, spindle, 0.42); // the two arms, converging on the hub
+    tube(footR, spindle, 0.42);
     tube(footL, footR, 0.18); // horizontal tie across the feet
-    const backL = new THREE.Vector3(-2.2, 0.5, -7.2);
-    const backR = new THREE.Vector3(2.2, 0.5, -7.2);
-    tube(spindle, backL, 0.13); // backstay tension members
-    tube(spindle, backR, 0.13);
-    for (const f of [footL, footR, backL, backR]) group.add(block(1.5, 0.9, 1.5, f.x, 0.45, f.z, '#9aa0a6')); // foundation pads
-    group.add(block(10.4, 0.5, 1.8, 0, 0.28, -5.4, '#8f959b')); // capping beam
+    // cross-ties up the A-frame, like the real legs' bracing
+    for (const t of [0.3, 0.55]) {
+      const pL = footL.clone().lerp(spindle, t);
+      const pR = footR.clone().lerp(spindle, t);
+      tube(pL, pR, 0.14);
+    }
+    // backstays: six cables fanning from the spindle head to an anchor block
+    for (const x of [-2.6, -1.5, -0.5, 0.5, 1.5, 2.6]) tube(spindle, new THREE.Vector3(x, 0.6, -8.6), 0.05);
+    group.add(block(6.4, 0.9, 1.4, 0, 0.45, -8.6, '#9aa0a6'));          // backstay anchor
+    for (const f of [footL, footR]) group.add(block(1.8, 0.9, 1.8, f.x, 0.45, f.z, '#9aa0a6')); // leg foundations
+    group.add(block(10.4, 0.5, 1.8, 0, 0.28, -5.2, '#8f959b')); // capping beam
   } else if (model === 'eiffel') {
     // The Eiffel Tower — four curved lattice piers rising off a 125 m square,
     // through two visible platform decks, merging into one tapering lattice
