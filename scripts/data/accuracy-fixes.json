@@ -5147,9 +5147,29 @@
       "source": "https://www.wikidata.org/wiki/Q161176 (P571 1907-04-01); https://en.wikipedia.org/wiki/Fukushima_(city)"
     },
     "q203308": {
-      "dateNote": "Uncertain: 1889 is when it became a modern city or merged with its neighbours. The town is much older (it grew up as the old port of Akamagaseki), but no clear founding year was found, so the year is left as it is.",
-      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found",
+      "dateNote": "Uncertain date: 1889 is when it became a city (as Akamagaseki). The port is much older: Wikidata gives a first record in 869, but only copied from Japanese Wikipedia.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found. Then Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1889 = city status; P1249 869 is only imported from Japanese Wikipedia",
       "source": "https://www.wikidata.org/wiki/Q203308; https://en.wikipedia.org/wiki/Shimonoseki"
+    },
+    "q271417": {
+      "dateNote": "Uncertain date: 1937 is when it became a city. Wikidata gives a first record in 1186, but only copied from Japanese Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1937 = city status; P1249 1186 is only imported from Japanese Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q271417"
+    },
+    "q736897": {
+      "dateNote": "Uncertain date: 1988 is when it became a city. Wikidata gives a first record in 1454, but only copied from Japanese Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1988 = city status; P1249 1454 is only imported from Japanese Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q736897"
+    },
+    "q42154": {
+      "dateNote": "Uncertain date: 1986 is when it became a city. Wikidata says the name goes back to 940, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1986 = city status; P1249 940 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q42154"
+    },
+    "q1827367": {
+      "dateNote": "Uncertain date: no source checked says what happened in 1699. The first written record is from 1429, in a Moldavian charter published by Mihai Costăchescu.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1699 has no source; P1249 1429 is cited to Costăchescu, Documente moldovenești înainte de Ștefan cel Mare, vol. 1",
+      "source": "https://www.wikidata.org/wiki/Q1827367"
     },
     "q696694": {
       "dateNote": "Uncertain: 1898 is when it became a modern city or merged with its neighbours. The town is much older (it has been a port since the 1100s), but no clear founding year was found, so the year is left as it is.",
@@ -5796,6 +5816,138 @@
       "dateNote": "Uncertain date: in 1251 King James I let the town move down from its hill to the plain. Wikidata also gives 1239, for the older town on the hill.",
       "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: Wikidata P571 gives both 1251 (preferred) and 1239; sources date the town on the plain from 1251",
       "source": "https://www.wikidata.org/wiki/Q15092; https://www.elperiodicomediterraneo.com/magdalena/2018/03/04/traslado-villa-castellon-41381286.html"
+    },
+    "q165857": {
+      "startYear": 1486,
+      "dateNote": "First written record in 1486, as Tokorozawa (野老沢) in the travel diary Kaikoku Zakki. It became a city in 1950.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1950). 1950 is when the town became a city; Wikidata P1249 gives 1486, cited to the city website",
+      "source": "https://www.wikidata.org/wiki/Q165857; https://www.city.tokorozawa.saitama.jp/iitokoro/shokai/symbol/syoukai_timei.html; https://www.city.tokorozawa.saitama.jp/iitokoro/enjoy/kids/shokai/nenpyo.html"
+    },
+    "q426130": {
+      "startYear": -201,
+      "dateNote": "Fu County was set up here in 201 BC, under the Han dynasty. It became a prefecture-level city in 1985.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1985). 1985 is when it became a prefecture-level city; Wikidata P571 also gives 201 BC, cited to Chinese Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q426130; https://zh.wikipedia.org/wiki/绵阳市#古代"
+    },
+    "q1008595": {
+      "startYear": 1359,
+      "dateNote": "First written record in 1359. The 1973 date used before was a date from a modern business register (LEI), not when the town began.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1973). Wikidata P571 1973 is cited only to the Czech LEI company register; Wikidata P1249 cited to Historický lexikon obcí České republiky 1869–2005 gives 1359",
+      "source": "https://www.wikidata.org/wiki/Q1008595"
+    },
+    "q1008696": {
+      "startYear": 1267,
+      "dateNote": "First written record in 1267. The 1980 date used before was a date from a modern business register (LEI), not when the town began.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1980). Wikidata P571 1980 is cited only to the Czech LEI company register; Wikidata P1249 cited to Historický lexikon obcí České republiky 1869–2005 gives 1267",
+      "source": "https://www.wikidata.org/wiki/Q1008696"
+    },
+    "q1017247": {
+      "startYear": 1369,
+      "dateNote": "First written record in 1369. The 1973 date used before was a date from a modern business register (LEI), not when the town began.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1973). Wikidata P571 1973 is cited only to the Czech LEI company register; Wikidata P1249 cited to Historický lexikon obcí České republiky 1869–2005 gives 1369",
+      "source": "https://www.wikidata.org/wiki/Q1017247"
+    },
+    "q527002": {
+      "startYear": 1279,
+      "dateNote": "First written record in 1279. The 1973 date used before was a date from a modern business register (LEI), not when the town began.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1973). Wikidata P571 1973 is cited only to the Czech LEI company register; Wikidata P1249 cited to Historický lexikon obcí České republiky 1869–2005 gives 1279",
+      "source": "https://www.wikidata.org/wiki/Q527002"
+    },
+    "q986082": {
+      "startYear": 1352,
+      "dateNote": "First written record in 1352. The 1973 date used before was a date from a modern business register (LEI), not when the town began.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1973). Wikidata P571 1973 is cited only to the Czech LEI company register; Wikidata P1249 gives 1352, cited to the iDNES article on the ages of Czech towns (Q31271037)",
+      "source": "https://www.wikidata.org/wiki/Q986082"
+    },
+    "q8646": {
+      "dateNote": "Uncertain date: 1997 is when Hong Kong was handed back to China. The British colony began in 1841, and villages here are much older.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1997 is the handover; Wikidata P571 also gives 26 Jan 1841 (British Hong Kong) but with no source",
+      "source": "https://www.wikidata.org/wiki/Q8646"
+    },
+    "q8686": {
+      "dateNote": "Uncertain date: 1292 is when Shanghai County was set up. Shanghai was already a market town before that, and the nearby port of Qinglong dates from 751.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1292 is county status; Wikidata P571 751 (Qinglongzhen) is a different site and only from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q8686"
+    },
+    "q664895": {
+      "dateNote": "Uncertain date: 1945 is a date from a modern business register. The first written record is from 1048 or 1140: the sources disagree.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1945 is from the LEI register; Wikidata P1249 gives 1048 (Historický lexikon obcí) and 1140 (iDNES article)",
+      "source": "https://www.wikidata.org/wiki/Q664895"
+    },
+    "q898468": {
+      "dateNote": "Uncertain date: 1960 is when Brandýs nad Labem and Stará Boleslav were joined into one town. Both are much older: one source gives 1052, and Saint Wenceslas was killed at Stará Boleslav in the 10th century.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1960 is the merger; Wikidata P1249 1052 is cited only to a blog article (Q31271037)",
+      "source": "https://www.wikidata.org/wiki/Q898468"
+    },
+    "q791279": {
+      "dateNote": "Uncertain date: Wikidata says it was settled in 1812 (citing the county and city websites), but no source checked explains the 1912 date used here.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1812 is cited; the 1912 we use is not on Wikidata, so what it marks is not checked",
+      "source": "https://www.wikidata.org/wiki/Q791279"
+    },
+    "q843993": {
+      "dateNote": "Uncertain date: 1876 is when it became a village (it became a city in 1961). Wikidata says people lived here from 1795, but gives no source.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1876 village, 1961 city; P571 1795 (unincorporated area) has no source",
+      "source": "https://www.wikidata.org/wiki/Q843993"
+    },
+    "q571970": {
+      "dateNote": "Uncertain date: 1945 is when it got town rights. Wikidata says it is first written about in 1281, but gives no source.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1945 = town rights; P1249 1281 has no source",
+      "source": "https://www.wikidata.org/wiki/Q571970"
+    },
+    "q757050": {
+      "dateNote": "Uncertain date: 1991 is when it got town rights. Wikidata says it is first written about in 1209, but gives no source.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1991 = town rights; P1249 1209 has no source",
+      "source": "https://www.wikidata.org/wiki/Q757050"
+    },
+    "q520405": {
+      "dateNote": "Uncertain date: 1917 is when it got town rights. It is older: Wikidata gives a first written record in 1231, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1917 = Latvian town rights; P1249 1231 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q520405"
+    },
+    "q744247": {
+      "dateNote": "Uncertain date: 1917 is when it got town rights. It is older: Wikidata gives a first written record in 1253, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1917 = Latvian town rights; P1249 1253 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q744247"
+    },
+    "q650475": {
+      "dateNote": "Uncertain date: 1917 is when it got town rights. It is older: Wikidata gives a first written record in 1253, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1917 = Latvian town rights; P1249 1253 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q650475"
+    },
+    "q60044": {
+      "dateNote": "Uncertain date: 1917 is when it got town rights. It is older: Wikidata gives a first written record in 1570, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1917 = Latvian town rights; P1249 1570 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q60044"
+    },
+    "q218402": {
+      "dateNote": "Uncertain date: 1928 is when it got town rights. It is older: Wikidata gives a first written record in 1224, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1928 = Latvian town rights; P1249 1224 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q218402"
+    },
+    "q753010": {
+      "dateNote": "Uncertain date: 1928 is when it got town rights. It is older: Wikidata gives a first written record in 1224, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1928 = Latvian town rights; P1249 1224 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q753010"
+    },
+    "q618119": {
+      "dateNote": "Uncertain date: 1928 is when it got town rights. It is older: Wikidata gives a first written record in 1449, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1928 = Latvian town rights; P1249 1449 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q618119"
+    },
+    "q840801": {
+      "dateNote": "Uncertain date: 1893 is when it got town rights. It is older: Wikidata gives a first written record in 1263, but only copied from Russian Wikipedia.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1893 = Latvian town rights; P1249 1263 is only imported from Russian Wikipedia",
+      "source": "https://www.wikidata.org/wiki/Q840801"
+    },
+    "q5967": {
+      "dateNote": "Uncertain date: 2008 is when it became a city. Wikidata also gives 6 April 1678, but with no source.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 2008 = city status by Law 47/2008; P571 1678 has no source",
+      "source": "https://www.wikidata.org/wiki/Q5967"
+    },
+    "q243853": {
+      "dateNote": "Uncertain date: 1925 is when it became a city. The name Nishinomiya, after the shrine here, is already written in the 12th-century dictionary Iroha Jiruishō, but no start year is agreed.",
+      "why": "Incorporation-date audit, batch 2 (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: P571 1925 = city status; P571 1200 (century precision, de facto, Hirota Shrine) cited to Iroha Jiruishō",
+      "source": "https://www.wikidata.org/wiki/Q243853"
     },
     "q503387": {
       "startYear": 1220,
