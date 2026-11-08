@@ -2133,9 +2133,9 @@
     "q493692": {
       "lat": 37.9717,
       "lon": 126.5528,
-      "born": "14 November 955, Gaegyeong (now Kaesong)",
-      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Korea, 71 km away; born in Gaegyeong (now Kaesong), the Goryeo capital.",
-      "source": "https://www.wikidata.org/wiki/Q493692; https://www.wikidata.org/wiki/Q109079; https://en.wikipedia.org/wiki/Gyeongjong_of_Goryeo"
+      "born": "9 November 955, Gaegyeong (now Kaesong)",
+      "why": "People fact-check batch 15 (region-centre pins), checked by hand (Oct 2026), fixed: Pin was the middle of Korea, 71 km away; born in Gaegyeong (now Kaesong), the Goryeo capital. Ancient sites batch (Oct 2026), fixed: the date showed 14 November 955; Wikidata P569 is 9 November 955 (stored as a Julian-calendar date, which the harvest shifted 5 days), and Wikipedia also says 9 November 955.",
+      "source": "https://www.wikidata.org/wiki/Q493692; https://www.wikidata.org/wiki/Q109079; https://en.wikipedia.org/wiki/Gyeongjong_of_Goryeo; https://www.wikidata.org/wiki/Q493692 (P569 9 November 955)"
     },
     "q561542": {
       "born": "18 April 1947, Toweh Town, Nimba County",

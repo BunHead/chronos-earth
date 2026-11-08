@@ -855,6 +855,166 @@
           "url": "https://en.wikipedia.org/wiki/Calakmul_Biosphere_Reserve"
         }
       ]
+    },
+    {
+      "id": "kalambo-falls",
+      "name": "Kalambo Falls wooden structure",
+      "category": "monument",
+      "wikidataId": "Q65947291",
+      "lat": -8.597,
+      "lon": 31.24,
+      "builtYear": -474000,
+      "builtYearLabel": "at least 476,000 years ago",
+      "consensusSummary": "Waterlogged wood found beside the Kalambo River, just above Kalambo Falls on the Zambia–Tanzania border. Two big logs are locked together at right angles by a notch cut into the top one. Luminescence dating of the sand around them gives an age of at least 476,000 years.",
+      "significance": "The oldest known wooden structure in the world, built long before our own species, Homo sapiens. It shows early humans shaped wood into structures, not just tools.",
+      "keyFacts": [
+        "Two logs joined at right angles by a deliberately cut notch",
+        "Stone-tool cut marks on the wood",
+        "Dated by luminescence to at least 476,000 years ago",
+        "Older than Homo sapiens; the builders were probably an earlier human species, such as Homo heidelbergensis",
+        "Wood rarely survives this long; here a high water table kept it wet"
+      ],
+      "links": [
+        {
+          "label": "Barham et al. 2023, Evidence for the earliest structural use of wood (Nature)",
+          "url": "https://doi.org/10.1038/s41586-023-06557-9"
+        },
+        {
+          "label": "Wikidata: Kalambo Falls archaeological site (Q65947291)",
+          "url": "https://www.wikidata.org/wiki/Q65947291"
+        },
+        {
+          "label": "Wikipedia: Kalambo Falls",
+          "url": "https://en.wikipedia.org/wiki/Kalambo_Falls"
+        }
+      ]
+    },
+    {
+      "id": "bruniquel-cave",
+      "name": "Bruniquel Cave stalagmite rings",
+      "category": "monument",
+      "wikidataId": "Q3117121",
+      "lat": 44.064,
+      "lon": 1.676,
+      "builtYear": -174500,
+      "builtYearLabel": "176,500 years ago",
+      "consensusSummary": "About 336 m inside Bruniquel Cave in southern France, Neanderthals broke off around 400 stalagmites and arranged them into two rings and smaller piles, with traces of fire on them. Uranium-series dating of calcite that grew over them gives about 176,500 years ago.",
+      "significance": "Among the oldest known human-built structures, made by Neanderthals deep in a cave, far from daylight. It shows they planned group work and used fire underground.",
+      "keyFacts": [
+        "About 400 broken stalagmite pieces, about 112 m in total length",
+        "Two rings: the bigger about 6.7 m by 4.5 m",
+        "Burnt marks and heated bones on the structures",
+        "Dated by uranium-series to about 176,500 years ago",
+        "Neanderthals were the only humans living in Europe at that time"
+      ],
+      "links": [
+        {
+          "label": "Jaubert et al. 2016, Early Neanderthal constructions deep in Bruniquel Cave (Nature)",
+          "url": "https://doi.org/10.1038/nature18291"
+        },
+        {
+          "label": "Wikidata: Bruniquel Cave (Q3117121)",
+          "url": "https://www.wikidata.org/wiki/Q3117121"
+        },
+        {
+          "label": "Wikipedia: Bruniquel Cave",
+          "url": "https://en.wikipedia.org/wiki/Bruniquel_Cave"
+        }
+      ]
+    },
+    {
+      "id": "blinkerwall",
+      "name": "Blinkerwall (Baltic Sea)",
+      "category": "monument",
+      "wikidataId": "Q124519928",
+      "lat": 54.169,
+      "lon": 11.47,
+      "builtYear": -8000,
+      "builtYearLabel": "c. 10,000 years ago",
+      "consensusSummary": "A line of about 1,670 stones, 971 m long, now about 21 m under the Baltic Sea in the Bay of Mecklenburg, about 10 km off Rerik, Germany. Found in 2021. When it was built the area was dry land by a lake or bog, and hunter-gatherers probably used the wall to steer reindeer towards a place where they could be killed.",
+      "significance": "Possibly the oldest known megastructure in Europe: a hunting wall built by Stone Age hunter-gatherers, drowned when the sea rose.",
+      "keyFacts": [
+        "971 m long, under about 21 m of water",
+        "About 1,670 stones, many small ones linking about 300 large boulders",
+        "Probably built more than 10,000 years ago and drowned about 8,500 years ago",
+        "Thought to be a drive lane for hunting reindeer",
+        "Pin position is from Wikidata (Q124519928)"
+      ],
+      "links": [
+        {
+          "label": "Geersen et al. 2024, A submerged Stone Age hunting architecture from the Western Baltic Sea (PNAS)",
+          "url": "https://doi.org/10.1073/pnas.2312008121"
+        },
+        {
+          "label": "Wikidata: Blinkerwall (Q124519928)",
+          "url": "https://www.wikidata.org/wiki/Q124519928"
+        }
+      ]
+    },
+    {
+      "id": "drop-45-drive-lane",
+      "name": "Drop 45 drive lane (Lake Huron)",
+      "category": "monument",
+      "lat": 44.72,
+      "lon": -82.91,
+      "builtYear": -7000,
+      "builtYearLabel": "c. 9,000 years ago",
+      "consensusSummary": "A caribou hunting structure on the Alpena-Amberley Ridge, now under about 37 m of water in Lake Huron. Nine thousand years ago the ridge was a dry land bridge between north-east Michigan and southern Ontario, and caribou crossed it. Hunters built two parallel lines of stones with hunting blinds to funnel the animals.",
+      "significance": "The most complex hunting structure yet found under the Great Lakes. It shows hunters planned seasonal caribou hunts as a group.",
+      "keyFacts": [
+        "About 30 m long and 8 m wide, built on limestone bedrock",
+        "Two lines of stones, with three circular hunting blinds",
+        "Under about 37 m of water",
+        "About 56 km south-east of Alpena, Michigan",
+        "Pin position is approximate: placed on the Alpena-Amberley Ridge about 56 km south-east of Alpena, as published"
+      ],
+      "links": [
+        {
+          "label": "O'Shea et al. 2014, A 9,000-year-old caribou hunting structure beneath Lake Huron (PNAS)",
+          "url": "https://doi.org/10.1073/pnas.1404404111"
+        },
+        {
+          "label": "NOAA repository: A 9,000-year-old hunting structure in Lake Huron",
+          "url": "https://repository.library.noaa.gov/view/noaa/31460"
+        }
+      ]
+    },
+    {
+      "id": "jericho-tower-wall",
+      "name": "Jericho (Tell es-Sultan): tower and wall",
+      "category": "settlement",
+      "wikidataId": "Q2402267",
+      "lat": 31.87172,
+      "lon": 35.44456,
+      "builtYear": -8300,
+      "builtYearLabel": "c. 8300 BCE",
+      "consensusSummary": "At Tell es-Sultan, the mound of ancient Jericho in the West Bank, Pre-Pottery Neolithic villagers built a stone wall and a round stone tower about 8.5 m tall with an inner staircase. Kathleen Kenyon excavated them in the 1950s. They date to about 8300 BCE.",
+      "significance": "Among the oldest known town walls and the oldest known tower: built by early farmers, before pottery.",
+      "keyFacts": [
+        "The tower is about 8.5 m tall and about 9 m across, with a staircase of 22 steps inside",
+        "A stone wall ran beside it, with a ditch cut into the rock",
+        "Built in the Pre-Pottery Neolithic A, before pottery",
+        "What the tower was for is still debated: defence, flood control, or ritual",
+        "Jericho itself is also on the globe as a city; this entry is for the tower and wall"
+      ],
+      "links": [
+        {
+          "label": "Wikidata: Tell es-Sultan (Q2402267)",
+          "url": "https://www.wikidata.org/wiki/Q2402267"
+        },
+        {
+          "label": "Liran & Barkai 2011, Casting a shadow on Neolithic Jericho (Antiquity)",
+          "url": "https://doi.org/10.1017/S0003598X00067673"
+        },
+        {
+          "label": "Wikipedia: Tower of Jericho",
+          "url": "https://en.wikipedia.org/wiki/Tower_of_Jericho"
+        },
+        {
+          "label": "UNESCO World Heritage listing: Ancient Jericho/Tell es-Sultan",
+          "url": "https://whc.unesco.org/en/list/1687/"
+        }
+      ]
     }
   ]
 }
