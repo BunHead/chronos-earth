@@ -35108,6 +35108,2292 @@
       ],
       "loser": "b",
       "severity": 1.3
+    },
+    "breitenfeld-1631": {
+      "title": "Battle of Breitenfeld",
+      "subtitle": "17 September 1631 — Gustavus Adolphus breaks Tilly’s veterans north of Leipzig",
+      "sides": {
+        "a": {
+          "name": "Sweden & Saxony (Gustavus Adolphus)",
+          "color": "#2a5caa"
+        },
+        "b": {
+          "name": "Imperial & Catholic League army (Tilly)",
+          "color": "#c8a020"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              0,
+              9
+            ],
+            [
+              30,
+              7
+            ],
+            [
+              60,
+              5
+            ],
+            [
+              100,
+              8
+            ]
+          ],
+          "label": "Lober stream (marshy)"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              62,
+              0
+            ],
+            [
+              61,
+              35
+            ],
+            [
+              66,
+              70
+            ]
+          ],
+          "label": "Düben–Leipzig road"
+        },
+        {
+          "type": "hill",
+          "x": 48,
+          "y": 52,
+          "r": 5,
+          "label": "Galgenberg (Imperial guns)"
+        },
+        {
+          "type": "forest",
+          "x": 10,
+          "y": 62,
+          "r": 6,
+          "label": "Linkelwald"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Lines drawn, guns open",
+          "narration": "Around noon the Swedish-Saxon army (about 40,000) comes south from Düben over the Lober and deploys facing Tilly’s 31,000 on the low Galgenberg ridge, Saxons on the far left beyond the Düben road. For some two hours the guns duel, the lighter Swedish pieces out-firing Tilly’s 27, while a south-westerly wind blows dust and smoke into Swedish faces."
+        },
+        {
+          "name": "Pappenheim hits the right",
+          "narration": "At about two o’clock Pappenheim, without Tilly’s order, takes the cuirassiers of the Imperial left round the Swedish right. Banér’s horse, interlaced with musketeers, meet charge after charge with volleys and do not break.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                46
+              ],
+              "to": [
+                16,
+                26
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                18,
+                48
+              ],
+              "to": [
+                10,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The Saxons are struck",
+          "narration": "Around three, Fürstenberg’s and Isolani’s cavalry fall on the Saxons on the eastern flank, and Tilly’s tercios swing obliquely off the ridge toward them, Swedish guns tearing gaps in the dense squares as they come.",
+          "arrows": [
+            {
+              "from": [
+                74,
+                46
+              ],
+              "to": [
+                82,
+                24
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                58,
+                46
+              ],
+              "to": [
+                70,
+                28
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Saxons flee, Horn re-faces",
+          "narration": "By four the Saxon army has fled toward Eilenburg, leaving its guns, and the whole Swedish left lies open. Horn wheels his wing to face east along the road ditches while the second line closes up behind him — the flexibility Tilly’s tercios cannot match — and on the right Banér at last drives off the spent cuirassiers.",
+          "arrows": [
+            {
+              "from": [
+                66,
+                32
+              ],
+              "to": [
+                60,
+                25
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                18,
+                23
+              ],
+              "to": [
+                12,
+                32
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Gustavus takes the guns",
+          "narration": "Gustavus leads the cavalry of his right in a charge across the field onto the Galgenberg, seizes Tilly’s artillery and turns it on the Imperial infantry, while Swedish brigades wheel left to cut the road to Leipzig.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                28
+              ],
+              "to": [
+                46,
+                50
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                36,
+                24
+              ],
+              "to": [
+                44,
+                44
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The tercios break",
+          "narration": "Between six and seven Horn’s last charge and Hepburn’s Scots brigade break Tilly’s army; the wounded Tilly is carried off toward Halle, and Pappenheim covers the flight from the Linkelwald with a few hundred men. Imperial losses run to some 7,600 killed or wounded and about 6,000 taken — two-thirds of the army, all its guns.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                23
+              ],
+              "to": [
+                66,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                54,
+                30
+              ],
+              "to": [
+                62,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "baner",
+          "side": "a",
+          "label": "Banér’s cavalry (Swedish right)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              18,
+              20
+            ],
+            [
+              18,
+              22
+            ],
+            [
+              18,
+              22
+            ],
+            [
+              14,
+              28
+            ],
+            [
+              44,
+              48
+            ],
+            [
+              46,
+              54
+            ]
+          ],
+          "strength": 4000,
+          "helmet": "morion"
+        },
+        {
+          "id": "sw-foot",
+          "side": "a",
+          "label": "Swedish brigades (first line)",
+          "pos": [
+            [
+              36,
+              20
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              36,
+              20
+            ],
+            [
+              38,
+              22
+            ],
+            [
+              42,
+              42
+            ],
+            [
+              48,
+              46
+            ]
+          ],
+          "strength": 9000,
+          "helmet": "morion"
+        },
+        {
+          "id": "sw-reserve",
+          "side": "a",
+          "label": "Second line, incl. Hepburn’s Scots",
+          "pos": [
+            [
+              38,
+              12
+            ],
+            [
+              38,
+              12
+            ],
+            [
+              40,
+              13
+            ],
+            [
+              56,
+              18
+            ],
+            [
+              56,
+              22
+            ],
+            [
+              62,
+              34
+            ]
+          ],
+          "strength": 5700,
+          "helmet": "morion"
+        },
+        {
+          "id": "horn",
+          "side": "a",
+          "label": "Horn’s wing (Swedish left)",
+          "pos": [
+            [
+              54,
+              20
+            ],
+            [
+              54,
+              20
+            ],
+            [
+              55,
+              21
+            ],
+            [
+              58,
+              25
+            ],
+            [
+              58,
+              26
+            ],
+            [
+              66,
+              30
+            ]
+          ],
+          "strength": 4100,
+          "helmet": "morion"
+        },
+        {
+          "id": "saxon-foot",
+          "side": "a",
+          "label": "Saxon foot (John George)",
+          "pos": [
+            [
+              72,
+              20
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              74,
+              22
+            ],
+            [
+              92,
+              6
+            ],
+            [
+              96,
+              3
+            ],
+            [
+              98,
+              2
+            ]
+          ],
+          "strength": 12350,
+          "helmet": "morion"
+        },
+        {
+          "id": "saxon-horse",
+          "side": "a",
+          "label": "Saxon cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              84,
+              20
+            ],
+            [
+              84,
+              20
+            ],
+            [
+              86,
+              22
+            ],
+            [
+              98,
+              4
+            ],
+            [
+              99,
+              2
+            ],
+            [
+              99,
+              1
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "morion"
+        },
+        {
+          "id": "pappenheim",
+          "side": "b",
+          "label": "Pappenheim’s cuirassiers (Imperial left)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              20,
+              50
+            ],
+            [
+              14,
+              26
+            ],
+            [
+              12,
+              28
+            ],
+            [
+              10,
+              36
+            ],
+            [
+              8,
+              52
+            ],
+            [
+              10,
+              60
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "morion"
+        },
+        {
+          "id": "tercios-l",
+          "side": "b",
+          "label": "Tilly’s tercios (left & centre)",
+          "pos": [
+            [
+              40,
+              52
+            ],
+            [
+              40,
+              52
+            ],
+            [
+              44,
+              48
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              56,
+              38
+            ],
+            [
+              62,
+              58
+            ]
+          ],
+          "strength": 10700,
+          "helmet": "morion"
+        },
+        {
+          "id": "tercios-r",
+          "side": "b",
+          "label": "Tilly’s tercios (right)",
+          "pos": [
+            [
+              56,
+              52
+            ],
+            [
+              56,
+              52
+            ],
+            [
+              68,
+              34
+            ],
+            [
+              66,
+              28
+            ],
+            [
+              66,
+              30
+            ],
+            [
+              80,
+              62
+            ]
+          ],
+          "strength": 10700,
+          "helmet": "morion"
+        },
+        {
+          "id": "furstenberg",
+          "side": "b",
+          "label": "Fürstenberg & Isolani (Imperial right)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              74,
+              50
+            ],
+            [
+              74,
+              50
+            ],
+            [
+              80,
+              26
+            ],
+            [
+              72,
+              20
+            ],
+            [
+              74,
+              26
+            ],
+            [
+              82,
+              52
+            ]
+          ],
+          "strength": 5000,
+          "helmet": "morion"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.2
+    },
+    "koniggratz": {
+      "title": "Battle of Königgrätz",
+      "subtitle": "3 July 1866 — three Prussian armies converge on Benedek between the Bistritz and the Elbe",
+      "sides": {
+        "a": {
+          "name": "Prussia (Moltke)",
+          "color": "#2b2b2b"
+        },
+        "b": {
+          "name": "Austria & Saxony (Benedek)",
+          "color": "#e8e3d0"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              32,
+              0
+            ],
+            [
+              30,
+              25
+            ],
+            [
+              28,
+              45
+            ],
+            [
+              30,
+              70
+            ]
+          ],
+          "label": "Bistritz (Bystřice)"
+        },
+        {
+          "type": "river",
+          "points": [
+            [
+              92,
+              0
+            ],
+            [
+              86,
+              30
+            ],
+            [
+              89,
+              52
+            ],
+            [
+              84,
+              70
+            ]
+          ],
+          "label": "Elbe"
+        },
+        {
+          "type": "town",
+          "x": 31,
+          "y": 32,
+          "r": 1.5,
+          "label": "Sadowa"
+        },
+        {
+          "type": "forest",
+          "x": 42,
+          "y": 18,
+          "r": 6,
+          "label": "Swiepwald"
+        },
+        {
+          "type": "town",
+          "x": 52,
+          "y": 28,
+          "r": 1.5,
+          "label": "Chlum"
+        },
+        {
+          "type": "town",
+          "x": 47,
+          "y": 35,
+          "r": 1.5,
+          "label": "Lipa"
+        },
+        {
+          "type": "town",
+          "x": 44,
+          "y": 58,
+          "r": 1.5,
+          "label": "Problus"
+        },
+        {
+          "type": "hill",
+          "x": 56,
+          "y": 10,
+          "r": 3,
+          "label": "Horenowes heights"
+        },
+        {
+          "type": "town",
+          "x": 88,
+          "y": 60,
+          "r": 2.5,
+          "label": "Königgrätz fortress"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Across the Bistritz",
+          "narration": "In rain and mist on the morning of 3 July, Prince Friedrich Karl’s First Army attacks east across the Bistritz at Sadowa, with the Army of the Elbe moving on the Saxons to the south. Benedek’s roughly 206,000 Austrians and Saxons hold the heights with their backs to the Elbe; the Prussian Second Army is still marching down from the north.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                32
+              ],
+              "to": [
+                30,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                18,
+                16
+              ],
+              "to": [
+                37,
+                18
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Swiepwald",
+          "narration": "Fransecky’s 7th Division pushes into the Swiepwald wood, and two Austrian corps of the right turn north-west to fight for it; around eleven Pöckh’s brigade charges the Prussians back to the forest edge and is destroyed by flanking fire from the 8th Division and the breech-loading needle gun.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                20
+              ],
+              "to": [
+                44,
+                18
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                52,
+                24
+              ],
+              "to": [
+                42,
+                20
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The noon crisis",
+          "narration": "East of Sadowa the First Army’s divisions are pinned under massed Austrian guns and can go no further, while in the south the Army of the Elbe presses the Saxons at Problus. Benedek declines to throw in his reserves or cavalry, and the Prussians wait for the Crown Prince.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                58
+              ],
+              "to": [
+                42,
+                57
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The Crown Prince arrives",
+          "narration": "At about half past two the Second Army, almost 100,000 strong, strikes the Austrian right from the north as it falls back from the Swiepwald, and the Prussian Guard takes Chlum — the high point behind Benedek’s centre.",
+          "arrows": [
+            {
+              "from": [
+                56,
+                6
+              ],
+              "to": [
+                52,
+                26
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                64,
+                6
+              ],
+              "to": [
+                62,
+                22
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Problus falls, the retreat begins",
+          "narration": "The Army of the Elbe breaks the Saxons and takes Problus, and around three Benedek orders a general retreat. His I and VI Corps counter-attack Chlum to buy time and are shot to pieces in about twenty minutes.",
+          "arrows": [
+            {
+              "from": [
+                24,
+                58
+              ],
+              "to": [
+                44,
+                57
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                66,
+                40
+              ],
+              "to": [
+                54,
+                30
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Cavalry covers the Elbe",
+          "narration": "Austrian cavalry charges again and again to hold off the pursuit, losing some 2,000 men and nearly as many horses, and keeps the Elbe crossings open; by evening Benedek is over the river. Prussia lost about 9,200 men; Austria and Saxony some 31,000–43,000 including about 9,300 prisoners — and with them the leadership of Germany.",
+          "arrows": [
+            {
+              "from": [
+                68,
+                50
+              ],
+              "to": [
+                50,
+                44
+              ],
+              "side": "b"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "elbe-army",
+          "side": "a",
+          "label": "Army of the Elbe (Herwarth)",
+          "pos": [
+            [
+              14,
+              60
+            ],
+            [
+              20,
+              58
+            ],
+            [
+              26,
+              58
+            ],
+            [
+              30,
+              58
+            ],
+            [
+              44,
+              56
+            ],
+            [
+              52,
+              58
+            ]
+          ],
+          "strength": 39000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "p7th",
+          "side": "a",
+          "label": "7th Division (Fransecky)",
+          "pos": [
+            [
+              18,
+              16
+            ],
+            [
+              38,
+              18
+            ],
+            [
+              40,
+              18
+            ],
+            [
+              42,
+              18
+            ],
+            [
+              44,
+              20
+            ],
+            [
+              48,
+              24
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "first-army",
+          "side": "a",
+          "label": "First Army main body (Friedrich Karl)",
+          "pos": [
+            [
+              16,
+              32
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              33,
+              33
+            ],
+            [
+              33,
+              33
+            ],
+            [
+              36,
+              34
+            ],
+            [
+              46,
+              38
+            ]
+          ],
+          "strength": 70000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "second-army",
+          "side": "a",
+          "label": "Second Army (Crown Prince)",
+          "pos": [
+            [
+              58,
+              1
+            ],
+            [
+              58,
+              2
+            ],
+            [
+              58,
+              4
+            ],
+            [
+              55,
+              24
+            ],
+            [
+              53,
+              28
+            ],
+            [
+              60,
+              36
+            ]
+          ],
+          "strength": 97000,
+          "helmet": "pickelhaube"
+        },
+        {
+          "id": "aus-right",
+          "side": "b",
+          "label": "IV & II Corps (Austrian right)",
+          "pos": [
+            [
+              58,
+              20
+            ],
+            [
+              46,
+              18
+            ],
+            [
+              50,
+              20
+            ],
+            [
+              62,
+              28
+            ],
+            [
+              68,
+              34
+            ],
+            [
+              80,
+              46
+            ]
+          ],
+          "strength": 50000,
+          "helmet": "shako"
+        },
+        {
+          "id": "aus-centre",
+          "side": "b",
+          "label": "III & X Corps (centre, Lipa)",
+          "pos": [
+            [
+              46,
+              38
+            ],
+            [
+              46,
+              37
+            ],
+            [
+              45,
+              37
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              56,
+              44
+            ],
+            [
+              78,
+              56
+            ]
+          ],
+          "strength": 46000,
+          "helmet": "shako"
+        },
+        {
+          "id": "aus-left",
+          "side": "b",
+          "label": "Saxons & VIII Corps (left, Problus)",
+          "pos": [
+            [
+              44,
+              58
+            ],
+            [
+              44,
+              58
+            ],
+            [
+              45,
+              58
+            ],
+            [
+              46,
+              58
+            ],
+            [
+              58,
+              62
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "strength": 44000,
+          "helmet": "shako"
+        },
+        {
+          "id": "aus-reserve",
+          "side": "b",
+          "label": "I & VI Corps (reserve)",
+          "pos": [
+            [
+              66,
+              40
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              66,
+              40
+            ],
+            [
+              64,
+              38
+            ],
+            [
+              56,
+              32
+            ],
+            [
+              76,
+              50
+            ]
+          ],
+          "strength": 55000,
+          "helmet": "shako"
+        },
+        {
+          "id": "aus-cav",
+          "side": "b",
+          "label": "Reserve cavalry",
+          "shape": "cavalry",
+          "pos": [
+            [
+              70,
+              50
+            ],
+            [
+              70,
+              50
+            ],
+            [
+              70,
+              50
+            ],
+            [
+              70,
+              50
+            ],
+            [
+              68,
+              50
+            ],
+            [
+              52,
+              44
+            ]
+          ],
+          "strength": 11000,
+          "helmet": "shako"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
+    },
+    "omdurman": {
+      "title": "Battle of Omdurman",
+      "subtitle": "2 September 1898 — Kitchener’s firepower against the Khalifa’s army at Kerreri",
+      "sides": {
+        "a": {
+          "name": "Anglo-Egyptian army (Kitchener)",
+          "color": "#b03a2e"
+        },
+        "b": {
+          "name": "Mahdist Sudan (the Khalifa)",
+          "color": "#2e7d4f"
+        }
+      },
+      "terrain": [
+        {
+          "type": "river",
+          "points": [
+            [
+              86,
+              0
+            ],
+            [
+              84,
+              25
+            ],
+            [
+              88,
+              45
+            ],
+            [
+              90,
+              70
+            ]
+          ],
+          "label": "Nile"
+        },
+        {
+          "type": "town",
+          "x": 81,
+          "y": 28,
+          "r": 1.5,
+          "label": "Egeiga"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              78,
+              12
+            ],
+            [
+              70,
+              20
+            ],
+            [
+              69,
+              36
+            ],
+            [
+              76,
+              46
+            ]
+          ],
+          "label": "Zariba and shelter trench"
+        },
+        {
+          "type": "hill",
+          "x": 54,
+          "y": 6,
+          "r": 7,
+          "label": "Kerreri Hills"
+        },
+        {
+          "type": "hill",
+          "x": 56,
+          "y": 52,
+          "r": 5,
+          "label": "Jebel Surgham"
+        },
+        {
+          "type": "town",
+          "x": 82,
+          "y": 68,
+          "r": 3,
+          "label": "Omdurman (11 km south)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "Dawn at Egeiga",
+          "narration": "Kitchener’s 25,800 men lie in an arc round the village of Egeiga with the Nile and its gunboats at their backs, British brigades to the south, Egyptian and Sudanese to the north. West of them the Khalifa’s army — around 50,000, though estimates run from 35,000 — fills the plain, with more men hidden behind the Kerreri Hills and Jebel Surgham."
+        },
+        {
+          "name": "The frontal attack",
+          "narration": "From about six, Osman Azrak’s 8,000 and thousands more from the north-west advance straight at the zariba; artillery opens at nearly 3,000 metres, then rifles and Maxims. No attacker gets within about fifty metres of the trench, and some 4,000 fall.",
+          "arrows": [
+            {
+              "from": [
+                42,
+                34
+              ],
+              "to": [
+                66,
+                32
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                40,
+                12
+              ],
+              "to": [
+                66,
+                18
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "Broadwood draws them north",
+          "narration": "Broadwood’s Egyptian cavalry and camel troops, posted north of the camp, are pressed hard and fall back toward Kerreri, drawing a large Mahdist force after them; gunboats come up the river and break it with their fire.",
+          "arrows": [
+            {
+              "from": [
+                50,
+                12
+              ],
+              "to": [
+                56,
+                4
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "The 21st Lancers charge",
+          "narration": "Kitchener sends the 21st Lancers, about 400 sabres, to clear the way south; they charge what looks like a few hundred men and find some 2,500 hidden in a dry watercourse below Surgham. They cut through and drive them off, winning three VCs — a young Winston Churchill rode with them.",
+          "arrows": [
+            {
+              "from": [
+                72,
+                46
+              ],
+              "to": [
+                62,
+                58
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "MacDonald’s stand",
+          "narration": "As the army wheels south toward Omdurman, the Khalifa’s concealed reserve of some 15,000 comes out from behind Surgham against MacDonald’s Sudanese brigade, now isolated in the rear, and the force from Kerreri strikes it from the north. MacDonald re-faces his battalions under fire, reinforcements and Maxims close up, and both attacks break.",
+          "arrows": [
+            {
+              "from": [
+                48,
+                52
+              ],
+              "to": [
+                60,
+                34
+              ],
+              "side": "b"
+            },
+            {
+              "from": [
+                50,
+                12
+              ],
+              "to": [
+                60,
+                26
+              ],
+              "side": "b"
+            }
+          ]
+        },
+        {
+          "name": "March on Omdurman",
+          "narration": "A last charge by about 500 horsemen is destroyed, and at about half past eleven the march on Omdurman resumes. The Anglo-Egyptian army lost about 48 killed; the Mahdists around 12,000 killed, 13,000 wounded and 5,000 captured — the starkest showing yet of what modern firepower had done to war."
+        }
+      ],
+      "units": [
+        {
+          "id": "british",
+          "side": "a",
+          "label": "British division (Gatacre)",
+          "pos": [
+            [
+              71,
+              37
+            ],
+            [
+              71,
+              37
+            ],
+            [
+              71,
+              37
+            ],
+            [
+              70,
+              46
+            ],
+            [
+              62,
+              48
+            ],
+            [
+              76,
+              62
+            ]
+          ],
+          "strength": 7800,
+          "helmet": "none"
+        },
+        {
+          "id": "lancers",
+          "side": "a",
+          "label": "21st Lancers",
+          "shape": "cavalry",
+          "pos": [
+            [
+              76,
+              43
+            ],
+            [
+              76,
+              43
+            ],
+            [
+              76,
+              44
+            ],
+            [
+              62,
+              57
+            ],
+            [
+              66,
+              56
+            ],
+            [
+              72,
+              60
+            ]
+          ],
+          "strength": 400,
+          "helmet": "none"
+        },
+        {
+          "id": "macdonald",
+          "side": "a",
+          "label": "MacDonald’s brigade (mainly Sudanese)",
+          "pos": [
+            [
+              72,
+              18
+            ],
+            [
+              72,
+              18
+            ],
+            [
+              72,
+              19
+            ],
+            [
+              64,
+              30
+            ],
+            [
+              62,
+              30
+            ],
+            [
+              64,
+              40
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "none"
+        },
+        {
+          "id": "lewis",
+          "side": "a",
+          "label": "Lewis’s Egyptian brigade",
+          "pos": [
+            [
+              76,
+              12
+            ],
+            [
+              76,
+              12
+            ],
+            [
+              75,
+              14
+            ],
+            [
+              70,
+              26
+            ],
+            [
+              64,
+              34
+            ],
+            [
+              68,
+              44
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "none"
+        },
+        {
+          "id": "maxwell",
+          "side": "a",
+          "label": "Maxwell’s & Collinson’s brigades",
+          "pos": [
+            [
+              71,
+              27
+            ],
+            [
+              71,
+              27
+            ],
+            [
+              72,
+              27
+            ],
+            [
+              68,
+              38
+            ],
+            [
+              66,
+              42
+            ],
+            [
+              74,
+              58
+            ]
+          ],
+          "strength": 8600,
+          "helmet": "none"
+        },
+        {
+          "id": "broadwood",
+          "side": "a",
+          "label": "Egyptian cavalry & Camel Corps (Broadwood)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              68,
+              8
+            ],
+            [
+              66,
+              8
+            ],
+            [
+              56,
+              2
+            ],
+            [
+              58,
+              4
+            ],
+            [
+              60,
+              14
+            ],
+            [
+              52,
+              26
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "none"
+        },
+        {
+          "id": "gunboats",
+          "side": "a",
+          "label": "Nile gunboats",
+          "shape": "ship",
+          "pos": [
+            [
+              88,
+              26
+            ],
+            [
+              88,
+              26
+            ],
+            [
+              86,
+              6
+            ],
+            [
+              88,
+              40
+            ],
+            [
+              88,
+              50
+            ],
+            [
+              89,
+              62
+            ]
+          ],
+          "strength": 12,
+          "helmet": "none"
+        },
+        {
+          "id": "azrak",
+          "side": "b",
+          "label": "Osman Azrak’s attack",
+          "pos": [
+            [
+              40,
+              34
+            ],
+            [
+              58,
+              33
+            ],
+            [
+              52,
+              36
+            ],
+            [
+              48,
+              38
+            ],
+            [
+              44,
+              38
+            ],
+            [
+              34,
+              38
+            ]
+          ],
+          "strength": 8000,
+          "helmet": "cap"
+        },
+        {
+          "id": "green",
+          "side": "b",
+          "label": "Green Flag (Ali wad Hilu, Osman Sheikh ed-Din)",
+          "pos": [
+            [
+              36,
+              10
+            ],
+            [
+              50,
+              13
+            ],
+            [
+              48,
+              6
+            ],
+            [
+              44,
+              8
+            ],
+            [
+              56,
+              18
+            ],
+            [
+              30,
+              18
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "cap"
+        },
+        {
+          "id": "black",
+          "side": "b",
+          "label": "Black Flag — the Khalifa’s reserve",
+          "pos": [
+            [
+              46,
+              56
+            ],
+            [
+              46,
+              56
+            ],
+            [
+              46,
+              56
+            ],
+            [
+              46,
+              54
+            ],
+            [
+              54,
+              38
+            ],
+            [
+              30,
+              50
+            ]
+          ],
+          "strength": 17000,
+          "helmet": "cap"
+        },
+        {
+          "id": "khor",
+          "side": "b",
+          "label": "Force in the khor (Osman Digna)",
+          "pos": [
+            [
+              60,
+              61
+            ],
+            [
+              60,
+              61
+            ],
+            [
+              60,
+              61
+            ],
+            [
+              58,
+              61
+            ],
+            [
+              52,
+              64
+            ],
+            [
+              44,
+              66
+            ]
+          ],
+          "strength": 2500,
+          "helmet": "cap"
+        },
+        {
+          "id": "horse",
+          "side": "b",
+          "label": "Baggara horsemen",
+          "shape": "cavalry",
+          "pos": [
+            [
+              40,
+              24
+            ],
+            [
+              54,
+              24
+            ],
+            [
+              50,
+              22
+            ],
+            [
+              46,
+              26
+            ],
+            [
+              56,
+              30
+            ],
+            [
+              28,
+              30
+            ]
+          ],
+          "strength": 2500,
+          "helmet": "cap"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.3
+    },
+    "adwa": {
+      "title": "Battle of Adwa",
+      "subtitle": "1 March 1896 — Menelik II destroys the Italian invasion army in the hills of Tigray",
+      "sides": {
+        "a": {
+          "name": "Ethiopian Empire (Menelik II)",
+          "color": "#2e8b3e"
+        },
+        "b": {
+          "name": "Kingdom of Italy (Baratieri)",
+          "color": "#3b5ba5"
+        }
+      },
+      "terrain": [
+        {
+          "type": "town",
+          "x": 10,
+          "y": 20,
+          "r": 2.5,
+          "label": "Adwa"
+        },
+        {
+          "type": "town",
+          "x": 18,
+          "y": 32,
+          "r": 1.5,
+          "label": "Enda Mikael (Ethiopian camp)"
+        },
+        {
+          "type": "ridge",
+          "x": 18,
+          "y": 46,
+          "w": 14,
+          "h": 8,
+          "label": "Enda Garima & Gessoso heights"
+        },
+        {
+          "type": "hill",
+          "x": 30,
+          "y": 50,
+          "r": 4,
+          "label": "Enda Kidane Mehret"
+        },
+        {
+          "type": "hill",
+          "x": 40,
+          "y": 44,
+          "r": 3,
+          "label": "Mt Semaiata"
+        },
+        {
+          "type": "hill",
+          "x": 54,
+          "y": 30,
+          "r": 4,
+          "label": "Mt Belah"
+        },
+        {
+          "type": "hill",
+          "x": 52,
+          "y": 44,
+          "r": 3,
+          "label": "Mt Rajo"
+        },
+        {
+          "type": "road",
+          "points": [
+            [
+              58,
+              26
+            ],
+            [
+              50,
+              16
+            ],
+            [
+              44,
+              8
+            ]
+          ],
+          "label": "Mariam Shewito valley"
+        },
+        {
+          "type": "town",
+          "x": 90,
+          "y": 40,
+          "r": 2,
+          "label": "Italian camp (Sauria)"
+        }
+      ],
+      "phases": [
+        {
+          "name": "The night march",
+          "narration": "In the small hours of 1 March Baratieri sends four brigades — about 17,700 men with 56 guns, though Marcus counts 14,519 effectives — west by moonlight to seize three crests overlooking Adwa. Around the town Menelik’s army, estimated at 73,000 to over 100,000, is encamped."
+        },
+        {
+          "name": "Albertone goes too far",
+          "narration": "The left column under Albertone misses the pass it was meant to hold and marches on, several kilometres ahead of the others, toward Enda Kidane Mehret — cut off from Arimondi in the centre and Dabormida on the right."
+        },
+        {
+          "name": "Albertone overwhelmed",
+          "narration": "At about six Albertone’s vanguard runs into the Ethiopian outposts; troops pour down from Enda Garima and Gessoso, and Menelik commits his reserve of some 25,000, the guard striking frontally while Empress Taytu’s men and Ras Mikael’s hit the flanks. Albertone’s native brigade holds for over two hours, then breaks around half past eight and he is taken prisoner.",
+          "arrows": [
+            {
+              "from": [
+                18,
+                42
+              ],
+              "to": [
+                28,
+                48
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                14,
+                28
+              ],
+              "to": [
+                28,
+                46
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                22,
+                38
+              ],
+              "to": [
+                30,
+                44
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                12,
+                46
+              ],
+              "to": [
+                30,
+                54
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The gap",
+          "narration": "Ordered to support Albertone, Dabormida instead turns into the Mariam Shewito valley, moving away from the fight and opening a gap of about two miles; Ras Makonnen’s Harar troops drive into it.",
+          "arrows": [
+            {
+              "from": [
+                20,
+                18
+              ],
+              "to": [
+                48,
+                26
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "The centre destroyed",
+          "narration": "Ethiopian columns seize Mt Belah and the spur beside it and fall on Arimondi’s brigade and Ellena’s reserve from front and flank; Galliano’s battalion and Nava’s regiment are overwhelmed, and by about noon the Italian centre gives way.",
+          "arrows": [
+            {
+              "from": [
+                36,
+                38
+              ],
+              "to": [
+                52,
+                32
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                48,
+                24
+              ],
+              "to": [
+                54,
+                30
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                44,
+                46
+              ],
+              "to": [
+                56,
+                40
+              ],
+              "side": "a"
+            }
+          ]
+        },
+        {
+          "name": "Rout and encirclement",
+          "narration": "The retreat north-east toward Eritrea becomes a rout as Ras Mikael’s Oromo cavalry pursue; Dabormida, still fighting alone in the valley, is surrounded and killed in circumstances that remain unclear. Italy lost around 6,000 dead and some 3,000–4,000 captured; Ethiopian losses are estimated at 4,000–7,000 dead — and Ethiopia kept its independence.",
+          "arrows": [
+            {
+              "from": [
+                30,
+                30
+              ],
+              "to": [
+                42,
+                14
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                50,
+                22
+              ],
+              "to": [
+                46,
+                12
+              ],
+              "side": "a"
+            },
+            {
+              "from": [
+                56,
+                34
+              ],
+              "to": [
+                74,
+                28
+              ],
+              "side": "a"
+            }
+          ]
+        }
+      ],
+      "units": [
+        {
+          "id": "menelik",
+          "side": "a",
+          "label": "Menelik’s Shewan army & guard",
+          "pos": [
+            [
+              12,
+              26
+            ],
+            [
+              14,
+              28
+            ],
+            [
+              24,
+              46
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              40,
+              44
+            ],
+            [
+              50,
+              38
+            ]
+          ],
+          "strength": 25000,
+          "helmet": "none"
+        },
+        {
+          "id": "taytu",
+          "side": "a",
+          "label": "Empress Taytu’s troops",
+          "pos": [
+            [
+              8,
+              30
+            ],
+            [
+              10,
+              30
+            ],
+            [
+              28,
+              42
+            ],
+            [
+              34,
+              40
+            ],
+            [
+              42,
+              40
+            ],
+            [
+              48,
+              34
+            ]
+          ],
+          "strength": 3000,
+          "helmet": "none"
+        },
+        {
+          "id": "makonnen",
+          "side": "a",
+          "label": "Ras Makonnen (Harar)",
+          "pos": [
+            [
+              18,
+              16
+            ],
+            [
+              20,
+              18
+            ],
+            [
+              22,
+              20
+            ],
+            [
+              48,
+              26
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              48,
+              16
+            ]
+          ],
+          "strength": 15000,
+          "helmet": "none"
+        },
+        {
+          "id": "tigray",
+          "side": "a",
+          "label": "Ras Mengesha & Ras Alula (Tigray)",
+          "pos": [
+            [
+              22,
+              34
+            ],
+            [
+              24,
+              38
+            ],
+            [
+              24,
+              40
+            ],
+            [
+              34,
+              38
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              70,
+              30
+            ]
+          ],
+          "strength": 12000,
+          "helmet": "none"
+        },
+        {
+          "id": "mikael",
+          "side": "a",
+          "label": "Ras Mikael’s Oromo cavalry (Wollo)",
+          "shape": "cavalry",
+          "pos": [
+            [
+              8,
+              40
+            ],
+            [
+              10,
+              42
+            ],
+            [
+              30,
+              55
+            ],
+            [
+              34,
+              50
+            ],
+            [
+              36,
+              30
+            ],
+            [
+              40,
+              14
+            ]
+          ],
+          "strength": 11000,
+          "helmet": "none"
+        },
+        {
+          "id": "others",
+          "side": "a",
+          "label": "Other contingents & spearmen",
+          "pos": [
+            [
+              16,
+              40
+            ],
+            [
+              20,
+              44
+            ],
+            [
+              26,
+              50
+            ],
+            [
+              36,
+              48
+            ],
+            [
+              46,
+              30
+            ],
+            [
+              60,
+              32
+            ]
+          ],
+          "strength": 20000,
+          "helmet": "none"
+        },
+        {
+          "id": "albertone",
+          "side": "b",
+          "label": "Albertone’s native brigade (left)",
+          "pos": [
+            [
+              76,
+              48
+            ],
+            [
+              30,
+              48
+            ],
+            [
+              36,
+              46
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              80,
+              30
+            ]
+          ],
+          "strength": 4339,
+          "helmet": "none"
+        },
+        {
+          "id": "arimondi",
+          "side": "b",
+          "label": "Arimondi’s brigade (centre)",
+          "pos": [
+            [
+              80,
+              38
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              56,
+              36
+            ],
+            [
+              56,
+              35
+            ],
+            [
+              57,
+              34
+            ],
+            [
+              76,
+              26
+            ]
+          ],
+          "strength": 3324,
+          "helmet": "none"
+        },
+        {
+          "id": "dabormida",
+          "side": "b",
+          "label": "Dabormida’s brigade (right)",
+          "pos": [
+            [
+              78,
+              28
+            ],
+            [
+              58,
+              24
+            ],
+            [
+              56,
+              22
+            ],
+            [
+              50,
+              14
+            ],
+            [
+              47,
+              12
+            ],
+            [
+              44,
+              10
+            ]
+          ],
+          "strength": 4833,
+          "helmet": "none"
+        },
+        {
+          "id": "ellena",
+          "side": "b",
+          "label": "Ellena’s reserve brigade",
+          "pos": [
+            [
+              86,
+              38
+            ],
+            [
+              64,
+              38
+            ],
+            [
+              62,
+              38
+            ],
+            [
+              60,
+              38
+            ],
+            [
+              58,
+              38
+            ],
+            [
+              78,
+              28
+            ]
+          ],
+          "strength": 3032,
+          "helmet": "none"
+        }
+      ],
+      "loser": "b",
+      "severity": 1.25
     }
   }
 }
