@@ -27,6 +27,28 @@ export interface MonumentPhase {
 
 const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
   {
+    // Edinburgh Castle on Castle Rock (components/edinburghCastle.ts). The
+    // build fractions pick its periods; the globe swaps the same stages by date
+    // (lib/stageTable.ts).
+    match: 'edinburgh castle',
+    phases: [
+      { fromYear: -900, yearLabel: 'c. 900 BCE', label: 'The hillfort', model: 'edinburgh-castle', build: 0.1,
+        note: 'People lived on Castle Rock from the Late Bronze Age. By about 600 CE it was Din Eidyn, a stronghold of the Gododdin: a palisade and roundhouses on the bare summit.' },
+      { fromYear: 1130, yearLabel: '1130', label: 'David I’s castle', model: 'edinburgh-castle', build: 0.25,
+        note: 'King David I made it a royal castle. St Margaret’s Chapel, built for him in memory of his mother, still stands: the oldest building in Edinburgh.' },
+      { fromYear: 1370, yearLabel: '1370', label: 'David’s Tower', model: 'edinburgh-castle', build: 0.4,
+        note: 'Robert the Bruce had the castle slighted in 1314. David II rebuilt it from 1356 around a great L-plan tower house, David’s Tower, facing the town.' },
+      { fromYear: 1511, yearLabel: '1511', label: 'The Great Hall', model: 'edinburgh-castle', build: 0.55,
+        note: 'James IV finished the Great Hall on the south side of Crown Square, its hammerbeam roof one of the finest in Scotland, beside the royal lodging.' },
+      { fromYear: 1574, yearLabel: '1574', label: 'After the Lang Siege', model: 'edinburgh-castle', build: 0.7,
+        note: 'English guns battered David’s Tower down in the Lang Siege of 1573. The Half Moon Battery was built over its ruins, and the palace was remodelled for James VI in 1617.' },
+      { fromYear: 1800, yearLabel: '1800', label: 'The garrison', model: 'edinburgh-castle', build: 0.85,
+        note: 'A fortress for the army: the Queen Anne Building (1708), the Governor’s House (1742), the North Barracks (1755) and the towering New Barracks (1799); the Esplanade became a parade ground in 1753.' },
+      { fromYear: 1927, yearLabel: 'today', label: 'Today', model: 'edinburgh-castle', build: 1,
+        note: 'The Gatehouse (1888) and the Scottish National War Memorial (1927), made from the old barracks, complete the castle seen from Princes Street.' },
+    ],
+  },
+  {
     match: 'nottingham castle',
     phases: [
       { fromYear: 1068, yearLabel: '1068', label: 'Norman castle', model: 'castle',

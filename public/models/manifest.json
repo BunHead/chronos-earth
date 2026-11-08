@@ -759,5 +759,33 @@
   "forbidden-city-b90": {
     "footprint": 606.55,
     "kb": 16
+  },
+  "edinburgh-castle": {
+    "footprint": 58,
+    "kb": 100
+  },
+  "edinburgh-castle-b10": {
+    "footprint": 58,
+    "kb": 91
+  },
+  "edinburgh-castle-b25": {
+    "footprint": 58,
+    "kb": 68
+  },
+  "edinburgh-castle-b40": {
+    "footprint": 58,
+    "kb": 69
+  },
+  "edinburgh-castle-b55": {
+    "footprint": 58,
+    "kb": 75
+  },
+  "edinburgh-castle-b70": {
+    "footprint": 58,
+    "kb": 75
+  },
+  "edinburgh-castle-b85": {
+    "footprint": 58,
+    "kb": 93
   }
 }

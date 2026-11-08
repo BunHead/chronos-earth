@@ -22,6 +22,7 @@ import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
 import { isLite } from '../lib/liteMode';
+import { buildEdinburghCastle } from './edinburghCastle';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -6614,6 +6615,10 @@ export function buildModel(
   } else if (model === 'machu-picchu') {
     ground = '#3d5a2c';
     buildMachuPicchu(group, ruined);
+  } else if (model === 'edinburgh-castle') {
+    // Castle Rock and the castle on it, through its history (edinburghCastle.ts).
+    ground = '#4f6236';
+    buildEdinburghCastle(group, buildFrac, stoneMat);
   } else if (model.startsWith('meso-')) {
     // A whole-site temple measured off OpenStreetMap (scripts/build-meso-site.mjs).
     const spec = (MESO_TEMPLES as MesoTemple[]).find((t) => t.model === model);

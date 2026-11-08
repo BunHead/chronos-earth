@@ -121,6 +121,9 @@ export function monumentModelForName(name: string): string | null {
   if (/ruins? of st\.? paul/.test(n)) return null;
   if (/st\.? paul/.test(n)) return 'st-pauls';
   if (/tower of london|white tower/.test(n)) return 'tower-of-london';
+  // Edinburgh Castle on Castle Rock, through its history (edinburghCastle.ts) —
+  // before the generic castle bucket, which gave it a square fort on flat grass.
+  if (/edinburgh castle/.test(n)) return 'edinburgh-castle';
   if (/the shard|shard london/.test(n)) return 'shard';
   if (/gherkin|30 st mary axe/.test(n)) return 'gherkin';
   // Sydney Opera House — SYDNEY-specific: the sails are unmistakably Sydney's, so

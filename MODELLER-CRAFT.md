@@ -17,7 +17,8 @@ letter — every rule here was paid for with a real failure.
    A model isn't done until its renders read right from 3q, top and (if
    relevant) ruin. Angles: `3q`, `top` (true north-up plan), `side`. Extra
    env: `RUIN=1`, `LAT=.. LON=..` (real satellite ground + crosshair),
-   `BUILD_FRAC=`, `SEA=`.
+   `BUILD_FRAC=`, `SEA=`, `CAM=bearing,elevation,distance` (an orbit view from
+   one compass side, e.g. Edinburgh Castle from Princes Street: `CAM=0,22,0.75`).
 2. **Scene frame (calibrated, do not re-derive):** real north = world **−Z**,
    real east = **+X**. The code once claimed +Z=north and it caused every
    "90° off" bug in the project's history. Plan renders draw a red north

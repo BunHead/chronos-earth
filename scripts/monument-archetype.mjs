@@ -77,6 +77,8 @@ export const VALID_MODELS = [
   // London landmarks.
   'buckingham', 'westminster', 'london-eye',
   'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
+  // Scotland.
+  'edinburgh-castle',
   // Sydney.
   'opera-house',
   // The Andes.
@@ -152,6 +154,7 @@ const KEYWORD_RULES = [
   { rule: 'Ruins of St Paul, Macau -- a bare facade, no honest model', model: null, re: /ruins? of st\.? paul/ },
   { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
+  { rule: 'Edinburgh Castle keyword (Castle Rock, before the castle bucket)', model: 'edinburgh-castle', re: /edinburgh castle/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },
   { rule: 'Machu Picchu keyword (the citadel itself — not the wider Historic Sanctuary pin 6.7 km off)', model: 'machu-picchu', re: /^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/ },
