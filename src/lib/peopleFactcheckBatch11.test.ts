@@ -48,11 +48,11 @@ const PINS: Array<[string, string, number, number]> = [
 ];
 
 describe('people fact-check, batch 11: region-centre pins (Oct 2026)', () => {
-  it('covers the batch: 19 moved pins, 1 date fix and 47 uncertain notes from the 100 people checked', () => {
+  it('covers the batch (later rechecks in batch 16 moved some out): 19 moved pins, 1 date fix and 47 uncertain notes from the 100 people checked', () => {
     expect(PINS.length).toBe(19);
-    expect(batch.length).toBe(67);
+    expect(batch.length).toBe(66);
     expect(batch.filter((id) => String(fixes[id].why).includes(', fixed:')).length).toBe(20);
-    expect(batch.filter((id) => String(fixes[id].why).includes('still uncertain')).length).toBe(47);
+    expect(batch.filter((id) => String(fixes[id].why).includes('still uncertain')).length).toBe(46);
   });
 
   for (const [id, name, lat, lon] of PINS) {
