@@ -430,7 +430,8 @@
   "pyramid": {},
   "castle": {
     "note": "Was rebuilt serveral times through history. Width doesn't fit on hilltop, remember as historically accurate as possible",
-    "ts": 1786009625437
+    "ts": 1794171848850,
+    "status": "allowed"
   },
   "place:castle@52.949,-1.155": {
     "transform": {
