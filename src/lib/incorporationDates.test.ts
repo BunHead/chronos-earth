@@ -43,7 +43,8 @@ const UNCERTAIN: Array<[string, number]> = [
   // Batch 2
   ['q8646', 1997], // Hong Kong
   ['q8686', 1292], // Shanghai
-  ['q664895', 1945], // Uherský Brod
+  // Uherský Brod (q664895) left this list: the Czech first-mention round (rebuild of #141)
+  // dates it 1140; the 1048 charter is a forgery.
   ['q898468', 1960], // Brandýs nad Labem-Stará Boleslav
   ['q791279', 1912], // Avon Lake
   ['q843993', 1876], // Loveland, Ohio
