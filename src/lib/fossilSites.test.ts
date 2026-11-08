@@ -27,6 +27,13 @@ interface Row {
   sourceUrl?: string;
 }
 
+// Pins added in a later batch that sit closer than 25 km to an older pin, each a different
+// site; their own batch test checks the smaller gap. Older batch tests skip them.
+const LATER_CLOSE = new Set([
+  'cur-fossil-vindija', 'cur-fossil-kapthurin', 'cur-fossil-nor-geghi', 'cur-fossil-kulna',
+  'cur-fossil-kebara', 'cur-fossil-mammoth-cave-wa',
+]);
+
 const events: Row[] = JSON.parse(
   readFileSync(join(__dirname, '..', '..', 'public', 'data', 'imported', 'events.json'), 'utf8'),
 ).events;
@@ -100,7 +107,7 @@ describe('fossil sites', () => {
       expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
       // Every new pin is in a gap: no other find within 25 km.
       for (const e of discoveries)
-        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
     }
   });
 
@@ -139,7 +146,7 @@ describe('fossil sites', () => {
       expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
       // Every new pin is in a gap: no other find within 25 km.
       for (const e of discoveries)
-        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
     }
   });
 
@@ -211,7 +218,7 @@ describe('fossil sites', () => {
       expect(s.summary, id).toBeTruthy();
       // Every new pin is in a gap: no other find within 25 km.
       for (const e of discoveries)
-        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(25);
     }
   });
 
@@ -262,7 +269,7 @@ describe('fossil sites', () => {
       expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
       const gap = gaps[id] ?? 25;
       for (const e of discoveries)
-        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
     }
   });
 
@@ -333,7 +340,7 @@ describe('fossil sites', () => {
       // different sites, so it gets a 15 km gap instead of 25.
       const gap = id === 'cur-fossil-gesher-benot-yaaqov' ? 15 : 25;
       for (const e of discoveries)
-        if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
     }
   });
 
@@ -367,6 +374,47 @@ describe('fossil sites', () => {
       expect(s.sourceUrl, id).toMatch(/^https:\/\/[!-~]+$/);
       expect(s.sourceUrl, id).not.toMatch(/[\s()[\]<>]/);
       expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
+      expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
+      expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
+      expect(s.startYear, id).toBeLessThanOrEqual(2026);
+      expect(events.filter((e) => e.wikidataId === s.wikidataId), id).toHaveLength(1);
+      expect(events.find((e) => e.id === id), id).toMatchObject({ lat: s.lat, lon: s.lon, startYear: s.startYear });
+      const gap = gaps[id] ?? 25;
+      for (const e of discoveries)
+        if (e.id !== id && !LATER_CLOSE.has(e.id)) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
+    }
+  });
+
+  it('batch 10 (3 Nov 2026) adds cited, plain-link rows in gaps, each with its own Q-id', () => {
+    const batch10 = [
+      'kebara', 'vindija', 'karain', 'pestera-muierilor', 'kulna', 'nor-geghi', 'jwalapuram',
+      'kapthurin', 'porc-epic', 'tiouraren', 'echkar', 'pikimachay', 'mammoth-cave-wa',
+    ].map((id) => `cur-fossil-${id}`);
+    // Different sites close to others: Kebara is 7 km from the Pilate Stone at Caesarea, Mammoth Cave 7 km
+    // from Devil's Lair; Vindija (22 km from Krapina), Nor Geghi, Kůlna and Kapthurin sit 21–26 km from theirs.
+    const gaps: Record<string, number> = {
+      'cur-fossil-kebara': 5, 'cur-fossil-mammoth-cave-wa': 5,
+      'cur-fossil-vindija': 15, 'cur-fossil-nor-geghi': 15, 'cur-fossil-kulna': 15, 'cur-fossil-kapthurin': 15,
+    };
+    const rad = Math.PI / 180;
+    const km = (a: Row, b: Row) =>
+      2 * 6371 * Math.asin(Math.sqrt(
+        Math.sin(((b.lat - a.lat) * rad) / 2) ** 2 +
+          Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(((b.lon - a.lon) * rad) / 2) ** 2,
+      ));
+    const discoveries = events.filter((e) => e.category === 'discovery');
+    for (const id of batch10) {
+      const s = (FOSSIL_SITES as Row[]).find((r) => r.id === id)!;
+      expect(s, id).toBeDefined();
+      expect(s.wikidataId, id).toMatch(/^Q\d+$/);
+      expect(s.summary, id).toBeTruthy();
+      expect(s.summary!.length, id).toBeLessThan(120); // one line
+      // A plain link: https, no spaces or brackets, nothing but ASCII (accents are %-encoded), one URL only.
+      expect(s.sourceUrl, id).toMatch(/^https:\/\/[!-~]+$/);
+      expect(s.sourceUrl, id).not.toMatch(/[\s()[\]<>]/);
+      expect(s.sourceUrl!.indexOf('http', 1), id).toBe(-1);
+      expect(s.dateNote, id).toMatch(/million years|years old/); // the age of the find is in the panel
       expect(Math.abs(s.lat), id).toBeLessThanOrEqual(90);
       expect(Math.abs(s.lon), id).toBeLessThanOrEqual(180);
       expect(s.startYear, id).toBeGreaterThan(1800); // the year found, not the age of the rocks
@@ -410,6 +458,19 @@ describe('fossil sites', () => {
       for (const e of discoveries)
         if (e.id !== id) expect(km(s, e), `${id} / ${e.id}`).toBeGreaterThan(gap);
     }
+  });
+
+  it('keeps the batch 10 fossil fact-check mark (3 Nov 2026)', () => {
+    const fixes = JSON.parse(
+      readFileSync(join(__dirname, '..', '..', 'scripts', 'data', 'accuracy-fixes.json'), 'utf8'),
+    ).fixes as Record<string, Record<string, string>>;
+    const fix = fixes['q107344401']; // Harbin cranium: 1933 is only the finder's family story
+    expect(fix.source).toMatch(/^https:\/\/[!-~]+$/);
+    expect(fix.dateNote).toMatch(/^Uncertain date/);
+    expect(fix.dateNote).toContain('Xujiayao'); // the October 2026 note is kept, not lost
+    const row = events.find((e) => e.id === 'q107344401')!;
+    expect(row.startYear).toBe(1933);
+    expect(row.dateNote).toBe(fix.dateNote);
   });
 
   it('is re-run by the nightly harvest, so script fixes reach the globe', () => {

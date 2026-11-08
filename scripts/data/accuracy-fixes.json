@@ -11916,6 +11916,11 @@
       "dateNote": "Uncertain place: this Majungasaurus skull comes from the Maevarano Formation of north-west Madagascar. Wikidata gives only the formation, at a rounded point, so the pin is near the find, not on it.",
       "why": "Fossil fact-check batch 7 (1 Nov 2026), checked by hand, still uncertain, the panel now says so: Wikidata gives only the formation at a rounded point (-15.9, 46.6); no checked source gives the find's exact spot",
       "source": "https://en.wikipedia.org/wiki/Majungasaurus"
+    },
+    "q107344401": {
+      "dateNote": "Uncertain date: the skull is said to have been found in 1933 by a man building a bridge in Harbin, who hid it in a well. It only reached scientists in 2018 and was named Homo longi in 2021, so 1933 rests on his family's story. In October 2026 ancient proteins showed that fossils from Xujiayao, in northern China, were Denisovan too (Nature).",
+      "why": "Fossil fact-check batch 10 (3 Nov 2026), checked by hand, date still uncertain, the panel now says so: Wikidata P575 gives 1933, but that year comes only from the finder's family; the skull was hidden in a well until 2018. The October 2026 Xujiayao note is kept.",
+      "source": "https://en.wikipedia.org/wiki/Harbin_cranium"
     }
   }
 }
