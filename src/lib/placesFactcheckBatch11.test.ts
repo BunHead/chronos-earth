@@ -50,7 +50,8 @@ const UNCERTAIN: Array<[string, number]> = [
   ["q128069", 1848], // Syracuse, New York
   ["q18569", 1670], // Douglas, Isle of Man
   ["q178382", 1785], // Jūrmala
-  ["q170616", 1921], // Chiba
+  // Chiba (q170616) left this list: the Japanese cities sweep part 2 (rebuild of #125,
+  // Nov 2026) dates it 1126, the year the city counts its founding from.
   ["q140075", 1958], // Gold Coast
   ["q7030", 1201], // Wismar
   ["q30985", 1793], // Hamilton, Bermuda

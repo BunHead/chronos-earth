@@ -21,7 +21,9 @@ const YEARS: Array<[string, string, number, number]> = [
   ['q18432', "Staten Island", 1683, 1661],
   ['q3085', "Reutlingen", 1240, 1089],
   ['q26339', "Jersey City", 1609, 1630],
-  ['q128849', "Nagano", 1966, 1897],
+  // Re-dated to 642 by the Japanese cities sweep part 2 (rebuild of #125, Nov 2026):
+  // 1897 is itself the city-status date; the town grew up around Zenkō-ji.
+  ['q128849', "Nagano", 1966, 642],
   ['q41283', "Gwangju", 1986, 940],
   ['q169134', "Nara", 1898, 710],
   ['q28911', "Lahti", 1905, 1445],
