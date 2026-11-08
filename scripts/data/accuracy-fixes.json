@@ -5724,6 +5724,79 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1234). Wikidata P1249 gives 1180, the first record; the charter is usually dated 1239",
       "source": "https://www.wikidata.org/wiki/Q1735 (P571 1234, P1249 1180); https://en.wikipedia.org/wiki/Innsbruck; https://www.britannica.com/place/Innsbruck"
     },
+    "q1805206": {
+      "startYear": 1635,
+      "dateNote": "Founded in 1635 as Vila Viçosa de Santa Cruz do Camutá. It became a city in 1848.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1848). 1848 is when it became a city; Wikidata P571 also gives 1635, the founding, cited to IBGE",
+      "source": "https://www.wikidata.org/wiki/Q1805206; https://cidades.ibge.gov.br/brasil/pa/cameta/historico"
+    },
+    "q1615298": {
+      "startYear": 1750,
+      "dateNote": "Settled by about 1750. It became a municipality in 1895.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1895). 1895 is when it became a municipality; Wikidata P571 also gives 1750, cited to IBGE",
+      "source": "https://www.wikidata.org/wiki/Q1615298; https://cidades.ibge.gov.br/brasil/pa/abaetetuba/historico"
+    },
+    "q177149": {
+      "startYear": 1883,
+      "dateNote": "Settled in 1883 by farmers who came to clear the land. It became a city in 1933.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1933). 1933 is when it became a city; Wikidata P571 also gives 1883, marked as the human settlement",
+      "source": "https://www.wikidata.org/wiki/Q177149"
+    },
+    "q984825": {
+      "startYear": 1870,
+      "dateNote": "Settled from about 1870. It was incorporated as a city in 1993.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1993). 1993 is when it was incorporated; Wikidata P571 also gives 1870, marked as the human settlement",
+      "source": "https://www.wikidata.org/wiki/Q984825; https://www.burienwa.gov/city_hall/about_burien/history"
+    },
+    "q253903": {
+      "startYear": 1895,
+      "dateNote": "Settled in 1895 by French-Canadian farmers. It became a town in 1980 and a city in 2019.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (2019). 2019 is when it became a city; Wikidata P571 also gives 1895, marked as the human settlement",
+      "source": "https://www.wikidata.org/wiki/Q253903; https://en.wikipedia.org/wiki/Beaumont,_Alberta"
+    },
+    "q139190": {
+      "startYear": 1673,
+      "dateNote": "The seigneury of Terrebonne was granted in 1673. The present city was formed by a merger in 2001.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (2001). 2001 is the merger that made the present city; Wikidata P571 also gives 1673, marked as the human settlement",
+      "source": "https://www.wikidata.org/wiki/Q139190"
+    },
+    "q1185835": {
+      "startYear": 1770,
+      "dateNote": "First settled in 1770. It became a borough in 1853 and a city in 1894.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1853). 1853 is when it became a borough; Wikidata P793 gives first settlement in 1770 (from English Wikipedia)",
+      "source": "https://www.wikidata.org/wiki/Q1185835; https://en.wikipedia.org/wiki/Pittston,_Pennsylvania"
+    },
+    "q1186937": {
+      "startYear": 1780,
+      "dateNote": "First settled in 1780. It became a borough in 1857 and a city in 1891.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): wrong year (1857). 1857 is when it became a borough; Wikidata P793 gives first settlement in 1780 (from English Wikipedia)",
+      "source": "https://www.wikidata.org/wiki/Q1186937; https://en.wikipedia.org/wiki/Hazleton,_Pennsylvania"
+    },
+    "q334": {
+      "dateNote": "Uncertain date: 1965 is when Singapore became independent, not when the city began. Sources give 1819, when the British trading post was set up, 1826 (the Straits Settlements), or the older port of Temasek.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1965 is independence; Wikidata P571 also gives 1826 with no source, and the usual founding date, 1819, is not on Wikidata",
+      "source": "https://www.wikidata.org/wiki/Q334; https://en.wikipedia.org/wiki/History_of_Singapore"
+    },
+    "q1188068": {
+      "dateNote": "Uncertain date: 1874 is when it became a borough (it became a city in 1926). Wikidata says it was first settled about 1800, but gives no source.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1874 is the borough date; Wikidata P793 first settlement 1800 is only copied from English Wikipedia, not checked",
+      "source": "https://www.wikidata.org/wiki/Q1188068"
+    },
+    "q2058437": {
+      "dateNote": "Uncertain date: 2004 is when it became a city. It was already a village from 1889 and was settled before that; the founding year is not checked.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 2004 is city status, 1889 village status; no founding date on Wikidata",
+      "source": "https://www.wikidata.org/wiki/Q2058437"
+    },
+    "q1008456": {
+      "dateNote": "Uncertain date: 1929 is when it was incorporated. Wikidata gives 1690 for the first settlement, with no source.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: 1929 is incorporation; Wikidata P571 1690 has no reference",
+      "source": "https://www.wikidata.org/wiki/Q1008456"
+    },
+    "q15092": {
+      "dateNote": "Uncertain date: in 1251 King James I let the town move down from its hill to the plain. Wikidata also gives 1239, for the older town on the hill.",
+      "why": "Incorporation-date audit (Nov 2026, scripts/audit-incorporation-dates.mjs): still uncertain, the panel now says so: Wikidata P571 gives both 1251 (preferred) and 1239; sources date the town on the plain from 1251",
+      "source": "https://www.wikidata.org/wiki/Q15092; https://www.elperiodicomediterraneo.com/magdalena/2018/03/04/traslado-villa-castellon-41381286.html"
+    },
     "q503387": {
       "startYear": 1220,
       "dateNote": "Monks first carved cells and churches here in the 1220s, led by the future Patriarch Joachim I. Wikidata gives the year 13, a slip for the 13th century.",
