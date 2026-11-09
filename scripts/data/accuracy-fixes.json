@@ -4938,6 +4938,188 @@
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Birth unknown; death 604 or 605.",
       "source": "https://www.wikidata.org/wiki/Q32520; https://en.wikipedia.org/wiki/Augustine_of_Canterbury"
     },
+    "q846146": {
+      "startYear": 1867,
+      "dateNote": "Founded in 1867 by George Nurse as Linkville, beside the Link River. It was renamed Klamath Falls in 1893 and got its city charter in 1905.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1905). 1905 is the city charter; Linkville was founded in 1867",
+      "source": "https://www.wikidata.org/wiki/Q846146; https://oregonencyclopedia.org/articles/klamath-falls-city-of; https://klamathfalls.city/289/History-of-Klamath-Falls"
+    },
+    "q948149": {
+      "startYear": 1923,
+      "dateNote": "Laid out in 1923 as a planned community by Frank Vanderlip's Palos Verdes Project. It became a city in 1939.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1939). 1939 is incorporation; the planned community was laid out in 1923",
+      "source": "https://www.wikidata.org/wiki/Q948149; https://pvestates.org/community/city-history"
+    },
+    "q327413": {
+      "startYear": 1949,
+      "dateNote": "Set up in 1949 as an immigrant camp on the site of the village of al-Khalisa. It was renamed Kiryat Shmona in 1950.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1950). 1950 is the renaming; the settlement was set up in 1949",
+      "source": "https://www.wikidata.org/wiki/Q327413; https://www.jewishvirtuallibrary.org/kiryat-shemonah"
+    },
+    "q983849": {
+      "startYear": 1911,
+      "dateNote": "First became a city in 1911, named after Philip Stanton. It gave up city status in 1924 and became a city again in 1956.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1956). 1956 is the second incorporation; Stanton first became a city in 1911",
+      "source": "https://www.wikidata.org/wiki/Q983849; https://stantonca.gov/community/history.php"
+    },
+    "q330202": {
+      "startYear": 1560,
+      "dateNote": "Began in 1560 as a Jesuit mission village (Nossa Senhora da Ajuda) linked to José de Anchieta. It split from Mogi das Cruzes and became its own town in the 1950s.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1958). 1958 is when it became a separate municipality; the Jesuit village dates from 1560",
+      "source": "https://www.wikidata.org/wiki/Q330202; https://www.al.sp.gov.br/spl/2011/09/Propositura/23511707_1033654_download.doc"
+    },
+    "q953506": {
+      "startYear": 1908,
+      "dateNote": "Michael Cudahy bought the ranch here in 1908 and sold it off in one-acre lots. It became a city in 1960.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1960). 1960 is incorporation; the Cudahy Ranch lots were laid out in 1908",
+      "source": "https://www.wikidata.org/wiki/Q953506; https://www.cityofcudahyca.gov/201/About-the-City"
+    },
+    "q983606": {
+      "startYear": 1922,
+      "dateNote": "Rex Clark's North Corona Land Company took over the land in about 1922 (some say 1920) and named it Norco. It became a city in 1964.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1964). 1964 is incorporation; Rex Clark founded Norco in about 1922 (some sources say 1920)",
+      "source": "https://www.wikidata.org/wiki/Q983606; https://www.norco.ca.us/resources/about-norco/history-of-norco"
+    },
+    "q22867": {
+      "startYear": 1215,
+      "dateNote": "Ramstein is first recorded in 1215, in a charter of Emperor Frederick II. Ramstein and Miesenbach joined into one town in 1969.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1969). 1969 is the merger; Ramstein is first recorded in 1215",
+      "source": "https://www.wikidata.org/wiki/Q22867; https://www.kaiserslauternamerican.com/abc-in-kmc-ramstein-miesenbach/"
+    },
+    "q985077": {
+      "startYear": 1913,
+      "dateNote": "William Locke-Paddon laid out the town in 1913. It took the name Marina in 1918 and became a city in 1975.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1975). 1975 is incorporation; Locke-Paddon laid out the town in 1913",
+      "source": "https://www.wikidata.org/wiki/Q985077; https://www.cityofmarina.org/382/History"
+    },
+    "q383278": {
+      "startYear": 1922,
+      "dateNote": "Ed Fletcher bought the land in 1922 and built the town. It became a city in 1986.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1986). 1986 is incorporation; Ed Fletcher founded the town in 1922",
+      "source": "https://www.wikidata.org/wiki/Q383278; https://cityofsolanabeach.ca.gov/node/966"
+    },
+    "q539645": {
+      "startYear": 766,
+      "dateNote": "First recorded in 766, when a church here is named in a charter of St. Gallen abbey. Wikidata gives only \"8th century\". It got town rights in 1293.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (700). 700 is \"8th century\" read as a year; the first written record is 766",
+      "source": "https://www.wikidata.org/wiki/Q539645; https://journals.ub.uni-heidelberg.de/index.php/nbdpfbw/article/view/14297/8175"
+    },
+    "q81811": {
+      "startYear": 1255,
+      "dateNote": "First recorded in 1255 (some say 1260). Wikidata gives only \"14th century\". It became a town in 1404.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1300). 1300 is \"14th century\" read as a year; the first written record is 1255 (some say 1260)",
+      "source": "https://www.wikidata.org/wiki/Q81811; https://gaildorf.de/resources/01%20Website/Leben%20%26%20Entdecken/Findbuch.pdf"
+    },
+    "q146516": {
+      "startYear": 1211,
+      "dateNote": "First recorded in 1211 as Tecu. Wikidata gives only \"14th century\".",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1300). 1300 is \"14th century\" read as a year; the first written record is 1211",
+      "source": "https://www.wikidata.org/wiki/Q146516; https://kehilalinks.jewishgen.org/Tyachiv/"
+    },
+    "q491535": {
+      "startYear": 829,
+      "dateNote": "First recorded in 829 as Wimpina. There was a Roman fort here even earlier, from the 80s AD.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1300). No source gives 1300; Wimpfen is first recorded in 829, and the Roman fort is older still",
+      "source": "https://www.wikidata.org/wiki/Q491535; https://de.wikivoyage.org/wiki/Bad_Wimpfen; https://www1.leiza.de/transformation/deutschland/staedteobergermanienbilder/wimpfen/badwimpfencivitasalisin_engl.htm"
+    },
+    "q498261": {
+      "startYear": 913,
+      "dateNote": "The first fortress here was built in about 913, for the Caliph of Córdoba. The famous palace of King Peter I is from 1364.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1364). 1364 is when Peter I's palace was built; the first Alcázar dates from about 913",
+      "source": "https://www.wikidata.org/wiki/Q498261; https://whc.unesco.org/en/list/383"
+    },
+    "q250485": {
+      "startYear": 1138,
+      "dateNote": "First recorded in 1138. It was a town by 1368.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1368). 1368 is town rights; Sochaczew is first recorded in 1138",
+      "source": "https://www.wikidata.org/wiki/Q250485; https://www.zamkipolskie.com/sochaczew/sochaczew_eng.html"
+    },
+    "q1000927": {
+      "startYear": 1377,
+      "dateNote": "First recorded in 1377. It got town rights in 1424.",
+      "why": "Places fact-check batch 47 (Nov 2026): wrong year (1424). 1424 is town rights; Wikidata's own first written record (P1249) is 1377",
+      "source": "https://www.wikidata.org/wiki/Q1000927"
+    },
+    "q995231": {
+      "dateNote": "1903 is when Long Branch became a city. The seaside resort is much older (from the late 1700s), but no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1903 is incorporation; the resort is older, no firm founding year found",
+      "source": "https://www.wikidata.org/wiki/Q995231"
+    },
+    "q877897": {
+      "dateNote": "1907 is when Bossier City became a village. It grew from Cane's Landing, a plantation landing from the 1840s; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1907 is incorporation; it grew from the older Cane's Landing",
+      "source": "https://www.wikidata.org/wiki/Q877897"
+    },
+    "q1065497": {
+      "dateNote": "1911 is about when it became a village (sources say 1911 or 1912). The Van Sweringen brothers planned the suburb from 1905, on land that had been a Shaker community.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1911 is incorporation; the suburb was planned from 1905",
+      "source": "https://www.wikidata.org/wiki/Q1065497"
+    },
+    "q503633": {
+      "dateNote": "1934 is when the towns of Sulzbach and Rosenberg joined. Sulzbach castle goes back to the 700s, but no firm first-record year was found for the town.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1934 is the merger; the older town has no firm first-record year",
+      "source": "https://www.wikidata.org/wiki/Q503633"
+    },
+    "q866307": {
+      "dateNote": "1955 is when Kettering became a city (it was a village from 1952). The area was farmland in Van Buren Township long before.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1955 is city status; the township is older",
+      "source": "https://www.wikidata.org/wiki/Q866307"
+    },
+    "q853691": {
+      "dateNote": "1956 is when Montclair (then Monte Vista) became a city. People farmed here before that; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1956 is incorporation; no firm founding year found",
+      "source": "https://www.wikidata.org/wiki/Q853691"
+    },
+    "q815720": {
+      "dateNote": "1961 is when Bell Gardens became a city. The area was settled earlier in the 1900s; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1961 is incorporation; no firm founding year found",
+      "source": "https://www.wikidata.org/wiki/Q815720"
+    },
+    "q913346": {
+      "dateNote": "1961 is when Hidden Hills became a city. A. E. Hanson laid out the gated community in the 1950s.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1961 is incorporation; the community was laid out in the 1950s, exact year unclear",
+      "source": "https://www.wikidata.org/wiki/Q913346"
+    },
+    "q862672": {
+      "dateNote": "1967 is when Woodbury became a city. Farmers settled the area in the mid-1800s; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1967 is city status; settled in the 1800s",
+      "source": "https://www.wikidata.org/wiki/Q862672"
+    },
+    "q79723": {
+      "dateNote": "1969 is when Shishmaref became a city. The Iñupiat village on Sarichef Island is far older.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1969 is incorporation; the village is far older",
+      "source": "https://www.wikidata.org/wiki/Q79723"
+    },
+    "q7053": {
+      "dateNote": "1977 is when five older villages joined to make the new town of Rodgau.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1977 is the merger of older villages",
+      "source": "https://www.wikidata.org/wiki/Q7053"
+    },
+    "q14845": {
+      "dateNote": "1977 is when older towns, including medieval Dreieichenhain, joined to make Dreieich.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1977 is the merger of older towns",
+      "source": "https://www.wikidata.org/wiki/Q14845"
+    },
+    "q2088176": {
+      "dateNote": "1979 is when Kargil district was formed. The town itself is much older; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1979 is the district; the town is much older",
+      "source": "https://www.wikidata.org/wiki/Q2088176"
+    },
+    "q79673": {
+      "dateNote": "1979 is about when Millbrook became a city. The area was settled in the 1800s; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1979 is incorporation; settled earlier",
+      "source": "https://www.wikidata.org/wiki/Q79673"
+    },
+    "q79603": {
+      "dateNote": "1984 is when Orange Beach became a city. It was a fishing settlement long before; no firm founding year was found.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1984 is incorporation; settled earlier",
+      "source": "https://www.wikidata.org/wiki/Q79603"
+    },
+    "q503208": {
+      "dateNote": "The year shown, 1000, looks like a round number. Wikidata's first written record (P1249) for Neusäß is 1150.",
+      "why": "Places fact-check batch 47 (Nov 2026), uncertain: 1000 (P571) looks like a placeholder; P1249 gives 1150",
+      "source": "https://www.wikidata.org/wiki/Q503208"
+    },
     "q37082": {
       "dateNote": "Born in late 1221 or early 1222; sources differ.",
       "why": "People fact-check batch 3, checked by hand (Oct 2026), still uncertain, the panel now says so: Born 1221 or 1222.",
