@@ -3963,6 +3963,18 @@
       "why": "Places fact-check batch 14 (Oct 2026): wrong year (2005). 2005 is a town merger; the port town was founded in 1624",
       "source": "https://www.wikidata.org/wiki/Q146790 (P571 2005, 1896, 1889); https://en.wikipedia.org/wiki/Aomori"
     },
+    "q207876": {
+      "startYear": 1360,
+      "dateNote": "Founded in about 1360, when Ōuchi Hiroyo moved his seat here and laid it out like a small Kyoto. 1929 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1929). 1929 is a city-status or merger date; the town dates from 1360 (Ōuchi Hiroyo moved his seat here in about 1360)",
+      "source": "https://www.wikidata.org/wiki/Q207876; https://en.wikipedia.org/wiki/Yamaguchi_(city); https://en.wikipedia.org/wiki/%C5%8Cuchi_clan"
+    },
+    "q273798": {
+      "startYear": 940,
+      "dateNote": "Grew up as the temple town of Naritasan Shinshō-ji, founded in 940. 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 940 (Naritasan Shinshō-ji was founded in 940)",
+      "source": "https://www.wikidata.org/wiki/Q273798; https://en.wikipedia.org/wiki/Naritasan_Shinsh%C5%8D-ji; https://en.wikipedia.org/wiki/Narita,_Chiba"
+    },
     "q102350": {
       "startYear": 1136,
       "dateNote": "First written record in 1136, in the Bull of Gniezno. Wikidata only gives \"12th century\" for the founding.",
@@ -4573,10 +4585,10 @@
       "source": "https://www.wikidata.org/wiki/Q26339 (P571 1609); https://en.wikipedia.org/wiki/Jersey_City,_New_Jersey"
     },
     "q128849": {
-      "startYear": 1897,
-      "dateNote": "Nagano became a city in 1897. It grew up much earlier as the town around Zenkō-ji temple, which dates from the 600s. 1966 is when it merged with nearby towns.",
-      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1966). 1966 (P571, preferred) is a merger with nearby towns; Wikidata also gives 1897, when it became a city. The temple town is older, but no founding year is agreed, so 1897 is the earliest firm date",
-      "source": "https://www.wikidata.org/wiki/Q128849 (P571 1966-10-16, 1897-04-01, 1889-04-01); https://en.wikipedia.org/wiki/Nagano_(city)"
+      "startYear": 642,
+      "dateNote": "Grew up as the temple town of Zenkō-ji. The temple is said to have been founded in 642; only the 7th century is sure. Nagano became a city in 1897; 1966 is when it became a modern city or merged with its neighbours.",
+      "why": "Places fact-check batch 10 (Oct 2026): wrong year (1966). 1966 (P571, preferred) is a merger with nearby towns; Wikidata also gives 1897, when it became a city. The temple town is older, but no founding year is agreed, so 1897 is the earliest firm date Then Japanese cities date sweep part 2 (1 Nov 2026), re-dated: 1897 is itself the city-status date; the town grew up around Zenkō-ji, traditionally founded in 642 (only the 7th century is sure).",
+      "source": "https://www.wikidata.org/wiki/Q128849 (P571 1966-10-16, 1897-04-01, 1889-04-01); https://en.wikipedia.org/wiki/Nagano_(city); https://www.wikidata.org/wiki/Q128849; https://en.wikipedia.org/wiki/Zenk%C5%8D-ji"
     },
     "q41283": {
       "startYear": 940,
@@ -5134,6 +5146,16 @@
       "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: 1907 (P571) is city status",
       "source": "https://www.wikidata.org/wiki/Q161176 (P571 1907-04-01); https://en.wikipedia.org/wiki/Fukushima_(city)"
     },
+    "q203308": {
+      "dateNote": "Uncertain: 1889 is when it became a modern city or merged with its neighbours. The town is much older (it grew up as the old port of Akamagaseki), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1889 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q203308; https://en.wikipedia.org/wiki/Shimonoseki"
+    },
+    "q696694": {
+      "dateNote": "Uncertain: 1898 is when it became a modern city or merged with its neighbours. The town is much older (it has been a port since the 1100s), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1898 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q696694; https://en.wikipedia.org/wiki/Onomichi"
+    },
     "q12258": {
       "dateNote": "1800 BC comes from Wikidata with no clear source. The town (Roman Arraona) is first named in Roman times.",
       "why": "Places fact-check batch 13 (Oct 2026): still uncertain, the panel now says so: P571 -1800 has no clear source",
@@ -5296,8 +5318,9 @@
     "q200251": {
       "startYear": 1601,
       "dateNote": "Grew up around Kōchi Castle, begun in 1601 by Yamauchi Kazutoyo. It became a city in 1889.",
-      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1601",
-      "source": "https://www.wikidata.org/wiki/Q200251 (P571 1889); https://www.wikidata.org/wiki/Q1012815 (Kōchi Castle, P571 1601); https://en.wikipedia.org/wiki/K%C5%8Dchi"
+      "why": "Places fact-check batch 20-21 (Oct 2026): wrong year (1889). 1889 is when it became a city; the castle town dates from 1601. Name: Japanese cities date sweep part 2 (1 Nov 2026) dropped the \"-shi\" (city) ending.",
+      "source": "https://www.wikidata.org/wiki/Q200251 (P571 1889); https://www.wikidata.org/wiki/Q1012815 (Kōchi Castle, P571 1601); https://en.wikipedia.org/wiki/K%C5%8Dchi",
+      "name": "Kōchi"
     },
     "q205526": {
       "startYear": 1357,
@@ -5432,8 +5455,9 @@
     },
     "q199609": {
       "dateNote": "1963 is a merger (Wikidata also gives 1889, city status). Funai, the old town here, is far older.",
-      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: merger date; the place is far older.",
-      "source": "https://www.wikidata.org/wiki/Q199609; https://en.wikipedia.org/wiki/%C5%8Cita_(city)"
+      "why": "Places fact-check batch 20-21 (Oct 2026), still uncertain, the panel now says so: merger date; the place is far older.. Name: Japanese cities date sweep part 2 (1 Nov 2026) dropped the \"-shi\" (city) ending.",
+      "source": "https://www.wikidata.org/wiki/Q199609; https://en.wikipedia.org/wiki/%C5%8Cita_(city)",
+      "name": "Ōita"
     },
     "q201613": {
       "dateNote": "1892 is when it became a city. It grew as a castle town, much older.",
@@ -5588,9 +5612,9 @@
     },
     "q45798": {
       "startYear": 1567,
-      "dateNote": "Oda Nobunaga took the castle town of Inokuchi in 1567 and renamed it Gifu. It became a city in 1889.",
+      "dateNote": "Oda Nobunaga took the castle town of Inokuchi in 1567 and renamed it Gifu. A fort had stood on Mount Kinka above it since about 1201. It became a city in 1889.",
       "why": "Places fact-check batch 15 (Oct 2026): wrong year (1889). 1889 is when it became a city; the town was named Gifu by Oda Nobunaga in 1567",
-      "source": "https://www.wikidata.org/wiki/Q45798 (P571 1889); https://en.wikipedia.org/wiki/Gifu"
+      "source": "https://www.wikidata.org/wiki/Q45798 (P571 1889); https://en.wikipedia.org/wiki/Gifu; https://www.wikidata.org/wiki/Q45798; https://www.wikidata.org/wiki/Q1367052 (Gifu Castle, P571 1201); https://en.wikipedia.org/wiki/Gifu_Castle"
     },
     "q103892": {
       "startYear": 1305,
@@ -6214,6 +6238,48 @@
       "dateNote": "Kawasaki grew from Kawasaki-juku, a post town on the Tōkaidō road set up in 1623. It became a city in 1924.",
       "why": "Places fact-check batch 9 (Oct 2026): wrong year (1924). 1924 (P571) is when it became a city; Kawasaki-juku, the post town it grew from, was set up in 1623",
       "source": "https://www.wikidata.org/wiki/Q164234 (P571 1924-07-01); https://en.wikipedia.org/wiki/Kawasaki-juku"
+    },
+    "q386661": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Fujisawa-shuku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601), next to Yugyō-ji temple (1325). 1940 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1940). 1940 is a city-status or merger date; the town dates from 1601 (Fujisawa-shuku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q386661; https://www.wikidata.org/wiki/Q3069856 (Fujisawa-shuku); https://en.wikipedia.org/wiki/Fujisawa-juku"
+    },
+    "q502199": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Hiratsuka-juku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601). 1932 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1932). 1932 is a city-status or merger date; the town dates from 1601 (Hiratsuka-juku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q502199; https://www.wikidata.org/wiki/Q613324 (Hiratsuka-juku); https://en.wikipedia.org/wiki/Hiratsuka-juku"
+    },
+    "q385023": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Ōiso-juku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601). 1889 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1889). 1889 is a city-status or merger date; the town dates from 1601 (Ōiso-juku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q385023; https://www.wikidata.org/wiki/Q3069823 (Ōiso-juku); https://en.wikipedia.org/wiki/%C5%8Ciso-juku"
+    },
+    "q653478": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Mishima-shuku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601), by the much older Mishima Taisha shrine. 1941 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1941). 1941 is a city-status or merger date; the town dates from 1601 (Mishima-shuku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q653478; https://www.wikidata.org/wiki/Q524171 (Mishima-shuku); https://en.wikipedia.org/wiki/Mishima-shuku"
+    },
+    "q734432": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Fujieda-juku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601). 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 1601 (Fujieda-juku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q734432; https://www.wikidata.org/wiki/Q3069558 (Fujieda-juku); https://en.wikipedia.org/wiki/Fujieda-juku"
+    },
+    "q26410": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Yokkaichi-juku, a post town on the Tōkaidō road (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601). Its name means \"fourth-day market\", which is older still. 1897 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1897). 1897 is a city-status or merger date; the town dates from 1601 (Yokkaichi-juku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q26410; https://www.wikidata.org/wiki/Q3070200 (Yokkaichi-juku); https://en.wikipedia.org/wiki/Yokkaichi-juku"
+    },
+    "q386677": {
+      "startYear": 1601,
+      "dateNote": "Grew up as Kusatsu-juku, the post town where the Tōkaidō and Nakasendō roads met (Tōkaidō post towns were set up by Tokugawa Ieyasu in 1601). 1954 is when it became a modern city or merged with its neighbours.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): wrong year (1954). 1954 is a city-status or merger date; the town dates from 1601 (Kusatsu-juku post town, 1601)",
+      "source": "https://www.wikidata.org/wiki/Q386677; https://www.wikidata.org/wiki/Q3200642 (Kusatsu-juku); https://en.wikipedia.org/wiki/Kusatsu-juku"
     },
     "q47034": {
       "startYear": 1431,
@@ -8590,6 +8656,46 @@
       "dateNote": "The year shown, 1921, is when Naha became a city. It was the port of the Ryukyu Kingdom for centuries before.",
       "why": "Places fact-check batch 12 (Oct 2026), still uncertain, the panel now says so: 1921 (P571) is city status; the port is far older",
       "source": "https://www.wikidata.org/wiki/Q181966 (P571 1921-05-20); https://en.wikipedia.org/wiki/Naha"
+    },
+    "q502209": {
+      "dateNote": "Uncertain: 1936 is when it became a modern city or merged with its neighbours. The town is much older (it was the old capital of Suō province), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1936 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q502209; https://en.wikipedia.org/wiki/H%C5%8Dfu"
+    },
+    "q328067": {
+      "dateNote": "Uncertain: 1955 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around the Ise Grand Shrine), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1955 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q328067; https://en.wikipedia.org/wiki/Ise,_Mie"
+    },
+    "q326956": {
+      "dateNote": "Uncertain: 1951 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Uji Bridge and Byōdō-in temple), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1951 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q326956; https://en.wikipedia.org/wiki/Uji,_Kyoto"
+    },
+    "q825166": {
+      "dateNote": "Uncertain: 2005 is when it became a modern city or merged with its neighbours. The town is much older (it grew up around Izumo Taisha shrine), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 2005 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q825166; https://en.wikipedia.org/wiki/Izumo,_Shimane"
+    },
+    "q467487": {
+      "dateNote": "Uncertain: 1928 is when it became a modern city or merged with its neighbours. The town is much older (it grew up as a canal town for shipping rice), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1928 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q467487; https://en.wikipedia.org/wiki/Kurashiki"
+    },
+    "q374477": {
+      "dateNote": "Uncertain: 1921 is when it became a modern city or merged with its neighbours. The town is much older (it was the home of the Ashikaga clan), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1921 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q374477; https://en.wikipedia.org/wiki/Ashikaga,_Tochigi"
+    },
+    "q208818": {
+      "dateNote": "Uncertain: 1954 is when it became a modern city or merged with its neighbours. The town is much older (it was the old capital of Musashi province), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1954 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q208818; https://en.wikipedia.org/wiki/Fuch%C5%AB,_Tokyo"
+    },
+    "q209785": {
+      "dateNote": "Uncertain: 1934 is when it became a modern city or merged with its neighbours. The town is much older (it was the old capital of Shimōsa province), but no clear founding year was found, so the year is left as it is.",
+      "why": "Japanese cities date sweep part 2 (1 Nov 2026): checked, still uncertain, the panel now says so: 1934 is a city-status or merger date, and no clear founding year was found",
+      "source": "https://www.wikidata.org/wiki/Q209785; https://en.wikipedia.org/wiki/Ichikawa,_Chiba"
     },
     "q485496": {
       "dateNote": "Only \"12th century\" is known (shown as 1101). Some say a town stood here much earlier.",
@@ -11211,9 +11317,10 @@
       "source": "https://www.wikidata.org/wiki/Q178382 (P571 1785); https://en.wikipedia.org/wiki/J%C5%ABrmala"
     },
     "q170616": {
-      "dateNote": "1921 is when Chiba became a city. The Chiba clan set up their base here in 1126.",
-      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1921 is city status (Wikidata also gives 1889, the town); the place is older",
-      "source": "https://www.wikidata.org/wiki/Q170616 (P571 1921 (preferred), 1889); https://en.wikipedia.org/wiki/Chiba_(city)"
+      "startYear": 1126,
+      "dateNote": "Founded in 1126, when Chiba Tsuneshige moved his clan to Inohana here. The city counts its history from that year. 1921 is when it became a modern city or merged with its neighbours.",
+      "why": "Places fact-check batch 11 (Oct 2026), still uncertain, the panel now says so: 1921 is city status (Wikidata also gives 1889, the town); the place is older Then Japanese cities date sweep part 2 (1 Nov 2026), re-dated: the city counts its founding from 1126, when Chiba (Taira) Tsuneshige moved the clan to Inohana (Wikidata P571 of Inohana Castle is 1126).",
+      "source": "https://www.wikidata.org/wiki/Q170616 (P571 1921 (preferred), 1889); https://en.wikipedia.org/wiki/Chiba_(city); https://www.wikidata.org/wiki/Q170616; https://www.wikidata.org/wiki/Q28692626 (Inohana Castle, P571 1126)"
     },
     "q140075": {
       "dateNote": "1958 is when the name Gold Coast was taken. Southport, the oldest town, was laid out in the 1870s.",

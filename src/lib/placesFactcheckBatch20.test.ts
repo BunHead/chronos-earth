@@ -19,7 +19,7 @@ const YEARS: Array<[string, string, number, number]> = [
   ["q200707", "Takamatsu", 1890, 1588],
   ["q200747", "Wakayama", 1889, 1585],
   ["q207309", "Tokushima", 1889, 1585],
-  ["q200251", "Kōchi-shi", 1889, 1601],
+  ["q200251", "Kōchi", 1889, 1601], // "-shi" dropped by the Japanese cities sweep part 2 (rebuild of #125)
   ["q205526", "Yamagata", 1889, 1357],
   ["q209801", "Himeji", 1946, 1346],
   ["q202907", "Otsu", 1933, 667],
