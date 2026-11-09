@@ -4268,6 +4268,32 @@
         }
       ],
       "sourceUrl": "https://www.palaeo-electronica.org/content/2026/5975-new-megaraptorid-from-patagonia"
+    },
+    {
+      "id": "masillastrix",
+      "name": "Masillastrix",
+      "emoji": "🦉",
+      "lat": 49.91,
+      "lon": 8.75,
+      "fromMa": 48,
+      "toMa": 47,
+      "region": "Messel Pit, Hesse, Germany",
+      "blurb": "An early owl about 47 million years old, named in 2026 from a nearly complete skeleton with a cockroach in its stomach. Its finders think it still hunted by day.",
+      "wiki": "Masillastrix",
+      "wikidata": "Q141984174",
+      "track": [
+        {
+          "ma": 47,
+          "lon": 7.9,
+          "lat": 44.9
+        },
+        {
+          "ma": 48,
+          "lon": 7.85,
+          "lat": 44.75
+        }
+      ],
+      "sourceUrl": "https://www.senckenberg.de/en/press-releases/not-a-night-owl-yet-an-extraordinary-bird-fossil-from-the-messel-pit/"
     }
   ]
 }

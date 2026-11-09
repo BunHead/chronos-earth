@@ -661,10 +661,16 @@ export const FOSSIL_SITES = [
     'The formation spans Montana and the Dakotas. Wikidata pins it in North Dakota; the first T. rex came from ' +
       'Garfield County, Montana.'),
     sourceUrl: 'https://www.eurekalert.org/news-releases/1149430' },
-  site('messel', 'Messel Pit fossil site', 1995, 49.9175, 8.75667, 'Q639217', 'Messel Pit',
+  // Masillastrix: Mayr et al., Current Biology, 3 Nov 2026 (Senckenberg release below);
+  // see add-discoveries-nov-2026.mjs and the hand-placed animal in add-dinosaurs.mjs.
+  { ...site('messel', 'Messel Pit fossil site', 1995, 49.9175, 8.75667, 'Q639217', 'Messel Pit',
     'A World Heritage Site since 1995. Shale was mined here from 1859, and the pit became famous for whole ' +
       'animals — early horses, bats, birds — kept with their fur, feathers and stomach contents. The shale is about ' +
-      '47 million years old (Eocene).'),
+      '47 million years old (Eocene). ' +
+      'In 2026 an owl from here was named Masillastrix blattophaga: a nearly complete skeleton with a shiny ' +
+      'cockroach in its stomach. The authors think it was still active by day, and that owls may have taken to ' +
+      'the night later, between about 47 and 34 million years ago.'),
+    sourceUrl: 'https://www.senckenberg.de/en/press-releases/not-a-night-owl-yet-an-extraordinary-bird-fossil-from-the-messel-pit/' },
   // Added 16 Oct 2026 (daytime job). Dinosaur Provincial Park, Riversleigh and
   // Mistaken Point were already on the globe by Q-id, so are not listed.
   site('rhynie-chert', 'Rhynie chert fossils found', 1912, 57.3367, -2.84139, 'Q1633601', 'Rhynie chert',
@@ -807,7 +813,13 @@ export const FOSSIL_SITES = [
   { ...site('denisova', 'Denisova Cave: the Denisovans found', 2008, 51.39758, 84.67621, 'Q1029322', 'Denisova Cave',
     'In 2008 a child\'s finger bone was dug from this cave in Siberia\'s Altai Mountains. Its DNA, read in 2010, ' +
       'revealed a lost kind of human: the Denisovans. The bone is about 76,000–52,000 years old (under 0.1 million years). ' +
-      'In 2026 ancient proteins showed that fossils from Xujiayao, in northern China, were Denisovan too.'),
+      'In 2026 ancient proteins showed that fossils from Xujiayao, in northern China, were Denisovan too. ' +
+      'Also in 2026, teeth, skull pieces and the first known Denisovan forearm bone were reported from Bianfu ' +
+      'Cave in Yunnan, south-west China, about 167,000-134,000 years old.'),
+    // Bianfu Cave: two Nature papers, 2026 (doi:10.1038/s41586-026-10976-9 and
+    // -10997-4); see add-discoveries-nov-2026.mjs. They are cited on the
+    // Bianfu pin itself; this row keeps the source it already had (the
+    // Xujiayao paper) rather than having it overwritten.
     sourceUrl: 'https://www.nature.com/articles/s41586-026-11132-z' },
   // Eugène Dubois, 1891 (en.wikipedia.org/wiki/Java_Man); shells from the bone layer
   // dated 0.54–0.43 Ma (Joordens et al. 2015, Nature 518:228).
