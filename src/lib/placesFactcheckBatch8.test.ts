@@ -92,8 +92,11 @@ describe('places fact-check, batch 8', () => {
     expect(exceptions.q43048).toBeTruthy();
   });
 
-  it('Fallen Astronaut says it is on the Moon, not in the Sahara', () => {
-    expect(byId.get('q1161218')?.placeNote).toMatch(/on the Moon/);
+  it('Fallen Astronaut is not pinned in the Sahara: it is on the Moon, so it is off the globe', () => {
+    // Data quality round 5 (#99) removes it (scripts/lib/not-on-globe.mjs); the batch 8 note stays in
+    // accuracy-fixes.json in case the row is ever brought back.
+    expect(byId.get('q1161218')).toBeUndefined();
+    expect(fixes.q1161218.placeNote).toMatch(/on the Moon/);
   });
 
   it('uncertain dates keep their year and say so on the panel', () => {
