@@ -28,7 +28,27 @@
  * what is drawn, not the size of the dataset.
  *
  *   node scripts/fetch-pleiades.mjs
- *   node scripts/fetch-pleiades.mjs --check   # report, write nothing
+ *   node scripts/fetch-pleiades.mjs --check          # report, write nothing
+ *   node scripts/fetch-pleiades.mjs --refresh-only   # refresh existing rows' text, add none
+ *   node scripts/fetch-pleiades.mjs --no-wiki        # skip the Wikidata lookup below
+ *
+ * WHAT A ROW SAYS (Nov 2026). Every run also refreshes the rows already on the
+ * globe, so the nightly harvest keeps them current:
+ *   - `description`: Pleiades' own description of the place, when it is real
+ *     prose (pleiadesProse). About two thirds of the dump says only
+ *     "An ancient place, cited: BAtlas 68 A2 …", a Barrington Atlas grid
+ *     reference: that is a citation, not a description, and is left out.
+ *   - The CC-BY 3.0 credit is NOT stored: the panel builds it from the row's id
+ *     (its Pleiades page) as a small credit line under the text. `sourceUrl` is
+ *     left to the discovery scripts, which cite news of a find on a Pleiades
+ *     place (Heliopolis, Shanidar Cave) and must not be overwritten.
+ *   - `wikiArticle`: the English Wikipedia article Wikidata links to this
+ *     Pleiades id (P1584), when exactly one does. The panel fetches its short
+ *     extract and photo live. It is deliberately NOT `wikiTitle`: that field
+ *     drives the Wikidata harvest's dedupe, disambiguate-names and the
+ *     data-quality rules, and a Pleiades row must not take part in those.
+ *   - The old stock note ("From the Pleiades gazetteer … recorded as precise")
+ *     is dropped: it was a credit, shown under "Why it is shown here".
  *
  * ATTRIBUTION IS A LICENCE CONDITION, not a courtesy. Every row carries a
  * `source` naming Pleiades and its CC-BY terms, and the credit rides into the
@@ -45,6 +65,8 @@ const FILE = join(__dirname, '..', 'public', 'data', 'imported', 'events.json');
 const DUMP = 'https://atlantides.org/downloads/pleiades/dumps/pleiades-places-latest.csv.gz';
 const UA = 'ChronosEarth-educational-app/1.0 (personal history-teaching project)';
 const CHECK_ONLY = process.argv.includes('--check');
+const REFRESH_ONLY = process.argv.includes('--refresh-only');
+const NO_WIKI = process.argv.includes('--no-wiki');
 
 const MIN_YEAR = -12000;
 const CREDIT =
@@ -83,6 +105,93 @@ export function parseCsv(t) {
   return rows;
 }
 
+/** The stock credit every row used to carry as its placeNote. */
+export const STOCK_PLACE_NOTE = /^From the Pleiades gazetteer of the ancient world\. /;
+
+/** Longest description the panel shows; longer ones are cut at a sentence end. */
+const MAX_PROSE = 700;
+
+/**
+ * Pleiades' description, if it is a description: null for an empty one, a
+ * Barrington Atlas citation stub ("An ancient place, cited: BAtlas 68 A2 …",
+ * "… cited: None", "… cited by BAtlas as: …"), a bare index entry ("A place
+ * from the TAVO Index") or an editorial notice ("This place resource has been
+ * removed …"). Whitespace is tidied; a very long one is cut at a sentence end.
+ */
+export function pleiadesProse(desc) {
+  let d = String(desc ?? '').replace(/\s+/g, ' ').trim();
+  // A Barrington Atlas citation on the end of real prose ("Roman town at
+  // present-day Rochester, cited: BAtlas 8 H3 Durobrivae") is a reference, not
+  // text: cut it off and keep the prose.
+  d = d.replace(/\s*[,;]?\s*\(?\bcited( by [^:]*)?:.*$/i, '').trim();
+  // What is left of a pure stub ("An ancient place", "A minor settlement") says nothing.
+  if (/^an? (ancient |minor |small |roman |greek )?(place|settlement|town|city|site|village)\.?$/i.test(d)) return null;
+  if (d.length < 12) return null;
+  if (!/[.!?…”"')]$/.test(d)) d += '.';
+  if (/^a place from the tavo index\.?$/i.test(d)) return null;
+  if (/^this place resource has been (removed|withdrawn)/i.test(d)) return null;
+  if (d.length <= MAX_PROSE) return d;
+  const cut = d.slice(0, MAX_PROSE);
+  const end = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('.” '));
+  return end > 200 ? cut.slice(0, end + 1) : cut.replace(/\s+\S*$/, '') + '…';
+}
+
+/**
+ * Bring a Pleiades row's text up to date: its description (or none), its
+ * Wikipedia article (when known), and no stock credit as its place note. `wiki` is undefined when the lookup did not run, so
+ * a failed lookup never strips an article found before. Returns true if it changed.
+ */
+export function refreshPleiadesRow(row, description, wiki) {
+  const before = JSON.stringify(row);
+  const prose = pleiadesProse(description);
+  if (prose) row.description = prose;
+  else delete row.description;
+  if (row.placeNote && STOCK_PLACE_NOTE.test(row.placeNote)) delete row.placeNote;
+  if (wiki !== undefined) {
+    if (wiki) row.wikiArticle = wiki;
+    else delete row.wikiArticle;
+  }
+  return JSON.stringify(row) !== before;
+}
+
+/**
+ * English Wikipedia articles for Pleiades ids, via Wikidata (P1584). Only an id
+ * whose Wikidata items all name ONE article gets it. Map pl-id → title | null;
+ * returns null if the query service could not be reached.
+ */
+export async function wikiArticlesFor(ids, fetchImpl = fetch) {
+  const out = new Map(ids.map((id) => [id, null]));
+  const titles = new Map();
+  for (let i = 0; i < ids.length; i += 1500) {
+    const vals = ids.slice(i, i + 1500).map((id) => `"${String(id).replace(/^pl/, '')}"`).join(' ');
+    const q = `SELECT ?pl ?title WHERE { VALUES ?pl { ${vals} } ?item wdt:P1584 ?pl . OPTIONAL { ?a schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?title . } }`;
+    let ok = false;
+    for (let tries = 0; tries < 3 && !ok; tries++) {
+      try {
+        const res = await fetchImpl('https://query.wikidata.org/sparql', {
+          method: 'POST',
+          headers: { Accept: 'application/sparql-results+json', 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': UA },
+          body: `query=${encodeURIComponent(q)}`,
+          signal: AbortSignal.timeout(120_000),
+        });
+        const j = JSON.parse(await res.text());
+        for (const b of j.results.bindings) {
+          const k = `pl${b.pl.value}`;
+          if (!titles.has(k)) titles.set(k, new Set());
+          titles.get(k).add(b.title?.value ?? '');
+        }
+        ok = true;
+      } catch {
+        await new Promise((r) => setTimeout(r, 5000));
+      }
+    }
+    if (!ok) return null;
+    await new Promise((r) => setTimeout(r, 1500));
+  }
+  for (const [k, set] of titles) if (set.size === 1 && [...set][0]) out.set(k, [...set][0]);
+  return out;
+}
+
 /** Which of our categories a Pleiades feature type belongs to, or null. */
 export function categoryFor(featureTypes) {
   const types = String(featureTypes || '').split(',').map((s) => s.trim()).filter(Boolean);
@@ -110,6 +219,21 @@ async function main() {
   const data = rows.slice(1).filter((r) => r.length > 5);
   console.log(`  ${data.length} places in the dump`);
 
+  // Refresh the text of every Pleiades row already on the globe.
+  const desc = new Map(data.map((r) => [`pl${r[ix.id]}`, r[ix.description] ?? '']));
+  const plRows = events.filter((e) => /^pl\d+$/.test(e.id));
+  let wiki = null;
+  if (!NO_WIKI) {
+    console.log('asking Wikidata which Pleiades places have a Wikipedia article…');
+    wiki = await wikiArticlesFor(plRows.map((e) => e.id));
+    if (!wiki) console.log('  Wikidata unreachable: Wikipedia links left as they were');
+  }
+  let refreshed = 0;
+  for (const e of plRows) if (refreshPleiadesRow(e, desc.get(e.id) ?? '', wiki ? wiki.get(e.id) ?? null : undefined)) refreshed++;
+  const withText = plRows.filter((e) => e.description).length;
+  const withWiki = plRows.filter((e) => e.wikiArticle).length;
+  console.log(`  ${plRows.length} Pleiades rows: ${withText} with a description, ${withWiki} with a Wikipedia article; ${refreshed} changed`);
+
   // Includes ids folded into another row, so a place merged away (e.g. the
   // undated Pleiades copy of Cova Dones) is not re-added every night.
   const haveIds = knownIds(events);
@@ -125,7 +249,7 @@ async function main() {
   let added = 0, dupSpace = 0, dupName = 0, skipped = 0;
   const fresh = [];
 
-  for (const r of data) {
+  for (const r of REFRESH_ONLY ? [] : data) {
     try {
       if (r[ix.locationPrecision] !== 'precise') { skipped++; continue; }
       const lat = +r[ix.reprLat], lon = +r[ix.reprLong];
@@ -187,10 +311,8 @@ async function main() {
         // competing with the famous for the few marker slots on screen.
         notability: 2,
         source: CREDIT,
-        placeNote:
-          `From the Pleiades gazetteer of the ancient world. ${CREDIT}. ` +
-          `Position recorded by Pleiades as precise.`,
       };
+      refreshPleiadesRow(row, r[ix.description], wiki ? wiki.get(id) ?? null : undefined);
       fresh.push(row);
       haveIds.add(id);
       existing.push({ lat, lon, y: minD, c: category });
@@ -213,11 +335,13 @@ async function main() {
     console.log('\n(--check: nothing written)');
     return;
   }
-  if (added === 0) {
-    console.log('\nNothing to add.');
+  if (added === 0 && refreshed === 0) {
+    console.log('\nNothing to add or refresh.');
     return;
   }
-  const out = [...events, ...fresh].sort((a, b) => a.startYear - b.startYear);
+  // Sorted only when rows were added: a refresh alone keeps the file's order,
+  // so the nightly commit shows just the text that changed.
+  const out = added ? [...events, ...fresh].sort((a, b) => a.startYear - b.startYear) : events;
   await writeFile(FILE, JSON.stringify({ events: out }));
   console.log(`\nevents.json: ${before} -> ${out.length}`);
 }
