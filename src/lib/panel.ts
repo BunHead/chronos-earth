@@ -278,9 +278,14 @@ export function sourceLabel(url: string): string {
 
 /** Convert a bulk-imported Wikidata event into panel content. */
 export function eventToPanel(e: TimelineEvent): PanelContent {
-  const wiki = e.wikiTitle
-    ? `https://en.wikipedia.org/wiki/${encodeURIComponent(e.wikiTitle.replace(/ /g, '_'))}`
-    : `https://www.wikidata.org/wiki/${e.wikidataId}`;
+  // A Pleiades row's article comes from Wikidata's link to its Pleiades id
+  // (wikiArticle); it reads exactly like a Wikipedia title here.
+  const wikiTitle = e.wikiTitle ?? e.wikiArticle;
+  // A Pleiades place's own page: its text and position are Pleiades', CC-BY 3.0.
+  const pleiades = /^pl\d+$/.test(e.id) ? `https://pleiades.stoa.org/places/${e.id.slice(2)}` : null;
+  const wiki = wikiTitle
+    ? `https://en.wikipedia.org/wiki/${encodeURIComponent(wikiTitle.replace(/ /g, '_'))}`
+    : pleiades ?? `https://www.wikidata.org/wiki/${e.wikidataId}`;
   const date =
     e.endYear !== undefined ? `${yearLabel(e.startYear)} – ${yearLabel(e.endYear)}` : yearLabel(e.startYear);
   // Battles enriched from Wikidata get the full who-fought treatment.
@@ -352,12 +357,16 @@ export function eventToPanel(e: TimelineEvent): PanelContent {
     date,
     // With a Wikipedia title we fetch the real summary + photo live on click;
     // otherwise fall back to a one-line note.
-    ...(e.wikiTitle ? { wikiTitle: e.wikiTitle } : { summary: `${EVENT_KICKER[e.category]} · ${date}.` }),
+    ...(wikiTitle ? { wikiTitle } : { summary: `${EVENT_KICKER[e.category]} · ${date}.` }),
     // A hand-checked summary (famous battles) leads, and says where it is from.
-    ...(e.summary ? { summary: e.summary, summaryChecked: true } : {}),
+    // So does a Pleiades place's own description: the Wikipedia article, when
+    // there is one, still supplies the photo and the link.
+    ...(e.summary ? { summary: e.summary, summaryChecked: true } : e.description ? { summary: e.description, summaryChecked: true } : {}),
     ...(e.sourceUrl ? { sourceUrl: e.sourceUrl } : {}),
+    // The licence condition, as a small credit line rather than the panel's body.
+    ...(pleiades ? { credit: { label: 'Pleiades gazetteer', url: pleiades, licence: 'CC-BY 3.0' } } : {}),
     ...(sections.length > 0 ? { sections } : {}),
-    links: [{ label: e.wikiTitle ? `Read about ${e.name} on Wikipedia` : 'View on Wikidata', url: wiki }],
+    links: [{ label: wikiTitle ? `Read about ${e.name} on Wikipedia` : pleiades ? `${e.name} on Pleiades` : 'View on Wikidata', url: wiki }],
     fly: { lon: e.lon, lat: e.lat, altitude: 600_000 },
     event: e,
     ...(e.merged && e.merged.length ? { records: e.merged } : {}),

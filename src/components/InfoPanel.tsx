@@ -530,6 +530,15 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
               </a>
             </p>
           )}
+          {content.credit && (
+            <p className="info-source info-credit-line" style={{ fontSize: '0.75em', opacity: 0.8 }}>
+              Place data:{' '}
+              <a href={content.credit.url} target="_blank" rel="noopener noreferrer">
+                {content.credit.label}
+              </a>{' '}
+              · {content.credit.licence}
+            </p>
+          )}
           {content.wikiTitle && !content.summaryChecked && wiki.status === 'loading' && (
             <p className="info-loading">Loading the full summary…</p>
           )}
