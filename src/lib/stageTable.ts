@@ -105,6 +105,13 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1900, suffix: '-b95' },
     { from: 1990, suffix: '' },     // today
   ],
+  neuschwanstein: [
+    { from: 1100, suffix: '-b15' }, // the twin castles of Vorder- and Hinterhohenschwangau
+    { from: 1800, suffix: '-b30' }, // their ruins
+    { from: 1869, suffix: '-b50' }, // foundation stone; the Gatehouse (1873), the Palas in scaffolding
+    { from: 1884, suffix: '-b75' }, // the Palas finished; Ludwig moves in
+    { from: 1892, suffix: '' },     // the Bower, Knights' House and Square Tower: today
+  ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort
     { from: 1100, suffix: '-b35' }, // the White Tower alone

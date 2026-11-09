@@ -190,7 +190,17 @@ const cx = hasGeo ? 0 : c.x;
 const cz = hasGeo ? 0 : c.z;
 
 const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 6000);
-if (angle === 'top' || angle === 'plan') {
+// An orbit view (CAM=bearing,elevation,distance in render-model.mjs): stand at
+// that compass bearing from the model's centre (0 = north, the scene's −Z),
+// that many degrees up, that many model-sizes away — for a landmark whose
+// famous view is from one side (Edinburgh Castle from Princes Street).
+const camParam = params.get('cam');
+if (camParam) {
+  const [az, el, k] = camParam.split(',').map(Number);
+  const a = (az * Math.PI) / 180, e = (el * Math.PI) / 180, d = (k || 1) * r;
+  cam.position.set(cx + Math.sin(a) * Math.cos(e) * d, c.y + Math.sin(e) * d, cz - Math.cos(a) * Math.cos(e) * d);
+  cam.lookAt(cx, c.y * 0.8, cz);
+} else if (angle === 'top' || angle === 'plan') {
   // TRUE north-up map: real north (−Z) up-screen, real east (+X) right-screen.
   cam.up.set(0, 0, -1);
   cam.position.set(cx, Math.max(box.max.y, r) + r * 2.0, cz);

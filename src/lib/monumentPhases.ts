@@ -27,6 +27,23 @@ export interface MonumentPhase {
 
 const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
   {
+    // Neuschwanstein on its ridge (components/neuschwanstein.ts); the globe
+    // swaps the same stages by date (lib/stageTable.ts).
+    match: 'neuschwanstein',
+    phases: [
+      { fromYear: 1100, yearLabel: 'c. 1100', label: 'Two medieval castles', model: 'neuschwanstein', build: 0.15,
+        note: 'The ridge above the Pöllat gorge carried two small castles, Vorderhohenschwangau and Hinterhohenschwangau, guarding the road through the Alps.' },
+      { fromYear: 1800, yearLabel: 'by 1800', label: 'The ruins', model: 'neuschwanstein', build: 0.3,
+        note: 'Both castles had fallen into ruin. As a boy Ludwig II knew them from his father’s castle of Hohenschwangau across the valley.' },
+      { fromYear: 1869, yearLabel: '1869', label: 'Building begins', model: 'neuschwanstein', build: 0.5,
+        note: 'The ruins were cleared and the ridge blasted down about 8 m (1868); the foundation stone was laid on 5 September 1869. The Gatehouse was finished first, in 1873, and Ludwig lived in it while the Palas rose.' },
+      { fromYear: 1884, yearLabel: '1884', label: 'The Palas', model: 'neuschwanstein', build: 0.75,
+        note: 'Ludwig moved into the Palas in 1884. He lived there only 172 days in all: in June 1886 he was declared unfit to rule and died days later.' },
+      { fromYear: 1892, yearLabel: '1892', label: 'Completed without him', model: 'neuschwanstein', build: 1,
+        note: 'The Bower, the Knights’ House and the Square Tower were finished in a simpler form by 1892. The great keep and the chapel were never built; the castle opened to visitors weeks after Ludwig’s death.' },
+    ],
+  },
+  {
     match: 'nottingham castle',
     phases: [
       { fromYear: 1068, yearLabel: '1068', label: 'Norman castle', model: 'castle',

@@ -332,6 +332,11 @@ const PLACEMENTS: Placement[] = [
   // (ArcGIS, sampled 2026-09-24) — 51 m down leaves its terraces ~3 m proud of
   // the real slope and lets its forest collar run into the real flanks.
   { model: 'machu-picchu', title: 'Machu Picchu', lat: -13.163, lon: -72.545, builtYear: 1450, ruinYear: 1572, sinkM: 51 },
+  // Neuschwanstein carries its OWN ridge (components/neuschwanstein.ts): its
+  // courtyard at the pin stands 80 m over the model's lowest point, so sinking
+  // it 80 m puts the courtyard on the real ground at the pin and lets the
+  // model's slopes run into the real ones. Stages by date in STAGE_TABLE.
+  { model: 'neuschwanstein', title: 'Neuschwanstein Castle', lat: 47.5576, lon: 10.7498, builtYear: 1100, sinkM: 80 },
   // THE TERRACOTTA ARMY, Pit 1 (the Captain, 8 Oct 2026). Shown painted and
   // complete, roof cut away, from c. 210 BCE; the pits were burned and caved
   // in by 206 BCE (traditionally blamed on Xiang Yu's rebels) and lay buried

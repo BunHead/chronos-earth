@@ -759,5 +759,25 @@
   "forbidden-city-b90": {
     "footprint": 606.55,
     "kb": 16
+  },
+  "neuschwanstein": {
+    "footprint": 32,
+    "kb": 90
+  },
+  "neuschwanstein-b15": {
+    "footprint": 32,
+    "kb": 73
+  },
+  "neuschwanstein-b30": {
+    "footprint": 32,
+    "kb": 63
+  },
+  "neuschwanstein-b50": {
+    "footprint": 32,
+    "kb": 77
+  },
+  "neuschwanstein-b75": {
+    "footprint": 32,
+    "kb": 83
   }
 }

@@ -69,7 +69,7 @@ const NO_3D_NAMES = new Set([
   'cusco cathedral',
   'newstead abbey',
   'castel del monte',
-  'neuschwanstein castle',
+  // (Neuschwanstein un-suppressed Nov 2026: it has its own model now, neuschwanstein.ts.)
   'cahokia',
   'borobudur',
   'borobudur temple',
@@ -121,6 +121,9 @@ export function monumentModelForName(name: string): string | null {
   if (/ruins? of st\.? paul/.test(n)) return null;
   if (/st\.? paul/.test(n)) return 'st-pauls';
   if (/tower of london|white tower/.test(n)) return 'tower-of-london';
+  // Neuschwanstein on its ridge, through its history (neuschwanstein.ts) —
+  // before the generic castle bucket, which could only give it a square fort.
+  if (/neuschwanstein/.test(n)) return 'neuschwanstein';
   if (/the shard|shard london/.test(n)) return 'shard';
   if (/gherkin|30 st mary axe/.test(n)) return 'gherkin';
   // Sydney Opera House — SYDNEY-specific: the sails are unmistakably Sydney's, so
