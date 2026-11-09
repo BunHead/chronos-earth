@@ -2999,6 +2999,111 @@
       "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: 1100 BC (P571) is traditional",
       "source": "https://www.wikidata.org/wiki/Q690575; https://en.wikipedia.org/wiki/Knidos"
     },
+    "q33147": {
+      "startYear": 1872,
+      "dateNote": "Started as a stop on the Houston and Texas Central Railway in the early 1870s and named in 1872 after Ebenezer Allen (some sources say the town began in 1870). It became a city in 1953.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1953). 1953 is incorporation; the railway town began in 1870-72",
+      "source": "https://www.wikidata.org/wiki/Q33147; https://en.wikipedia.org/wiki/Allen,_Texas; https://atlas.thc.texas.gov/Details/5085011817"
+    },
+    "q984162": {
+      "startYear": 1907,
+      "dateNote": "Laid out from 1907, when the W. I. Hollingsworth Company bought the land and began selling lots. It became a city in 1964.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1964). 1964 is incorporation; the town was started in 1907",
+      "source": "https://www.wikidata.org/wiki/Q984162; https://en.wikipedia.org/wiki/Lomita,_California; https://www.laalmanac.com/cities/ci47.php"
+    },
+    "q474655": {
+      "startYear": 1966,
+      "dateNote": "Building of the planned town began in 1966, on ranch land bought in 1963 by the American-Hawaiian Steamship Company. The Los Angeles County part became a city in 1981.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1981). 1981 is incorporation; the planned community was begun in 1966",
+      "source": "https://www.wikidata.org/wiki/Q474655; https://en.wikipedia.org/wiki/Westlake_Village,_California; https://www.laconservancy.org/locations/westlake-village"
+    },
+    "q40209": {
+      "startYear": 1907,
+      "dateNote": "Built as a seaside resort from 1907 by William H. Reynolds, on sand dunes bought from the Town of Hempstead. It became a village in 1913 and a city in 1922.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1623). 1623 matches nothing for this town; it was developed from 1907",
+      "source": "https://www.wikidata.org/wiki/Q40209; https://en.wikipedia.org/wiki/Long_Beach,_New_York; https://theclio.com/entry/130854"
+    },
+    "q18207676": {
+      "startYear": 1955,
+      "dateNote": "Founded in 1955, when work began on a deep-water port at the fishing village of Kampong Som. It was later named after King Norodom Sihanouk.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1964). The port and town were begun in 1955",
+      "source": "https://www.wikidata.org/wiki/Q18207676; https://en.wikipedia.org/wiki/Sihanoukville; https://canbypublications.com/sihanoukville-cambodia/sihanoukville-history.htm"
+    },
+    "q788794": {
+      "startYear": 1823,
+      "dateNote": "Founded in 1823 beside the site of Fort Hughes (built 1817), and renamed Bainbridge in 1824. It became a city in 1829.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1765). 1765 matches nothing in the sources; the town was founded in 1823",
+      "source": "https://www.wikidata.org/wiki/Q788794; https://en.wikipedia.org/wiki/Bainbridge,_Georgia; https://www.britannica.com/place/Bainbridge"
+    },
+    "q985354": {
+      "startYear": 1722,
+      "dateNote": "Granted its town charter in May 1722. War held up settlement, and the first family moved in at the end of 1728.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1749). The town was chartered in 1722 and first settled in 1728",
+      "source": "https://www.wikidata.org/wiki/Q985354; https://en.wikipedia.org/wiki/Rochester,_New_Hampshire; https://news.rochesternh.gov/rochester-colonial-moments-from-petition-to-province-town/"
+    },
+    "q986432": {
+      "startYear": 1797,
+      "dateNote": "Laid out in 1797 by Bezaleel Wells and James Ross, beside the site of Fort Steuben (built 1786-87, burned 1790).",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1795). The town was laid out in 1797 (the fort dates from 1786)",
+      "source": "https://www.wikidata.org/wiki/Q986432; https://en.wikipedia.org/wiki/Steubenville,_Ohio; https://www.britannica.com/place/Steubenville"
+    },
+    "q514796": {
+      "startYear": 757,
+      "dateNote": "Named Baoji in 757, under the Tang dynasty. The older town here, Chencang, goes back much further. The modern city was set up in 1950.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1950). 1950 is modern city status; the name and town date from 757 (and older Chencang)",
+      "source": "https://www.wikidata.org/wiki/Q514796; https://en.wikipedia.org/wiki/Baoji; https://www.britannica.com/place/Baoji"
+    },
+    "q427265": {
+      "startYear": -135,
+      "dateNote": "Set up as Bodao County in 135 BC, under the Han dynasty (some say earlier, under the Qin). It became a prefecture-level city in 1996-97.",
+      "why": "Places fact-check batch 45 (Nov 2026): wrong year (1997). 1997 is prefecture-level city status; the county was set up in 135 BC",
+      "source": "https://www.wikidata.org/wiki/Q427265; https://en.wikipedia.org/wiki/Yibin; https://de.wikipedia.org/wiki/Yibin"
+    },
+    "q460750": {
+      "dateNote": "1910 is when it became a separate town from Ilhéus. Settlers had lived here, at a place called Tabocas, since the 1800s, but no firm start year was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1910 is town status; the earlier settlement date could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q460750; https://en.wikipedia.org/wiki/Itabuna"
+    },
+    "q276176": {
+      "dateNote": "1954 is when it became a separate town. The big steelworks opened here in the 1940s, and a small village was here long before that.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1954 is town status; the steelworks (1941) or older village could be used",
+      "source": "https://www.wikidata.org/wiki/Q276176; https://en.wikipedia.org/wiki/Volta_Redonda"
+    },
+    "q475724": {
+      "dateNote": "1956 is when it became a city. People had farmed here since the 1840s (Rancho La Puente), but no firm start year for the town was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1956 is incorporation; the start of the town could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q475724; https://en.wikipedia.org/wiki/La_Puente,_California"
+    },
+    "q983840": {
+      "dateNote": "2002 is when it became a city. Goleta was settled long before, in the 1800s, but no firm start year was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 2002 is incorporation; the settlement date could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q983840; https://en.wikipedia.org/wiki/Goleta,_California"
+    },
+    "q376246": {
+      "dateNote": "1980 is when it became a city. The lakeside resort towns here are older (early 1900s), but no firm start year was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1980 is incorporation; the settlement date could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q376246; https://en.wikipedia.org/wiki/Clearlake,_California"
+    },
+    "q774998": {
+      "dateNote": "1924 is when it became a city. The town was being built a few years before that, but no firm start year was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1924 is incorporation; the start of the town could not be confirmed",
+      "source": "https://www.wikidata.org/wiki/Q774998; https://en.wikipedia.org/wiki/Maywood,_California"
+    },
+    "q138548": {
+      "dateNote": "1611 is about when Cornelius Mey sailed past and gave the cape its name. Whalers and farmers settled the area in the 1690s, and the town became Cape May City in 1869.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1611 is the explorer's visit, not a settlement; sources give the 1690s for settlers",
+      "source": "https://www.wikidata.org/wiki/Q138548; https://en.wikipedia.org/wiki/Cape_May,_New_Jersey; https://sites.rootsweb.com/~njcapema/archive/capemaypg4.html"
+    },
+    "q498256": {
+      "dateNote": "1609 is when it got town rights. The castle here was built in the 1440s-1450s and a town grew next to it, but no firm start year was found.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain: 1609 is town rights; the castle and town are older",
+      "source": "https://www.wikidata.org/wiki/Q498256; https://en.wikipedia.org/wiki/Bauska"
+    },
+    "q205050": {
+      "dateNote": "Only the century is known (the 6th century), so 501 only stands for about then.",
+      "why": "Places fact-check batch 45 (Nov 2026), uncertain, the panel now says so: Wikidata P571 has century precision only",
+      "source": "https://www.wikidata.org/wiki/Q205050 (P571 6th century); https://en.wikipedia.org/wiki/Geilenkirchen"
+    },
     "q18820": {
       "dateNote": "The year shown, 1001, stands for \"about AD 1000\"; Wikidata gives only the millennium. The first stone buildings on Wawel Hill are from about then; the Gothic castle is from the 1300s.",
       "why": "Places fact-check batch 8 (Oct 2026): uncertain, year kept, the panel now says so: Wikidata P571 has only millennium precision",
