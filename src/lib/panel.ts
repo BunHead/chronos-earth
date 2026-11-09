@@ -121,6 +121,9 @@ export function monumentModelForName(name: string): string | null {
   if (/ruins? of st\.? paul/.test(n)) return null;
   if (/st\.? paul/.test(n)) return 'st-pauls';
   if (/tower of london|white tower/.test(n)) return 'tower-of-london';
+  // Edinburgh Castle on Castle Rock, through its history (edinburghCastle.ts) —
+  // before the generic castle bucket, which gave it a square fort on flat grass.
+  if (/edinburgh castle/.test(n)) return 'edinburgh-castle';
   // Neuschwanstein on its ridge, through its history (neuschwanstein.ts) —
   // before the generic castle bucket, which could only give it a square fort.
   if (/neuschwanstein/.test(n)) return 'neuschwanstein';

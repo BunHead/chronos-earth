@@ -77,6 +77,8 @@ export const VALID_MODELS = [
   // London landmarks.
   'buckingham', 'westminster', 'london-eye',
   'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
+  // Scotland.
+  'edinburgh-castle',
   // Bavaria.
   'neuschwanstein',
   // Sydney.
@@ -154,6 +156,7 @@ const KEYWORD_RULES = [
   { rule: 'Ruins of St Paul, Macau -- a bare facade, no honest model', model: null, re: /ruins? of st\.? paul/ },
   { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
+  { rule: 'Edinburgh Castle keyword (Castle Rock, before the castle bucket)', model: 'edinburgh-castle', re: /edinburgh castle/ },
   { rule: 'Neuschwanstein keyword (its ridge and the Palas, before the castle bucket)', model: 'neuschwanstein', re: /neuschwanstein/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },

@@ -71,6 +71,7 @@ const MODELS: Array<[string, string]> = [
   ['london-eye', 'London Eye'],
   ['opera-house', 'Sydney Opera House'],
   ['machu-picchu', 'Machu Picchu (Inca citadel)'],
+  ['edinburgh-castle', 'Edinburgh Castle (Castle Rock)'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['terracotta-army', 'Terracotta Army (Pit 1, Qin)'],
   ['circle', 'Stone circle'],
@@ -130,6 +131,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   // always had it right at -33.8568; this table was the odd one out.
   'opera-house': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
   'machu-picchu': { title: 'Machu Picchu', lat: -13.163, lon: -72.545 },
+  'edinburgh-castle': { title: 'Edinburgh Castle', lat: 55.9486, lon: -3.2008 },
   'neuschwanstein': { title: 'Neuschwanstein Castle', lat: 47.5576, lon: 10.7498 },
   'terracotta-army': { title: 'Terracotta Army', lat: 34.3847, lon: 109.2731 }, // Pit 1's hall (Wikipedia 34°23′5″N 109°16′23″E)
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },

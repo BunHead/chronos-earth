@@ -90,6 +90,7 @@ const FLEET = [
   ['opera-house', 'Sydney Opera House'],
   ['machu-picchu', 'Machu Picchu'],
   ['terracotta-army', 'Terracotta Army'],
+  ['edinburgh-castle', 'Edinburgh Castle'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
 ];
 
@@ -147,6 +148,11 @@ const BUILD_STAGES = [
   // b35 the White Tower alone, b55 the inner ward, b80 the concentric outer
   // ward + wet moat; the base glb is the modern drained-moat plan.
   ['tower-of-london', 'Tower of London', [15, 35, 55, 80]],
+  // Edinburgh Castle on Castle Rock: b10 the hillfort (Din Eidyn) · b25 David I
+  // 1130 · b40 David's Tower 1370 · b55 the Great Hall 1511 · b70 the Half Moon
+  // Battery 1574 · b85 the Georgian garrison 1800 · '' today (gatehouse 1888,
+  // War Memorial 1927). Dates live in STAGE_TABLE (lib/stageTable.ts).
+  ['edinburgh-castle', 'Edinburgh Castle', [10, 25, 40, 55, 70, 85]],
   // Neuschwanstein: b15 the medieval twin castles c. 1100 · b30 their ruins by
   // 1800 · b50 the Gatehouse and the Palas in scaffolding 1873 · b75 the Palas
   // 1884 · '' complete 1892, today. Dates in STAGE_TABLE (lib/stageTable.ts).
