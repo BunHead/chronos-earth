@@ -5214,6 +5214,127 @@
       "why": "Places fact-check batch 5 (Oct 2026): wrong year (1675). That is when it got its town charter; the settlement was founded in 1616",
       "source": "https://www.wikidata.org/wiki/Q48278 (P571 1675); https://en.wikipedia.org/wiki/Medell%C3%ADn"
     },
+    "q328846": {
+      "startYear": 1848,
+      "dateNote": "Founded on 15 June 1848 by Laredo families who wanted to stay in Mexico after the new border was set on the Rio Grande. The first Laredo, on the other bank, was founded in 1755.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1775). 1775 matches nothing in the sources; Nuevo Laredo was founded in 1848 (the older Laredo, now in Texas, in 1755)",
+      "source": "https://www.wikidata.org/wiki/Q328846; https://en.wikipedia.org/wiki/Nuevo_Laredo; https://festival.si.edu/articles/1993/the-epic-tradition-of-the-founding-of-nuevo-laredo"
+    },
+    "q430316": {
+      "startYear": 1868,
+      "dateNote": "Founded in 1868, when Frank Kimball and his brothers bought the old Rancho de la Nación and laid out the town. It became a city in 1887.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1800). 1800 is \"19th century\" read as a year; the town was founded in 1868",
+      "source": "https://www.wikidata.org/wiki/Q430316; https://en.wikipedia.org/wiki/National_City%2C_California; https://en.wikipedia.org/wiki/Frank_A._Kimball"
+    },
+    "q988739": {
+      "startYear": 1796,
+      "dateNote": "Founded in 1796 by a party led by Nathaniel Massie, on his own land. It was the first capital of Ohio, from statehood in 1803.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1803). 1803 is when it became the state capital; the town was founded in 1796",
+      "source": "https://www.wikidata.org/wiki/Q988739; https://en.wikipedia.org/wiki/Chillicothe%2C_Ohio; https://www.chillicotheoh.gov/our_community/history.php"
+    },
+    "q1507493": {
+      "startYear": 1845,
+      "dateNote": "Founded in autumn 1845 by Michael Simmons and George Bush as New Market, the first American settlement on Puget Sound. It became a town in 1869.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1869). 1869 is incorporation; the settlement was founded in 1845",
+      "source": "https://www.wikidata.org/wiki/Q1507493; https://en.wikipedia.org/wiki/Tumwater%2C_Washington; https://historylink.org/File/22514"
+    },
+    "q653613": {
+      "startYear": 1856,
+      "dateNote": "Laid out in August 1856 and named after John C. Frémont, who was running for president that year. It became a city in 1871.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1871). 1871 is incorporation; the town was laid out in 1856",
+      "source": "https://www.wikidata.org/wiki/Q653613; https://en.wikipedia.org/wiki/Fremont%2C_Nebraska; https://history.nebraska.gov/marker-monday-fremont-nebraska/"
+    },
+    "q16461": {
+      "startYear": 1852,
+      "dateNote": "Started in 1852 as Colvile Town, a Hudson's Bay Company coal settlement (some sources say 1853, when the Bastion was built). It became a city in 1874.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1874). 1874 is city status; the HBC coal settlement began in 1852-53",
+      "source": "https://www.wikidata.org/wiki/Q16461; https://en.wikipedia.org/wiki/Nanaimo; https://thecanadianencyclopedia.ca/en/article/nanaimo"
+    },
+    "q590191": {
+      "startYear": 1821,
+      "dateNote": "The first town lots were laid out in 1821 by Joseph Vance and Elnathan Corry, beside Fort Findlay (built 1812). It became a city in 1887.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1887). 1887 is city status; the town was laid out in 1821",
+      "source": "https://www.wikidata.org/wiki/Q590191; https://en.wikipedia.org/wiki/Findlay%2C_Ohio; https://www.hmdb.org/m.asp?m=19335"
+    },
+    "q576209": {
+      "startYear": 1830,
+      "dateNote": "Laid out in 1830 by the canal commissioners, as a town on the planned Illinois and Michigan Canal. It became a village in 1838 and a city in 1853.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1853). 1853 is city status; the town was platted in 1830",
+      "source": "https://www.wikidata.org/wiki/Q576209; https://en.wikipedia.org/wiki/Ottawa%2C_Illinois; https://npgallery.nps.gov/GetAsset/2c4f2180-7da3-42ce-b1bc-934edf5528e5"
+    },
+    "q643215": {
+      "startYear": 1891,
+      "dateNote": "Set up as the District of Coquitlam on 25 July 1891. The Fraser Mills sawmill had opened nearby in 1889. It became a city in 1992.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1908). 1908 matches nothing in the sources; the district was incorporated in 1891",
+      "source": "https://www.wikidata.org/wiki/Q643215; https://en.wikipedia.org/wiki/Coquitlam; https://searcharchives.coquitlam.ca/index.php/district-of-coquitlam"
+    },
+    "q1012695": {
+      "startYear": 1876,
+      "dateNote": "Settled in 1876, when the land was opened to homesteaders. It became a town in 1901.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1901). 1901 is incorporation; it was settled in 1876",
+      "source": "https://www.wikidata.org/wiki/Q1012695; https://en.wikipedia.org/wiki/Farmington%2C_New_Mexico; https://www.britannica.com/place/Farmington-New-Mexico"
+    },
+    "q79260": {
+      "startYear": 1881,
+      "dateNote": "Settled in 1881, when John Henry Carmichael moved there and opened a store. It became a town in 1896.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1896). 1896 is incorporation; the town began in 1881",
+      "source": "https://www.wikidata.org/wiki/Q79260; https://en.wikipedia.org/wiki/Enterprise%2C_Alabama; https://encyclopediaofalabama.org/article/enterprise"
+    },
+    "q813247": {
+      "startYear": 1857,
+      "dateNote": "Founded in 1857 by the Nebraska Association and named after Julia Beatrice Kinney, daughter of its president.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1859). 1859 is when the county seat was confirmed; the town was founded in 1857",
+      "source": "https://www.wikidata.org/wiki/Q813247; https://en.wikipedia.org/wiki/Beatrice%2C_Nebraska; https://history.nebraska.gov/the-naming-of-beatrice-nebraska"
+    },
+    "q1055845": {
+      "startYear": 1876,
+      "dateNote": "Founded by George Brackett, who moved there in 1876 to start a town (he had bought the land in 1872). The townsite was platted in 1884, and it became a town in 1890.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1889). 1889 matches nothing in the sources; Brackett founded the town in 1876 (platted 1884, incorporated 1890)",
+      "source": "https://www.wikidata.org/wiki/Q1055845; https://en.wikipedia.org/wiki/Edmonds%2C_Washington; https://www.historylink.org/File/8475"
+    },
+    "q985584": {
+      "startYear": 1836,
+      "dateNote": "Settled in 1836 (the Fond du Lac Company was set up in 1835 to plan the town). It became a village in 1847 and a city in 1852.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1843). 1843 matches nothing in the sources; it was settled in 1836",
+      "source": "https://www.wikidata.org/wiki/Q985584; https://en.wikipedia.org/wiki/Fond_du_Lac%2C_Wisconsin; https://www.wisconsinhistory.org/Records/Article/CS2536"
+    },
+    "q990163": {
+      "startYear": 1881,
+      "dateNote": "Laid out in 1881, when the Union Pacific railway arrived. An earlier farm colony, \"Old Sterling\", began a few miles away in the early 1870s. It became a town in 1884.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1868). 1868 matches nothing in the sources; the town was laid out in 1881 (farm colony early 1870s)",
+      "source": "https://www.wikidata.org/wiki/Q990163; https://en.wikipedia.org/wiki/Sterling%2C_Colorado; https://www.britannica.com/place/Sterling-Colorado; https://www.hmdb.org/m.asp?m=51215"
+    },
+    "q913220": {
+      "startYear": 1880,
+      "dateNote": "Settled from 1880, when railway surveyors came and a few people stayed. It became a village in 1901 and a city in 1907.",
+      "why": "Places fact-check batch 44 (Nov 2026): wrong year (1898). 1898 matches nothing in the sources; settlement began in 1880",
+      "source": "https://www.wikidata.org/wiki/Q913220; https://en.wikipedia.org/wiki/Sandpoint%2C_Idaho; https://www.sandpointidaho.gov/node/1461"
+    },
+    "q202828": {
+      "dateNote": "Founded by William \"Tutty\" Baker, who ran a free ferry here. Sources disagree on the year: some say 1827, others (such as Britannica) say 1835. It became a town in 1838.",
+      "why": "Places fact-check batch 44 (Nov 2026), still uncertain, the panel now says so: 1827 (Wikipedia) or 1835 (Britannica); not settled",
+      "source": "https://www.wikidata.org/wiki/Q202828; https://en.wikipedia.org/wiki/Freeport%2C_Illinois; https://www.britannica.com/place/Freeport-Illinois"
+    },
+    "q868700": {
+      "dateNote": "1852 is when George Washington took over the land claim. He laid out the town, then called Centerville, in 1875. It became a city in 1886.",
+      "why": "Places fact-check batch 44 (Nov 2026), still uncertain, the panel now says so: 1852 is the land claim; the town was platted in 1875",
+      "source": "https://www.wikidata.org/wiki/Q868700; https://en.wikipedia.org/wiki/Centralia%2C_Washington; https://www.historylink.org/File/8487"
+    },
+    "q218768": {
+      "dateNote": "Rabaul began as Simpsonhafen. The Germans chose it as their capital in 1905 and moved there in 1910. What happened here in 1878 is not clear.",
+      "why": "Places fact-check batch 44 (Nov 2026), still uncertain, the panel now says so: 1878 not confirmed; the colonial town dates from 1905-1910",
+      "source": "https://www.wikidata.org/wiki/Q218768; https://en.wikipedia.org/wiki/Rabaul; https://pngaa.org/?p=906"
+    },
+    "q79577": {
+      "dateNote": "1870 is when it became a town. Robert Scott settled here in the early 1850s and set up a rail station in 1856, so the place is older.",
+      "why": "Places fact-check batch 44 (Nov 2026), still uncertain, the panel now says so: 1870 is incorporation; settlement began in the 1850s",
+      "source": "https://www.wikidata.org/wiki/Q79577; https://en.wikipedia.org/wiki/Scottsboro%2C_Alabama; https://encyclopediaofalabama.org/article/scottsboro/"
+    },
+    "q34218": {
+      "dateNote": "1874 is when it became a town. People settled here much earlier, from about 1800, when the village was called Wellington Square. When it really began is not clear.",
+      "why": "Places fact-check batch 44 (Nov 2026), still uncertain, the panel now says so: 1874 is incorporation; settlement is much older",
+      "source": "https://www.wikidata.org/wiki/Q34218; https://en.wikipedia.org/wiki/Burlington%2C_Ontario"
+    },
     "q11725": {
       "startYear": -316,
       "dateNote": "The city goes back to Jiangzhou, the seat Qin set up here after it conquered the state of Ba in 316 BC (some sources say 314 BC). It took the name Chongqing in 1189 and became a city in 1929.",
