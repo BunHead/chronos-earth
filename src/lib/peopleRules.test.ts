@@ -90,6 +90,6 @@ describe('rule 3: a country or region is not a birthplace pin', () => {
     expect(src).toContain('AS ?bpArea');
     expect(src).toContain('NOT EXISTS { ?bp wdt:P31/wdt:P279* wd:Q486972 }'); // Berlin is a state AND a city
     expect(src).toContain('rows.sort((x, y) => isArea(x) - isArea(y))');
-    expect(src).toContain('placeNote: areaPlaceNote(r.bpLabel.value)');
+    expect(src).toContain('birthplaceApprox: r.bpLabel.value');
   });
 });
