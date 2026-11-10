@@ -72,6 +72,8 @@ export const VALID_MODELS = [
   'tpillars', 'stonehenge', 'pyramid', 'stepped-pyramid', 'sphinx', 'circle',
   'settlement', 'castle', 'mansion', 'cathedral', 'greek-temple', 'temple-tower',
   'aqueduct', 'pagoda', 'lighthouse', 'leaning-tower', 'amphitheatre', 'impact', 'megalith', 'rings',
+  // The true-metre Colosseum, kept alongside 'amphitheatre' for comparison (no keyword routes to it yet).
+  'colosseum',
   // Seven Wonders of the Ancient World (+ the Giza plateau scene).
   'hanging-gardens', 'zeus-statue', 'artemis-temple', 'mausoleum', 'colossus', 'pharos', 'giza',
   // London landmarks.
