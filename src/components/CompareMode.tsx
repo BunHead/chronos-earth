@@ -8,6 +8,9 @@ interface CompareModeProps {
   onSplitChange: (split: number) => void;
   onCaptureLeft: () => void;
   onClose: () => void;
+  /** Optional names for the two sides (model compare: "Current model" /
+   * "New model") in place of the THEN / NOW VIEWING dates. */
+  labels?: { left: string; right: string };
 }
 
 /** A frozen historical frame clipped over the live globe to create a time rift. */
@@ -19,6 +22,7 @@ export default function CompareMode({
   onSplitChange,
   onCaptureLeft,
   onClose,
+  labels,
 }: CompareModeProps) {
   return (
     <div className="compare-mode" role="region" aria-label="Time Rift comparison">
@@ -30,17 +34,17 @@ export default function CompareMode({
       />
       <div className="compare-rift" style={{ left: `${split}%` }} aria-hidden="true" />
       <div className="compare-label compare-label-left">
-        <span>THEN</span>
-        <b>{formatTime(leftYearsBP)}</b>
+        <span>{labels ? 'LEFT · FROZEN' : 'THEN'}</span>
+        <b>{labels ? labels.left : formatTime(leftYearsBP)}</b>
       </div>
       <div className="compare-label compare-label-right">
-        <span>NOW VIEWING</span>
-        <b>{formatTime(rightYearsBP)}</b>
+        <span>{labels ? 'RIGHT · LIVE' : 'NOW VIEWING'}</span>
+        <b>{labels ? labels.right : formatTime(rightYearsBP)}</b>
       </div>
       <div className="compare-dock">
         <div>
-          <strong>◐ Time Rift</strong>
-          <small>Scrub the timeline, then drag the rift</small>
+          <strong>{labels ? '◐ Compare models' : '◐ Time Rift'}</strong>
+          <small>{labels ? 'Drag the rift to see both' : 'Scrub the timeline, then drag the rift'}</small>
         </div>
         <label>
           <span className="sr-only">Rift position</span>
@@ -52,9 +56,11 @@ export default function CompareMode({
             onInput={(e) => onSplitChange(Number(e.currentTarget.value))}
           />
         </label>
-        <button className="btn" onClick={onCaptureLeft} title="Make the live date the frozen left side">
-          Set left
-        </button>
+        {!labels && (
+          <button className="btn" onClick={onCaptureLeft} title="Make the live date the frozen left side">
+            Set left
+          </button>
+        )}
         <button className="btn" onClick={onClose} aria-label="Close Time Rift">
           ×
         </button>

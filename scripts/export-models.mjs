@@ -29,6 +29,9 @@ const FLEET = [
   ['giza-queen', 'Pyramid G1-a'],
   ['giza-queen-step', 'Pyramid G3-b'],
   ['amphitheatre', 'Colosseum'],
+  // The true-metre Colosseum (components/colosseum.ts): the visitor can switch
+  // the Colosseum's pin to it (lib/modelChoice); 'amphitheatre' stays the default.
+  ['colosseum', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
   // Stonehenge as a whole site over time, true metres (stonehengeSite.ts).
@@ -103,6 +106,7 @@ const RUINS = [
   ['giza-khafre', 'Pyramid of Khafre'],
   ['giza-menkaure', 'Pyramid of Menkaure'],
   ['amphitheatre', 'Colosseum'],
+  ['colosseum', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],
   ['stonehenge-site', 'Stonehenge'],
@@ -136,6 +140,7 @@ const BUILD_STAGES = [
   // · b65 Wren's footings 1675 · b75 choir 1697 · '' dome 1710, today
   ['st-pauls-site', "St Paul's Cathedral", [10, 25, 40, 50, 60, 65, 75]],
   ['amphitheatre', 'Colosseum', [30, 60, 90]],
+  ['colosseum', 'Colosseum', [30, 60, 90]],
   // (The impact's five frames — b15/b30/b50/b72 + base — are built
   // procedurally by scripts/build-impact-crater.mjs, 16 Oct 2026.)
   // Eridu's temple levels — only those with a plan distinct enough to build:

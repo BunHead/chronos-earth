@@ -3529,6 +3529,30 @@ textarea:focus-visible,
   opacity: 0.88;
 }
 
+/* A site with two 3D models (the Colosseum): current ↔ new switch, and a
+   "compare side by side" that opens the Time Rift on the two models. */
+.model-switch {
+  flex-basis: 100%;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px dashed rgba(140, 180, 220, 0.5);
+  border-radius: 8px;
+  background: rgba(140, 180, 220, 0.06);
+}
+.model-switch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.model-switch-btn.on {
+  background: #3f6f99;
+  border-color: #6fa3cf;
+  color: #fff;
+}
+.model-switch-compare {
+  margin-top: 6px;
+}
+
 /* ── Phones: reading text no smaller than 14px (13px where space is tight),
    with a little more line spacing. Plain, well-spaced text is easier to read,
    especially with dyslexia. Labels on the globe are styled elsewhere. ── */
