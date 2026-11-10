@@ -182,6 +182,8 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // ~135°, toward ships entering the harbour) → θ = 180 − 135 = 45.
   liberty: { widthM: 100, facingDeg: 45 },
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
+  'edinburgh-castle': { widthM: 580, facingDeg: 0 }, // Castle Rock and its tail, authored north-up in true metres
+  'neuschwanstein': { widthM: 320, facingDeg: 0 }, // its ridge, authored north-up in true metres
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
   // width is each model's own span (manifest footprint), so scale ×1.
