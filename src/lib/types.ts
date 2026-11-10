@@ -258,6 +258,13 @@ export interface TimelineEvent {
   wikidataId?: string;
   /** English Wikipedia article title — for links + image/summary fetching. */
   wikiTitle?: string;
+  /** Pleiades rows: the gazetteer's own description of the place, when it is
+   * real prose (scripts/fetch-pleiades.mjs pleiadesProse). Leads the panel. */
+  description?: string;
+  /** Pleiades rows: the English Wikipedia article Wikidata links to this
+   * Pleiades id (P1584). Used only by the panel (extract, photo, link) — not
+   * `wikiTitle`, which drives the harvest's dedupe and the data-quality rules. */
+  wikiArticle?: string;
   /** Cached thumbnail filename under data/events/img/ (added by a later pass). */
   image?: string;
   /** Notability proxy (Wikipedia sitelink count) — used to declutter by zoom. */
@@ -372,11 +379,15 @@ export interface PanelContent {
   title: string;
   date?: string;
   summary?: string;
-  /** The summary was checked by hand (battle-panels.json): show it instead of
-   * the live Wikipedia extract, which still supplies the photo. */
+  /** The summary was checked by hand (battle-panels.json), or is the source's
+   * own description (a Pleiades place): show it instead of the live Wikipedia
+   * extract, which still supplies the photo. */
   summaryChecked?: boolean;
   /** Where the hand-checked text came from, shown as "Source" under it. */
   sourceUrl?: string;
+  /** A licensed source credited in a small line under the text (a Pleiades
+   * place: "Pleiades gazetteer · CC-BY 3.0"), not in the panel's body. */
+  credit?: { label: string; url: string; licence: string };
   /** If present, InfoPanel live-fetches the Wikipedia summary + thumbnail for this title. */
   wikiTitle?: string;
   /** The ruling polity's flag banner (drawn from the flag registry, time-aware).
