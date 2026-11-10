@@ -56,7 +56,7 @@ export const NO_3D_NAMES = new Set([
   'cusco cathedral', // Andean Baroque colonial, not Gothic
   'newstead abbey', // a ruined priory turned country house, not an intact cathedral
   'castel del monte', // a unique octagonal castle, not a square keep
-  'neuschwanstein castle', // a fairy-tale Revival castle a plain keep can't convey
+  // (Neuschwanstein un-suppressed Nov 2026: its own model now. Mirrors src/lib/panel.ts.)
   'cahokia', // great earthen mounds, not a stone stepped-pyramid
   'borobudur', // a Buddhist stupa-mandala, not a Mesoamerican stepped-pyramid
   'borobudur temple',
@@ -79,6 +79,10 @@ export const VALID_MODELS = [
   // London landmarks.
   'buckingham', 'westminster', 'london-eye',
   'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
+  // Scotland.
+  'edinburgh-castle',
+  // Bavaria.
+  'neuschwanstein',
   // Sydney.
   'opera-house',
   // The Andes.
@@ -154,6 +158,8 @@ const KEYWORD_RULES = [
   { rule: 'Ruins of St Paul, Macau -- a bare facade, no honest model', model: null, re: /ruins? of st\.? paul/ },
   { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
+  { rule: 'Edinburgh Castle keyword (Castle Rock, before the castle bucket)', model: 'edinburgh-castle', re: /edinburgh castle/ },
+  { rule: 'Neuschwanstein keyword (its ridge and the Palas, before the castle bucket)', model: 'neuschwanstein', re: /neuschwanstein/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },
   { rule: 'Machu Picchu keyword (the citadel itself — not the wider Historic Sanctuary pin 6.7 km off)', model: 'machu-picchu', re: /^(the )?machu picchu$|(citadel|ciudadela) (of|de) machu picchu/ },
