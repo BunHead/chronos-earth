@@ -58,6 +58,7 @@ const MODELS: Array<[string, string]> = [
   ['lighthouse', 'Lighthouse'],
   ['leaning-tower', 'Leaning Tower of Pisa'],
   ['amphitheatre', 'Colosseum (Roman amphitheatre)'],
+  ['colosseum', 'Colosseum — new true-metre model (compare with the Roman amphitheatre one)'],
   ['eiffel', 'Eiffel Tower'],
   ['arc-triomphe', 'Arc de Triomphe'],
   ['louvre', 'Louvre (with the glass pyramid)'],
@@ -112,6 +113,8 @@ const LIVE_SITES: Record<string, LiveSite> = {
   lighthouse: { title: 'Eddystone Lighthouse', lat: 50.18, lon: -4.27 },
   'leaning-tower': { title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966 },
   amphitheatre: { title: 'Colosseum', lat: 41.8902, lon: 12.4922 },
+  // The building's centre, read off the imagery: ~8 m east of the pin above.
+  colosseum: { title: 'Colosseum', lat: 41.89022, lon: 12.4923 },
   eiffel: { title: 'Eiffel Tower', lat: 48.8584, lon: 2.2945 },
   'arc-triomphe': { title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295 },
   louvre: { title: 'Louvre', lat: 48.8606, lon: 2.3376 },
@@ -147,6 +150,7 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // last the lintels and trilithons.
   stonehenge: { label: 'Construction — bank · bluestones · sarsens · lintels', max: 1, kind: 'build' },
   amphitheatre: { label: 'Construction stage', max: 1, kind: 'build' },
+  colosseum: { label: 'Construction — foundations · arcades · attic', max: 1, kind: 'build' },
   // The impact is a SEQUENCE, not a building — the same build-fraction slider
   // steps its five frames (buildModel reads frac: comet far · near · the flash ·
   // the fresh crater · the settled crater). Matches export-models' impact-b15 /

@@ -22,6 +22,7 @@ import MESO_TEMPLES from '../data/meso-temples.json';
 import { MP_BUILDINGS, MP_DEM, MP_PLAZA, MP_POINTS, MP_SITE } from '../lib/machuPicchuSurvey';
 import { craterMesh, CRATER_OUTER, type CraterOpts } from '../lib/craterMesh';
 import { isLite } from '../lib/liteMode';
+import { buildColosseum } from './colosseum';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -3193,6 +3194,12 @@ export function buildModel(
         group.add(d);
       }
     }
+  } else if (model === 'colosseum') {
+    // The Colosseum in true metres (colosseum.ts) — a second model alongside
+    // the stylised 'amphitheatre' below, for comparison; the app's own pins
+    // still resolve to 'amphitheatre'.
+    ground = '#7a6f52';
+    buildColosseum(group, buildFrac, ruined, stoneMat);
   } else if (model === 'amphitheatre') {
     // The Colosseum, with REAL arches: three tiers of see-through arched bays
     // under a solid attic, wrapping the seating bank and arena. Intact (80 CE)

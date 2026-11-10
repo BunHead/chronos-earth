@@ -117,6 +117,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   lighthouse: { widthM: 25, facingDeg: 0 },
   'leaning-tower': { widthM: 21, facingDeg: 0 }, // widest axis N–S: 18.8 m base steps plus the ~3.9 m southward lean of the top; facing 0 keeps the authored +Z lean pointing south
   amphitheatre: { widthM: 150, facingDeg: 0 },
+  // The true-metre Colosseum (components/colosseum.ts): 189 m on its long axis,
+  // authored east–west and turned 19.5° clockwise to the real bearing (109.5°).
+  colosseum: { widthM: 189, facingDeg: -19.5 },
   impact: { widthM: 120, facingDeg: 0 },
   // Built in TRUE METRES (lib/precursorMesh.ts), so the width is the model's
   // own span — scale ×1 — and facing 0 keeps its x east, z south.
