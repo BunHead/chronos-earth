@@ -759,5 +759,25 @@
   "forbidden-city-b90": {
     "footprint": 606.55,
     "kb": 16
+  },
+  "colosseum": {
+    "footprint": 15.214,
+    "kb": 197
+  },
+  "colosseum-ruin": {
+    "footprint": 15.073,
+    "kb": 161
+  },
+  "colosseum-b30": {
+    "footprint": 15.194,
+    "kb": 76
+  },
+  "colosseum-b60": {
+    "footprint": 15.194,
+    "kb": 119
+  },
+  "colosseum-b90": {
+    "footprint": 15.194,
+    "kb": 160
   }
 }

@@ -142,8 +142,9 @@ describe('heavy scans fall back to the small build', () => {
 
   it('the time gate swaps suffixed (ruin) models through fileFor too', () => {
     const src = readFileSync(new URL('./globeModels.ts', import.meta.url), 'utf8');
-    expect(src).toMatch(/fileFor\(p\.model \+ suffix\)/);
-    expect(src).not.toMatch(/suffix \? p\.model \+ suffix : fileFor/);
+    // `model` is the model shown (lib/modelChoice: the Colosseum can switch).
+    expect(src).toMatch(/fileFor\((p\.)?model \+ suffix\)/);
+    expect(src).not.toMatch(/suffix \? (p\.)?model \+ suffix : fileFor/);
   });
 });
 

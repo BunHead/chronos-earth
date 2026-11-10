@@ -31,6 +31,7 @@ import MESO_TEMPLES from '../data/meso-temples.json';
 import { budgetTier } from './renderTier';
 import { lightModelName, preferSmallModels } from './liteMode';
 import { estuaryRibbon } from './atlantisVision';
+import { effectiveModel, getModelChoice, onModelChoice } from './modelChoice';
 import { createModelLoadWatch, type LoadState, type ModelLoad, type ModelLoadWatch } from './modelLoadWatch';
 
 /** Calibration trim for the heading conversion — adjust ONCE, off Westminster. */
@@ -55,6 +56,10 @@ interface Placement {
    * course over this span, swapping through exported `{model}-b30/-b60/-b90`
    * stages before standing complete at builtYear. */
   buildYears?: number;
+  /** This site has a second model the visitor can switch to (lib/modelChoice:
+   * the Colosseum's 'amphitheatre' ↔ true-metre 'colosseum'). Only the
+   * curated placement switches: a generic amphitheatre elsewhere never does. */
+  hasAlternative?: boolean;
   /** Metres to sink the model below the clamped ground — for a model that
    * carries its own landform (Machu Picchu's ridge), so it sits INTO the real
    * terrain instead of standing on it as a raised plinth. The maker's upM trim
@@ -275,7 +280,9 @@ const PLACEMENTS: Placement[] = [
   // centred on the figure by matching the scan to the satellite photo. Nazca period
   // geoglyph (c. 500 BCE-500 CE); 1.5 km from the 'Nazca Lines' site pin.
   { model: 'nazca-hummingbird-scan', title: 'Nazca Hummingbird', lat: -14.69208, lon: -75.14883, builtYear: -100 },
-  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
+  // hasAlternative: the visitor can switch to the true-metre 'colosseum' model
+  // (lib/modelChoice); 'amphitheatre' stays the default.
+  { model: 'amphitheatre', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10, hasAlternative: true },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
   // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
   // were taken over millennia, unrecorded until the falls of 1797 and 1900.
@@ -374,6 +381,11 @@ const entities: Array<{ entity: Cesium.Entity; p: Placement }> = [];
 // on the globe the moment the visitor asks to see it (`ensurePlacement`).
 let theViewer: Cesium.Viewer | null = null;
 let theManifest: Record<string, { footprint: number; kb?: number }> = {};
+/** The model this placement shows right now: its own, or the visitor's picked
+ * alternative (lib/modelChoice) when it has one and that file was exported. */
+function modelOf(p: Placement): string {
+  return p.hasAlternative ? effectiveModel(p.model, getModelChoice(p.model), theManifest) : p.model;
+}
 /** Draws frames while a shown model is still being built (lib/modelLoadWatch). */
 let loadWatch: ModelLoadWatch | null = null;
 const scratchSphere = new Cesium.BoundingSphere();
@@ -546,7 +558,7 @@ async function findBase(entity: Cesium.Entity, p: Placement): Promise<void> {
   const id = entity.id;
   grounding.add(id);
   try {
-    const widthM = fitFor(p.title, p.model).widthM;
+    const widthM = fitFor(p.title, modelOf(p)).widthM;
     // A landform-sized model (Atlantis, 2.5 km) carries its own ground; it
     // keeps its clamp unless given a ring of its own (Giza's baseRingM).
     if (p.baseRingM == null && widthM > 1500) {
@@ -590,12 +602,15 @@ export function transformKey(model: string, lat: number, lon: number): string {
  * clamps: re-assigning the position forces Cesium to re-clamp.
  */
 function seat(entity: Cesium.Entity, p: Placement): void {
-  const info = theManifest[fileFor(p.model)];
+  const model = modelOf(p);
+  const info = theManifest[fileFor(model)];
   if (!entity.model || !info?.footprint) return;
   // The imagined Atlantis is built at TRUE scale (1 unit = 10 m), so it takes
   // no maker trim: the saved ×21.6 was for the old 2.5 km stylised rings.
-  const t = p.model === 'rings' ? {} : transforms[transformKey(p.model, p.lat, p.lon)] ?? {};
-  const { widthM, facingDeg } = fitFor(p.title, p.model);
+  // An alternative model takes only its OWN trims (keyed by its own id), never
+  // the ones the maker saved for the default model.
+  const t = p.model === 'rings' ? {} : transforms[transformKey(model, p.lat, p.lon)] ?? {};
+  const { widthM, facingDeg } = fitFor(p.title, model);
   const mPerDeg = 111_320;
   const lat = p.lat + (t.northM ?? 0) / mPerDeg;
   const lon = p.lon + (t.eastM ?? 0) / (mPerDeg * Math.cos((p.lat * Math.PI) / 180));
@@ -948,11 +963,14 @@ function gate(entity: Cesium.Entity, p: Placement): void {
     return;
   }
   const curYear = yearsBPToYear(lastYearsBP);
+  // The stage TIMES are the placement's own (same for both Colosseum models);
+  // the FILES are the shown model's.
+  const model = modelOf(p);
   const { suffix: staged, bornYear } = stageFor(p.model, p.builtYear, curYear);
   // Only ever point at a stage glb we actually exported; else fall back to base.
-  let suffix = staged && theManifest[`${p.model}${staged}`]?.footprint ? staged : '';
+  let suffix = staged && theManifest[`${model}${staged}`]?.footprint ? staged : '';
   // The ruin we know overrides once its date arrives.
-  if (p.ruinYear != null && curYear >= p.ruinYear && theManifest[`${p.model}-ruin`]?.footprint) {
+  if (p.ruinYear != null && curYear >= p.ruinYear && theManifest[`${model}-ruin`]?.footprint) {
     suffix = '-ruin';
   }
 
@@ -982,10 +1000,39 @@ function gate(entity: Cesium.Entity, p: Placement): void {
   }
 
   if (!entity.model) return;
-  const uri = `./models/${fileFor(p.model + suffix)}.glb`;
+  const uri = `./models/${fileFor(model + suffix)}.glb`;
   const current = (entity.model.uri as Cesium.Property | undefined)?.getValue(Cesium.JulianDate.now());
   if (current !== uri) entity.model.uri = new Cesium.ConstantProperty(uri);
   if (entity.show) loadWatch?.watch(entity.id, uri);
+}
+
+// The visitor switched a site's model (Colosseum: current ↔ new): re-seat it
+// (the two have different sizes and bearings) and re-point its file. Only that
+// one entity is touched, and only the picked model's file is ever fetched.
+onModelChoice((model) => {
+  for (const { entity, p } of entities) {
+    if (!p.hasAlternative || p.model !== model) continue;
+    seat(entity, p);
+    gate(entity, p);
+  }
+  theViewer?.scene.requestRender();
+});
+
+/**
+ * Is the switchable model at this pin model loaded and drawn? For Compare:
+ * it waits for the current model to finish drawing before it freezes the
+ * left-hand frame. 'hidden' means the camera is too far away (or the year is
+ * before it was built).
+ */
+export function alternativeSiteState(model: string): LoadState {
+  const hit = entities.find((e) => e.p.hasAlternative && e.p.model === model);
+  return hit ? modelState(hit.entity.id) : 'failed';
+}
+
+/** Where the switchable site stands, so Compare can fly there first. */
+export function alternativeSite(model: string): { lat: number; lon: number; title: string; builtYear: number } | null {
+  const hit = PLACEMENTS.find((p) => p.hasAlternative && p.model === model);
+  return hit ? { lat: hit.lat, lon: hit.lon, title: hit.title, builtYear: hit.builtYear } : null;
 }
 
 /** Timeline + layer gate — call whenever the year or the Sites toggle moves. */
