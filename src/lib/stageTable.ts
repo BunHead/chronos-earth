@@ -105,6 +105,22 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1900, suffix: '-b95' },
     { from: 1990, suffix: '' },     // today
   ],
+  'edinburgh-castle': [
+    { from: -900, suffix: '-b10' }, // the hillfort: Late Bronze Age on, Din Eidyn of the Gododdin c. 600
+    { from: 1130, suffix: '-b25' }, // David I: St Margaret's Chapel, St Mary's church, the stone curtain
+    { from: 1370, suffix: '-b40' }, // David II: David's Tower and the Constable's Tower
+    { from: 1511, suffix: '-b55' }, // James IV's Great Hall; the royal lodging
+    { from: 1574, suffix: '-b70' }, // after the Lang Siege: the Half Moon Battery, the Portcullis Gate
+    { from: 1800, suffix: '-b85' }, // the Georgian garrison: barracks, Governor's House, Esplanade
+    { from: 1927, suffix: '' },     // today: the Gatehouse (1888) and the War Memorial (1927)
+  ],
+  neuschwanstein: [
+    { from: 1100, suffix: '-b15' }, // the twin castles of Vorder- and Hinterhohenschwangau
+    { from: 1800, suffix: '-b30' }, // their ruins
+    { from: 1869, suffix: '-b50' }, // foundation stone; the Gatehouse (1873), the Palas in scaffolding
+    { from: 1884, suffix: '-b75' }, // the Palas finished; Ludwig moves in
+    { from: 1892, suffix: '' },     // the Bower, Knights' House and Square Tower: today
+  ],
   'tower-of-london': [
     { from: 1070, suffix: '-b15' }, // timber corner-fort
     { from: 1100, suffix: '-b35' }, // the White Tower alone

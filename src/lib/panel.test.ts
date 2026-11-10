@@ -40,7 +40,8 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   it('castles, forts and palaces get their own castle model (not a settlement box)', () => {
     // Examples chosen to sit OUTSIDE the suppression list (NO_3D_NAMES), which
     // runs first — these exercise the keyword rule itself, one per sub-pattern.
-    expect(monumentModelForName('Edinburgh Castle')).toBe('castle');
+    expect(monumentModelForName('Edinburgh Castle')).toBe('edinburgh-castle'); // its own crag and castle now
+    expect(monumentModelForName('Stirling Castle')).toBe('castle');
     expect(monumentModelForName('Nottingham Castle')).toBe('castle');
     expect(monumentModelForName('Bodiam Castle')).toBe('castle');
     expect(monumentModelForName('Fort Ticonderoga')).toBe('castle');
