@@ -101,9 +101,9 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
   {
     match: 'colosseum',
     phases: [
-      { fromYear: 80, yearLabel: '80 CE', label: 'The arena', model: 'amphitheatre',
+      { fromYear: 80, yearLabel: '80 CE', label: 'The arena', model: 'colosseum',
         note: 'Opened in 80 CE with 100 days of games — gladiators, wild beasts and even mock sea-battles before some 50,000 spectators.' },
-      { fromYear: 1349, yearLabel: '1349', label: 'Ruin', model: 'amphitheatre', state: 'ruin',
+      { fromYear: 1349, yearLabel: '1349', label: 'Ruin', model: 'colosseum', state: 'ruin',
         note: 'A great earthquake toppled the south outer wall in 1349, and for centuries its stone was quarried for Rome’s churches and palaces — leaving the ruin we know.' },
     ],
   },

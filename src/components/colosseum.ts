@@ -2,10 +2,9 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 /**
- * The Colosseum (Flavian Amphitheatre) in true metres — a second model, built
- * ALONGSIDE the stylised 'amphitheatre' archetype so the two can be compared.
- * The app still shows 'amphitheatre' on the Colosseum's pin; this one is
- * reachable from the Workshop and the render harness as model 'colosseum'.
+ * The Colosseum (Flavian Amphitheatre) in true metres. This is the model the
+ * Colosseum pin uses on the live globe. The stylised 'amphitheatre' archetype
+ * remains for other amphitheatres, and is still in the Workshop for comparison.
  *
  * WHAT IS MEASURED (the numbers in COLOSSEUM below).
  *  Checked against the sources while building (Nov 2026):
