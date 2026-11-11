@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import MakerRow from './MakerRow';
 import type { ExternalLink, MergedRecord, PanelContent } from '../lib/types';
-import type { ModelChoice } from '../lib/modelChoice';
 import { flagUrlFor } from '../lib/flags';
 import { hydrateEvent } from '../lib/detail';
 import { eventToPanel, sourceLabel, yearLabel } from '../lib/panel';
@@ -25,17 +24,6 @@ interface InfoPanelProps {
   onViewMonument: (monument: NonNullable<PanelContent['monument3d']>) => void;
   /** The Richat's "Plato's Atlantis, imagined" switch. */
   atlantis?: { on: boolean; onToggle: (monument: NonNullable<PanelContent['monument3d']>) => void };
-  /** A site with two models (the Colosseum): which one shows, a switch, and
-   * "compare side by side" (the Time Rift, old frozen left, new live right). */
-  modelSwitch?: {
-    /** The pin model that has an alternative (e.g. 'amphitheatre'). */
-    model: string;
-    choice: ModelChoice;
-    currentLabel: string;
-    newLabel: string;
-    onChange: (choice: ModelChoice) => void;
-    onCompare: (monument: NonNullable<PanelContent['monument3d']>) => void;
-  };
   /** The battle map, when this panel's battle is the one on the field.
    * Rendered inline here by default; `onPopOutMap` floats it instead. */
   battleMap?: ReactNode;
@@ -144,7 +132,7 @@ function MergedRecords({ records, onZoom }: { records: MergedRecord[]; onZoom: (
   );
 }
 
-export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, atlantis, modelSwitch, battleMap, onPopOutMap }: InfoPanelProps) {
+export default function InfoPanel({ content: rawContent, tone, onClose, onFly, onZoomToBattle, onViewMonument, atlantis, battleMap, onPopOutMap }: InfoPanelProps) {
   // Skeleton-loaded events arrive without their heavy fields (sides, deaths,
   // the war they belong to…). `content.hydrate` carries the source event; we
   // fetch its per-cell detail lazily and rebuild the panel when it lands. The
@@ -397,33 +385,6 @@ export default function InfoPanel({ content: rawContent, tone, onClose, onFly, o
                     </>
                   )}
                 </p>
-              </div>
-            )}
-            {modelSwitch && content.monument3d?.model === modelSwitch.model && (
-              <div className="model-switch" role="group" aria-label="Which 3D model to show">
-                <div className="model-switch-row">
-                  <button
-                    className={`btn model-switch-btn${modelSwitch.choice === 'current' ? ' on' : ''}`}
-                    aria-pressed={modelSwitch.choice === 'current'}
-                    onClick={() => modelSwitch.onChange('current')}
-                  >
-                    {modelSwitch.currentLabel}
-                  </button>
-                  <button
-                    className={`btn model-switch-btn${modelSwitch.choice === 'new' ? ' on' : ''}`}
-                    aria-pressed={modelSwitch.choice === 'new'}
-                    onClick={() => modelSwitch.onChange('new')}
-                  >
-                    {modelSwitch.newLabel}
-                  </button>
-                </div>
-                <button
-                  className="btn model-switch-compare"
-                  onClick={() => modelSwitch.onCompare(content.monument3d!)}
-                  title="Fly to the site, freeze the current model on the left and show the new one live on the right"
-                >
-                  ◐ Compare side by side
-                </button>
               </div>
             )}
             {westminsterNote(content.monument3d) && (

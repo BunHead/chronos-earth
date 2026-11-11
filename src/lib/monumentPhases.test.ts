@@ -43,7 +43,7 @@ describe('monument phases', () => {
 
   it('the Colosseum: an arena from 80 CE, a ruin after 1349', () => {
     const p = phasesFor('Colosseum')!;
-    expect(p[phaseIndexAt(p, 200)].model).toBe('amphitheatre');
+    expect(p[phaseIndexAt(p, 200)].model).toBe('colosseum');
     expect(p[phaseIndexAt(p, 200)].state).toBeUndefined();
     expect(p[phaseIndexAt(p, 2020)].state).toBe('ruin');
   });

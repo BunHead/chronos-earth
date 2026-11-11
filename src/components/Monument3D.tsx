@@ -3197,9 +3197,8 @@ export function buildModel(
       }
     }
   } else if (model === 'colosseum') {
-    // The Colosseum in true metres (colosseum.ts) — a second model alongside
-    // the stylised 'amphitheatre' below, for comparison; the app's own pins
-    // still resolve to 'amphitheatre'.
+    // The Colosseum in true metres (colosseum.ts) — the model the Colosseum
+    // pin uses on the globe. Other amphitheatres still use 'amphitheatre'.
     ground = '#7a6f52';
     buildColosseum(group, buildFrac, ruined, stoneMat);
   } else if (model === 'amphitheatre') {

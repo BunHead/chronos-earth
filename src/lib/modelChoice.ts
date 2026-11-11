@@ -1,11 +1,9 @@
 /**
  * modelChoice.ts — "which model stands here?" for a site that has TWO.
  *
- * The Colosseum has the stylised 'amphitheatre' archetype (the default, the
- * one the pin has always used) and the newer true-metre 'colosseum' model
- * (components/colosseum.ts). The Captain asked for a switch between the two
- * (10 Nov 2026), so the globe keeps the current one unless the visitor picks
- * the new one; the pick is remembered on this device only (localStorage).
+ * The Colosseum pin now uses the true-metre 'colosseum' model only (issue #172),
+ * so there is no alternative registered today. These helpers stay so a later
+ * site can offer two models without inventing the wiring again.
  *
  * Pure helpers + a tiny store. No Cesium here, so it is cheap to test.
  */
@@ -15,7 +13,6 @@ export type ModelChoice = 'current' | 'new';
 
 /** Sites with an alternative model: the pin's own model → the new one. */
 export const MODEL_ALTERNATIVES: Readonly<Record<string, { alt: string; currentLabel: string; newLabel: string }>> = {
-  amphitheatre: { alt: 'colosseum', currentLabel: 'Current model', newLabel: 'New true-size model' },
 };
 
 const KEY_PREFIX = 'chronos.modelChoice.';

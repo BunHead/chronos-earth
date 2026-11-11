@@ -6,9 +6,8 @@ import { fitFor } from './monumentFit';
 // @ts-expect-error — plain .mjs script, no types
 import { monumentModelForName as auditModelForName, VALID_MODELS } from '../../scripts/monument-archetype.mjs';
 
-// The true-metre Colosseum (Nov 2026), built ALONGSIDE the 'amphitheatre'
-// archetype for comparison. These lock its measurements, its phone budget and
-// the fact that it replaces nothing.
+// The true-metre Colosseum (Nov 2026). These lock its measurements, its phone
+// budget, and that other amphitheatres still use the stylised archetype.
 const build = (frac: number | undefined, ruined = false, opts?: { velarium?: boolean }) => {
   const g = new THREE.Group();
   buildColosseum(g, frac, ruined, () => new THREE.MeshStandardMaterial(), opts);
@@ -103,9 +102,13 @@ describe('the true-metre Colosseum', () => {
     expect(south).toBeLessThan(36);
   });
 
-  it('replaces nothing: the Colosseum pin still wears the amphitheatre archetype', () => {
+  it('keyword routing still leaves other amphitheatres on the stylised archetype', () => {
+    // Event and audit name rules stay on 'amphitheatre' so Verona, El Jem and
+    // the rest are not given the Rome-specific true-metre model. The curated
+    // globe pin is wired separately in globeModels.ts to 'colosseum'.
     expect(monumentModelForName('Colosseum')).toBe('amphitheatre');
     expect(auditModelForName('Colosseum')).toBe('amphitheatre');
+    expect(monumentModelForName('El Djem Amphitheatre')).toBe('amphitheatre');
     expect(VALID_MODELS).toContain('colosseum');
     expect(VALID_MODELS).toContain('amphitheatre');
   });

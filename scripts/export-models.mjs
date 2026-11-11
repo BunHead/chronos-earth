@@ -29,8 +29,8 @@ const FLEET = [
   ['giza-queen', 'Pyramid G1-a'],
   ['giza-queen-step', 'Pyramid G3-b'],
   ['amphitheatre', 'Colosseum'],
-  // The true-metre Colosseum (components/colosseum.ts): the visitor can switch
-  // the Colosseum's pin to it (lib/modelChoice); 'amphitheatre' stays the default.
+  // The true-metre Colosseum (components/colosseum.ts): this is what the
+  // Colosseum pin uses. 'amphitheatre' stays for other amphitheatres.
   ['colosseum', 'Colosseum'],
   ['greek-temple', 'Parthenon'],
   ['stonehenge', 'Stonehenge'],

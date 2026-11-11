@@ -18,9 +18,7 @@ import AppMenu from './components/AppMenu';
 import CompassFrame from './components/CompassFrame';
 import WeatherOverlay from './components/WeatherOverlay';
 import SeaLevelFrame from './components/SeaLevelFrame';
-import { alternativeSiteState, ensurePlacement, setAtlantisVision } from './lib/globeModels';
-import { MODEL_ALTERNATIVES, getModelChoice, setModelChoice, type ModelChoice } from './lib/modelChoice';
-import { sameCameraPose, waitUntilReady, type CameraPose } from './lib/modelCompare';
+import { ensurePlacement, setAtlantisVision } from './lib/globeModels';
 import { atlantisSeaSteps, ATLANTIS_SEA_M, ATLANTIS_VIEW_M } from './lib/atlantisVision';
 import {
   showBattleOnGlobe,
@@ -93,10 +91,8 @@ interface TimeRiftState {
   snapshot: string;
   leftYearsBP: number;
   split: number;
-  /** Model compare (the Colosseum): names for the two sides… */
+  /** Optional names for the two sides (Time Rift usually uses dates). */
   labels?: { left: string; right: string };
-  /** …and the visitor's own model pick, put back when the rift closes. */
-  restore?: { model: string; choice: ModelChoice };
 }
 
 export default function App() {
@@ -483,70 +479,13 @@ export default function App() {
     }));
   };
 
-  // A site with two models (the Colosseum): which one the visitor picked.
-  // The pick lives in lib/modelChoice (remembered on this device); this state
-  // only makes the panel's switch re-render.
-  const [modelChoices, setModelChoices] = useState<Record<string, ModelChoice>>({});
-  const choiceFor = (model: string): ModelChoice => modelChoices[model] ?? getModelChoice(model);
-  const changeModel = (model: string, choice: ModelChoice, persist = true) => {
-    setModelChoice(model, choice, persist);
-    setModelChoices((c) => ({ ...c, [model]: choice }));
-  };
-
   const closeTimeRift = () => {
-    // A model compare flipped the live side to the new model for the moment
-    // only: put back what the visitor had picked.
-    if (timeRift?.restore) changeModel(timeRift.restore.model, timeRift.restore.choice, false);
     setTimeRift(null);
   };
 
   const toggleTimeRift = () => {
     if (timeRift) closeTimeRift();
     else captureRiftLeft();
-  };
-
-  // COMPARE THE TWO MODELS (the Captain, 10 Nov 2026): the Time Rift with the
-  // current model frozen on the left and the new one live on the right, from
-  // the same camera. Fly there showing the current model, wait until the
-  // camera has stopped AND the model is drawn, freeze, then swap.
-  const compareRun = useRef(0);
-  const compareModels = async (m: NonNullable<PanelContent['monument3d']>) => {
-    const alt = MODEL_ALTERNATIVES[m.model];
-    if (!alt) return;
-    const run = ++compareRun.current;
-    const before = timeRift?.restore?.choice ?? choiceFor(m.model);
-    if (timeRift) closeTimeRift();
-    changeModel(m.model, 'current', false);
-    visitMonument(m);
-    showToast('Getting both models ready…');
-    let last: CameraPose | null = null;
-    const ready = await waitUntilReady(
-      () => {
-        const pose = globeRef.current?.getCamera() ?? null;
-        const still = sameCameraPose(last, pose);
-        last = pose;
-        return still && alternativeSiteState(m.model) === 'done';
-      },
-      { timeoutMs: 25_000, isCancelled: () => run !== compareRun.current },
-    );
-    if (run !== compareRun.current) return;
-    const snapshot = ready ? globeRef.current?.captureFrame() : null;
-    if (!snapshot) {
-      changeModel(m.model, before, false);
-      showToast(ready
-        ? 'This map imagery cannot be captured here. Try the modern or Natural Earth view.'
-        : 'The model did not finish loading. Try Compare again in a moment.');
-      return;
-    }
-    setIsPlaying(false);
-    setTimeRift({
-      snapshot,
-      leftYearsBP: heavyYearsBP,
-      split: 50,
-      labels: { left: alt.currentLabel, right: alt.newLabel },
-      restore: { model: m.model, choice: before },
-    });
-    changeModel(m.model, 'new', false);
   };
 
   const enabledLayerKeys = (): SceneLayerKey[] => {
@@ -1557,22 +1496,6 @@ export default function App() {
         onZoomToBattle={visitBattle}
         onViewMonument={visitMonument}
         atlantis={{ on: atlantisOn, onToggle: (m) => (atlantisOn ? stopAtlantis() : startAtlantis(m)) }}
-        modelSwitch={
-          panel?.monument3d && MODEL_ALTERNATIVES[panel.monument3d.model] && /colosseum/i.test(panel.monument3d.title)
-            ? {
-                model: panel.monument3d.model,
-                choice: choiceFor(panel.monument3d.model),
-                currentLabel: MODEL_ALTERNATIVES[panel.monument3d.model].currentLabel,
-                newLabel: MODEL_ALTERNATIVES[panel.monument3d.model].newLabel,
-                onChange: (c) => {
-                  // A pick made while a model compare is open ends the compare.
-                  if (timeRift?.restore) setTimeRift(null);
-                  changeModel(panel.monument3d!.model, c);
-                },
-                onCompare: (m) => void compareModels(m),
-              }
-            : undefined
-        }
         // Only the panel for the battle actually on the field gets the map.
         battleMap={
           globeBattle && battleMapOpen && !battleMapPopped && panel?.battleId === globeBattle.id ? (
