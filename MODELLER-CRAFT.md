@@ -60,6 +60,15 @@ letter — every rule here was paid for with a real failure.
   for statuary (stone texture on a statue reads as a crate); grade storeys
   bright→worn (winner's trick: `travLt/trav/travWorn`).
 - **Performance**: clone shared geometries; total meshes well under ~1500.
+- **Cliffs on a model's own landform** (Nottingham Castle, Nov 2026): a square
+  height grid draws a cliff whose edge runs diagonally across it as a zig-zag
+  of pleats. Build the fall as a STRIP that follows the edge line (columns
+  stepped along the edge, rows stepped down the fall, heights from the same
+  height function), keep the grid only for the top, and pull grid points just
+  outside the edge onto it. Colour bare rock in level beds by height.
+- **Ashlar is not rubble**: `stoneMat` carries a rough brown rubble texture.
+  A smooth dressed-stone building (a mansion, a palace) reads right in a plain
+  `MeshStandardMaterial` colour; keep `stoneMat` for medieval walls.
 
 ## Ruin philosophy (the Captain's law: aged, not blown up)
 
@@ -99,6 +108,17 @@ letter — every rule here was paid for with a real failure.
   representative site (`LIVE_SITES`); new archetypes must join both, plus
   `VALID_MODELS` in scripts/monument-archetype.mjs AND the keyword cascade in
   BOTH panel.ts and monument-archetype.mjs (a parity test enforces the pair).
+- A model that carries its own landform must NOT carry the ground round it:
+  the globe does not hide what lies under the real terrain, so a skirt shows
+  as a green apron over real streets. If the viewer then needs the landform
+  closed down to its flat disc, put that bank in its own mesh with
+  `userData.viewerOnly = true`; `export-models.ts` leaves it out of the .glb.
+- The satellite photo and a MAP can disagree on a crag: at Nottingham Castle
+  Esri's photo and Esri's topo map place the mansion 15–20 m apart. Lay the
+  model out on the PHOTO (it is the ground the app shows) and say so.
+- When Historic England and OpenStreetMap are blocked, Wikipedia's "Listed
+  buildings in <place>" tables carry the list entries' dates and descriptions
+  (bays, plan shape, wall heights) with their HE list numbers.
 - "Prefer no 3D to a wrong one": if an archetype would misrepresent a site,
   suppress the site (NO_3D_NAMES, mirrored in both files) or build it right.
 

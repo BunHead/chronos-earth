@@ -42,7 +42,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     // runs first — these exercise the keyword rule itself, one per sub-pattern.
     expect(monumentModelForName('Edinburgh Castle')).toBe('edinburgh-castle'); // its own crag and castle now
     expect(monumentModelForName('Stirling Castle')).toBe('castle');
-    expect(monumentModelForName('Nottingham Castle')).toBe('castle');
+    expect(monumentModelForName('Nottingham Castle')).toBe('nottingham-castle'); // its own rock and mansion now
     expect(monumentModelForName('Bodiam Castle')).toBe('castle');
     expect(monumentModelForName('Fort Ticonderoga')).toBe('castle');
     expect(monumentModelForName('Citadel of Aleppo')).toBe('castle');

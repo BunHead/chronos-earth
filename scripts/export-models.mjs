@@ -95,6 +95,7 @@ const FLEET = [
   ['terracotta-army', 'Terracotta Army'],
   ['edinburgh-castle', 'Edinburgh Castle'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
+  ['nottingham-castle', 'Nottingham Castle'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -162,6 +163,12 @@ const BUILD_STAGES = [
   // 1800 · b50 the Gatehouse and the Palas in scaffolding 1873 · b75 the Palas
   // 1884 · '' complete 1892, today. Dates in STAGE_TABLE (lib/stageTable.ts).
   ['neuschwanstein', 'Neuschwanstein Castle', [15, 30, 50, 75]],
+  // Nottingham Castle on Castle Rock: b10 the timber castle 1068 · b20 Henry
+  // II's stone castle c. 1172 · b30 the outer bailey and gatehouse 1255 · b40
+  // at its height 1476 · b50 pulled down 1651 · b60 the ducal mansion 1679 ·
+  // b70 the burnt shell 1831 · b85 the Castle Museum 1878 · '' today (2021).
+  // Dates in STAGE_TABLE (lib/stageTable.ts).
+  ['nottingham-castle', 'Nottingham Castle', [10, 20, 30, 40, 50, 60, 70, 85]],
 ];
 
 await mkdir(OUT, { recursive: true });

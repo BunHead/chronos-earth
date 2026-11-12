@@ -75,7 +75,6 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'petra', widthM: 40 },
   { match: 'karnak', widthM: 200 },
   { match: 'abu simbel', widthM: 38, facingDeg: 90 }, // the great temple faces east
-  { match: 'nottingham castle', widthM: 85, facingDeg: 200 }, // on its crag above the city
   { match: 'richat', widthM: 12000 }, // ~40 km across — 'Visit' frames the real landform (Plato's city is a toggle)
   // London expansion — real footprints (m); facings READ off geo plan-renders
   // on the real satellite imagery 2026-07-12 (world −Z = north, +X = east).
@@ -184,6 +183,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'machu-picchu': { widthM: 560, facingDeg: 0 }, // authored north-up in true metres
   'edinburgh-castle': { widthM: 580, facingDeg: 0 }, // Castle Rock and its tail, authored north-up in true metres
   'neuschwanstein': { widthM: 320, facingDeg: 0 }, // its ridge, authored north-up in true metres
+  // Castle Rock and its skirt, authored north-up in true metres. (The old title
+  // rule, 85 m facing 200, was for the generic boxes; the mansion's east front
+  // really faces bearing 53, read off the imagery: components/nottinghamCastle.ts.)
+  'nottingham-castle': { widthM: 366, facingDeg: 0 },
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
   // width is each model's own span (manifest footprint), so scale ×1.

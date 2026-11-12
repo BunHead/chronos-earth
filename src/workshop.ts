@@ -73,6 +73,7 @@ const MODELS: Array<[string, string]> = [
   ['opera-house', 'Sydney Opera House'],
   ['machu-picchu', 'Machu Picchu (Inca citadel)'],
   ['edinburgh-castle', 'Edinburgh Castle (Castle Rock)'],
+  ['nottingham-castle', 'Nottingham Castle (Castle Rock)'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['terracotta-army', 'Terracotta Army (Pit 1, Qin)'],
   ['circle', 'Stone circle'],
@@ -103,7 +104,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'stepped-pyramid': { title: 'Chichén Itzá', lat: 20.6843, lon: -88.5678 },
   'greek-temple': { title: 'Parthenon', lat: 37.9715, lon: 23.7267 },
   cathedral: { title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499 },
-  castle: { title: 'Nottingham Castle', lat: 52.9497, lon: -1.1542 },
+  castle: { title: 'Bodiam Castle', lat: 51.0023, lon: 0.5435 }, // Nottingham Castle has its own model now
   mansion: { title: 'Chatsworth House', lat: 53.227, lon: -1.61 },
   ziggurat: { title: 'Eridu', lat: 30.8158, lon: 45.9958 },
   angkor: { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
@@ -135,6 +136,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'opera-house': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
   'machu-picchu': { title: 'Machu Picchu', lat: -13.163, lon: -72.545 },
   'edinburgh-castle': { title: 'Edinburgh Castle', lat: 55.9486, lon: -3.2008 },
+  'nottingham-castle': { title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545 },
   'neuschwanstein': { title: 'Neuschwanstein Castle', lat: 47.5576, lon: 10.7498 },
   'terracotta-army': { title: 'Terracotta Army', lat: 34.3847, lon: 109.2731 }, // Pit 1's hall (Wikipedia 34°23′5″N 109°16′23″E)
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
@@ -167,6 +169,9 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // over 3,400 years, the mound itself rising as each is built on the last.
   ziggurat: { label: 'Eridu — XVIII shrine · XVI cella · XI platform · VIII–VII tripartite · VI · Uruk terrace · ziggurat', max: 1, kind: 'build' },
   'tower-of-london': { label: 'Fortress phases — fort · keep · wards · moat', max: 1, kind: 'build' },
+  // Nottingham Castle's nine stages (nottinghamCastle.ts); the globe swaps the
+  // same ones by date (STAGE_TABLE).
+  'nottingham-castle': { label: 'Through time — timber · stone · outer bailey · height · pulled down · mansion · fire · museum · today', max: 1, kind: 'build' },
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });

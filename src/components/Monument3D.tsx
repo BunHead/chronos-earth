@@ -25,6 +25,7 @@ import { isLite } from '../lib/liteMode';
 import { buildColosseum } from './colosseum';
 import { buildEdinburghCastle } from './edinburghCastle';
 import { buildNeuschwanstein } from './neuschwanstein';
+import { buildNottinghamCastle } from './nottinghamCastle';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -6630,6 +6631,10 @@ export function buildModel(
     // King Ludwig II's castle on its ridge, through its history (neuschwanstein.ts).
     ground = '#3d5a2c';
     buildNeuschwanstein(group, buildFrac, stoneMat);
+  } else if (model === 'nottingham-castle') {
+    // Castle Rock and what stood on it, through its history (nottinghamCastle.ts).
+    ground = '#4f6236';
+    buildNottinghamCastle(group, buildFrac, stoneMat);
   } else if (model.startsWith('meso-')) {
     // A whole-site temple measured off OpenStreetMap (scripts/build-meso-site.mjs).
     const spec = (MESO_TEMPLES as MesoTemple[]).find((t) => t.model === model);
@@ -7113,11 +7118,22 @@ export default function Monument3D({ model, title, lat, lon, year, onClose }: Mo
         group.add(sp);
         fireSprites.push({ s: sp, kind, by: y, bx: x, seed: Math.random() * 10, sc });
       };
-      for (let i = 0; i < 12; i++) {
-        const a = (i / 12) * Math.PI * 2;
-        addFx(flameTex, 'flame', Math.cos(a) * 5, 1.6 + Math.random() * 4.5, Math.sin(a) * 3, 2 + Math.random() * 1.2);
+      // A model that knows where it burns says so ([x, y, z, size] in its own
+      // units: Nottingham Castle's mansion stands off-centre on top of its
+      // rock); the generic boxes burn round their middle.
+      const firePts = group.userData.firePoints as Array<[number, number, number, number]> | undefined;
+      if (firePts) {
+        firePts.forEach(([x, y, z, sc], i) => {
+          addFx(flameTex, 'flame', x, y, z, sc);
+          if (i % 2 === 0) addFx(smokeTex, 'smoke', x, y + sc * 1.4, z, sc * 2.4);
+        });
+      } else {
+        for (let i = 0; i < 12; i++) {
+          const a = (i / 12) * Math.PI * 2;
+          addFx(flameTex, 'flame', Math.cos(a) * 5, 1.6 + Math.random() * 4.5, Math.sin(a) * 3, 2 + Math.random() * 1.2);
+        }
+        for (let i = 0; i < 6; i++) addFx(smokeTex, 'smoke', (Math.random() - 0.5) * 9, 6.5 + Math.random() * 2, (Math.random() - 0.5) * 4, 4.5);
       }
-      for (let i = 0; i < 6; i++) addFx(smokeTex, 'smoke', (Math.random() - 0.5) * 9, 6.5 + Math.random() * 2, (Math.random() - 0.5) * 4, 4.5);
     }
 
     // Drop in the real satellite ground once the tiles arrive. The shift slides

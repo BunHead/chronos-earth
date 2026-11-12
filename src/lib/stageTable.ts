@@ -114,6 +114,19 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1800, suffix: '-b85' }, // the Georgian garrison: barracks, Governor's House, Esplanade
     { from: 1927, suffix: '' },     // today: the Gatehouse (1888) and the War Memorial (1927)
   ],
+  // Nottingham Castle on Castle Rock (components/nottinghamCastle.ts). Dates:
+  // Wikipedia 'Nottingham Castle' and the Historic England list entries.
+  'nottingham-castle': [
+    { from: 1068, suffix: '-b10' }, // the Normans' timber castle
+    { from: 1172, suffix: '-b20' }, // Henry II's stone castle: upper and middle baileys (wall 1171-72)
+    { from: 1255, suffix: '-b30' }, // Henry III's outer bailey wall and gatehouse (1252-55)
+    { from: 1476, suffix: '-b40' }, // at its height: Edward IV's tower and royal apartments
+    { from: 1651, suffix: '-b50' }, // pulled down after the Civil War; walls and gatehouse left
+    { from: 1679, suffix: '-b60' }, // the Duke of Newcastle's mansion (1674-79)
+    { from: 1831, suffix: '-b70' }, // burnt in the Reform Bill riots: a roofless shell
+    { from: 1878, suffix: '-b85' }, // the Castle Museum (T. C. Hine, 1876-78)
+    { from: 2021, suffix: '' },     // today: the visitor centre by the gatehouse
+  ],
   neuschwanstein: [
     { from: 1100, suffix: '-b15' }, // the twin castles of Vorder- and Hinterhohenschwangau
     { from: 1800, suffix: '-b30' }, // their ruins

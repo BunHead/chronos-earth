@@ -827,5 +827,41 @@
   "edinburgh-castle-b85": {
     "footprint": 58,
     "kb": 93
+  },
+  "nottingham-castle": {
+    "footprint": 36.6,
+    "kb": 103
+  },
+  "nottingham-castle-b10": {
+    "footprint": 36.6,
+    "kb": 92
+  },
+  "nottingham-castle-b20": {
+    "footprint": 36.6,
+    "kb": 91
+  },
+  "nottingham-castle-b30": {
+    "footprint": 36.6,
+    "kb": 101
+  },
+  "nottingham-castle-b40": {
+    "footprint": 36.6,
+    "kb": 103
+  },
+  "nottingham-castle-b50": {
+    "footprint": 36.6,
+    "kb": 90
+  },
+  "nottingham-castle-b60": {
+    "footprint": 36.6,
+    "kb": 96
+  },
+  "nottingham-castle-b70": {
+    "footprint": 36.6,
+    "kb": 100
+  },
+  "nottingham-castle-b85": {
+    "footprint": 36.6,
+    "kb": 98
   }
 }

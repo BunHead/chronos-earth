@@ -112,6 +112,9 @@ function exportArchetype(): void {
   const doomed: THREE.Object3D[] = [];
   group.traverse((o) => {
     if (o instanceof THREE.Sprite) doomed.push(o);
+    // A viewer-only mesh (the bank that closes a model's own landform down to
+    // the viewer's flat ground): on the globe the real ground is there instead.
+    else if (o.userData.viewerOnly) doomed.push(o);
     else if (o instanceof THREE.Mesh) {
       const m = o.material as THREE.Material;
       if ((m as THREE.MeshBasicMaterial).blending === THREE.AdditiveBlending) doomed.push(o);
