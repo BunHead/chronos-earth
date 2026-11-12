@@ -346,6 +346,12 @@ const PLACEMENTS: Placement[] = [
   // it 80 m puts the courtyard on the real ground at the pin and lets the
   // model's slopes run into the real ones. Stages by date in STAGE_TABLE.
   { model: 'neuschwanstein', title: 'Neuschwanstein Castle', lat: 47.5576, lon: 10.7498, builtYear: 1100, sinkM: 80 },
+  // Nottingham Castle carries its OWN Castle Rock (components/nottinghamCastle.ts):
+  // the mansion's terrace at the pin stands 40 m over the model's lowest point
+  // (the foot of the south cliff), so sinking it 40 m puts the terrace on the
+  // real ground at the pin and lets the cliffs run into the real slopes.
+  // Stages by date in STAGE_TABLE, from the timber castle of 1068 to today.
+  { model: 'nottingham-castle', title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545, builtYear: 1068, sinkM: 40 },
   // THE TERRACOTTA ARMY, Pit 1 (the Captain, 8 Oct 2026). Shown painted and
   // complete, roof cut away, from c. 210 BCE; the pits were burned and caved
   // in by 206 BCE (traditionally blamed on Xiang Yu's rebels) and lay buried

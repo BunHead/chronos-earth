@@ -81,6 +81,8 @@ export const VALID_MODELS = [
   'tower-bridge', 'st-pauls', 'tower-of-london', 'shard', 'gherkin',
   // Scotland.
   'edinburgh-castle',
+  // England.
+  'nottingham-castle',
   // Bavaria.
   'neuschwanstein',
   // Sydney.
@@ -159,6 +161,7 @@ const KEYWORD_RULES = [
   { rule: "St Paul's Cathedral keyword (before the cathedral bucket)", model: 'st-pauls', re: /st\.? paul/ },
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
   { rule: 'Edinburgh Castle keyword (Castle Rock, before the castle bucket)', model: 'edinburgh-castle', re: /edinburgh castle/ },
+  { rule: 'Nottingham Castle keyword (Castle Rock and the ducal mansion, before the castle bucket)', model: 'nottingham-castle', re: /nottingham castle/ },
   { rule: 'Neuschwanstein keyword (its ridge and the Palas, before the castle bucket)', model: 'neuschwanstein', re: /neuschwanstein/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },
   { rule: 'Gherkin / 30 St Mary Axe keyword', model: 'gherkin', re: /gherkin|30 st mary axe/ },

@@ -3,8 +3,8 @@
 // Some places aren't one building but several across the centuries — raised,
 // slighted, rebuilt, burnt, restored. A monument with phases shows the form it
 // wore at the timeline's current year, and the viewer offers a bar to step
-// through its life. Nottingham Castle is the showcase: Norman castle → ducal
-// mansion → the 1831 fire → today's museum.
+// through its life. Nottingham Castle is the showcase: Norman castle → royal
+// fortress → pulled down → ducal mansion → the 1831 fire → today's museum.
 
 export interface MonumentPhase {
   /** The phase begins in this (signed) calendar year. */
@@ -66,16 +66,29 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
     ],
   },
   {
+    // Nottingham Castle on Castle Rock (components/nottinghamCastle.ts); the
+    // globe swaps the same stages by date (lib/stageTable.ts). What stands
+    // today is the ducal mansion turned museum, not a battlemented castle.
     match: 'nottingham castle',
     phases: [
-      { fromYear: 1068, yearLabel: '1068', label: 'Norman castle', model: 'castle',
-        note: "William the Conqueror's motte-and-bailey, later rebuilt in stone on the crag." },
-      { fromYear: 1674, yearLabel: '1674', label: 'Ducal mansion', model: 'mansion',
-        note: 'After the Civil War the castle was levelled; the Duke of Newcastle raised a Palladian mansion on the site.' },
-      { fromYear: 1831, yearLabel: '1831', label: 'The fire', model: 'mansion', state: 'burning',
-        note: 'Gutted by fire during the Reform Bill riots — left a blackened shell for decades.' },
-      { fromYear: 1878, yearLabel: '1878', label: 'Castle Museum', model: 'mansion',
-        note: 'Restored and reopened as the first municipal museum of art outside London.' },
+      { fromYear: 1068, yearLabel: '1068', label: 'Norman castle', model: 'nottingham-castle', build: 0.1,
+        note: 'William the Conqueror had a timber castle built on the rock in 1068: a wooden tower and palisades above the cliffs.' },
+      { fromYear: 1172, yearLabel: 'c. 1172', label: 'Henry II’s stone castle', model: 'nottingham-castle', build: 0.2,
+        note: 'King Henry II rebuilt it in stone: an upper bailey with the great tower on top of the rock, and a middle bailey below. The middle bridge of about 1170 still stands.' },
+      { fromYear: 1255, yearLabel: '1255', label: 'The outer bailey', model: 'nottingham-castle', build: 0.3,
+        note: 'Henry III walled the big outer bailey in stone and built the gatehouse (1252–55). The gatehouse and long runs of that wall still stand.' },
+      { fromYear: 1476, yearLabel: '1476', label: 'Royal castle at its height', model: 'nottingham-castle', build: 0.4,
+        note: 'Edward IV ordered a new tower and royal rooms in 1476: “the most beautifulest part”, wrote John Leland. Richard III rode from here to Bosworth.' },
+      { fromYear: 1651, yearLabel: '1651', label: 'Pulled down', model: 'nottingham-castle', build: 0.5,
+        note: 'Parliament’s men held the castle through the Civil War. In 1651 it was pulled down so it could never be used again. Only the outer walls and the gatehouse were left.' },
+      { fromYear: 1679, yearLabel: '1679', label: 'Ducal mansion', model: 'nottingham-castle', build: 0.6,
+        note: 'The Duke of Newcastle cleared the top of the rock and built a grand Italian-style mansion there (1674–79). His son finished it.' },
+      { fromYear: 1831, yearLabel: '1831', label: 'The fire', model: 'nottingham-castle', build: 0.7, state: 'burning',
+        note: 'Gutted by fire during the Reform Bill riots of 1831. It stood as a roofless, blackened shell for more than forty years.' },
+      { fromYear: 1878, yearLabel: '1878', label: 'Castle Museum', model: 'nottingham-castle', build: 0.85,
+        note: 'T. C. Hine rebuilt the shell with a glass-roofed picture gallery. It opened in 1878 as the first town-owned art gallery in Britain outside London.' },
+      { fromYear: 2021, yearLabel: 'today', label: 'Today', model: 'nottingham-castle', build: 1,
+        note: 'Reopened in 2021 after a big restoration, with a new visitor centre by the medieval gatehouse. Caves run through the rock below, among them Mortimer’s Hole.' },
     ],
   },
   {

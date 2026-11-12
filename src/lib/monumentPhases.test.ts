@@ -3,17 +3,22 @@ import { phasesFor, phaseIndexAt } from './monumentPhases';
 
 describe('monument phases', () => {
   it('finds Nottingham Castle by name (case-insensitive, substring)', () => {
-    expect(phasesFor('Nottingham Castle')?.length).toBe(4);
-    expect(phasesFor('nottingham castle museum')?.length).toBe(4);
+    expect(phasesFor('Nottingham Castle')?.length).toBe(9);
+    expect(phasesFor('nottingham castle museum')?.length).toBe(9);
     expect(phasesFor('Windsor Castle')).toBeNull();
   });
 
   it('picks the phase in force at a given year', () => {
     const p = phasesFor('Nottingham Castle')!;
-    expect(p[phaseIndexAt(p, 1200)].label).toBe('Norman castle');
+    expect(p[phaseIndexAt(p, 1100)].label).toBe('Norman castle');
+    expect(p[phaseIndexAt(p, 1200)].label).toBe('Henry II’s stone castle');
+    expect(p[phaseIndexAt(p, 1330)].label).toBe('The outer bailey'); // the gatehouse stood for Edward III's coup
+    expect(p[phaseIndexAt(p, 1485)].label).toBe('Royal castle at its height');
+    expect(p[phaseIndexAt(p, 1660)].label).toBe('Pulled down'); // slighted 1651, before the mansion
     expect(p[phaseIndexAt(p, 1700)].label).toBe('Ducal mansion');
     expect(p[phaseIndexAt(p, 1831)].label).toBe('The fire');
     expect(p[phaseIndexAt(p, 2020)].label).toBe('Castle Museum');
+    expect(p[phaseIndexAt(p, 2026)].label).toBe('Today');
   });
 
   it('clamps to the first phase before it was built', () => {
@@ -23,7 +28,8 @@ describe('monument phases', () => {
 
   it('the fire phase carries the burning state', () => {
     const p = phasesFor('Nottingham Castle')!;
-    expect(p[2].state).toBe('burning');
+    expect(p[phaseIndexAt(p, 1850)].state).toBe('burning');
+    expect(p.filter((x) => x.state === 'burning').length).toBe(1);
   });
 
   it('Notre-Dame de Paris burns in 2019 and is restored by 2024', () => {
