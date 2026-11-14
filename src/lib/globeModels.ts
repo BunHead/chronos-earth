@@ -352,6 +352,12 @@ const PLACEMENTS: Placement[] = [
   // real ground at the pin and lets the cliffs run into the real slopes.
   // Stages by date in STAGE_TABLE, from the timber castle of 1068 to today.
   { model: 'nottingham-castle', title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545, builtYear: 1068, sinkM: 40 },
+  // Chatsworth House carries the ground it stands on (components/chatsworth.ts):
+  // the south lawn's level is 5 m over the model's underside, so sinking it 5 m
+  // puts that lawn on the real ground at the pin (the middle of the main
+  // block). The west garden is lower, as it really is. Stages by date in
+  // STAGE_TABLE, from Bess of Hardwick's house going up in 1553 to today.
+  { model: 'chatsworth', title: 'Chatsworth House', lat: 53.2272, lon: -1.6117, builtYear: 1553, sinkM: 5 },
   // THE TERRACOTTA ARMY, Pit 1 (the Captain, 8 Oct 2026). Shown painted and
   // complete, roof cut away, from c. 210 BCE; the pits were burned and caved
   // in by 206 BCE (traditionally blamed on Xiang Yu's rebels) and lay buried

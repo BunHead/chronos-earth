@@ -103,6 +103,28 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
     ],
   },
   {
+    // Chatsworth House (components/chatsworth.ts); the globe swaps the same
+    // stages by date (lib/stageTable.ts). One courtyard plan, rebuilt a side
+    // at a time, then doubled in length by the north wing.
+    match: 'chatsworth house',
+    phases: [
+      { fromYear: 1553, yearLabel: '1553', label: 'Building begins', model: 'chatsworth', build: 0.1,
+        note: 'Bess of Hardwick and her husband Sir William Cavendish began a new house by the river in 1553. The wet ground was drained with ponds first. This stage is a picture of the work, not a record.' },
+      { fromYear: 1569, yearLabel: '1560s', label: 'Bess of Hardwick’s house', model: 'chatsworth', build: 0.2,
+        note: 'Finished in the 1560s: four sides round a courtyard, the way in on the west between four turrets. Mary, Queen of Scots was held here several times from 1570. Its size and plan are known; its looks here are a best guess.' },
+      { fromYear: 1696, yearLabel: '1696', label: 'Half old, half new', model: 'chatsworth', build: 0.35,
+        note: 'The 4th Earl (made 1st Duke of Devonshire in 1694) began rebuilding in 1687, one side at a time. By 1696 William Talman’s new south and east fronts stood against the old west and north sides.' },
+      { fromYear: 1707, yearLabel: '1707', label: 'The Baroque house', model: 'chatsworth', build: 0.5,
+        note: 'The west front came in 1699–1702 and the curved north front in 1707, the year the 1st Duke died. He kept Bess’s courtyard plan. South of the house lay a great formal garden round the Seahorse Fountain.' },
+      { fromYear: 1765, yearLabel: '1760s', label: 'Capability Brown’s lawns', model: 'chatsworth', build: 0.65,
+        note: 'The 4th Duke had Capability Brown turn the formal gardens into lawns and open park, and moved the way in to the north. He added a kitchen wing (its shape here is a best guess). James Paine built the stables and the bridge.' },
+      { fromYear: 1840, yearLabel: '1840', label: 'The north wing', model: 'chatsworth', build: 0.8,
+        note: 'The 6th Duke had Sir Jeffry Wyatville build the long north wing, about 120 m, ending in the Belvedere Tower. Its dining room was in use by 1832. An inscription in the house says the work was completed in 1840.' },
+      { fromYear: 2018, yearLabel: 'today', label: 'Today', model: 'chatsworth', build: 1,
+        note: 'Home of the Duke of Devonshire and open to visitors. Ten years of repairs finished in 2018; the west front’s window frames shine with gold leaf. The river, the bridge, the stables and the Cascade are in the real photo round the model.' },
+    ],
+  },
+  {
     match: 'parthenon',
     phases: [
       { fromYear: -447, yearLabel: '447 BCE', label: 'Temple of Athena', model: 'greek-temple',

@@ -74,6 +74,7 @@ const MODELS: Array<[string, string]> = [
   ['machu-picchu', 'Machu Picchu (Inca citadel)'],
   ['edinburgh-castle', 'Edinburgh Castle (Castle Rock)'],
   ['nottingham-castle', 'Nottingham Castle (Castle Rock)'],
+  ['chatsworth', 'Chatsworth House'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['terracotta-army', 'Terracotta Army (Pit 1, Qin)'],
   ['circle', 'Stone circle'],
@@ -105,7 +106,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'greek-temple': { title: 'Parthenon', lat: 37.9715, lon: 23.7267 },
   cathedral: { title: 'Notre-Dame de Paris', lat: 48.853, lon: 2.3499 },
   castle: { title: 'Bodiam Castle', lat: 51.0023, lon: 0.5435 }, // Nottingham Castle has its own model now
-  mansion: { title: 'Chatsworth House', lat: 53.227, lon: -1.61 },
+  mansion: { title: 'Hardwick Hall', lat: 53.1688, lon: -1.3087 }, // Chatsworth House has its own model now
   ziggurat: { title: 'Eridu', lat: 30.8158, lon: 45.9958 },
   angkor: { title: 'Angkor Wat', lat: 13.4125, lon: 103.867 },
   // Was Angkor Wat until Angkor got its own archetype (2026-09-18); Prambanan
@@ -137,6 +138,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'machu-picchu': { title: 'Machu Picchu', lat: -13.163, lon: -72.545 },
   'edinburgh-castle': { title: 'Edinburgh Castle', lat: 55.9486, lon: -3.2008 },
   'nottingham-castle': { title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545 },
+  chatsworth: { title: 'Chatsworth House', lat: 53.2272, lon: -1.6117 },
   'neuschwanstein': { title: 'Neuschwanstein Castle', lat: 47.5576, lon: 10.7498 },
   'terracotta-army': { title: 'Terracotta Army', lat: 34.3847, lon: 109.2731 }, // Pit 1's hall (Wikipedia 34°23′5″N 109°16′23″E)
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
@@ -172,6 +174,8 @@ const STAGE: Record<string, { label: string; max: number; kind: 'sea' | 'build' 
   // Nottingham Castle's nine stages (nottinghamCastle.ts); the globe swaps the
   // same ones by date (STAGE_TABLE).
   'nottingham-castle': { label: 'Through time — timber · stone · outer bailey · height · pulled down · mansion · fire · museum · today', max: 1, kind: 'build' },
+  // Chatsworth's seven stages (chatsworth.ts); the globe swaps the same ones by date.
+  chatsworth: { label: 'Through time — building · Elizabethan · half rebuilt · Baroque · Brown’s lawns · north wing · today', max: 1, kind: 'build' },
 };
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
