@@ -127,6 +127,9 @@ export function monumentModelForName(name: string): string | null {
   // Nottingham Castle on Castle Rock, through its history (nottinghamCastle.ts) —
   // what stands there today is a ducal mansion turned museum, not a castle box.
   if (/nottingham castle/.test(n)) return 'nottingham-castle';
+  // Chesterfield's Crooked Spire: the parish church and its twisted, leaning
+  // spire, through its history (crookedSpire.ts). It had no 3D at all before.
+  if (/crooked spire|chesterfield parish church|st mary and all saints,? chesterfield/.test(n)) return 'crooked-spire';
   // Neuschwanstein on its ridge, through its history (neuschwanstein.ts) —
   // before the generic castle bucket, which could only give it a square fort.
   if (/neuschwanstein/.test(n)) return 'neuschwanstein';

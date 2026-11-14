@@ -96,6 +96,7 @@ const FLEET = [
   ['edinburgh-castle', 'Edinburgh Castle'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['nottingham-castle', 'Nottingham Castle'],
+  ['crooked-spire', 'Chesterfield Crooked Spire'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -169,6 +170,11 @@ const BUILD_STAGES = [
   // b70 the burnt shell 1831 · b85 the Castle Museum 1878 · '' today (2021).
   // Dates in STAGE_TABLE (lib/stageTable.ts).
   ['nottingham-castle', 'Nottingham Castle', [10, 20, 30, 40, 50, 60, 70, 85]],
+  // Chesterfield's Crooked Spire: b10 building begins 1234 · b25 the great
+  // rebuilding c. 1325 · b40 the straight spire c. 1362 · b55 lead on, the twist
+  // under way c. 1700 · b70 twisted, surveyed 1817 · b85 the 1961 fire · ''
+  // today. Dates in STAGE_TABLE (lib/stageTable.ts).
+  ['crooked-spire', 'Chesterfield Crooked Spire', [10, 25, 40, 55, 70, 85]],
 ];
 
 await mkdir(OUT, { recursive: true });

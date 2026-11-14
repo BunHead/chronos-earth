@@ -186,8 +186,13 @@ const size = box.getSize(new THREE.Vector3());
 const c = box.getCenter(new THREE.Vector3());
 const modelR = Math.max(size.x, size.y, size.z) || 20;
 const r = hasGeo ? 44 : modelR;
-const cx = hasGeo ? 0 : c.x;
-const cz = hasGeo ? 0 : c.z;
+// ?at=x,z (AT=x,z in render-model.mjs): centre the camera on that point of the
+// scene instead of the model's middle, for a part that is not in the middle
+// (the Crooked Spire seen from straight above its own tower).
+const atParam = params.get('at')?.split(',').map(Number);
+const at = atParam && atParam.length === 2 && atParam.every(Number.isFinite) ? atParam : null;
+const cx = at ? at[0] : hasGeo ? 0 : c.x;
+const cz = at ? at[1] : hasGeo ? 0 : c.z;
 
 const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 6000);
 // An orbit view (CAM=bearing,elevation,distance in render-model.mjs): stand at

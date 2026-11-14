@@ -352,6 +352,12 @@ const PLACEMENTS: Placement[] = [
   // real ground at the pin and lets the cliffs run into the real slopes.
   // Stages by date in STAGE_TABLE, from the timber castle of 1068 to today.
   { model: 'nottingham-castle', title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545, builtYear: 1068, sinkM: 40 },
+  // Chesterfield's Crooked Spire (components/crookedSpire.ts): the parish church
+  // in true metres with the pin in the middle of the crossing tower, under the
+  // spire. Esri's photo of it is taken at a slant (the spire lies 40 m along the
+  // ground), so the model stands on the FOOT of the walls, as Esri's map draws
+  // them. Stages by date in STAGE_TABLE, from the building site of 1234 to today.
+  { model: 'crooked-spire', title: 'Chesterfield Crooked Spire', lat: 53.23623, lon: -1.42431, builtYear: 1234 },
   // THE TERRACOTTA ARMY, Pit 1 (the Captain, 8 Oct 2026). Shown painted and
   // complete, roof cut away, from c. 210 BCE; the pits were burned and caved
   // in by 206 BCE (traditionally blamed on Xiang Yu's rebels) and lay buried

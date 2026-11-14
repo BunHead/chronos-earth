@@ -863,5 +863,33 @@
   "nottingham-castle-b85": {
     "footprint": 36.6,
     "kb": 98
+  },
+  "crooked-spire": {
+    "footprint": 5.564,
+    "kb": 37
+  },
+  "crooked-spire-b10": {
+    "footprint": 5.564,
+    "kb": 9
+  },
+  "crooked-spire-b25": {
+    "footprint": 5.564,
+    "kb": 16
+  },
+  "crooked-spire-b40": {
+    "footprint": 5.564,
+    "kb": 29
+  },
+  "crooked-spire-b55": {
+    "footprint": 5.564,
+    "kb": 33
+  },
+  "crooked-spire-b70": {
+    "footprint": 5.564,
+    "kb": 36
+  },
+  "crooked-spire-b85": {
+    "footprint": 5.564,
+    "kb": 38
   }
 }

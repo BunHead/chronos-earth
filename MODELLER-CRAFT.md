@@ -18,7 +18,9 @@ letter — every rule here was paid for with a real failure.
    relevant) ruin. Angles: `3q`, `top` (true north-up plan), `side`. Extra
    env: `RUIN=1`, `LAT=.. LON=..` (real satellite ground + crosshair),
    `BUILD_FRAC=`, `SEA=`, `CAM=bearing,elevation,distance` (an orbit view from
-   one compass side, e.g. Edinburgh Castle from Princes Street: `CAM=0,22,0.75`).
+   one compass side, e.g. Edinburgh Castle from Princes Street: `CAM=0,22,0.75`),
+   `AT=x,z` (centre the camera on that scene point, not the model's middle:
+   `AT=0,0 CAM=180,89.5,1.25` looks straight down on the pin).
 2. **Scene frame (calibrated, do not re-derive):** real north = world **−Z**,
    real east = **+X**. The code once claimed +Z=north and it caused every
    "90° off" bug in the project's history. Plan renders draw a red north
@@ -69,6 +71,20 @@ letter — every rule here was paid for with a real failure.
 - **Ashlar is not rubble**: `stoneMat` carries a rough brown rubble texture.
   A smooth dressed-stone building (a mansion, a palace) reads right in a plain
   `MeshStandardMaterial` colour; keep `stoneMat` for medieval walls.
+- **A twisted, leaning spire** (Chesterfield's Crooked Spire, Nov 2026): one
+  custom BufferGeometry of stacked rings, each ring turned a little more and
+  shifted a little more than the one below (`spireAt()` in crookedSpire.ts
+  holds the real figures, and the tests read the mesh back to check the sense
+  of the twist and the bearing of the lean). The twist does NOT read from
+  faces alone: add a narrow dark strip along each edge, a whisker proud. Split
+  each face down the middle and shade its triangles in turn (vertex colours)
+  for herringbone lead; no texture needed, and it survives the .glb export.
+- **One footprint through every stage**: the fit scales from the model's own
+  box, so a building-site stage must reach the same ends as the finished
+  building. Give every stage the same end buttresses (as footings at first).
+- **The top view is a perspective camera** over the model's middle. A tall
+  tower that is not in the middle looks as if it leans away from the middle.
+  To prove a lean, look straight down the tower itself (`AT=x,z`).
 
 ## Ruin philosophy (the Captain's law: aged, not blown up)
 
@@ -119,6 +135,15 @@ letter — every rule here was paid for with a real failure.
 - When Historic England and OpenStreetMap are blocked, Wikipedia's "Listed
   buildings in <place>" tables carry the list entries' dates and descriptions
   (bays, plan shape, wall heights) with their HE list numbers.
+- A satellite photo taken at a slant lays tall things over: at Chesterfield
+  the spire lies 40 m along the ground and every roof sits 5-7 m south-east of
+  its walls. Lay the model on the FOOT of the walls (Esri's World Topo Map
+  draws the footprint; the dark band of a wall seen side-on shows where its
+  foot is), not on the roofs, and say so.
+- When image hosts are blocked, Wikipedia's own PDF of an article
+  (`en.wikipedia.org/api/rest_v1/page/pdf/<Title>`) carries its photographs;
+  `pdfimages -png` pulls them out. That is how the sense of the Crooked
+  Spire's twist was read when no page would say clockwise or anticlockwise.
 - "Prefer no 3D to a wrong one": if an archetype would misrepresent a site,
   suppress the site (NO_3D_NAMES, mirrored in both files) or build it right.
 

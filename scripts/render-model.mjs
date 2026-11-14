@@ -9,6 +9,8 @@
  *
  * Optional CAM=bearing,elevation,distance (degrees, degrees, × model size):
  * look from that compass bearing, e.g. CAM=135,25,0.9 from the south-east.
+ * Optional AT=x,z (scene units): centre the camera there, not on the model's
+ * middle, e.g. AT=0,0 CAM=180,89,1.2 looks straight down on the pin.
  *
  * Needs the Vite dev server running (npm run dev). Then:
  *   node scripts/render-model.mjs <model> [outDir] [title]
@@ -28,6 +30,7 @@ const lon = process.env.LON; // optional real longitude
 const spin = process.env.SPIN; // optional known rotation (AI-orientation quiz)
 const ruin = process.env.RUIN; // optional RUIN=1 — preview the collapsed life-phase
 const cam = process.env.CAM; // optional CAM=bearing,elevation,distance — an orbit view (see render-harness.ts)
+const at = process.env.AT; // optional AT=x,z — centre the camera on that scene point, not the model's middle
 const BASE = `${process.env.RENDER_BASE || 'http://localhost:5173'}/render-harness.html`;
 const ANGLES = (process.env.ANGLES || '3q,top,side').split(',');
 
@@ -44,7 +47,7 @@ try {
   page.on('console', (m) => { if (m.type() === 'error') console.error('  [console]', m.text()); });
 
   for (const angle of ANGLES) {
-    const url = `${BASE}?model=${encodeURIComponent(model)}&angle=${angle}&title=${encodeURIComponent(title)}${sea != null ? `&sea=${sea}` : ''}${build != null ? `&build=${build}` : ''}${lat != null && lon != null ? `&lat=${lat}&lon=${lon}` : ''}${spin != null ? `&spin=${spin}` : ''}${ruin != null ? `&ruin=${ruin}` : ''}${cam != null ? `&cam=${cam}` : ''}`;
+    const url = `${BASE}?model=${encodeURIComponent(model)}&angle=${angle}&title=${encodeURIComponent(title)}${sea != null ? `&sea=${sea}` : ''}${build != null ? `&build=${build}` : ''}${lat != null && lon != null ? `&lat=${lat}&lon=${lon}` : ''}${spin != null ? `&spin=${spin}` : ''}${ruin != null ? `&ruin=${ruin}` : ''}${cam != null ? `&cam=${cam}` : ''}${at != null ? `&at=${at}` : ''}`;
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     await page.waitForFunction('window.__ready === true', { timeout: 25000 });
     const canvas = await page.$('canvas');
