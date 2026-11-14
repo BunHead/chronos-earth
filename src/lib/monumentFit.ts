@@ -187,6 +187,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // rule, 85 m facing 200, was for the generic boxes; the mansion's east front
   // really faces bearing 53, read off the imagery: components/nottinghamCastle.ts.)
   'nottingham-castle': { widthM: 366, facingDeg: 0 },
+  // The house, its wing and the garden beside it, authored north-up in true
+  // metres: the walls run north–south and east–west to within 1°, read off
+  // Esri's map and photo (components/chatsworth.ts).
+  'chatsworth': { widthM: 316, facingDeg: 0 },
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
   // width is each model's own span (manifest footprint), so scale ×1.

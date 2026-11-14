@@ -127,6 +127,17 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1878, suffix: '-b85' }, // the Castle Museum (T. C. Hine, 1876-78)
     { from: 2021, suffix: '' },     // today: the visitor centre by the gatehouse
   ],
+  // Chatsworth House (components/chatsworth.ts). Dates: Wikipedia 'Chatsworth
+  // House' and the Historic England list entries.
+  chatsworth: [
+    { from: 1553, suffix: '-b10' }, // Bess of Hardwick's house going up (begun 1553)
+    { from: 1569, suffix: '-b20' }, // the Elizabethan courtyard house (finished in the 1560s)
+    { from: 1696, suffix: '-b35' }, // half rebuilt: Talman's south and east fronts (by 1696)
+    { from: 1707, suffix: '-b50' }, // the 1st Duke's Baroque house complete (north front 1707)
+    { from: 1765, suffix: '-b65' }, // the 4th Duke: Brown's lawns, a service wing (1760s)
+    { from: 1840, suffix: '-b80' }, // the 6th Duke: Wyatville's north wing (completed 1840)
+    { from: 2018, suffix: '' },     // today: restored (2018), the window frames gilded
+  ],
   neuschwanstein: [
     { from: 1100, suffix: '-b15' }, // the twin castles of Vorder- and Hinterhohenschwangau
     { from: 1800, suffix: '-b30' }, // their ruins

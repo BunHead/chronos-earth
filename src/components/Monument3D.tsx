@@ -26,6 +26,7 @@ import { buildColosseum } from './colosseum';
 import { buildEdinburghCastle } from './edinburghCastle';
 import { buildNeuschwanstein } from './neuschwanstein';
 import { buildNottinghamCastle } from './nottinghamCastle';
+import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
 /** Sun state driven by the SkyDial: which day, what local solar time, whether
@@ -6635,6 +6636,10 @@ export function buildModel(
     // Castle Rock and what stood on it, through its history (nottinghamCastle.ts).
     ground = '#4f6236';
     buildNottinghamCastle(group, buildFrac, stoneMat);
+  } else if (model === 'chatsworth') {
+    // Chatsworth House and the garden beside it, through its history (chatsworth.ts).
+    ground = '#74914b';
+    buildChatsworth(group, buildFrac, stoneMat);
   } else if (model.startsWith('meso-')) {
     // A whole-site temple measured off OpenStreetMap (scripts/build-meso-site.mjs).
     const spec = (MESO_TEMPLES as MesoTemple[]).find((t) => t.model === model);

@@ -96,6 +96,7 @@ const FLEET = [
   ['edinburgh-castle', 'Edinburgh Castle'],
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['nottingham-castle', 'Nottingham Castle'],
+  ['chatsworth', 'Chatsworth House'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -169,6 +170,11 @@ const BUILD_STAGES = [
   // b70 the burnt shell 1831 · b85 the Castle Museum 1878 · '' today (2021).
   // Dates in STAGE_TABLE (lib/stageTable.ts).
   ['nottingham-castle', 'Nottingham Castle', [10, 20, 30, 40, 50, 60, 70, 85]],
+  // Chatsworth House: b10 the house going up 1553 · b20 the Elizabethan house
+  // (1560s) · b35 half rebuilt 1696 · b50 the Baroque house 1707 · b65 Brown's
+  // lawns and a service wing (1760s) · b80 the north wing 1840 · '' today.
+  // Dates in STAGE_TABLE (lib/stageTable.ts).
+  ['chatsworth', 'Chatsworth House', [10, 20, 35, 50, 65, 80]],
 ];
 
 await mkdir(OUT, { recursive: true });
