@@ -191,6 +191,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // in true metres: 52.7 m long (173 ft), turned 3.5 degrees, so 55.64 m from
   // west to east over its end buttresses.
   'crooked-spire': { widthM: 55.64, facingDeg: 0 },
+  // The house, its wing and the garden beside it, authored north-up in true
+  // metres: the walls run north–south and east–west to within 1°, read off
+  // Esri's map and photo (components/chatsworth.ts).
+  'chatsworth': { widthM: 316, facingDeg: 0 },
   'terracotta-army': { widthM: 266, facingDeg: 0 }, // Pit 1 (230 m) + its rim, authored north-up in true metres
   // 3D monuments batch 2, built in TRUE METRES (lib/landmarkMesh.ts): the
   // width is each model's own span (manifest footprint), so scale ×1.

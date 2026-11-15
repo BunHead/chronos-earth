@@ -97,6 +97,7 @@ const FLEET = [
   ['neuschwanstein', 'Neuschwanstein Castle'],
   ['nottingham-castle', 'Nottingham Castle'],
   ['crooked-spire', 'Chesterfield Crooked Spire'],
+  ['chatsworth', 'Chatsworth House'],
 ];
 
 // Ruin variants — only for monuments that genuinely stand as ruins today,
@@ -175,6 +176,11 @@ const BUILD_STAGES = [
   // under way c. 1700 · b70 twisted, surveyed 1817 · b85 the 1961 fire · ''
   // today. Dates in STAGE_TABLE (lib/stageTable.ts).
   ['crooked-spire', 'Chesterfield Crooked Spire', [10, 25, 40, 55, 70, 85]],
+  // Chatsworth House: b10 the house going up 1553 · b20 the Elizabethan house
+  // (1560s) · b35 half rebuilt 1696 · b50 the Baroque house 1707 · b65 Brown's
+  // lawns and a service wing (1760s) · b80 the north wing 1840 · '' today.
+  // Dates in STAGE_TABLE (lib/stageTable.ts).
+  ['chatsworth', 'Chatsworth House', [10, 20, 35, 50, 65, 80]],
 ];
 
 await mkdir(OUT, { recursive: true });
