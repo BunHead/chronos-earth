@@ -115,7 +115,7 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
       { fromYear: 1696, yearLabel: '1696', label: 'Half old, half new', model: 'chatsworth', build: 0.35,
         note: 'The 4th Earl (made 1st Duke of Devonshire in 1694) began rebuilding in 1687, one side at a time. By 1696 William Talman’s new south and east fronts stood against the old west and north sides.' },
       { fromYear: 1707, yearLabel: '1707', label: 'The Baroque house', model: 'chatsworth', build: 0.5,
-        note: 'The west front came in 1699–1702 and the curved north front in 1707, the year the 1st Duke died. He kept Bess’s courtyard plan. South of the house lay a great formal garden round the Seahorse Fountain.' },
+        note: 'The west front came in 1699–1702 and the curved north front in 1707, the year the 1st Duke died. He kept Bess’s courtyard plan. South of the house lay a great formal garden round the Seahorse Fountain (its pattern here is a best guess).' },
       { fromYear: 1765, yearLabel: '1760s', label: 'Capability Brown’s lawns', model: 'chatsworth', build: 0.65,
         note: 'The 4th Duke had Capability Brown turn the formal gardens into lawns and open park, and moved the way in to the north. He added a kitchen wing (its shape here is a best guess). James Paine built the stables and the bridge.' },
       { fromYear: 1840, yearLabel: '1840', label: 'The north wing', model: 'chatsworth', build: 0.8,
