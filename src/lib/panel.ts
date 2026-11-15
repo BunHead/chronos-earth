@@ -127,6 +127,9 @@ export function monumentModelForName(name: string): string | null {
   // Nottingham Castle on Castle Rock, through its history (nottinghamCastle.ts) —
   // what stands there today is a ducal mansion turned museum, not a castle box.
   if (/nottingham castle/.test(n)) return 'nottingham-castle';
+  // Chatsworth House, through its history (chatsworth.ts): a courtyard house
+  // rebuilt one side at a time, then a long north wing. It had no 3D before.
+  if (/chatsworth house/.test(n)) return 'chatsworth';
   // Neuschwanstein on its ridge, through its history (neuschwanstein.ts) —
   // before the generic castle bucket, which could only give it a square fort.
   if (/neuschwanstein/.test(n)) return 'neuschwanstein';

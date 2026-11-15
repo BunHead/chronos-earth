@@ -863,5 +863,33 @@
   "nottingham-castle-b85": {
     "footprint": 36.6,
     "kb": 98
+  },
+  "chatsworth": {
+    "footprint": 31.6,
+    "kb": 70
+  },
+  "chatsworth-b10": {
+    "footprint": 31.6,
+    "kb": 15
+  },
+  "chatsworth-b20": {
+    "footprint": 31.6,
+    "kb": 24
+  },
+  "chatsworth-b35": {
+    "footprint": 31.6,
+    "kb": 37
+  },
+  "chatsworth-b50": {
+    "footprint": 31.6,
+    "kb": 49
+  },
+  "chatsworth-b65": {
+    "footprint": 31.6,
+    "kb": 43
+  },
+  "chatsworth-b80": {
+    "footprint": 31.6,
+    "kb": 63
   }
 }

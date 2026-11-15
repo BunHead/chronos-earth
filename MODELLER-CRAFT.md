@@ -69,6 +69,14 @@ letter — every rule here was paid for with a real failure.
 - **Ashlar is not rubble**: `stoneMat` carries a rough brown rubble texture.
   A smooth dressed-stone building (a mansion, a palace) reads right in a plain
   `MeshStandardMaterial` colour; keep `stoneMat` for medieval walls.
+- **One mesh per material** (Chatsworth House, Nov 2026): a house front is
+  thousands of small boxes (windows, frames, balusters, steps). Write them
+  into one geometry per material (a `put(geo, material, matrix)` that appends
+  transformed positions and normals, flushed at the end) and a whole stage is
+  about fifteen meshes and a 15–70 KB .glb. Plain colours need no UVs.
+- **A window must stand proud of everything on its wall**: a pane thinner
+  than the basement band in front of it is simply hidden (Chatsworth's
+  basement windows vanished until the panes were made deeper than the band).
 
 ## Ruin philosophy (the Captain's law: aged, not blown up)
 
@@ -92,6 +100,12 @@ letter — every rule here was paid for with a real failure.
 
 ## Agent field notes
 
+- The globe lights a model by the DATE on the timeline: the same .glb drew
+  its lawn a third darker at 1695 than at 1690 (Chatsworth). Before blaming a
+  stage file for a colour change, capture two dates that use the SAME file.
+- In a cloud session with no dev tools installed: `PUPPETEER_SKIP_DOWNLOAD=1
+  npm ci`, then `PUPPETEER_EXECUTABLE_PATH=/opt/pw-browsers/chromium` for
+  render-model, export-models and verify-app.
 - Worktree node_modules junction: Git Bash's `cmd //c mklink /J` mangles the
   paths. Use PowerShell: `New-Item -ItemType Junction -Path node_modules
   -Target "D:\...\ChronosEarth\node_modules"`. If Vite's dep optimizer throws
@@ -116,6 +130,17 @@ letter — every rule here was paid for with a real failure.
 - The satellite photo and a MAP can disagree on a crag: at Nottingham Castle
   Esri's photo and Esri's topo map place the mansion 15–20 m apart. Lay the
   model out on the PHOTO (it is the ground the app shows) and say so.
+- A building's ROOF leans in the satellite photo; its walls' feet do not. At
+  Chatsworth the roofs sit about 8 m south-east of the walls' feet (the photo
+  was taken from the north-west: you can see the west front's face). Esri's
+  World Topo Map (z19) draws building outlines on the feet. Lay the model on
+  the feet (check the terrace or path at a wall's foot in the photo), and
+  expect its roof to sit a little off the photo's roof from straight above.
+- Esri's World Topo Map also carries building outlines and 5 m contours when
+  OpenStreetMap cannot be reached: read the grey polygons off the tiles.
+- A house with a garden: carry the garden's own levels as flat slabs (their
+  sides are the real terrace walls), and close them down to the viewer's disc
+  with a `viewerOnly` bank. Match the lawn's colour to the photo's lawn.
 - When Historic England and OpenStreetMap are blocked, Wikipedia's "Listed
   buildings in <place>" tables carry the list entries' dates and descriptions
   (bays, plan shape, wall heights) with their HE list numbers.
