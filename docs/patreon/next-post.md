@@ -1,24 +1,12 @@
-# Dispatch from the crew — a hundred new fossil sites, and pictures in every panel
+# Dispatch from the crew — castles rise on their rocks
 
-A week of digging and checking at the shipyard, crew.
+A busy week at the shipyard, crew. The big news: whole castles now stand on the globe.
 
-- **Pictures aboard.** Open a creature, a fossil, or anything with a Wikipedia link, and the side panel now shows its lead picture, with credit to the photographer.
-- **Fossil hunting.** About a hundred new fossil sites have joined the globe, many in parts of the world that were thin before. A few old fossil pins were moved to the right spot too.
-- **The Great Wall's first stones.** The Wall's earliest phase now has its own pin: the Chu "Square Wall" at Fangcheng, from the 7th century BC.
-- **Battles that move.** Plassey, the Spanish Armada, El Alamein and the Battle of the Bulge now play out phase by phase.
-- **A scrub of the logbook.** Thousands of cities and a few hundred battles were checked against Wikidata, and the mistakes were put right. The Sky and Weather window also closes properly now, with an × or the Escape key.
+- **Four castles, built through the centuries.** Edinburgh Castle and Nottingham Castle now sit on their crags, Neuschwanstein on its ridge, and Chatsworth House in its grounds. Slide the time control and watch each one grow, change and fall into new hands.
+- **The Colosseum, true to size.** A second Colosseum model, built in real metres, now sits alongside the old one. Switch between the two, or view them side by side and judge for yourself.
+- **Places with a story.** Ancient places from the Pleiades gazetteer now show their own short description in the panel, with credit given.
+- **A fuller globe.** The usual overnight sweep added more places, people and discoveries, and a stack of checks put wrong pins right.
 
-Set sail at bunhead.github.io/chronos-earth, fly to the Spanish Armada and watch it go.
+Sail over to bunhead.github.io/chronos-earth, dive to Edinburgh Castle and scrub through time.
 
 Thank you, patrons. You keep this ship sailing. 🧭 **Maker's Circle:** trace a site with the builder and hit 📤 submit. The crew will take it from there.
-
----
-
-## This month's vote (Navigators' poll)
-
-What should the crew build next?
-
-1. Old St Paul's: the medieval cathedral with its spire, and the Great Fire
-2. Another whole Maya city: Copán, Caracol or Yaxchilán
-3. Smoother playback: no more freezes while history plays
-4. Atlantis: the raised lake, the dam bursting and the great wave
