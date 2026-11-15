@@ -26,6 +26,7 @@ import { buildColosseum } from './colosseum';
 import { buildEdinburghCastle } from './edinburghCastle';
 import { buildNeuschwanstein } from './neuschwanstein';
 import { buildNottinghamCastle } from './nottinghamCastle';
+import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
 
@@ -6636,6 +6637,10 @@ export function buildModel(
     // Castle Rock and what stood on it, through its history (nottinghamCastle.ts).
     ground = '#4f6236';
     buildNottinghamCastle(group, buildFrac, stoneMat);
+  } else if (model === 'crooked-spire') {
+    // Chesterfield's parish church and its twisted spire, through its history (crookedSpire.ts).
+    ground = '#55693c';
+    buildCrookedSpire(group, buildFrac);
   } else if (model === 'chatsworth') {
     // Chatsworth House and the garden beside it, through its history (chatsworth.ts).
     ground = '#74914b';

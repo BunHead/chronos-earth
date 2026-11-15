@@ -82,7 +82,7 @@ export const VALID_MODELS = [
   // Scotland.
   'edinburgh-castle',
   // England.
-  'nottingham-castle', 'chatsworth',
+  'nottingham-castle', 'chatsworth', 'crooked-spire',
   // Bavaria.
   'neuschwanstein',
   // Sydney.
@@ -162,6 +162,7 @@ const KEYWORD_RULES = [
   { rule: 'Tower of London / White Tower keyword', model: 'tower-of-london', re: /tower of london|white tower/ },
   { rule: 'Edinburgh Castle keyword (Castle Rock, before the castle bucket)', model: 'edinburgh-castle', re: /edinburgh castle/ },
   { rule: 'Nottingham Castle keyword (Castle Rock and the ducal mansion, before the castle bucket)', model: 'nottingham-castle', re: /nottingham castle/ },
+  { rule: "Chesterfield's Crooked Spire keyword (the parish church and its twisted spire)", model: 'crooked-spire', re: /crooked spire|chesterfield parish church|st mary and all saints,? chesterfield/ },
   { rule: 'Chatsworth House keyword (the courtyard house and its north wing)', model: 'chatsworth', re: /chatsworth house/ },
   { rule: 'Neuschwanstein keyword (its ridge and the Palas, before the castle bucket)', model: 'neuschwanstein', re: /neuschwanstein/ },
   { rule: 'The Shard keyword', model: 'shard', re: /the shard|shard london/ },

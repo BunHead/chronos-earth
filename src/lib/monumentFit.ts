@@ -187,6 +187,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // rule, 85 m facing 200, was for the generic boxes; the mansion's east front
   // really faces bearing 53, read off the imagery: components/nottinghamCastle.ts.)
   'nottingham-castle': { widthM: 366, facingDeg: 0 },
+  // Chesterfield's parish church (components/crookedSpire.ts), authored north-up
+  // in true metres: 52.7 m long (173 ft), turned 3.5 degrees, so 55.64 m from
+  // west to east over its end buttresses.
+  'crooked-spire': { widthM: 55.64, facingDeg: 0 },
   // The house, its wing and the garden beside it, authored north-up in true
   // metres: the walls run north–south and east–west to within 1°, read off
   // Esri's map and photo (components/chatsworth.ts).

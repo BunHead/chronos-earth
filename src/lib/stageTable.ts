@@ -127,6 +127,18 @@ export const STAGE_TABLE: Record<string, DatedStage[]> = {
     { from: 1878, suffix: '-b85' }, // the Castle Museum (T. C. Hine, 1876-78)
     { from: 2021, suffix: '' },     // today: the visitor centre by the gatehouse
   ],
+  // Chesterfield's Crooked Spire (components/crookedSpire.ts). Dates: Wikipedia
+  // 'Church of St Mary and All Saints, Chesterfield' and the Derbyshire HER.
+  // Nobody recorded when the twist began: -b55 and -b70 are hedged.
+  'crooked-spire': [
+    { from: 1234, suffix: '-b10' }, // building begins: a building site
+    { from: 1325, suffix: '-b25' }, // the great rebuilding (c. 1325-50): nave and tower rising
+    { from: 1362, suffix: '-b40' }, // the spire is added (about 1362), straight
+    { from: 1700, suffix: '-b55' }, // lead on the spire (17th century); the twist under way
+    { from: 1817, suffix: '-b70' }, // surveyed: twisted, pushed southward, nearly taken down
+    { from: 1961, suffix: '-b85' }, // the fire of 22 December 1961: the north transept roofless
+    { from: 1963, suffix: '' },     // today (repaired; the new organ went in in 1963)
+  ],
   // Chatsworth House (components/chatsworth.ts). Dates: Wikipedia 'Chatsworth
   // House' and the Historic England list entries.
   chatsworth: [

@@ -25,6 +25,25 @@ export interface MonumentPhase {
   note?: string;
 }
 
+/** Chesterfield's parish church and its spire. Sources and hedges in
+ * components/crookedSpire.ts. */
+const CROOKED_SPIRE: MonumentPhase[] = [
+  { fromYear: 1234, yearLabel: '1234', label: 'Building begins', model: 'crooked-spire', build: 0.1,
+    note: 'Work on a new church began in 1234, on a site that already had an older church. Nobody recorded what it looked like then, so this is shown as a building site.' },
+  { fromYear: 1325, yearLabel: 'c. 1325', label: 'The great rebuilding', model: 'crooked-spire', build: 0.25,
+    note: 'Most of the church you see today was built between about 1325 and 1350. Here the east end and the transepts are up, and the nave and the tower are still rising. The Black Death struck while it was being built.' },
+  { fromYear: 1362, yearLabel: 'c. 1362', label: 'The spire goes up', model: 'crooked-spire', build: 0.4,
+    note: 'The spire was added in about 1362: a timber frame, eight-sided, and straight. Its top is 228 feet (69 m) above the ground. What covered it at first is not recorded; it is shown as wood.' },
+  { fromYear: 1700, yearLabel: 'c. 1700', label: 'Lead on the spire', model: 'crooked-spire', build: 0.55,
+    note: 'In the 1600s the spire was covered with about 33 tons of lead, laid in a herringbone pattern. Nobody wrote down when the twist began. It is shown here part-way, as a guess.' },
+  { fromYear: 1817, yearLabel: '1817', label: 'Twisted, and nearly lost', model: 'crooked-spire', build: 0.7,
+    note: 'A survey in 1817 found rotten timber and the spire pushed to the south. It said the spire should be taken down. It was mended instead. Gilbert Scott restored the church in 1843.' },
+  { fromYear: 1961, yearLabel: '1961', label: 'The 1961 fire', model: 'crooked-spire', build: 0.85, state: 'burning',
+    note: 'On 22 December 1961 fire took hold in the north of the church. It burnt off the north transept roof and most of a rare 1756 organ. The spire was saved.' },
+  { fromYear: 1963, yearLabel: 'today', label: 'Today', model: 'crooked-spire', build: 1,
+    note: 'The spire twists 45 degrees and its tip leans 9 ft 6 in (2.9 m) to the south-west. When it was checked in 2000 it was still moving. Chesterfield’s football team are called the Spireites after it.' },
+];
+
 const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
   {
     // Edinburgh Castle on Castle Rock (components/edinburghCastle.ts). The
@@ -65,6 +84,15 @@ const PHASES: Array<{ match: string; phases: MonumentPhase[] }> = [
         note: 'The Bower, the Knights’ House and the Square Tower were finished in a simpler form by 1892. The great keep and the chapel were never built; the castle opened to visitors weeks after Ludwig’s death.' },
     ],
   },
+  {
+    // Chesterfield's Crooked Spire (components/crookedSpire.ts); the globe swaps
+    // the same stages by date (lib/stageTable.ts). Two entries share the phases:
+    // the pin's name and the church's own name.
+    match: 'crooked spire',
+    phases: CROOKED_SPIRE,
+  },
+  { match: 'st mary and all saints, chesterfield', phases: CROOKED_SPIRE },
+  { match: 'chesterfield parish church', phases: CROOKED_SPIRE },
   {
     // Nottingham Castle on Castle Rock (components/nottinghamCastle.ts); the
     // globe swaps the same stages by date (lib/stageTable.ts). What stands
