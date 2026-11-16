@@ -221,6 +221,60 @@ export const HAND_PLACED = [
     // Mayr et al., Current Biology, 3 Nov 2026.
     sourceUrl: 'https://www.senckenberg.de/en/press-releases/not-a-night-owl-yet-an-extraordinary-bird-fossil-from-the-messel-pit/',
   },
+  // Batch 4, mid-November 2026 (scripts/add-discoveries-nov-2026b.mjs has the
+  // note). None of the sources gives a point, and the GPlates service
+  // (gws.gplates.org) could not be reached, so for all three the pin is an
+  // APPROXIMATE place name and the track is an ESTIMATE: run
+  // `node scripts/fetch-fauna-paleo.mjs --all` to replace the tracks. No Wikidata
+  // Q-id could be checked, so none is set.
+  //
+  // Cambridge Greensand Member (West Melbury Marly Chalk Formation), about
+  // 105-100 Ma: pinned at Cambridge, where the Sedgwick Museum holds the bones;
+  // the paper's exact pit is not given. Track: Baryonyx's (121.4 Ma) and
+  // Mosasaurus's (70 Ma) PALEOMAP positions interpolated to 105 and 100 Ma,
+  // then moved by the offset between Cambridge and Baryonyx's pin.
+  {
+    id: 'hintighernia', name: 'Hintighernia', emoji: '🦅',
+    lat: 52.2, lon: 0.12, fromMa: 105, toMa: 100, region: 'Cambridge Greensand, England, United Kingdom',
+    blurb: 'A short-snouted tapejarid pterosaur from England, about 105-100 million years old, named in 2026 ' +
+      'from a specimen first described in 1870. Tapejarids were thought of as Brazilian; this one hints ' +
+      'that Europe may have been an early centre for the group.',
+    wiki: 'Hintighernia',
+    track: [{ ma: 100, lon: 8.9, lat: 43.0 }, { ma: 105, lon: 9.55, lat: 42.8 }],
+    // Pêgas et al., Zoological Journal of the Linnean Society 208(3), zlag162, 2026.
+    sourceUrl: 'https://www.sci.news/paleontology/hintighernia-edingerae-15186.html',
+    paperUrl: 'https://doi.org/10.1093/zoolinnean/zlag162',
+  },
+  // Pisco Formation at Aguada de Lomas, Sacaco basin, Arequipa, 6.3-5.6 Ma.
+  // Pinned near the Sacaco basin's general area (about 15.5 S 74.7 W, from
+  // memory of the map, not a published point). South America has moved very
+  // little in 6 million years, so the track is the pin itself: an ESTIMATE.
+  {
+    id: 'scaphokogia-huachafo', name: 'Scaphokogia huachafo', emoji: '🐋',
+    lat: -15.5, lon: -74.7, fromMa: 6.3, toMa: 5.6, region: 'Sacaco basin, Arequipa, Peru',
+    blurb: 'A 2.7 m pygmy sperm whale, named in 2026, with the most lopsided skull known in any whale: its ' +
+      'heavy snout points down at the seabed, and the authors propose it fed on the bottom.',
+    wiki: 'Scaphokogia',
+    track: [{ ma: 5.6, lon: -74.7, lat: -15.5 }, { ma: 6.3, lon: -74.7, lat: -15.5 }],
+    // Benites-Palomino et al., Communications Biology 9, 1406, 2026.
+    sourceUrl: 'https://www.sci.news/paleontology/scaphokogia-huachafo-15184.html',
+  },
+  // Guichón Formation at Meseta de Artigas, Artigas department. The paper's
+  // point is not public, so the pin is Artigas city (about 30.40 S 56.47 W).
+  // The paper only suggests Coniacian-Maastrichtian (about 89.8-66 Ma), from the
+  // age of its clade. Track: the shift between Neuquén's pin and its PALEOMAP
+  // position at 83.6 Ma (Rinconraptor), applied here: an ESTIMATE.
+  {
+    id: 'mesetasaurus', name: 'Mesetasaurus', emoji: P,
+    lat: -30.4, lon: -56.47, fromMa: 89.8, toMa: 66, region: 'Meseta de Artigas, Uruguay',
+    blurb: 'A long-tailed titanosaur from Uruguay, named in 2026 from two tail vertebrae. It is the second ' +
+      'aeolosaurin known there, and its relatives suggest the Guichón Formation is Coniacian-Maastrichtian.',
+    wiki: 'Mesetasaurus',
+    track: [{ ma: 66, lon: -37.3, lat: -34.8 }, { ma: 89.8, lon: -37.3, lat: -34.8 }],
+    // Soto Núñez, Montenegro and Perea, Ameghiniana 63(4), 6 Nov 2026.
+    sourceUrl: 'https://www.ameghiniana.org.ar/index.php/ameghiniana/article/view/3689',
+    paperUrl: 'https://doi.org/10.5710/AMGH.19.06.2026.3689',
+  },
 ];
 
 const countryName = (() => {
