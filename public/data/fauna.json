@@ -4381,6 +4381,82 @@
       ],
       "sourceUrl": "https://www.ameghiniana.org.ar/index.php/ameghiniana/article/view/3689",
       "paperUrl": "https://doi.org/10.5710/AMGH.19.06.2026.3689"
+    },
+    {
+      "id": "megapodius-rokusi",
+      "name": "Megapodius rokusi",
+      "emoji": "🐦",
+      "lat": -8.53417,
+      "lon": 120.46028,
+      "fromMa": 0.19,
+      "toMa": 0.12,
+      "region": "Liang Bua, Flores (Indonesia)",
+      "blurb": "An extinct giant megapode (a mound-building bird), named in 2026 from a single leg bone. At about 3.9 kg it is the largest Megapodius described. Whether it could fly, and when it died out, are not known.",
+      "wiki": "Megapodius",
+      "track": [
+        {
+          "ma": 0.12,
+          "lon": 120.46028,
+          "lat": -8.53417
+        },
+        {
+          "ma": 0.19,
+          "lon": 120.46028,
+          "lat": -8.53417
+        }
+      ],
+      "sourceUrl": "https://doi.org/10.1080/03115518.2026.2741158"
+    },
+    {
+      "id": "nyana-rooiwalensis",
+      "name": "Nyana rooiwalensis",
+      "emoji": "🦕",
+      "lat": -31.33,
+      "lon": 27.85,
+      "fromMa": 222,
+      "toMa": 218,
+      "region": "Eastern Cape, South Africa",
+      "blurb": "An early long-necked-dinosaur relative (a sauropodomorph), named in 2026 from a juvenile with a near-complete 21.3 cm skull, a rarity for the Late Triassic. Already big for its age, it may have grown to multi-ton size as an adult.",
+      "wiki": "Sauropodomorpha",
+      "sourceUrl": "https://www.sci.news/paleontology/nyana-rooiwalensis-15194.html",
+      "paperUrl": "https://doi.org/10.1098/rsos.261002",
+      "track": [
+        {
+          "ma": 218,
+          "lon": -4.31,
+          "lat": -53.49
+        },
+        {
+          "ma": 222,
+          "lon": -5.53,
+          "lat": -55.92
+        }
+      ]
+    },
+    {
+      "id": "orcinus-sp-north-sea",
+      "name": "Orcinus sp. (large killer whale)",
+      "emoji": "🐋",
+      "lat": 51.9,
+      "lon": 3,
+      "fromMa": 2.6,
+      "toMa": 2.1,
+      "region": "Southern North Sea, off the Netherlands",
+      "blurb": "An unnamed killer-whale relative from the earliest Pleistocene, estimated at 7.2-7.7 m long, the largest Pleistocene dolphin known. Five fossils were dragged up by fishing trawlers.",
+      "wiki": "Killer whale",
+      "sourceUrl": "https://www.sci.news/paleontology/pleistocene-killer-whale-15202.html",
+      "track": [
+        {
+          "ma": 2.1,
+          "lon": 3.0,
+          "lat": 51.9
+        },
+        {
+          "ma": 2.6,
+          "lon": 3.0,
+          "lat": 51.9
+        }
+      ]
     }
   ]
 }
