@@ -81,7 +81,9 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'tower bridge', widthM: 260, facingDeg: 90 }, // span crosses the Thames ~N–S
   { match: "st paul", widthM: 75, facingDeg: 245 }, // west front to the WSW, nave ENE–WSW
   { match: "st. paul", widthM: 75, facingDeg: 245 },
-  { match: 'tower of london', widthM: 36, facingDeg: 20 }, // the White Tower, slightly off-cardinal
+  // (No 'tower of london' title rule: the 'tower-of-london' model is the whole
+  // moated fortress, 170 m (BY_MODEL). A 36 m rule here, left from when it was
+  // only the White Tower, shrank the fortress to the keep's size. Nov 2026.)
   { match: 'white tower', widthM: 36, facingDeg: 20 },
   { match: 'the shard', widthM: 55 }, // rotationally near-symmetric — facing immaterial
   { match: '30 st mary axe', widthM: 50 },
@@ -174,7 +176,10 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'london-eye': { widthM: 130, facingDeg: 270 }, // wheel parallel to the river, A-frame on the east (land) side
   'tower-bridge': { widthM: 260, facingDeg: 90 }, // deck spans the Thames ~N–S
   'st-pauls': { widthM: 75, facingDeg: 245 }, // west front to the WSW
-  'tower-of-london': { widthM: 170, facingDeg: 20 }, // the whole moated fortress (~170 m); keeps the White Tower ~36 m
+  // The whole moated fortress (~170 m). Its front (+Z) is the river side, which
+  // faces bearing ~200 (SSW) on the imagery: θ = 180 − 200 = −20 → 340 (Nov 2026;
+  // facing 20 had put the Thames south-east, across the Tower Bridge approach).
+  'tower-of-london': { widthM: 170, facingDeg: 340 },
   shard: { widthM: 55, facingDeg: 0 }, // rotationally symmetric
   gherkin: { widthM: 50, facingDeg: 0 },
   // The Paris trio — same bearings as their KNOWN rows above.

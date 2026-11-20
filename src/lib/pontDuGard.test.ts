@@ -42,3 +42,10 @@ describe('Pont du Gard', () => {
     expect(fitFor('Pont du Gard', 'pont-du-gard')).toEqual({ widthM: 207, facingDeg: 0 });
   });
 });
+
+describe('Tower of London (the generic fortress model)', () => {
+  it('is fitted as the whole 170 m fortress, not shrunk to the White Tower', () => {
+    expect(fitFor('Tower of London', 'tower-of-london')).toEqual({ widthM: 170, facingDeg: 340 });
+    expect(fitFor('White Tower', 'tower-of-london').widthM).toBe(36);
+  });
+});
