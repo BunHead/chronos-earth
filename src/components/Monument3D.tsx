@@ -2762,14 +2762,26 @@ export function buildModel(
     // drums strewn on the stylobate. It handles its own collapse.
     ground = '#8a8465';
     if (ruined) group.userData.selfRuined = true;
-    const marble = ruined ? '#cec7b5' : '#d9d2c0';
+    const marble = ruined ? '#d8d2c2' : '#e6e1d4';
+    // Pentelic marble, dressed smooth: plain colours, because the shared rubble
+    // texture turned the whole temple dark brown (Nov 2026 survey).
+    const marbleMats = new Map<string, THREE.Material>();
+    const marbleMat = (c: string) => {
+      if (!marbleMats.has(c)) marbleMats.set(c, new THREE.MeshStandardMaterial({ color: c, roughness: 0.75 }));
+      return marbleMats.get(c)!;
+    };
+    const plainBlock = (w: number, h: number, d: number, x: number, y: number, z: number, c: string, ry = 0) => {
+      const m = block(w, h, d, x, y, z, c, ry);
+      m.material = marbleMat(c);
+      return m;
+    };
     const colX = 4.6;
     const colZ = 2.3;
-    group.add(block(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
-    group.add(block(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
+    group.add(plainBlock(11.4, 0.5, 6.6, 0, 0.25, 0, marble)); // stylobate steps
+    group.add(plainBlock(10.6, 0.45, 5.8, 0, 0.72, 0, marble));
     if (!ruined) {
       const col = (x: number, z: number) => {
-        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), stoneLike({ color: marble }));
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 3.2, 10), marbleMat(marble));
         c.position.set(x, 2.55, z);
         weather(c, 0.02);
         group.add(c);
@@ -2782,8 +2794,8 @@ export function buildModel(
         col(s * colX, 0.77); // short ends (corners already placed)
         col(s * colX, -0.77);
       }
-      group.add(block(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
-      group.add(block(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
+      group.add(plainBlock(10.2, 0.55, 5.4, 0, 4.42, 0, marble)); // architrave
+      group.add(plainBlock(6.8, 2.6, 3.4, 0, 3.0, 0, '#cfc7b2')); // the cella within
       // A proper low-pitched gable with pediments — the last survivor of the old
       // 3-sided-cylinder roof trick, which ballooned into an oversized wedge that
       // swallowed the colonnade (the Captain's raised eyebrow at the Parthenon).
@@ -2806,7 +2818,7 @@ export function buildModel(
         else hf = 0.82 + rnd(seed, 3) * 0.18; // near-full
         const nd = Math.max(1, Math.round((fullH * hf) / drumH));
         for (let d = 0; d < nd; d++) {
-          const c = new THREE.Mesh(drumGeo, stoneMat(marble));
+          const c = new THREE.Mesh(drumGeo, marbleMat(marble));
           const jx = preserve ? 0 : (rnd(seed, d + 6) - 0.5) * 0.05;
           const jz = preserve ? 0 : (rnd(seed, d + 7) - 0.5) * 0.05;
           c.position.set(x + jx, baseY + drumH * (d + 0.5), z + jz);
@@ -2823,13 +2835,13 @@ export function buildModel(
         placeColumn(s * colX, -0.77, 420 + s + 1);
       }
       // Surviving architrave (+ frieze course) riding the preserved back flank.
-      group.add(block(7.2, 0.5, 0.72, 0, 4.32, -colZ, marble));
-      group.add(block(0.72, 0.5, 1.5, -colX, 4.32, -colZ + 0.95, marble)); // short return at a corner
+      group.add(plainBlock(7.2, 0.5, 0.72, 0, 4.32, -colZ, marble));
+      group.add(plainBlock(0.72, 0.5, 1.5, -colX, 4.32, -colZ + 0.95, marble)); // short return at a corner
       // The cella reduced to roofless, broken partial walls.
       const cw = '#c9c1ad';
-      group.add(block(6.2, 1.8, 0.42, 0, baseY + 0.9, -1.1, cw));
-      group.add(block(6.2, 1.0, 0.42, 0, baseY + 0.5, 1.1, cw));
-      group.add(block(0.42, 1.5, 2.6, -3.1, baseY + 0.75, 0, cw));
+      group.add(plainBlock(6.2, 1.8, 0.42, 0, baseY + 0.9, -1.1, cw));
+      group.add(plainBlock(6.2, 1.0, 0.42, 0, baseY + 0.5, 1.1, cw));
+      group.add(plainBlock(0.42, 1.5, 2.6, -3.1, baseY + 0.75, 0, cw));
       // Pediment fragments — one leaning, one fallen flat on the stylobate.
       const frag = new THREE.Shape();
       frag.moveTo(-1.1, 0);
@@ -2837,11 +2849,11 @@ export function buildModel(
       frag.lineTo(0.1, 0.95);
       frag.closePath();
       const fragGeo = new THREE.ExtrudeGeometry(frag, { depth: 0.42, bevelEnabled: false });
-      const f1 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      const f1 = new THREE.Mesh(fragGeo, marbleMat(marble));
       f1.position.set(2.4, 1.0, 2.4);
       f1.rotation.set(0, 0.3, -0.55);
       group.add(f1);
-      const f2 = new THREE.Mesh(fragGeo, stoneMat(marble));
+      const f2 = new THREE.Mesh(fragGeo, marbleMat(marble));
       f2.rotation.set(-Math.PI / 2, 0, 0.4);
       f2.position.set(-2.7, 1.06, 2.9);
       group.add(f2);
@@ -2849,7 +2861,7 @@ export function buildModel(
       for (let k = 0; k < 7; k++) {
         const a = rnd(k, 7) * Math.PI * 2;
         const rr = 4.2 + rnd(k, 8) * 2.4;
-        const d = new THREE.Mesh(drumGeo, stoneMat(marble));
+        const d = new THREE.Mesh(drumGeo, marbleMat(marble));
         d.rotation.set(0, rnd(k, 9) * Math.PI, Math.PI / 2);
         d.position.set(Math.cos(a) * rr, rr < 5.3 ? 1.12 : 0.34, Math.sin(a) * rr * 0.6);
         group.add(d);

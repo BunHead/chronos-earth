@@ -9,7 +9,7 @@
   },
   "greek-temple": {
     "footprint": 11.4,
-    "kb": 31
+    "kb": 30
   },
   "stonehenge": {
     "footprint": 25.171,
@@ -169,7 +169,7 @@
   },
   "greek-temple-ruin": {
     "footprint": 11.938,
-    "kb": 50
+    "kb": 21
   },
   "stonehenge-ruin": {
     "footprint": 26.069,

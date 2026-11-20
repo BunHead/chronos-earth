@@ -40,7 +40,9 @@ const KNOWN: Array<{ match: string; widthM: number; facingDeg?: number }> = [
   { match: 'pyramid of the sun', widthM: 220 },
   { match: 'teotihuac', widthM: 220 },
   { match: 'colosseum', widthM: 190 },
-  { match: 'parthenon', widthM: 70, facingDeg: 0 }, // long axis E–W on the Acropolis; model long axis=local X, so θ=0 lays it E–W (facing 90 wrongly ran it N–S)
+  // Long axis on bearing ~80 on the imagery (Nov 2026); the model's long axis is local X,
+  // so θ = 10 turns it 10° north of east (θ=0 laid it due E–W; facing 90 wrongly ran it N–S).
+  { match: 'parthenon', widthM: 70, facingDeg: 10 },
   { match: 'notre-dame', widthM: 130, facingDeg: 242.5 }, // Captain's globe eyeball 2026-07-12: 30° clockwise from 270 overshot by 2–3°, eased back
   { match: 'notre dame', widthM: 130, facingDeg: 242.5 }, // Captain's globe eyeball 2026-07-12: matches the hyphenated entry above
   // The Paris trio. Bearings READ off geo calibration plan-renders 2026-07-12:

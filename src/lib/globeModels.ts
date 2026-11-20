@@ -278,7 +278,9 @@ const PLACEMENTS: Placement[] = [
   // The Colosseum pin uses the true-metre 'colosseum' model only (issue #172).
   // Other amphitheatres keep the stylised 'amphitheatre' archetype.
   { model: 'colosseum', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
-  { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
+  // On the temple itself: its middle is about 14 m north of the gazetteer pin on
+  // Esri imagery (z19), the stylobate's axis on bearing about 80 (Nov 2026).
+  { model: 'greek-temple', title: 'Parthenon', lat: 37.97162, lon: 23.72672, builtYear: -438, ruinYear: 1687 },
   // THE COLOSSUS OF RHODES (colossusRhodes.ts), on its pedestal at the head of
   // the St Nicholas mole. Finished 280 BC; the earthquake of 226 BC snapped it
   // at the knees and it lay on the ground from then on (Strabo, Pliny); the
