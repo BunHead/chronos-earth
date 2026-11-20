@@ -148,7 +148,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'zeus-statue': { widthM: 40, facingDeg: 0 },
   'artemis-temple': { widthM: 115, facingDeg: 0 },
   mausoleum: { widthM: 40, facingDeg: 0 },
-  colossus: { widthM: 18, facingDeg: 0 },
+  // The Colossus of Rhodes on its pedestal at the head of the St Nicholas mole,
+  // authored north-up in true metres (colossusRhodes.ts): the mole sets the span.
+  colossus: { widthM: 117, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   'giza-khufu': { widthM: 230.33, facingDeg: 0 },

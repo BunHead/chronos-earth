@@ -279,6 +279,14 @@ const PLACEMENTS: Placement[] = [
   // Other amphitheatres keep the stylised 'amphitheatre' archetype.
   { model: 'colosseum', title: 'Colosseum', lat: 41.8902, lon: 12.4922, builtYear: 80, ruinYear: 1349, buildYears: 10 },
   { model: 'greek-temple', title: 'Parthenon', lat: 37.9715, lon: 23.7267, builtYear: -438, ruinYear: 1687 },
+  // THE COLOSSUS OF RHODES (colossusRhodes.ts), on its pedestal at the head of
+  // the St Nicholas mole. Finished 280 BC; the earthquake of 226 BC snapped it
+  // at the knees and it lay on the ground from then on (Strabo, Pliny); the
+  // remains are said to have been sold for scrap after an Arab raid in 653
+  // (Theophanes; doubted by historians), so it leaves the globe in 654, the
+  // site's own fade year. It was a generic placement before: standing whole
+  // in the harbour to this day. Sunk 1.6 m: its mole deck on the real ground.
+  { model: 'colossus', title: 'Colossus of Rhodes', lat: 36.451, lon: 28.2278, builtYear: -280, ruinYear: -226, endYear: 654, sinkM: 1.6 },
   // ruinYear 400 CE is an ESTIMATE, not a recorded date: the stones fell and
   // were taken over millennia, unrecorded until the falls of 1797 and 1900.
   // The last sourced use is late-4th-century Roman coins and pottery — still

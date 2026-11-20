@@ -116,8 +116,8 @@
     "kb": 30
   },
   "colossus": {
-    "footprint": 6.2,
-    "kb": 55
+    "footprint": 11.7,
+    "kb": 145
   },
   "pharos": {
     "footprint": 9.2,
@@ -919,5 +919,9 @@
   "chatsworth-b80": {
     "footprint": 31.6,
     "kb": 63
+  },
+  "colossus-ruin": {
+    "footprint": 11.7,
+    "kb": 155
   }
 }

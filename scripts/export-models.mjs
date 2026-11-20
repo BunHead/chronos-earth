@@ -114,6 +114,8 @@ const RUINS = [
   ['stonehenge', 'Stonehenge'],
   ['stonehenge-site', 'Stonehenge'],
   ['machu-picchu', 'Machu Picchu'],
+  // The Colossus lying broken where the earthquake of 226 BC threw it.
+  ['colossus', 'Colossus of Rhodes'],
   // Not a ruin but an EXCAVATION: the open pit as shown since 1974.
   ['terracotta-army', 'Terracotta Army'],
 ];
