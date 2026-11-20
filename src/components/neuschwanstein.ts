@@ -141,14 +141,31 @@ export function buildNeuschwanstein(
       col.push(c.r, c.g, c.b);
     }
   }
-  // Only the ridge itself: the flat valley floor round it is left out, so on
-  // the globe the real landscape shows round it.
-  const flat = (i: number, k: number) => H[k * (nx + 1) + i] < 1;
+  // Only the ridge and its fall go to the globe. Past the foot of the fall the
+  // ground stood 6–40 m up all the way to the square's edge, so on the globe a
+  // green square of fake forest lay over the real valley (Nov 2026 survey).
+  // There the real terrain carries on. In the viewer (a flat ground disc) the
+  // outer ring is faded down to the disc instead, as its own mesh: viewerOnly
+  // (left out of the .glb) and noShadow (left out of the fit), so the viewer
+  // and the globe measure the same ridge.
+  const W0 = (x: number, z: number) => 30 + 25 * smooth(-0.2, 0.8, (x * 0.6 + z * 0.8) / 120);
+  const out: number[] = [];
+  for (let k = 0; k <= nz; k++) {
+    for (let i = 0; i <= nx; i++) {
+      const x = X0 + i * G, z = Z0 + k * G;
+      const d = inPoly(SITE, x, z) ? 0 : edgeDist(SITE, x, z);
+      const past = d - W0(x, z); // > 0: past the foot of the fall
+      out.push(past);
+      if (past > 0) pos[(k * (nx + 1) + i) * 3 + 1] *= 1 - smooth(0, 45, past);
+    }
+  }
+  const outerIdx: number[] = [];
   for (let k = 0; k < nz; k++) {
     for (let i = 0; i < nx; i++) {
-      if (flat(i, k) && flat(i + 1, k) && flat(i, k + 1) && flat(i + 1, k + 1)) continue;
       const a = k * (nx + 1) + i, b = a + 1, c = a + nx + 1, d = c + 1;
-      idx.push(a, c, b, b, c, d);
+      const outer = Math.min(out[a], out[b], out[c], out[d]) > 0;
+      if (outer && Math.max(pos[a * 3 + 1], pos[b * 3 + 1], pos[c * 3 + 1], pos[d * 3 + 1]) < 0.3) continue;
+      (outer ? outerIdx : idx).push(a, c, b, b, c, d);
     }
   }
   const geo = new THREE.BufferGeometry();
@@ -156,7 +173,17 @@ export function buildNeuschwanstein(
   geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
   geo.setIndex(idx);
   geo.computeVertexNormals();
-  root.add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, flatShading: true })));
+  const groundMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, flatShading: true });
+  const outerGeo = new THREE.BufferGeometry();
+  outerGeo.setAttribute('position', geo.getAttribute('position'));
+  outerGeo.setAttribute('color', geo.getAttribute('color'));
+  outerGeo.setIndex(outerIdx);
+  outerGeo.computeVertexNormals();
+  const skirt = new THREE.Mesh(outerGeo, groundMat);
+  skirt.userData.viewerOnly = true;
+  skirt.userData.noShadow = true;
+  root.add(skirt);
+  root.add(new THREE.Mesh(geo, groundMat));
 
   // ============================ MATERIALS ============================
   // Bright limestone (cool, because the shared stone texture's warm specks

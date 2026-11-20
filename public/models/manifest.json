@@ -782,23 +782,23 @@
   },
   "neuschwanstein": {
     "footprint": 32,
-    "kb": 90
+    "kb": 66
   },
   "neuschwanstein-b15": {
     "footprint": 32,
-    "kb": 73
+    "kb": 50
   },
   "neuschwanstein-b30": {
     "footprint": 32,
-    "kb": 63
+    "kb": 40
   },
   "neuschwanstein-b50": {
     "footprint": 32,
-    "kb": 77
+    "kb": 54
   },
   "neuschwanstein-b75": {
     "footprint": 32,
-    "kb": 83
+    "kb": 60
   },
   "edinburgh-castle": {
     "footprint": 58,
