@@ -308,6 +308,12 @@ const PLACEMENTS: Placement[] = [
   { model: 'arc-triomphe', title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295, builtYear: 1836 },
   // The model includes Pei's glass pyramid, so it stands from the pyramid's
   // year — an 1800s Louvre without it would be the honest earlier form.
+  // THE STATUE OF ZEUS AT OLYMPIA (zeusOlympia.ts), in its temple. From 435 BC
+  // (the site's date; the temple itself was built about 472-456 BC); the statue
+  // was lost by AD 475 (taken to Constantinople and burned, or lost with the
+  // temple's fire of 425), so it leaves the globe then. A generic placement
+  // before: standing at the pin to this day.
+  { model: 'zeus-statue', title: 'Statue of Zeus at Olympia', lat: 37.6379, lon: 21.63, builtYear: -435, endYear: 475 },
   // AVEBURY (avebury.ts): the outer circle and henge about 2600 BC (Burl). Stones
   // were toppled from the 14th century and broken up mostly in the 17th and 18th;
   // the 'today' stage (Keiller's re-erected stones, markers for the lost) from

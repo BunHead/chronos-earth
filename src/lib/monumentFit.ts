@@ -149,7 +149,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   rings: { widthM: 24911, facingDeg: -90 },
   // Seven Wonders of the Ancient World — real footprints (m) of what stood.
   'hanging-gardens': { widthM: 120, facingDeg: 0 },
-  'zeus-statue': { widthM: 40, facingDeg: 0 },
+  // The temple at Olympia (72 m platform) with the seated god, authored north-up
+  // in true metres (zeusOlympia.ts, Nov 2026; it was a 40 m stage with a 29 m god).
+  'zeus-statue': { widthM: 72, facingDeg: 0 },
   'artemis-temple': { widthM: 115, facingDeg: 0 },
   mausoleum: { widthM: 40, facingDeg: 0 },
   // The Colossus of Rhodes on its pedestal at the head of the St Nicholas mole,

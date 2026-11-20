@@ -31,6 +31,7 @@ import { buildPontDuGard } from './pontDuGard';
 import { buildSydneyOperaHouse } from './sydneyOperaHouse';
 import { buildLouvreSite } from './louvreSite';
 import { buildAvebury } from './avebury';
+import { buildZeusOlympia } from './zeusOlympia';
 import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
@@ -3845,52 +3846,10 @@ export function buildModel(
       group.add(block(26, 0.4, 4.6, 0, 0.15, 15, '#7d6a4c')); // dry, silted channel
     }
   } else if (model === 'zeus-statue') {
-    // The Statue of Zeus at Olympia — Phidias's ~12 m gold-and-ivory
-    // (chryselephantine) figure of Zeus enthroned, so vast that were he to
-    // stand he would unroof his own temple. Shown seated within the temple.
+    // The Statue of Zeus at Olympia, seated in his temple, in true metres
+    // (zeusOlympia.ts). The old model was a stage with a 29 m god.
     ground = '#8a8567';
-    const marble = '#d9d2c0';
-    group.add(block(11, 0.5, 8, 0, 0.25, 0, marble)); // stylobate
-    group.add(block(10.2, 0.45, 7.2, 0, 0.72, 0, marble));
-    const base = 0.95;
-    const colH = 7.8;
-    const colTop = base + colH;
-    // A minimal portico frame — two front columns, a lintel, side beams and a
-    // back wall — so the colossal enthroned god, not the architecture, reads.
-    for (const sx of [-1, 1] as const) {
-      const c = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.44, colH, 12), stoneLike({ color: marble }));
-      c.position.set(sx * 4.2, base + colH / 2, 3.0);
-      group.add(c);
-      group.add(block(1.0, 0.4, 1.0, sx * 4.2, colTop, 3.0, marble)); // capital
-    }
-    group.add(block(9.6, colH * 0.82, 0.6, 0, base + colH * 0.41, -3.4, '#cfc7b2')); // low back wall
-    group.add(block(9.4, 0.7, 0.7, 0, colTop + 0.35, 3.0, marble)); // front lintel
-    // Deliberately UNROOFED and open above — this wonder is the colossal statue,
-    // not the temple, so the enthroned god is left in full view and full light.
-    // The throne — polished gold, tall back and armrests.
-    group.add(matBlock(4.4, 0.7, 3.4, 0, base + 0.35, -0.4, GOLD));
-    group.add(matBlock(4.4, 5.2, 0.6, 0, base + 3.0, -1.8, GOLD_DK)); // tall throne back
-    for (const s of [-1, 1] as const) group.add(matBlock(0.6, 3.4, 3.0, s * 1.9, base + 2.1, -0.4, GOLD_DK)); // armrests
-    // Zeus, seated and colossal — gold-robed below, bare ivory flesh above.
-    group.add(matBlock(3.4, 1.1, 2.6, 0, base + 1.25, 0.5, GOLD)); // draped lap
-    for (const s of [-1, 1] as const) group.add(matBlock(1.2, 2.4, 1.2, s * 0.85, base + 1.0, 1.4, GOLD)); // robed shins
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.7, 2.6, 14), GOLD);
-    torso.position.set(0, base + 3.3, -0.3);
-    group.add(torso); // gold-robed waist
-    group.add(matBlock(3.0, 1.8, 1.9, 0, base + 4.9, 0, IVORY)); // bare ivory chest
-    group.add(matBlock(0.8, 0.8, 0.8, 0, base + 6.0, 0.1, IVORY)); // neck
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.95, 16, 14), IVORY);
-    head.position.set(0, base + 6.9, 0.1);
-    group.add(head);
-    group.add(matBlock(2.0, 0.5, 2.0, 0, base + 7.5, 0.1, GOLD)); // gold olive wreath
-    // Right arm forward bearing a winged Nike; left hand on a tall sceptre.
-    group.add(matBlock(0.85, 0.85, 2.8, 1.7, base + 4.6, 1.0, IVORY)); // right arm
-    group.add(matBlock(0.7, 1.3, 0.5, 1.7, base + 5.2, 2.4, IVORY)); // open palm
-    group.add(matBlock(0.5, 1.4, 0.4, 1.7, base + 6.2, 2.5, GOLD)); // Nike on the palm
-    group.add(matBlock(0.3, 6.6, 0.3, -2.2, base + 3.6, 0.6, GOLD)); // sceptre
-    const eagle = new THREE.Mesh(new THREE.SphereGeometry(0.45, 10, 8), GOLD);
-    eagle.position.set(-2.2, base + 7.1, 0.6);
-    group.add(eagle);
+    buildZeusOlympia(group, { gold: GOLD, goldDk: GOLD_DK, ivory: IVORY });
   } else if (model === 'artemis-temple') {
     // The Temple of Artemis at Ephesus — a colossal Ionic temple, far larger
     // than the Parthenon, its peristyle a DOUBLE row of ~18 m columns
