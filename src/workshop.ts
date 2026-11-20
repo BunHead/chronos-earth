@@ -147,7 +147,10 @@ const LIVE_SITES: Record<string, LiveSite> = {
   'terracotta-army': { title: 'Terracotta Army', lat: 34.3847, lon: 109.2731 }, // Pit 1's hall (Wikipedia 34°23′5″N 109°16′23″E)
   circle: { title: 'Avebury Stone Circle', lat: 51.4286, lon: -1.854 },
   settlement: { title: 'Çatalhöyük', lat: 37.6675, lon: 32.828 },
-  megalith: { title: 'Newgrange', lat: 53.6947, lon: -6.4755 },
+  // The megalith model's only real use is Gunung Padang (Pumapunku has its real scan).
+  // Newgrange was the example here, but no rule gives Newgrange a model: a round
+  // passage-tomb mound is nothing like this platform of pillars (Nov 2026 survey).
+  megalith: { title: 'Gunung Padang', lat: -6.99385, lon: 107.05608 },
   impact: { title: 'Chicxulub impact site', lat: 21.4, lon: -89.5 },
 };
 
