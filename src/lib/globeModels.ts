@@ -334,7 +334,9 @@ const PLACEMENTS: Placement[] = [
     cover: { rgb: [96, 106, 76], at: [], poly: [TOWER_OF_LONDON_COVER], until: 1240 } },
   { model: 'shard', title: 'The Shard', lat: 51.5045, lon: -0.0865, builtYear: 2012 },
   { model: 'gherkin', title: '30 St Mary Axe (The Gherkin)', lat: 51.5145, lon: -0.0803, builtYear: 2003 },
-  { model: 'opera-house', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
+  // The true-metre model laid out on the imagery (sydneyOperaHouse.ts); the old
+  // 'opera-house' needed a 140 deg / 58 m hand trim and still overhung the water.
+  { model: 'opera-house-site', title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153, builtYear: 1973 },
   // Built for Pachacuti c.1450; abandoned by c.1572, as the Inca state fell to
   // the Spanish — the thatch went, the stone stayed: the ruin we know.
   // It carries its OWN ridge (DEM, terraced), so it is sunk into the real

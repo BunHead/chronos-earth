@@ -28,6 +28,7 @@ import { buildNeuschwanstein } from './neuschwanstein';
 import { buildNottinghamCastle } from './nottinghamCastle';
 import { buildColossusOfRhodes } from './colossusRhodes';
 import { buildPontDuGard } from './pontDuGard';
+import { buildSydneyOperaHouse } from './sydneyOperaHouse';
 import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
@@ -2853,6 +2854,10 @@ export function buildModel(
         group.add(d);
       }
     }
+  } else if (model === 'opera-house-site') {
+    // The Sydney Opera House on Bennelong Point, in true metres (sydneyOperaHouse.ts).
+    ground = '#2b4a5a';
+    buildSydneyOperaHouse(group);
   } else if (model === 'pont-du-gard') {
     // The Pont du Gard itself, three tiers in true metres (pontDuGard.ts).
     ground = '#6b7a48';

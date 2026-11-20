@@ -72,6 +72,7 @@ const MODELS: Array<[string, string]> = [
   ['buckingham', 'Buckingham Palace'],
   ['london-eye', 'London Eye'],
   ['opera-house', 'Sydney Opera House'],
+  ['opera-house-site', 'Sydney Opera House (true metres)'],
   ['machu-picchu', 'Machu Picchu (Inca citadel)'],
   ['edinburgh-castle', 'Edinburgh Castle (Castle Rock)'],
   ['nottingham-castle', 'Nottingham Castle (Castle Rock)'],
@@ -138,6 +139,7 @@ const LIVE_SITES: Record<string, LiveSite> = {
   // sun (tracking the wrong side of the sky, seasons inverted). globeModels.ts
   // always had it right at -33.8568; this table was the odd one out.
   'opera-house': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
+  'opera-house-site': { title: 'Sydney Opera House', lat: -33.8568, lon: 151.2153 },
   'machu-picchu': { title: 'Machu Picchu', lat: -13.163, lon: -72.545 },
   'edinburgh-castle': { title: 'Edinburgh Castle', lat: 55.9486, lon: -3.2008 },
   'nottingham-castle': { title: 'Nottingham Castle', lat: 52.9495, lon: -1.1545 },

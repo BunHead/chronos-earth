@@ -80,6 +80,7 @@ const FLEET = [
   ['mausoleum', 'Mausoleum at Halicarnassus'],
   ['colossus', 'Colossus of Rhodes'],
   ['pont-du-gard', 'Pont du Gard'],
+  ['opera-house-site', 'Sydney Opera House'],
   ['pharos', 'Lighthouse of Alexandria'],
   // The Paris trio.
   ['eiffel', 'Eiffel Tower'],

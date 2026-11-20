@@ -927,5 +927,9 @@
   "pont-du-gard": {
     "footprint": 20.715,
     "kb": 23
+  },
+  "opera-house-site": {
+    "footprint": 20.835,
+    "kb": 25
   }
 }

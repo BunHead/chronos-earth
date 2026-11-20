@@ -143,7 +143,8 @@ export function monumentModelForName(name: string): string | null {
   // Sydney Opera House — SYDNEY-specific: the sails are unmistakably Sydney's, so
   // a bare "opera house" (London's neoclassical Royal Opera House, Vienna's, …)
   // must NOT be dressed in them — it gets no 3D, per "prefer none to a wrong one".
-  if (/sydney opera/.test(n)) return 'opera-house';
+  // (Its true-metre site model since Nov 2026: sydneyOperaHouse.ts.)
+  if (/sydney opera/.test(n)) return 'opera-house-site';
   // Machu Picchu — the citadel ITSELF (its model is surveyed in true metres on
   // the ridge). The 'Historic Sanctuary of Machu Picchu' pin sits 6.7 km away
   // and must not wear the citadel.

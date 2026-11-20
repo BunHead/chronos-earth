@@ -155,6 +155,8 @@ const BY_MODEL: Record<string, MonumentFit> = {
   colossus: { widthM: 117, facingDeg: 0 },
   // The Pont du Gard, three tiers on its real bearing, authored north-up in true metres (pontDuGard.ts).
   'pont-du-gard': { widthM: 207, facingDeg: 0 },
+  // The Sydney Opera House on Bennelong Point, authored north-up in true metres.
+  'opera-house-site': { widthM: 208.4, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   'giza-khufu': { widthM: 230.33, facingDeg: 0 },

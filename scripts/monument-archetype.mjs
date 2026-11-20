@@ -87,8 +87,8 @@ export const VALID_MODELS = [
   'pont-du-gard',
   // Bavaria.
   'neuschwanstein',
-  // Sydney.
-  'opera-house',
+  // Sydney (the stylised model, and the true-metre one the pin uses).
+  'opera-house', 'opera-house-site',
   // The Andes.
   'machu-picchu',
   // China.
@@ -178,7 +178,7 @@ const KEYWORD_RULES = [
   { rule: "Pompey's Pillar keyword", model: 'pompeys-pillar', re: /pompey'?s pillar/ },
   { rule: 'Great Wall of China / Badaling keyword (not Gorgan or Hadrian\'s)', model: 'great-wall', re: /^(the )?great wall of china\b|\bbadaling\b/ },
   { rule: 'Forbidden City keyword (its Meridian Gate and Hall of Supreme Harmony)', model: 'forbidden-city', re: /^(the )?forbidden city$|hall of supreme harmony/ },
-  { rule: 'Sydney Opera House keyword (Sydney-specific — not a generic opera house)', model: 'opera-house', re: /sydney opera/ },
+  { rule: 'Sydney Opera House keyword (Sydney-specific — not a generic opera house)', model: 'opera-house-site', re: /sydney opera/ },
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },
   { rule: 'Arc de Triomphe keyword (not the Carrousel arch)', model: 'arc-triomphe', re: /arc de triomphe(?! du carrousel)/ },
