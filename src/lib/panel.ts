@@ -168,7 +168,7 @@ export function monumentModelForName(name: string): string | null {
   // the generic palace bucket claims "Louvre Palace" for the castle model.
   if (/^(the )?(eiffel tower|tour eiffel)$/.test(n)) return 'eiffel';
   if (/arc de triomphe(?! du carrousel)/.test(n)) return 'arc-triomphe';
-  if (/palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/.test(n)) return 'louvre';
+  if (/palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/.test(n)) return 'louvre-site'; // true metres since Nov 2026 (louvreSite.ts)
   // Word-boundaried so bridges/parks aren't dragged in: "Forth Bridge" no longer
   // matches "fort", "Brimstone Hill Fortress National Park" no longer matches
   // "fort". Real castles/forts/palaces get the dedicated castle model.

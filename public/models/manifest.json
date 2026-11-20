@@ -931,5 +931,9 @@
   "opera-house-site": {
     "footprint": 20.835,
     "kb": 25
+  },
+  "louvre-site": {
+    "footprint": 75.847,
+    "kb": 12
   }
 }

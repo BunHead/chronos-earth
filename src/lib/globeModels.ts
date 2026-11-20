@@ -306,7 +306,9 @@ const PLACEMENTS: Placement[] = [
   { model: 'arc-triomphe', title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295, builtYear: 1836 },
   // The model includes Pei's glass pyramid, so it stands from the pyramid's
   // year — an 1800s Louvre without it would be the honest earlier form.
-  { model: 'louvre', title: 'Louvre', lat: 48.8606, lon: 2.3376, builtYear: 1989 },
+  // The true-metre palace laid out on the imagery (louvreSite.ts); the old
+  // 'louvre' was a 300 m square ring with no pyramid (the Captain flagged it).
+  { model: 'louvre-site', title: 'Louvre', lat: 48.8606, lon: 2.3376, builtYear: 1989 },
   // The whole palace through time (westminsterSite.ts): Westminster Hall from
   // 1097, the medieval palace, the 1834 fire, Barry & Pugin's rebuild. The photo
   // is today's palace, so it is covered until the Victoria Tower is done.

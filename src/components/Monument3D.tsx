@@ -29,6 +29,7 @@ import { buildNottinghamCastle } from './nottinghamCastle';
 import { buildColossusOfRhodes } from './colossusRhodes';
 import { buildPontDuGard } from './pontDuGard';
 import { buildSydneyOperaHouse } from './sydneyOperaHouse';
+import { buildLouvreSite } from './louvreSite';
 import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
@@ -2854,6 +2855,10 @@ export function buildModel(
         group.add(d);
       }
     }
+  } else if (model === 'louvre-site') {
+    // The Louvre and Pei's pyramid in true metres, laid out on the imagery (louvreSite.ts).
+    ground = '#8a8577';
+    buildLouvreSite(group);
   } else if (model === 'opera-house-site') {
     // The Sydney Opera House on Bennelong Point, in true metres (sydneyOperaHouse.ts).
     ground = '#2b4a5a';

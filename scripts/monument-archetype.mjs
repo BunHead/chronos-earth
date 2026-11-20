@@ -96,7 +96,7 @@ export const VALID_MODELS = [
   // New York.
   'liberty',
   // Paris.
-  'eiffel', 'arc-triomphe', 'louvre',
+  'eiffel', 'arc-triomphe', 'louvre', 'louvre-site',
   // Precursor claims, below the surface (lib/precursorMesh.ts).
   'ravne-tunnels', 'bimini-beachrock', 'yonaguni-rock',
   // 3D monuments batch 2, true metres (lib/landmarkMesh.ts).
@@ -182,7 +182,7 @@ const KEYWORD_RULES = [
   { rule: 'Statue of Liberty keyword', model: 'liberty', re: /statue of liberty/ },
   { rule: 'Eiffel Tower exact-name keyword', model: 'eiffel', re: /^(the )?(eiffel tower|tour eiffel)$/ },
   { rule: 'Arc de Triomphe keyword (not the Carrousel arch)', model: 'arc-triomphe', re: /arc de triomphe(?! du carrousel)/ },
-  { rule: 'Louvre keyword (before the palace/castle bucket)', model: 'louvre', re: /palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/ },
+  { rule: 'Louvre keyword (before the palace/castle bucket)', model: 'louvre-site', re: /palais du louvre|louvre palace|louvre museum|mus[eé]e du louvre|^(the )?louvre$/ },
   { rule: 'castle/fort/palace keyword (word-boundaried)', model: 'castle', re: /\b(castle|castel|fort|citadel|palace|palais|alc[aá]zar|ch[aâ]teau|kremlin)\b|alhambra/ },
   { rule: 'cathedral/church keyword', model: 'cathedral', re: /cathedral|basilica|minster|abbey|church|notre-dame|sagrada|duomo/ },
   { rule: 'greek-temple keyword', model: 'greek-temple', re: /parthenon|acropolis|greek temple|temple of (zeus|apollo|artemis|athena|poseidon|hera)/ },
