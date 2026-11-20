@@ -27,6 +27,7 @@ import { buildEdinburghCastle } from './edinburghCastle';
 import { buildNeuschwanstein } from './neuschwanstein';
 import { buildNottinghamCastle } from './nottinghamCastle';
 import { buildColossusOfRhodes } from './colossusRhodes';
+import { buildPontDuGard } from './pontDuGard';
 import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
@@ -2852,6 +2853,10 @@ export function buildModel(
         group.add(d);
       }
     }
+  } else if (model === 'pont-du-gard') {
+    // The Pont du Gard itself, three tiers in true metres (pontDuGard.ts).
+    ground = '#6b7a48';
+    buildPontDuGard(group, stoneMat);
   } else if (model === 'aqueduct') {
     // Two superimposed arcades of REAL semicircular arches carrying a water
     // channel across the valley (the Segovia / Pont du Gard look). Each bay is

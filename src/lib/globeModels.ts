@@ -380,7 +380,8 @@ const PLACEMENTS: Placement[] = [
   { model: 'terracotta-army', title: 'Terracotta Army', lat: 34.3847, lon: 109.2731, builtYear: -210, ruinYear: 1974, buried: [-206, 1974], sinkM: 5 },
   { model: 'liberty', title: 'Statue of Liberty', lat: 40.6892, lon: -74.0445, builtYear: 1886 },
   { model: 'leaning-tower', title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966, builtYear: 1372 },
-  { model: 'aqueduct', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
+  // The Pont du Gard on its real bearing, in true metres (pontDuGard.ts).
+  { model: 'pont-du-gard', title: 'Pont du Gard', lat: 43.9475, lon: 4.535, builtYear: 60 },
   // ERIDU. No buildYears window: this is not one building going up, it is
   // eighteen temple levels over 3,400 years, so its phases are listed by real
   // date in STAGE_TABLE (see lib/stageTable.ts) exactly as the Tower of London

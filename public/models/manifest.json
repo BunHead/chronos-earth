@@ -923,5 +923,9 @@
   "colossus-ruin": {
     "footprint": 11.7,
     "kb": 155
+  },
+  "pont-du-gard": {
+    "footprint": 20.715,
+    "kb": 23
   }
 }

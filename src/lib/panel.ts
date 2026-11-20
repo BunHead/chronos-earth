@@ -98,7 +98,9 @@ export function monumentModelForName(name: string): string | null {
   if (/pyramid|giza/.test(n)) return 'pyramid';
   if (/stonehenge/.test(n)) return 'stonehenge';
   if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
-  if (/aqueduct|pont du gard/.test(n)) return 'aqueduct';
+  // The Pont du Gard has its own true-metre model (pontDuGard.ts); other aqueducts keep the generic one.
+  if (/pont du gard/.test(n)) return 'pont-du-gard';
+  if (/aqueduct/.test(n)) return 'aqueduct';
   if (/pagoda/.test(n)) return 'pagoda';
   if (/lighthouse|pharos/.test(n)) return 'lighthouse';
   if (/leaning tower|torre di pisa/.test(n)) return 'leaning-tower';

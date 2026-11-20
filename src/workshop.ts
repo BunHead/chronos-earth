@@ -54,6 +54,7 @@ const MODELS: Array<[string, string]> = [
   ['mansion', 'Palladian mansion'],
   ['temple-tower', 'Asian spired temple'],
   ['aqueduct', 'Aqueduct'],
+  ['pont-du-gard', 'Pont du Gard (three tiers)'],
   ['pagoda', 'Pagoda'],
   ['lighthouse', 'Lighthouse'],
   ['leaning-tower', 'Leaning Tower of Pisa'],
@@ -113,7 +114,8 @@ const LIVE_SITES: Record<string, LiveSite> = {
   // Was Angkor Wat until Angkor got its own archetype (2026-09-18); Prambanan
   // is what this generic spired-temple form was actually shaped like.
   'temple-tower': { title: 'Prambanan', lat: -7.752, lon: 110.4915 },
-  aqueduct: { title: 'Pont du Gard', lat: 43.9475, lon: 4.535 },
+  aqueduct: { title: 'Aqueduct of Segovia', lat: 40.9481, lon: -4.1184 }, // the Pont du Gard has its own model now
+  'pont-du-gard': { title: 'Pont du Gard', lat: 43.9475, lon: 4.535 },
   pagoda: { title: 'Tō-ji Pagoda', lat: 34.9806, lon: 135.7477 },
   lighthouse: { title: 'Eddystone Lighthouse', lat: 50.18, lon: -4.27 },
   'leaning-tower': { title: 'Leaning Tower of Pisa', lat: 43.723, lon: 10.3966 },

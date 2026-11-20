@@ -89,7 +89,7 @@ describe('monumentModelForName — honest 3D or nothing', () => {
   });
 
   it('the new archetypes: aqueduct, pagoda, lighthouse', () => {
-    expect(monumentModelForName('Pont du Gard')).toBe('aqueduct');
+    expect(monumentModelForName('Pont du Gard')).toBe('pont-du-gard'); // its own three-tier model now
     expect(monumentModelForName('Aqueduct of Segovia')).toBe('aqueduct');
     expect(monumentModelForName('Yellow Crane Pagoda')).toBe('pagoda');
     expect(monumentModelForName('Pharos of Alexandria')).toBe('lighthouse');

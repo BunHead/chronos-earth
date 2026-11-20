@@ -151,6 +151,8 @@ const BY_MODEL: Record<string, MonumentFit> = {
   // The Colossus of Rhodes on its pedestal at the head of the St Nicholas mole,
   // authored north-up in true metres (colossusRhodes.ts): the mole sets the span.
   colossus: { widthM: 117, facingDeg: 0 },
+  // The Pont du Gard, three tiers on its real bearing, authored north-up in true metres (pontDuGard.ts).
+  'pont-du-gard': { widthM: 207, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   'giza-khufu': { widthM: 230.33, facingDeg: 0 },

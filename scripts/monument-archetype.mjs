@@ -83,6 +83,8 @@ export const VALID_MODELS = [
   'edinburgh-castle',
   // England.
   'nottingham-castle', 'chatsworth', 'crooked-spire',
+  // France.
+  'pont-du-gard',
   // Bavaria.
   'neuschwanstein',
   // Sydney.
@@ -145,7 +147,8 @@ const KEYWORD_RULES = [
   { rule: '"pyramid"/"giza" keyword', model: 'pyramid', re: /pyramid|giza/ },
   { rule: '"stonehenge" keyword', model: 'stonehenge', re: /stonehenge/ },
   { rule: 'stone-circle keyword', model: 'circle', re: /henge|stone circle|carnac|avebury/ },
-  { rule: '"aqueduct" keyword', model: 'aqueduct', re: /aqueduct|pont du gard/ },
+  { rule: 'Pont du Gard keyword (its own three-tier model)', model: 'pont-du-gard', re: /pont du gard/ },
+  { rule: '"aqueduct" keyword', model: 'aqueduct', re: /aqueduct/ },
   { rule: '"pagoda" keyword', model: 'pagoda', re: /pagoda/ },
   { rule: 'lighthouse keyword', model: 'lighthouse', re: /lighthouse|pharos/ },
   { rule: 'leaning tower keyword', model: 'leaning-tower', re: /leaning tower|torre di pisa/ },
