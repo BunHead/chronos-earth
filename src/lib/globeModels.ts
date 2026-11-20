@@ -308,6 +308,12 @@ const PLACEMENTS: Placement[] = [
   { model: 'arc-triomphe', title: 'Arc de Triomphe', lat: 48.8738, lon: 2.295, builtYear: 1836 },
   // The model includes Pei's glass pyramid, so it stands from the pyramid's
   // year — an 1800s Louvre without it would be the honest earlier form.
+  // AVEBURY (avebury.ts): the outer circle and henge about 2600 BC (Burl). Stones
+  // were toppled from the 14th century and broken up mostly in the 17th and 18th;
+  // the 'today' stage (Keiller's re-erected stones, markers for the lost) from
+  // 1700, an approximation. Its henge is 420 m across, so the generic 40 m
+  // circle it used to get is suppressed here (curated, same title).
+  { model: 'avebury', title: 'Avebury stone circle', lat: 51.4286, lon: -1.8539, builtYear: -2600, ruinYear: 1700 },
   // The true-metre palace laid out on the imagery (louvreSite.ts); the old
   // 'louvre' was a 300 m square ring with no pyramid (the Captain flagged it).
   { model: 'louvre-site', title: 'Louvre', lat: 48.8606, lon: 2.3376, builtYear: 1989 },

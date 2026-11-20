@@ -97,7 +97,9 @@ export function monumentModelForName(name: string): string | null {
   if (/sphinx/.test(n)) return 'sphinx'; // before pyramid — "Sphinx of Giza"
   if (/pyramid|giza/.test(n)) return 'pyramid';
   if (/stonehenge/.test(n)) return 'stonehenge';
-  if (/henge|stone circle|carnac|avebury/.test(n)) return 'circle';
+  // Avebury has its own true-metre henge and circles (avebury.ts, Nov 2026).
+  if (/avebury/.test(n)) return 'avebury';
+  if (/henge|stone circle|carnac/.test(n)) return 'circle';
   // The Pont du Gard has its own true-metre model (pontDuGard.ts); other aqueducts keep the generic one.
   if (/pont du gard/.test(n)) return 'pont-du-gard';
   if (/aqueduct/.test(n)) return 'aqueduct';

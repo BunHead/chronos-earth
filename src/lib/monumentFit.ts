@@ -161,6 +161,9 @@ const BY_MODEL: Record<string, MonumentFit> = {
   'opera-house-site': { widthM: 208.4, facingDeg: 0 },
   // The Louvre and its pyramid, authored north-up in true metres (louvreSite.ts).
   'louvre-site': { widthM: 758.5, facingDeg: 0 },
+  // Avebury, authored north-up in true metres (avebury.ts). The fit is set by the
+  // outer stone circle (331.6 m, 334.6 m over the stones); the bank is left out of it.
+  avebury: { widthM: 334.6, facingDeg: 0 },
   pharos: { widthM: 50, facingDeg: 0 },
   giza: { widthM: 1000, facingDeg: 0 }, // the whole plateau scene
   'giza-khufu': { widthM: 230.33, facingDeg: 0 },

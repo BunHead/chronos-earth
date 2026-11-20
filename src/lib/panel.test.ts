@@ -24,7 +24,8 @@ describe('monumentModelForName — honest 3D or nothing', () => {
     expect(monumentModelForName('Great Pyramid of Giza')).toBe('pyramid');
     expect(monumentModelForName('Chichén Itzá')).toBe('stepped-pyramid');
     expect(monumentModelForName('Teotihuacan')).toBe('stepped-pyramid');
-    expect(monumentModelForName('Avebury henge')).toBe('circle');
+    expect(monumentModelForName('Avebury henge')).toBe('avebury'); // its own henge and circles now
+    expect(monumentModelForName('Castlerigg stone circle')).toBe('circle');
     expect(monumentModelForName('Great Sphinx of Giza')).toBe('sphinx');
   });
 

@@ -82,6 +82,7 @@ const FLEET = [
   ['pont-du-gard', 'Pont du Gard'],
   ['opera-house-site', 'Sydney Opera House'],
   ['louvre-site', 'Louvre'],
+  ['avebury', 'Avebury stone circle'],
   ['pharos', 'Lighthouse of Alexandria'],
   // The Paris trio.
   ['eiffel', 'Eiffel Tower'],
@@ -119,6 +120,8 @@ const RUINS = [
   ['machu-picchu', 'Machu Picchu'],
   // The Colossus lying broken where the earthquake of 226 BC threw it.
   ['colossus', 'Colossus of Rhodes'],
+  // Avebury today: Keiller's re-erected stones, markers for the lost ones.
+  ['avebury', 'Avebury stone circle'],
   // Not a ruin but an EXCAVATION: the open pit as shown since 1974.
   ['terracotta-army', 'Terracotta Army'],
 ];

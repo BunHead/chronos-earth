@@ -935,5 +935,13 @@
   "louvre-site": {
     "footprint": 75.847,
     "kb": 12
+  },
+  "avebury": {
+    "footprint": 33.459,
+    "kb": 62
+  },
+  "avebury-ruin": {
+    "footprint": 33.379,
+    "kb": 45
   }
 }

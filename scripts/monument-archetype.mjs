@@ -85,6 +85,8 @@ export const VALID_MODELS = [
   'nottingham-castle', 'chatsworth', 'crooked-spire',
   // France.
   'pont-du-gard',
+  // Wiltshire.
+  'avebury',
   // Bavaria.
   'neuschwanstein',
   // Sydney (the stylised model, and the true-metre one the pin uses).
@@ -146,7 +148,8 @@ const KEYWORD_RULES = [
   { rule: '"sphinx" keyword', model: 'sphinx', re: /sphinx/ },
   { rule: '"pyramid"/"giza" keyword', model: 'pyramid', re: /pyramid|giza/ },
   { rule: '"stonehenge" keyword', model: 'stonehenge', re: /stonehenge/ },
-  { rule: 'stone-circle keyword', model: 'circle', re: /henge|stone circle|carnac|avebury/ },
+  { rule: 'Avebury keyword (its own henge and circles)', model: 'avebury', re: /avebury/ },
+  { rule: 'stone-circle keyword', model: 'circle', re: /henge|stone circle|carnac/ },
   { rule: 'Pont du Gard keyword (its own three-tier model)', model: 'pont-du-gard', re: /pont du gard/ },
   { rule: '"aqueduct" keyword', model: 'aqueduct', re: /aqueduct/ },
   { rule: '"pagoda" keyword', model: 'pagoda', re: /pagoda/ },

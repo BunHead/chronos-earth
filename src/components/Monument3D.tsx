@@ -30,6 +30,7 @@ import { buildColossusOfRhodes } from './colossusRhodes';
 import { buildPontDuGard } from './pontDuGard';
 import { buildSydneyOperaHouse } from './sydneyOperaHouse';
 import { buildLouvreSite } from './louvreSite';
+import { buildAvebury } from './avebury';
 import { buildCrookedSpire } from './crookedSpire';
 import { buildChatsworth } from './chatsworth';
 import { esriMissingTileUrl, esriTileUrl, isMissingTile, sampleTile } from '../lib/esriImagery';
@@ -2867,6 +2868,10 @@ export function buildModel(
         group.add(d);
       }
     }
+  } else if (model === 'avebury') {
+    // The Avebury henge and its stone circles, in true metres (avebury.ts).
+    ground = '#6c8a45';
+    buildAvebury(group, ruined, stoneMat);
   } else if (model === 'louvre-site') {
     // The Louvre and Pei's pyramid in true metres, laid out on the imagery (louvreSite.ts).
     ground = '#8a8577';
