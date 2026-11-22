@@ -290,11 +290,11 @@ export const HAND_PLACED = [
     track: [{ ma: 0.12, lon: 120.46028, lat: -8.53417 }, { ma: 0.19, lon: 120.46028, lat: -8.53417 }],
     sourceUrl: 'https://doi.org/10.1080/03115518.2026.2741158',
   },
-  // Lower Elliot Formation, near Qhemegha village, Eastern Cape. The village
-  // is not located in the source, so the pin is the town of Elliot (Wikipedia:
-  // 31.333 S 27.850 E), which gives the formation its name: APPROXIMATE. The
-  // source says "roughly 220 million years ago" (Late Triassic) and gives no
-  // range; 222-218 Ma is OUR bracket round that figure, not a published one.
+  // Lower Elliot Formation, Eastern Cape. The exact site is not located in the
+  // source, so the pin is APPROXIMATE: the Rooiwal area near Sterkspruit
+  // (about 30.52 S 27.37 E), set by hand. The source says "roughly 220 million
+  // years ago" (Late Triassic) and gives no range; 222-218 Ma is OUR bracket
+  // round that figure, not a published one.
   // The track is an ESTIMATE (GPlates could not be reached on 18 Nov 2026):
   // straight-line interpolation between the PALEOMAP tracks of two animals
   // from the same region already here, Cynognathus (237 Ma: 65.0 S 10.1 W) and
@@ -302,7 +302,7 @@ export const HAND_PLACED = [
   // and run `node scripts/fetch-fauna-paleo.mjs` (no --all).
   {
     id: 'nyana-rooiwalensis', name: 'Nyana rooiwalensis', emoji: P,
-    lat: -31.33, lon: 27.85, fromMa: 222, toMa: 218, region: 'Eastern Cape, South Africa',
+    lat: -30.52, lon: 27.37, fromMa: 222, toMa: 218, region: 'Eastern Cape, South Africa',
     blurb: 'An early long-necked-dinosaur relative (a sauropodomorph), named in 2026 from a juvenile with a ' +
       'near-complete 21.3 cm skull, a rarity for the Late Triassic. Already big for its age, it may have grown ' +
       'to multi-ton size as an adult.',
