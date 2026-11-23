@@ -74,7 +74,7 @@ letter — every rule here was paid for with a real failure.
 - **A twisted, leaning spire** (Chesterfield's Crooked Spire, Nov 2026): one
   custom BufferGeometry of stacked rings, each ring turned a little more and
   shifted a little more than the one below (`spireAt()` in crookedSpire.ts
-  holds the real figures, and the tests read the mesh back to check the sense
+  holds the figures; the twist (135°) and lean (6 m) are SHOWN larger than the quoted 45°/2.9 m because the eye reads far more, and each face also bows in and out; and the tests read the mesh back to check the sense
   of the twist and the bearing of the lean). The twist does NOT read from
   faces alone: add a narrow dark strip along each edge, a whisker proud. Split
   each face down the middle and shade its triangles in turn (vertex colours)

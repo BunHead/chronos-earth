@@ -866,7 +866,7 @@
   },
   "crooked-spire": {
     "footprint": 5.564,
-    "kb": 37
+    "kb": 48
   },
   "crooked-spire-b10": {
     "footprint": 5.564,
@@ -878,19 +878,19 @@
   },
   "crooked-spire-b40": {
     "footprint": 5.564,
-    "kb": 29
+    "kb": 34
   },
   "crooked-spire-b55": {
     "footprint": 5.564,
-    "kb": 33
+    "kb": 43
   },
   "crooked-spire-b70": {
     "footprint": 5.564,
-    "kb": 36
+    "kb": 47
   },
   "crooked-spire-b85": {
     "footprint": 5.564,
-    "kb": 38
+    "kb": 49
   },
   "chatsworth": {
     "footprint": 31.6,

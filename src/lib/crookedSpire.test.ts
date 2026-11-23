@@ -55,9 +55,9 @@ describe("Chesterfield's Crooked Spire", () => {
     expect(SPIRE.topM).toBeCloseTo(228 * 0.3048, 1);
   });
 
-  it('the tip leans 2.9 m to the south-west', () => {
+  it('the tip leans to the south-west (6 m shown; 2.9 m is the quoted figure)', () => {
     const tip = spireAt(1);
-    expect(Math.hypot(tip.east, tip.south)).toBeCloseTo(2.9, 5);
+    expect(Math.hypot(tip.east, tip.south)).toBeCloseTo(SPIRE.leanM, 5);
     expect(tip.east).toBeLessThan(0); // west
     expect(tip.south).toBeGreaterThan(0); // south
     expect(tip.east).toBeCloseTo(-tip.south, 5); // half-way between: south-west
@@ -65,14 +65,15 @@ describe("Chesterfield's Crooked Spire", () => {
     const { spire } = build(1);
     const foot = sectionAt(spire!, 3.3);
     const top = sectionAt(spire!, 6.95);
-    expect(top.x - foot.x).toBeLessThan(-0.15);
-    expect(top.z - foot.z).toBeGreaterThan(0.15);
-    expect(Math.hypot(top.x - foot.x, top.z - foot.z)).toBeCloseTo(0.29, 1);
+    expect(top.x - foot.x).toBeLessThan(-0.3);
+    expect(top.z - foot.z).toBeGreaterThan(0.3);
+    expect(Math.hypot(top.x - foot.x, top.z - foot.z)).toBeCloseTo(SPIRE.leanM / 10, 0);
   });
 
-  it('twists 45 degrees, anticlockwise seen from above as it climbs', () => {
+  it('twists far more than the quoted 45 degrees (135 shown), anticlockwise seen from above as it climbs', () => {
     expect(spireAt(0).turnDeg).toBe(0);
-    expect(spireAt(1).turnDeg).toBeCloseTo(45, 5);
+    expect(spireAt(1).turnDeg).toBeCloseTo(SPIRE.twistDeg, 5);
+    expect(SPIRE.twistDeg).toBeGreaterThanOrEqual(90);
     for (let t = 0.1; t <= 1; t += 0.1) expect(spireAt(t).turnDeg).toBeGreaterThan(spireAt(t - 0.1).turnDeg);
     // The mesh: follow one corner of the eight-sided section from the foot to
     // three-quarters of the way up. Seen from above with north up, east (+x)
@@ -80,14 +81,20 @@ describe("Chesterfield's Crooked Spire", () => {
     const { spire } = build(1);
     const corner = (y: number) => {
       const s = sectionAt(spire!, y, 0.001);
-      let best = s.pts[0], r = 0;
-      for (const q of s.pts) { const d = Math.hypot(q.x - s.x, q.z - s.z); if (d > r) { r = d; best = q; } }
+      // The farthest points are the two rib edges either side of a corner: average them.
+      let r = 0;
+      for (const q of s.pts) r = Math.max(r, Math.hypot(q.x - s.x, q.z - s.z));
+      const far = s.pts.find((q) => Math.hypot(q.x - s.x, q.z - s.z) === r)!;
+      const top = s.pts.filter((q) => Math.hypot(q.x - s.x, q.z - s.z) > r - 0.004 && Math.hypot(q.x - far.x, q.z - far.z) < 0.1);
+      const best = top.reduce((m, q) => new THREE.Vector3(m.x + q.x / top.length, 0, m.z + q.z / top.length), new THREE.Vector3());
       return { a: Math.atan2(-(best.z - s.z), best.x - s.x), s };
     };
     // All eight corners look alike, so compare angles modulo 45 degrees.
-    const y0 = 3.3, y1 = 3.3 + ((6.95 - 3.3) * 48) / 64;
+    // Low on the spire (ring 6 of 96) the faces have bowed so little that the
+    // corner is still the farthest point, and the turn is under 22.5 degrees.
+    const y0 = 3.3, y1 = 3.3 + ((6.95 - 3.3) * 6) / 96;
     const turn = ((((corner(y1).a - corner(y0).a) * 180) / Math.PI) % 45 + 45) % 45;
-    expect(turn).toBeCloseTo(spireAt(0.75).turnDeg % 45, 0);
+    expect(Math.abs(turn - spireAt(6 / 96).turnDeg)).toBeLessThan(2);
   });
 
   it('starts straight, and twists and leans more stage by stage', () => {

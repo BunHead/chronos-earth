@@ -89,10 +89,22 @@ export const SPIRE = {
   topM: 69.5,
   /** Top of the tower's parapet (read off photographs, not published). */
   towerM: 34,
-  /** Total twist, degrees, anticlockwise seen from above as it climbs. */
-  twistDeg: 45,
-  /** How far the tip stands off centre: 9 ft 6 in. */
-  leanM: 2.9,
+  /**
+   * Total twist, degrees, anticlockwise seen from above as it climbs. Wikipedia
+   * quotes 45 degrees, but the eye sees far more: Spencer has stood under it
+   * and says the twist read as far too small in the first model (Nov 2026), and
+   * in the photographs the corner ridges sweep right round, several faces' worth.
+   * So this is a MODELLED figure, matched to what the eye sees, not the quoted 45.
+   */
+  twistDeg: 135,
+  /**
+   * How far the tip stands off centre. Quoted: 9 ft 6 in (2.9 m). Shown larger
+   * (6 m) for the same reason as the twist: the real lean looks bigger than
+   * the number, and the south-west lean must be obvious at a glance.
+   */
+  leanM: 6,
+  /** How far each face bows in and out along its length (fraction of radius). */
+  bow: 0.13,
   /** Compass bearing of the lean: south-west. */
   leanBearingDeg: 225,
 } as const;
@@ -493,7 +505,7 @@ export function buildCrookedSpire(
     // than the one below: spireAt(). The faces are split down the middle and
     // their triangles shaded in turn, which draws the herringbone lead.
     const prog = spireProgress(P);
-    const Y0 = TOP - 1, HS = SPIRE.topM - Y0, R0 = 4.0, RINGS = 64;
+    const Y0 = TOP - 1, HS = SPIRE.topM - Y0, R0 = 4.0, RINGS = 96;
     const leaded = P >= 4;
     const cA = new THREE.Color(leaded ? '#808b92' : '#80674a');
     const cB = new THREE.Color(leaded ? '#6c777e' : '#6f573d');
@@ -511,10 +523,13 @@ export function buildCrookedSpire(
       const r = R0 * (1 - t) + 0.1 * t + (off ? 0.07 : 0);
       const turn = (s.turnDeg * Math.PI) / 180;
       const a0 = Math.PI / 8 + (k * Math.PI) / 4 + turn + off, a1 = a0 + Math.PI / 4;
+      // The faces warp: each one bows out then in along its length, and
+      // neighbours bow in opposite senses, so the faces look wrung, not flat.
+      const bow = 1 + SPIRE.bow * prog * Math.sin(t * Math.PI * 2.6 + k * Math.PI * 0.5) * Math.sin(t * Math.PI);
       // Anticlockwise from above: east (+x) turns toward north (-z).
       const p0: V3 = [lx + r * Math.cos(a0), Y0 + HS * t, lz - r * Math.sin(a0)];
       if (!mid) return p0;
-      return [lx + (r * (Math.cos(a0) + Math.cos(a1))) / 2, Y0 + HS * t, lz - (r * (Math.sin(a0) + Math.sin(a1))) / 2];
+      return [lx + (r * bow * (Math.cos(a0) + Math.cos(a1))) / 2, Y0 + HS * t, lz - (r * bow * (Math.sin(a0) + Math.sin(a1))) / 2];
     };
     const tri = (a: V3, b: V3, c: V3, colour: THREE.Color, axis: V3) => {
       // Wind every triangle so it faces away from the spire's centre line.
