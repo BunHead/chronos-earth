@@ -18,8 +18,8 @@
  * (pl652043992, "2000"); this row replaces it and keeps it in `merged`.
  *
  * Also runs batch 2, add-discoveries-oct-2026b.mjs, and batch 3,
- * add-discoveries-nov-2026.mjs, batch 4, add-discoveries-nov-2026b.mjs, and batch 6,
- * add-discoveries-nov-2026d.mjs (batch 5, -2026c, is in PR #178).
+ * add-discoveries-nov-2026.mjs, batch 4, add-discoveries-nov-2026b.mjs, batch 5,
+ * add-discoveries-nov-2026c.mjs, and batch 6, add-discoveries-nov-2026d.mjs.
  *
  *   node scripts/add-discoveries-oct-2026.mjs
  *   node scripts/add-discoveries-oct-2026.mjs --check
@@ -30,6 +30,7 @@ import { dirname, join } from 'node:path';
 import { applyBatch as applyLateOctober } from './add-discoveries-oct-2026b.mjs';
 import { applyBatch as applyEarlyNovember } from './add-discoveries-nov-2026.mjs';
 import { applyBatch as applyMidNovember } from './add-discoveries-nov-2026b.mjs';
+import { applyBatch as applyMidNovemberC } from './add-discoveries-nov-2026c.mjs';
 import { applyBatch as applyLateNovember } from './add-discoveries-nov-2026d.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -167,6 +168,7 @@ async function main() {
   // Batch 3 (early November 2026), after batch 2: it adds a line to the Xujiayao pin.
   applyEarlyNovember(events);
   applyMidNovember(events);
+  applyMidNovemberC(events);
   applyLateNovember(events);
   if (CHECK_ONLY) { console.log('(--check: nothing written)'); return; }
   await writeFile(FILE, JSON.stringify({ ...doc, events }));

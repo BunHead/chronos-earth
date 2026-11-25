@@ -270,6 +270,65 @@ export const HAND_PLACED = [
     sourceUrl: 'https://www.ameghiniana.org.ar/index.php/ameghiniana/article/view/3689',
     paperUrl: 'https://doi.org/10.5710/AMGH.19.06.2026.3689',
   },
+  // Batch 5, 18 November 2026 (scripts/add-discoveries-nov-2026c.mjs has the
+  // pins and notes). No source gives a point for any of the three animals
+  // below, so each pin is APPROXIMATE (see each comment). Tracks for the two
+  // old ones come from GPlates PALEOMAP via `node scripts/fetch-fauna-paleo.mjs`.
+  // No Wikidata Q-ids were checked, so none is set.
+  //
+  // Meijer et al., Alcheringa 2026, doi 10.1080/03115518.2026.2741158 (the
+  // paper itself could not be opened from the job's sandbox; the facts are
+  // those in the job brief). One tarsometatarsus from layers about 190,000-
+  // 120,000 years old at Liang Bua; pinned at the cave (the point already on
+  // the globe for Homo floresiensis).
+  {
+    id: 'megapodius-rokusi', name: 'Megapodius rokusi', emoji: '🐦',
+    lat: -8.53417, lon: 120.46028, fromMa: 0.19, toMa: 0.12, region: 'Liang Bua, Flores (Indonesia)',
+    blurb: 'An extinct giant megapode (a mound-building bird), named in 2026 from a single leg bone. At about ' +
+      '3.9 kg it is the largest Megapodius described. Whether it could fly, and when it died out, are not known.',
+    wiki: 'Megapodius',
+    track: [{ ma: 0.12, lon: 120.46028, lat: -8.53417 }, { ma: 0.19, lon: 120.46028, lat: -8.53417 }],
+    sourceUrl: 'https://doi.org/10.1080/03115518.2026.2741158',
+  },
+  // Lower Elliot Formation, Eastern Cape. The exact site is not located in the
+  // source, so the pin is APPROXIMATE: the Rooiwal area near Sterkspruit
+  // (about 30.52 S 27.37 E), set by hand. The source says "roughly 220 million
+  // years ago" (Late Triassic) and gives no range; 222-218 Ma is OUR bracket
+  // round that figure, not a published one.
+  // The track is an ESTIMATE (GPlates could not be reached on 18 Nov 2026):
+  // straight-line interpolation between the PALEOMAP tracks of two animals
+  // from the same region already here, Cynognathus (237 Ma: 65.0 S 10.1 W) and
+  // Massospondylus (201.4 Ma: 43.4 S 0.8 E). To replace it, clear this track
+  // and run `node scripts/fetch-fauna-paleo.mjs` (no --all).
+  {
+    id: 'nyana-rooiwalensis', name: 'Nyana rooiwalensis', emoji: P,
+    lat: -30.52, lon: 27.37, fromMa: 222, toMa: 218, region: 'Eastern Cape, South Africa',
+    blurb: 'An early long-necked-dinosaur relative (a sauropodomorph), named in 2026 from a juvenile with a ' +
+      'near-complete 21.3 cm skull, a rarity for the Late Triassic. Already big for its age, it may have grown ' +
+      'to multi-ton size as an adult.',
+    wiki: 'Sauropodomorpha',
+    track: [{ ma: 218, lon: -4.31, lat: -53.49 }, { ma: 222, lon: -5.53, lat: -55.92 }],
+    // Moopen et al., Royal Society Open Science, doi 10.1098/rsos.261002.
+    sourceUrl: 'https://www.sci.news/paleontology/nyana-rooiwalensis-15194.html',
+    paperUrl: 'https://doi.org/10.1098/rsos.261002',
+  },
+  // Southern North Sea, the 'Noordhinder' and 'Outer Gabbard' trawl sites,
+  // "approximately 100 km west of Rotterdam". Pinned about 100 km due west of
+  // Rotterdam (51.92 N 4.48 E): APPROXIMATE, not a published point. The fossils
+  // are trawler bycatch; the age (2.6-2.1 Ma, Gelasian) is from algal cysts in
+  // sediment on one skull. Not a named species: the paper calls it Orcinus sp.
+  // The track just repeats the pin: plate motion over 2.6 Ma is negligible at
+  // this scale (GPlates could not be reached on 18 Nov 2026).
+  {
+    id: 'orcinus-sp-north-sea', name: 'Orcinus sp. (large killer whale)', emoji: '🐋',
+    lat: 51.9, lon: 3.0, fromMa: 2.6, toMa: 2.1, region: 'Southern North Sea, off the Netherlands',
+    blurb: 'An unnamed killer-whale relative from the earliest Pleistocene, estimated at 7.2-7.7 m long, ' +
+      'the largest Pleistocene dolphin known. Five fossils were dragged up by fishing trawlers.',
+    wiki: 'Killer whale',
+    track: [{ ma: 2.1, lon: 3.0, lat: 51.9 }, { ma: 2.6, lon: 3.0, lat: 51.9 }],
+    // Bakker et al., PeerJ, 10 Nov 2026.
+    sourceUrl: 'https://www.sci.news/paleontology/pleistocene-killer-whale-15202.html',
+  },
   // Batch 6, 25 November 2026 (scripts/add-discoveries-nov-2026d.mjs has the
   // pins and notes). Muscioni et al., Royal Society Open Science 13(11): 260392,
   // doi 10.1098/rsos.260392 (the paper could not be opened from the job's
