@@ -270,6 +270,30 @@ export const HAND_PLACED = [
     sourceUrl: 'https://www.ameghiniana.org.ar/index.php/ameghiniana/article/view/3689',
     paperUrl: 'https://doi.org/10.5710/AMGH.19.06.2026.3689',
   },
+  // Batch 6, 25 November 2026 (scripts/add-discoveries-nov-2026d.mjs has the
+  // pins and notes). Muscioni et al., Royal Society Open Science 13(11): 260392,
+  // doi 10.1098/rsos.260392 (the paper could not be opened from the job's
+  // sandbox; the facts are those in the checked discoveries list). Found at
+  // Villaggio del Pescatore near Trieste; that point (about 45.78 N 13.60 E) was
+  // SET BY HAND, not read from a gazetteer, so the pin is APPROXIMATE. The
+  // source says "about 81 million years ago" and gives no range; 82-80 Ma is
+  // OUR bracket round that figure, not a published one.
+  // The track is an ESTIMATE (GPlates could not be reached on 25 Nov 2026):
+  // the pin moved by the PALEOMAP offsets of two European animals already here,
+  // Mosasaurus (70 Ma) and Iguanodon (122 Ma), interpolated to 80 and 82 Ma.
+  // To replace it, clear this track and run `node scripts/fetch-fauna-paleo.mjs`
+  // (no --all). No Wikidata Q-id was checked, so none is set.
+  {
+    id: 'tethyshadros', name: 'Tethyshadros insularis', emoji: P,
+    lat: 45.78, lon: 13.6, fromMa: 82, toMa: 80, region: 'Villaggio del Pescatore, near Trieste (Italy)',
+    blurb: 'A small island duck-billed dinosaur relative. A 2026 micro-CT study of three skulls found that ' +
+      'the "comb of spikes" at its snout tip was not teeth but bony traces of blood vessels and nerves that ' +
+      'fed a large bird-like beak, which may have helped shed heat (the authors hedge this).',
+    wiki: 'Tethyshadros',
+    track: [{ ma: 80, lon: 15.2, lat: 37.54 }, { ma: 82, lon: 15.64, lat: 37.45 }],
+    sourceUrl: 'https://www.sci.news/paleontology/duck-billed-dinosaurs-beak-15206.html',
+    paperUrl: 'https://doi.org/10.1098/rsos.260392',
+  },
 ];
 
 const countryName = (() => {
