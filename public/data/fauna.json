@@ -1244,7 +1244,7 @@
       "fromMa": 1.9,
       "toMa": 0.11,
       "region": "Africa & Asia",
-      "blurb": "The first human ancestor to stand fully upright, tame fire, and spread across the Old World.",
+      "blurb": "The first human ancestor to stand fully upright, tame fire, and spread across the Old World. In 2026 two Nature papers reported eight teeth from Baxian and Naxian caves in Guangxi, southern China, dated to about 324,000-184,000 years ago: the youngest securely dated Homo erectus in mainland China, and living in tropical rainforest. A ninth tooth matches no known human species.",
       "wiki": "Homo erectus",
       "track": [
         {
@@ -1257,7 +1257,8 @@
           "lon": 35.8,
           "lat": -0.1
         }
-      ]
+      ],
+      "sourceUrl": "https://doi.org/10.1038/s41586-026-11155-6"
     },
     {
       "id": "neanderthal",
@@ -4383,6 +4384,32 @@
       "paperUrl": "https://doi.org/10.5710/AMGH.19.06.2026.3689"
     },
     {
+      "id": "tethyshadros",
+      "name": "Tethyshadros insularis",
+      "emoji": "🦕",
+      "lat": 45.78,
+      "lon": 13.6,
+      "fromMa": 82,
+      "toMa": 80,
+      "region": "Villaggio del Pescatore, near Trieste (Italy)",
+      "blurb": "A small island duck-billed dinosaur relative. A 2026 micro-CT study of three skulls found that the \"comb of spikes\" at its snout tip was not teeth but bony traces of blood vessels and nerves that fed a large bird-like beak, which may have helped shed heat (the authors hedge this).",
+      "wiki": "Tethyshadros",
+      "track": [
+        {
+          "ma": 80,
+          "lon": 15.2,
+          "lat": 37.54
+        },
+        {
+          "ma": 82,
+          "lon": 15.64,
+          "lat": 37.45
+        }
+      ],
+      "sourceUrl": "https://www.sci.news/paleontology/duck-billed-dinosaurs-beak-15206.html",
+      "paperUrl": "https://doi.org/10.1098/rsos.260392"
+    },
+    {
       "id": "megapodius-rokusi",
       "name": "Megapodius rokusi",
       "emoji": "🐦",
@@ -4418,8 +4445,6 @@
       "region": "Eastern Cape, South Africa",
       "blurb": "An early long-necked-dinosaur relative (a sauropodomorph), named in 2026 from a juvenile with a near-complete 21.3 cm skull, a rarity for the Late Triassic. Already big for its age, it may have grown to multi-ton size as an adult.",
       "wiki": "Sauropodomorpha",
-      "sourceUrl": "https://www.sci.news/paleontology/nyana-rooiwalensis-15194.html",
-      "paperUrl": "https://doi.org/10.1098/rsos.261002",
       "track": [
         {
           "ma": 218,
@@ -4431,7 +4456,9 @@
           "lon": -5.53,
           "lat": -55.92
         }
-      ]
+      ],
+      "sourceUrl": "https://www.sci.news/paleontology/nyana-rooiwalensis-15194.html",
+      "paperUrl": "https://doi.org/10.1098/rsos.261002"
     },
     {
       "id": "orcinus-sp-north-sea",
@@ -4444,19 +4471,19 @@
       "region": "Southern North Sea, off the Netherlands",
       "blurb": "An unnamed killer-whale relative from the earliest Pleistocene, estimated at 7.2-7.7 m long, the largest Pleistocene dolphin known. Five fossils were dragged up by fishing trawlers.",
       "wiki": "Killer whale",
-      "sourceUrl": "https://www.sci.news/paleontology/pleistocene-killer-whale-15202.html",
       "track": [
         {
           "ma": 2.1,
-          "lon": 3.0,
+          "lon": 3,
           "lat": 51.9
         },
         {
           "ma": 2.6,
-          "lon": 3.0,
+          "lon": 3,
           "lat": 51.9
         }
-      ]
+      ],
+      "sourceUrl": "https://www.sci.news/paleontology/pleistocene-killer-whale-15202.html"
     }
   ]
 }
